@@ -1,0 +1,81 @@
+{
+	// ref: https://biomejs.dev/reference/configuration/
+	// cspell:ignore biomejs
+	"$schema": "https://biomejs.dev/schemas/1.7.3/schema.json",
+	"vcs": {
+		"enabled": true,
+		"clientKind": "git",
+		"useIgnoreFile": true
+	},
+	"files": {
+		"ignoreUnknown": true
+	},
+	"formatter": {
+		"formatWithErrors": true
+	},
+	"linter": {
+		"rules": {
+			"all": true,
+			"complexity": {
+				// incompatible with `noPropertyAccessFromIndexSignature` option in tsconfig
+				// ref: https://github.com/biomejs/biome/issues/463
+				"useLiteralKeys": "off"
+			},
+			"nursery": {
+				"all": true
+			}
+		}
+	},
+	"json": {
+		"parser": {
+			"allowComments": true
+		}
+	},
+	"overrides": [
+		{
+			// disable noDefaultExport rule for config files
+			"include": ["**/*.config.*"],
+			"linter": {
+				"rules": {
+					"style": {
+						"noDefaultExport": "off"
+					}
+				}
+			}
+		},
+		{
+			"include": ["worker/**"],
+			"linter": {
+				"rules": {
+					"nursery": {
+						// cannot read dependencies from package.json in subdirectories
+						// ref: https://github.com/biomejs/biome/issues/2010
+						"noUndeclaredDependencies": "off"
+					}
+				}
+			}
+		},
+		{
+			// disable noNodejsModules rule for files running in bun or Node.js
+			"include": ["**/*.config.*", "**/scripts/**", "worker/test/**"],
+			"linter": {
+				"rules": {
+					"nursery": {
+						"noNodejsModules": "off"
+					}
+				}
+			}
+		},
+		{
+			// disable noConsole rule for scripts
+			"include": ["**/scripts/**"],
+			"linter": {
+				"rules": {
+					"nursery": {
+						"noConsole": "off"
+					}
+				}
+			}
+		}
+	]
+}

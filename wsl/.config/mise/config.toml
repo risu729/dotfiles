@@ -1,0 +1,19 @@
+# ref: https://mise.jdx.dev/configuration.html#global-config-config-mise-config-toml
+#:schema https://mise.jdx.dev/schema/mise.json
+
+[tools]
+node = "latest"
+bun = "latest"
+yarn = "latest"
+pnpm = "latest"
+java = "latest"
+gradle = "latest"
+maven = "latest"
+rust = "latest"
+python = "latest"
+go = "latest"
+
+[settings]
+experimental = true
+# the default 30 seconds is too short for some slow connections
+http_timeout = 300

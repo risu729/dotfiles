@@ -1,0 +1,5 @@
+# ref: https://taplo.tamasfe.dev/configuration/file.html
+#: schema taplo://taplo.toml
+
+[formatting]
+indent_string = "\t"

@@ -1,0 +1,73 @@
+{
+	"$schema": "https://aka.ms/winget-packages.schema.2.0.json",
+	"Sources": [
+		{
+			"Packages": [
+				// use beta versions if available
+				{
+					"PackageIdentifier": "Google.Chrome.Beta"
+				},
+				{
+					"PackageIdentifier": "Discord.Discord.Canary"
+				},
+				{
+					"PackageIdentifier": "Discord.Discord.PTB"
+				},
+				{
+					"PackageIdentifier": "LINE.LINE"
+				},
+				{
+					"PackageIdentifier": "SlackTechnologies.Slack.Beta"
+				},
+				{
+					"PackageIdentifier": "Notion.Notion"
+				},
+				{
+					"PackageIdentifier": "Zoom.Zoom"
+				},
+				{
+					"PackageIdentifier": "Microsoft.PowerToys"
+				},
+				{
+					"PackageIdentifier": "Microsoft.PowerShell.Preview"
+				},
+				{
+					"PackageIdentifier": "Microsoft.WindowsTerminal.Preview"
+				},
+				{
+					// cspell:ignore termius
+					"PackageIdentifier": "Termius.Termius"
+				},
+				{
+					"PackageIdentifier": "Microsoft.VisualStudioCode.Insiders"
+				},
+				{
+					"PackageIdentifier": "JetBrains.Toolbox"
+				},
+				{
+					"PackageIdentifier": "Figma.Figma"
+				},
+				{
+					"PackageIdentifier": "Google.GoogleDrive"
+				},
+				{
+					"PackageIdentifier": "TheDocumentFoundation.LibreOffice"
+				},
+				{
+					"PackageIdentifier": "GIMP.GIMP.Nightly"
+				},
+				{
+					// cspell:ignore inkscape
+					"PackageIdentifier": "Inkscape.Inkscape"
+				}
+			],
+			"SourceDetails": {
+				"Argument": "https://cdn.winget.microsoft.com/cache",
+				// cspell:ignore 8wekyb3d8bbwe
+				"Identifier": "Microsoft.Winget.Source_8wekyb3d8bbwe",
+				"Name": "winget",
+				"Type": "Microsoft.PreIndexed.Package"
+			}
+		}
+	]
+}

@@ -1,0 +1,53 @@
+name: Test installer on Linux
+
+on:
+  # do not use paths filter because it does not work well with required status checks
+  # ref: https://github.com/orgs/community/discussions/13690
+  push:
+    branches: main
+  pull_request:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 0 * * SUN"
+
+permissions: {}
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  test-linux:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    permissions:
+      contents: read # for checkout
+
+    container: ubuntu:noble-20240429@sha256:3f85b7caad41a95462cf5b787d8a04604c8262cdcdf9a472b8c52ef83375fe15
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29 # v4.1.6
+
+      - name: Install sudo
+        run: |
+          apt-get update
+          apt-get install -y sudo
+
+      - name: Run installer
+        run: ./wsl/install.sh
+
+  actions-timeline:
+    needs:
+      - test-linux
+    if: ${{ !cancelled() }}
+
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    permissions:
+      actions: read # for actions-timeline
+
+    steps:
+      - name: actions-timeline
+        # cspell:ignore kesin
+        uses: Kesin11/actions-timeline@1c2ab3f28225878ae4dd1f76d31279f16ea29e29 # v2.1.1

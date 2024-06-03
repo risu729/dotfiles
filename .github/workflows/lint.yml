@@ -1,0 +1,130 @@
+name: Lint
+
+on:
+  # do not use paths filter because it does not work well with required status checks
+  # ref: https://github.com/orgs/community/discussions/13690
+  push:
+    branches: main
+  pull_request:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 0 * * SUN"
+
+permissions: {}
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  list-tasks:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions:
+      contents: read # for checkout
+
+    outputs:
+      tasks: ${{ steps.list.outputs.tasks }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29 # v4.1.6
+
+      - name: Install mise
+        uses: jdx/mise-action@d6e32c1796099e0f1f3ac741c220a8b7eae9e5dd # v2.0.6
+        with:
+          experimental: true
+
+      - name: Install package.json dependencies
+        run: mise run buni:root # cspell:ignore buni
+
+      - name: List mise tasks
+        id: list
+        run: |
+          tasks=$(bun run .github/workflows/scripts/list-mise-tasks.ts)
+          echo "tasks=$tasks" >> "$GITHUB_OUTPUT"
+
+  lint:
+    needs: list-tasks
+
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions:
+      contents: read # for checkout
+
+    name: ${{ matrix.name }}
+    strategy:
+      fail-fast: false
+      matrix:
+        # use include not to be treated as multi-dimensional matrix
+        # ref: https://docs.github.com/en/actions/using-jobs/using-a-matrix-for-your-jobs#expanding-or-adding-matrix-configurations
+        include: ${{ fromJson(needs.list-tasks.outputs.tasks) }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29 # v4.1.6
+
+      - name: Install mise
+        uses: jdx/mise-action@d6e32c1796099e0f1f3ac741c220a8b7eae9e5dd # v2.0.6
+        with:
+          experimental: true
+
+      - name: Lint
+        run: mise run ${{ matrix.task }}
+
+  commitlint:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions:
+      contents: read # for checkout
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29 # v4.1.6
+        with:
+          fetch-depth: 0 # fetch all history for commitlint
+
+      - name: Install mise
+        uses: jdx/mise-action@d6e32c1796099e0f1f3ac741c220a8b7eae9e5dd # v2.0.6
+        with:
+          experimental: true
+
+      - name: Install package.json dependencies
+        run: mise run buni:root
+
+      - name: "commitlint (push: initial commit)"
+        id: commitlint-push-initial
+        # commit hash will be 000... if it doesn't exist
+        if: github.event_name == 'push' && github.event.before == '0000000000000000000000000000000000000000'
+        run: bun run commitlint --verbose --to ${{ github.event.after }}
+
+      - name: commitlint (push)
+        id: commitlint-push
+        if: github.event_name == 'push' && steps.commitlint-push-initial.outcome == 'skipped'
+        run: bun run commitlint --verbose --from ${{ github.event.before }} --to ${{ github.event.after }}
+
+      - name: commitlint (pull_request)
+        id: commitlint-pr
+        if: github.event_name == 'pull_request'
+        run: |
+          bun run commitlint --verbose --from ${{ github.event.pull_request.base.sha }} --to ${{ github.event.pull_request.head.sha }}
+
+      - name: commitlint (last commit)
+        if: steps.commitlint-push-initial.outcome == 'skipped' && steps.commitlint-push.outcome == 'skipped' && steps.commitlint-pr.outcome == 'skipped'
+        run: bun run commitlint --verbose --from ${{ github.sha }}~1 --to ${{ github.sha }}
+
+  actions-timeline:
+    needs:
+      - lint
+      - commitlint
+    if: ${{ !cancelled() }}
+
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    permissions:
+      actions: read
+
+    steps:
+      - name: actions-timeline
+        # cspell:ignore kesin
+        uses: Kesin11/actions-timeline@1c2ab3f28225878ae4dd1f76d31279f16ea29e29 # v2.1.1

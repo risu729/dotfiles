@@ -1,0 +1,25 @@
+{
+	// ref: https://code.visualstudio.com/docs/editor/extension-marketplace#_workspace-recommended-extensions
+	"recommendations": [
+		"oven.bun-vscode",
+		// cspell:ignore biomejs
+		"biomejs.biome",
+		// cspell:ignore bluebrown
+		"bluebrown.yamlfmt",
+		"github.vscode-github-actions",
+		// cspell:ignore mrmlnc
+		"mrmlnc.vscode-json5",
+		// cspell:ignore esbenp
+		"esbenp.prettier-vscode", // for yaml and markdown
+		// cspell:ignore tamasfe
+		"tamasfe.even-better-toml", // for toml
+		// cspell:ignore mkhl
+		"mkhl.shfmt",
+		// cspell:ignore timonwong
+		"timonwong.shellcheck",
+		"streetsidesoftware.code-spell-checker"
+	],
+	"unwantedRecommendations": [
+		"ms-vscode.powershell" // requires powershell even in linux
+	]
+}

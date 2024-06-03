@@ -1,0 +1,7 @@
+tap "homebrew/bundle"
+brew "gh"
+brew "jq"
+brew "mise"
+brew "pkg-config"
+brew "unzip"
+brew "zip"

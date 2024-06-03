@@ -1,0 +1,13 @@
+{
+	"$schema": "https://json.schemastore.org/tsconfig",
+	"extends": ["./tsconfig.src.json"],
+	"compilerOptions": {
+		"types": [
+			// use the latest compatibility date
+			// ref: https://github.com/cloudflare/workerd/blob/main/npm/workers-types/README.md
+			"@cloudflare/workers-types/experimental",
+			"@cloudflare/vitest-pool-workers"
+		]
+	},
+	"include": ["test", "src/env.d.ts"]
+}
