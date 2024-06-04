@@ -116,8 +116,12 @@
 		// group dependency updates
 		{
 			// group biome in mise.toml and biome.jsonc
-			matchPackageNames: ["@biomejs/biome"],
-			groupName: "@biomejs/biome",
+			matchPackageNames: [
+				"biomejs/biome",
+				// npm package has @ prefix in the scope
+				"@biomejs/biome",
+			],
+			groupName: "biomejs/biome",
 		},
 		{
 			// group cspell in mise.toml and package.json
