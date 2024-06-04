@@ -6,7 +6,7 @@
 		"hono": "4.4.3"
 	},
 	"devDependencies": {
-		"@cloudflare/vitest-pool-workers": "0.4.0",
+		"@cloudflare/vitest-pool-workers": "0.4.1",
 		"@cloudflare/workers-types": "4.20240603.0",
 		"@total-typescript/tsconfig": "1.0.4",
 		"@tsconfig/strictest": "2.0.5",
