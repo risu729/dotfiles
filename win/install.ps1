@@ -1,6 +1,6 @@
 $distribution = "Ubuntu-24.04"
 
-wsl --install -d $distribution
+wsl --install --distribution $distribution
 wsl --set-default   $distribution
 
 # ref: https://github.com/microsoft/WSL/issues/3284
