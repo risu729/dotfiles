@@ -60,7 +60,7 @@
 			"include": ["**/*.config.*", "**/scripts/**", "worker/test/**"],
 			"linter": {
 				"rules": {
-					"nursery": {
+					"correctness": {
 						"noNodejsModules": "off"
 					}
 				}
