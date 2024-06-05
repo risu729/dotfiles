@@ -6,6 +6,7 @@
 		":pinVersions",
 		// cspell:ignore automerge
 		":automergeMinor",
+		":automergeDigest",
 		":prHourlyLimitNone",
 		":prConcurrentLimitNone",
 	],
