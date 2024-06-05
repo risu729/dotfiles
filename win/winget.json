@@ -59,6 +59,12 @@
 				{
 					// cspell:ignore inkscape
 					"PackageIdentifier": "Inkscape.Inkscape"
+				},
+				{
+					"PackageIdentifier": "Cloudflare.Warp"
+				},
+				{
+					"PackageIdentifier": "CrystalDewWorld.CrystalDiskInfo.AoiEdition"
 				}
 			],
 			"SourceDetails": {

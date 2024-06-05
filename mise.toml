@@ -8,7 +8,7 @@ bun = "1.1.12"
 node = "22.2.0" # cspell:ignore datasource
 # renovate: datasource=crate
 "ubi" = "0.0.32"
-# renovate: extractVersion=^cli/(?<version>.+)
+# renovate: extractVersion=^cli/v(?<version>.+)
 "ubi:biomejs/biome" = "cli/v1.7.4-nightly.125f34b" # cspell:ignore biomejs
 # renovate: packageName=rhysd/actionlint
 actionlint = "1.7.1"                     # cspell:ignore rhysd
@@ -17,7 +17,7 @@ actionlint = "1.7.1"                     # cspell:ignore rhysd
 # taplo does not provide pre-built binaries in github releases
 # ref: https://github.com/tamasfe/taplo/releases/tag/release-taplo-cli-0.9.0
 "cargo:taplo-cli" = "0.9.0"
-"npm:prettier" = "3.3.0"
+"npm:prettier" = "3.3.1"
 "npm:markdownlint-cli2" = "0.13.0"
 # renovate: packageName=mvdan/sh
 shfmt = "3.8.0" # cspell:ignore mvdan
@@ -27,11 +27,11 @@ shellcheck = "0.10.0" # cspell:ignore koalaman
 yamlfmt = "0.12.1"
 # renovate: datasource=pypi
 yamllint = "1.35.1"                  # cspell:ignore pypi
-"npm:renovate" = "37.386.0"
-"npm:cspell" = "8.8.3"
+"npm:renovate" = "37.391.0"
+"npm:cspell" = "8.8.4"
 "ubi:lycheeverse/lychee" = "v0.15.1" # cspell:ignore lycheeverse
 # renovate: extractVersion=^v(?<version>\d+\..+)
-"ubi:crate-ci/typos" = "v1.21.0"
+"ubi:crate-ci/typos" = "v1.22.0"
 
 [tasks.commit]
 depends = ["buni:root"]

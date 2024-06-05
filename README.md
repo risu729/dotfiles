@@ -10,6 +10,20 @@ Since I use WSL2 as my main development environment, I only install some GUI app
 
 ### 🪟 Windows 11
 
+<!-- cspell:ignore bypassnro -->
+
+> [!IMPORTANT]
+> Set up Windows 11 without a Microsoft account to avoid automatic installation of bloatware, mainly OneDrive.
+>
+> 1. Press `Shift + F10` on the startup screen. (Never connect to the internet)
+> 2. Run the following command in Command Prompt.
+>
+>    ```cmd
+>    oobe\bypassnro
+>    ```
+>
+> 3. Continue the setup without a Microsoft account by selecting `I don't have internet`.
+
 In PowerShell, Windows Powershell, or Command Prompt, run the following command.
 
 ```powershell

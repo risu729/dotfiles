@@ -5,12 +5,12 @@ cd ~ || exit
 # use apt-get instead of apt for scripts
 # ref: https://manpages.ubuntu.com/manpages/trusty/man8/apt.8.html#:~:text=SCRIPT%20USAGE
 sudo apt-get update
-sudo apt-get upgrade -y
+sudo apt-get upgrade --yes
 
 # required by Homebrew
 # ref: https://docs.brew.sh/Homebrew-on-Linux#requirements
 # cspell:ignore procps
-sudo apt-get install -y build-essential procps curl file git
+sudo apt-get install --yes build-essential procps curl file git
 
 mkdir --parents ~/github
 cd ~/github || exit

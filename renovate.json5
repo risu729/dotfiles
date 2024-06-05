@@ -85,7 +85,8 @@
 			fileMatch: ["^biome\.jsonc$"],
 			datasourceTemplate: "npm",
 			// cspell:ignore biomejs
-			depNameTemplate: "@biomejs/biome",
+			depNameTemplate: "biomejs/biome",
+			packageNameTemplate: "@biomejs/biome",
 			versioningTemplate: "semver",
 			matchStrings: [
 				// test: https://regex101.com/r/EDnwWL
@@ -116,8 +117,8 @@
 		// group dependency updates
 		{
 			// group biome in mise.toml and biome.jsonc
-			matchPackageNames: ["@biomejs/biome"],
-			groupName: "@biomejs/biome",
+			matchDepNames: ["biomejs/biome"],
+			groupName: "biomejs/biome",
 		},
 		{
 			// group cspell in mise.toml and package.json
