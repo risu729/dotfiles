@@ -109,6 +109,16 @@ jobs:
         run: |
           bun run commitlint --verbose --from ${{ github.event.pull_request.base.sha }} --to ${{ github.event.pull_request.head.sha }}
 
+      - name: commitlint (pull request title)
+        # continue even if the previous step fails
+        # do not use continue-on-error because it will result in a successful job
+        if: ${{ !cancelled() && (steps.commitlint-pr.outcome == 'success' || steps.commitlint-pr.outcome == 'failure') }}
+        # use intermediate environment variable to avoid injection attacks
+        # ref: https://docs.github.com/en/actions/security-guides/security-hardening-for-github-actions#using-an-intermediate-environment-variable
+        env:
+          PR_TITLE: ${{ github.event.pull_request.title }}
+        run: echo "$PR_TITLE" | bun run commitlint --verbose
+
       - name: commitlint (last commit)
         if: steps.commitlint-push-initial.outcome == 'skipped' && steps.commitlint-push.outcome == 'skipped' && steps.commitlint-pr.outcome == 'skipped'
         run: bun run commitlint --verbose --from ${{ github.sha }}~1 --to ${{ github.sha }}
