@@ -90,6 +90,8 @@ if ! gh auth status | grep --quiet "write:gpg_key"; then
 	gh auth login --web --git-protocol https --scopes write:gpg_key
 fi
 
+git config --global commit.gpgsign true
+
 # cspell:ignore signingkey
 git_signingKey=$(git config --global user.signingkey)
 if [[ -n ${git_signingKey} ]]; then
