@@ -146,6 +146,8 @@ for (const path of jsonPaths) {
 			loadSchema: loadRemoteSchema(true),
 			...config[basename(path)],
 		});
+		// add formats not included by default
+		// @ts-expect-error: `ajv-formats` does not support Ajv04 but works fine
 		addFormats(ajv);
 		try {
 			const validate = await ajv.compileAsync(schema);
