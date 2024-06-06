@@ -11,7 +11,9 @@ const IncomingRequest = Request<unknown, IncomingRequestCfProperties>;
 
 beforeAll(() => {
 	// set the variables that are used in the worker
-	env.REPOSITORY = "risu729/dotfiles";
+	env.REPO_OWNER = "risu729";
+	env.REPO_NAME = "dotfiles";
+	env.DEFAULT_BRANCH = "main";
 });
 
 const fetch = async (url: string) => {
