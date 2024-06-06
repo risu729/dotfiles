@@ -12,7 +12,7 @@ node = "22.2.0" # cspell:ignore datasource
 "ubi:biomejs/biome" = "cli/v1.8.0" # cspell:ignore biomejs
 # renovate: packageName=rhysd/actionlint
 actionlint = "1.7.1" # cspell:ignore rhysd
-"ubi:suzuki-shunsuke/ghalint" = "v0.2.9" # cspell:ignore shunsuke
+"ubi:suzuki-shunsuke/ghalint" = "v0.2.10" # cspell:ignore shunsuke
 "ubi:suzuki-shunsuke/pinact" = "v0.2.0"
 # taplo does not provide pre-built binaries in github releases
 # ref: https://github.com/tamasfe/taplo/releases/tag/release-taplo-cli-0.9.0
