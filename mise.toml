@@ -11,7 +11,7 @@ node = "22.2.0" # cspell:ignore datasource
 # renovate: extractVersion=^cli/v(?<version>.+)
 "ubi:biomejs/biome" = "cli/v1.8.0" # cspell:ignore biomejs
 # renovate: packageName=rhysd/actionlint
-actionlint = "1.7.1"                     # cspell:ignore rhysd
+actionlint = "1.7.1" # cspell:ignore rhysd
 "ubi:suzuki-shunsuke/ghalint" = "v0.2.9" # cspell:ignore shunsuke
 "ubi:suzuki-shunsuke/pinact" = "v0.2.0"
 # taplo does not provide pre-built binaries in github releases
@@ -26,7 +26,7 @@ shellcheck = "0.10.0" # cspell:ignore koalaman
 # renovate: packageName=google/yamlfmt
 yamlfmt = "0.12.1"
 # renovate: datasource=pypi
-yamllint = "1.35.1"                  # cspell:ignore pypi
+yamllint = "1.35.1" # cspell:ignore pypi
 "npm:renovate" = "37.393.0"
 "npm:cspell" = "8.8.4"
 "ubi:lycheeverse/lychee" = "v0.15.1" # cspell:ignore lycheeverse
@@ -44,12 +44,12 @@ run = "bun run git-cz"
 [tasks.check]
 depends = [
 	"check:*", # lint and/or fix formatting
-	"lint:*",  # lint only
+	"lint:*", # lint only
 ]
 
 [tasks.ci]
 depends = [
-	"ci:*",   # lint and/or check formatting
+	"ci:*", # lint and/or check formatting
 	"lint:*", # lint only
 ]
 hide = true
