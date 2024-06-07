@@ -33,7 +33,14 @@ jobs:
       - name: Install mise
         uses: jdx/mise-action@d6e32c1796099e0f1f3ac741c220a8b7eae9e5dd # v2.0.6
         with:
+          install: false
+          # cspell:ignore bunnodeubi
+          cache_key_prefix: mise-v0-bunnodeubi
           experimental: true
+
+      - name: Install backend tools
+        # node and ubi are required to run mise list 
+        run: mise install --verbose bun node ubi
 
       - name: Install package.json dependencies
         run: mise run buni:root # cspell:ignore buni
@@ -67,7 +74,12 @@ jobs:
       - name: Install mise
         uses: jdx/mise-action@d6e32c1796099e0f1f3ac741c220a8b7eae9e5dd # v2.0.6
         with:
+          install: false
+          cache_key_prefix: mise-v0-${{ matrix.cacheKey }}
           experimental: true
+
+      - name: Install lint tools
+        run: mise install --verbose ${{ matrix.tools }}
 
       - name: Lint
         run: mise run ${{ matrix.task }}
@@ -87,7 +99,13 @@ jobs:
       - name: Install mise
         uses: jdx/mise-action@d6e32c1796099e0f1f3ac741c220a8b7eae9e5dd # v2.0.6
         with:
+          install: false
+          # cspell:ignore bunnode
+          cache_key_prefix: mise-v0-bunnode
           experimental: true
+
+      - name: Install bun and Node.js
+        run: mise install --verbose bun node
 
       - name: Install package.json dependencies
         run: mise run buni:root
