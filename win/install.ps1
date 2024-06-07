@@ -9,7 +9,7 @@ wsl /usr/bin/env bash -c "export SKIP_GIT_SETUP=true; bash <(curl -fsSL https://
 $wsl_username = "$(wsl whoami)"
 winget import --import-file "\\wsl.localhost\$distribution\home\$wsl_username\github\dotfiles\win\winget.json" --disable-interactivity --accept-package-agreements
 
-# setup git config after brower is installed
+# setup git config after browser is installed
 # use -i, interactive mode, to load .bashrc
 wsl /usr/bin/env bash -ic "~/github/dotfiles/wsl/setup-git.sh"
 
