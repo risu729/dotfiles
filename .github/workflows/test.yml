@@ -26,10 +26,10 @@ jobs:
     container: ubuntu:noble-20240530@sha256:e3f92abc0967a6c19d0dfa2d55838833e947b9d74edbcb0113e48535ad4be12a
 
     steps:
-      - name: Install sudo
+      - name: Install apt packages
         run: |
           apt-get update
-          apt-get install -y sudo
+          apt-get install -y sudo curl
 
       - name: Run installer
         run: bash <(curl -fsSL https://dot.risunosu.com/wsl?ref=${{ github.ref }})
