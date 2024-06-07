@@ -11,7 +11,9 @@ const IncomingRequest = Request<unknown, IncomingRequestCfProperties>;
 
 beforeAll(() => {
 	// set the variables that are used in the worker
-	env.REPOSITORY = "risu729/dotfiles";
+	env.REPO_OWNER = "risu729";
+	env.REPO_NAME = "dotfiles";
+	env.DEFAULT_BRANCH = "main";
 });
 
 const fetch = async (url: string) => {
@@ -43,6 +45,26 @@ describe("redirect to the installer script", () => {
 		const response = await fetch(`https://dot.risunosu.com${path}`);
 		expect(response.headers.get("Location")).toBe(
 			`https://raw.githubusercontent.com/risu729/dotfiles/main${scriptPath}`,
+		);
+	});
+});
+
+describe("redirect to the installer script with a specific ref", () => {
+	it.each([
+		{
+			path: "/win",
+			scriptPath: "/win/install.ps1",
+			ref: "dev",
+		},
+		{
+			path: "/wsl",
+			scriptPath: "/wsl/install.sh",
+			ref: "dev",
+		},
+	])("redirect $path", async ({ path, scriptPath, ref }) => {
+		const response = await fetch(`https://dot.risunosu.com${path}?ref=${ref}`);
+		expect(response.headers.get("Location")).toBe(
+			`https://raw.githubusercontent.com/risu729/dotfiles/${ref}${scriptPath}`,
 		);
 	});
 });

@@ -3,7 +3,8 @@
 	"name": "@risu729/dotfiles-worker",
 	"type": "module",
 	"dependencies": {
-		"hono": "4.4.4"
+		"hono": "4.4.4",
+		"zod": "3.23.8"
 	},
 	"devDependencies": {
 		"@cloudflare/vitest-pool-workers": "0.4.1",
