@@ -69,7 +69,7 @@ jobs:
         with:
           experimental: true
 
-      - name: Lint
+      - name: Run ${{ matrix.name }}
         run: mise run ${{ matrix.task }}
 
   commitlint:
