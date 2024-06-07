@@ -67,5 +67,5 @@ echo installed dotfiles!
 
 # shellcheck disable=SC2154 # CI is defined in GitHub Actions, SKIP_GIT_SETUP may be defined as environment variable
 if [[ ${CI} != true || ${SKIP_GIT_SETUP} != true ]]; then
-	~/github/dotfiles/setup-git.sh
+	~/github/dotfiles/wsl/setup-git.sh
 fi
