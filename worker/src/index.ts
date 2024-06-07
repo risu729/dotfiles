@@ -23,7 +23,7 @@ app.use(async (c, next) => {
 // redirect to the readme
 app.get("/", (c) => {
 	return c.redirect(
-		`https://github.com/${c.env.REPO_NAME}/${c.env.REPO_OWNER}/#readme`,
+		`https://github.com/${c.env.REPO_OWNER}/${c.env.REPO_NAME}#readme`,
 		307,
 	);
 });
@@ -37,7 +37,7 @@ app.get("/:os{win|wsl}", (c) => {
 		throw new HTTPException(500, { message: "routing error" });
 	}
 	return c.redirect(
-		`https://raw.githubusercontent.com/${c.env.REPO_NAME}/${c.env.REPO_OWNER}/${ref}/${os}/install.${
+		`https://raw.githubusercontent.com/${c.env.REPO_OWNER}/${c.env.REPO_NAME}/${ref}/${os}/install.${
 			os === "win" ? "ps1" : "sh"
 		}`,
 		307,
