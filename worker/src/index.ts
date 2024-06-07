@@ -1,7 +1,7 @@
 import { Hono } from "hono";
 import { HTTPException } from "hono/http-exception";
 import { poweredBy } from "hono/powered-by";
-import { envSchema, type Env } from "./env.ts";
+import { type Env, envSchema } from "./env.ts";
 
 // biome-ignore lint/style/useNamingConvention: following hono's naming convention
 const app = new Hono<{ Bindings: Env }>();
