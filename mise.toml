@@ -27,7 +27,7 @@ shellcheck = "0.10.0" # cspell:ignore koalaman
 yamlfmt = "0.12.1"
 # renovate: datasource=pypi
 yamllint = "1.35.1" # cspell:ignore pypi
-"npm:renovate" = "37.393.0"
+"npm:renovate" = "37.395.0"
 "npm:cspell" = "8.8.4"
 "ubi:lycheeverse/lychee" = "v0.15.1" # cspell:ignore lycheeverse
 # renovate: extractVersion=^v(?<version>\d+\..+)
@@ -163,7 +163,7 @@ run = "mise run util:nodiff"
 hide = true
 
 [tasks."worker:dev"]
-depends = ["buni:worker"]
+depends = ["buni:worker", "worker:util:prepare-vars"]
 run = "bun run wrangler dev --compatibility-date $(mise run worker:util:extract-compat-date)"
 dir = "worker"
 
