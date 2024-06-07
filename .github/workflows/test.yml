@@ -32,7 +32,13 @@ jobs:
           apt-get install -y curl sudo
 
       - name: Run installer
-        run: bash <(curl -fsSL https://dot.risunosu.com/wsl?ref=${{ github.sha }})
+        run: bash <(curl -fsSL https://dot.risunosu.com/wsl?ref=${{ github.sha }})]
+
+        # TODO: remove this
+      - name: Setup tmate session
+        if: ${{ !cancelled() }}
+        # cspell:ignore mxschmitt
+        uses: mxschmitt/action-tmate@a283f9441d2d96eb62436dc46d7014f5d357ac22 # v3.17
 
   actions-timeline:
     needs:
