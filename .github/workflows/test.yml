@@ -27,10 +27,9 @@ jobs:
 
     steps:
       - name: Install apt packages
-        # software-properties-common is for apt-add-repository
         run: |
           apt-get update
-          apt-get install -y curl sudo software-properties-common
+          apt-get install -y curl sudo
 
       - name: Run installer
         run: bash <(curl -fsSL https://dot.risunosu.com/wsl?ref=${{ github.sha }})
