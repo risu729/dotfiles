@@ -66,6 +66,10 @@ echo installed mise
 echo installed dotfiles!
 
 # TODO: remove this
+ls -ahl ~
+ls -ahl ~/github
+ls -ahl ~/github/dotfiles
+ls -ahl ~/github/dotfiles/wsl
 ~/github/dotfiles/wsl/setup-git.sh
 
 # shellcheck disable=SC2154 # CI is defined in GitHub Actions, SKIP_GIT_SETUP may be defined as environment variable
