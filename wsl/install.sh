@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -e
+
 cd ~ || exit
 
 # use apt-get instead of apt for scripts
