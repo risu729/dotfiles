@@ -3,6 +3,8 @@
 # might be edited by the worker to checkout a specific ref
 git_ref=""
 
+set -e
+
 cd ~ || exit
 
 # use apt-get instead of apt for scripts
