@@ -28,19 +28,40 @@ app.get("/", (c) => {
 	);
 });
 
+const gitRefRegex = /(?<=git_ref *= *")(?=")/;
+const shebangRegex = /^#!.*\n+/;
+
 // redirect to the installer script
-app.get("/:os{win|wsl}", (c) => {
+app.get("/:os{win|wsl}", async (c) => {
 	const os = c.req.param("os");
-	const ref = c.req.query("ref") ?? c.env.DEFAULT_BRANCH;
+	const ref = c.req.query("ref");
 	if (os !== "win" && os !== "wsl") {
 		// other paths must not be reached
 		throw new HTTPException(500, { message: "routing error" });
 	}
-	return c.redirect(
-		`https://raw.githubusercontent.com/${c.env.REPO_OWNER}/${c.env.REPO_NAME}/${ref}/${os}/install.${
-			os === "win" ? "ps1" : "sh"
-		}`,
-		307,
+	const scriptUrl = `https://raw.githubusercontent.com/${c.env.REPO_OWNER}/${c.env.REPO_NAME}/${ref ?? c.env.DEFAULT_BRANCH}/${os}/install.${
+		os === "win" ? "ps1" : "sh"
+	}`;
+	if (ref === undefined) {
+		// just redirect to the installer script if no ref is provided
+		return c.redirect(scriptUrl, 307);
+	}
+	// do not cache the installer script to always fetch the latest version
+	const githubResponse = await fetch(scriptUrl);
+	if (!githubResponse.ok) {
+		throw new HTTPException(500, {
+			message: `failed to fetch installer script from GitHub: ${githubResponse.statusText}`,
+		});
+	}
+	const script = await githubResponse.text();
+	if (!gitRefRegex.test(script)) {
+		throw new HTTPException(500, {
+			message: "installer script does not contain a git_ref variable",
+		});
+	}
+	const shebang = script.match(shebangRegex)?.[0] ?? "";
+	return c.text(
+		`${shebang}# source: ${scriptUrl}\n\n${script.replace(shebang, "").replace(gitRefRegex, ref)}`,
 	);
 });
 

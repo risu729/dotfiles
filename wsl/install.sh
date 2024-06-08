@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+# might be edited by the worker to checkout a specific ref
+git_ref=""
+
 set -e
 
 cd ~ || exit
@@ -20,14 +23,18 @@ cd ~/github || exit
 
 if [[ -d dotfiles ]]; then
 	cd dotfiles || exit
+	git fetch --all --prune
 	git pull
 	cd ..
 else
 	git clone https://github.com/risu729/dotfiles.git dotfiles
 fi
-cd dotfiles/wsl || exit
+cd dotfiles || exit
 
-wsl_dir="$(realpath .)"
+# always checkout because the current branch might be different
+git checkout "${git_ref}"
+
+wsl_dir="$(realpath ./wsl)"
 cd "${wsl_dir}" || exit
 
 paths="$(find . -type f ! -name "install.sh")"
