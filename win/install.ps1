@@ -11,7 +11,7 @@ if ($git_ref -ne "") {
 	$wsl_script += "?ref=$git_ref"
 }
 # ref: https://github.com/microsoft/WSL/issues/3284
-wsl /usr/bin/env bash -c ""SKIP_GIT_SETUP=true bash <(curl -fsSL $wsl_script)"
+wsl /usr/bin/env bash -c "SKIP_GIT_SETUP=true bash <(curl -fsSL $wsl_script)"
 
 $wsl_username = "$(wsl whoami)"
 winget import --import-file "\\wsl.localhost\$distribution\home\$wsl_username\github\dotfiles\win\winget.json" --disable-interactivity --accept-package-agreements
