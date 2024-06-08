@@ -15,6 +15,6 @@ owner=$(echo "${repo_data}" | jq --raw-output '.owner.login')
 repo=$(echo "${repo_data}" | jq -r '.name')
 default_branch=$(echo "${repo_data}" | jq -r '.defaultBranchRef.name')
 
-echo "owner=${owner}
-repo=${repo}
-default_branch=${default_branch}" >.dev.vars
+echo "REPO_OWNER=${owner}
+REPO_NAME=${repo}
+DEFAULT_BRANCH=${default_branch}" >.dev.vars

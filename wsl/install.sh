@@ -1,18 +1,21 @@
 #!/usr/bin/env bash
 
+# might be edited by the worker to checkout a specific ref
+git_ref=""
+
+set -e
+
 cd ~ || exit
 
 # use apt-get instead of apt for scripts
 # ref: https://manpages.ubuntu.com/manpages/trusty/man8/apt.8.html#:~:text=SCRIPT%20USAGE/
-# cspell:ignore wslutilities wslu
-sudo add-apt-repository ppa:wslutilities/wslu
 sudo apt-get update
 sudo apt-get upgrade --yes
 
 # from build-essential to git are required by Homebrew
 # ref: https://docs.brew.sh/Homebrew-on-Linux#requirements
 # wsl is required to open a browser from WSL
-# cspell:ignore procps
+# cspell:ignore procps wslu
 sudo apt-get install --yes build-essential procps curl file git wslu
 
 mkdir --parents ~/github
@@ -20,14 +23,18 @@ cd ~/github || exit
 
 if [[ -d dotfiles ]]; then
 	cd dotfiles || exit
+	git fetch --all --prune
 	git pull
 	cd ..
 else
 	git clone https://github.com/risu729/dotfiles.git dotfiles
 fi
-cd dotfiles/wsl || exit
+cd dotfiles || exit
 
-wsl_dir="$(realpath .)"
+# always checkout because the current branch might be different
+git checkout "${git_ref}"
+
+wsl_dir="$(realpath ./wsl)"
 cd "${wsl_dir}" || exit
 
 paths="$(find . -type f ! -name "install.sh" ! -name "setup-git.sh")"
@@ -60,6 +67,10 @@ eval "${brew_env}"
 brew bundle install --global --no-lock
 echo installed Homebrew
 
+# mise throws `Dependency cargo, cargo:ubi, rust not installed for ubi:biomejs/biome` error
+# exit with 0 to ignore the error
+mise install --yes || true
+# retry to install biome
 mise install --yes
 echo installed mise
 

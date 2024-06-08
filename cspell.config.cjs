@@ -26,6 +26,7 @@ module.exports = {
 		"risunosu",
 		"dotfiles",
 		"winget",
+		"biomejs",
 		"taplo",
 		"yamlfmt",
 		"ghalint",

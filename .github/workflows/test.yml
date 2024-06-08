@@ -27,13 +27,16 @@ jobs:
 
     steps:
       - name: Install apt packages
-        # software-properties-common is for apt-add-repository
         run: |
           apt-get update
-          apt-get install -y curl sudo software-properties-common
+          apt-get install -y curl sudo
 
       - name: Run installer
-        run: bash <(curl -fsSL https://dot.risunosu.com/wsl?ref=${{ github.sha }})
+        # use head sha for pull requests because github.sha is set to the merge commit
+        run: >-
+          bash <(curl -fsSL https://dot.risunosu.com/wsl?ref=${{
+            github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.sha
+          }})
 
   actions-timeline:
     needs:
