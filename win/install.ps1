@@ -6,15 +6,19 @@ $distribution = "Ubuntu-24.04"
 wsl --install --distribution $distribution
 wsl --set-default   $distribution
 
-# ref: https://github.com/microsoft/WSL/issues/3284
 $wsl_script = "https://dot.risunosu.com/wsl"
 if ($git_ref -ne "") {
 	$wsl_script += "?ref=$git_ref"
 }
-wsl /usr/bin/env bash -c "bash <(curl -fsSL $wsl_script)"
+# ref: https://github.com/microsoft/WSL/issues/3284
+wsl /usr/bin/env bash -c "SKIP_GIT_SETUP=true bash <(curl -fsSL $wsl_script)"
 
 $wsl_username = "$(wsl whoami)"
 winget import --import-file "\\wsl.localhost\$distribution\home\$wsl_username\github\dotfiles\win\winget.json" --disable-interactivity --accept-package-agreements
+
+# setup git config after browser is installed
+# use -i, interactive mode, to load .bashrc
+wsl /usr/bin/env bash -ic "~/github/dotfiles/wsl/setup-git.sh"
 
 # cspell:ignore powertoys
 # Set PowerToys settings backup directory
