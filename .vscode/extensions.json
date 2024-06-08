@@ -2,7 +2,6 @@
 	// ref: https://code.visualstudio.com/docs/editor/extension-marketplace#_workspace-recommended-extensions
 	"recommendations": [
 		"oven.bun-vscode",
-		// cspell:ignore biomejs
 		"biomejs.biome",
 		// cspell:ignore bluebrown
 		"bluebrown.yamlfmt",

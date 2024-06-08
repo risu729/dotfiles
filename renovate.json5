@@ -85,7 +85,6 @@
 			// prettier-ignore
 			fileMatch: ["^biome\.jsonc$"],
 			datasourceTemplate: "npm",
-			// cspell:ignore biomejs
 			depNameTemplate: "biomejs/biome",
 			packageNameTemplate: "@biomejs/biome",
 			versioningTemplate: "semver",

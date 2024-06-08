@@ -67,6 +67,10 @@ eval "${brew_env}"
 brew bundle install --global --no-lock
 echo installed Homebrew
 
+# mise throws `Dependency cargo, cargo:ubi, rust not installed for ubi:biomejs/biome` error
+# exit with 0 to ignore the error
+mise install --yes || true
+# retry to install biome
 mise install --yes
 echo installed mise
 
