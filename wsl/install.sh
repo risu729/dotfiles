@@ -65,7 +65,7 @@ eval "${brew_env}"
 brew bundle install --global --no-lock
 echo installed Homebrew
 
-mise install --yes
+mise install --yes --verbose
 echo installed mise
 
 echo installed dotfiles!
