@@ -3,9 +3,9 @@ import {
 	env,
 	waitOnExecutionContext,
 } from "cloudflare:test";
+import { diffLines } from "diff";
 import { beforeAll, describe, expect, it, test } from "vitest";
 import worker from "../src/index.js";
-import { diffLines } from "diff";
 
 // biome-ignore lint/correctness/noUndeclaredVariables: cannot read tsconfig.json#compilerOptions.types
 const IncomingRequest = Request<unknown, IncomingRequestCfProperties>;
