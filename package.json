@@ -19,7 +19,7 @@
 		"ignore-walk": "6.0.5",
 		"json5": "2.2.3",
 		"jsonc-parser": "3.2.1",
-		"prettier": "3.3.1",
+		"prettier": "3.3.2",
 		"ts-graphviz": "2.1.2",
 		"typescript": "5.4.5"
 	}
