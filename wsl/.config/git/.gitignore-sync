@@ -1,0 +1,13 @@
+# ref: https://github.com/foray1010/ignore-sync?tab=readme-ov-file#how-to-use
+
+# ignore-sync doesn't support filename `ignore-sync`, so rename generated .gitignore to ignore in install.sh
+
+[inline]
+.mise.local.toml
+mise.local.toml
+
+[github/gitignore]
+Global/Windows.gitignore
+Global/macOS.gitignore
+Global/Linux.gitignore
+Global/VisualStudioCode.gitignore
