@@ -37,7 +37,7 @@ git checkout "${git_ref}"
 wsl_dir="$(realpath ./wsl)"
 cd "${wsl_dir}" || exit
 
-paths="$(find . -type f ! -name "install.sh" ! -name "setup-git.sh" ! - name ".gitignore-sync")"
+paths="$(find . -type f ! -name "install.sh" ! -name "setup-git.sh" ! -name ".gitignore-sync")"
 for path in ${paths}; do
 	# append to .bashrc or .profile because WSL has default .bashrc and .profile
 	if [[ -f ${path} && ${path#./} == ".bashrc" ]]; then
