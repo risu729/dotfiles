@@ -10,7 +10,7 @@ java = "latest"
 gradle = "latest"
 maven = "latest"
 rust = "latest"
-python = "3.12.3"
+python = "latest"
 go = "latest"
 # biome vs code extension requires global installation
 ubi = "latest"
