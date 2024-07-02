@@ -12,9 +12,6 @@ maven = "latest"
 rust = "latest"
 python = "3.12.3"
 go = "latest"
-# biome vs code extension requires global installation
-ubi = "latest"
-"ubi:biomejs/biome" = "latest"
 
 [settings]
 experimental = true
