@@ -31,7 +31,7 @@ yamllint = "1.35.1" # cspell:ignore pypi
 "npm:cspell" = "8.10.4"
 "ubi:lycheeverse/lychee" = "v0.15.1" # cspell:ignore lycheeverse
 # renovate: extractVersion=^v(?<version>\d+\..+)
-"ubi:crate-ci/typos" = "v1.23.1"
+"ubi:crate-ci/typos" = "v1.23.2"
 
 [tasks.commit]
 depends = ["buni:root"]
