@@ -18,6 +18,9 @@ defaults:
 
 jobs:
   list-tasks:
+    # define unique id to add to status checks
+    name: lint-list-tasks
+
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     permissions:
