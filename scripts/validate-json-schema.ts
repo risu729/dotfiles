@@ -125,7 +125,6 @@ for (const path of jsonPaths) {
 	});
 	ajv.addMetaSchema(draft7MetaSchema);
 	// add formats not included by default
-	// @ts-expect-error: `ajv-formats` does not support Ajv2019 but works fine
 	addFormats(ajv);
 
 	try {
@@ -147,7 +146,6 @@ for (const path of jsonPaths) {
 			...config[basename(path)],
 		});
 		// add formats not included by default
-		// @ts-expect-error: `ajv-formats` does not support Ajv04 but works fine
 		addFormats(ajv);
 		try {
 			const validate = await ajv.compileAsync(schema);
