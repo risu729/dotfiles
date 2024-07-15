@@ -14,7 +14,8 @@ python = "3.12.3"
 go = "latest"
 # biome vs code extension requires global installation
 ubi = "latest"
-"ubi:biomejs/biome" = "latest"
+# latest cannot be resolved
+"ubi:biomejs/biome" = "cli/v1.8.3"
 
 [settings]
 experimental = true
