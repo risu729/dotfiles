@@ -71,7 +71,7 @@
 			customType: "regex",
 			description: "Updates tool versions in mise.toml (ubi backend)",
 			// prettier-ignore
-			fileMatch: ["^mise\.toml$"],
+			fileMatch: ["^mise\.toml$", "^wsl/.config/mise/config.toml$"],
 			datasourceTemplate: "github-releases",
 			matchStrings: [
 				// test: https://regex101.com/r/RRA3NI
