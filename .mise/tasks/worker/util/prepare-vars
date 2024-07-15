@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+# mise hide=true
+
+# do not use dir="worker" as it will cause error if the script is run from worker directory
+
+# support only running from the root directory or worker directory
+# manual `mise run` is from the root directory, and calling from other `mise run` is from the worker directory
+cwd=$(pwd)
+if [[ $(basename "${cwd}") != "worker" ]]; then
+	cd worker || exit
+fi
+
+repo_data=$(gh repo view --json owner,name,defaultBranchRef)
+owner=$(echo "${repo_data}" | jq --raw-output '.owner.login')
+repo=$(echo "${repo_data}" | jq -r '.name')
+default_branch=$(echo "${repo_data}" | jq -r '.defaultBranchRef.name')
+
+echo "REPO_OWNER=${owner}
+REPO_NAME=${repo}
+DEFAULT_BRANCH=${default_branch}" >.dev.vars

@@ -23,19 +23,20 @@ jobs:
     permissions:
       contents: read # for checkout
 
-    container: ubuntu:noble-20240530@sha256:61d059dacc2f55cfa9654130d32b7640f86c68b4523a2141f64294e625f6032a
+    container: ubuntu:noble-20240605@sha256:2e863c44b718727c860746568e1d54afd13b2fa71b160f5cd9058fc436217b30
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29 # v4.1.6
-
-      - name: Install sudo
+      - name: Install apt packages
         run: |
           apt-get update
-          apt-get install -y sudo
+          apt-get install -y curl sudo
 
       - name: Run installer
-        run: ./wsl/install.sh
+        # use head sha for pull requests because github.sha is set to the merge commit
+        run: >-
+          bash <(curl -fsSL https://dot.risunosu.com/wsl?ref=${{
+            github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.sha
+          }})
 
   actions-timeline:
     needs:
@@ -50,4 +51,4 @@ jobs:
     steps:
       - name: actions-timeline
         # cspell:ignore kesin
-        uses: Kesin11/actions-timeline@1c2ab3f28225878ae4dd1f76d31279f16ea29e29 # v2.1.1
+        uses: Kesin11/actions-timeline@da70beff098ff89b15d279e8bf2f60519a8dadd7 # v2.2.0

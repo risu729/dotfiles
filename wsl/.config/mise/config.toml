@@ -10,10 +10,8 @@ java = "latest"
 gradle = "latest"
 maven = "latest"
 rust = "latest"
-python = "latest"
+python = "3.12.3"
 go = "latest"
-# biome vs code extension requires global installation
-"ubi:biomejs/biome" = "latest" # cspell:ignore biomejs
 
 [settings]
 experimental = true

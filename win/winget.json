@@ -64,6 +64,9 @@
 					"PackageIdentifier": "Cloudflare.Warp"
 				},
 				{
+					"PackageIdentifier": "WireGuard.WireGuard"
+				},
+				{
 					"PackageIdentifier": "CrystalDewWorld.CrystalDiskInfo.AoiEdition"
 				}
 			],

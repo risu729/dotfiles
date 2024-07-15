@@ -13,7 +13,6 @@
 	},
 	// ref: https://biomejs.dev/internals/language-support/
 	"[javascript][typescript][json][jsonc]": {
-		// cspell:ignore biomejs
 		"editor.defaultFormatter": "biomejs.biome"
 	},
 

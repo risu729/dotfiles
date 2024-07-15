@@ -3,3 +3,5 @@
 
 [formatting]
 indent_string = "\t"
+# to avoid git diff noise
+align_comments = false

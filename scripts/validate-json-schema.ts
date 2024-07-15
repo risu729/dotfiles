@@ -145,6 +145,7 @@ for (const path of jsonPaths) {
 			loadSchema: loadRemoteSchema(true),
 			...config[basename(path)],
 		});
+		// add formats not included by default
 		addFormats(ajv);
 		try {
 			const validate = await ajv.compileAsync(schema);

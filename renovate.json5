@@ -6,6 +6,7 @@
 		":pinVersions",
 		// cspell:ignore automerge
 		":automergeMinor",
+		":automergeDigest",
 		":prHourlyLimitNone",
 		":prConcurrentLimitNone",
 	],
@@ -84,7 +85,6 @@
 			// prettier-ignore
 			fileMatch: ["^biome\.jsonc$"],
 			datasourceTemplate: "npm",
-			// cspell:ignore biomejs
 			depNameTemplate: "biomejs/biome",
 			packageNameTemplate: "@biomejs/biome",
 			versioningTemplate: "semver",
@@ -130,7 +130,7 @@
 			// ref: https://developers.cloudflare.com/workers/testing/vitest-integration/get-started/write-your-first-test/#install-vitest-and-cloudflarevitest-pool-workers
 			// ref: https://github.com/cloudflare/workers-sdk/pull/5458
 			matchFileNames: ["worker/package.json"],
-			matchPackageNames: ["vitest"],
+			matchPackageNames: ["vitest", "@vitest/ui"],
 			allowedVersions: "<=1.5",
 		},
 		// set semantic commit types
