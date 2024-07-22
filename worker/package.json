@@ -15,7 +15,7 @@
 		"@types/diff": "5.2.1",
 		"@vitest/ui": "1.5.3",
 		"diff": "5.2.0",
-		"typescript": "5.5.3",
+		"typescript": "5.5.4",
 		"vitest": "1.5.3",
 		"wrangler": "3.65.1"
 	}
