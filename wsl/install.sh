@@ -43,16 +43,16 @@ for path in ${paths}; do
 	if [[ -f ${path} && ${path#./} == ".bashrc" ]]; then
 		echo >>~/.bashrc
 		cat "${path}" >>~/.bashrc
-		# shellcheck disable=SC1091 # .bashrc is appended above
-		source ./.bashrc
+		# shellcheck disable=SC1090 # .bashrc is appended above
+		source ~/.bashrc
 		echo installed "${path}"
 		continue
 	fi
 	if [[ -f ${path} && ${path#./} == ".profile" ]]; then
 		echo >>~/.profile
 		cat "${path}" >>~/.profile
-		# shellcheck disable=SC1091 # .profile is appended above
-		source ./.profile
+		# shellcheck disable=SC1090 # .profile is appended above
+		source ~/.profile
 		echo installed "${path}"
 		continue
 	fi
