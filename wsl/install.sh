@@ -75,6 +75,8 @@ eval "${brew_env}"
 brew bundle install --global --no-lock
 echo installed Homebrew
 
+mise activate --shims
+
 # cspell:ignore reshim
 # mise reshim is required to avoid "No such file or directory" error
 # ref: https://github.com/jdx/mise/issues/2260
