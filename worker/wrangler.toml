@@ -7,7 +7,7 @@ minify = true
 
 # cspell:ignore workerd
 # set compatibility_date from workerd version
-# compatibility_workerd_version = "1.20240815.0"
+# compatibility_workerd_version = "1.20240919.0"
 
 # required to use vitest
 # ref: https://developers.cloudflare.com/workers/testing/vitest-integration/configuration/#workerspooloptions
