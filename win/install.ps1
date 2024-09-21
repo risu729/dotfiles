@@ -4,12 +4,13 @@ $git_ref = ""
 $distribution = "Ubuntu-24.04"
 
 wsl --install --distribution $distribution
-wsl --set-default   $distribution
+wsl --set-default $distribution
 
 $wsl_script = "https://dot.risunosu.com/wsl"
 if ($git_ref -ne "") {
 	$wsl_script += "?ref=$git_ref"
 }
+# pipe cannot be quoted
 # ref: https://github.com/microsoft/WSL/issues/3284
 wsl /usr/bin/env bash -c "SKIP_GIT_SETUP=true bash <(curl -fsSL $wsl_script)"
 
