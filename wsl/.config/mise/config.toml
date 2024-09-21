@@ -18,7 +18,7 @@ go = "latest"
 ubi = "0.1.2"
 # latest cannot be resolved
 # renovate: extractVersion=^cli/v(?<version>.+)
-"ubi:biomejs/biome" = "cli/v1.8.3"
+"ubi:biomejs/biome" = "cli/v1.9.2"
 
 [settings]
 experimental = true

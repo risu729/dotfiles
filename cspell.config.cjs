@@ -3,6 +3,11 @@
 /**
  * @type {import("@cspell/cspell-types").CSpellUserSettings}
  */
+"use strict"; // ref: https://cspell.org/configuration/
+
+/**
+ * @type {import("@cspell/cspell-types").CSpellUserSettings}
+ */
 module.exports = {
 	version: "0.2",
 	language: "en",

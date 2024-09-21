@@ -28,6 +28,7 @@ const fetchWorker = async (url: string) => {
 test("redirect / to repository readme", async () => {
 	const response = await fetchWorker("https://dot.risunosu.com/");
 	expect(response.headers.get("Location")).toBe(
+		// biome-ignore lint/nursery/noSecrets: false positive
 		"https://github.com/risu729/dotfiles#readme",
 	);
 });
@@ -88,9 +89,10 @@ describe("return 200 status code with ref query parameters", () => {
 describe("installer script for wsl should have a shebang", () => {
 	it("return /wsl with ref", async () => {
 		const response = await fetchWorker(
+			// biome-ignore lint/nursery/noSecrets: false positive
 			"https://dot.risunosu.com/wsl?ref=ed61d947087a6e943267c6eaa82d0e0039b9b279",
 		);
-		// biome-ignore lint/nursery/useTopLevelRegex: ignore performance warning in test
+		// biome-ignore lint/performance/useTopLevelRegex: ignore performance warning in test
 		expect(await response.text()).toMatch(/^#!(?:\/\w+)+/);
 	});
 });
