@@ -17,7 +17,7 @@
 					"PackageIdentifier": "LINE.LINE"
 				},
 				{
-					"PackageIdentifier": "SlackTechnologies.Slack.Beta"
+					"PackageIdentifier": "SlackTechnologies.Slack"
 				},
 				{
 					"PackageIdentifier": "Notion.Notion"
