@@ -14,7 +14,7 @@ sudo apt-get upgrade --yes
 
 # from build-essential to git are required by Homebrew
 # ref: https://docs.brew.sh/Homebrew-on-Linux#requirements
-# wsl is required to open a browser from WSL
+# wslu is required to open a browser from WSL
 # cspell:ignore procps wslu
 sudo apt-get install --yes build-essential procps curl file git wslu
 
