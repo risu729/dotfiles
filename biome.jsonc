@@ -1,6 +1,6 @@
 {
 	// ref: https://biomejs.dev/reference/configuration/
-	"$schema": "https://biomejs.dev/schemas/1.8.3/schema.json",
+	"$schema": "https://biomejs.dev/schemas/1.9.2/schema.json",
 	"vcs": {
 		"enabled": true,
 		"clientKind": "git",
@@ -46,7 +46,7 @@
 			"include": ["worker/**"],
 			"linter": {
 				"rules": {
-					"nursery": {
+					"correctness": {
 						// cannot read dependencies from package.json in subdirectories
 						// ref: https://github.com/biomejs/biome/issues/2010
 						"noUndeclaredDependencies": "off"
@@ -70,7 +70,7 @@
 			"include": ["**/scripts/**"],
 			"linter": {
 				"rules": {
-					"nursery": {
+					"suspicious": {
 						"noConsole": "off"
 					}
 				}
