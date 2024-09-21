@@ -79,13 +79,6 @@ echo installed Homebrew
 brew_env="$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 eval "${brew_env}"
 
-# VS Code
-alias code="code-insiders"
-
-# gpg
-GPG_TTY=$(tty)
-export GPG_TTY
-
 # cspell:ignore reshim
 # mise reshim is required to avoid "No such file or directory" error
 # ref: https://github.com/jdx/mise/issues/2260
