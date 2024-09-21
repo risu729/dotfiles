@@ -75,7 +75,7 @@ eval "${brew_env}"
 brew bundle install --global --no-lock
 echo installed Homebrew
 
-mise activate bash --shims
+export PATH="${HOME}/.local/share/mise/shims:${PATH}"
 
 # cspell:ignore reshim
 # mise reshim is required to avoid "No such file or directory" error
