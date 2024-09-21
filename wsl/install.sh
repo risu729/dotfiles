@@ -77,7 +77,7 @@ echo installed Homebrew
 
 # cspell:ignore reshim
 # activate mise shims to use mise reshim
-mise_shims="$(mise activate --shims)"
+mise_shims="$(mise activate bash --shims)"
 eval "${mise_shims}"
 
 # exit with 0 to ignore the error
