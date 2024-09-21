@@ -43,16 +43,12 @@ for path in ${paths}; do
 	if [[ -f ${path} && ${path#./} == ".bashrc" ]]; then
 		echo >>~/.bashrc
 		cat "${path}" >>~/.bashrc
-		# shellcheck disable=SC1090 # .bashrc is appended above
-		source ~/.bashrc
 		echo installed "${path}"
 		continue
 	fi
 	if [[ -f ${path} && ${path#./} == ".profile" ]]; then
 		echo >>~/.profile
 		cat "${path}" >>~/.profile
-		# shellcheck disable=SC1090 # .profile is appended above
-		source ~/.profile
 		echo installed "${path}"
 		continue
 	fi
@@ -76,6 +72,13 @@ brew_env="$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 eval "${brew_env}"
 brew bundle install --global --no-lock
 echo installed Homebrew
+
+# specifying the source file is not supported by vscode extension
+# ref: https://github.com/vscode-shellcheck/vscode-shellcheck/issues/19
+# shellcheck disable=SC1090
+source ~/.bashrc
+# shellcheck disable=SC1090
+source ~/.profile
 
 # cspell:ignore reshim
 # mise reshim is required to avoid "No such file or directory" error
