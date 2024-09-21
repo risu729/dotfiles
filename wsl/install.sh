@@ -79,6 +79,15 @@ echo installed Homebrew
 brew_env="$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 eval "${brew_env}"
 
+# mise-en-place
+mise_activate="$(mise activate bash)"
+eval "${mise_activate}"
+alias mr="mise run"
+
+# mise-en-place
+mise_shims="$(mise activate bash --shims)"
+eval "${mise_shims}"
+
 # cspell:ignore reshim
 # mise reshim is required to avoid "No such file or directory" error
 # ref: https://github.com/jdx/mise/issues/2260
