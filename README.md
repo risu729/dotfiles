@@ -63,7 +63,7 @@ bash <(curl -fsSL https://dot.risunosu.com/wsl)
 
 ### ⚙️ Setup
 
-**Prerequisites**: [mise-en-place](https://mise.jdx.dev/), [pkg-config](https://www.freedesktop.org/wiki/Software/pkg-config/)  
+**Prerequisites**: [mise](https://mise.jdx.dev/), [pkg-config](https://www.freedesktop.org/wiki/Software/pkg-config/)  
 \* `pkg-config` is required to build `taplo-cli` with `Cargo`. You may install it through `apt`, `brew`, etc.
 
 Clone this repository and run the following command.
