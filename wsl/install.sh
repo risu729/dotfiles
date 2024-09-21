@@ -75,13 +75,15 @@ eval "${brew_env}"
 brew bundle install --global --no-lock
 echo installed Homebrew
 
-export PATH="${HOME}/.local/share/mise/shims:${PATH}"
-
 # cspell:ignore reshim
-# mise reshim is required to avoid "No such file or directory" error
-# ref: https://github.com/jdx/mise/issues/2260
+# activate mise shims to use mise reshim
+mise_shims="$(mise activate bash --shims)"
+eval "${mise_shims}"
+
 # exit with 0 to ignore the error
 mise install --yes || true
+# mise reshim is required to avoid "No such file or directory" error
+# ref: https://github.com/jdx/mise/issues/2260
 mise reshim
 mise install --yes
 echo installed mise
