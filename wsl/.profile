@@ -1,2 +1,2 @@
-# mise-en-place
+# mise
 mise activate --shims

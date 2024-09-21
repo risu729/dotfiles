@@ -2,7 +2,7 @@
 brew_env="$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 eval "${brew_env}"
 
-# mise-en-place
+# mise
 mise_activate="$(mise activate bash)"
 eval "${mise_activate}"
 alias mr="mise run"
