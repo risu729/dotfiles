@@ -23,7 +23,7 @@
 			customType: "regex",
 			description: "Updates tool versions in mise.toml (asdf backend, github-releases datasource)",
 			// prettier-ignore
-			fileMatch: ["^mise\.toml$"],
+			fileMatch: ["^mise\.toml$", "^wsl/.config/mise/config.toml$"],
 			// cspell:ignore datasource
 			datasourceTemplate: "github-releases",
 			matchStrings: [
@@ -36,7 +36,7 @@
 			customType: "regex",
 			description: "Updates tool versions in mise.toml (asdf backend, other datasource)",
 			// prettier-ignore
-			fileMatch: ["^mise\.toml$"],
+			fileMatch: ["^mise\.toml$", "^wsl/.config/mise/config.toml$"],
 			matchStrings: [
 				// test: https://regex101.com/r/8grHta
 				// prettier-ignore
@@ -47,7 +47,7 @@
 			customType: "regex",
 			description: "Updates tool versions in mise.toml (Cargo backend)",
 			// prettier-ignore
-			fileMatch: ["^mise\.toml$"],
+			fileMatch: ["^mise\.toml$", "^wsl/.config/mise/config.toml$"],
 			datasourceTemplate: "crate",
 			matchStrings: [
 				// test: https://regex101.com/r/K6Imdx
@@ -59,7 +59,7 @@
 			customType: "regex",
 			description: "Updates tool versions in mise.toml (npm backend)",
 			// prettier-ignore
-			fileMatch: ["^mise\.toml$"],
+			fileMatch: ["^mise\.toml$", "^wsl/.config/mise/config.toml$"],
 			datasourceTemplate: "npm",
 			matchStrings: [
 				// test: https://regex101.com/r/avOpdb
