@@ -73,10 +73,12 @@ eval "${brew_env}"
 brew bundle install --global --no-lock
 echo installed Homebrew
 
-# mise throws `Dependency cargo, cargo:ubi, rust not installed for ubi:biomejs/biome` error
+# cspell:ignore reshim
+# mise reshim is required to avoid "No such file or directory" error
+# ref: https://github.com/jdx/mise/issues/2260
 # exit with 0 to ignore the error
 mise install --yes || true
-# retry to install biome
+mise reshim
 mise install --yes
 echo installed mise
 
