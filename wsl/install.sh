@@ -31,8 +31,10 @@ else
 fi
 cd dotfiles || exit
 
-# always checkout because the current branch might be different
-git checkout "${git_ref}"
+# checkout a specific ref if specified
+if [[ -n ${git_ref} ]]; then
+	git checkout "${git_ref}"
+fi
 
 wsl_dir="$(realpath ./wsl)"
 cd "${wsl_dir}" || exit
