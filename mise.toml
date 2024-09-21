@@ -3,35 +3,33 @@
 
 [tools]
 # renovate: packageName=oven-sh/bun extractVersion=^bun-v(?<version>.+)
-bun = "1.1.20"
+bun = "1.1.29"
 # renovate: datasource=node
-node = "22.4.1" # cspell:ignore datasource
+node = "22.9.0" # cspell:ignore datasource
 # renovate: datasource=crate
-"ubi" = "0.0.32"
+"ubi" = "0.1.2"
 # renovate: extractVersion=^cli/v(?<version>.+)
-"ubi:biomejs/biome" = "cli/v1.8.3"
+"ubi:biomejs/biome" = "cli/v1.9.2"
 # renovate: packageName=rhysd/actionlint
 actionlint = "1.7.1" # cspell:ignore rhysd
 "ubi:suzuki-shunsuke/ghalint" = "v0.2.12" # cspell:ignore shunsuke
 "ubi:suzuki-shunsuke/pinact" = "v0.2.1"
-# taplo does not provide pre-built binaries in github releases
-# ref: https://github.com/tamasfe/taplo/releases/tag/release-taplo-cli-0.9.0
-"cargo:taplo-cli" = "0.9.0"
+"ubi:tamasfe/taplo" = "0.9.2" # cspell:ignore tamasfe
 "npm:prettier" = "3.3.3"
-"npm:markdownlint-cli2" = "0.13.0"
+"npm:markdownlint-cli2" = "0.14.0"
 # renovate: packageName=mvdan/sh
-shfmt = "3.8.0" # cspell:ignore mvdan
+shfmt = "3.9.0" # cspell:ignore mvdan
 # renovate: packageName=koalaman/shellcheck
 shellcheck = "0.10.0" # cspell:ignore koalaman
 # renovate: packageName=google/yamlfmt
 yamlfmt = "0.13.0"
 # renovate: datasource=pypi
 yamllint = "1.35.1" # cspell:ignore pypi
-"npm:renovate" = "37.431.4"
-"npm:cspell" = "8.10.4"
+"npm:renovate" = "38.91.5"
+"npm:cspell" = "8.14.4"
 "ubi:lycheeverse/lychee" = "v0.15.1" # cspell:ignore lycheeverse
 # renovate: extractVersion=^v(?<version>\d+\..+)
-"ubi:crate-ci/typos" = "v1.23.2"
+"ubi:crate-ci/typos" = "v1.24.6"
 
 [tasks.commit]
 depends = ["buni:root"]

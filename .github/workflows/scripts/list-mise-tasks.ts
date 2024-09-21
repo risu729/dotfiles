@@ -1,4 +1,3 @@
-// biome-ignore lint/nursery/noUndeclaredDependencies:
 import { $ } from "bun";
 import {
 	type EdgeModel,
