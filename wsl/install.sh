@@ -41,19 +41,6 @@ cd "${wsl_dir}" || exit
 
 paths="$(find . -type f ! -name "install.sh" ! -name "setup-git.sh" ! -name ".gitignore-sync")"
 for path in ${paths}; do
-	# append to .bashrc or .profile because WSL has default .bashrc and .profile
-	if [[ -f ${path} && ${path#./} == ".bashrc" ]]; then
-		echo >>~/.bashrc
-		cat "${path}" >>~/.bashrc
-		echo installed "${path}"
-		continue
-	fi
-	if [[ -f ${path} && ${path#./} == ".profile" ]]; then
-		echo >>~/.profile
-		cat "${path}" >>~/.profile
-		echo installed "${path}"
-		continue
-	fi
 	mkdir --parents "$(dirname "${HOME}/${path#./}")"
 	if [[ -f ${path} && ${path#./} == ".config/git/.gitignore" ]]; then
 		# ignore-sync doesn't support filename `ignore-sync`, so rename generated .gitignore to ignore
