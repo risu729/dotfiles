@@ -106,13 +106,13 @@ run = "markdownlint-cli2"
 hide = true
 
 [tasks."check:shfmt"]
-run = "shfmt --list --write --simplify . **/.bashrc **/.profile"
+run = "shfmt --list --write --simplify . **/.bashrc"
 [tasks."ci:shfmt"]
-run = "shfmt --diff --simplify . **/.bashrc **/.profile"
+run = "shfmt --diff --simplify . **/.bashrc"
 hide = true
 
 [tasks."lint:shellcheck"]
-run = "shellcheck **/*.sh **/.bashrc **/.profile"
+run = "shellcheck **/*.sh **/.bashrc"
 alias = "check:shellcheck"
 
 [tasks."check:yamlfmt"]

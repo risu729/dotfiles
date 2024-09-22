@@ -38,8 +38,5 @@ module.exports = {
 		"graphviz",
 		"iarna",
 		"hono",
-		// no cspell:ignore directives in .bashrc and .profile
-		"linuxbrew",
-		"shellenv",
 	],
 };
