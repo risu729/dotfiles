@@ -55,7 +55,7 @@ xterm-color | *-256color) color_prompt=yes ;;
 esac
 
 if [[ -n ${force_color_prompt} ]]; then
-  # cspell:ignore setaf setf
+	# cspell:ignore setaf setf
 	if [[ -x /usr/bin/tput ]] && tput setaf 1 >&/dev/null; then
 		# We have color support; assume it's compliant with Ecma-48 (ISO/IEC-6429).
 		# (Lack of such support is extremely rare, and such a case would tend to support setf rather than setaf.)
@@ -84,10 +84,10 @@ esac
 # enable color support of ls and also add handy aliases
 # cspell:ignore dircolors
 if [[ -x /usr/bin/dircolors ]]; then
-	dircolor="$(dircolors -b)"
-	eval "${dircolor}"
+	dircolors="$(dircolors -b)"
+	eval "${dircolors}"
 
-  # cspell:ignore vdir fgrep
+	# cspell:ignore vdir fgrep
 	alias ls='ls --color=auto'
 	alias dir='dir --color=auto'
 	alias vdir='vdir --color=auto'
