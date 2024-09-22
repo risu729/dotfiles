@@ -6,6 +6,7 @@
 # activate mise shim
 # required for IDEs to call tools managed by mise
 # this should come before mise activate bash
+# cspell:ignore linuxbrew
 mise_shims="$(/home/linuxbrew/.linuxbrew/bin/mise activate bash --shims)"
 eval "${mise_shims}"
 
@@ -17,9 +18,11 @@ esac
 
 # don't put duplicate lines or lines starting with space in the history.
 # See bash(1) for more options
+# cspell:ignore ignoreboth
 HISTCONTROL=ignoreboth
 
 # append to the history file, don't overwrite it
+# cspell:ignore histappend
 shopt -s histappend
 
 # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
@@ -27,12 +30,14 @@ HISTSIZE=1000
 HISTFILESIZE=2000
 
 # check the window size after each command and, if necessary, update the values of LINES and COLUMNS.
+# cspell:ignore checkwinsize
 shopt -s checkwinsize
 
 # if set, the pattern "**" used in a pathname expansion context will match all files and zero or more directories and subdirectories.
 shopt -s globstar
 
 # make less more friendly for non-text input files, see lesspipe(1)
+# cspell:ignore lesspipe
 if [[ -x /usr/bin/lesspipe ]]; then
 	lesspipe="$(SHELL=/bin/sh lesspipe)"
 	eval "${lesspipe}"
@@ -50,6 +55,7 @@ xterm-color | *-256color) color_prompt=yes ;;
 esac
 
 if [[ -n ${force_color_prompt} ]]; then
+  # cspell:ignore setaf setf
 	if [[ -x /usr/bin/tput ]] && tput setaf 1 >&/dev/null; then
 		# We have color support; assume it's compliant with Ecma-48 (ISO/IEC-6429).
 		# (Lack of such support is extremely rare, and such a case would tend to support setf rather than setaf.)
@@ -68,6 +74,7 @@ unset color_prompt force_color_prompt
 
 # If this is an xterm set the title to user@host:dir
 case "${TERM}" in
+# cspell:ignore rxvt
 xterm* | rxvt*)
 	PS1="\[\e]0;${debian_chroot:+(${debian_chroot})}\u@\h: \w\a\]${PS1}"
 	;;
@@ -75,10 +82,12 @@ xterm* | rxvt*)
 esac
 
 # enable color support of ls and also add handy aliases
+# cspell:ignore dircolors
 if [[ -x /usr/bin/dircolors ]]; then
 	dircolor="$(dircolors -b)"
 	eval "${dircolor}"
 
+  # cspell:ignore vdir fgrep
 	alias ls='ls --color=auto'
 	alias dir='dir --color=auto'
 	alias vdir='vdir --color=auto'
@@ -99,6 +108,7 @@ if ! shopt -oq posix && [[ -f /usr/share/bash-completion/bash_completion ]]; the
 fi
 
 # homebrew
+# cspell:ignore shellenv
 brew_env="$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 eval "${brew_env}"
 export XDG_DATA_DIRS="/home/linuxbrew/.linuxbrew/share:${XDG_DATA_DIRS}"

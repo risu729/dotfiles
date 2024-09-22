@@ -57,6 +57,7 @@ cd ~ || exit
 
 brew_install="$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 echo "${brew_install}" | NONINTERACTIVE=1 bash
+# cspell:ignore linuxbrew shellenv
 brew_env="$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 eval "${brew_env}"
 brew bundle install --global --no-lock
