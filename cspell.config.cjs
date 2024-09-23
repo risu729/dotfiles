@@ -1,9 +1,6 @@
 // ref: https://cspell.org/configuration/
 
-/**
- * @type {import("@cspell/cspell-types").CSpellUserSettings}
- */
-"use strict"; // ref: https://cspell.org/configuration/
+"use strict";
 
 /**
  * @type {import("@cspell/cspell-types").CSpellUserSettings}
@@ -41,8 +38,5 @@ module.exports = {
 		"graphviz",
 		"iarna",
 		"hono",
-		// no cspell:ignore directives in .bashrc and .profile
-		"linuxbrew",
-		"shellenv",
 	],
 };
