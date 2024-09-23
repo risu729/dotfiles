@@ -99,6 +99,10 @@ jobs:
         with:
           fetch-depth: 0 # fetch all history for commitlint
 
+      - run: |
+          wget https://github.com/ludocode/msgpack-tools/releases/download/v0.6/msgpack-tools-0.6-x86_64.deb
+          sudo apt install ./msgpack-tools-0.6-x86_64.deb
+
       - name: Install mise
         uses: jdx/mise-action@d6e32c1796099e0f1f3ac741c220a8b7eae9e5dd # v2.0.6
         with:
@@ -109,6 +113,15 @@ jobs:
 
       - name: Install bun and Node.js
         run: mise install --verbose bun node
+
+      - run: which bun
+
+      - run: ls -aR /home/runner/.cache/mise
+
+      - run: |
+          cat /home/runner/.cache/mise/ubi-suzuki-shunsuke-ghalint/remote_versions-d3e61.msgpack.z | \
+          perl -e 'use Compress::Raw::Zlib;my $d=new Compress::Raw::Zlib::Inflate();my $o;undef $/;$d->inflate(<>,$o);print $o;' | \
+          msgpack2json -d
 
       - name: Install package.json dependencies
         run: bun install
