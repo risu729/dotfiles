@@ -29,6 +29,9 @@ jobs:
     outputs:
       tasks: ${{ steps.list.outputs.tasks }}
 
+    env:
+      MISE_NOT_FOUND_AUTO_INSTALL: false
+
     steps:
       - name: Checkout
         uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
@@ -40,6 +43,8 @@ jobs:
           # cspell:ignore bunnodeubi
           cache_key_prefix: mise-v0-bunnodeubi
           experimental: true
+
+      - run: mise doctor
 
       - name: Install backend tools
         # node and ubi are required to run mise list 
@@ -106,6 +111,8 @@ jobs:
           # cspell:ignore bunnode
           cache_key_prefix: mise-v0-bunnode
           experimental: true
+
+      - run: mise doctor
 
       - name: Install bun and Node.js
         run: mise install --verbose bun node
