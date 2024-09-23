@@ -46,7 +46,7 @@ jobs:
         run: mise install --verbose bun node ubi
 
       - name: Install package.json dependencies
-        run: mise run buni:root # cspell:ignore buni
+        run: bun install # cspell:ignore buni
 
       - name: List mise tasks
         id: list
@@ -111,7 +111,7 @@ jobs:
         run: mise install --verbose bun node
 
       - name: Install package.json dependencies
-        run: mise run buni:root
+        run: bun install
 
       - name: "commitlint (push: initial commit)"
         id: commitlint-push-initial
