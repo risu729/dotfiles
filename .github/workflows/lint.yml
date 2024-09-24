@@ -47,7 +47,9 @@ jobs:
 
       - name: Install backend tools
         # node and ubi are required to run mise list 
-        run: mise install --verbose bun node ubi
+        run: mise install --verbose bun ubi
+
+      - run: which node
 
       - name: Install package.json dependencies
         run: bun install # cspell:ignore buni
@@ -116,7 +118,9 @@ jobs:
           experimental: true
 
       - name: Install bun and Node.js
-        run: mise install --verbose bun node
+        run: mise install --verbose bun
+
+      - run: which node
 
       - name: Install package.json dependencies
         run: bun install
