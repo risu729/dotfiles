@@ -32,6 +32,7 @@ jobs:
     env:
       MISE_LOG_LEVEL: trace
       RUST_BACKTRACE: full
+      RAYON_NUM_THREADS: 1
 
     steps:
       - name: Checkout
@@ -102,6 +103,7 @@ jobs:
     env:
       MISE_LOG_LEVEL: trace
       RUST_BACKTRACE: full
+      RAYON_NUM_THREADS: 1
 
     steps:
       - name: Checkout
