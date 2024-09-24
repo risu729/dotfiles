@@ -32,7 +32,6 @@ jobs:
     env:
       MISE_LOG_LEVEL: trace
       RUST_BACKTRACE: full
-      RAYON_NUM_THREADS: 1
 
     steps:
       - name: Checkout
@@ -46,14 +45,12 @@ jobs:
           cache_key_prefix: mise-v0-bunnodeubi
           experimental: true
 
-      - run: mise doctor
-
       - name: Install backend tools
         # node and ubi are required to run mise list 
         run: mise install --verbose bun node ubi
 
       - name: Install package.json dependencies
-        run: mise x -- bun install # cspell:ignore buni
+        run: bun install # cspell:ignore buni
 
       - name: List mise tasks
         id: list
@@ -103,7 +100,6 @@ jobs:
     env:
       MISE_LOG_LEVEL: trace
       RUST_BACKTRACE: full
-      RAYON_NUM_THREADS: 1
 
     steps:
       - name: Checkout
@@ -118,8 +114,6 @@ jobs:
           # cspell:ignore bunnode
           cache_key_prefix: mise-v0-bunnode
           experimental: true
-
-      - run: mise doctor
 
       - name: Install bun and Node.js
         run: mise install --verbose bun node
