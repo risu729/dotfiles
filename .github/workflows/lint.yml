@@ -49,6 +49,8 @@ jobs:
         # node and ubi are required to run mise list 
         run: mise install --verbose bun node ubi
 
+      - run: mise
+
       - name: Install package.json dependencies
         run: bun install # cspell:ignore buni
 
