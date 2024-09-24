@@ -29,6 +29,10 @@ jobs:
     outputs:
       tasks: ${{ steps.list.outputs.tasks }}
 
+    env:
+      MISE_LOG_LEVEL: trace
+      RUST_BACKTRACE: full
+
     steps:
       - name: Checkout
         uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
@@ -48,7 +52,7 @@ jobs:
         run: mise install --verbose bun node ubi
 
       - name: Install package.json dependencies
-        run: bun install # cspell:ignore buni
+        run: mise x -- bun install # cspell:ignore buni
 
       - name: List mise tasks
         id: list
@@ -96,7 +100,8 @@ jobs:
       contents: read # for checkout
 
     env:
-      MISE_NOT_FOUND_AUTO_INSTALL: false
+      MISE_LOG_LEVEL: trace
+      RUST_BACKTRACE: full
 
     steps:
       - name: Checkout
