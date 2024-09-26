@@ -29,10 +29,6 @@ jobs:
     outputs:
       tasks: ${{ steps.list.outputs.tasks }}
 
-    env:
-      MISE_LOG_LEVEL: trace
-      RUST_BACKTRACE: full
-
     steps:
       - name: Checkout
         uses: actions/checkout@d632683dd7b4114ad314bca15554477dd762a938 # v4.2.0
@@ -47,12 +43,10 @@ jobs:
 
       - name: Install backend tools
         # node and ubi are required to run mise list 
-        run: mise install --verbose bun node ubi
-
-      - run: mise
+        run: mise install bun node ubi
 
       - name: Install package.json dependencies
-        run: bun install # cspell:ignore buni
+        run: mise run buni:root # cspell:ignore buni
 
       - name: List mise tasks
         id: list
@@ -99,10 +93,6 @@ jobs:
     permissions:
       contents: read # for checkout
 
-    env:
-      MISE_LOG_LEVEL: trace
-      RUST_BACKTRACE: full
-
     steps:
       - name: Checkout
         uses: actions/checkout@d632683dd7b4114ad314bca15554477dd762a938 # v4.2.0
@@ -118,10 +108,10 @@ jobs:
           experimental: true
 
       - name: Install bun and Node.js
-        run: mise install --verbose bun node
+        run: mise install bun node
 
       - name: Install package.json dependencies
-        run: bun install
+        run: mise run buni:root
 
       - name: "commitlint (push: initial commit)"
         id: commitlint-push-initial
