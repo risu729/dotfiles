@@ -1,3 +1,4 @@
+import { createHash } from "node:crypto";
 import { $ } from "bun";
 import {
 	type EdgeModel,
@@ -69,14 +70,12 @@ const getDependencies = ({ id }: NodeRef): NodeRef[] => {
 		.flatMap(({ to }) => [to, ...getDependencies(to)]);
 };
 
-const identifierSeparator = /:|\//;
-
 const tasks: {
 	name: string;
 	task: string;
 	// space separated list to use in `mise install` command
 	tools: string;
-	cacheKey: string;
+	toolsHash: string;
 }[] = ciTasks.edges
 	.map(getEdgeTargets)
 	.filter(({ from }) => from.id === rootNode.id)
@@ -107,11 +106,9 @@ const tasks: {
 			name: name,
 			task: taskName,
 			tools: tools.join(" "),
-			cacheKey: tools
-				// remove prefix if exists
-				.map((tool) => tool.split(identifierSeparator).at(-1) ?? tool)
-				.sort()
-				.join(""),
+			toolsHash: createHash("sha256")
+				.update(tools.sort().join("-"))
+				.digest("hex"),
 		};
 	});
 
