@@ -40,6 +40,16 @@ jobs:
           install_args: bun node ubi
           cache_key_prefix: mise-v0-bun-node-ubi
           experimental: true
+        # cspell:ignore reshim
+        # mise reshim is required to avoid "No such file or directory" error
+        # ref: https://github.com/jdx/mise/issues/2260
+        continue-on-error: true
+
+      - name: Reshim mise
+        run: mise reshim --verbose
+
+      - name: Install mise tools
+        run: mise install --verbose
 
       - name: Install package.json dependencies
         run: mise run buni:root # cspell:ignore buni
@@ -76,6 +86,15 @@ jobs:
           install_args: ${{ matrix.tools }}
           cache_key_prefix: mise-v0-${{ matrix.toolsHash }}
           experimental: true
+        # mise reshim is required to avoid "No such file or directory" error
+        # ref: https://github.com/jdx/mise/issues/2260
+        continue-on-error: true
+
+      - name: Reshim mise
+        run: mise reshim --verbose
+
+      - name: Install mise tools
+        run: mise install --verbose
 
       - name: Run ${{ matrix.name }}
         run: mise run ${{ matrix.task }}
@@ -98,6 +117,15 @@ jobs:
           install_args: bun node
           cache_key_prefix: mise-v0-bun-node
           experimental: true
+        # mise reshim is required to avoid "No such file or directory" error
+        # ref: https://github.com/jdx/mise/issues/2260
+        continue-on-error: true
+
+      - name: Reshim mise
+        run: mise reshim --verbose
+
+      - name: Install mise tools
+        run: mise install --verbose
 
       - name: Install package.json dependencies
         run: mise run buni:root
