@@ -45,7 +45,7 @@ jobs:
       # should not cause any issue because npm is not used
       # ref: https://github.com/jdx/mise/issues/2682
       - name: Remove npm shim
-        run: rm $(which npm)
+        run: rm -rf ~/.local/share/mise/shims
 
       - run: which npm
 
