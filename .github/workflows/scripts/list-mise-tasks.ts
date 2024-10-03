@@ -20,7 +20,12 @@ if (!rootNode) {
 	throw new Error("task 'ci' not found in `mise tasks deps ci --dot`");
 }
 
-const getEdgeTargets = ({ targets }: EdgeModel) => {
+const getEdgeTargets = ({
+	targets,
+}: EdgeModel): {
+	from: NodeRef;
+	to: NodeRef;
+} => {
 	const isNodeRef = (target: (typeof targets)[number]): target is NodeRef => {
 		return !Array.isArray(target);
 	};
@@ -37,7 +42,7 @@ const getEdgeTargets = ({ targets }: EdgeModel) => {
 	};
 };
 
-const getNodeFromRef = ({ id }: NodeRef) => {
+const getNodeFromRef = ({ id }: NodeRef): NodeModel => {
 	const node = ciTasks.nodes.find((node) => node.id === id);
 	if (!node) {
 		throw new Error(`node with id ${id} not found`);
@@ -45,7 +50,7 @@ const getNodeFromRef = ({ id }: NodeRef) => {
 	return node;
 };
 
-const getNodeLabel = (node: NodeModel) => {
+const getNodeLabel = (node: NodeModel): string => {
 	const label = node.attributes.get("label");
 	if (!label) {
 		throw new Error("missing label in node");
