@@ -17,7 +17,7 @@ beforeAll(() => {
 	env.DEFAULT_BRANCH = "main";
 });
 
-const fetchWorker = async (url: string) => {
+const fetchWorker = async (url: string): Promise<Response> => {
 	const request = new IncomingRequest(url);
 	const context = createExecutionContext();
 	const response = await worker.fetch(request, env, context);
