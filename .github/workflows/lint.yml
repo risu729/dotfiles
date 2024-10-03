@@ -98,6 +98,8 @@ jobs:
       - name: Remove npm shim
         run: rm $(which npm)
 
+      - run: which npm
+
       - name: Run ${{ matrix.name }}
         run: mise run ${{ matrix.task }}
 
