@@ -41,21 +41,8 @@ jobs:
           cache_key_prefix: mise-v0-bun-node-ubi
           experimental: true
 
-      # remove npm shim to avoid infinite loop in mise while resolving tools
-      # should not cause any issue because npm is not used
-      # ref: https://github.com/jdx/mise/issues/2682
-      - name: Remove npm shim
-        run: rm $(which npm)
-
-      - run: cat $(which npm)
-
-      # stop here
-      - run: exit 1
-
       - name: Install package.json dependencies
         run: mise run buni:root # cspell:ignore buni
-        env:
-          MISE_LOG_LEVEL: trace
 
       - name: List mise tasks
         id: list
@@ -99,12 +86,6 @@ jobs:
       - name: Install mise tools
         run: mise install ${{ matrix.tools }}
 
-      # remove npm shim to avoid infinite loop in mise while resolving tools
-      # should not cause any issue because npm is not used
-      # ref: https://github.com/jdx/mise/issues/2682
-      - name: Remove npm shim
-        run: rm $(which npm)
-
       - name: Run ${{ matrix.name }}
         run: mise run ${{ matrix.task }}
 
@@ -126,12 +107,6 @@ jobs:
           install_args: bun node
           cache_key_prefix: mise-v0-bun-node
           experimental: true
-
-      # remove npm shim to avoid infinite loop in mise while resolving tools
-      # should not cause any issue because npm is not used
-      # ref: https://github.com/jdx/mise/issues/2682
-      - name: Remove npm shim
-        run: rm $(which npm)
 
       - name: Install package.json dependencies
         run: mise run buni:root
