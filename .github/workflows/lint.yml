@@ -76,15 +76,6 @@ jobs:
           install_args: ${{ matrix.tools }}
           cache_key_prefix: mise-v0-${{ matrix.toolsHash }}
           experimental: true
-        # mise reshim is required to avoid "No such file or directory" error
-        # ref: https://github.com/jdx/mise/issues/2260
-        continue-on-error: true
-
-      - name: Reshim mise
-        run: mise reshim
-
-      - name: Install mise tools
-        run: mise install ${{ matrix.tools }}
 
       - name: Run ${{ matrix.name }}
         run: mise run ${{ matrix.task }}
