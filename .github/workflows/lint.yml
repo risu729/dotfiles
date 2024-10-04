@@ -47,6 +47,11 @@ jobs:
       - name: Remove npm shim
         run: rm $(which npm)
 
+      - run: cat $(which npm)
+
+      # stop here
+      - run: exit 1
+
       - name: Install package.json dependencies
         run: mise run buni:root # cspell:ignore buni
         env:
