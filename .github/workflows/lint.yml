@@ -47,10 +47,6 @@ jobs:
       - name: Remove npm shim
         run: rm $(which npm)
 
-      - run: which npm
-
-      - run: mise x -- which npm
-
       - name: Install package.json dependencies
         run: mise run buni:root # cspell:ignore buni
 
@@ -101,6 +97,8 @@ jobs:
       # ref: https://github.com/jdx/mise/issues/2682
       - name: Remove npm shim
         run: rm $(which npm)
+
+      - run: which npm
 
       - name: Run ${{ matrix.name }}
         run: mise run ${{ matrix.task }}
