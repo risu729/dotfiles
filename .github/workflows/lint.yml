@@ -49,6 +49,8 @@ jobs:
 
       - name: Install package.json dependencies
         run: mise run buni:root # cspell:ignore buni
+        env:
+          MISE_LOG_LEVEL: trace
 
       - name: List mise tasks
         id: list
