@@ -36,17 +36,10 @@ jobs:
       - name: Install mise
         uses: jdx/mise-action@f8dfbcc150159126838e44b882bf34bd98fd90f3 # v2.1.0
         with:
+          # node and ubi backends are required to run mise list
+          install_args: bun node ubi
+          cache_key_prefix: mise-v0-bun-node-ubi
           experimental: true
-        # cspell:ignore reshim
-        # mise reshim is required to avoid "No such file or directory" error
-        # ref: https://github.com/jdx/mise/issues/2260
-        continue-on-error: true
-
-      - name: Reshim mise
-        run: mise reshim --verbose
-
-      - name: Install mise tools
-        run: mise install --verbose
 
       - name: Install package.json dependencies
         run: mise run buni:root # cspell:ignore buni
@@ -80,16 +73,9 @@ jobs:
       - name: Install mise
         uses: jdx/mise-action@f8dfbcc150159126838e44b882bf34bd98fd90f3 # v2.1.0
         with:
+          install_args: ${{ matrix.tools }}
+          cache_key_prefix: mise-v0-${{ matrix.toolsHash }}
           experimental: true
-        # mise reshim is required to avoid "No such file or directory" error
-        # ref: https://github.com/jdx/mise/issues/2260
-        continue-on-error: true
-
-      - name: Reshim mise
-        run: mise reshim --verbose
-
-      - name: Install mise tools
-        run: mise install --verbose
 
       - name: Run ${{ matrix.name }}
         run: mise run ${{ matrix.task }}
@@ -109,16 +95,9 @@ jobs:
       - name: Install mise
         uses: jdx/mise-action@f8dfbcc150159126838e44b882bf34bd98fd90f3 # v2.1.0
         with:
+          install_args: bun node
+          cache_key_prefix: mise-v0-bun-node
           experimental: true
-        # mise reshim is required to avoid "No such file or directory" error
-        # ref: https://github.com/jdx/mise/issues/2260
-        continue-on-error: true
-
-      - name: Reshim mise
-        run: mise reshim --verbose
-
-      - name: Install mise tools
-        run: mise install --verbose
 
       - name: Install package.json dependencies
         run: mise run buni:root
