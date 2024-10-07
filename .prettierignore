@@ -1,3 +1,5 @@
+# ref: https://prettier.io/docs/en/ignore.html
+
 # ignore files formatted by biome
 *.js
 *.mjs
