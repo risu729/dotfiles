@@ -1,3 +1,5 @@
+// ref: https://vitest.dev/config/
+
 import { readFile } from "node:fs/promises";
 import { defineWorkersConfig } from "@cloudflare/vitest-pool-workers/config";
 
