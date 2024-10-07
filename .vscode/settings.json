@@ -35,9 +35,11 @@
 
 	"files.associations": {
 		"*ignore-sync": "ini",
+		"shellcheckrc": "ini",
 		// cspell:ignore czrc
 		".czrc": "jsonc",
-		"winget.json": "jsonc"
+		"winget.json": "jsonc",
+		".Brewfile": "ruby"
 	},
 
 	"files.readonlyInclude": {
