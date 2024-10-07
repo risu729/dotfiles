@@ -9,10 +9,10 @@
 		"incremental": true
 	},
 	"include": [
-		"**/*",
+		"${configDir}/**/*",
 		// include dot files
-		"**/.*",
-		"**/.*/**/*"
+		"${configDir}/**/.*",
+		"${configDir}/**/.*/**/*"
 	],
 	"exclude": ["node_modules", "worker"]
 }

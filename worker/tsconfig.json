@@ -3,6 +3,7 @@
 	"$schema": "https://json.schemastore.org/tsconfig",
 	"files": [],
 	"references": [
+		{ "path": "./tsconfig.base.json" },
 		{ "path": "./tsconfig.src.json" },
 		{ "path": "./tsconfig.test.json" }
 	]
