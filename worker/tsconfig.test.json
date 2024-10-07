@@ -10,5 +10,5 @@
 			"@cloudflare/vitest-pool-workers"
 		]
 	},
-	"include": ["test", "src/env.ts"]
+	"include": ["test"]
 }

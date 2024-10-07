@@ -8,11 +8,5 @@
 	"compilerOptions": {
 		"incremental": true
 	},
-	"include": [
-		"**/*",
-		// include dot files
-		"**/.*",
-		"$**/.*/**/*"
-	],
-	"exclude": ["node_modules", "worker"]
+	"exclude": ["node_modules", "src", "test"]
 }
