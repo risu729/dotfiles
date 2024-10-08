@@ -22,4 +22,7 @@ exclude = [
 	# renovate.json5
 	# seems to have a strict too many requests policy
 	"https://regex101.com",
+	# .vscode/
+	# requests are forbidden
+	"https://code.visualstudio.com",
 ]
