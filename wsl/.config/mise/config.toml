@@ -10,7 +10,7 @@ java = "latest"
 gradle = "latest"
 maven = "latest"
 rust = "latest"
-python = "latest"
+python = "3.12.7"
 go = "latest"
 # biome vs code extension requires global installation
 # cspell:ignore datasource
