@@ -13,9 +13,7 @@ rust = "latest"
 python = "3.12.7"
 go = "latest"
 # biome vs code extension requires global installation
-# cspell:ignore datasource
-# renovate: datasource=crate
-ubi = "0.2.0"
+ubi = "latest"
 # latest cannot be resolved
 # renovate: extractVersion=^cli/v(?<version>.+)
 "ubi:biomejs/biome" = "cli/v1.9.3"
