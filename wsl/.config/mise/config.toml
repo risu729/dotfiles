@@ -12,6 +12,8 @@ maven = "latest"
 rust = "latest"
 python = "3.12.7"
 go = "latest"
+# cspell:ignore binstall
+cargo-binstall = "latest"
 # biome vs code extension requires global installation
 # cspell:ignore datasource
 # renovate: datasource=crate
