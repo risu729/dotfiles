@@ -23,7 +23,7 @@ jobs:
     permissions:
       contents: read # for checkout
 
-    container: ubuntu:noble-20240801@sha256:8a37d68f4f73ebf3d4efafbcf66379bf3728902a8038616808f04e34a9ab63ee
+    container: ubuntu:noble-20241009@sha256:ab64a8382e935382638764d8719362bb50ee418d944c1f3d26e0c99fae49a345
 
     steps:
       - name: Install apt packages
