@@ -2,16 +2,16 @@
 #:schema https://mise.jdx.dev/schema/mise.json
 
 [tools]
-bun = "1.1.29"
+bun = "1.1.30"
 node = "22.9.0"
 # cspell:ignore datasource
-# renovate: datasource=crate
-"ubi" = "0.1.2"
+# renovate: datasource=crate packageName=ubi-cli
+"ubi" = "0.2.0"
 # renovate: extractVersion=^cli/v(?<version>.+)
 "ubi:biomejs/biome" = "cli/v1.9.3"
 actionlint = "1.7.3"
-"ubi:suzuki-shunsuke/ghalint" = "v0.2.12" # cspell:ignore shunsuke
-"ubi:suzuki-shunsuke/pinact" = "v0.2.1"
+"ubi:suzuki-shunsuke/ghalint" = "v1.0.0" # cspell:ignore shunsuke
+"ubi:suzuki-shunsuke/pinact" = "v1.0.0"
 "ubi:tamasfe/taplo" = "0.9.2" # cspell:ignore tamasfe
 "npm:prettier" = "3.3.3"
 "npm:markdownlint-cli2" = "0.14.0"
@@ -20,11 +20,11 @@ shellcheck = "0.10.0"
 yamlfmt = "0.13.0"
 # renovate: datasource=pypi
 yamllint = "1.35.1" # cspell:ignore pypi
-"npm:renovate" = "38.107.0"
-"npm:cspell" = "8.14.4"
+"npm:renovate" = "38.120.0"
+"npm:cspell" = "8.15.1"
 "ubi:lycheeverse/lychee" = "v0.15.1" # cspell:ignore lycheeverse
 # renovate: extractVersion=^v(?<version>\d+\..+)
-"ubi:crate-ci/typos" = "v1.25.0"
+"ubi:crate-ci/typos" = "v1.26.0"
 
 [tasks.commit]
 depends = ["buni:root"]
@@ -55,12 +55,19 @@ hide = true
 
 [tasks."check:tsc"]
 depends = ["buni"]
-run = ["bun run tsc", "bun run --cwd worker tsc"]
+run = [
+	"bun run tsc",
+	"bun run --cwd worker tsc --project tsconfig.base.json",
+	"bun run --cwd worker tsc --project tsconfig.src.json",
+	"bun run --cwd worker tsc --project tsconfig.test.json",
+]
 [tasks."ci:tsc"]
 depends = ["buni"]
 run = [
 	"bun run tsc --incremental false",
-	"bun run --cwd worker tsc --incremental false",
+	"bun run --cwd worker tsc --project tsconfig.base.json --incremental false",
+	"bun run --cwd worker tsc --project tsconfig.src.json --incremental false",
+	"bun run --cwd worker tsc --project tsconfig.test.json --incremental false",
 ]
 hide = true
 

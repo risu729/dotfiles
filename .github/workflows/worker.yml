@@ -25,7 +25,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@d632683dd7b4114ad314bca15554477dd762a938 # v4.2.0
+        uses: actions/checkout@eef61447b9ff4aafe5dcd4e0bbf5d482be7e7871 # v4.2.1
         with:
           sparse-checkout: |
             mise.toml
@@ -36,12 +36,9 @@ jobs:
       - name: Install mise
         uses: jdx/mise-action@f8dfbcc150159126838e44b882bf34bd98fd90f3 # v2.1.0
         with:
-          install: false
+          install_args: bun
           cache_key_prefix: mise-v0-bun
           experimental: true
-
-      - name: Install bun
-        run: mise install --verbose bun
 
       - name: Run tests
         run: mise run worker:test:ci
@@ -57,7 +54,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@d632683dd7b4114ad314bca15554477dd762a938 # v4.2.0
+        uses: actions/checkout@eef61447b9ff4aafe5dcd4e0bbf5d482be7e7871 # v4.2.1
         with:
           sparse-checkout: |
             mise.toml
@@ -68,12 +65,9 @@ jobs:
       - name: Install mise
         uses: jdx/mise-action@f8dfbcc150159126838e44b882bf34bd98fd90f3 # v2.1.0
         with:
-          install: false
+          install_args: bun
           cache_key_prefix: mise-v0-bun
           experimental: true
-
-      - name: Install bun
-        run: mise install --verbose bun
 
       - name: Store Wrangler Version
         id: wrangler-version
@@ -89,7 +83,7 @@ jobs:
           echo "date=$compatibility_date" >> "$GITHUB_OUTPUT"
 
       - name: Deploy to Cloudflare workers with Wrangler
-        uses: cloudflare/wrangler-action@168bc28b7078db16f6f1ecc26477fc2248592143 # v3.8.0
+        uses: cloudflare/wrangler-action@9681c2997648301493e78cacbfb790a9f19c833f # v3.9.0
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
