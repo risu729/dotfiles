@@ -37,7 +37,6 @@ jobs:
         uses: jdx/mise-action@f8dfbcc150159126838e44b882bf34bd98fd90f3 # v2.1.0
         with:
           experimental: true
-          cache: false
 
       - name: Install package.json dependencies
         run: mise run buni:root # cspell:ignore buni
@@ -72,7 +71,6 @@ jobs:
         uses: jdx/mise-action@f8dfbcc150159126838e44b882bf34bd98fd90f3 # v2.1.0
         with:
           experimental: true
-          cache: false
 
       - name: Run ${{ matrix.name }}
         run: mise run ${{ matrix.task }}
@@ -93,7 +91,6 @@ jobs:
         uses: jdx/mise-action@f8dfbcc150159126838e44b882bf34bd98fd90f3 # v2.1.0
         with:
           experimental: true
-          cache: false
 
       - name: Install package.json dependencies
         run: mise run buni:root
