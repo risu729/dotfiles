@@ -63,6 +63,8 @@ eval "${brew_env}"
 brew bundle install --global --no-lock
 echo installed Homebrew
 
+# shellcheck disable=SC1090 # vs code extension doesn't support source
+source ~/.bashrc
 mise install --yes
 echo installed mise
 
