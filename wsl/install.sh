@@ -65,7 +65,7 @@ echo installed Homebrew
 
 mise_shims="$(mise activate bash --shims)"
 eval "${mise_shims}"
-mise install --yes
+mise install --yes --trace
 echo installed mise
 
 echo installed dotfiles!
