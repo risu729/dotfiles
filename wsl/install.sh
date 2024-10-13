@@ -65,8 +65,6 @@ echo installed Homebrew
 
 mise_shims="$(mise activate bash --shims)"
 eval "${mise_shims}"
-echo "${mise_shims}"
-echo "${PATH}"
 mise install --yes
 echo installed mise
 
