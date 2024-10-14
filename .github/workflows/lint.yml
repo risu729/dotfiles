@@ -133,10 +133,27 @@ jobs:
         if: steps.commitlint-push-initial.outcome == 'skipped' && steps.commitlint-push.outcome == 'skipped' && steps.commitlint-pr.outcome == 'skipped'
         run: bun run commitlint --verbose --from ${{ github.sha }}~1 --to ${{ github.sha }}
 
-  actions-timeline:
+  lint-status:
     needs:
       - lint
       - commitlint
+    if: ${{ !cancelled() }}
+
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+
+    steps:
+      - name: Check the status of the jobs
+        run: |
+          if [[ $(echo '${{ toJson(needs.*.result) }}' | jq 'all(. == "success")') == "false" ]]; then
+            echo 'Some jobs are failed, cancelled, or skipped.'
+            exit 1
+          fi
+          echo 'All jobs are successful.'
+
+  actions-timeline:
+    needs:
+      - lint-status
     if: ${{ !cancelled() }}
 
     runs-on: ubuntu-24.04
