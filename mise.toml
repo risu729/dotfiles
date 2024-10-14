@@ -15,6 +15,7 @@ actionlint = "1.7.3"
 shfmt = "3.9.0"
 shellcheck = "0.10.0"
 yamlfmt = "0.13.0"
+# cspell:ignore datasource
 # renovate: datasource=pypi
 yamllint = "1.35.1" # cspell:ignore pypi
 "npm:renovate" = "38.120.1"
