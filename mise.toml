@@ -4,9 +4,6 @@
 [tools]
 bun = "1.1.30"
 node = "22.9.0"
-# cspell:ignore datasource
-# renovate: datasource=crate packageName=ubi-cli
-"ubi" = "0.2.0"
 # renovate: extractVersion=^cli/v(?<version>.+)
 "ubi:biomejs/biome" = "cli/v1.9.3"
 actionlint = "1.7.3"
