@@ -3,20 +3,21 @@
 	"name": "@risu729/dotfiles-worker",
 	"type": "module",
 	"dependencies": {
-		"hono": "4.6.3",
+		"hono": "4.6.4",
 		"zod": "3.23.8"
 	},
 	"devDependencies": {
-		"@cloudflare/vitest-pool-workers": "0.5.13",
-		"@cloudflare/workers-types": "4.20240925.0",
+		"@cloudflare/vitest-pool-workers": "0.5.18",
+		"@cloudflare/workers-types": "4.20241011.0",
 		"@total-typescript/tsconfig": "1.0.4",
+		"@tsconfig/bun": "1.0.7",
 		"@tsconfig/strictest": "2.0.5",
-		"@types/bun": "1.1.10",
-		"@types/diff": "5.2.2",
+		"@types/bun": "1.1.11",
+		"@types/diff": "5.2.3",
 		"@vitest/ui": "1.5.3",
 		"diff": "7.0.0",
-		"typescript": "5.6.2",
+		"typescript": "5.6.3",
 		"vitest": "1.5.3",
-		"wrangler": "3.79.0"
+		"wrangler": "3.80.4"
 	}
 }

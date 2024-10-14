@@ -12,15 +12,9 @@ maven = "latest"
 rust = "latest"
 python = "latest"
 go = "latest"
-# biome vs code extension requires global installation
-# cspell:ignore datasource
-# renovate: datasource=crate
-ubi = "0.1.2"
 # latest cannot be resolved
 # renovate: extractVersion=^cli/v(?<version>.+)
 "ubi:biomejs/biome" = "cli/v1.9.3"
 
 [settings]
 experimental = true
-# the default 30 seconds is too short for some slow connections
-http_timeout = 300

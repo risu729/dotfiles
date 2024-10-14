@@ -1,4 +1,5 @@
 {
+	// ref: https://learn.microsoft.com/en-us/windows/package-manager/winget/import#json-schema
 	"$schema": "https://aka.ms/winget-packages.schema.2.0.json",
 	"Sources": [
 		{

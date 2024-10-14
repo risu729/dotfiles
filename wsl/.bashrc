@@ -111,7 +111,8 @@ fi
 # cspell:ignore shellenv
 brew_env="$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 eval "${brew_env}"
-export XDG_DATA_DIRS="/home/linuxbrew/.linuxbrew/share:${XDG_DATA_DIRS}"
+# shellcheck disable=SC2154 # HOMEBREW_PREFIX is set by brew shellenv
+export LD_LIBRARY_PATH="${HOMEBREW_PREFIX}/lib:${LD_LIBRARY_PATH}"
 
 # activate mise
 mise_activate="$(mise activate bash)"
