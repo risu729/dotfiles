@@ -36,9 +36,9 @@ jobs:
       - name: Install mise
         uses: jdx/mise-action@f8dfbcc150159126838e44b882bf34bd98fd90f3 # v2.1.0
         with:
-          # node and ubi backends are required to run mise list
-          install_args: bun node ubi
-          cache_key_prefix: mise-v0-bun-node-ubi
+          # backends are required to run mise list
+          install_args: bun node
+          cache_key_prefix: mise-v0-bun-node
           experimental: true
 
       - name: Install package.json dependencies

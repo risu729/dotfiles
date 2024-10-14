@@ -90,9 +90,6 @@ const tasks: {
 		if (tool?.startsWith("npm")) {
 			tools.push("node");
 		}
-		if (tool?.startsWith("ubi")) {
-			tools.push("ubi");
-		}
 
 		const dependencies = getDependencies(to).map((node) =>
 			getNodeLabel(getNodeFromRef(node)),
