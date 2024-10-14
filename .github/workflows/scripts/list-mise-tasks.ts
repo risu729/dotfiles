@@ -1,3 +1,4 @@
+import { createHash } from "node:crypto";
 import { $ } from "bun";
 import {
 	type EdgeModel,
@@ -9,6 +10,10 @@ import {
 $.throws(true);
 
 const ciTaskDepsDot = await $`mise tasks deps ci --dot`.text();
+
+const miseTools = Object.keys(
+	(await $`mise list --current --json`.json()) as Record<string, unknown>,
+);
 
 const ciTasks = fromDot(ciTaskDepsDot);
 
@@ -58,9 +63,19 @@ const getNodeLabel = (node: NodeModel): string => {
 	return label;
 };
 
+const getDependencies = ({ id }: NodeRef): NodeRef[] => {
+	return ciTasks.edges
+		.map(getEdgeTargets)
+		.filter(({ from }) => from.id === id)
+		.flatMap(({ to }) => [to, ...getDependencies(to)]);
+};
+
 const tasks: {
 	name: string;
 	task: string;
+	// space separated list to use in `mise install` command
+	tools: string;
+	toolsHash: string;
 }[] = ciTasks.edges
 	.map(getEdgeTargets)
 	.filter(({ from }) => from.id === rootNode.id)
@@ -68,9 +83,29 @@ const tasks: {
 		const taskName = getNodeLabel(getNodeFromRef(to));
 		// remove prefix if exists
 		const name = taskName.split(":")[1] ?? taskName;
+		const tool = miseTools.find((tool) => tool.includes(name));
+
+		const tools: string[] = tool ? [tool] : [];
+
+		if (tool?.startsWith("npm")) {
+			tools.push("node");
+		}
+
+		const dependencies = getDependencies(to).map((node) =>
+			getNodeLabel(getNodeFromRef(node)),
+		);
+		// cspell:ignore buni
+		if (dependencies.some((dependency) => dependency.startsWith("buni"))) {
+			tools.push("bun", "node");
+		}
+
 		return {
 			name: name,
 			task: taskName,
+			tools: tools.join(" "),
+			toolsHash: createHash("sha256")
+				.update(tools.sort().join("-"))
+				.digest("hex"),
 		};
 	});
 
