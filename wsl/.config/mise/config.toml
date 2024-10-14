@@ -20,5 +20,3 @@ ubi = "latest"
 
 [settings]
 experimental = true
-# the default 30 seconds is too short for some slow connections
-http_timeout = 300
