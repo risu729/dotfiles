@@ -87,6 +87,10 @@ const tasks: {
 
 		const tools: string[] = tool ? [tool] : [];
 
+		if (tool?.startsWith("npm")) {
+			tools.push("node");
+		}
+
 		const dependencies = getDependencies(to).map((node) =>
 			getNodeLabel(getNodeFromRef(node)),
 		);
