@@ -12,6 +12,8 @@ maven = "latest"
 rust = "latest"
 python = "latest"
 go = "latest"
+# cspell:ignore binstall
+cargo-binstall = "latest"
 # latest cannot be resolved
 # renovate: extractVersion=^cli/v(?<version>.+)
 "ubi:biomejs/biome" = "cli/v1.9.3"
