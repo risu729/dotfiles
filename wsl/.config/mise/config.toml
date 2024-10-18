@@ -15,7 +15,7 @@ go = "latest"
 # biome vs code extension requires global installation
 # latest cannot be resolved
 # renovate: extractVersion=^cli/v(?<version>.+)
-"ubi:biomejs/biome" = "cli/v1.9.3"
+"ubi:biomejs/biome" = "cli/v1.9.4"
 
 [settings]
 experimental = true
