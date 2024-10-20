@@ -12,6 +12,10 @@ cd ~ || exit
 sudo apt-get update
 sudo apt-get upgrade --yes
 
+# not pre-installed in wsl2 ubuntu (at least in 24.04)
+# software-properties-common is required for add-apt-repository
+sudo apt-get install --yes zip unzip software-properties-common
+
 # use PPA for wslu as recommended
 # ref: https://wslutiliti.es/wslu/install.html#ubuntu
 # wslu is for wslview, which opens Windows browser from WSL
@@ -19,9 +23,6 @@ sudo apt-get upgrade --yes
 sudo add-apt-repository ppa:wslutilities/wslu
 sudo apt-get update
 sudo apt-get install --yes wslu
-
-# not pre-installed in wsl2 ubuntu (at least in 24.04)
-sudo apt-get install --yes zip unzip
 
 mkdir --parents ~/github
 cd ~/github || exit
