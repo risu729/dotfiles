@@ -15,6 +15,7 @@ python = "latest"
 go = "latest"
 
 # cli tools
+# cspell:ignore kellyjonbrazil
 "ubi:kellyjonbrazil/jc" = "latest"
 
 # biome vs code extension requires global installation

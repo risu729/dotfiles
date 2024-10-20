@@ -1,9 +1,9 @@
 #!/usr/bin/env bun
 
-import { $, env } from "bun";
 import { mkdtemp, rmdir } from "node:fs/promises";
-import { join } from "node:path";
 import { tmpdir } from "node:os";
+import { join } from "node:path";
+import { $, env } from "bun";
 
 // do not use Partial as it sets all properties to optional but doesn't allow undefined
 type DeepOptional<T> = {
@@ -29,6 +29,7 @@ const ensureGitHubTokenScopes = async (): Promise<void> => {
 	];
 
 	// login to GitHub if not authenticated
+	// cspell:ignore nothrow
 	const { stdout, exitCode } = await $`gh auth status`.quiet().nothrow();
 	if (exitCode !== 0) {
 		await $`gh auth login --web --git-protocol https --scopes ${requiredScopes.map(({ scope }) => scope).join(",")}`;
@@ -474,11 +475,13 @@ const findExistingKeys = async (
 ): Promise<
 	| {
 			keyringSecretKey: KeyringSecretKey;
+			// cspell:ignore subkey
 			subkey?: KeyringSecretKey["subkeys"][number];
 			githubKey?: GitHubGpgKey;
 			importedSecretKey?: string;
 	  }
 	| undefined
+	// biome-ignore lint/complexity/noExcessiveCognitiveComplexity: too many conditions to check
 > => {
 	// prioritize keys registered to github
 	if (githubKeys.length > 0) {
@@ -853,6 +856,7 @@ const refineGpgKey = async (
 	}
 
 	// revoke uid if different email included
+	// cspell:ignore uids
 	const revokableUids = key.userIds
 		.filter(({ email: uidEmail }) => uidEmail !== email)
 		.filter(({ isRevoked }) => !isRevoked);
@@ -949,6 +953,7 @@ const refineGpgKey = async (
 					key.fingerprint,
 					revokableSubkeys.flatMap(({ fingerprint }) => [
 						`key ${fingerprint}`,
+						// cspell:ignore revkey
 						"revkey",
 					]),
 					revokableSubkeys.flatMap(() => [
@@ -1038,6 +1043,7 @@ const generateGpgKey = async (
 const configureGitSign = async (
 	githubId: string,
 	email: string,
+	// biome-ignore lint/complexity/noExcessiveCognitiveComplexity: too many steps to configure
 ): Promise<void> => {
 	// cspell:ignore openpgp
 	// use the default format, openpgp
@@ -1046,6 +1052,7 @@ const configureGitSign = async (
 	await $`git config --global commit.gpgSign true`;
 	await $`git config --global tag.gpgSign true`;
 
+	// cspell:ignore signingkey
 	const gitSigningKey = await $`git config --global user.signingkey`
 		.nothrow()
 		.text();
@@ -1249,6 +1256,7 @@ const configureGitSign = async (
 	console.info(revocationCertificate);
 
 	// TODO: delete secret primary key
+	// cspell:ignore keygrip
 	// private-keys**/keygrip.key
 
 	// TODO: suggest deleting other keys in keyring
