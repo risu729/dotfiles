@@ -20,6 +20,10 @@
 				// ref: https://github.com/biomejs/biome/issues/463
 				"useLiteralKeys": "off"
 			},
+			"correctness": {
+				// this project does not use React
+				"useHookAtTopLevel": "off"
+			},
 			"nursery": {
 				"all": true
 			}
@@ -56,7 +60,12 @@
 		},
 		{
 			// disable noNodejsModules rule for files running in bun or Node.js
-			"include": ["**/*.config.*", "**/scripts/**", "worker/test/**"],
+			"include": [
+				"**/*.config.*",
+				"**/scripts/**",
+				"worker/test/**",
+				"wsl/setup-git.ts"
+			],
 			"linter": {
 				"rules": {
 					"correctness": {
@@ -66,12 +75,15 @@
 			}
 		},
 		{
-			// disable noConsole rule for scripts
-			"include": ["**/scripts/**"],
+			// disable noConsole and useTopLevelRegex rules for scripts
+			"include": ["**/scripts/**", "wsl/setup-git.ts"],
 			"linter": {
 				"rules": {
 					"suspicious": {
 						"noConsole": "off"
+					},
+					"performance": {
+						"useTopLevelRegex": "off"
 					}
 				}
 			}

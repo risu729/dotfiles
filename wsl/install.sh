@@ -39,7 +39,7 @@ fi
 wsl_dir="$(realpath ./wsl)"
 cd "${wsl_dir}" || exit
 
-paths="$(find . -type f ! -name "install.sh" ! -name "setup-git.sh" ! -name ".gitignore-sync")"
+paths="$(find . -type f ! -name "install.sh" ! -name "setup-git.ts" ! -name ".gitignore-sync")"
 for path in ${paths}; do
 	mkdir --parents "$(dirname "${HOME}/${path#./}")"
 	if [[ -f ${path} && ${path#./} == ".config/git/.gitignore" ]]; then
@@ -64,11 +64,17 @@ brew bundle install --global --no-lock
 echo installed Homebrew
 
 mise install --yes
+# activate mise shims for bun scripts
+mise_shims="$(/home/linuxbrew/.linuxbrew/bin/mise activate bash --shims)"
+eval "${mise_shims}"
 echo installed mise
 
 echo installed dotfiles!
 
 # shellcheck disable=SC2154 # CI is defined in GitHub Actions, SKIP_GIT_SETUP may be defined as environment variable
 if [[ ${CI} != true && ${SKIP_GIT_SETUP} != true ]]; then
-	~/github/dotfiles/wsl/setup-git.sh
+	if ! ~/github/dotfiles/wsl/setup-git.ts; then
+		echo "Failed to setup Git. Please run ~/github/dotfiles/wsl/setup-git.ts manually."
+		exit 1
+	fi
 fi
