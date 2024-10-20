@@ -7,8 +7,6 @@ import {
 	fromDot,
 } from "ts-graphviz";
 
-$.throws(true);
-
 const ciTaskDepsDot = await $`mise tasks deps ci --dot`.text();
 
 const miseTools = Object.keys(
