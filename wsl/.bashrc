@@ -3,11 +3,10 @@
 
 # shellcheck disable=SC2148 # shebang is not required in .bashrc
 
-# activate mise shim
+# activate mise shims
 # required for IDEs to call tools managed by mise
 # this should come before mise activate bash
-# cspell:ignore linuxbrew
-mise_shims="$(/home/linuxbrew/.linuxbrew/bin/mise activate bash --shims)"
+mise_shims="$(mise activate bash --shims)"
 eval "${mise_shims}"
 
 # if not running interactively, skip other steps
@@ -106,13 +105,6 @@ if ! shopt -oq posix && [[ -f /usr/share/bash-completion/bash_completion ]]; the
 	# shellcheck disable=SC1091 # vs code extension doesn't support source
 	. /usr/share/bash-completion/bash_completion
 fi
-
-# homebrew
-# cspell:ignore shellenv
-brew_env="$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-eval "${brew_env}"
-# shellcheck disable=SC2154 # HOMEBREW_PREFIX is set by brew shellenv
-export LD_LIBRARY_PATH="${HOMEBREW_PREFIX}/lib:${LD_LIBRARY_PATH}"
 
 # activate mise
 mise_activate="$(mise activate bash)"

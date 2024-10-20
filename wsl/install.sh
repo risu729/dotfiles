@@ -12,11 +12,16 @@ cd ~ || exit
 sudo apt-get update
 sudo apt-get upgrade --yes
 
-# from build-essential to git are required by Homebrew
-# ref: https://docs.brew.sh/Homebrew-on-Linux#requirements
-# wslu is required to open a browser from WSL
-# cspell:ignore procps wslu
-sudo apt-get install --yes build-essential procps curl file git wslu
+# use PPA for wslu as recommended
+# ref: https://wslutiliti.es/wslu/install.html#ubuntu
+# wslu is for wslview, which opens Windows browser from WSL
+# cspell:ignore wslutilities wslu
+sudo add-apt-repository ppa:wslutilities/wslu
+sudo apt-get update
+sudo apt-get install --yes wslu
+
+# not pre-installed in wsl2 ubuntu (at least in 24.04)
+sudo apt-get install --yes zip unzip
 
 mkdir --parents ~/github
 cd ~/github || exit
@@ -54,14 +59,6 @@ done
 
 # back to home directory
 cd ~ || exit
-
-brew_install="$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-echo "${brew_install}" | NONINTERACTIVE=1 bash
-# cspell:ignore linuxbrew shellenv
-brew_env="$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-eval "${brew_env}"
-brew bundle install --global --no-lock
-echo installed Homebrew
 
 mise install --yes
 echo installed mise
