@@ -47,9 +47,7 @@
 		"**/.gitignore": true,
 		// do not edit exported files manually
 		// cspell:ignore ublock
-		"win/ublock.json": true,
-		// cspell:ignore ytenhancer
-		"win/ytenhancer.json": true
+		"win/ublock.json": true
 	},
 
 	"typescript.disableAutomaticTypeAcquisition": true,
