@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -euo pipefail
+
 git config --global init.defaultBranch main
 
 # GitHub CLI does not support setting user.name and user.email automatically

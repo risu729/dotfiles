@@ -102,7 +102,7 @@ export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quo
 # enable programmable completion features
 # (you don't need to enable this, if it's already enabled in /etc/bash.bashrc and /etc/profile sources /etc/bash.bashrc).
 if ! shopt -oq posix && [[ -f /usr/share/bash-completion/bash_completion ]]; then
-	# shellcheck disable=SC1091 # vs code extension doesn't support source
+	# shellcheck source=/dev/null # no need to check
 	. /usr/share/bash-completion/bash_completion
 fi
 

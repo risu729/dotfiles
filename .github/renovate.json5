@@ -122,19 +122,6 @@
 			matchDepNames: ["biomejs/biome"],
 			groupName: "biomejs/biome",
 		},
-		{
-			// group cspell in mise.toml and package.json
-			matchPackageNames: ["cspell", "@cspell/cspell-types"],
-			groupName: "cspell",
-		},
-		{
-			// cloudflare worker's vitest integration only supports vitest@1.5 and not 1.6
-			// ref: https://developers.cloudflare.com/workers/testing/vitest-integration/get-started/write-your-first-test/#install-vitest-and-cloudflarevitest-pool-workers
-			// ref: https://github.com/cloudflare/workers-sdk/pull/5458
-			matchFileNames: ["worker/package.json"],
-			matchPackageNames: ["vitest", "@vitest/ui"],
-			allowedVersions: "<=1.5",
-		},
 		// set semantic commit types
 		{
 			// override the default semanticCommitType, fix for dependencies, to chore
