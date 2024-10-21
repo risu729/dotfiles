@@ -1,4 +1,3 @@
-import { createHash } from "node:crypto";
 import { $ } from "bun";
 import {
 	type EdgeModel,
