@@ -2,6 +2,7 @@
 #:schema https://mise.jdx.dev/schema/mise.json
 
 [tools]
+# language tools
 node = "latest"
 bun = "latest"
 yarn = "latest"
@@ -12,6 +13,13 @@ maven = "latest"
 rust = "latest"
 python = "latest"
 go = "latest"
+
+# cli tools
+jq = "latest"
+# need to specify exe name
+# ref: https://mise.jdx.dev/dev-tools/backends/ubi.html#exe
+gh = { version = "latest", exe = "gh" }
+
 # biome vs code extension requires global installation
 # latest cannot be resolved
 # renovate: extractVersion=^cli/v(?<version>.+)

@@ -39,8 +39,7 @@
 		"shellcheckrc": "ini",
 		// cspell:ignore czrc
 		".czrc": "jsonc",
-		"winget.json": "jsonc",
-		".Brewfile": "ruby"
+		"winget.json": "jsonc"
 	},
 
 	"files.readonlyInclude": {
@@ -50,8 +49,7 @@
 		// cspell:ignore ublock
 		"win/ublock.json": true,
 		// cspell:ignore ytenhancer
-		"win/ytenhancer.json": true,
-		"wsl/.Brewfile": true
+		"win/ytenhancer.json": true
 	},
 
 	"typescript.disableAutomaticTypeAcquisition": true,
