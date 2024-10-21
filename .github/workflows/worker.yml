@@ -37,7 +37,6 @@ jobs:
         uses: jdx/mise-action@f8dfbcc150159126838e44b882bf34bd98fd90f3 # v2.1.0
         with:
           install_args: bun
-          cache_key_prefix: mise-v0-bun
           experimental: true
 
       - name: Run tests
@@ -66,7 +65,6 @@ jobs:
         uses: jdx/mise-action@f8dfbcc150159126838e44b882bf34bd98fd90f3 # v2.1.0
         with:
           install_args: bun
-          cache_key_prefix: mise-v0-bun
           experimental: true
 
       - name: Store Wrangler Version

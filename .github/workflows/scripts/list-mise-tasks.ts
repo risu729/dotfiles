@@ -73,7 +73,6 @@ const tasks: {
 	task: string;
 	// space separated list to use in `mise install` command
 	tools: string;
-	toolsHash: string;
 }[] = ciTasks.edges
 	.map(getEdgeTargets)
 	.filter(({ from }) => from.id === rootNode.id)
@@ -101,9 +100,6 @@ const tasks: {
 			name: name,
 			task: taskName,
 			tools: tools.join(" "),
-			toolsHash: createHash("sha256")
-				.update(tools.sort().join("-"))
-				.digest("hex"),
 		};
 	});
 
