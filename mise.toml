@@ -20,7 +20,8 @@ yamlfmt = "0.13.0"
 yamllint = "1.35.1" # cspell:ignore pypi
 "npm:renovate" = "38.128.6"
 "npm:cspell" = "8.15.4"
-"ubi:lycheeverse/lychee" = "0.15.1" # cspell:ignore lycheeverse
+# renovate: extractVersion=^lychee-v(?<version>.+)
+"ubi:lycheeverse/lychee" = "lychee-v0.16.1" # cspell:ignore lycheeverse
 # renovate: extractVersion=^v(?<version>\d+\..+)
 "ubi:crate-ci/typos" = "1.26.0"
 
