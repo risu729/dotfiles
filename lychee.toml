@@ -25,4 +25,7 @@ exclude = [
 	# .vscode/
 	# requests are forbidden
 	"https://code.visualstudio.com",
+	# wsl/install.sh
+	# can't be accessed
+	"https://mise.jdx.dev/deb"
 ]
