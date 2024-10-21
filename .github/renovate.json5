@@ -122,11 +122,6 @@
 			matchDepNames: ["biomejs/biome"],
 			groupName: "biomejs/biome",
 		},
-		{
-			// group cspell in mise.toml and package.json
-			matchPackageNames: ["cspell", "@cspell/cspell-types"],
-			groupName: "cspell",
-		},
 		// set semantic commit types
 		{
 			// override the default semanticCommitType, fix for dependencies, to chore

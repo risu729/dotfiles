@@ -1,11 +1,9 @@
 #!/usr/bin/env bash
 
+set -euo pipefail
+
 # might be edited by the worker to checkout a specific ref
 git_ref=""
-
-set -e
-
-cd ~ || exit
 
 # use apt-get instead of apt for scripts
 # ref: https://manpages.ubuntu.com/manpages/trusty/man8/apt.8.html#:~:text=SCRIPT%20USAGE/
@@ -19,17 +17,17 @@ sudo apt-get upgrade --yes
 sudo apt-get install --yes build-essential procps curl file git wslu
 
 mkdir --parents ~/github
-cd ~/github || exit
+cd ~/github
 
 if [[ -d dotfiles ]]; then
-	cd dotfiles || exit
+	cd dotfiles
 	git fetch --all --prune
 	git pull
 	cd ..
 else
 	git clone https://github.com/risu729/dotfiles.git dotfiles
 fi
-cd dotfiles || exit
+cd dotfiles
 
 # checkout a specific ref if specified
 if [[ -n ${git_ref} ]]; then
@@ -37,7 +35,7 @@ if [[ -n ${git_ref} ]]; then
 fi
 
 wsl_dir="$(realpath ./wsl)"
-cd "${wsl_dir}" || exit
+cd "${wsl_dir}"
 
 paths="$(find . -type f ! -name "install.sh" ! -name "setup-git.sh" ! -name ".gitignore-sync")"
 for path in ${paths}; do
@@ -53,7 +51,7 @@ for path in ${paths}; do
 done
 
 # back to home directory
-cd ~ || exit
+cd ~
 
 brew_install="$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 echo "${brew_install}" | NONINTERACTIVE=1 bash
