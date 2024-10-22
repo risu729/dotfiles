@@ -1,6 +1,6 @@
 #!/usr/bin/env bun
 
-import { mkdtemp, rmdir } from "node:fs/promises";
+import { mkdtemp, rmdir, unlink } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { $, env } from "bun";
@@ -97,6 +97,8 @@ const setGitUserConfig = async (): Promise<{
 type KeyringSecretKey = {
 	keyId: string;
 	fingerprint: string;
+	// cspell:ignore keygrip
+	keygrip: string;
 	curveName: string | null;
 	userIds: {
 		name: string;
@@ -118,6 +120,7 @@ type KeyringSecretKey = {
 	subkeys: {
 		keyId: string;
 		fingerprint: string;
+		keygrip: string;
 		curveName: string | null;
 		createdAt: number;
 		expiresAt: number | null;
@@ -197,6 +200,7 @@ const getGpgKeyringSecretKeys = async (
 			acc.push({
 				keyId: key.key_id ?? undefined,
 				fingerprint: undefined,
+				keygrip: undefined,
 				curveName,
 				userIds: undefined,
 				createdAt,
@@ -239,6 +243,7 @@ const getGpgKeyringSecretKeys = async (
 				current.subkeys.push({
 					keyId: key.key_id ?? undefined,
 					fingerprint: undefined,
+					keygrip: undefined,
 					curveName,
 					createdAt,
 					expiresAt,
@@ -257,6 +262,21 @@ const getGpgKeyringSecretKeys = async (
 					case "ssb": {
 						// biome-ignore lint/style/noNonNullAssertion: subkeys exists if previous key type is ssb
 						current.subkeys!.at(-1)!.fingerprint = key.user_id ?? undefined;
+						break;
+					}
+					default:
+				}
+				break;
+			}
+			case "grp": {
+				switch (array.at(index - 2)?.type) {
+					case "sec": {
+						current.keygrip = key.user_id ?? undefined;
+						break;
+					}
+					case "ssb": {
+						// biome-ignore lint/style/noNonNullAssertion: subkeys exists if previous key type is ssb
+						current.subkeys!.at(-1)!.keygrip = key.user_id ?? undefined;
 						break;
 					}
 					default:
@@ -1224,7 +1244,9 @@ const configureGitSign = async (
 
 	// print secret primary key if imported key modified or new key generated
 	if (keyringKey.printSecretKey || isKeyNew) {
-		console.info("Save the secret primary key to a secure location.");
+		console.info(
+			"Save the secret primary key to a secure location. This is removed from keyring automatically.",
+		);
 		console.info(
 			await $`gpg --export-secret-key --armor "${keyringKey.key.fingerprint}"`.text(),
 		);
@@ -1249,11 +1271,18 @@ const configureGitSign = async (
 	console.info("Save the revocation certificate to a secure location.");
 	console.info(revocationCertificate);
 
-	// TODO: delete secret primary key
-	// cspell:ignore keygrip
-	// private-keys**/keygrip.key
-
-	// TODO: suggest deleting other keys in keyring
+	// delete secret primary key
+	// primary key and subkeys have different keygrip
+	const gnupgHome = (await $`gpg --version`.quiet().text())
+		.match(/^Home: (.+)$/m)
+		?.at(1);
+	if (!gnupgHome) {
+		throw new Error("Failed to get gnupg home");
+	}
+	await unlink(
+		join(gnupgHome, "private-keys-v1.d", `${keyringKey.key.keygrip}.key`),
+	);
+	console.info("Deleted private primary key for security.");
 
 	// if unset, git uses "user.name <user.email>" which is good
 	// however, to clarify which subkey is used, specify the subkey id
