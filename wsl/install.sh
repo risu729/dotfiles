@@ -48,7 +48,7 @@ if [[ -n ${git_ref} ]]; then
 	git checkout "${git_ref}"
 fi
 
-wsl_dir="${dotfiles_dir}/dotfiles"
+wsl_dir="${dotfiles_dir}/wsl"
 cd "${wsl_dir}"
 
 paths="$(find . -type f ! -name "install.sh" ! -name "setup-git.sh" ! -name ".gitignore-sync")"
