@@ -26,4 +26,5 @@ gh = { version = "latest", exe = "gh" }
 "ubi:biomejs/biome" = "cli/v1.9.4"
 
 [settings]
+pin = true
 experimental = true
