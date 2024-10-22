@@ -58,14 +58,15 @@ const ensureGitHubTokenScopes = async (): Promise<void> => {
 	await $`gh auth refresh --hostname github.com --scopes ${missingScopes.join(",")}`;
 };
 
-// TODO: throw an error if response status is not 2xx
 const ghApi = async <ReturnType>(
 	endpoint: `/${string}`,
 	method?: "POST" | "PUT" | "PATCH" | "DELETE",
 ): Promise<ReturnType> => {
 	return await $`gh api ${endpoint} --header "Accept: application/vnd.github+json" --header "X-GitHub-Api-Version: 2022-11-28"${
 		method ? ` --method ${method}` : ""
-	}`.json();
+	}`
+		.quiet()
+		.json();
 };
 
 // GitHub CLI does not support setting user.name and user.email automatically
@@ -78,7 +79,7 @@ const setGitUserConfig = async (): Promise<{
 		name: string | null;
 		login: string;
 	}>("/user");
-	await $`git config --global user.name ${name ?? login}`;
+	await $`git config --global user.name ${name ?? login}`.quiet();
 
 	const noReplyEmail = await ghApi<{ email: string }[]>("/user/emails").then(
 		(emails) =>
@@ -89,7 +90,7 @@ const setGitUserConfig = async (): Promise<{
 	if (!noReplyEmail) {
 		throw new Error("Failed to get GitHub-provided no-reply email");
 	}
-	await $`git config --global user.email ${noReplyEmail}`;
+	await $`git config --global user.email ${noReplyEmail}`.quiet();
 	return { githubId: login, email: noReplyEmail };
 };
 
@@ -184,7 +185,6 @@ const getGpgKeyringSecretKeys = async (
 			? Number.parseInt(key.expiration_date)
 			: null;
 		const isRevoked = key.validity === "r";
-
 		const isSecretKeyAvailable =
 			key.token_sn === "+" || key.token_sn === "#" ? false : undefined;
 		const keyUsages = key.key_capabilities
@@ -195,6 +195,7 @@ const getGpgKeyringSecretKeys = async (
 				)
 			: // might be null if no capabilities
 				[];
+
 		if (key.type === "sec") {
 			// add previous key to the list
 			acc.push({
@@ -287,6 +288,7 @@ const getGpgKeyringSecretKeys = async (
 		}
 		return acc;
 	}, []);
+
 	const containsUndefined = (value: unknown): boolean => {
 		if (value === undefined) {
 			return true;
@@ -423,14 +425,15 @@ const importGpgSecretKey = async (
 		let fingerprint: string | undefined;
 		try {
 			tempDir = await mkdtemp(join(tmpdir(), "dotfiles-"));
-			const envWithGpgHome = {
-				...env,
-				// biome-ignore lint/style/useNamingConvention:
-				GNUPG_HOME: tempDir,
-			};
 			// import in temp dir to get fingerprint of the key
 			// if the key is merged, we cannot know which key is imported if it is merged
-			await $`echo ${armor} | gpg --import`.env(envWithGpgHome).quiet();
+			await $`echo ${armor} | gpg --import`
+				.env({
+					...env,
+					// biome-ignore lint/style/useNamingConvention:
+					GNUPG_HOME: tempDir,
+				})
+				.quiet();
 			const importedKey = (await getGpgKeyringSecretKeys(tempDir)).at(0);
 			if (!importedKey) {
 				console.error("Failed to import key");
@@ -448,7 +451,7 @@ const importGpgSecretKey = async (
 					)
 				)
 			) {
-				console.error("Imported key is not secret key");
+				console.error("Imported key is not a secret key");
 				continue;
 			}
 			const predicateResult = importPredicate?.(importedKey);
@@ -478,14 +481,13 @@ const importGpgSecretKey = async (
 
 const editGpgKey = async (
 	fingerprint: string,
-
 	commands: string[],
 	inputs: string[],
 ): Promise<void> => {
 	// --command-fd 0 to read input from stdin
 	const command = `echo '${inputs.join("\n")}' | gpg --command-fd 0 --edit-key ${fingerprint} ${commands.join(" ")} save`;
 	// idk why but the result is not saved unless it is executed in bash
-	await $`echo ${command} | bash`;
+	await $`echo ${command} | bash`.quiet();
 };
 
 const findExistingKeys = async (
@@ -680,7 +682,7 @@ const refineGpgKey = async (
 	};
 
 	// need to be called after each operation that modifies the key
-	const updateKey = async (modifiesKey = true): Promise<void> => {
+	const updateKey = async (modifiesSecretKey = true): Promise<void> => {
 		const keyringSecretKeys = await getGpgKeyringSecretKeys();
 		const updatedKey = keyringSecretKeys.find(
 			({ fingerprint }) => fingerprint === key.fingerprint,
@@ -689,7 +691,7 @@ const refineGpgKey = async (
 			throw new Error("Failed to get updated key");
 		}
 		key = updatedKey;
-		if (modifiesKey) {
+		if (modifiesSecretKey) {
 			printSecretKey = true;
 		}
 	};
@@ -699,7 +701,7 @@ const refineGpgKey = async (
 		if (!(await ensureSecretKeyAvailable("adding subkey"))) {
 			return false;
 		}
-		await $`gpg --quick-add-key "${key.fingerprint}" ${recommendedCurveName} sign`;
+		await $`gpg --quick-add-key "${key.fingerprint}" ${recommendedCurveName} sign`.quiet();
 		const oldSubkeyFingerprints = key.subkeys.map(
 			({ fingerprint }) => fingerprint,
 		);
@@ -729,8 +731,7 @@ const refineGpgKey = async (
 				({ expiresAt }) => allowExpired || !expiresAt || expiresAt > Date.now(),
 			);
 
-	// ask to roll primary key first
-
+	// ask to roll primary key first of all
 	// suggest rolling primary key if curve is not using the recommended curve
 	if (key.curveName !== recommendedCurveName) {
 		console.warn(
@@ -750,7 +751,7 @@ const refineGpgKey = async (
 		if (!(await ensureSecretKeyAvailable("removing expire date"))) {
 			return;
 		}
-		await $`gpg --quick-set-expire "${key.fingerprint} 0"`;
+		await $`gpg --quick-set-expire ${key.fingerprint} 0`.quiet();
 		await updateKey();
 	}
 
@@ -762,7 +763,7 @@ const refineGpgKey = async (
 		if (!(await ensureSecretKeyAvailable("adding user ID"))) {
 			return;
 		}
-		await $`gpg --quick-add-uid ${key.fingerprint} "${githubId} <${email}>"`;
+		await $`gpg --quick-add-uid ${key.fingerprint} "${githubId} <${email}>"`.quiet();
 		await updateKey();
 	}
 
@@ -802,7 +803,7 @@ const refineGpgKey = async (
 			if (await ensureSecretKeyAvailable("removing expire date")) {
 				await $`gpg --quick-set-expire "${key.fingerprint} 0 ${signingSubkeys()
 					.map(({ fingerprint }) => fingerprint)
-					.join(" ")}"`;
+					.join(" ")}"`.quiet();
 				await updateKey();
 			}
 		}
@@ -865,7 +866,7 @@ const refineGpgKey = async (
 		);
 		if (await askYesNo("Do you want to remove the expire date?")) {
 			if (await ensureSecretKeyAvailable("removing expire date")) {
-				await $`gpg --quick-set-expire "${key.fingerprint} 0"`;
+				await $`gpg --quick-set-expire "${key.fingerprint} 0"`.quiet();
 				await updateKey();
 			}
 		}
@@ -893,7 +894,7 @@ const refineGpgKey = async (
 		) {
 			if (await ensureSecretKeyAvailable("revoking user ID")) {
 				for (const { hash } of revokableUids) {
-					await $`gpg --quick-revoke-uid ${key.fingerprint} ${hash}`;
+					await $`gpg --quick-revoke-uid ${key.fingerprint} ${hash}`.quiet();
 					await updateKey();
 				}
 			}
@@ -917,7 +918,7 @@ const refineGpgKey = async (
 		);
 		if (await askYesNo("Do you want to remove the expire date?")) {
 			if (await ensureSecretKeyAvailable("removing expire date")) {
-				await $`gpg --quick-set-expire "${key.fingerprint} 0 ${subkey.fingerprint}"`;
+				await $`gpg --quick-set-expire ${key.fingerprint} 0 ${subkey.fingerprint}`.quiet();
 				await updateKey();
 			}
 		}
@@ -940,10 +941,9 @@ const refineGpgKey = async (
 					key.fingerprint,
 					[`key ${subkey.fingerprint}`, "change-usage"],
 					[
-						// toggle other usages
+						// toggle off other usages
 						...subkey.keyUsages.filter((usage) => usage !== "s"),
-						// finish
-						"q",
+						"q", // finish
 					],
 				);
 				await updateKey();
@@ -973,14 +973,10 @@ const refineGpgKey = async (
 						"revkey",
 					]),
 					revokableSubkeys.flatMap(() => [
-						// confirm revoke
-						"y",
-						// reason is no longer used
-						"3",
-						// no detailed reason
-						"",
-						// confirm reason
-						"y",
+						"y", // confirm revoke
+						"3", // reason is no longer used
+						"", // no detailed reason
+						"y", // confirm reason
 					]),
 				);
 			}
@@ -1006,8 +1002,7 @@ const refineGpgKey = async (
 					[
 						// toggle other usages
 						...key.keyUsages.filter((usage) => usage !== "c"),
-						// finish
-						"q",
+						"q", // finish
 					],
 				);
 				await updateKey();
@@ -1021,10 +1016,8 @@ const refineGpgKey = async (
 			key.fingerprint,
 			["trust"],
 			[
-				// trust level ultimate
-				"5",
-				// confirm
-				"y",
+				"5", // trust level ultimate
+				"y", // confirm
 			],
 		);
 		await updateKey(false);
@@ -1045,7 +1038,7 @@ const generateGpgKey = async (
 	console.info("Generating a new GPG key...");
 	// only certify capability for primary key to generate subkey
 	// expire date is set to 0 to disable expiration
-	await $`gpg --quick-gen-key "${githubId} <${email}>" ${recommendedCurveName} cert 0`;
+	await $`gpg --quick-gen-key "${githubId} <${email}>" ${recommendedCurveName} cert 0`.quiet();
 	const oldKeyIds = oldKeyringSecretKeys.map(({ keyId }) => keyId);
 	const newKey = (await getGpgKeyringSecretKeys()).find(
 		({ keyId }) => !oldKeyIds.includes(keyId),
@@ -1063,13 +1056,14 @@ const configureGitSign = async (
 ): Promise<void> => {
 	// cspell:ignore openpgp
 	// use the default format, openpgp
-	await $`git config --global --unset gpg.format`.nothrow();
+	await $`git config --global --unset gpg.format`.quiet().nothrow();
 	// cspell:ignore gpgsign
-	await $`git config --global commit.gpgSign true`;
-	await $`git config --global tag.gpgSign true`;
+	await $`git config --global commit.gpgSign true`.quiet();
+	await $`git config --global tag.gpgSign true`.quiet();
 
 	// cspell:ignore signingkey
 	const gitSigningKey = await $`git config --global user.signingkey`
+		.quiet()
 		.nothrow()
 		.text();
 
@@ -1117,15 +1111,17 @@ const configureGitSign = async (
 
 	// add public key to github
 	const activePublicKey =
-		await $`gpg --export --armor "${keyringKey.key.fingerprint}"`.text();
+		await $`gpg --export --armor "${keyringKey.key.fingerprint}"`
+			.quiet()
+			.text();
 	// api response raw key includes a trailing blank line
 	if (
 		activePublicKey.trimEnd() !== existingKeys?.githubKey?.raw_key?.trimEnd()
 	) {
-		const username = await $`whoami`.text();
-		const hostname = await $`hostname`.text();
+		const username = await $`whoami`.quiet().text();
+		const hostname = await $`hostname`.quiet().text();
 		// TODO: replace with api
-		await $`echo "${activePublicKey}" | gh gpg-key add --title "${username}@${hostname}"`;
+		await $`echo "${activePublicKey}" | gh gpg-key add --title "${username}@${hostname}"`.quiet();
 	}
 
 	const groupedGithubKeys = Object.values(
@@ -1173,7 +1169,7 @@ const configureGitSign = async (
 				// revocation certificate only works when the public key is available
 				if (
 					keyringKey ||
-					(await $`gpg --list-keys`.text()).includes(githubKey.key_id)
+					(await $`gpg --list-keys`.quiet().text()).includes(githubKey.key_id)
 				) {
 					const hasRevocationCertificate = await askYesNo(
 						"Do you have the revocation certificate?",
@@ -1196,7 +1192,7 @@ const configureGitSign = async (
 							console.error("Invalid secret key format.");
 							continue;
 						}
-						await $`echo ${lines.join("\n")} | gpg --import`;
+						await $`echo ${lines.join("\n")} | gpg --import`.quiet();
 						keyringKey = (await getGpgKeyringSecretKeys()).find(
 							({ keyId }) => keyId === githubKey.key_id,
 						);
@@ -1223,22 +1219,20 @@ const configureGitSign = async (
 				keyringKey.fingerprint,
 				["revkey"],
 				[
-					// confirm revoke
-					"y",
-					// reason is no longer used
-					"3",
-					// no detailed reason
-					"",
-					// confirm reason
-					"y",
+					"y", // confirm revoke
+					"3", // reason is no longer used
+					"", // no detailed reason
+					"y", // confirm reason
 				],
 			);
 			await ghApi(`/user/gpg_keys/${githubKey.id}`, "DELETE");
 			const publicKey =
-				await $`gpg --export --armor "${keyringKey.fingerprint}"`.text();
-			const username = await $`whoami`.text();
-			const hostname = await $`hostname`.text();
-			await $`echo "${publicKey}" | gh gpg-key add --title "${username}@${hostname}"`;
+				await $`gpg --export --armor "${keyringKey.fingerprint}"`
+					.quiet()
+					.text();
+			const username = await $`whoami`.quiet().text();
+			const hostname = await $`hostname`.quiet().text();
+			await $`echo "${publicKey}" | gh gpg-key add --title "${username}@${hostname}"`.quiet();
 		}
 	}
 
@@ -1248,23 +1242,23 @@ const configureGitSign = async (
 			"Save the secret primary key to a secure location. This is removed from keyring automatically.",
 		);
 		console.info(
-			await $`gpg --export-secret-key --armor "${keyringKey.key.fingerprint}"`.text(),
+			await $`gpg --export-secret-key --armor "${keyringKey.key.fingerprint}"`
+				.quiet()
+				.text(),
 		);
 	}
 
 	// revocation certificate is required to revoke the key if the secret key is lost
 	const revocationCertificate = await $`echo '${[
-		// confirm revoke
-		"y",
-		// reason is no longer used
-		"3",
-		// no detailed reason
-		"",
-		// confirm reason
-		"y",
+		"y", // confirm revoke
+		"3", // reason is no longer used
+		"", // no detailed reason
+		"y", // confirm reason
 	].join(
 		"\n",
-	)}' | gpg --command-fd 0 --gen-revoke ${keyringKey.key.fingerprint}`.text();
+	)}' | gpg --command-fd 0 --gen-revoke ${keyringKey.key.fingerprint}`
+		.quiet()
+		.text();
 	if (!revocationCertificate) {
 		throw new Error("Failed to generate revocation certificate");
 	}
@@ -1288,11 +1282,11 @@ const configureGitSign = async (
 	// however, to clarify which subkey is used, specify the subkey id
 	// don't use fingerprint because it cannot be retrieved from github api
 	// ! is required to specify subkey as `--local-user` in gpg, which git uses internally
-	await $`git config --global user.signingkey ${keyringKey.subkey.fingerprint}!}`;
+	await $`git config --global user.signingkey ${keyringKey.subkey.fingerprint}!}`.quiet();
 };
 
 const main = async (): Promise<void> => {
-	await $`git config --global init.defaultBranch main`;
+	await $`git config --global init.defaultBranch main`.quiet();
 	await ensureGitHubTokenScopes();
 
 	try {
