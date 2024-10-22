@@ -478,7 +478,6 @@ const findExistingKeys = async (
 			// cspell:ignore subkey
 			subkey?: KeyringSecretKey["subkeys"][number];
 			githubKey?: GitHubGpgKey;
-			importedSecretKey?: string;
 	  }
 	| undefined
 	// biome-ignore lint/complexity/noExcessiveCognitiveComplexity: too many conditions to check
@@ -524,7 +523,6 @@ const findExistingKeys = async (
 						({ keyId }) => `${keyId}!` === gitSigningKey,
 					)!,
 					githubKey: currentGitHubKey,
-					importedSecretKey: importedKey.importedSecretKey,
 				};
 			}
 		}
@@ -580,7 +578,6 @@ const findExistingKeys = async (
 				githubKey: githubKeys.find(
 					({ key_id }) => importedKey.importedKey.keyId === key_id,
 				)!,
-				importedSecretKey: importedKey.importedSecretKey,
 			};
 		}
 	}
@@ -614,7 +611,6 @@ const findExistingKeys = async (
 	if (importedKey) {
 		return {
 			keyringSecretKey: importedKey.importedKey,
-			importedSecretKey: importedKey.importedSecretKey,
 		};
 	}
 
@@ -627,21 +623,20 @@ const recommendedCurveName = "ed25519";
 const refineGpgKey = async (
 	initialKey: KeyringSecretKey,
 	initialSubkey: KeyringSecretKey["subkeys"][number] | undefined,
-	initialImportedSecretKey: string | undefined,
 	githubId: string,
 	email: string,
 ): Promise<
 	| {
 			key: KeyringSecretKey;
 			subkey: KeyringSecretKey["subkeys"][number];
-			importedSecretKey: string | undefined;
+			printSecretKey: boolean;
 	  }
 	| undefined
 	// biome-ignore lint/complexity/noExcessiveCognitiveComplexity: too many checks
 > => {
 	let key = initialKey;
 	let subkey = initialSubkey;
-	let importedSecretKey = initialImportedSecretKey;
+	let printSecretKey = false;
 
 	const ensureSecretKeyAvailable = async (reason: string): Promise<boolean> => {
 		if (key.isSecretKeyAvailable) {
@@ -659,14 +654,13 @@ const refineGpgKey = async (
 		);
 		if (importedKey) {
 			key = importedKey.importedKey;
-			importedSecretKey = importedKey.importedSecretKey;
 			return true;
 		}
 		return false;
 	};
 
 	// need to be called after each operation that modifies the key
-	const updateKey = async (): Promise<void> => {
+	const updateKey = async (modifiesKey = true): Promise<void> => {
 		const keyringSecretKeys = await getGpgKeyringSecretKeys();
 		const updatedKey = keyringSecretKeys.find(
 			({ fingerprint }) => fingerprint === key.fingerprint,
@@ -675,6 +669,9 @@ const refineGpgKey = async (
 			throw new Error("Failed to get updated key");
 		}
 		key = updatedKey;
+		if (modifiesKey) {
+			printSecretKey = true;
+		}
 	};
 
 	const addSubkey = async (): Promise<boolean> => {
@@ -773,7 +770,6 @@ const refineGpgKey = async (
 		);
 		if (importedKey) {
 			key = importedKey.importedKey;
-			importedSecretKey = importedKey.importedSecretKey;
 		}
 	}
 
@@ -1011,13 +1007,13 @@ const refineGpgKey = async (
 				"y",
 			],
 		);
-		await updateKey();
+		await updateKey(false);
 	}
 
 	return {
 		key,
 		subkey,
-		importedSecretKey: importedSecretKey,
+		printSecretKey,
 	};
 };
 
@@ -1076,24 +1072,25 @@ const configureGitSign = async (
 		keyringSecretKeys,
 		await githubKeys(),
 	);
-	const keyringKey =
-		(existingKeys?.keyringSecretKey
-			? await refineGpgKey(
-					existingKeys.keyringSecretKey,
-					existingKeys?.subkey,
-					existingKeys?.importedSecretKey,
-					githubId,
-					email,
-				)
-			: undefined) ??
-		// generate a new gpg key if refine aborted
-		(await refineGpgKey(
+	let keyringKey = existingKeys?.keyringSecretKey
+		? await refineGpgKey(
+				existingKeys.keyringSecretKey,
+				existingKeys?.subkey,
+				githubId,
+				email,
+			)
+		: undefined;
+	let isKeyNew = false;
+	// generate a new gpg key if refine aborted
+	if (!keyringKey) {
+		keyringKey = await refineGpgKey(
 			await generateGpgKey(githubId, email, keyringSecretKeys),
-			undefined,
 			undefined,
 			githubId,
 			email,
-		));
+		);
+		isKeyNew = true;
+	}
 	if (!keyringKey) {
 		throw new Error("Failed to get keyring key");
 	}
@@ -1225,7 +1222,14 @@ const configureGitSign = async (
 		}
 	}
 
-	// generate revocation key before exporting secret primary key as it changes the secret key
+	// print secret primary key if imported key modified or new key generated
+	if (keyringKey.printSecretKey || isKeyNew) {
+		console.info("Save the secret primary key to a secure location.");
+		console.info(
+			await $`gpg --export-secret-key --armor "${keyringKey.key.fingerprint}"`.text(),
+		);
+	}
+
 	// revocation certificate is required to revoke the key if the secret key is lost
 	const revocationCertificate = await $`echo '${[
 		// confirm revoke
@@ -1242,16 +1246,6 @@ const configureGitSign = async (
 	if (!revocationCertificate) {
 		throw new Error("Failed to generate revocation certificate");
 	}
-
-	// print secret primary key
-	const secretPrimaryKey =
-		await $`gpg --export-secret-key --armor "${keyringKey.key.fingerprint}"`.text();
-	// print and suggest to save the secret primary key if changed
-	if (secretPrimaryKey.trimEnd() !== keyringKey.importedSecretKey?.trimEnd()) {
-		console.info("Save the secret primary key to a secure location.");
-		console.info(secretPrimaryKey);
-	}
-
 	console.info("Save the revocation certificate to a secure location.");
 	console.info(revocationCertificate);
 
