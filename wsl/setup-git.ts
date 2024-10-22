@@ -134,6 +134,20 @@ type KeyringSecretKey = {
 const getGpgKeyringSecretKeys = async (
 	gpgHome?: string,
 ): Promise<KeyringSecretKey[]> => {
+	// don't use piping because the latter command never throws errors
+	// ref: https://github.com/oven-sh/bun/issues/13486
+	const gpgStdout = await $`gpg --list-secret-keys --with-colons`
+		.env({
+			...env,
+			...(gpgHome
+				? {
+						// biome-ignore lint/style/useNamingConvention:
+						GNUPG_HOME: gpgHome,
+					}
+				: {}),
+		})
+		.quiet()
+		.arrayBuffer();
 	const rawSecretKeys: {
 		// ref: https://github.com/gpg/gnupg/blob/master/doc/DETAILS#format-of-the-colon-listings
 		type: string;
@@ -157,18 +171,7 @@ const getGpgKeyringSecretKeys = async (
 		token_sn: string | null;
 		// biome-ignore lint/style/useNamingConvention:
 		curve_name: string | null;
-	}[] = await $`gpg --list-secret-keys --with-colons | jc --gpg`
-		.env({
-			...env,
-			...(gpgHome
-				? {
-						// biome-ignore lint/style/useNamingConvention:
-						GNUPG_HOME: gpgHome,
-					}
-				: {}),
-		})
-		.quiet()
-		.json();
+	}[] = await $`jc --gpg < ${gpgStdout}`.quiet().json();
 
 	const keyringSecretKeys = rawSecretKeys.reduce<
 		// allow undefined values for all properties
@@ -421,13 +424,16 @@ const importGpgSecretKey = async (
 			continue;
 		}
 		const armor = lines.join("\n");
+
 		let tempDir: string | undefined;
 		let fingerprint: string | undefined;
 		try {
-			tempDir = await mkdtemp(join(tmpdir(), "dotfiles-"));
 			// import in temp dir to get fingerprint of the key
-			// if the key is merged, we cannot know which key is imported if it is merged
-			await $`echo ${armor} | gpg --import`
+			// if the key is merged, we cannot know which key is imported
+			tempDir = await mkdtemp(join(tmpdir(), "dotfiles-"));
+			// don't use piping because the latter command never throws errors
+			// ref: https://github.com/oven-sh/bun/issues/13486
+			await $`gpg --import < ${Buffer.from(armor)}`
 				.env({
 					...env,
 					// biome-ignore lint/style/useNamingConvention:
@@ -465,7 +471,10 @@ const importGpgSecretKey = async (
 				await rmdir(tempDir);
 			}
 		}
-		await $`echo ${armor} | gpg --import`;
+
+		// don't use piping because the latter command never throws errors
+		// ref: https://github.com/oven-sh/bun/issues/13486
+		await $`gpg --import < ${Buffer.from(armor)}`;
 		const importedKey = (await getGpgKeyringSecretKeys()).find(
 			({ fingerprint: fpr }) => fpr === fingerprint,
 		);
@@ -485,9 +494,9 @@ const editGpgKey = async (
 	inputs: string[],
 ): Promise<void> => {
 	// --command-fd 0 to read input from stdin
-	const command = `echo '${inputs.join("\n")}' | gpg --command-fd 0 --edit-key ${fingerprint} ${commands.join(" ")} save`;
+	const command = `echo '${inputs.map((input) => `${input}\n`).join("")}' | gpg --command-fd 0 --edit-key ${fingerprint} ${commands.join(" ")} save`;
 	// idk why but the result is not saved unless it is executed in bash
-	await $`echo ${command} | bash`.quiet();
+	await $`bash -euo pipefail < ${Buffer.from(command)}`.quiet();
 };
 
 const findExistingKeys = async (
@@ -1121,7 +1130,7 @@ const configureGitSign = async (
 		const username = await $`whoami`.quiet().text();
 		const hostname = await $`hostname`.quiet().text();
 		// TODO: replace with api
-		await $`echo "${activePublicKey}" | gh gpg-key add --title "${username}@${hostname}"`.quiet();
+		await $`gh gpg-key add --title "${username}@${hostname}" < ${Buffer.from(activePublicKey)}`.quiet();
 	}
 
 	const groupedGithubKeys = Object.values(
@@ -1192,7 +1201,7 @@ const configureGitSign = async (
 							console.error("Invalid secret key format.");
 							continue;
 						}
-						await $`echo ${lines.join("\n")} | gpg --import`.quiet();
+						await $`gpg --import < ${Buffer.from(lines.join("\n"))}`.quiet();
 						keyringKey = (await getGpgKeyringSecretKeys()).find(
 							({ keyId }) => keyId === githubKey.key_id,
 						);
@@ -1232,7 +1241,7 @@ const configureGitSign = async (
 					.text();
 			const username = await $`whoami`.quiet().text();
 			const hostname = await $`hostname`.quiet().text();
-			await $`echo "${publicKey}" | gh gpg-key add --title "${username}@${hostname}"`.quiet();
+			await $`gh gpg-key add --title "${username}@${hostname}" < ${Buffer.from(publicKey)}`.quiet();
 		}
 	}
 
@@ -1249,16 +1258,19 @@ const configureGitSign = async (
 	}
 
 	// revocation certificate is required to revoke the key if the secret key is lost
-	const revocationCertificate = await $`echo '${[
-		"y", // confirm revoke
-		"3", // reason is no longer used
-		"", // no detailed reason
-		"y", // confirm reason
-	].join(
-		"\n",
-	)}' | gpg --command-fd 0 --gen-revoke ${keyringKey.key.fingerprint}`
-		.quiet()
-		.text();
+	const revocationCertificate =
+		await $`gpg --command-fd 0 --gen-revoke ${keyringKey.key.fingerprint} < ${Buffer.from(
+			[
+				"y", // confirm revoke
+				"3", // reason is no longer used
+				"", // no detailed reason
+				"y", // confirm reason
+			]
+				.map((input) => `${input}\n`)
+				.join(""),
+		)}`
+			.quiet()
+			.text();
 	if (!revocationCertificate) {
 		throw new Error("Failed to generate revocation certificate");
 	}
