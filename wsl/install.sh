@@ -37,7 +37,7 @@ if [[ -d ${dotfiles_dir} ]]; then
 	cd "${HOME}/github/dotfiles"
 	git fetch --all --prune
 	git pull
-	else
+else
 	cd "${HOME}/github"
 	git clone https://github.com/risu729/dotfiles.git dotfiles
 fi
