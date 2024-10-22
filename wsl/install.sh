@@ -30,25 +30,25 @@ echo "deb [signed-by=/etc/apt/keyrings/mise-archive-keyring.gpg arch=amd64] http
 sudo apt-get update
 sudo apt-get install -y mise
 
-mkdir --parents ~/github
-cd ~/github
-
-if [[ -d dotfiles ]]; then
-	cd dotfiles
+# use --parents to avoid error if the directory exists
+mkdir --parents "${HOME}/github"
+dotfiles_dir="${HOME}/github/dotfiles"
+if [[ -d ${dotfiles_dir} ]]; then
+	cd "${HOME}/github/dotfiles"
 	git fetch --all --prune
 	git pull
-	cd ..
 else
+	cd "${HOME}/github"
 	git clone https://github.com/risu729/dotfiles.git dotfiles
 fi
-cd dotfiles
 
+cd "${dotfiles_dir}"
 # checkout a specific ref if specified
 if [[ -n ${git_ref} ]]; then
 	git checkout "${git_ref}"
 fi
 
-wsl_dir="$(realpath ./wsl)"
+wsl_dir="${dotfiles_dir}/wsl"
 cd "${wsl_dir}"
 
 paths="$(find . -type f ! -name "install.sh" ! -name "setup-git.sh" ! -name ".gitignore-sync")"
@@ -65,7 +65,7 @@ for path in ${paths}; do
 done
 
 # back to home directory
-cd ~
+cd "${HOME}"
 
 mise install --yes
 echo installed mise
@@ -74,5 +74,5 @@ echo installed dotfiles!
 
 # shellcheck disable=SC2154 # CI is defined in GitHub Actions, SKIP_GIT_SETUP may be defined as environment variable
 if [[ ${CI} != true && ${SKIP_GIT_SETUP} != true ]]; then
-	~/github/dotfiles/wsl/setup-git.sh
+	"${dotfiles_dir}/wsl/setup-git.sh"
 fi
