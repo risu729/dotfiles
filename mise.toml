@@ -18,7 +18,7 @@ yamlfmt = "0.13.0"
 # cspell:ignore datasource
 # renovate: datasource=pypi
 yamllint = "1.35.1" # cspell:ignore pypi
-"npm:renovate" = "38.129.2"
+"npm:renovate" = "38.129.3"
 "npm:cspell" = "8.15.4"
 # renovate: extractVersion=^lychee-v(?<version>.+)
 "ubi:lycheeverse/lychee" = "lychee-v0.16.1" # cspell:ignore lycheeverse
