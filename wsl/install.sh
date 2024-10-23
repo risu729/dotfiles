@@ -69,7 +69,7 @@ cd "${HOME}"
 
 mise install --yes
 # activate mise shims for bun scripts
-mise_shims="$(/home/linuxbrew/.linuxbrew/bin/mise activate bash --shims)"
+mise_shims="$(mise activate bash --shims)"
 eval "${mise_shims}"
 echo installed mise
 
