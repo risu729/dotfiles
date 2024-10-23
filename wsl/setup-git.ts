@@ -118,8 +118,6 @@ type KeyringSecretKey = {
 		comment: string | null;
 		email: string;
 		hash: string;
-		createdAt: number;
-		expiresAt: number | null;
 		isRevoked: boolean;
 	}[];
 	// epoch timestamp
@@ -247,8 +245,6 @@ const getGpgKeyringSecretKeys = async (
 					comment: userId?.groups?.["comment"] ?? null,
 					email: userId?.groups?.["email"],
 					hash: key.certsn_uidhash_trustinfo ?? undefined,
-					createdAt,
-					expiresAt,
 					isRevoked,
 				});
 				break;
@@ -321,7 +317,8 @@ const getGpgKeyringSecretKeys = async (
 		throw new Error(
 			`Failed to parse gpg secret key. Some properties are missing: \n${JSON.stringify(
 				keyringSecretKeys,
-				undefined,
+				// print undefined values
+				(_, value) => (value === undefined ? "__undefined" : value),
 				2,
 			)}`,
 		);
