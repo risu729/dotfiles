@@ -67,15 +67,16 @@ const ghApi = async <ReturnType>(
 	method?: "POST" | "PUT" | "PATCH" | "DELETE",
 	fields?: Record<string, string>,
 ): Promise<ReturnType> => {
-	return await $`gh api ${endpoint} --header "Accept: application/vnd.github+json" --header "X-GitHub-Api-Version: 2022-11-28"${
-		method ? ` --method ${method}` : ""
-	}${
-		fields
+	return await $`gh api ${endpoint} --header "Accept: application/vnd.github+json" --header "X-GitHub-Api-Version: 2022-11-28"${{
+		// disable escapes
+		raw: method ? ` --method ${method}` : "",
+	}}${{
+		raw: fields
 			? Object.entries(fields)
 					.map(([key, value]) => ` --raw-field "${key}=${value}"`)
 					.join("")
-			: ""
-	}`.json();
+			: "",
+	}}`.json();
 };
 
 // GitHub CLI does not support setting user.name and user.email automatically
