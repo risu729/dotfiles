@@ -45,7 +45,10 @@ const ensureGitHubTokenScopes = async (): Promise<void> => {
 			.map((scope) => scope.replaceAll(/'/g, "")) ?? [];
 	const missingScopes = requiredScopes.filter(
 		({ scope, generalScope }) =>
-			!(scopes.includes(scope) || (generalScope && scopes.includes(generalScope))),
+			!(
+				scopes.includes(scope) ||
+				(generalScope && scopes.includes(generalScope))
+			),
 	);
 	if (missingScopes.length === 0) {
 		return;
@@ -60,9 +63,16 @@ const ensureGitHubTokenScopes = async (): Promise<void> => {
 const ghApi = async <ReturnType>(
 	endpoint: `/${string}`,
 	method?: "POST" | "PUT" | "PATCH" | "DELETE",
+	fields?: Record<string, string>,
 ): Promise<ReturnType> => {
 	return await $`gh api ${endpoint} --header "Accept: application/vnd.github+json" --header "X-GitHub-Api-Version: 2022-11-28"${
 		method ? ` --method ${method}` : ""
+	}${
+		fields
+			? Object.entries(fields)
+					.map(([key, value]) => ` --raw-field "${key}=${value}"`)
+					.join("")
+			: ""
 	}`
 		.quiet()
 		.json();
@@ -1129,9 +1139,11 @@ const configureGitSign = async (
 	) {
 		const username = await $`whoami`.quiet().text();
 		const hostname = await $`hostname`.quiet().text();
-		await ghApi("/user/gpg_keys", "POST")
-		// TODO: replace with api
-		await $`gh gpg-key add --title "${username}@${hostname}" < ${Buffer.from(activePublicKey)}`.quiet();
+		await ghApi("/user/gpg_keys", "POST", {
+			name: `${username}@${hostname}`,
+			// biome-ignore lint/style/useNamingConvention: following API request naming
+			armored_public_key: activePublicKey,
+		});
 	}
 
 	const groupedGithubKeys = Object.values(
