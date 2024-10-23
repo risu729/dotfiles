@@ -17,9 +17,8 @@ type DeepOptional<T> = {
 const ensureGitHubTokenScopes = async (): Promise<void> => {
 	const requiredScopes = [
 		{
-			// required to add GPG key
-			scope: "write:gpg_key",
-			generalScope: "admin:gpg_key",
+			// required to list, add, and delete GPG keys
+			scope: "admin:gpg_key",
 		},
 		{
 			// required to get user email
@@ -46,7 +45,7 @@ const ensureGitHubTokenScopes = async (): Promise<void> => {
 			.map((scope) => scope.replaceAll(/'/g, "")) ?? [];
 	const missingScopes = requiredScopes.filter(
 		({ scope, generalScope }) =>
-			!(scopes.includes(scope) || scopes.includes(generalScope)),
+			!(scopes.includes(scope) || (generalScope && scopes.includes(generalScope))),
 	);
 	if (missingScopes.length === 0) {
 		return;
@@ -75,6 +74,7 @@ const setGitUserConfig = async (): Promise<{
 	githubId: string;
 	email: string;
 }> => {
+	// user scope is not required to get name and email
 	const { name, login } = await ghApi<{
 		name: string | null;
 		login: string;
@@ -1129,6 +1129,7 @@ const configureGitSign = async (
 	) {
 		const username = await $`whoami`.quiet().text();
 		const hostname = await $`hostname`.quiet().text();
+		await ghApi("/user/gpg_keys", "POST")
 		// TODO: replace with api
 		await $`gh gpg-key add --title "${username}@${hostname}" < ${Buffer.from(activePublicKey)}`.quiet();
 	}
