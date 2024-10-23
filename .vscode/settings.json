@@ -39,8 +39,7 @@
 		"shellcheckrc": "ini",
 		// cspell:ignore czrc
 		".czrc": "jsonc",
-		"winget.json": "jsonc",
-		".Brewfile": "ruby"
+		"winget.json": "jsonc"
 	},
 
 	"files.readonlyInclude": {
@@ -48,11 +47,9 @@
 		"**/.gitignore": true,
 		// do not edit exported files manually
 		// cspell:ignore ublock
-		"win/ublock.json": true,
-		// cspell:ignore ytenhancer
-		"win/ytenhancer.json": true,
-		"wsl/.Brewfile": true
+		"win/ublock.json": true
 	},
 
-	"typescript.disableAutomaticTypeAcquisition": true
+	"typescript.disableAutomaticTypeAcquisition": true,
+	"typescript.tsdk": "node_modules/typescript/lib"
 }

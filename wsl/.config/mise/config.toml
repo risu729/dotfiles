@@ -15,13 +15,18 @@ python = "latest"
 go = "latest"
 
 # cli tools
+jq = "latest"
+# need to specify exe name
+# ref: https://mise.jdx.dev/dev-tools/backends/ubi.html#exe
+gh = { version = "latest", exe = "gh" }
 # cspell:ignore kellyjonbrazil
 "ubi:kellyjonbrazil/jc" = "latest"
 
 # biome vs code extension requires global installation
 # latest cannot be resolved
 # renovate: extractVersion=^cli/v(?<version>.+)
-"ubi:biomejs/biome" = "cli/v1.9.3"
+"ubi:biomejs/biome" = "cli/v1.9.4"
 
 [settings]
+pin = true
 experimental = true

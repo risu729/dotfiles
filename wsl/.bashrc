@@ -3,11 +3,10 @@
 
 # shellcheck disable=SC2148 # shebang is not required in .bashrc
 
-# activate mise shim
+# activate mise shims
 # required for IDEs to call tools managed by mise
 # this should come before mise activate bash
-# cspell:ignore linuxbrew
-mise_shims="$(/home/linuxbrew/.linuxbrew/bin/mise activate bash --shims)"
+mise_shims="$(mise activate bash --shims)"
 eval "${mise_shims}"
 
 # if not running interactively, skip other steps
@@ -103,16 +102,9 @@ export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quo
 # enable programmable completion features
 # (you don't need to enable this, if it's already enabled in /etc/bash.bashrc and /etc/profile sources /etc/bash.bashrc).
 if ! shopt -oq posix && [[ -f /usr/share/bash-completion/bash_completion ]]; then
-	# shellcheck disable=SC1091 # vs code extension doesn't support source
+	# shellcheck source=/dev/null # no need to check
 	. /usr/share/bash-completion/bash_completion
 fi
-
-# homebrew
-# cspell:ignore shellenv
-brew_env="$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-eval "${brew_env}"
-# shellcheck disable=SC2154 # HOMEBREW_PREFIX is set by brew shellenv
-export LD_LIBRARY_PATH="${HOMEBREW_PREFIX}/lib:${LD_LIBRARY_PATH}"
 
 # activate mise
 mise_activate="$(mise activate bash)"
