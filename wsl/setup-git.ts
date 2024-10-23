@@ -200,8 +200,9 @@ const getGpgKeyringSecretKeys = async (
 			? Number.parseInt(key.expiration_date)
 			: null;
 		const isRevoked = key.validity === "r";
-		const isSecretKeyAvailable =
-			key.token_sn === "+" || key.token_sn === "#" ? false : undefined;
+		const isSecretKeyAvailable = ["+", "#"].includes(key.token_sn ?? "")
+			? key.token_sn === "+"
+			: undefined;
 		const keyUsages = key.key_capabilities
 			? key.key_capabilities.split("").filter(
 					// > the primary key has uppercase versions of the letters to denote the usable capabilities of the entire key
@@ -1091,6 +1092,7 @@ const configureGitSign = async (
 		.nothrow()
 		.text();
 
+	console.log(await getGpgKeyringSecretKeys());
 	const keyringSecretKeys = (await getGpgKeyringSecretKeys())
 		// exclude if the key doesn't contain any secret keys to ignore imported public keys
 		.filter(
