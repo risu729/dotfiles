@@ -76,7 +76,6 @@ const ghApi = async <ReturnType>(
 					.join("")
 			: ""
 	}`
-		.quiet()
 		.json();
 };
 
@@ -156,7 +155,6 @@ const getGpgKeyringSecretKeys = async (
 					}
 				: {}),
 		})
-		.quiet()
 		.arrayBuffer();
 	const rawSecretKeys: {
 		// ref: https://github.com/gpg/gnupg/blob/master/doc/DETAILS#format-of-the-colon-listings
@@ -181,7 +179,7 @@ const getGpgKeyringSecretKeys = async (
 		token_sn: string | null;
 		// biome-ignore lint/style/useNamingConvention:
 		curve_name: string | null;
-	}[] = await $`jc --gpg < ${gpgStdout}`.quiet().json();
+	}[] = await $`jc --gpg < ${gpgStdout}`.json();
 
 	const keyringSecretKeys = rawSecretKeys.reduce<
 		// allow undefined values for all properties
@@ -1085,7 +1083,6 @@ const configureGitSign = async (
 
 	// cspell:ignore signingkey
 	const gitSigningKey = await $`git config --global user.signingkey`
-		.quiet()
 		.nothrow()
 		.text();
 	const keyringSecretKeys = (await getGpgKeyringSecretKeys())
@@ -1133,14 +1130,13 @@ const configureGitSign = async (
 	// add public key to github
 	const activePublicKey =
 		await $`gpg --export --armor "${keyringKey.key.fingerprint}"`
-			.quiet()
 			.text();
 	// api response raw key includes a trailing blank line
 	if (
 		activePublicKey.trimEnd() !== existingKeys?.githubKey?.raw_key?.trimEnd()
 	) {
-		const username = await $`whoami`.quiet().text();
-		const hostname = await $`hostname`.quiet().text();
+		const username = await $`whoami`.text();
+		const hostname = await $`hostname`.text();
 		await ghApi("/user/gpg_keys", "POST", {
 			name: `${username}@${hostname}`,
 			// biome-ignore lint/style/useNamingConvention: following API request naming
@@ -1193,7 +1189,7 @@ const configureGitSign = async (
 				// revocation certificate only works when the public key is available
 				if (
 					keyringKey ||
-					(await $`gpg --list-keys`.quiet().text()).includes(githubKey.key_id)
+					(await $`gpg --list-keys`.text()).includes(githubKey.key_id)
 				) {
 					const hasRevocationCertificate = await askYesNo(
 						"Do you have the revocation certificate?",
@@ -1252,10 +1248,10 @@ const configureGitSign = async (
 			await ghApi(`/user/gpg_keys/${githubKey.id}`, "DELETE");
 			const publicKey =
 				await $`gpg --export --armor "${keyringKey.fingerprint}"`
-					.quiet()
+					
 					.text();
-			const username = await $`whoami`.quiet().text();
-			const hostname = await $`hostname`.quiet().text();
+			const username = await $`whoami`.text();
+			const hostname = await $`hostname`.text();
 			await $`gh gpg-key add --title "${username}@${hostname}" < ${Buffer.from(publicKey)}`.quiet();
 		}
 	}
@@ -1267,7 +1263,7 @@ const configureGitSign = async (
 		);
 		console.info(
 			await $`gpg --export-secret-key --armor "${keyringKey.key.fingerprint}"`
-				.quiet()
+				
 				.text(),
 		);
 	}
@@ -1284,7 +1280,7 @@ const configureGitSign = async (
 				.map((input) => `${input}\n`)
 				.join(""),
 		)}`
-			.quiet()
+			
 			.text();
 	if (!revocationCertificate) {
 		throw new Error("Failed to generate revocation certificate");
@@ -1294,7 +1290,7 @@ const configureGitSign = async (
 
 	// delete secret primary key
 	// primary key and subkeys have different keygrip
-	const gnupgHome = (await $`gpg --version`.quiet().text())
+	const gnupgHome = (await $`gpg --version`.text())
 		.match(/^Home: (.+)$/m)
 		?.at(1);
 	if (!gnupgHome) {
