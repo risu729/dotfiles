@@ -43,13 +43,15 @@ const ensureGitHubTokenScopes = async (): Promise<void> => {
 			?.trim()
 			.split(", ")
 			.map((scope) => scope.replaceAll(/'/g, "")) ?? [];
-	const missingScopes = requiredScopes.filter(
-		({ scope, generalScope }) =>
-			!(
-				scopes.includes(scope) ||
-				(generalScope && scopes.includes(generalScope))
-			),
-	).map(({ scope }) => scope);
+	const missingScopes = requiredScopes
+		.filter(
+			({ scope, generalScope }) =>
+				!(
+					scopes.includes(scope) ||
+					(generalScope && scopes.includes(generalScope))
+				),
+		)
+		.map(({ scope }) => scope);
 	if (missingScopes.length === 0) {
 		return;
 	}
