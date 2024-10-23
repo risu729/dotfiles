@@ -818,13 +818,14 @@ const refineGpgKey = async (
 		console.warn(
 			"All subkeys for signing are expired. Remove the expire date to use the key or add a new subkey.",
 		);
-		if (await askYesNo("Do you want to remove the expire date?")) {
-			if (await ensureSecretKeyAvailable("removing expire date")) {
-				await $`gpg --quick-set-expire "${key.fingerprint} 0 ${signingSubkeys()
-					.map(({ fingerprint }) => fingerprint)
-					.join(" ")}"`.quiet();
-				await updateKey();
-			}
+		if (
+			(await askYesNo("Do you want to remove the expire date?")) &&
+			(await ensureSecretKeyAvailable("removing expire date"))
+		) {
+			await $`gpg --quick-set-expire "${key.fingerprint} 0 ${signingSubkeys()
+				.map(({ fingerprint }) => fingerprint)
+				.join(" ")}"`.quiet();
+			await updateKey();
 		}
 	}
 
@@ -883,11 +884,12 @@ const refineGpgKey = async (
 		console.warn(
 			"Primary key is set to expire. It is recommended to remove the expire date.",
 		);
-		if (await askYesNo("Do you want to remove the expire date?")) {
-			if (await ensureSecretKeyAvailable("removing expire date")) {
-				await $`gpg --quick-set-expire "${key.fingerprint} 0"`.quiet();
-				await updateKey();
-			}
+		if (
+			(await askYesNo("Do you want to remove the expire date?")) &&
+			(await ensureSecretKeyAvailable("removing expire date"))
+		) {
+			await $`gpg --quick-set-expire "${key.fingerprint} 0"`.quiet();
+			await updateKey();
 		}
 	}
 
@@ -907,15 +909,14 @@ const refineGpgKey = async (
 				.join("\n"),
 		);
 		if (
-			await askYesNo(
+			(await askYesNo(
 				"Do you want to revoke these user IDs? Commits associated with the emails remains verified.",
-			)
+			)) &&
+			(await ensureSecretKeyAvailable("revoking user ID"))
 		) {
-			if (await ensureSecretKeyAvailable("revoking user ID")) {
-				for (const { hash } of revokableUids) {
-					await $`gpg --quick-revoke-uid ${key.fingerprint} ${hash}`.quiet();
-					await updateKey();
-				}
+			for (const { hash } of revokableUids) {
+				await $`gpg --quick-revoke-uid ${key.fingerprint} ${hash}`.quiet();
+				await updateKey();
 			}
 		}
 	}
@@ -935,11 +936,12 @@ const refineGpgKey = async (
 		console.warn(
 			"Subkey is set to expire. It is recommended to remove the expire date.",
 		);
-		if (await askYesNo("Do you want to remove the expire date?")) {
-			if (await ensureSecretKeyAvailable("removing expire date")) {
-				await $`gpg --quick-set-expire ${key.fingerprint} 0 ${subkey.fingerprint}`.quiet();
-				await updateKey();
-			}
+		if (
+			(await askYesNo("Do you want to remove the expire date?")) &&
+			(await ensureSecretKeyAvailable("removing expire date"))
+		) {
+			await $`gpg --quick-set-expire ${key.fingerprint} 0 ${subkey.fingerprint}`.quiet();
+			await updateKey();
 		}
 	}
 
@@ -954,19 +956,20 @@ const refineGpgKey = async (
 				.filter((usage) => usage !== "s")
 				.join(", ")}. It is not recommended to have other usages.`,
 		);
-		if (await askYesNo("Do you want to remove other key usages?")) {
-			if (await ensureSecretKeyAvailable("removing key usages")) {
-				await editGpgKey(
-					key.fingerprint,
-					[`key ${subkey.fingerprint}`, "change-usage"],
-					[
-						// toggle off other usages
-						...subkey.keyUsages.filter((usage) => usage !== "s"),
-						"q", // finish
-					],
-				);
-				await updateKey();
-			}
+		if (
+			(await askYesNo("Do you want to remove other key usages?")) &&
+			(await ensureSecretKeyAvailable("removing key usages"))
+		) {
+			await editGpgKey(
+				key.fingerprint,
+				[`key ${subkey.fingerprint}`, "change-usage"],
+				[
+					// toggle off other usages
+					...subkey.keyUsages.filter((usage) => usage !== "s"),
+					"q", // finish
+				],
+			);
+			await updateKey();
 		}
 	}
 
@@ -976,29 +979,28 @@ const refineGpgKey = async (
 			"GPG key includes multiple subkeys. It is recommended to revoke other subkeys.",
 		);
 		if (
-			await askYesNo(
+			(await askYesNo(
 				"Do you want to revoke other subkeys? Commits associated with the subkeys remains verified.",
-			)
+			)) &&
+			(await ensureSecretKeyAvailable("removing subkeys"))
 		) {
-			if (await ensureSecretKeyAvailable("removing subkeys")) {
-				const revokableSubkeys = key.subkeys
-					.filter(({ isRevoked }) => !isRevoked)
-					.filter(({ fingerprint }) => fingerprint !== subkey?.fingerprint);
-				await editGpgKey(
-					key.fingerprint,
-					revokableSubkeys.flatMap(({ fingerprint }) => [
-						`key ${fingerprint}`,
-						// cspell:ignore revkey
-						"revkey",
-					]),
-					revokableSubkeys.flatMap(() => [
-						"y", // confirm revoke
-						"3", // reason is no longer used
-						"", // no detailed reason
-						"y", // confirm reason
-					]),
-				);
-			}
+			const revokableSubkeys = key.subkeys
+				.filter(({ isRevoked }) => !isRevoked)
+				.filter(({ fingerprint }) => fingerprint !== subkey?.fingerprint);
+			await editGpgKey(
+				key.fingerprint,
+				revokableSubkeys.flatMap(({ fingerprint }) => [
+					`key ${fingerprint}`,
+					// cspell:ignore revkey
+					"revkey",
+				]),
+				revokableSubkeys.flatMap(() => [
+					"y", // confirm revoke
+					"3", // reason is no longer used
+					"", // no detailed reason
+					"y", // confirm reason
+				]),
+			);
 		}
 	}
 
@@ -1013,19 +1015,20 @@ const refineGpgKey = async (
 				.filter((usage) => usage !== "c")
 				.join(", ")}. It is not recommended to have other usages.`,
 		);
-		if (await askYesNo("Do you want to remove other key usages?")) {
-			if (await ensureSecretKeyAvailable("removing key usages")) {
-				await editGpgKey(
-					key.fingerprint,
-					["change-usage"],
-					[
-						// toggle other usages
-						...key.keyUsages.filter((usage) => usage !== "c"),
-						"q", // finish
-					],
-				);
-				await updateKey();
-			}
+		if (
+			(await askYesNo("Do you want to remove other key usages?")) &&
+			(await ensureSecretKeyAvailable("removing key usages"))
+		) {
+			await editGpgKey(
+				key.fingerprint,
+				["change-usage"],
+				[
+					// toggle other usages
+					...key.keyUsages.filter((usage) => usage !== "c"),
+					"q", // finish
+				],
+			);
+			await updateKey();
 		}
 	}
 
