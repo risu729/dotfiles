@@ -75,8 +75,7 @@ const ghApi = async <ReturnType>(
 					.map(([key, value]) => ` --raw-field "${key}=${value}"`)
 					.join("")
 			: ""
-	}`
-		.json();
+	}`.json();
 };
 
 // GitHub CLI does not support setting user.name and user.email automatically
@@ -1129,8 +1128,7 @@ const configureGitSign = async (
 
 	// add public key to github
 	const activePublicKey =
-		await $`gpg --export --armor "${keyringKey.key.fingerprint}"`
-			.text();
+		await $`gpg --export --armor "${keyringKey.key.fingerprint}"`.text();
 	// api response raw key includes a trailing blank line
 	if (
 		activePublicKey.trimEnd() !== existingKeys?.githubKey?.raw_key?.trimEnd()
@@ -1247,9 +1245,7 @@ const configureGitSign = async (
 			);
 			await ghApi(`/user/gpg_keys/${githubKey.id}`, "DELETE");
 			const publicKey =
-				await $`gpg --export --armor "${keyringKey.fingerprint}"`
-					
-					.text();
+				await $`gpg --export --armor "${keyringKey.fingerprint}"`.text();
 			const username = await $`whoami`.text();
 			const hostname = await $`hostname`.text();
 			await $`gh gpg-key add --title "${username}@${hostname}" < ${Buffer.from(publicKey)}`.quiet();
@@ -1262,9 +1258,7 @@ const configureGitSign = async (
 			"Save the secret primary key to a secure location. This is removed from keyring automatically.",
 		);
 		console.info(
-			await $`gpg --export-secret-key --armor "${keyringKey.key.fingerprint}"`
-				
-				.text(),
+			await $`gpg --export-secret-key --armor "${keyringKey.key.fingerprint}"`.text(),
 		);
 	}
 
@@ -1279,9 +1273,7 @@ const configureGitSign = async (
 			]
 				.map((input) => `${input}\n`)
 				.join(""),
-		)}`
-			
-			.text();
+		)}`.text();
 	if (!revocationCertificate) {
 		throw new Error("Failed to generate revocation certificate");
 	}
