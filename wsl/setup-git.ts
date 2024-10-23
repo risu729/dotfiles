@@ -49,7 +49,7 @@ const ensureGitHubTokenScopes = async (): Promise<void> => {
 				scopes.includes(scope) ||
 				(generalScope && scopes.includes(generalScope))
 			),
-	);
+	).map(({ scope }) => scope);
 	if (missingScopes.length === 0) {
 		return;
 	}
