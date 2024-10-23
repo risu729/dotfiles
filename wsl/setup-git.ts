@@ -1091,8 +1091,6 @@ const configureGitSign = async (
 		.quiet()
 		.nothrow()
 		.text();
-
-	console.log(await getGpgKeyringSecretKeys());
 	const keyringSecretKeys = (await getGpgKeyringSecretKeys())
 		// exclude if the key doesn't contain any secret keys to ignore imported public keys
 		.filter(
