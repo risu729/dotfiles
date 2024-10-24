@@ -1216,23 +1216,25 @@ const configureGitSign = async (
 		);
 	}
 
-	// revocation certificate is required to revoke the key if the secret key is lost
-	const revocationCertificate =
-		await $`gpg --command-fd 0 --gen-revoke ${keyringKey.key.fingerprint} < ${Buffer.from(
-			[
-				"y", // confirm revoke
-				"3", // reason is no longer used
-				"", // no detailed reason
-				"y", // confirm reason
-			]
-				.map((input) => `${input}\n`)
-				.join(""),
-		)}`.text();
-	if (!revocationCertificate) {
-		throw new Error("Failed to generate revocation certificate");
+	if (keyringKey.key.isSecretKeyAvailable) {
+		// revocation certificate is required to revoke the key if the secret key is lost
+		const revocationCertificate =
+			await $`gpg --command-fd 0 --gen-revoke ${keyringKey.key.fingerprint} < ${Buffer.from(
+				[
+					"y", // confirm revoke
+					"3", // reason is no longer used
+					"", // no detailed reason
+					"y", // confirm reason
+				]
+					.map((input) => `${input}\n`)
+					.join(""),
+			)}`.text();
+		if (!revocationCertificate) {
+			throw new Error("Failed to generate revocation certificate");
+		}
+		console.info("Save the revocation certificate to a secure location.");
+		console.info(revocationCertificate);
 	}
-	console.info("Save the revocation certificate to a secure location.");
-	console.info(revocationCertificate);
 
 	// delete secret primary key
 	// primary key and subkeys have different keygrip
