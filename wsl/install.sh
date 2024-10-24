@@ -51,7 +51,7 @@ fi
 wsl_dir="${dotfiles_dir}/wsl"
 cd "${wsl_dir}"
 
-paths="$(find . -type f ! -name "install.sh" ! -name "setup-git.sh" ! -name ".gitignore-sync")"
+paths="$(find . -type f ! -name "install.sh" ! -name "setup-git.ts" ! -name ".gitignore-sync")"
 for path in ${paths}; do
 	mkdir --parents "$(dirname "${HOME}/${path#./}")"
 	if [[ -f ${path} && ${path#./} == ".config/git/.gitignore" ]]; then
@@ -68,11 +68,17 @@ done
 cd "${HOME}"
 
 mise install --yes
+# activate mise shims for bun scripts
+mise_shims="$(mise activate bash --shims)"
+eval "${mise_shims}"
 echo installed mise
 
 echo installed dotfiles!
 
 # shellcheck disable=SC2154 # CI is defined in GitHub Actions, SKIP_GIT_SETUP may be defined as environment variable
 if [[ ${CI} != true && ${SKIP_GIT_SETUP} != true ]]; then
-	"${dotfiles_dir}/wsl/setup-git.sh"
+	if ! "${wsl_dir}/setup-git.ts"; then
+		echo "Failed to setup Git. Please run ${wsl_dir}/setup-git.ts manually."
+		exit 1
+	fi
 fi
