@@ -21,7 +21,6 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 30
     permissions:
-      packages: read # for GitHub Package Registry
       contents: read # for checkout
 
     container:
