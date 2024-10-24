@@ -42,6 +42,8 @@ jobs:
           echo "latest_serial=$latest_serial" >> "$GITHUB_OUTPUT"
         env:
           GITHUB_TOKEN: ${{ github.token }}
+        # 404 error for the first run
+        continue-on-error: true
 
       # cspell:ignore rootfs
       - name: Download Ubuntu WSL rootfs
