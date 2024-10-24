@@ -35,6 +35,7 @@ jobs:
         id: latest-tag
         # %2F is the URL-encoded form of /
         # get the serial tag of the latest image
+        # cspell:ignore fwsl
         run: |
           latest_serial=$(gh api --header "Accept: application/vnd.github+json" --header "X-GitHub-Api-Version: 2022-11-28" \
             /user/packages/container/${{ github.event.repository.name }}%2Fwsl/versions \
