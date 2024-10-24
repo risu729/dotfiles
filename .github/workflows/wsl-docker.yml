@@ -42,6 +42,8 @@ jobs:
             /user/packages/container/${{ github.event.repository.name }}%2Fwsl/versions \
             --jq '.[] | select(.metadata.container.tags | contains(["latest"])) | .metadata.container.tags[] | select(. != "latest")')
           echo "latest_serial=$latest_serial" >> "$GITHUB_OUTPUT"
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
 
       # cspell:ignore rootfs
       - name: Download Ubuntu WSL rootfs
@@ -66,7 +68,7 @@ jobs:
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          password: ${{ github.token }}
 
       # cspell:ignore buildx
       - name: Setup Buildx
