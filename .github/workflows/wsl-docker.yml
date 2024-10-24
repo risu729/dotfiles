@@ -5,6 +5,8 @@ on:
     # update once a week
     - cron: "0 0 * * SUN"
   workflow_dispatch:
+  # initial run
+  push:
 
 permissions: {}
 
