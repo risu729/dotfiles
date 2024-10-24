@@ -25,7 +25,7 @@ jobs:
       contents: read # for checkout
 
     container:
-      image: ghcr.io/${{ github.repository }}/wsl:latest
+      image: ghcr.io/${{ github.repository }}/wsl:20241022@sha256:6d0e84aaa94e8ffb827a56e0cc8d76dea6ad530d6e865253caaa65b73b5e81b7
 
     steps:
       - name: Run installer
