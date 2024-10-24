@@ -33,13 +33,27 @@ jobs:
             | grep --only-matching --perl-regexp 'SERIAL=\K\d+')
           echo "serial=$serial" >> "$GITHUB_OUTPUT"
 
+      - name: Get latest Ubuntu WSL image tag
+        id: latest-tag
+        # %2F is the URL-encoded form of /
+        # get the serial tag of the latest image
+        run: |
+          latest_serial=$(gh api --header "Accept: application/vnd.github+json" --header "X-GitHub-Api-Version: 2022-11-28" \
+            /user/packages/container/${{ github.event.repository.name }}%2Fwsl/versions \
+            --jq '.[] | select(.metadata.container.tags | contains(["latest"])) | .metadata.container.tags[] | select(. != "latest")')
+          echo "latest_serial=$latest_serial" >> "$GITHUB_OUTPUT"
+
       # cspell:ignore rootfs
       - name: Download Ubuntu WSL rootfs
+        id: rootfs
+        # skip if the latest image is already created
+        if: ${{ steps.info.outputs.serial != steps.latest-tag.outputs.latest_serial }}
         run: |
           curl --fail-with-body --location --output ubuntu.tar.gz \
             https://cloud-images.ubuntu.com/wsl/noble/current/ubuntu-noble-wsl-amd64-ubuntu.rootfs.tar.gz
 
       - name: Create Dockerfile
+        if: ${{ steps.rootfs.outcome != 'skipped' }}
         run: |
           cat <<EOF > Dockerfile
           FROM scratch
@@ -47,6 +61,7 @@ jobs:
           EOF
 
       - name: Login to GitHub Container Registry
+        if: ${{ steps.rootfs.outcome != 'skipped' }}
         uses: docker/login-action@9780b0c442fbb1117ed29e0efdff1e18412f7567 # v3.3.0
         with:
           registry: ${{ env.REGISTRY }}
@@ -55,10 +70,12 @@ jobs:
 
       # cspell:ignore buildx
       - name: Setup Buildx
+        if: ${{ steps.rootfs.outcome != 'skipped' }}
         uses: docker/setup-buildx-action@c47758b77c9736f4b2ef4073d4d51994fabfe349 # v3.7.1
 
       - name: Build and push Docker image
         id: push
+        if: ${{ steps.rootfs.outcome != 'skipped' }}
         uses: docker/build-push-action@4f58ea79222b3b9dc2c8bbdd6debcef730109a75 # v6.9.0
         with:
           context: .
