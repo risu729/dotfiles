@@ -1134,6 +1134,10 @@ const configureGitSign = async (
 	if (
 		activePublicKey.trimEnd() !== existingKeys?.githubKey?.raw_key?.trimEnd()
 	) {
+		// github does not allow to add keys with the same key id, so delete first
+		if (existingKeys?.githubKey) {
+			await ghApi(`/user/gpg_keys/${existingKeys.githubKey.id}`, "DELETE");
+		}
 		const username = await $`whoami`.text();
 		const hostname = await $`hostname`.text();
 		await ghApi("/user/gpg_keys", "POST", {
@@ -1143,32 +1147,8 @@ const configureGitSign = async (
 		});
 	}
 
-	const groupedGithubKeys = Object.values(
-		Object.groupBy(await githubKeys(), ({ key_id }) => key_id),
-	)
-		.filter((keys) => keys !== undefined)
-		.map((keys) =>
-			keys
-				// sort from newest to oldest
-				.sort(
-					// created_at in github api is the time added to github
-					({ created_at: a }, { created_at: b }) =>
-						new Date(b).getTime() - new Date(a).getTime(),
-				),
-		);
-	// remove except for latest added key for duplicated keys in github
-	await Promise.all(
-		groupedGithubKeys
-			// exclude the newest key
-			.flatMap((keys) => keys.slice(1))
-			// unique id is provided for each key by github, not the same as key id
-			.map(async ({ id }) => await ghApi(`/user/gpg_keys/${id}`, "DELETE")),
-	);
-
 	// revoke other github keys
-	const revokableGithubKeys = groupedGithubKeys
-		.map((keys) => keys.at(0))
-		.filter((key) => key !== undefined)
+	const revokableGithubKeys = (await githubKeys())
 		.filter(({ key_id }) => key_id !== keyringKey.key.keyId)
 		.filter(({ revoked }) => !revoked);
 	if (revokableGithubKeys.length > 0) {
