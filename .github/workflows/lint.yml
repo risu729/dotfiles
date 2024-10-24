@@ -137,7 +137,8 @@ jobs:
     needs:
       - lint
       - commitlint
-    if: ${{ !cancelled() }}
+    # only required for branch protection rules
+    if: ${{ !cancelled() && github.event_name == 'pull_request' }}
 
     runs-on: ubuntu-24.04
     timeout-minutes: 5
