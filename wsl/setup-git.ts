@@ -1253,7 +1253,7 @@ const configureGitSign = async (
 	// however, to clarify which subkey is used, specify the subkey id
 	// don't use fingerprint because it cannot be retrieved from github api
 	// ! is required to specify subkey as `--local-user` in gpg, which git uses internally
-	await $`git config --global user.signingkey ${keyringKey.subkey.fingerprint}!}`.quiet();
+	await $`git config --global user.signingkey ${keyringKey.subkey.fingerprint}!`.quiet();
 };
 
 const main = async (): Promise<void> => {
