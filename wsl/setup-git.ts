@@ -773,6 +773,7 @@ const refineGpgKey = async (
 	}
 
 	// add uid if github no-reply email not included
+	// don't revoke old uid as GitHub doesn't support revoked uid
 	if (!key.userIds.some(({ email: uidEmail }) => uidEmail === email)) {
 		console.info(
 			`GPG key does not include the GitHub-provided no-reply email (${email}). Adding a new uid...`,
@@ -888,34 +889,6 @@ const refineGpgKey = async (
 		) {
 			await $`gpg --quick-set-expire "${key.fingerprint} 0"`.quiet();
 			await updateKey();
-		}
-	}
-
-	// revoke uid if different email included
-	// cspell:ignore uids
-	const revokableUids = key.userIds
-		.filter(({ email: uidEmail }) => uidEmail !== email)
-		.filter(({ isRevoked }) => !isRevoked);
-	if (revokableUids.length > 0) {
-		console.info("GPG key includes user IDs with different emails:");
-		console.info(
-			revokableUids
-				.map(
-					({ name, comment, email }) =>
-						`${name}${comment ? ` (${comment})` : ""} <${email}>`,
-				)
-				.join("\n"),
-		);
-		if (
-			(await askYesNo(
-				"Do you want to revoke these user IDs? Commits associated with the emails remains verified.",
-			)) &&
-			(await ensureSecretKeyAvailable("revoking user ID"))
-		) {
-			for (const { hash } of revokableUids) {
-				await $`gpg --quick-revoke-uid ${key.fingerprint} ${hash}`.quiet();
-				await updateKey();
-			}
 		}
 	}
 
