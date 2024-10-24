@@ -21,16 +21,13 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 30
     permissions:
+      packages: read # for GitHub Package Registry
       contents: read # for checkout
 
-    container: ubuntu:noble-20241011@sha256:99c35190e22d294cdace2783ac55effc69d32896daaa265f0bbedbcde4fbe3e5
+    container:
+      image: ghcr.io/${{ github.repository }}/wsl:20241022@sha256:f0c3e9aa12ec751862e07569f6679e884d18f7d6981ac59167ffb18445ef8463
 
     steps:
-      - name: Install apt packages
-        run: |
-          apt-get update
-          apt-get install -y curl git sudo wget
-
       - name: Run installer
         # use head sha for pull requests because github.sha is set to the merge commit
         run: >-
