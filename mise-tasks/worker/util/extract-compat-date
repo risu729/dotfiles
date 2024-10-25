@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 #MISE hide=true
 #MISE dir="worker"
+#MISE depends=["buni:worker"]
 
 set -euo pipefail
 
