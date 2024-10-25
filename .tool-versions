@@ -1,4 +1,0 @@
-# ref: https://asdf-vm.com/manage/configuration.html
-# write bun and node in .tool-versions to be read by asdf in workers builds
-bun 1.1.33
-nodejs 22.10.0
