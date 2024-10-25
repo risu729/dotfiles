@@ -22,10 +22,7 @@ app.use(async (c, next) => {
 
 // redirect to the readme
 app.get("/", (c) => {
-	return c.redirect(
-		`https://github.com/${c.env.REPO_NAME}#readme`,
-		307,
-	);
+	return c.redirect(`https://github.com/${c.env.REPO_NAME}#readme`, 307);
 });
 
 const gitRefRegex = /(?<=git_ref *= *")(?=")/;
