@@ -48,7 +48,7 @@ jobs:
         id: list
         run: |
           tasks=$(bun run .github/workflows/scripts/list-mise-tasks.ts)
-          echo "tasks=$tasks" >> "$GITHUB_OUTPUT"
+          echo "tasks=${tasks}" >> "${GITHUB_OUTPUT}"
 
   lint:
     needs: list-tasks
@@ -127,7 +127,7 @@ jobs:
         # ref: https://docs.github.com/en/actions/security-guides/security-hardening-for-github-actions#using-an-intermediate-environment-variable
         env:
           PR_TITLE: ${{ github.event.pull_request.title }}
-        run: echo "$PR_TITLE" | bun run commitlint --verbose
+        run: echo "${PR_TITLE}" | bun run commitlint --verbose
 
       - name: commitlint (last commit)
         if: steps.commitlint-push-initial.outcome == 'skipped' && steps.commitlint-push.outcome == 'skipped' && steps.commitlint-pr.outcome == 'skipped'
@@ -146,11 +146,13 @@ jobs:
     steps:
       - name: Check the status of the jobs
         run: |
-          if [[ $(echo '${{ toJson(needs.*.result) }}' | jq 'all(. == "success")') == "false" ]]; then
+          if echo '${{ toJson(needs.*.result) }}' | jq --exit-status 'all(. == "success")' >/dev/null; then
+            echo 'All jobs are successful.'
+            exit 0
+          else
             echo 'Some jobs are failed, cancelled, or skipped.'
             exit 1
           fi
-          echo 'All jobs are successful.'
 
   actions-timeline:
     needs:

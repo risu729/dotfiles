@@ -29,7 +29,7 @@ jobs:
         run: |
           serial=$(curl --fail-with-body --location https://cloud-images.ubuntu.com/wsl/noble/current/unpacked/build-info.txt \
             | grep --only-matching --perl-regexp 'SERIAL=\K\d+')
-          echo "serial=$serial" >> "$GITHUB_OUTPUT"
+          echo "serial=${serial}" >> "${GITHUB_OUTPUT}"
 
       - name: Get latest Ubuntu WSL image tag
         id: latest-tag
@@ -40,7 +40,7 @@ jobs:
           latest_serial=$(gh api --header "Accept: application/vnd.github+json" --header "X-GitHub-Api-Version: 2022-11-28" \
             /user/packages/container/${{ github.event.repository.name }}%2Fwsl/versions \
             --jq '.[] | select(.metadata.container.tags | contains(["latest"])) | .metadata.container.tags[] | select(. != "latest")')
-          echo "latest_serial=$latest_serial" >> "$GITHUB_OUTPUT"
+          echo "latest_serial=${latest_serial}" >> "${GITHUB_OUTPUT}"
         env:
           GITHUB_TOKEN: ${{ github.token }}
         # 404 error for the first run

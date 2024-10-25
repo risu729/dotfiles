@@ -29,7 +29,8 @@ jobs:
     steps:
       - name: Run installer
         # use head sha for pull requests because github.sha is set to the merge commit
-        run: >-
+        run: |
+          # shellcheck disable=SC2312 # use the command in README
           bash <(curl -fsSL https://dot.risunosu.com/wsl?ref=${{
             github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.sha
           }})

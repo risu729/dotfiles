@@ -73,14 +73,14 @@ jobs:
         id: wrangler-version
         run: |
           wrangler_version=$(bun pm ls | sed --quiet --regexp-extended 's/.*wrangler@(.+)/\1/p')
-          echo "version=$wrangler_version" >> "$GITHUB_OUTPUT"
+          echo "version=${wrangler_version}" >> "${GITHUB_OUTPUT}"
         working-directory: worker
 
       - name: Store compatibility date
         id: compatibility-date
         run: |
           compatibility_date=$(mise run worker:util:extract-compat-date)
-          echo "date=$compatibility_date" >> "$GITHUB_OUTPUT"
+          echo "date=${compatibility_date}" >> "${GITHUB_OUTPUT}"
 
       - name: Deploy to Cloudflare workers with Wrangler
         uses: cloudflare/wrangler-action@b2a0191ce60d21388e1a8dcc968b4e9966f938e1 # v3.11.0
