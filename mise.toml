@@ -176,7 +176,7 @@ depends = ["buni:worker"]
 run = "bun run vitest run"
 dir = "worker"
 
-[tasks."buni"] # cspell:ignore buni
+[tasks."buni"]
 depends = ["buni:root", "buni:worker"]
 
 [tasks."buni:root"]
