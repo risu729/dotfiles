@@ -78,8 +78,12 @@ jobs:
 
       - name: Store compatibility date
         id: compatibility-date
+        # working-directory must be set to the root of the repository
+        # otherwise, mise run fails to execute the task
+        # ref: https://github.com/jdx/mise/issues/1660
         run: |
           compatibility_date=$(mise run worker:util:extract-compat-date)
+          echo "date=$compatibility_date"
           echo "date=$compatibility_date" >> "$GITHUB_OUTPUT"
 
       - name: Deploy to Cloudflare workers with Wrangler

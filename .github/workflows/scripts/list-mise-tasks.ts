@@ -92,7 +92,6 @@ const tasks: {
 		const dependencies = getDependencies(to).map((node) =>
 			getNodeLabel(getNodeFromRef(node)),
 		);
-		// cspell:ignore buni
 		if (dependencies.some((dependency) => dependency.startsWith("buni"))) {
 			tools.push("bun", "node");
 		}

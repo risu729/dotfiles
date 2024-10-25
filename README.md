@@ -67,8 +67,6 @@ bash <(curl -fsSL https://dot.risunosu.com/wsl)
 
 Clone this repository and run the following command.
 
-<!-- cspell:ignore buni -->
-
 ```bash
 mise i && mise r buni
 ```

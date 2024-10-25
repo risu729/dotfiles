@@ -42,7 +42,7 @@ jobs:
           experimental: true
 
       - name: Install package.json dependencies
-        run: mise run buni:root # cspell:ignore buni
+        run: mise run buni:root
 
       - name: List mise tasks
         id: list
