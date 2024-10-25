@@ -2,8 +2,7 @@
 #:schema https://mise.jdx.dev/schema/mise.json
 
 [tools]
-bun = "1.1.33"
-node = "22.10.0"
+# write node and bun in .tool-versions
 # renovate: extractVersion=^cli/v(?<version>.+)
 "ubi:biomejs/biome" = "cli/v1.9.4"
 actionlint = "1.7.3"

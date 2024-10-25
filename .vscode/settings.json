@@ -39,6 +39,7 @@
 		"shellcheckrc": "ini",
 		// cspell:ignore czrc
 		".czrc": "jsonc",
+		".tool-versions": "plaintext",
 		"winget.json": "jsonc",
 		// match on the absolute path if / is contained
 		"**/mise-tasks/**": "shellscript"
