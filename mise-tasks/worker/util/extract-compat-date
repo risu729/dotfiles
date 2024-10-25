@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# mise hide=true
+#MISE hide=true
 
 # do not use dir="worker" as it will cause error if the script is run from worker directory
 
