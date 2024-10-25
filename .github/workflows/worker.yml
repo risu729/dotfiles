@@ -3,6 +3,9 @@ name: Cloudflare worker
 on:
   # do not use paths filter because it does not work well with required status checks
   # ref: https://github.com/orgs/community/discussions/13690
+  push:
+    branches:
+      - main
   pull_request:
   workflow_dispatch:
   schedule:
@@ -44,6 +47,9 @@ jobs:
   deploy-worker:
     needs:
       - test-worker
+
+    # skip for main branch as Cloudflare workers builds will deploy automatically
+    if: github.event_name != 'push'
 
     runs-on: ubuntu-24.04
     timeout-minutes: 10
