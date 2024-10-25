@@ -7,7 +7,8 @@ git_ref=""
 
 # don't ask password for sudo
 username="$(whoami)"
-echo "${username} ALL=(ALL:ALL) NOPASSWD: AL" | sudo tee "/etc/sudoers.d/01-${username}-nopasswd" > /dev/null
+# cspell:ignore nopasswd
+echo "${username} ALL=(ALL:ALL) NOPASSWD: AL" | sudo tee "/etc/sudoers.d/01-${username}-nopasswd" >/dev/null
 
 # use apt-get instead of apt for scripts
 # ref: https://manpages.ubuntu.com/manpages/trusty/man8/apt.8.html#:~:text=SCRIPT%20USAGE/
