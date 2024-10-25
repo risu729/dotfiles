@@ -78,6 +78,7 @@ alias = "check:jsonschema"
 [tasks."lint:actionlint"]
 run = "actionlint -color"
 alias = "check:actionlint"
+env = { "SHELLCHECK_OPTS" = "--enable=all" }
 
 [tasks."lint:ghalint"]
 run = "ghalint run"
