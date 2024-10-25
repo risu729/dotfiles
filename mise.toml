@@ -163,8 +163,9 @@ hide = true
 
 [tasks."worker:dev"]
 depends = ["buni:worker", "worker:util:prepare-vars"]
-run = "bun run wrangler dev --compatibility-date $(mise run worker:util:extract-compat-date)"
-dir = "worker"
+# use bun --cwd instead of dir to avoid mise tasks executed not in the root directory
+# ref: https://github.com/jdx/mise/issues/1660
+run = "bun run --cwd worker wrangler dev --compatibility-date $(mise run worker:util:extract-compat-date)"
 
 [tasks."worker:test"]
 depends = ["buni:worker"]
