@@ -74,6 +74,15 @@ jobs:
           echo "version=${wrangler_version}" >> "${GITHUB_OUTPUT}"
         working-directory: worker
 
+      - name: Get Wrangler args
+        id: wrangler-args
+        # working-directory must be set to the root of the repository
+        # otherwise, mise run fails to execute the task
+        # ref: https://github.com/jdx/mise/issues/1660
+        run: |
+          args=$(mise run worker:wrangler-args)
+          echo "args=${args}" >> "${GITHUB_OUTPUT}"
+
       - name: Deploy to Cloudflare workers with Wrangler
         uses: cloudflare/wrangler-action@b2a0191ce60d21388e1a8dcc968b4e9966f938e1 # v3.11.0
         with:
@@ -81,7 +90,7 @@ jobs:
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           wranglerVersion: ${{ steps.wrangler-version.outputs.version }}
           workingDirectory: worker
-          command: deploy --dry-run $(mise run worker:wrangler-args)
+          command: deploy --dry-run ${{ steps.wrangler-args.outputs.args }}
 
   actions-timeline:
     needs:
