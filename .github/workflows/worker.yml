@@ -82,8 +82,6 @@ jobs:
       - name: Deploy to Cloudflare workers with Wrangler
         uses: cloudflare/wrangler-action@b2a0191ce60d21388e1a8dcc968b4e9966f938e1 # v3.11.0
         with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           workingDirectory: worker
           command: deploy --dry-run ${{ steps.wrangler-args.outputs.args }}
 
