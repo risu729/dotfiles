@@ -22,5 +22,8 @@ send_metrics = true
 pattern = "dot.risunosu.com"
 custom_domain = true
 
+[observability]
+enabled = true
+
 [placement]
 mode = "smart"
