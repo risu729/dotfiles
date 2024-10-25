@@ -119,7 +119,7 @@ run = "shfmt --diff --simplify . **/.bashrc"
 hide = true
 
 [tasks."lint:shellcheck"]
-run = "shellcheck **/*.sh **/.bashrc"
+run = "shellcheck --external-sources **/*.sh **/.bashrc"
 alias = "check:shellcheck"
 
 [tasks."check:yamlfmt"]
@@ -164,8 +164,9 @@ hide = true
 
 [tasks."worker:dev"]
 depends = ["buni:worker", "worker:util:prepare-vars"]
-run = "bun run wrangler dev --compatibility-date $(mise run worker:util:extract-compat-date)"
-dir = "worker"
+# use bun --cwd instead of dir to avoid mise tasks executed not in the root directory
+# ref: https://github.com/jdx/mise/issues/1660
+run = "bun run --cwd worker wrangler dev --compatibility-date $(mise run worker:util:extract-compat-date)"
 
 [tasks."worker:test"]
 depends = ["buni:worker"]
@@ -176,7 +177,7 @@ depends = ["buni:worker"]
 run = "bun run vitest run"
 dir = "worker"
 
-[tasks."buni"] # cspell:ignore buni
+[tasks."buni"]
 depends = ["buni:root", "buni:worker"]
 
 [tasks."buni:root"]
@@ -185,6 +186,11 @@ hide = true
 
 [tasks."buni:worker"]
 run = "bun install --frozen-lockfile"
+dir = "worker"
+hide = true
+
+[tasks."buni:worker:silent"]
+run = "bun install --frozen-lockfile --silent"
 dir = "worker"
 hide = true
 
