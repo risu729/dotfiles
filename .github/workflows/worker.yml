@@ -67,12 +67,8 @@ jobs:
           cache_key_prefix: mise-v0-bun
           experimental: true
 
-      - name: Store Wrangler Version
-        id: wrangler-version
-        run: |
-          wrangler_version=$(bun pm ls | sed --quiet --regexp-extended 's/.*wrangler@(.+)/\1/p')
-          echo "version=${wrangler_version}" >> "${GITHUB_OUTPUT}"
-        working-directory: worker
+      - name: Install package.json dependencies
+        run: mise run buni:worker
 
       - name: Get Wrangler args
         id: wrangler-args
@@ -88,7 +84,6 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          wranglerVersion: ${{ steps.wrangler-version.outputs.version }}
           workingDirectory: worker
           command: deploy --dry-run ${{ steps.wrangler-args.outputs.args }}
 
