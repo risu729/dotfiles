@@ -4,8 +4,6 @@ const variableSchema = z.string().min(1).readonly();
 
 export const envSchema = z.object({
 	// biome-ignore lint/style/useNamingConvention: following the naming convention of environment variables
-	REPO_OWNER: variableSchema,
-	// biome-ignore lint/style/useNamingConvention:
 	REPO_NAME: variableSchema,
 	// biome-ignore lint/style/useNamingConvention:
 	DEFAULT_BRANCH: variableSchema,
