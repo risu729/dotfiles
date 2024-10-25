@@ -22,7 +22,7 @@ compat_date=$(echo "${workerd_version}" | sed --regexp-extended 's/.*[0-9]+\.([0
 remote_info=$(git remote show origin)
 # in cloudflare workers builds, the url is in the format `https://*****@github.com/owner/repo`
 # use sed because grep doesn't support lookbehind assertions if the pattern is not fixed width
-repo_name=$(echo "${remote_info}" | sed --quiet --regexp-extended 's/.*Fetch URL:.*github.com\/([^/]+/[^/]+).*/\1/p')
+repo_name=$(echo "${remote_info}" | sed --quiet --regexp-extended 's/.*Fetch URL:.*github.com\/([^/.]+\/[^/.]+).*/\1/p')
 default_branch=$(echo "${remote_info}" | grep --only-matching --perl-regexp '(?<=HEAD branch: ).+')
 
 echo "--compatibility-date ${compat_date} --var REPO_NAME:${repo_name} DEFAULT_BRANCH:${default_branch}"
