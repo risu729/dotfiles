@@ -13,6 +13,8 @@ maven = "latest"
 rust = "latest"
 python = "latest"
 go = "latest"
+# cspell:ignore binstall
+cargo-binstall = "latest"
 
 # cli tools
 jq = "latest"
