@@ -63,12 +63,9 @@ bash <(curl -fsSL https://dot.risunosu.com/wsl)
 
 ### ⚙️ Setup
 
-**Prerequisites**: [mise](https://mise.jdx.dev/), [pkg-config](https://www.freedesktop.org/wiki/Software/pkg-config/)  
-\* `pkg-config` is required to build `taplo-cli` with `Cargo`. You may install it through `apt`, `brew`, etc.
+**Prerequisites**: [mise](https://mise.jdx.dev/)
 
 Clone this repository and run the following command.
-
-<!-- cspell:ignore buni -->
 
 ```bash
 mise i && mise r buni

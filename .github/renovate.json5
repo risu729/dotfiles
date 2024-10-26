@@ -78,7 +78,7 @@
 			matchStrings: [
 				// test: https://regex101.com/r/RRA3NI
 				// prettier-ignore
-				"(?:# renovate: extractVersion=(?<extractVersion>.+?)\\n)?\"ubi:(?<depName>[^:]+?)\" *= *\".+?(?<currentValue>\\d+\\..+?)\"",
+				"(?:# renovate: extractVersion=(?<extractVersion>.+?)\\n)?\"ubi:(?<depName>[^:]+?)\" *= *\".*?(?<currentValue>\\d+\\..+?)\"",
 			],
 		},
 		{
@@ -96,24 +96,6 @@
 				"https:\\/\\/biomejs\\.dev\\/schemas\\/(?<currentValue>[0-9.]+)\\/schema\\.json",
 			],
 		},
-		{
-			customType: "regex",
-			description: "Update compatibility_workerd_version in wrangler.toml",
-			// prettier-ignore
-			fileMatch: ["wrangler\.toml$"],
-			datasourceTemplate: "npm",
-			// cspell:ignore workerd
-			depNameTemplate: "workerd",
-			versioningTemplate: "semver",
-			matchStrings: [
-				// update compatibility_workerd_version instead of compatibility_date
-				// because extractVersion cannot transform semver to date
-				// e.g. 1.20240524.0 -> 2024-05-24
-				// test: https://regex101.com/r/zDTZY3
-				// prettier-ignore
-				"compatibility_workerd_version *= *\"(?<currentValue>.+?)\"",
-			],
-		},
 	],
 	packageRules: [
 		// group dependency updates
@@ -121,19 +103,6 @@
 			// group biome in mise.toml and biome.jsonc
 			matchDepNames: ["biomejs/biome"],
 			groupName: "biomejs/biome",
-		},
-		{
-			// group cspell in mise.toml and package.json
-			matchPackageNames: ["cspell", "@cspell/cspell-types"],
-			groupName: "cspell",
-		},
-		{
-			// cloudflare worker's vitest integration only supports vitest@1.5 and not 1.6
-			// ref: https://developers.cloudflare.com/workers/testing/vitest-integration/get-started/write-your-first-test/#install-vitest-and-cloudflarevitest-pool-workers
-			// ref: https://github.com/cloudflare/workers-sdk/pull/5458
-			matchFileNames: ["worker/package.json"],
-			matchPackageNames: ["vitest", "@vitest/ui"],
-			allowedVersions: "<=1.5",
 		},
 		// set semantic commit types
 		{

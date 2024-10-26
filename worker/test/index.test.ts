@@ -12,8 +12,7 @@ const IncomingRequest = Request<unknown, IncomingRequestCfProperties>;
 
 beforeAll(() => {
 	// set the variables that are used in the worker
-	env.REPO_OWNER = "risu729";
-	env.REPO_NAME = "dotfiles";
+	env.REPO_NAME = "risu729/dotfiles";
 	env.DEFAULT_BRANCH = "main";
 });
 
@@ -28,7 +27,6 @@ const fetchWorker = async (url: string): Promise<Response> => {
 test("redirect / to repository readme", async () => {
 	const response = await fetchWorker("https://dot.risunosu.com/");
 	expect(response.headers.get("Location")).toBe(
-		// biome-ignore lint/nursery/noSecrets: false positive
 		"https://github.com/risu729/dotfiles#readme",
 	);
 });
@@ -59,6 +57,7 @@ describe("return the installer script with a specified ref set to a variable", (
 			timeout: 10000,
 		},
 		async (path) => {
+			// biome-ignore lint/nursery/noSecrets: just a example, not a secret
 			const ref = "ed61d947087a6e943267c6eaa82d0e0039b9b279";
 			const response = await fetchWorker(
 				`https://dot.risunosu.com${path}?ref=${ref}`,
@@ -99,6 +98,7 @@ describe("installer script for wsl should have a shebang", () => {
 
 describe("installer script contains the source URL", () => {
 	it.each(["/win", "/wsl"])("return %s with ref", async (path) => {
+		// biome-ignore lint/nursery/noSecrets: just a example, not a secret
 		const ref = "ed61d947087a6e943267c6eaa82d0e0039b9b279";
 		const response = await fetchWorker(
 			`https://dot.risunosu.com${path}?ref=${ref}`,
@@ -115,6 +115,7 @@ describe("installer script contains the source URL", () => {
 
 describe("installer script is almost the same as the source", () => {
 	it.each(["/win", "/wsl"])("return %s with ref", async (path) => {
+		// biome-ignore lint/nursery/noSecrets: just a example, not a secret
 		const ref = "ed61d947087a6e943267c6eaa82d0e0039b9b279";
 		const response = await fetchWorker(
 			`https://dot.risunosu.com${path}?ref=${ref}`,

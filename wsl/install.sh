@@ -1,45 +1,62 @@
 #!/usr/bin/env bash
 
+set -euo pipefail
+
 # might be edited by the worker to checkout a specific ref
 git_ref=""
 
-set -e
-
-cd ~ || exit
+# don't ask password for sudo
+username="$(whoami)"
+# cspell:ignore nopasswd
+echo "${username} ALL=(ALL:ALL) NOPASSWD: AL" | sudo tee "/etc/sudoers.d/01-${username}-nopasswd" >/dev/null
 
 # use apt-get instead of apt for scripts
 # ref: https://manpages.ubuntu.com/manpages/trusty/man8/apt.8.html#:~:text=SCRIPT%20USAGE/
 sudo apt-get update
 sudo apt-get upgrade --yes
 
-# from build-essential to git are required by Homebrew
-# ref: https://docs.brew.sh/Homebrew-on-Linux#requirements
-# wslu is required to open a browser from WSL
-# cspell:ignore procps wslu
-sudo apt-get install --yes build-essential procps curl file git wslu
+# not pre-installed in wsl2 ubuntu (at least in 24.04)
+# software-properties-common is required for add-apt-repository
+sudo apt-get install --yes zip unzip software-properties-common
 
-mkdir --parents ~/github
-cd ~/github || exit
+# use PPA for wslu as recommended
+# ref: https://wslutiliti.es/wslu/install.html#ubuntu
+# wslu is for wslview, which opens Windows browser from WSL
+# cspell:ignore wslutilities wslu wslview
+sudo add-apt-repository ppa:wslutilities/wslu
+sudo apt-get update
+sudo apt-get install --yes wslu
 
-if [[ -d dotfiles ]]; then
-	cd dotfiles || exit
+# install mise
+# ref: https://mise.jdx.dev/getting-started.html#apt
+sudo install -dm 755 /etc/apt/keyrings
+wget -qO - https://mise.jdx.dev/gpg-key.pub | gpg --dearmor | sudo tee /etc/apt/keyrings/mise-archive-keyring.gpg 1>/dev/null
+echo "deb [signed-by=/etc/apt/keyrings/mise-archive-keyring.gpg arch=amd64] https://mise.jdx.dev/deb stable main" | sudo tee /etc/apt/sources.list.d/mise.list
+sudo apt-get update
+sudo apt-get install -y mise
+
+# use --parents to avoid error if the directory exists
+mkdir --parents "${HOME}/github"
+dotfiles_dir="${HOME}/github/dotfiles"
+if [[ -d ${dotfiles_dir} ]]; then
+	cd "${HOME}/github/dotfiles"
 	git fetch --all --prune
 	git pull
-	cd ..
 else
+	cd "${HOME}/github"
 	git clone https://github.com/risu729/dotfiles.git dotfiles
 fi
-cd dotfiles || exit
 
+cd "${dotfiles_dir}"
 # checkout a specific ref if specified
 if [[ -n ${git_ref} ]]; then
 	git checkout "${git_ref}"
 fi
 
-wsl_dir="$(realpath ./wsl)"
-cd "${wsl_dir}" || exit
+wsl_dir="${dotfiles_dir}/wsl"
+cd "${wsl_dir}"
 
-paths="$(find . -type f ! -name "install.sh" ! -name "setup-git.sh" ! -name ".gitignore-sync")"
+paths="$(find . -type f ! -name "install.sh" ! -name "setup-git.ts" ! -name ".gitignore-sync")"
 for path in ${paths}; do
 	mkdir --parents "$(dirname "${HOME}/${path#./}")"
 	if [[ -f ${path} && ${path#./} == ".config/git/.gitignore" ]]; then
@@ -53,32 +70,20 @@ for path in ${paths}; do
 done
 
 # back to home directory
-cd ~ || exit
+cd "${HOME}"
 
-brew_install="$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-echo "${brew_install}" | NONINTERACTIVE=1 bash
-# cspell:ignore linuxbrew shellenv
-brew_env="$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-eval "${brew_env}"
-brew bundle install --global --no-lock
-echo installed Homebrew
-
-# cspell:ignore reshim
-# activate mise shims to use mise reshim
+mise install --yes
+# activate mise shims for bun scripts
 mise_shims="$(mise activate bash --shims)"
 eval "${mise_shims}"
-
-# exit with 0 to ignore the error
-mise install --yes || true
-# mise reshim is required to avoid "No such file or directory" error
-# ref: https://github.com/jdx/mise/issues/2260
-mise reshim
-mise install --yes
 echo installed mise
 
 echo installed dotfiles!
 
 # shellcheck disable=SC2154 # CI is defined in GitHub Actions, SKIP_GIT_SETUP may be defined as environment variable
 if [[ ${CI} != true && ${SKIP_GIT_SETUP} != true ]]; then
-	~/github/dotfiles/wsl/setup-git.sh
+	if ! "${wsl_dir}/setup-git.ts"; then
+		echo "Failed to setup Git. Please run ${wsl_dir}/setup-git.ts manually."
+		exit 1
+	fi
 fi
