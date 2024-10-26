@@ -13,7 +13,8 @@ actionlint = "1.7.3"
 "ubi:suzuki-shunsuke/pinact" = "1.0.0"
 "ubi:tamasfe/taplo" = "0.9.2" # cspell:ignore tamasfe
 "npm:prettier" = "3.3.3"
-"npm:markdownlint-cli2" = "0.14.0"
+# renovate: datasource=npm
+"markdownlint-cli2" = "0.14.0"
 shfmt = "3.10.0"
 shellcheck = "0.10.0"
 yamlfmt = "0.13.0"
@@ -24,8 +25,7 @@ yamllint = "1.35.1" # cspell:ignore pypi
 "npm:cspell" = "8.15.4"
 # renovate: extractVersion=^lychee-v(?<version>.+)
 "ubi:lycheeverse/lychee" = "lychee-v0.16.1" # cspell:ignore lycheeverse
-# renovate: extractVersion=^v(?<version>\d+\..+)
-"ubi:crate-ci/typos" = "1.26.0"
+"typos" = "1.26.0"
 
 [tasks.commit]
 depends = ["buni:root"]
