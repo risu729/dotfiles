@@ -106,6 +106,11 @@ const tasks: {
 		if (toolFullName?.startsWith("npm")) {
 			tools.push("node");
 		}
+		if (toolFullName?.startsWith("cargo")) {
+			// rust is pre-installed in GitHub Actions runner
+			// cspell:ignore binstall
+			tools.push("cargo-binstall");
+		}
 
 		const dependencies = getDependencies(to).map((node) =>
 			getNodeLabel(getNodeFromRef(node)),
