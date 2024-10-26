@@ -102,7 +102,7 @@ const tasks: {
 
 		const toolFullName = tool?.includes(":")
 			? tool
-			: (miseRegistry.find(({ short }) => short === name)?.full ?? tool);
+			: (miseRegistry.find(({ short }) => short === tool)?.full ?? tool);
 		if (toolFullName?.startsWith("npm")) {
 			tools.push("node");
 		}
