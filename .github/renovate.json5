@@ -78,7 +78,7 @@
 			matchStrings: [
 				// test: https://regex101.com/r/RRA3NI
 				// prettier-ignore
-				"(?:# renovate: extractVersion=(?<extractVersion>.+?)\\n)?\"ubi:(?<depName>[^:]+?)\" *= *\".+?(?<currentValue>\\d+\\..+?)\"",
+				"(?:# renovate: extractVersion=(?<extractVersion>.+?)\\n)?\"ubi:(?<depName>[^:]+?)\" *= *\".*?(?<currentValue>\\d+\\..+?)\"",
 			],
 		},
 		{
