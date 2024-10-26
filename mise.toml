@@ -2,27 +2,31 @@
 #:schema https://mise.jdx.dev/schema/mise.json
 
 [tools]
-bun = "1.1.31"
+bun = "1.1.33"
 node = "22.10.0"
+# cspell:ignore datasource binstall
+# renovate: datasource=crate
+cargo-binstall = "1.4.3"
 # renovate: extractVersion=^cli/v(?<version>.+)
 "ubi:biomejs/biome" = "cli/v1.9.4"
 actionlint = "1.7.3"
-"ubi:suzuki-shunsuke/ghalint" = "v1.0.0" # cspell:ignore shunsuke
-"ubi:suzuki-shunsuke/pinact" = "v1.0.0"
-"ubi:tamasfe/taplo" = "0.9.2" # cspell:ignore tamasfe
+# renovate: extractVersion=^v(?<version>.+)
+"ubi:suzuki-shunsuke/ghalint" = "1.0.0" # cspell:ignore shunsuke
+# renovate: extractVersion=^v(?<version>.+)
+"ubi:suzuki-shunsuke/pinact" = "1.0.0"
+"ubi:tamasfe/taplo" = "0.9.3" # cspell:ignore tamasfe
 "npm:prettier" = "3.3.3"
-"npm:markdownlint-cli2" = "0.14.0"
+# renovate: datasource=npm
+"markdownlint-cli2" = "0.14.0"
 shfmt = "3.10.0"
 shellcheck = "0.10.0"
 yamlfmt = "0.13.0"
-# cspell:ignore datasource
 # renovate: datasource=pypi
 yamllint = "1.35.1" # cspell:ignore pypi
-"npm:renovate" = "38.128.6"
+"npm:renovate" = "38.131.2"
 "npm:cspell" = "8.15.4"
-"ubi:lycheeverse/lychee" = "v0.15.1" # cspell:ignore lycheeverse
-# renovate: extractVersion=^v(?<version>\d+\..+)
-"ubi:crate-ci/typos" = "v1.26.0"
+"cargo:lychee" = "0.16.1"
+"typos" = "1.26.8"
 
 [tasks.commit]
 depends = ["buni:root"]
@@ -77,6 +81,7 @@ alias = "check:jsonschema"
 [tasks."lint:actionlint"]
 run = "actionlint -color"
 alias = "check:actionlint"
+env = { "SHELLCHECK_OPTS" = "--enable=all" }
 
 [tasks."lint:ghalint"]
 run = "ghalint run"
@@ -117,7 +122,7 @@ run = "shfmt --diff --simplify . **/.bashrc"
 hide = true
 
 [tasks."lint:shellcheck"]
-run = "shellcheck **/*.sh **/.bashrc"
+run = "shellcheck --external-sources **/*.sh **/.bashrc"
 alias = "check:shellcheck"
 
 [tasks."check:yamlfmt"]
@@ -161,9 +166,10 @@ run = "mise run util:nodiff"
 hide = true
 
 [tasks."worker:dev"]
-depends = ["buni:worker", "worker:util:prepare-vars"]
-run = "bun run wrangler dev --compatibility-date $(mise run worker:util:extract-compat-date)"
-dir = "worker"
+depends = ["buni:worker"]
+# use bun --cwd instead of dir to avoid mise tasks executed not in the root directory
+# ref: https://github.com/jdx/mise/issues/1660
+run = "bun run --cwd worker wrangler dev $(mise run worker:wrangler-args)"
 
 [tasks."worker:test"]
 depends = ["buni:worker"]
@@ -174,7 +180,7 @@ depends = ["buni:worker"]
 run = "bun run vitest run"
 dir = "worker"
 
-[tasks."buni"] # cspell:ignore buni
+[tasks."buni"]
 depends = ["buni:root", "buni:worker"]
 
 [tasks."buni:root"]
@@ -183,6 +189,11 @@ hide = true
 
 [tasks."buni:worker"]
 run = "bun install --frozen-lockfile"
+dir = "worker"
+hide = true
+
+[tasks."buni:worker:silent"]
+run = "bun install --frozen-lockfile --silent"
 dir = "worker"
 hide = true
 

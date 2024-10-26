@@ -7,7 +7,7 @@ minify = true
 
 # cspell:ignore workerd
 # set compatibility_date from workerd version
-# compatibility_workerd_version = "1.20241018.1"
+# compatibility_workerd_version = "1.20241022.0"
 
 # required to use vitest
 # ref: https://developers.cloudflare.com/workers/testing/vitest-integration/configuration/#workerspooloptions
@@ -21,6 +21,9 @@ send_metrics = true
 [route]
 pattern = "dot.risunosu.com"
 custom_domain = true
+
+[observability]
+enabled = true
 
 [placement]
 mode = "smart"

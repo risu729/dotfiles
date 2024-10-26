@@ -39,7 +39,9 @@
 		"shellcheckrc": "ini",
 		// cspell:ignore czrc
 		".czrc": "jsonc",
-		"winget.json": "jsonc"
+		"winget.json": "jsonc",
+		// match on the absolute path if / is contained
+		"**/mise-tasks/**": "shellscript"
 	},
 
 	"files.readonlyInclude": {
@@ -47,9 +49,7 @@
 		"**/.gitignore": true,
 		// do not edit exported files manually
 		// cspell:ignore ublock
-		"win/ublock.json": true,
-		// cspell:ignore ytenhancer
-		"win/ytenhancer.json": true
+		"win/ublock.json": true
 	},
 
 	"typescript.disableAutomaticTypeAcquisition": true,

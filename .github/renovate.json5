@@ -78,7 +78,7 @@
 			matchStrings: [
 				// test: https://regex101.com/r/RRA3NI
 				// prettier-ignore
-				"(?:# renovate: extractVersion=(?<extractVersion>.+?)\\n)?\"ubi:(?<depName>[^:]+?)\" *= *\".+?(?<currentValue>\\d+\\..+?)\"",
+				"(?:# renovate: extractVersion=(?<extractVersion>.+?)\\n)?\"ubi:(?<depName>[^:]+?)\" *= *\".*?(?<currentValue>\\d+\\..+?)\"",
 			],
 		},
 		{
@@ -94,24 +94,6 @@
 				// test: https://regex101.com/r/EDnwWL
 				// prettier-ignore
 				"https:\\/\\/biomejs\\.dev\\/schemas\\/(?<currentValue>[0-9.]+)\\/schema\\.json",
-			],
-		},
-		{
-			customType: "regex",
-			description: "Update compatibility_workerd_version in wrangler.toml",
-			// prettier-ignore
-			fileMatch: ["wrangler\.toml$"],
-			datasourceTemplate: "npm",
-			// cspell:ignore workerd
-			depNameTemplate: "workerd",
-			versioningTemplate: "semver",
-			matchStrings: [
-				// update compatibility_workerd_version instead of compatibility_date
-				// because extractVersion cannot transform semver to date
-				// e.g. 1.20240524.0 -> 2024-05-24
-				// test: https://regex101.com/r/zDTZY3
-				// prettier-ignore
-				"compatibility_workerd_version *= *\"(?<currentValue>.+?)\"",
 			],
 		},
 	],
