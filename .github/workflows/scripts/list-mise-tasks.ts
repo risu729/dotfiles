@@ -13,6 +13,21 @@ const miseTools = Object.keys(
 	(await $`mise list --current --json`.json()) as Record<string, unknown>,
 );
 
+const miseRegistry = (await $`mise registry`.text())
+	.split("\n")
+	// remove header
+	.splice(1)
+	// split by \s+
+	.map((line) => line.split(/\s+/))
+	.map(([short, full]) => ({ short, full }))
+	.filter(
+		(
+			value,
+		): value is {
+			[P in keyof typeof value]: NonNullable<(typeof value)[P]>;
+		} => !!(value.short && value.full),
+	);
+
 const ciTasks = fromDot(ciTaskDepsDot);
 
 const rootNode = ciTasks.nodes.find(
@@ -85,7 +100,10 @@ const tasks: {
 
 		const tools: string[] = tool ? [tool] : [];
 
-		if (tool?.startsWith("npm")) {
+		const toolFullName = tool?.includes(":")
+			? tool
+			: (miseRegistry.find(({ short }) => short === name)?.full ?? tool);
+		if (toolFullName?.startsWith("npm")) {
 			tools.push("node");
 		}
 
