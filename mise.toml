@@ -14,7 +14,9 @@ actionlint = "1.7.3"
 "ubi:suzuki-shunsuke/ghalint" = "1.0.0" # cspell:ignore shunsuke
 # renovate: extractVersion=^v(?<version>.+)
 "ubi:suzuki-shunsuke/pinact" = "1.0.0"
-"ubi:tamasfe/taplo" = "0.9.3" # cspell:ignore tamasfe
+# csell:ignore tamasfe
+# renovate packageNames=tamasfe/taplo
+"taplo" = "0.9.3"
 "npm:prettier" = "3.3.3"
 # renovate: datasource=npm
 "markdownlint-cli2" = "0.14.0"
