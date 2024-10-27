@@ -29,8 +29,8 @@ jobs:
     steps:
       - name: Run installer
         # use head sha for pull requests because github.sha is set to the merge commit
+        # don't use process substitution to avoid masking the errors
         run: |
-          # don't use process substitution to avoid masking the errors
           curl -fsSL https://dot.risunosu.com/wsl?ref=${{
             github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.sha
           }} | bash
