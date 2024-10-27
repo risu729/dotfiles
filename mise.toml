@@ -15,7 +15,7 @@ actionlint = "1.7.3"
 # renovate: extractVersion=^v(?<version>.+)
 "ubi:suzuki-shunsuke/pinact" = "1.0.0"
 # cspell:ignore tamasfe
-# renovate packageNames=tamasfe/taplo
+# renovate: packageName=tamasfe/taplo
 "taplo" = "0.9.3"
 "npm:prettier" = "3.3.3"
 # renovate: datasource=npm
