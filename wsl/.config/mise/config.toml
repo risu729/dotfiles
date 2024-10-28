@@ -18,9 +18,7 @@ cargo-binstall = "latest"
 
 # cli tools
 jq = "latest"
-# need to specify exe name
-# ref: https://mise.jdx.dev/dev-tools/backends/ubi.html#exe
-gh = { version = "latest", exe = "gh" }
+gh = "latest"
 # cspell:ignore kellyjonbrazil
 "ubi:kellyjonbrazil/jc" = "latest"
 
