@@ -14,25 +14,45 @@ type DeepOptional<T> = {
 			: T[P] | undefined;
 };
 
-const ensureGitHubTokenScopes = async (): Promise<void> => {
+/**
+ * @returns function to remove unnecessary granted scopes
+ */
+const ensureGitHubTokenScopes = async (): Promise<() => Promise<void>> => {
+	// ref: https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/scopes-for-oauth-apps
 	const requiredScopes = [
+		{
+			// not included in the scopes granted by default in gh auth login
+			scope: "workflow",
+		},
 		{
 			// required to list, add, and delete GPG keys
 			scope: "admin:gpg_key",
+			removeAfterUse: true,
 		},
 		{
 			// required to get user email
 			scope: "user:email",
 			generalScope: "user",
+			removeAfterUse: true,
 		},
 	];
+
+	const removeScopes = async (): Promise<void> => {
+		// reset github token scopes to default for security
+		console.info("Resetting GitHub token scopes...");
+		// need to specify hostname in non-interactive mode
+		await $`gh auth refresh --hostname github.com --remove-scopes ${requiredScopes
+			.filter(({ removeAfterUse }) => removeAfterUse)
+			.map(({ scope }) => scope)
+			.join(",")}`;
+	};
 
 	// login to GitHub if not authenticated
 	// cspell:ignore nothrow
 	const { stdout, exitCode } = await $`gh auth status`.quiet().nothrow();
 	if (exitCode !== 0) {
 		await $`gh auth login --web --git-protocol https --scopes ${requiredScopes.map(({ scope }) => scope).join(",")}`;
-		return;
+		return removeScopes;
 	}
 
 	const scopes =
@@ -52,14 +72,14 @@ const ensureGitHubTokenScopes = async (): Promise<void> => {
 				),
 		)
 		.map(({ scope }) => scope);
-	if (missingScopes.length === 0) {
-		return;
+	if (missingScopes.length > 0) {
+		console.info(
+			`Missing GitHub token scopes: ${missingScopes.join(", ")}. Please authenticate with the required scopes.`,
+		);
+		// need to specify hostname in non-interactive mode
+		await $`gh auth refresh --hostname github.com --scopes ${missingScopes.join(",")}`;
 	}
-	console.info(
-		`Missing GitHub token scopes: ${missingScopes.join(", ")}. Please authenticate with the required scopes.`,
-	);
-	// need to specify hostname in non-interactive mode
-	await $`gh auth refresh --hostname github.com --scopes ${missingScopes.join(",")}`;
+	return removeScopes;
 };
 
 const ghApi = async <ReturnType>(
@@ -1260,16 +1280,13 @@ const configureGitSign = async (
 
 const main = async (): Promise<void> => {
 	await $`git config --global init.defaultBranch main`.quiet();
-	await ensureGitHubTokenScopes();
+	const removeScopes = await ensureGitHubTokenScopes()
 
 	try {
 		const { githubId, email } = await setGitUserConfig();
 		await configureGitSign(githubId, email);
 	} finally {
-		// reset github token scopes to default for security
-		console.info("Resetting GitHub token scopes...");
-		// need to specify hostname in non-interactive mode
-		await $`gh auth refresh --hostname github.com --reset-scopes`;
+		await removeScopes();
 	}
 };
 await main();
