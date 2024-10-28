@@ -41,7 +41,7 @@ dotfiles_dir="${HOME}/github/dotfiles"
 if [[ -d ${dotfiles_dir} ]]; then
 	cd "${HOME}/github/dotfiles"
 	git fetch --all --prune
-	git pull
+	git pull --all
 else
 	cd "${HOME}/github"
 	git clone https://github.com/risu729/dotfiles.git dotfiles
