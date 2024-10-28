@@ -1280,7 +1280,7 @@ const configureGitSign = async (
 
 const main = async (): Promise<void> => {
 	await $`git config --global init.defaultBranch main`.quiet();
-	const removeScopes = await ensureGitHubTokenScopes()
+	const removeScopes = await ensureGitHubTokenScopes();
 
 	try {
 		const { githubId, email } = await setGitUserConfig();
