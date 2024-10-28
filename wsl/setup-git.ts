@@ -179,7 +179,9 @@ const getGpgKeyringSecretKeys = async (
 		token_sn: string | null;
 		// biome-ignore lint/style/useNamingConvention:
 		curve_name: string | null;
-	}[] = await $`jc --gpg < ${gpgStdout}`.json();
+	}[] =
+		// jc freezes if empty buffer is passed
+		gpgStdout.byteLength > 0 ? await $`jc --gpg < ${gpgStdout}`.json() : [];
 
 	const keyringSecretKeys = rawSecretKeys.reduce<
 		// allow undefined values for all properties
