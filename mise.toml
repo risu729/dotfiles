@@ -3,7 +3,7 @@
 
 [tools]
 bun = "1.1.33"
-node = "22.10.0"
+node = "23.1.0"
 # cspell:ignore datasource binstall
 # renovate: datasource=crate
 cargo-binstall = "1.4.3"
