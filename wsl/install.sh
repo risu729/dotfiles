@@ -23,7 +23,7 @@ sudo apt-get install --yes zip unzip software-properties-common
 # ref: https://wslutiliti.es/wslu/install.html#ubuntu
 # wslu is for wslview, which opens Windows browser from WSL
 # cspell:ignore wslutilities wslu wslview
-sudo add-apt-repository ppa:wslutilities/wslu
+sudo add-apt-repository --yes ppa:wslutilities/wslu
 sudo apt-get update
 sudo apt-get install --yes wslu
 
