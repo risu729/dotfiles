@@ -3,7 +3,7 @@
 import { mkdtemp, rmdir, unlink } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { $, env } from "bun";
+import { $, env, spawn } from "bun";
 
 // do not use Partial as it sets all properties to optional but doesn't allow undefined
 type DeepOptional<T> = {
@@ -18,6 +18,48 @@ type DeepOptional<T> = {
  * @returns function to remove unnecessary granted scopes
  */
 const ensureGitHubTokenScopes = async (): Promise<() => Promise<void>> => {
+	const authWithBrowser = async (subcommand: string): Promise<void> => {
+		// bun shell doesn't support reading from stdout and stderr while running a command
+		// ref: https://github.com/oven-sh/bun/issues/14693
+		const process = spawn(
+			["gh", "auth", ...$.escape(subcommand).split(" ")],
+			// default is "inherit" which just logs to the console
+			// ref: https://bun.sh/docs/api/spawn#output-streams
+			{ stderr: "pipe" },
+		);
+
+		process.stderr.pipeTo(
+			new WritableStream({
+				async write(chunk): Promise<void> {
+					const text = new TextDecoder().decode(chunk);
+					const oneTimeCode = text.match(
+						// ref: https://github.com/cli/cli/blob/14d339d9ba87e87f34b7a25f00200a2062f87039/internal/authflow/flow.go#L58
+						/First copy your one-time code: ([A-Z0-9-]+)/,
+					)?.[1];
+					if (oneTimeCode) {
+						// copy one-time code to clipboard of Windows
+						// don't use piping because clip.exe appends a trailing newline
+						await $`clip.exe < ${Buffer.from(oneTimeCode)}`;
+					}
+					const url = text.match(
+						// ref: https://github.com/cli/cli/blob/14d339d9ba87e87f34b7a25f00200a2062f87039/internal/authflow/flow.go#L71
+						/Open this URL to continue in your web browser: (.+)/,
+					)?.[1];
+					if (url) {
+						// open the url automatically in the Windows default browser
+						// cspell:ignore wslview
+						await $`wslview ${url}`;
+					}
+				},
+			}),
+		);
+
+		const exitCode = await process.exited;
+		if (exitCode !== 0) {
+			throw new Error(`Process exited with code ${exitCode}`);
+		}
+	};
+
 	// ref: https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/scopes-for-oauth-apps
 	const requiredScopes = [
 		{
@@ -41,17 +83,21 @@ const ensureGitHubTokenScopes = async (): Promise<() => Promise<void>> => {
 		// reset github token scopes to default for security
 		console.info("Resetting GitHub token scopes...");
 		// need to specify hostname in non-interactive mode
-		await $`gh auth refresh --hostname github.com --remove-scopes ${requiredScopes
-			.filter(({ removeAfterUse }) => removeAfterUse)
-			.map(({ scope }) => scope)
-			.join(",")}`;
+		await authWithBrowser(
+			`refresh --hostname github.com --remove-scopes ${requiredScopes
+				.filter(({ removeAfterUse }) => removeAfterUse)
+				.map(({ scope }) => scope)
+				.join(",")}`,
+		);
 	};
 
 	// login to GitHub if not authenticated
 	// cspell:ignore nothrow
 	const { stdout, exitCode } = await $`gh auth status`.quiet().nothrow();
 	if (exitCode !== 0) {
-		await $`gh auth login --web --git-protocol https --scopes ${requiredScopes.map(({ scope }) => scope).join(",")}`;
+		await authWithBrowser(
+			`login --web --git-protocol https --scopes ${requiredScopes.map(({ scope }) => scope).join(",")}`,
+		);
 		return removeScopes;
 	}
 
@@ -77,7 +123,9 @@ const ensureGitHubTokenScopes = async (): Promise<() => Promise<void>> => {
 			`Missing GitHub token scopes: ${missingScopes.join(", ")}. Please authenticate with the required scopes.`,
 		);
 		// need to specify hostname in non-interactive mode
-		await $`gh auth refresh --hostname github.com --scopes ${missingScopes.join(",")}`;
+		await authWithBrowser(
+			`refresh --hostname github.com --scopes ${missingScopes.join(",")}`,
+		);
 	}
 	return removeScopes;
 };
