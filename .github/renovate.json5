@@ -102,7 +102,7 @@
 		{
 			// odd major versions are unstable but use the latest
 			// ref: https://docs.renovatebot.com/modules/versioning/node/
-			matchPackageNames: ["node"],
+			matchDepNames: ["node"],
 			ignoreUnstable: false,
 		},
 		// group dependency updates
