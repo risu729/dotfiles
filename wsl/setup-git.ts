@@ -28,31 +28,34 @@ const ensureGitHubTokenScopes = async (): Promise<() => Promise<void>> => {
 			{ stderr: "pipe" },
 		);
 
-		process.stderr.pipeTo(
-			new WritableStream({
-				async write(chunk): Promise<void> {
-					const text = new TextDecoder().decode(chunk);
-					const oneTimeCode = text.match(
-						// ref: https://github.com/cli/cli/blob/14d339d9ba87e87f34b7a25f00200a2062f87039/internal/authflow/flow.go#L58
-						/First copy your one-time code: ([A-Z0-9-]+)/,
-					)?.[1];
-					if (oneTimeCode) {
-						// copy one-time code to clipboard of Windows
-						// don't use piping because clip.exe appends a trailing newline
-						await $`clip.exe < ${Buffer.from(oneTimeCode)}`;
-					}
-					const url = text.match(
-						// ref: https://github.com/cli/cli/blob/14d339d9ba87e87f34b7a25f00200a2062f87039/internal/authflow/flow.go#L71
-						/Open this URL to continue in your web browser: (.+)/,
-					)?.[1];
-					if (url) {
-						// open the url automatically in the Windows default browser
-						// cspell:ignore wslview
-						await $`wslview ${url}`;
-					}
-				},
-			}),
-		);
+		const reader = process.stderr.getReader();
+		const decoder = new TextDecoder();
+
+		while (true) {
+			const { done, value } = await reader.read();
+			if (done) {
+				break;
+			}
+			const text = decoder.decode(value, { stream: true });
+			const oneTimeCode = text.match(
+				// ref: https://github.com/cli/cli/blob/14d339d9ba87e87f34b7a25f00200a2062f87039/internal/authflow/flow.go#L58
+				/First copy your one-time code: ([A-Z0-9-]+)/,
+			)?.[1];
+			if (oneTimeCode) {
+				// copy one-time code to clipboard of Windows
+				// don't use piping because clip.exe appends a trailing newline
+				await $`clip.exe < ${Buffer.from(oneTimeCode)}`;
+			}
+			const url = text.match(
+				// ref: https://github.com/cli/cli/blob/14d339d9ba87e87f34b7a25f00200a2062f87039/internal/authflow/flow.go#L71
+				/Open this URL to continue in your web browser: (.+)/,
+			)?.[1];
+			if (url) {
+				// open the url automatically in the Windows default browser
+				// cspell:ignore wslview
+				await $`wslview ${url}`;
+			}
+		}
 
 		const exitCode = await process.exited;
 		if (exitCode !== 0) {
