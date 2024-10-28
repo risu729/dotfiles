@@ -98,6 +98,13 @@
 		},
 	],
 	packageRules: [
+		// use unstable versions
+		{
+			// odd major versions are unstable but use the latest
+			// ref: https://docs.renovatebot.com/modules/versioning/node/
+			matchPackageNames: ["node"],
+			ignoreUnstable: false,
+		},
 		// group dependency updates
 		{
 			// group biome in mise.toml and biome.jsonc
