@@ -19,6 +19,8 @@ type DeepOptional<T> = {
  */
 const ensureGitHubTokenScopes = async (): Promise<() => Promise<void>> => {
 	const authWithBrowser = async (subcommand: string): Promise<void> => {
+		// bun shell doesn't support reading from stdout and stderr while running a command
+		// ref: https://github.com/oven-sh/bun/issues/14693
 		const process = spawn(
 			["gh", "auth", ...$.escape(subcommand).split(" ")],
 			// default is "inherit" which just logs to the console
