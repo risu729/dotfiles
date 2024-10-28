@@ -3,7 +3,7 @@
 import { mkdtemp, rmdir, unlink } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { $, env, spawn } from "bun";
+import { $, env, file, spawn, write } from "bun";
 
 // do not use Partial as it sets all properties to optional but doesn't allow undefined
 type DeepOptional<T> = {
@@ -1321,6 +1321,32 @@ const configureGitSign = async (
 		join(gnupgHome, "private-keys-v1.d", `${keyringKey.key.keygrip}.key`),
 	);
 	console.info("Deleted private primary key for security.");
+
+	const gpgAgentConfPath = join(gnupgHome, "gpg-agent.conf");
+	let gpgAgentConf = "";
+	try {
+		gpgAgentConf = (await file(gpgAgentConfPath).text()).trimEnd();
+	} catch {
+		// ignore if the file does not exist
+	}
+	const weekInSeconds = 60 * 60 * 24 * 7;
+	gpgAgentConf = gpgAgentConf.includes("default-cache-ttl")
+		? gpgAgentConf.replace(
+				/^default-cache-ttl .+$/m,
+				`default-cache-ttl ${weekInSeconds}`,
+			)
+		: `${gpgAgentConf}\ndefault-cache-ttl ${weekInSeconds}`;
+	gpgAgentConf = gpgAgentConf.includes("max-cache-ttl")
+		? gpgAgentConf.replace(
+				/^max-cache-ttl .+$/m,
+				`max-cache-ttl ${weekInSeconds}`,
+			)
+		: `${gpgAgentConf}\nmax-cache-ttl ${weekInSeconds}`;
+	await write(gpgAgentConfPath, gpgAgentConf);
+	// restart gpg agent to apply the changes
+	// cspell:ignore gpgconf
+	await $`gpgconf --kill gpg-agent`.quiet();
+	console.info("Set GPG agent cache time to 1 week.");
 
 	// if unset, git uses "user.name <user.email>" which is good
 	// however, to clarify which subkey is used, specify the subkey id
