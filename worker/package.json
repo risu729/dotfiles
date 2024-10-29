@@ -3,7 +3,7 @@
 	"name": "@risu729/dotfiles-worker",
 	"type": "module",
 	"dependencies": {
-		"hono": "4.6.7",
+		"hono": "4.6.8",
 		"zod": "3.23.8"
 	},
 	"scripts": {
