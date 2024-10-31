@@ -13,8 +13,11 @@ maven = "latest"
 rust = "latest"
 python = "latest"
 go = "latest"
+
+# mise backends
 # cspell:ignore binstall
 cargo-binstall = "latest"
+uv = "latest"
 
 # cli tools
 jq = "latest"
@@ -30,3 +33,7 @@ gh = "latest"
 [settings]
 pin = true
 experimental = true
+
+# cspell:ignore pipx
+[settings.pipx]
+uvx = true
