@@ -7,8 +7,7 @@ node = "23.1.0"
 # cspell:ignore datasource binstall
 # renovate: datasource=crate
 cargo-binstall = "1.4.3"
-# renovate: extractVersion=^cli/v(?<version>.+)
-"ubi:biomejs/biome" = "cli/v1.9.4"
+"npm:@biomejs/biome" = "1.9.4"
 actionlint = "1.7.3"
 # renovate: extractVersion=^v(?<version>.+)
 "ubi:suzuki-shunsuke/ghalint" = "1.0.0" # cspell:ignore shunsuke
