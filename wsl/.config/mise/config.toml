@@ -26,9 +26,7 @@ gh = "latest"
 "ubi:kellyjonbrazil/jc" = "latest"
 
 # biome vs code extension requires global installation
-# latest cannot be resolved
-# renovate: extractVersion=^cli/v(?<version>.+)
-"ubi:biomejs/biome" = "cli/v1.9.4"
+"npm:@biomejs/biome" = "latest"
 
 [settings]
 pin = true
