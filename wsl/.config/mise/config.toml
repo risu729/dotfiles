@@ -18,6 +18,8 @@ go = "latest"
 # cspell:ignore binstall
 cargo-binstall = "latest"
 uv = "latest"
+# required for completion
+usage = "latest"
 
 # cli tools
 jq = "latest"
