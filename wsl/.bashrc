@@ -116,7 +116,7 @@ mise_completion="$(mise completion bash)"
 eval "${mise_completion}"
 
 # enable gh completion
-gh_completion="$(gh completion -s bash)"
+gh_completion="$(gh completion --shell bash)"
 eval "${gh_completion}"
 
 # vs code
