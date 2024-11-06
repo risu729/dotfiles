@@ -93,10 +93,6 @@
 			depNameTemplate: "mise",
 			packageNameTemplate: "jdx/mise",
 			versioningTemplate: "semver",
-			// cspell:ignore calver
-			// mise uses Calver, so allow automerge for all versions
-			// ref: https://mise.jdx.dev/project-roadmap.html#versioning
-			automerge: true,
 			matchStrings: [
 				// prettier-ignore
 				"min_version *= *\"(?<currentValue>.+?)\"",
@@ -128,6 +124,14 @@
 			matchDepNames: ["node"],
 			ignoreUnstable: false,
 		},
+		// automerge
+		{
+			matchDepNames: ["mise"],
+			// cspell:ignore calver
+			// mise uses Calver, so allow automerge for all versions
+			// ref: https://mise.jdx.dev/project-roadmap.html#versioning
+			automerge: true,
+		}
 		// group dependency updates
 		{
 			// group biome in mise.toml and biome.jsonc
