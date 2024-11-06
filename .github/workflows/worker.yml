@@ -76,9 +76,6 @@ jobs:
 
       - name: Get Wrangler args
         id: wrangler-args
-        # working-directory must be set to the root of the repository
-        # otherwise, mise run fails to execute the task
-        # ref: https://github.com/jdx/mise/issues/1660
         run: |
           args=$(mise run worker:wrangler-args)
           echo "args=${args}" >> "${GITHUB_OUTPUT}"
