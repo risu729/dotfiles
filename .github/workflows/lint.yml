@@ -36,6 +36,7 @@ jobs:
       - name: Install mise
         uses: jdx/mise-action@3cea416127de5a8efd9642eb725267750e5c09b7 # v2.1.5
         with:
+          version: 2024.11.2
           # backends are required to run mise list
           # cspell:ignore binstall
           install_args: bun node cargo-binstall
@@ -73,6 +74,7 @@ jobs:
       - name: Install mise
         uses: jdx/mise-action@3cea416127de5a8efd9642eb725267750e5c09b7 # v2.1.5
         with:
+          version: 2024.11.2
           install_args: ${{ matrix.tools }}
           experimental: true
 
@@ -94,6 +96,7 @@ jobs:
       - name: Install mise
         uses: jdx/mise-action@3cea416127de5a8efd9642eb725267750e5c09b7 # v2.1.5
         with:
+          version: 2024.11.2
           install_args: bun node
           experimental: true
 
