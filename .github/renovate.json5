@@ -10,7 +10,6 @@
 		":prHourlyLimitNone",
 		":prConcurrentLimitNone",
 	],
-	automergeStrategy: "squash",
 	labels: [
 		"dependencies",
 		"{{#unless (equals manager 'regex')}}{{manager}}{{/unless}}",
