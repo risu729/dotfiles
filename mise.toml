@@ -25,7 +25,7 @@ yamlfmt = "0.14.0"
 # renovate: datasource=pypi
 yamllint = "1.35.1" # cspell:ignore pypi
 "npm:renovate" = "39.7.0"
-"npm:cspell" = "8.15.7"
+"npm:cspell" = "8.16.0"
 "cargo:lychee" = "0.17.0"
 typos = "1.27.2"
 
