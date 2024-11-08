@@ -40,7 +40,6 @@ jobs:
           # backends are required to run mise list
           # cspell:ignore binstall
           install_args: bun node cargo-binstall
-          experimental: true
 
       - name: Install package.json dependencies
         run: mise run buni:root
@@ -76,7 +75,6 @@ jobs:
         with:
           version: 2024.11.4
           install_args: ${{ matrix.tools }}
-          experimental: true
 
       - name: Run ${{ matrix.name }}
         run: mise run ${{ matrix.task }}
@@ -98,7 +96,6 @@ jobs:
         with:
           version: 2024.11.4
           install_args: bun node
-          experimental: true
 
       - name: Install package.json dependencies
         run: mise run buni:root
