@@ -39,7 +39,6 @@ jobs:
         with:
           version: 2024.11.4
           install_args: bun
-          experimental: true
 
       - name: Run tests
         run: mise run worker:test:ci
@@ -71,7 +70,6 @@ jobs:
         with:
           version: 2024.11.4
           install_args: bun
-          experimental: true
 
       - name: Install package.json dependencies
         run: mise run buni:worker
