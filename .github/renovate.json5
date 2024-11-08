@@ -131,12 +131,6 @@
 			// ref: https://mise.jdx.dev/project-roadmap.html#versioning
 			automerge: true,
 		},
-		// group dependency updates
-		{
-			// group biome in mise.toml and biome.jsonc
-			matchDepNames: ["biomejs/biome"],
-			groupName: "biomejs/biome",
-		},
 		// set semantic commit types
 		{
 			// override the default semanticCommitType, fix for dependencies, to chore
