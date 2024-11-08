@@ -60,7 +60,7 @@ jobs:
       - name: Download Ubuntu WSL rootfs
         id: rootfs
         # skip if the latest image is already created
-        if: ${{ steps.info.outputs.serial != steps.latest-tag.outputs.latest_serial }}
+        if: ${{ github.event_name == 'pull_request' || steps.info.outputs.serial != steps.latest-tag.outputs.latest_serial }}
         run: |
           curl --fail-with-body --location --output ubuntu.tar.gz \
             https://cloud-images.ubuntu.com/wsl/noble/current/ubuntu-noble-wsl-amd64-ubuntu.rootfs.tar.gz
