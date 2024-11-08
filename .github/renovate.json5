@@ -82,21 +82,26 @@
 		},
 		{
 			customType: "regex",
-			description: "Updates mise versions in mise.toml and GitHub Actions",
-			fileMatch: [
-				"^mise\\.toml$",
-				"^wsl/\\.config/mise/config\\.toml$",
-				"^\\.github/workflows/.+\\.yml$",
-			],
+			description: "Updates min_version in mise config",
+			fileMatch: ["^mise\\.toml$", "^wsl/\\.config/mise/config\\.toml$"],
 			datasourceTemplate: "github-releases",
 			depNameTemplate: "mise",
 			packageNameTemplate: "jdx/mise",
-			versioningTemplate: "semver",
 			matchStrings: [
 				// prettier-ignore
-				"min_version *= *\"(?<currentValue>.+?)\"",
+				"min_version = \"(?<currentValue>.+)\"",
+			],
+		},
+		{
+			customType: "regex",
+			description: "Updates mise versions in GitHub Actions",
+			fileMatch: ["^\\.github/workflows/.+\\.yml$"],
+			datasourceTemplate: "github-releases",
+			depNameTemplate: "mise",
+			packageNameTemplate: "jdx/mise",
+			matchStrings: [
 				// prettier-ignore
-				"version *: *(?<currentValue>.+?)",
+				"version: (?<currentValue>.+)",
 			],
 		},
 		{
