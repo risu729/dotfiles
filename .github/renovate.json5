@@ -110,9 +110,7 @@
 			// prettier-ignore
 			fileMatch: ["^biome\.jsonc$"],
 			datasourceTemplate: "npm",
-			depNameTemplate: "biomejs/biome",
 			packageNameTemplate: "@biomejs/biome",
-			versioningTemplate: "semver",
 			matchStrings: [
 				// test: https://regex101.com/r/EDnwWL
 				// prettier-ignore
