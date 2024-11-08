@@ -1,6 +1,8 @@
 # ref: https://mise.jdx.dev/configuration.html#global-config-config-mise-config-toml
 #:schema https://mise.jdx.dev/schema/mise.json
 
+min_version = "2024.11.2"
+
 [tools]
 # language tools
 node = "latest"

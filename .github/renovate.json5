@@ -82,7 +82,26 @@
 		},
 		{
 			customType: "regex",
-			description: "Update $schema in biome.jsonc",
+			description: "Updates mise versions in mise.toml and GitHub Actions",
+			fileMatch: [
+				"^mise\\.toml$",
+				"^wsl/\\.config/mise/config\\.toml$",
+				"^\\.github/workflows/.+\\.yml$",
+			],
+			datasourceTemplate: "github-releases",
+			depNameTemplate: "mise",
+			packageNameTemplate: "jdx/mise",
+			versioningTemplate: "semver",
+			matchStrings: [
+				// prettier-ignore
+				"min_version *= *\"(?<currentValue>.+?)\"",
+				// prettier-ignore
+				"version *: *(?<currentValue>.+?)",
+			],
+		},
+		{
+			customType: "regex",
+			description: "Updates $schema in biome.jsonc",
 			// prettier-ignore
 			fileMatch: ["^biome\.jsonc$"],
 			datasourceTemplate: "npm",
@@ -103,6 +122,14 @@
 			// ref: https://docs.renovatebot.com/modules/versioning/node/
 			matchDepNames: ["node"],
 			ignoreUnstable: false,
+		},
+		// automerge
+		{
+			matchDepNames: ["mise"],
+			// cspell:ignore calver
+			// mise uses Calver, so allow automerge for all versions
+			// ref: https://mise.jdx.dev/project-roadmap.html#versioning
+			automerge: true,
 		},
 		// group dependency updates
 		{
