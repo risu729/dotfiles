@@ -34,23 +34,59 @@ jobs:
       IMAGE_NAME: ${{ github.repository }}/wsl
 
     steps:
-      - name: Get Ubuntu WSL build info
-        id: info
+      - name: Install mise
+        uses: jdx/mise-action@53d027c2e96fed8f955f5d95bff910a3e031cc58 # v2.1.6
+        with:
+          version: 2024.11.4
+          # cspell:ignore kellyjonbrazil
+          mise_toml: |
+            [tools]
+            "ubi:kellyjonbrazil/jc" = "latest"
+
+      - name: Get latest Ubuntu version
+        id: version
         run: |
-          serial=$(curl --fail-with-body --location https://cloud-images.ubuntu.com/wsl/noble/current/unpacked/build-info.txt \
+          today=$(date --utc --iso-8601)
+          read -r version series < <(
+            curl --fail-with-body --location https://debian.pages.debian.net/distro-info-data/ubuntu.csv \
+              | jc --csv \
+              | jq --arg today "${today}" -r '
+                  [ .[]
+                    | select(.version | contains("LTS"))
+                    | select(.release <= $today)
+                    | {series, version: (.version | sub(" LTS"; ""))}
+                  ]
+                  | sort_by(.release)
+                  | reverse
+                  | .[0]
+                  | "\(.version) \(.series)"
+                '
+          )
+          echo "version=${version}" >> "${GITHUB_OUTPUT}"
+          echo "series=${series}" >> "${GITHUB_OUTPUT}"
+
+      - name: Get Ubuntu WSL build info
+        id: build-info
+        run: |
+          serial=$(curl --fail-with-body --location https://cloud-images.ubuntu.com/wsl/${{ steps.version.outputs.series }}/current/unpacked/build-info.txt \
             | grep --only-matching --perl-regexp 'SERIAL=\K\d+')
-          echo "serial=${serial}" >> "${GITHUB_OUTPUT}"
+          if [[ -z "${serial}" ]]; then
+            echo "Failed to get the serial" >&2
+            exit 1
+          fi
+          # + cannot be used in the tag, so use - instead
+          echo "tag=${{ steps.version.outputs.version }}-${serial}" >> "${GITHUB_OUTPUT}"
 
       - name: Get latest Ubuntu WSL image tag
         id: latest-tag
         # %2F is the URL-encoded form of /
-        # get the serial tag of the latest image
+        # get the tag of the latest image
         # cspell:ignore fwsl
         run: |
-          latest_serial=$(gh api --header "Accept: application/vnd.github+json" --header "X-GitHub-Api-Version: 2022-11-28" \
+          latest_tag=$(gh api --header "Accept: application/vnd.github+json" --header "X-GitHub-Api-Version: 2022-11-28" \
             /user/packages/container/${{ github.event.repository.name }}%2Fwsl/versions \
             --jq '.[] | select(.metadata.container.tags | contains(["latest"])) | .metadata.container.tags[] | select(. != "latest")')
-          echo "latest_serial=${latest_serial}" >> "${GITHUB_OUTPUT}"
+          echo "latest_tag=${latest_tag}" >> "${GITHUB_OUTPUT}"
         env:
           GITHUB_TOKEN: ${{ github.token }}
         # 404 error for the first run
@@ -60,10 +96,10 @@ jobs:
       - name: Download Ubuntu WSL rootfs
         id: rootfs
         # skip if the latest image is already created
-        if: ${{ github.event_name == 'pull_request' || steps.info.outputs.serial != steps.latest-tag.outputs.latest_serial }}
+        if: ${{ github.event_name == 'pull_request' || steps.build-info.outputs.tag != steps.latest-tag.outputs.latest_tag }}
         run: |
           curl --fail-with-body --location --output ubuntu.tar.gz \
-            https://cloud-images.ubuntu.com/wsl/noble/current/ubuntu-noble-wsl-amd64-ubuntu.rootfs.tar.gz
+            https://cloud-images.ubuntu.com/wsl/${{ steps.version.outputs.series }}/current/ubuntu-${{ steps.version.outputs.series }}-wsl-amd64-ubuntu.rootfs.tar.gz
 
       - name: Create Dockerfile
         if: ${{ steps.rootfs.outcome != 'skipped' }}
@@ -97,7 +133,7 @@ jobs:
           # ref: https://github.com/docker/build-push-action/issues/900
           provenance: false
           tags: |
-            ghcr.io/${{ env.IMAGE_NAME }}:${{ steps.info.outputs.serial }}
+            ghcr.io/${{ env.IMAGE_NAME }}:${{ steps.build-info.outputs.tag }}
             ghcr.io/${{ env.IMAGE_NAME }}:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max

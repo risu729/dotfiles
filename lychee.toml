@@ -16,7 +16,7 @@ exclude_path = [
 exclude = [
 	"https://dot.risunosu.com",
 	# exclude ${} patterns
-	".*\\$%7B.*%7D.*",
+	".*\\$(%7B.*%7D.*)?$",
 	# win/winget.json
 	"https://cdn.winget.microsoft.com/cache",
 	# renovate.json5
