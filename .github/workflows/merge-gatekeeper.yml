@@ -19,6 +19,7 @@ jobs:
 
     steps:
       - name: Merge Gatekeeper
+        # cspell:ignore upsidr
         uses: upsidr/merge-gatekeeper@09af7a82c1666d0e64d2bd8c01797a0bcfd3bb5d # v1.2.1
         with:
           token: ${{ github.token }}
