@@ -39,7 +39,9 @@ jobs:
         with:
           version: 2024.11.4
           # cspell:ignore kellyjonbrazil
-          install_args: ubi:kellyjonbrazil/jc
+          mise_toml: |
+            [tools]
+            "ubi:kellyjonbrazil/jc" = "latest"
 
       - name: Get latest Ubuntu version
         id: version
