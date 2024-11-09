@@ -102,7 +102,7 @@ const tasks: {
 				: undefined;
 			switch (backend) {
 				case "npm": {
-					tools.push("node");
+					tools.push("bun", "node");
 					break;
 				}
 				case "cargo": {
