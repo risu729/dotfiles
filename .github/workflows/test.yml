@@ -1,11 +1,12 @@
 name: Test installer on Linux
 
 on:
-  # do not use paths filter because it does not work well with required status checks
-  # ref: https://github.com/orgs/community/discussions/13690
   push:
-    branches: main
+    branches:
+      - main
   pull_request:
+    branches:
+      - main
   workflow_dispatch:
   schedule:
     - cron: "0 0 * * SUN"
