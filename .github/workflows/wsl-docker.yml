@@ -96,7 +96,7 @@ jobs:
         if: ${{ github.event_name == 'pull_request' || steps.build-info.outputs.tag != steps.latest-tag.outputs.latest_tag }}
         run: |
           curl --fail-with-body --location --output ubuntu.tar.gz \
-            https://cloud-images.ubuntu.com/wsl/noble/current/ubuntu-noble-wsl-amd64-ubuntu.rootfs.tar.gz
+            https://cloud-images.ubuntu.com/wsl/${{ steps.version.outputs.series }}/current/ubuntu-${{ steps.version.outputs.series }}-wsl-amd64-ubuntu.rootfs.tar.gz
 
       - name: Create Dockerfile
         if: ${{ steps.rootfs.outcome != 'skipped' }}
