@@ -74,7 +74,8 @@ jobs:
             echo "Failed to get the serial" >&2
             exit 1
           fi
-          echo "tag=${{ steps.version.outputs.version }}+${serial}" >> "${GITHUB_OUTPUT}"
+          # + cannot be used in the tag, so use - instead
+          echo "tag=${{ steps.version.outputs.version }}-${serial}" >> "${GITHUB_OUTPUT}"
 
       - name: Get latest Ubuntu WSL image tag
         id: latest-tag
