@@ -46,17 +46,19 @@ jobs:
         run: |
           today=$(date --utc --iso-8601)
           read -r version series < <(
-            jq --arg today "${today}" -r '
-              [ .[]
-                | select(.version | contains("LTS"))
-                | select(.release <= $today)
-                | {series, version: (.version | sub(" LTS"; ""))}
-              ]
-              | sort_by(.release)
-              | reverse
-              | .[0]
-              | "\(.version) \(.series)"
-            ' input.json
+            curl --fail-with-body --location https://debian.pages.debian.net/distro-info-data/ubuntu.csv \
+              | jc --csv \
+              | jq --arg today "${today}" -r '
+                  [ .[]
+                    | select(.version | contains("LTS"))
+                    | select(.release <= $today)
+                    | {series, version: (.version | sub(" LTS"; ""))}
+                  ]
+                  | sort_by(.release)
+                  | reverse
+                  | .[0]
+                  | "\(.version) \(.series)"
+                '
           )
           echo "version=${version}" >> "${GITHUB_OUTPUT}"
           echo "series=${series}" >> "${GITHUB_OUTPUT}"
