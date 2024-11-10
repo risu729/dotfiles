@@ -71,13 +71,19 @@ const searchRegistry = async (tool: string): Promise<string> => {
 	if (tool.includes(":")) {
 		return tool;
 	}
+	let result: string;
 	try {
-		return await $`mise registry ${tool}`.text();
+		result = await $`mise registry ${tool}`.text();
 	} catch (error) {
 		throw new Error(`Shorthand '${tool}' not found in mise registry`, {
 			cause: error,
 		});
 	}
+	const full = result.split(" ").at(0);
+	if (!full) {
+		throw new Error(`Shorthand '${tool}' not found in mise registry`);
+	}
+	return full;
 };
 
 const tasks: {
