@@ -24,7 +24,7 @@
 			// prettier-ignore
 			fileMatch: ["mise\.toml"],
 			// cspell:ignore datasource
-			datasourceTemplate: "github-releases",
+			datasourceTemplate: "{{#unless datasource}}github-releases{{else}}{{datasource}}{{/unless}}",
 			matchStrings: [
 				// test: https://regex101.com/r/8grHta
 				// prettier-ignore
