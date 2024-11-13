@@ -24,7 +24,7 @@ $powertoys_backup_dir = "\\wsl.localhost\$distribution\home\$wsl_username\github
 # cspell:ignore hkcu
 Set-ItemProperty -Path HKCU:Software\Microsoft\PowerToys -Name SettingsBackupAndRestoreDir -Value "$powertoys_backup_dir"
 
-# setup git config after browser is installed
+# setup git after browser is installed
 # use -i, interactive mode
 # need to source .bashrc to update PATH
 wsl /usr/bin/env bash -ic "source ~/.bashrc; ~/github/dotfiles/wsl/setup-git.ts"
