@@ -27,6 +27,7 @@ jq = "latest"
 gh = "latest"
 # cspell:ignore kellyjonbrazil
 "ubi:kellyjonbrazil/jc" = "latest"
+delta = "latest"
 
 # biome vs code extension requires global installation
 "npm:@biomejs/biome" = "latest"
