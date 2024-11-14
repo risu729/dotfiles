@@ -1,6 +1,6 @@
 #!/usr/bin/env bun
 
-import { mkdtemp, rmdir, unlink } from "node:fs/promises";
+import { mkdtemp, rmdir } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { $, env, file, spawn, write } from "bun";
@@ -1313,9 +1313,10 @@ const configureGitSign = async (
 	if (!gnupgHome) {
 		throw new Error("Failed to get gnupg home");
 	}
-	await unlink(
-		join(gnupgHome, "private-keys-v1.d", `${keyringKey.key.keygrip}.key`),
-	);
+	await $`shred --remove --zero ${join(gnupgHome, "private-keys-v1.d", `${keyringKey.key.keygrip}.key`)}`
+		.quiet()
+		// ignore error if the key is already deleted
+		.nothrow();
 	console.info("Deleted private primary key for security.");
 
 	const gpgAgentConfPath = join(gnupgHome, "gpg-agent.conf");
