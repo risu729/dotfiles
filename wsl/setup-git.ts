@@ -1,6 +1,6 @@
 #!/usr/bin/env bun
 
-import { mkdtemp, rmdir, unlink } from "node:fs/promises";
+import { mkdtemp, rmdir } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { $, env, file, spawn, write } from "bun";
