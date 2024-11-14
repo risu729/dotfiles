@@ -5,6 +5,8 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { $, env, file, spawn, write } from "bun";
 
+const localGitConfigPath = "~/.gitconfig.local";
+
 // do not use Partial as it sets all properties to optional but doesn't allow undefined
 type DeepOptional<T> = {
 	[P in keyof T]: T[P] extends (infer U)[]
@@ -161,7 +163,7 @@ const setGitUserConfig = async (): Promise<{
 		name: string | null;
 		login: string;
 	}>("/user");
-	await $`git config --global user.name ${name ?? login}`.quiet();
+	await $`git config --file ${localGitConfigPath} user.name ${name ?? login}`.quiet();
 
 	const noReplyEmail = await ghApi<{ email: string }[]>("/user/emails").then(
 		(emails) =>
@@ -172,7 +174,7 @@ const setGitUserConfig = async (): Promise<{
 	if (!noReplyEmail) {
 		throw new Error("Failed to get GitHub-provided no-reply email");
 	}
-	await $`git config --global user.email ${noReplyEmail}`.quiet();
+	await $`git config --file ${localGitConfigPath} user.email ${noReplyEmail}`.quiet();
 	return { githubId: login, email: noReplyEmail };
 };
 
@@ -1120,17 +1122,11 @@ const configureGitSign = async (
 	email: string,
 	// biome-ignore lint/complexity/noExcessiveCognitiveComplexity: too many steps to configure
 ): Promise<void> => {
-	// cspell:ignore openpgp
-	// use the default format, openpgp
-	await $`git config --global --unset gpg.format`.quiet().nothrow();
-	// cspell:ignore gpgsign
-	await $`git config --global commit.gpgSign true`.quiet();
-	await $`git config --global tag.gpgSign true`.quiet();
-
 	// cspell:ignore signingkey
-	const gitSigningKey = await $`git config --global user.signingkey`
-		.nothrow()
-		.text();
+	const gitSigningKey =
+		await $`git config --file ${localGitConfigPath} user.signingkey`
+			.nothrow()
+			.text();
 	const keyringSecretKeys = (await getGpgKeyringSecretKeys())
 		// exclude if the key doesn't contain any secret keys to ignore imported public keys
 		.filter(
@@ -1352,11 +1348,10 @@ const configureGitSign = async (
 	// however, to clarify which subkey is used, specify the subkey id
 	// don't use fingerprint because it cannot be retrieved from github api
 	// ! is required to specify subkey as `--local-user` in gpg, which git uses internally
-	await $`git config --global user.signingkey ${keyringKey.subkey.fingerprint}!`.quiet();
+	await $`git config --file ${localGitConfigPath} user.signingkey ${keyringKey.subkey.fingerprint}!`.quiet();
 };
 
 const main = async (): Promise<void> => {
-	await $`git config --global init.defaultBranch main`.quiet();
 	const removeScopes = await ensureGitHubTokenScopes();
 
 	try {
