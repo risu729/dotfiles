@@ -36,6 +36,9 @@ delta = "latest"
 pin = true
 experimental = true
 
+[settings.npm]
+bun = true
+
 # cspell:ignore pipx
 [settings.pipx]
 uvx = true
