@@ -15,9 +15,9 @@ echo "${username} ALL=(ALL:ALL) NOPASSWD: AL" | sudo tee "/etc/sudoers.d/01-${us
 sudo apt-get update
 sudo apt-get upgrade --yes
 
-# not pre-installed in wsl2 ubuntu (at least in 24.04)
-# software-properties-common is required for add-apt-repository
-sudo apt-get install --yes zip unzip software-properties-common
+# not pre-installed in wsl ubuntu
+# ref: https://cloud-images.ubuntu.com/wsl/noble/current/ubuntu-noble-wsl-amd64-wsl.manifest
+sudo apt-get install --yes zip unzip
 
 # use PPA for wslu as recommended
 # ref: https://wslutiliti.es/wslu/install.html#ubuntu
