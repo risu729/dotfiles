@@ -130,16 +130,16 @@ hide = true
 [tasks."check:shfmt"]
 # cannot exclude gitignored files
 # ref: https://github.com/mvdan/sh/issues/288
-run = "shfmt --list --write --simplify $(mise run util:list-scripts)"
+run = "scripts=$(mise run util:list-scripts) && shfmt --list --write --simplify $scripts"
 [tasks."ci:shfmt"]
-run = "shfmt --diff --simplify $(mise run util:list-scripts)"
+run = "scripts=$(mise run util:list-scripts) && shfmt --diff --simplify $scripts"
 hide = true
 
 [tasks."lint:shellcheck"]
 # recursive globbing is not supported
 # ref: https://www.shellcheck.net/wiki/Recursiveness
 # ref: https://github.com/koalaman/shellcheck/issues/143
-run = "shellcheck --external-sources $(mise run util:list-scripts)"
+run = "scripts=$(mise run util:list-scripts) && shellcheck --external-sources $scripts"
 alias = "check:shellcheck"
 
 [tasks."check:yamlfmt"]
@@ -184,7 +184,7 @@ hide = true
 [tasks."worker:dev"]
 depends = ["buni:worker"]
 dir = "worker"
-run = "bun run wrangler dev $(mise run worker:wrangler-args)"
+run = "args=$(mise run worker:wrangler-args) && bun run wrangler dev $args"
 
 [tasks."worker:test"]
 depends = ["buni:worker"]
@@ -218,5 +218,5 @@ hide = true
 
 [tasks."util:list-scripts"]
 # .bashrc is not detected by shfmt --find
-run = "echo wsl/home/.bashrc $(shfmt --find $(git ls-files))"
+run = "git_files=$(git ls-files) && scripts=$(shfmt --find $git_files) && echo wsl/home/.bashrc $scripts"
 hide = true
