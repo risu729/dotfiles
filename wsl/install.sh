@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set -euo pipefail
+set -euxo pipefail
 
 # might be edited by the worker to checkout a specific ref
 git_ref=""
