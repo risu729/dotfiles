@@ -56,17 +56,21 @@ fi
 wsl_dir="${dotfiles_dir}/wsl"
 cd "${wsl_dir}"
 
-paths="$(find . -type f ! -name "install.sh" ! -name "setup-git.ts" ! -name ".gitignore-sync")"
-for path in ${paths}; do
-	mkdir --parents "$(dirname "${HOME}/${path#./}")"
-	if [[ -f ${path} && ${path#./} == ".config/git/.gitignore" ]]; then
+# create symbolic links for home directory
+# exclude .gitignore-sync
+home_paths="$(find ./home -type f ! -name ".gitignore-sync")"
+for path in ${home_paths}; do
+	path="$(realpath "${path}")"
+	if [[ ${path} == */.config/git/.gitignore ]]; then
 		# ignore-sync doesn't support filename `ignore-sync`, so rename generated .gitignore to ignore
-		ln --symbolic --no-dereference --force "${wsl_dir}/${path#./}" "${HOME}/.config/git/ignore"
-		continue
+		target=".config/git/ignore"
 	else
-		ln --symbolic --no-dereference --force "${wsl_dir}/${path#./}" "${HOME}/${path#./}"
+		target="$(realpath --relative-to="${wsl_dir}/home" "${path}")"
 	fi
-	echo installed "${path}"
+	mkdir --parents "$(dirname "${HOME}/${target}")"
+	ln --symbolic --no-dereference --force "${path}" "${HOME}/${target}"
+	# shellcheck disable=SC2088 # intentionally print ~ instead of $HOME
+	echo installed "~/${target}"
 done
 
 # back to home directory
