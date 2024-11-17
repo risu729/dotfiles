@@ -100,21 +100,26 @@ const tasks: {
 			// remove prefix if exists
 			const name = taskName.split(":")[1] ?? taskName;
 			const tool = miseTools.find((tool) => tool.includes(name));
+			const tools = new Set<string>(tool ? [tool] : []);
 
-			const tools: string[] = tool ? [tool] : [];
+			if (tool === "shellcheck") {
+				// mise run util:list-scripts depends on shfmt but cannot be auto detected
+				tools.add("shfmt");
+			}
 
 			const backend = tool
 				? (await searchRegistry(tool)).split(":").at(0)
 				: undefined;
 			switch (backend) {
 				case "npm": {
-					tools.push("bun", "node");
+					tools.add("bun");
+					tools.add("node");
 					break;
 				}
 				case "cargo": {
 					// rust is pre-installed in GitHub Actions runner
 					// cspell:ignore binstall
-					tools.push("cargo-binstall");
+					tools.add("cargo-binstall");
 					break;
 				}
 				default: {
@@ -126,13 +131,14 @@ const tasks: {
 				getNodeLabel(getNodeFromRef(node)),
 			);
 			if (dependencies.some((dependency) => dependency.startsWith("buni"))) {
-				tools.push("bun", "node");
+				tools.add("bun");
+				tools.add("node");
 			}
 
 			return {
 				name: name,
 				task: taskName,
-				tools: tools.join(" "),
+				tools: [...tools].sort().join(" "),
 			};
 		}),
 );
