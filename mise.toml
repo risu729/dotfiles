@@ -218,5 +218,5 @@ hide = true
 
 [tasks."util:list-scripts"]
 # .bashrc is not detected by shfmt --find
-run = "echo wsl/.bashrc $(shfmt --find $(git ls-files))"
+run = "echo wsl/home/.bashrc $(shfmt --find $(git ls-files))"
 hide = true
