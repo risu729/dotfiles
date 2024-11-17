@@ -5,7 +5,7 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { $, env, file, spawn, write } from "bun";
 
-const localGitConfigPath = "~/.gitconfig.local";
+const localGitConfigPath = await $`git config --global include.path`.text();
 
 // do not use Partial as it sets all properties to optional but doesn't allow undefined
 type DeepOptional<T> = {
