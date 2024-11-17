@@ -127,13 +127,18 @@ run = "markdownlint-cli2"
 hide = true
 
 [tasks."check:shfmt"]
-run = "shfmt --list --write --simplify . **/.bashrc"
+# cannot exclude gitignored files
+# ref: https://github.com/mvdan/sh/issues/288
+run = "shfmt --list --write --simplify $(mise run util:list-scripts)"
 [tasks."ci:shfmt"]
-run = "shfmt --diff --simplify . **/.bashrc"
+run = "shfmt --diff --simplify $(mise run util:list-scripts)"
 hide = true
 
 [tasks."lint:shellcheck"]
-run = "shellcheck --external-sources **/*.sh **/.bashrc"
+# recursive globbing is not supported
+# ref: https://www.shellcheck.net/wiki/Recursiveness
+# ref: https://github.com/koalaman/shellcheck/issues/143
+run = "shellcheck --external-sources $(mise run util:list-scripts)"
 alias = "check:shellcheck"
 
 [tasks."check:yamlfmt"]
@@ -209,4 +214,9 @@ hide = true
 
 [tasks."util:nodiff"] # cspell:ignore nodiff
 run = ["git add .", "git diff --staged --exit-code"]
+hide = true
+
+[tasks."util:list-scripts"]
+# .bashrc is not detected by shfmt --find
+run = "echo wsl/.bashrc $(shfmt --find $(git ls-files))"
 hide = true
