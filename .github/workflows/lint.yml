@@ -102,18 +102,18 @@ jobs:
         id: commitlint-push-initial
         # commit hash will be 000... if it doesn't exist
         if: github.event_name == 'push' && github.event.before == '0000000000000000000000000000000000000000'
-        run: bun run commitlint --verbose --to ${{ github.event.after }}
+        run: commitlint --verbose --to ${{ github.event.after }}
 
       - name: commitlint (push)
         id: commitlint-push
         if: github.event_name == 'push' && steps.commitlint-push-initial.outcome == 'skipped'
-        run: bun run commitlint --verbose --from ${{ github.event.before }} --to ${{ github.event.after }}
+        run: commitlint --verbose --from ${{ github.event.before }} --to ${{ github.event.after }}
 
       - name: commitlint (pull_request)
         id: commitlint-pr
         if: github.event_name == 'pull_request'
         run: |
-          bun run commitlint --verbose --from ${{ github.event.pull_request.base.sha }} --to ${{ github.event.pull_request.head.sha }}
+          commitlint --verbose --from ${{ github.event.pull_request.base.sha }} --to ${{ github.event.pull_request.head.sha }}
 
       - name: commitlint (pull request title)
         # continue even if the previous step fails
@@ -123,11 +123,11 @@ jobs:
         # ref: https://docs.github.com/en/actions/security-guides/security-hardening-for-github-actions#using-an-intermediate-environment-variable
         env:
           PR_TITLE: ${{ github.event.pull_request.title }}
-        run: echo "${PR_TITLE}" | bun run commitlint --verbose
+        run: echo "${PR_TITLE}" | commitlint --verbose
 
       - name: commitlint (last commit)
         if: steps.commitlint-push-initial.outcome == 'skipped' && steps.commitlint-push.outcome == 'skipped' && steps.commitlint-pr.outcome == 'skipped'
-        run: bun run commitlint --verbose --from ${{ github.sha }}~1 --to ${{ github.sha }}
+        run: commitlint --verbose --from ${{ github.sha }}~1 --to ${{ github.sha }}
 
   actions-timeline:
     needs:

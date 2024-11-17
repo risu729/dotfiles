@@ -37,13 +37,16 @@ unix_default_inline_shell_args = ["bash", "-euo", "pipefail", "-c"]
 [settings.npm]
 bun = true
 
+[env]
+_.path = ["./node_modules/.bin"]
+
 [tasks.commit]
 depends = ["buni:root"]
-run = ["git add .", "bun run git-cz"]
+run = ["git add .", "git-cz"]
 
 [tasks."commit:staged"]
 depends = ["buni:root"]
-run = "bun run git-cz"
+run = "git-cz"
 
 [tasks.check]
 depends = [
@@ -67,7 +70,7 @@ hide = true
 [tasks."check:tsc"]
 depends = ["buni"]
 run = [
-	"bun run tsc",
+	"tsc",
 	"bun run --cwd worker tsc --project tsconfig.base.json",
 	"bun run --cwd worker tsc --project tsconfig.src.json",
 	"bun run --cwd worker tsc --project tsconfig.test.json",
@@ -75,7 +78,7 @@ run = [
 [tasks."ci:tsc"]
 depends = ["buni"]
 run = [
-	"bun run tsc --incremental false",
+	"tsc --incremental false",
 	"bun run --cwd worker tsc --project tsconfig.base.json --incremental false",
 	"bun run --cwd worker tsc --project tsconfig.src.json --incremental false",
 	"bun run --cwd worker tsc --project tsconfig.test.json --incremental false",
@@ -184,15 +187,15 @@ hide = true
 [tasks."worker:dev"]
 depends = ["buni:worker"]
 dir = "worker"
-run = "args=$(mise run worker:wrangler-args) && bun run wrangler dev $args"
+run = "args=$(mise run worker:wrangler-args) && wrangler dev $args"
 
 [tasks."worker:test"]
 depends = ["buni:worker"]
-run = "bun run vitest watch --ui"
+run = "vitest watch --ui"
 dir = "worker"
 [tasks."worker:test:ci"]
 depends = ["buni:worker"]
-run = "bun run vitest run"
+run = "vitest run"
 dir = "worker"
 
 [tasks."buni"]
