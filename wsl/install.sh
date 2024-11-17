@@ -75,6 +75,7 @@ for path in ${etc_paths}; do
 	target="/etc/$(realpath --relative-to="${wsl_dir}/etc" "${path}")"
 	sudo mkdir --parents "$(dirname "${target}")"
 	sudo ln --symbolic --no-dereference --force "${path}" "${target}"
+	sudo chown root:root "${target}"
 	# shellcheck disable=SC2088 # intentionally print ~ instead of $HOME
 	echo installed "${target}"
 done
