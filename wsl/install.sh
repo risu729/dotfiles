@@ -61,18 +61,16 @@ cd "${wsl_dir}"
 home_paths="$(find ./home -type f ! -name ".gitignore-sync")"
 for path in ${home_paths}; do
 	path="$(realpath "${path}")"
-	mkdir --parents "$(dirname "${path}")"
 	if [[ ${path} == */.config/git/.gitignore ]]; then
 		# ignore-sync doesn't support filename `ignore-sync`, so rename generated .gitignore to ignore
-		ln --symbolic --no-dereference --force "${path}" "${HOME}/.config/git/ignore"
-		# shellcheck disable=SC2088 # intentionally print ~ instead of $HOME
-		echo installed "~/.config/git/ignore"
+		target=".config/git/ignore"
 	else
-		relative_path="$(realpath --relative-to="${wsl_dir}/home" "${path}")"
-		ln --symbolic --no-dereference --force "${path}" "${HOME}/${relative_path}"
-		# shellcheck disable=SC2088 # intentionally print ~ instead of $HOME
-		echo installed "~/${relative_path}"
+		target="$(realpath --relative-to="${wsl_dir}/home" "${path}")"
 	fi
+	mkdir --parents "$(dirname "${HOME}/${target}")"
+	ln --symbolic --no-dereference --force "${path}" "${HOME}/${target}"
+	# shellcheck disable=SC2088 # intentionally print ~ instead of $HOME
+	echo installed "~/${target}"
 done
 
 # back to home directory
