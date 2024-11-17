@@ -5,11 +5,6 @@ set -euxo pipefail
 # might be edited by the worker to checkout a specific ref
 git_ref=""
 
-# don't ask password for sudo
-username="$(whoami)"
-# cspell:ignore nopasswd
-echo "${username} ALL=(ALL:ALL) NOPASSWD: AL" | sudo tee "/etc/sudoers.d/01-${username}-nopasswd" >/dev/null
-
 # use apt-get instead of apt for scripts
 # ref: https://manpages.ubuntu.com/manpages/trusty/man8/apt.8.html#:~:text=SCRIPT%20USAGE/
 sudo apt-get update
@@ -71,6 +66,17 @@ for path in ${home_paths}; do
 	ln --symbolic --no-dereference --force "${path}" "${HOME}/${target}"
 	# shellcheck disable=SC2088 # intentionally print ~ instead of $HOME
 	echo installed "~/${target}"
+done
+
+# create symbolic links for etc directory
+etc_paths="$(find ./etc -type f)"
+for path in ${etc_paths}; do
+	path="$(realpath "${path}")"
+	target="/etc/$(realpath --relative-to="${wsl_dir}/etc" "${path}")"
+	sudo mkdir --parents "$(dirname "${target}")"
+	sudo ln --symbolic --no-dereference --force "${path}" "${target}"
+	# shellcheck disable=SC2088 # intentionally print ~ instead of $HOME
+	echo installed "${target}"
 done
 
 # back to home directory
