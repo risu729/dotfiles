@@ -1,6 +1,8 @@
 # ref: https://mise.jdx.dev/configuration.html#global-config-config-mise-config-toml
 #:schema https://mise.jdx.dev/schema/mise.json
 
+min_version = "2024.11.15"
+
 [tools]
 # language tools
 node = "latest"
@@ -9,21 +11,34 @@ yarn = "latest"
 pnpm = "latest"
 java = "latest"
 gradle = "latest"
-maven = "latest"
 rust = "latest"
 python = "latest"
 go = "latest"
 
+# mise backends
+# cspell:ignore binstall
+cargo-binstall = "latest"
+uv = "latest"
+# required for completion
+usage = "latest"
+
 # cli tools
 jq = "latest"
-# need to specify exe name
-# ref: https://mise.jdx.dev/dev-tools/backends/ubi.html#exe
-gh = { version = "latest", exe = "gh" }
+gh = "latest"
+# cspell:ignore kellyjonbrazil
+"ubi:kellyjonbrazil/jc" = "latest"
+delta = "latest"
 
 # biome vs code extension requires global installation
-# latest cannot be resolved
-# renovate: extractVersion=^cli/v(?<version>.+)
-"ubi:biomejs/biome" = "cli/v1.9.4"
+"npm:@biomejs/biome" = "latest"
 
 [settings]
+pin = true
 experimental = true
+
+[settings.npm]
+bun = true
+
+# cspell:ignore pipx
+[settings.pipx]
+uvx = true

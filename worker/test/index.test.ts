@@ -12,8 +12,7 @@ const IncomingRequest = Request<unknown, IncomingRequestCfProperties>;
 
 beforeAll(() => {
 	// set the variables that are used in the worker
-	env.REPO_OWNER = "risu729";
-	env.REPO_NAME = "dotfiles";
+	env.REPO_NAME = "risu729/dotfiles";
 	env.DEFAULT_BRANCH = "main";
 });
 

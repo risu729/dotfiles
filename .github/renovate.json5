@@ -10,7 +10,6 @@
 		":prHourlyLimitNone",
 		":prConcurrentLimitNone",
 	],
-	automergeStrategy: "squash",
 	labels: [
 		"dependencies",
 		"{{#unless (equals manager 'regex')}}{{manager}}{{/unless}}",
@@ -21,106 +20,108 @@
 		// ref: https://docs.renovatebot.com/modules/manager/mise/#additional-information
 		{
 			customType: "regex",
-			description: "Updates tool versions in mise.toml (asdf backend, github-releases datasource)",
+			description: "Updates tool versions in mise.toml (default registry)",
 			// prettier-ignore
-			fileMatch: ["^mise\.toml$", "^wsl/.config/mise/config.toml$"],
+			fileMatch: ["mise\.toml"],
 			// cspell:ignore datasource
-			datasourceTemplate: "github-releases",
-			matchStrings: [
-				// test: https://regex101.com/r/tNMUFo
-				// prettier-ignore
-				"# renovate: packageName=(?<packageName>.+?)(?: extractVersion=(?<extractVersion>.+?))?\\n\"?(?<depName>[^:]+?)\"? *= *\"(?<currentValue>.+?)\"",
-			],
-		},
-		{
-			customType: "regex",
-			description: "Updates tool versions in mise.toml (asdf backend, other datasource)",
-			// prettier-ignore
-			fileMatch: ["^mise\.toml$", "^wsl/.config/mise/config.toml$"],
+			datasourceTemplate: "{{#unless datasource}}github-releases{{else}}{{datasource}}{{/unless}}",
 			matchStrings: [
 				// test: https://regex101.com/r/8grHta
 				// prettier-ignore
-				"# renovate: datasource=(?<datasource>[a-z-]+?)(?: packageName=(?<packageName>.+?))?(?: versioning=(?<versioning>[a-z-]+?))?(?: extractVersion=(?<extractVersion>.+?))?\\n\"?(?<depName>[^:]+?)\"? *= *\"?(?<currentValue>.+?)\"? *(?:#.*)?\\n",
+				"# renovate:(?: datasource=(?<datasource>.+?))?(?: packageName=(?<packageName>.+?))?(?: versioning=(?<versioning>.+?))?(?: extractVersion=(?<extractVersion>.+?))?\\n\"?(?<depName>[^:]+?)\"? *= *\"(?<currentValue>.+?)\"",
 			],
 		},
-		// renovate does not support backends except core and asdf
+		// renovate does not support backends
 		// ref: https://github.com/renovatebot/renovate/issues/30387
 		{
 			customType: "regex",
 			description: "Updates tool versions in mise.toml (Cargo backend)",
 			// prettier-ignore
-			fileMatch: ["^mise\.toml$", "^wsl/.config/mise/config.toml$"],
+			fileMatch: ["mise\.toml"],
 			datasourceTemplate: "crate",
 			matchStrings: [
 				// test: https://regex101.com/r/K6Imdx
 				// prettier-ignore
-				"\"cargo:(?<depName>[^:]+?)\" *= *\"(?<currentValue>.+?)\"",
+				"\"cargo:(?<depName>.+?)\" *= *\"(?<currentValue>.+?)\"",
 			],
 		},
 		{
 			customType: "regex",
 			description: "Updates tool versions in mise.toml (npm backend)",
 			// prettier-ignore
-			fileMatch: ["^mise\.toml$", "^wsl/.config/mise/config.toml$"],
+			fileMatch: ["mise\.toml"],
 			datasourceTemplate: "npm",
 			matchStrings: [
 				// test: https://regex101.com/r/avOpdb
 				// prettier-ignore
-				"\"npm:(?<depName>[^:]+?)\" *= *\"(?<currentValue>.+?)\"",
+				"\"npm:(?<depName>.+?)\" *= *\"(?<currentValue>.+?)\"",
 			],
 		},
 		{
 			customType: "regex",
 			description: "Updates tool versions in mise.toml (ubi backend)",
 			// prettier-ignore
-			fileMatch: ["^mise\.toml$", "^wsl/.config/mise/config.toml$"],
+			fileMatch: ["mise\.toml"],
 			datasourceTemplate: "github-releases",
 			matchStrings: [
 				// test: https://regex101.com/r/RRA3NI
 				// prettier-ignore
-				"(?:# renovate: extractVersion=(?<extractVersion>.+?)\\n)?\"ubi:(?<depName>[^:]+?)\" *= *\".+?(?<currentValue>\\d+\\..+?)\"",
+				"(?:# renovate: extractVersion=(?<extractVersion>.+?)\\n)?\"ubi:(?<depName>.+?)\" *= *\".*?(?<currentValue>\\d+\\..+?)\"",
 			],
 		},
 		{
 			customType: "regex",
-			description: "Update $schema in biome.jsonc",
+			description: "Updates min_version in mise config",
+			fileMatch: ["mise\\.toml", "mise/config\\.toml"],
+			datasourceTemplate: "github-releases",
+			depNameTemplate: "mise",
+			packageNameTemplate: "jdx/mise",
+			matchStrings: [
+				// prettier-ignore
+				"min_version = \"(?<currentValue>.+)\"",
+			],
+		},
+		{
+			customType: "regex",
+			description: "Updates mise versions in GitHub Actions",
+			fileMatch: ["^\\.github/workflows/.+\\.yml$"],
+			datasourceTemplate: "github-releases",
+			depNameTemplate: "mise",
+			packageNameTemplate: "jdx/mise",
+			matchStrings: [
+				// prettier-ignore
+				"version: (?<currentValue>.+)",
+			],
+		},
+		{
+			customType: "regex",
+			description: "Updates $schema in biome.jsonc",
 			// prettier-ignore
-			fileMatch: ["^biome\.jsonc$"],
+			fileMatch: ["biome\.jsonc"],
 			datasourceTemplate: "npm",
-			depNameTemplate: "biomejs/biome",
 			packageNameTemplate: "@biomejs/biome",
-			versioningTemplate: "semver",
 			matchStrings: [
 				// test: https://regex101.com/r/EDnwWL
 				// prettier-ignore
 				"https:\\/\\/biomejs\\.dev\\/schemas\\/(?<currentValue>[0-9.]+)\\/schema\\.json",
 			],
 		},
-		{
-			customType: "regex",
-			description: "Update compatibility_workerd_version in wrangler.toml",
-			// prettier-ignore
-			fileMatch: ["wrangler\.toml$"],
-			datasourceTemplate: "npm",
-			// cspell:ignore workerd
-			depNameTemplate: "workerd",
-			versioningTemplate: "semver",
-			matchStrings: [
-				// update compatibility_workerd_version instead of compatibility_date
-				// because extractVersion cannot transform semver to date
-				// e.g. 1.20240524.0 -> 2024-05-24
-				// test: https://regex101.com/r/zDTZY3
-				// prettier-ignore
-				"compatibility_workerd_version *= *\"(?<currentValue>.+?)\"",
-			],
-		},
 	],
 	packageRules: [
-		// group dependency updates
+		// use unstable versions
 		{
-			// group biome in mise.toml and biome.jsonc
-			matchDepNames: ["biomejs/biome"],
-			groupName: "biomejs/biome",
+			// odd major versions are unstable but use the latest
+			// ref: https://docs.renovatebot.com/modules/versioning/node/
+			matchDepNames: ["node"],
+			ignoreUnstable: false,
+		},
+		// automerge
+		{
+			matchDepNames: ["mise"],
+			// cspell:ignore calver
+			// mise uses Calver, so allow automerge for all versions
+			// ref: https://mise.jdx.dev/project-roadmap.html#versioning
+			automerge: true,
 		},
 		// set semantic commit types
 		{

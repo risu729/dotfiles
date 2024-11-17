@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set -euo pipefail
+set -euxo pipefail
 
 # might be edited by the worker to checkout a specific ref
 git_ref=""
@@ -10,15 +10,15 @@ git_ref=""
 sudo apt-get update
 sudo apt-get upgrade --yes
 
-# not pre-installed in wsl2 ubuntu (at least in 24.04)
-# software-properties-common is required for add-apt-repository
-sudo apt-get install --yes zip unzip software-properties-common
+# not pre-installed in wsl ubuntu
+# ref: https://cloud-images.ubuntu.com/wsl/noble/current/ubuntu-noble-wsl-amd64-wsl.manifest
+sudo apt-get install --yes zip unzip
 
 # use PPA for wslu as recommended
 # ref: https://wslutiliti.es/wslu/install.html#ubuntu
 # wslu is for wslview, which opens Windows browser from WSL
 # cspell:ignore wslutilities wslu wslview
-sudo add-apt-repository ppa:wslutilities/wslu
+sudo add-apt-repository --yes ppa:wslutilities/wslu
 sudo apt-get update
 sudo apt-get install --yes wslu
 
@@ -30,49 +30,71 @@ echo "deb [signed-by=/etc/apt/keyrings/mise-archive-keyring.gpg arch=amd64] http
 sudo apt-get update
 sudo apt-get install -y mise
 
-mkdir --parents ~/github
-cd ~/github
-
-if [[ -d dotfiles ]]; then
-	cd dotfiles
+# use --parents to avoid error if the directory exists
+mkdir --parents "${HOME}/github"
+dotfiles_dir="${HOME}/github/dotfiles"
+if [[ -d ${dotfiles_dir} ]]; then
+	cd "${HOME}/github/dotfiles"
 	git fetch --all --prune
-	git pull
-	cd ..
+	git pull --all
 else
+	cd "${HOME}/github"
 	git clone https://github.com/risu729/dotfiles.git dotfiles
 fi
-cd dotfiles
 
+cd "${dotfiles_dir}"
 # checkout a specific ref if specified
 if [[ -n ${git_ref} ]]; then
 	git checkout "${git_ref}"
 fi
 
-wsl_dir="$(realpath ./wsl)"
+wsl_dir="${dotfiles_dir}/wsl"
 cd "${wsl_dir}"
 
-paths="$(find . -type f ! -name "install.sh" ! -name "setup-git.sh" ! -name ".gitignore-sync")"
-for path in ${paths}; do
-	mkdir --parents "$(dirname "${HOME}/${path#./}")"
-	if [[ -f ${path} && ${path#./} == ".config/git/.gitignore" ]]; then
+# create symbolic links for home directory
+# exclude .gitignore-sync
+home_paths="$(find ./home -type f ! -name ".gitignore-sync")"
+for path in ${home_paths}; do
+	path="$(realpath "${path}")"
+	if [[ ${path} == */.config/git/.gitignore ]]; then
 		# ignore-sync doesn't support filename `ignore-sync`, so rename generated .gitignore to ignore
-		ln --symbolic --no-dereference --force "${wsl_dir}/${path#./}" "${HOME}/.config/git/ignore"
-		continue
+		target=".config/git/ignore"
 	else
-		ln --symbolic --no-dereference --force "${wsl_dir}/${path#./}" "${HOME}/${path#./}"
+		target="$(realpath --relative-to="${wsl_dir}/home" "${path}")"
 	fi
-	echo installed "${path}"
+	mkdir --parents "$(dirname "${HOME}/${target}")"
+	ln --symbolic --no-dereference --force "${path}" "${HOME}/${target}"
+	# shellcheck disable=SC2088 # intentionally print ~ instead of $HOME
+	echo installed "~/${target}"
+done
+
+# create symbolic links for etc directory
+etc_paths="$(find ./etc -type f)"
+for path in ${etc_paths}; do
+	path="$(realpath "${path}")"
+	target="/etc/$(realpath --relative-to="${wsl_dir}/etc" "${path}")"
+	sudo mkdir --parents "$(dirname "${target}")"
+	sudo ln --symbolic --no-dereference --force "${path}" "${target}"
+	sudo chown root:root "${target}"
+	# shellcheck disable=SC2088 # intentionally print ~ instead of $HOME
+	echo installed "${target}"
 done
 
 # back to home directory
-cd ~
+cd "${HOME}"
 
 mise install --yes
+# activate mise shims for bun scripts
+mise_shims="$(mise activate bash --shims)"
+eval "${mise_shims}"
 echo installed mise
 
 echo installed dotfiles!
 
 # shellcheck disable=SC2154 # CI is defined in GitHub Actions, SKIP_GIT_SETUP may be defined as environment variable
-if [[ ${CI} != true && ${SKIP_GIT_SETUP} != true ]]; then
-	~/github/dotfiles/wsl/setup-git.sh
+if [[ ${CI:-} != true && ${SKIP_GIT_SETUP:-} != true ]]; then
+	if ! "${wsl_dir}/setup-git.ts"; then
+		echo "Failed to setup Git. Please run ${wsl_dir}/setup-git.ts manually."
+		exit 1
+	fi
 fi

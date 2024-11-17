@@ -1,11 +1,12 @@
 name: Test installer on Linux
 
 on:
-  # do not use paths filter because it does not work well with required status checks
-  # ref: https://github.com/orgs/community/discussions/13690
   push:
-    branches: main
+    branches:
+      - main
   pull_request:
+    branches:
+      - main
   workflow_dispatch:
   schedule:
     - cron: "0 0 * * SUN"
@@ -23,20 +24,17 @@ jobs:
     permissions:
       contents: read # for checkout
 
-    container: ubuntu:noble-20241011@sha256:99c35190e22d294cdace2783ac55effc69d32896daaa265f0bbedbcde4fbe3e5
+    container:
+      image: ghcr.io/risu729/dotfiles/wsl:24.04-20241029@sha256:ecbe37b6809e651605e7a028441293eda51647e5e2cc80d599f55b39e6d727d6
 
     steps:
-      - name: Install apt packages
-        run: |
-          apt-get update
-          apt-get install -y curl git sudo wget
-
       - name: Run installer
         # use head sha for pull requests because github.sha is set to the merge commit
-        run: >-
-          bash <(curl -fsSL https://dot.risunosu.com/wsl?ref=${{
+        # don't use process substitution to avoid masking the errors
+        run: |
+          curl -fsSL https://dot.risunosu.com/wsl?ref=${{
             github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.sha
-          }})
+          }} | bash
 
   actions-timeline:
     needs:

@@ -1,4 +1,3 @@
-import { createHash } from "node:crypto";
 import { $ } from "bun";
 import {
 	type EdgeModel,
@@ -68,43 +67,80 @@ const getDependencies = ({ id }: NodeRef): NodeRef[] => {
 		.flatMap(({ to }) => [to, ...getDependencies(to)]);
 };
 
+const searchRegistry = async (tool: string): Promise<string> => {
+	if (tool.includes(":")) {
+		return tool;
+	}
+	let result: string;
+	try {
+		result = await $`mise registry ${tool}`.text();
+	} catch (error) {
+		throw new Error(`Shorthand '${tool}' not found in mise registry`, {
+			cause: error,
+		});
+	}
+	const full = result.split(" ").at(0);
+	if (!full) {
+		throw new Error(`Shorthand '${tool}' not found in mise registry`);
+	}
+	return full;
+};
+
 const tasks: {
 	name: string;
 	task: string;
 	// space separated list to use in `mise install` command
 	tools: string;
-	toolsHash: string;
-}[] = ciTasks.edges
-	.map(getEdgeTargets)
-	.filter(({ from }) => from.id === rootNode.id)
-	.map(({ to }) => {
-		const taskName = getNodeLabel(getNodeFromRef(to));
-		// remove prefix if exists
-		const name = taskName.split(":")[1] ?? taskName;
-		const tool = miseTools.find((tool) => tool.includes(name));
+}[] = await Promise.all(
+	ciTasks.edges
+		.map(getEdgeTargets)
+		.filter(({ from }) => from.id === rootNode.id)
+		.map(async ({ to }) => {
+			const taskName = getNodeLabel(getNodeFromRef(to));
+			// remove prefix if exists
+			const name = taskName.split(":")[1] ?? taskName;
+			const tool = miseTools.find((tool) => tool.includes(name));
+			const tools = new Set<string>(tool ? [tool] : []);
 
-		const tools: string[] = tool ? [tool] : [];
+			if (tool === "shellcheck") {
+				// mise run util:list-scripts depends on shfmt but cannot be auto detected
+				tools.add("shfmt");
+			}
 
-		if (tool?.startsWith("npm")) {
-			tools.push("node");
-		}
+			const backend = tool
+				? (await searchRegistry(tool)).split(":").at(0)
+				: undefined;
+			switch (backend) {
+				case "npm": {
+					tools.add("bun");
+					tools.add("node");
+					break;
+				}
+				case "cargo": {
+					// rust is pre-installed in GitHub Actions runner
+					// cspell:ignore binstall
+					tools.add("cargo-binstall");
+					break;
+				}
+				default: {
+					break;
+				}
+			}
 
-		const dependencies = getDependencies(to).map((node) =>
-			getNodeLabel(getNodeFromRef(node)),
-		);
-		// cspell:ignore buni
-		if (dependencies.some((dependency) => dependency.startsWith("buni"))) {
-			tools.push("bun", "node");
-		}
+			const dependencies = getDependencies(to).map((node) =>
+				getNodeLabel(getNodeFromRef(node)),
+			);
+			if (dependencies.some((dependency) => dependency.startsWith("buni"))) {
+				tools.add("bun");
+				tools.add("node");
+			}
 
-		return {
-			name: name,
-			task: taskName,
-			tools: tools.join(" "),
-			toolsHash: createHash("sha256")
-				.update(tools.sort().join("-"))
-				.digest("hex"),
-		};
-	});
+			return {
+				name: name,
+				task: taskName,
+				tools: [...tools].sort().join(" "),
+			};
+		}),
+);
 
 console.write(JSON.stringify(tasks));

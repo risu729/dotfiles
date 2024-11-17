@@ -1,11 +1,12 @@
 name: Lint
 
 on:
-  # do not use paths filter because it does not work well with required status checks
-  # ref: https://github.com/orgs/community/discussions/13690
   push:
-    branches: main
+    branches:
+      - main
   pull_request:
+    branches:
+      - main
   workflow_dispatch:
   schedule:
     - cron: "0 0 * * SUN"
@@ -18,9 +19,6 @@ defaults:
 
 jobs:
   list-tasks:
-    # define unique id to add to status checks
-    name: lint-list-tasks
-
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     permissions:
@@ -31,24 +29,24 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@eef61447b9ff4aafe5dcd4e0bbf5d482be7e7871 # v4.2.1
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
 
       - name: Install mise
-        uses: jdx/mise-action@f8dfbcc150159126838e44b882bf34bd98fd90f3 # v2.1.0
+        uses: jdx/mise-action@53d027c2e96fed8f955f5d95bff910a3e031cc58 # v2.1.6
         with:
+          version: 2024.11.15
           # backends are required to run mise list
-          install_args: bun node
-          cache_key_prefix: mise-v0-bun-node
-          experimental: true
+          # cspell:ignore binstall
+          install_args: bun node cargo-binstall
 
       - name: Install package.json dependencies
-        run: mise run buni:root # cspell:ignore buni
+        run: mise run buni:root
 
       - name: List mise tasks
         id: list
         run: |
           tasks=$(bun run .github/workflows/scripts/list-mise-tasks.ts)
-          echo "tasks=$tasks" >> "$GITHUB_OUTPUT"
+          echo "tasks=${tasks}" >> "${GITHUB_OUTPUT}"
 
   lint:
     needs: list-tasks
@@ -68,14 +66,13 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@eef61447b9ff4aafe5dcd4e0bbf5d482be7e7871 # v4.2.1
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
 
       - name: Install mise
-        uses: jdx/mise-action@f8dfbcc150159126838e44b882bf34bd98fd90f3 # v2.1.0
+        uses: jdx/mise-action@53d027c2e96fed8f955f5d95bff910a3e031cc58 # v2.1.6
         with:
+          version: 2024.11.15
           install_args: ${{ matrix.tools }}
-          cache_key_prefix: mise-v0-${{ matrix.toolsHash }}
-          experimental: true
 
       - name: Run ${{ matrix.name }}
         run: mise run ${{ matrix.task }}
@@ -88,16 +85,15 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@eef61447b9ff4aafe5dcd4e0bbf5d482be7e7871 # v4.2.1
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
           fetch-depth: 0 # fetch all history for commitlint
 
       - name: Install mise
-        uses: jdx/mise-action@f8dfbcc150159126838e44b882bf34bd98fd90f3 # v2.1.0
+        uses: jdx/mise-action@53d027c2e96fed8f955f5d95bff910a3e031cc58 # v2.1.6
         with:
+          version: 2024.11.15
           install_args: bun node
-          cache_key_prefix: mise-v0-bun-node
-          experimental: true
 
       - name: Install package.json dependencies
         run: mise run buni:root
@@ -127,33 +123,16 @@ jobs:
         # ref: https://docs.github.com/en/actions/security-guides/security-hardening-for-github-actions#using-an-intermediate-environment-variable
         env:
           PR_TITLE: ${{ github.event.pull_request.title }}
-        run: echo "$PR_TITLE" | bun run commitlint --verbose
+        run: echo "${PR_TITLE}" | bun run commitlint --verbose
 
       - name: commitlint (last commit)
         if: steps.commitlint-push-initial.outcome == 'skipped' && steps.commitlint-push.outcome == 'skipped' && steps.commitlint-pr.outcome == 'skipped'
         run: bun run commitlint --verbose --from ${{ github.sha }}~1 --to ${{ github.sha }}
 
-  lint-status:
+  actions-timeline:
     needs:
       - lint
       - commitlint
-    if: ${{ !cancelled() }}
-
-    runs-on: ubuntu-24.04
-    timeout-minutes: 5
-
-    steps:
-      - name: Check the status of the jobs
-        run: |
-          if [[ $(echo '${{ toJson(needs.*.result) }}' | jq 'all(. == "success")') == "false" ]]; then
-            echo 'Some jobs are failed, cancelled, or skipped.'
-            exit 1
-          fi
-          echo 'All jobs are successful.'
-
-  actions-timeline:
-    needs:
-      - lint-status
     if: ${{ !cancelled() }}
 
     runs-on: ubuntu-24.04

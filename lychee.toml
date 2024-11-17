@@ -14,7 +14,7 @@ exclude_path = [
 exclude = [
 	"https://dot.risunosu.com",
 	# exclude ${} patterns
-	".*\\$%7B.*%7D.*",
+	".*\\$(%7B.*%7D.*)?$",
 	# win/winget.json
 	"https://cdn.winget.microsoft.com/cache",
 	# renovate.json5
@@ -26,4 +26,7 @@ exclude = [
 	# wsl/install.sh
 	# can't be accessed
 	"https://mise.jdx.dev/deb",
+	# mise-tasks/worker/wrangler-args
+	# an example of a url with authentication
+	"https://.+@github.com/owner/repo",
 ]

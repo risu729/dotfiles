@@ -111,6 +111,14 @@ mise_activate="$(mise activate bash)"
 eval "${mise_activate}"
 alias mr="mise run"
 
+# enable mise completion
+mise_completion="$(mise completion bash)"
+eval "${mise_completion}"
+
+# enable gh completion
+gh_completion="$(gh completion --shell bash)"
+eval "${gh_completion}"
+
 # vs code
 alias code="code-insiders"
 
