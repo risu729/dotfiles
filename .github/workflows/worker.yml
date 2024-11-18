@@ -39,7 +39,7 @@ jobs:
         with:
           version: 2024.11.16
           install_args: bun
-          cache: ${{ github.ref_name == 'main' }}
+          cache_save: ${{ github.ref_name == 'main' }}
 
       - name: Run tests
         run: mise run worker:test:ci
@@ -71,7 +71,7 @@ jobs:
         with:
           version: 2024.11.16
           install_args: bun
-          cache: ${{ github.ref_name == 'main' }}
+          cache_save: ${{ github.ref_name == 'main' }}
 
       - name: Install package.json dependencies
         run: mise run buni:worker
