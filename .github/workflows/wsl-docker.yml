@@ -75,8 +75,10 @@ jobs:
             echo "Failed to get the serial" >&2
             exit 1
           fi
-          # + cannot be used in the tag, so use - instead
-          echo "tag=${{ steps.version.outputs.version }}-${serial}" >> "${GITHUB_OUTPUT}"
+          # + is appropriate for build date as semver but it cannot be used in docker tag
+          # use . instead because - is treated as platform/compatibility indicator by renovate
+          # ref: https://docs.renovatebot.com/modules/versioning/docker/
+          echo "tag=${{ steps.version.outputs.version }}.${serial}" >> "${GITHUB_OUTPUT}"
 
       - name: Get latest Ubuntu WSL image tag
         id: latest-tag
@@ -129,7 +131,8 @@ jobs:
         uses: docker/build-push-action@4f58ea79222b3b9dc2c8bbdd6debcef730109a75 # v6.9.0
         with:
           context: .
-          push: ${{ github.event_name != 'pull_request' }}
+          # create a new package if the image is not found
+          push: ${{ github.event_name != 'pull_request' || steps.latest-tag.outcome == 'failure' }}
           # avoid image without manifest created
           # ref: https://github.com/docker/build-push-action/issues/900
           provenance: false
