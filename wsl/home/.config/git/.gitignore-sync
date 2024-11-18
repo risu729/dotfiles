@@ -7,7 +7,5 @@
 mise.local.toml
 
 [github/gitignore]
-Global/Windows.gitignore
-Global/macOS.gitignore
 Global/Linux.gitignore
 Global/VisualStudioCode.gitignore
