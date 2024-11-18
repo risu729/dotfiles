@@ -42,6 +42,7 @@ jobs:
           mise_toml: |
             [tools]
             "ubi:kellyjonbrazil/jc" = "latest"
+          cache: ${{ github.ref_name == 'main' }}
 
       - name: Get latest Ubuntu version
         id: version
@@ -137,6 +138,7 @@ jobs:
             ghcr.io/${{ env.IMAGE_NAME }}:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
+          no-cache: ${{ github.ref_name == 'main' }}
 
   actions-timeline:
     needs:
