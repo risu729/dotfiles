@@ -38,7 +38,7 @@ jobs:
           # backends are required to run mise list
           # cspell:ignore binstall
           install_args: bun node cargo-binstall
-          cache: ${{ github.ref_name == 'main' }}
+          cache_save: ${{ github.ref_name == 'main' }}
 
       - name: Install package.json dependencies
         run: mise run buni:root
@@ -74,7 +74,7 @@ jobs:
         with:
           version: 2024.11.16
           install_args: ${{ matrix.tools }}
-          cache: ${{ github.ref_name == 'main' }}
+          cache_save: ${{ github.ref_name == 'main' }}
 
       - name: Run ${{ matrix.name }}
         run: mise run ${{ matrix.task }}
@@ -96,7 +96,7 @@ jobs:
         with:
           version: 2024.11.16
           install_args: bun node
-          cache: ${{ github.ref_name == 'main' }}
+          cache_save: ${{ github.ref_name == 'main' }}
 
       - name: Install package.json dependencies
         run: mise run buni:root
