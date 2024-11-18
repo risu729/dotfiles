@@ -75,8 +75,10 @@ jobs:
             echo "Failed to get the serial" >&2
             exit 1
           fi
-          # + cannot be used in the tag, so use - instead
-          echo "tag=${{ steps.version.outputs.version }}-${serial}" >> "${GITHUB_OUTPUT}"
+          # + is appropriate for build date as semver but it cannot be used in docker tag
+          # use . instead because - is treated as platform/compatibility indicator by renovate
+          # ref: https://docs.renovatebot.com/modules/versioning/docker/
+          echo "tag=${{ steps.version.outputs.version }}.${serial}" >> "${GITHUB_OUTPUT}"
 
       - name: Get latest Ubuntu WSL image tag
         id: latest-tag
