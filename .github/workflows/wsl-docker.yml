@@ -42,7 +42,7 @@ jobs:
           mise_toml: |
             [tools]
             "ubi:kellyjonbrazil/jc" = "latest"
-          cache: ${{ github.ref_name == 'main' }}
+          cache_save: ${{ github.ref_name == 'main' }}
 
       - name: Get latest Ubuntu version
         id: version
