@@ -35,13 +35,14 @@ jobs:
 
     steps:
       - name: Install mise
-        uses: jdx/mise-action@53d027c2e96fed8f955f5d95bff910a3e031cc58 # v2.1.6
+        uses: jdx/mise-action@63a673876c7072c1d6ecb2049c0d572976c83b22 # v2.1.7
         with:
-          version: 2024.11.16
+          version: 2024.11.18
           # cspell:ignore kellyjonbrazil
           mise_toml: |
             [tools]
             "ubi:kellyjonbrazil/jc" = "latest"
+          cache_save: ${{ github.ref_name == 'main' }}
 
       - name: Get latest Ubuntu version
         id: version
@@ -74,8 +75,10 @@ jobs:
             echo "Failed to get the serial" >&2
             exit 1
           fi
-          # + cannot be used in the tag, so use - instead
-          echo "tag=${{ steps.version.outputs.version }}-${serial}" >> "${GITHUB_OUTPUT}"
+          # + is appropriate for build date as semver but it cannot be used in docker tag
+          # use . instead because - is treated as platform/compatibility indicator by renovate
+          # ref: https://docs.renovatebot.com/modules/versioning/docker/
+          echo "tag=${{ steps.version.outputs.version }}.${serial}" >> "${GITHUB_OUTPUT}"
 
       - name: Get latest Ubuntu WSL image tag
         id: latest-tag
@@ -128,7 +131,8 @@ jobs:
         uses: docker/build-push-action@4f58ea79222b3b9dc2c8bbdd6debcef730109a75 # v6.9.0
         with:
           context: .
-          push: ${{ github.event_name != 'pull_request' }}
+          # create a new package if the image is not found
+          push: ${{ github.event_name != 'pull_request' || steps.latest-tag.outcome == 'failure' }}
           # avoid image without manifest created
           # ref: https://github.com/docker/build-push-action/issues/900
           provenance: false
@@ -136,7 +140,9 @@ jobs:
             ghcr.io/${{ env.IMAGE_NAME }}:${{ steps.build-info.outputs.tag }}
             ghcr.io/${{ env.IMAGE_NAME }}:latest
           cache-from: type=gha
-          cache-to: type=gha,mode=max
+          # disable cache saving for non-default branches
+          # ref: https://github.com/docker/build-push-action/issues/845
+          cache-to: ${{ github.ref_name == 'main' && 'type=gha,mode=max' || '' }}
 
   actions-timeline:
     needs:

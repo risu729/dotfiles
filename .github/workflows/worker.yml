@@ -35,10 +35,11 @@ jobs:
           sparse-checkout-cone-mode: false
 
       - name: Install mise
-        uses: jdx/mise-action@53d027c2e96fed8f955f5d95bff910a3e031cc58 # v2.1.6
+        uses: jdx/mise-action@63a673876c7072c1d6ecb2049c0d572976c83b22 # v2.1.7
         with:
-          version: 2024.11.16
+          version: 2024.11.18
           install_args: bun
+          cache_save: ${{ github.ref_name == 'main' }}
 
       - name: Run tests
         run: mise run worker:test:ci
@@ -66,10 +67,11 @@ jobs:
           sparse-checkout-cone-mode: false
 
       - name: Install mise
-        uses: jdx/mise-action@53d027c2e96fed8f955f5d95bff910a3e031cc58 # v2.1.6
+        uses: jdx/mise-action@63a673876c7072c1d6ecb2049c0d572976c83b22 # v2.1.7
         with:
-          version: 2024.11.16
+          version: 2024.11.18
           install_args: bun
+          cache_save: ${{ github.ref_name == 'main' }}
 
       - name: Install package.json dependencies
         run: mise run buni:worker
