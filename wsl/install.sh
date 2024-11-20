@@ -7,28 +7,28 @@ git_ref=""
 
 # use apt-get instead of apt for scripts
 # ref: https://manpages.ubuntu.com/manpages/trusty/man8/apt.8.html#:~:text=SCRIPT%20USAGE/
-# sudo apt-get update
-# sudo apt-get upgrade --yes
+sudo apt-get update
+sudo apt-get upgrade --yes
 
 # not pre-installed in wsl ubuntu
 # ref: https://cloud-images.ubuntu.com/wsl/noble/current/ubuntu-noble-wsl-amd64-wsl.manifest
-# sudo apt-get install --yes zip unzip
+sudo apt-get install --yes zip unzip
 
 # use PPA for wslu as recommended
 # ref: https://wslutiliti.es/wslu/install.html#ubuntu
 # wslu is for wslview, which opens Windows browser from WSL
 # cspell:ignore wslutilities wslu wslview
-# sudo add-apt-repository --yes ppa:wslutilities/wslu
-# sudo apt-get update
-# sudo apt-get install --yes wslu
+sudo add-apt-repository --yes ppa:wslutilities/wslu
+sudo apt-get update
+sudo apt-get install --yes wslu
 
 # install mise
 # ref: https://mise.jdx.dev/getting-started.html#apt
-# sudo install -dm 755 /etc/apt/keyrings
-# wget -qO - https://mise.jdx.dev/gpg-key.pub | gpg --dearmor | sudo tee /etc/apt/keyrings/mise-archive-keyring.gpg 1>/dev/null
-# echo "deb [signed-by=/etc/apt/keyrings/mise-archive-keyring.gpg arch=amd64] https://mise.jdx.dev/deb stable main" | sudo tee /etc/apt/sources.list.d/mise.list
-# sudo apt-get update
-# sudo apt-get install -y mise
+sudo install -dm 755 /etc/apt/keyrings
+wget -qO - https://mise.jdx.dev/gpg-key.pub | gpg --dearmor | sudo tee /etc/apt/keyrings/mise-archive-keyring.gpg 1>/dev/null
+echo "deb [signed-by=/etc/apt/keyrings/mise-archive-keyring.gpg arch=amd64] https://mise.jdx.dev/deb stable main" | sudo tee /etc/apt/sources.list.d/mise.list
+sudo apt-get update
+sudo apt-get install -y mise
 
 # use --parents to avoid error if the directory exists
 mkdir --parents "${HOME}/github"
