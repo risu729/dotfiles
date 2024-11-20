@@ -4,7 +4,7 @@
 min_version = "2024.11.17"
 
 [tools]
-bun = "1.1.34"
+bun = "1.1.36"
 node = "23.2.0"
 # cspell:ignore datasource binstall
 # renovate: datasource=crate
