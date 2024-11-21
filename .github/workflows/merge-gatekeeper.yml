@@ -7,12 +7,17 @@ on:
   pull_request:
     branches:
       - main
+  workflow_run:
+    workflows:
+      - "*"
+    types:
+      - completed
 
 jobs:
   merge-gatekeeper:
     runs-on: ubuntu-24.04
-    # set the longest timeout of all jobs
-    timeout-minutes: 30
+    # set the longest timeout of all jobs with some buffer
+    timeout-minutes: 16
     permissions:
       checks: read
       statuses: read
