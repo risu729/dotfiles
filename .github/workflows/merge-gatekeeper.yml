@@ -4,9 +4,6 @@ name: Merge Gatekeeper
 # ref: https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/collaborating-on-repositories-with-code-quality-features/troubleshooting-required-status-checks#handling-skipped-but-required-checks
 
 on:
-  pull_request:
-    branches:
-      - main
   workflow_run:
     workflows:
       - "*"
