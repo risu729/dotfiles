@@ -26,11 +26,11 @@ usage = "latest"
 jq = "latest"
 gh = "latest"
 # cspell:ignore kellyjonbrazil
-"ubi:kellyjonbrazil/jc" = "latest"
+"aqua:kellyjonbrazil/jc" = "latest"
 delta = "latest"
 
 # biome vs code extension requires global installation
-"npm:@biomejs/biome" = "latest"
+"aqua:biomejs/biome" = "latest"
 
 [settings]
 pin = true

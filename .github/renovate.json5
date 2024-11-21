@@ -59,14 +59,14 @@
 		},
 		{
 			customType: "regex",
-			description: "Updates tool versions in mise.toml (ubi backend)",
+			description: "Updates tool versions in mise.toml (ubi, aqua backend)",
 			// prettier-ignore
 			fileMatch: ["mise\.toml"],
 			datasourceTemplate: "github-releases",
 			matchStrings: [
 				// test: https://regex101.com/r/RRA3NI
 				// prettier-ignore
-				"(?:# renovate: extractVersion=(?<extractVersion>.+?)\\n)?\"ubi:(?<depName>.+?)\" *= *\".*?(?<currentValue>\\d+\\..+?)\"",
+				"(?:# renovate: extractVersion=(?<extractVersion>.+?)\\n)?\"(?:ubi|aqua):(?<depName>.+?)\" *= *\".*?(?<currentValue>\\d+\\..+?)\"",
 			],
 		},
 		{
