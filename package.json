@@ -20,6 +20,6 @@
 		"jsonc-parser": "3.3.1",
 		"prettier": "3.3.3",
 		"ts-graphviz": "2.1.4",
-		"typescript": "5.6.3"
+		"typescript": "5.7.2"
 	}
 }
