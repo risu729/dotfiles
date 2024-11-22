@@ -3,6 +3,11 @@
 
 min_version = "2024.11.23"
 
+[env]
+# suppress experimental warnings for npm in node v23
+# ref: https://github.com/npm/cli/issues/7857
+NODE_OPTIONS="--disable-warning=ExperimentalWarning"
+
 [tools]
 # language tools
 node = "latest"
