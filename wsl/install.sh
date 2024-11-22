@@ -83,6 +83,7 @@ done
 # back to home directory
 cd "${HOME}"
 
+mise trust --all
 mise install --yes
 # activate mise shims for bun scripts
 mise_shims="$(mise activate bash --shims)"
