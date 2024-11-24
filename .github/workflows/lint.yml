@@ -35,9 +35,7 @@ jobs:
         uses: jdx/mise-action@63a673876c7072c1d6ecb2049c0d572976c83b22 # v2.1.7
         with:
           version: 2024.11.28
-          # backends are required to run mise list
-          # cspell:ignore binstall
-          install_args: bun node cargo-binstall
+          install: false
           cache_save: ${{ github.ref_name == 'main' }}
 
       - name: Install package.json dependencies
@@ -95,7 +93,7 @@ jobs:
         uses: jdx/mise-action@63a673876c7072c1d6ecb2049c0d572976c83b22 # v2.1.7
         with:
           version: 2024.11.28
-          install_args: bun node
+          install: false
           cache_save: ${{ github.ref_name == 'main' }}
 
       - name: Install package.json dependencies
