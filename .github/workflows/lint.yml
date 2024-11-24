@@ -73,7 +73,7 @@ jobs:
         uses: jdx/mise-action@63a673876c7072c1d6ecb2049c0d572976c83b22 # v2.1.7
         with:
           version: 2024.11.28
-          install_args: ${{ matrix.tools }}
+          install: false
           cache_save: ${{ github.ref_name == 'main' }}
 
       - name: Run ${{ matrix.name }}
