@@ -41,7 +41,7 @@ jobs:
         id: list
         run: |
           tasks=$(mise tasks ls --json --hidden \
-            | jq --raw-output \
+            | jq --raw-output --compact-output \
               'map(select(.name | test("^(ci:|lint:)")) | {name: (.name | sub("^(ci:|lint:)" ; "")), task: .name})')
           echo "tasks=${tasks}" >> "${GITHUB_OUTPUT}"
 
