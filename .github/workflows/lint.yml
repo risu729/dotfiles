@@ -35,18 +35,14 @@ jobs:
         uses: jdx/mise-action@63a673876c7072c1d6ecb2049c0d572976c83b22 # v2.1.7
         with:
           version: 2024.11.29
-          # backends are required to run mise list
-          # cspell:ignore binstall
-          install_args: bun node cargo-binstall
           cache_save: ${{ github.ref_name == 'main' }}
-
-      - name: Install package.json dependencies
-        run: mise run buni:root
 
       - name: List mise tasks
         id: list
         run: |
-          tasks=$(bun run .github/workflows/scripts/list-mise-tasks.ts)
+          tasks=$(mise tasks ls --json --hidden \
+            | jq --raw-output --compact-output \
+              'map(select(.name | test("^(ci:|lint:)")) | {name: (.name | sub("^(ci:|lint:)" ; "")), task: .name})')
           echo "tasks=${tasks}" >> "${GITHUB_OUTPUT}"
 
   lint:
@@ -73,7 +69,6 @@ jobs:
         uses: jdx/mise-action@63a673876c7072c1d6ecb2049c0d572976c83b22 # v2.1.7
         with:
           version: 2024.11.29
-          install_args: ${{ matrix.tools }}
           cache_save: ${{ github.ref_name == 'main' }}
 
       - name: Run ${{ matrix.name }}
@@ -95,7 +90,6 @@ jobs:
         uses: jdx/mise-action@63a673876c7072c1d6ecb2049c0d572976c83b22 # v2.1.7
         with:
           version: 2024.11.29
-          install_args: bun node
           cache_save: ${{ github.ref_name == 'main' }}
 
       - name: Install package.json dependencies
