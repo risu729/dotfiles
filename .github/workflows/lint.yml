@@ -37,13 +37,12 @@ jobs:
           version: 2024.11.29
           cache_save: ${{ github.ref_name == 'main' }}
 
-      - name: Install package.json dependencies
-        run: mise run buni:root
-
       - name: List mise tasks
         id: list
         run: |
-          tasks=$(bun run .github/workflows/scripts/list-mise-tasks.ts)
+          tasks=$(mise tasks list --json --hidden \
+            | jq --raw-output \
+              'map(select(.name | test("^(ci:|lint:)")) | {name: .name, task: (.name | sub("^(ci:|lint:)" ; ""))})')
           echo "tasks=${tasks}" >> "${GITHUB_OUTPUT}"
 
   lint:
