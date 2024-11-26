@@ -17,10 +17,10 @@
 		"@tsconfig/strictest": "2.0.5",
 		"@types/bun": "1.1.14",
 		"@types/diff": "6.0.0",
-		"@vitest/ui": "2.1.5",
+		"@vitest/ui": "2.1.6",
 		"diff": "7.0.0",
 		"typescript": "5.7.2",
-		"vitest": "2.1.5",
+		"vitest": "2.1.6",
 		"wrangler": "3.90.0"
 	}
 }
