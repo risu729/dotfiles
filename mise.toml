@@ -18,7 +18,7 @@ actionlint = "1.7.4"
 # cspell:ignore tamasfe
 # renovate: packageName=tamasfe/taplo
 taplo = "0.9.3"
-"npm:prettier" = "3.3.3"
+"npm:prettier" = "3.4.0"
 markdownlint-cli2 = "0.15.0"
 shfmt = "3.10.0"
 shellcheck = "0.10.0"
