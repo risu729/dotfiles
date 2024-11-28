@@ -37,6 +37,10 @@ unix_default_inline_shell_args = ["bash", "-euo", "pipefail", "-c"]
 [settings.npm]
 bun = true
 
+# cspell:ignore pipx
+[settings.pipx]
+uvx = true
+
 [tasks.commit]
 depends = ["buni:root"]
 run = ["git add .", "bun run git-cz"]
