@@ -29,7 +29,7 @@ usage = "latest"
 
 # cli tools
 jq = "latest"
-gh = "latest"
+github-cli = "latest"
 # cspell:ignore kellyjonbrazil
 "aqua:kellyjonbrazil/jc" = "latest"
 delta = "latest"
