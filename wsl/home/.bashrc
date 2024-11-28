@@ -109,7 +109,6 @@ fi
 # activate mise
 mise_activate="$(mise activate bash)"
 eval "${mise_activate}"
-alias mr="mise run"
 
 # enable mise completion
 mise_completion="$(mise completion bash)"
