@@ -9,6 +9,7 @@ node = "23.3.0"
 # cspell:ignore datasource binstall
 # renovate: datasource=crate
 cargo-binstall = "1.10.11"
+uv = "0.5.5"
 "aqua:biomejs/biome" = "1.9.4"
 actionlint = "1.7.4"
 # renovate: extractVersion=^v(?<version>.+)
@@ -36,6 +37,10 @@ unix_default_inline_shell_args = ["bash", "-euo", "pipefail", "-c"]
 
 [settings.npm]
 bun = true
+
+# cspell:ignore pipx
+[settings.pipx]
+uvx = true
 
 [tasks.commit]
 depends = ["buni:root"]
