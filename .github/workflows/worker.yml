@@ -37,7 +37,7 @@ jobs:
       - name: Install mise
         uses: jdx/mise-action@63a673876c7072c1d6ecb2049c0d572976c83b22 # v2.1.7
         with:
-          version: 2024.11.31
+          version: 2024.11.32
           cache_save: ${{ github.ref_name == 'main' }}
 
       - name: Run tests
@@ -68,7 +68,7 @@ jobs:
       - name: Install mise
         uses: jdx/mise-action@63a673876c7072c1d6ecb2049c0d572976c83b22 # v2.1.7
         with:
-          version: 2024.11.31
+          version: 2024.11.32
           cache_save: ${{ github.ref_name == 'main' }}
 
       - name: Install package.json dependencies
