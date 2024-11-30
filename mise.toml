@@ -198,6 +198,7 @@ dir = "worker"
 depends = ["buni:worker"]
 run = "bun run vitest run"
 dir = "worker"
+hide = true
 
 [tasks."buni"]
 depends = ["buni:root", "buni:worker"]
