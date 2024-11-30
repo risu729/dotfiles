@@ -35,10 +35,10 @@ jobs:
           sparse-checkout-cone-mode: false
 
       - name: Install mise
-        uses: jdx/mise-action@53d027c2e96fed8f955f5d95bff910a3e031cc58 # v2.1.6
+        uses: jdx/mise-action@63a673876c7072c1d6ecb2049c0d572976c83b22 # v2.1.7
         with:
-          version: 2024.11.15
-          install_args: bun
+          version: 2024.11.37
+          cache_save: ${{ github.ref_name == 'main' }}
 
       - name: Run tests
         run: mise run worker:test:ci
@@ -66,10 +66,10 @@ jobs:
           sparse-checkout-cone-mode: false
 
       - name: Install mise
-        uses: jdx/mise-action@53d027c2e96fed8f955f5d95bff910a3e031cc58 # v2.1.6
+        uses: jdx/mise-action@63a673876c7072c1d6ecb2049c0d572976c83b22 # v2.1.7
         with:
-          version: 2024.11.15
-          install_args: bun
+          version: 2024.11.37
+          cache_save: ${{ github.ref_name == 'main' }}
 
       - name: Install package.json dependencies
         run: mise run buni:worker
@@ -81,7 +81,7 @@ jobs:
           echo "args=${args}" >> "${GITHUB_OUTPUT}"
 
       - name: Deploy to Cloudflare workers with Wrangler
-        uses: cloudflare/wrangler-action@05f17c4a695b4d94b57b59997562c6a4624c64e4 # v3.12.1
+        uses: cloudflare/wrangler-action@6d58852c35a27e6034745c5d0bc373d739014f7f # v3.13.0
         with:
           workingDirectory: worker
           command: deploy --dry-run ${{ steps.wrangler-args.outputs.args }}

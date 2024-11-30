@@ -506,7 +506,8 @@ const importGpgSecretKey = async (
 			console.error("Invalid secret key format.");
 			continue;
 		}
-		const armor = lines.join("\n");
+		// gpg --import requires the trailing newline
+		const armor = `${lines.join("\n")}\n`;
 
 		let tempDir: string | undefined;
 		let fingerprint: string | undefined;

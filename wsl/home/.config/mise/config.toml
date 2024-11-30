@@ -1,7 +1,12 @@
 # ref: https://mise.jdx.dev/configuration.html#global-config-config-mise-config-toml
 #:schema https://mise.jdx.dev/schema/mise.json
 
-min_version = "2024.11.15"
+min_version = "2024.11.37"
+
+[env]
+# suppress experimental warnings for npm in node v23
+# ref: https://github.com/npm/cli/issues/7857
+NODE_OPTIONS = "--disable-warning=ExperimentalWarning"
 
 [tools]
 # language tools
@@ -24,13 +29,13 @@ usage = "latest"
 
 # cli tools
 jq = "latest"
-gh = "latest"
+github-cli = "latest"
 # cspell:ignore kellyjonbrazil
-"ubi:kellyjonbrazil/jc" = "latest"
+"aqua:kellyjonbrazil/jc" = "latest"
 delta = "latest"
 
 # biome vs code extension requires global installation
-"npm:@biomejs/biome" = "latest"
+"aqua:biomejs/biome" = "latest"
 
 [settings]
 pin = true

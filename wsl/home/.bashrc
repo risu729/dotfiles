@@ -15,6 +15,13 @@ case $- in
 *) return ;;
 esac
 
+# vscode extensions call bash in interactive mode
+# ref: https://code.visualstudio.com/docs/editor/command-line#_how-do-i-detect-when-a-shell-was-launched-by-vs-code
+# shellcheck disable=SC2154 # might be set by vscode
+if [[ ${VSCODE_RESOLVING_ENVIRONMENT} == 1 ]]; then
+	return
+fi
+
 # don't put duplicate lines or lines starting with space in the history.
 # See bash(1) for more options
 # cspell:ignore ignoreboth
@@ -106,11 +113,6 @@ if ! shopt -oq posix && [[ -f /usr/share/bash-completion/bash_completion ]]; the
 	. /usr/share/bash-completion/bash_completion
 fi
 
-# activate mise
-mise_activate="$(mise activate bash)"
-eval "${mise_activate}"
-alias mr="mise run"
-
 # enable mise completion
 mise_completion="$(mise completion bash)"
 eval "${mise_completion}"
@@ -125,3 +127,7 @@ alias code="code-insiders"
 # gpg
 GPG_TTY=$(tty)
 export GPG_TTY
+
+# activate mise
+mise_activate="$(mise activate bash)"
+eval "${mise_activate}"
