@@ -33,7 +33,6 @@ typos = "1.28.1"
 
 [settings]
 experimental = true
-unix_default_inline_shell_args = ["bash", "-euo", "pipefail", "-c"]
 
 [settings.npm]
 bun = true
