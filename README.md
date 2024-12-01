@@ -68,7 +68,7 @@ bash <(curl -fsSL https://dot.risunosu.com/wsl)
 Clone this repository and run the following command.
 
 ```bash
-mise i && mise r buni
+mise i
 ```
 
 ### 🧵 Lint and Format
@@ -76,7 +76,7 @@ mise i && mise r buni
 The following command will lint and format the code. (including auto-fix)
 
 ```bash
-mise r check
+mise check
 ```
 
 ### ✏️ Commit
@@ -84,7 +84,7 @@ mise r check
 The following command will commit the changes interactively.
 
 ```bash
-mise r commit
+mise commit
 ```
 
 ## 📜 License
