@@ -225,3 +225,7 @@ hide = true
 # .bashrc is not detected by shfmt --find
 run = "git_files=$(git ls-files) && scripts=$(shfmt --find $git_files) && echo wsl/home/.bashrc $scripts"
 hide = true
+
+[hooks]
+# skip in CI
+postinstall = "[[ \"${CI}\" == 'true' ]] || mise run buni"
