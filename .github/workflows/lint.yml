@@ -36,6 +36,8 @@ jobs:
         with:
           version: 2024.11.37
           cache_save: ${{ github.ref_name == 'main' }}
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
 
       - name: List mise tasks
         id: list
@@ -70,6 +72,8 @@ jobs:
         with:
           version: 2024.11.37
           cache_save: ${{ github.ref_name == 'main' }}
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
 
       - name: Run ${{ matrix.name }}
         run: mise run ${{ matrix.task }}
@@ -91,6 +95,8 @@ jobs:
         with:
           version: 2024.11.37
           cache_save: ${{ github.ref_name == 'main' }}
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
 
       - name: Install package.json dependencies
         run: mise run buni:root

@@ -39,6 +39,8 @@ jobs:
         with:
           version: 2024.11.37
           cache_save: ${{ github.ref_name == 'main' }}
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
 
       - name: Run tests
         run: mise run worker:test:ci
@@ -70,6 +72,8 @@ jobs:
         with:
           version: 2024.11.37
           cache_save: ${{ github.ref_name == 'main' }}
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
 
       - name: Install package.json dependencies
         run: mise run buni:worker
