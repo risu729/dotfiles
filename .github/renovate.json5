@@ -115,12 +115,6 @@
 			matchDepNames: ["node"],
 			ignoreUnstable: false,
 		},
-		// cspell:ignore workerd
-		// group cloudflare/workers-sdk packages to avoid conflicts in workerd versions
-		{
-			matchRepositories: ["cloudflare/workers-sdk"],
-			groupName: "cloudflare/workers-sdk",
-		},
 		// automerge
 		{
 			matchDepNames: ["mise"],
