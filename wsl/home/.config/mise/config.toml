@@ -26,6 +26,10 @@ cargo-binstall = "latest"
 uv = "latest"
 # required for completion
 usage = "latest"
+# required for aqua backend verification
+cosign = "latest"
+# cspell:ignore slsa
+slsa-verifier = "latest"
 
 # cli tools
 jq = "latest"
