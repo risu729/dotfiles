@@ -228,4 +228,4 @@ hide = true
 
 [hooks]
 # skip in CI
-postinstall = "[[ \"${CI}\" == 'true' ]] || mise run buni"
+postinstall = "[ \"$CI\" = 'true' ] || mise run buni"
