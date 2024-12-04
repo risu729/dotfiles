@@ -5,10 +5,6 @@ name = "dotfiles-worker"
 main = "src/index.ts"
 minify = true
 
-# cspell:ignore workerd
-# set compatibility_date from workerd version
-# compatibility_workerd_version = "1.20241022.0"
-
 # required to use vitest
 # ref: https://developers.cloudflare.com/workers/testing/vitest-integration/configuration/#workerspooloptions
 compatibility_flags = ["nodejs_compat"]
