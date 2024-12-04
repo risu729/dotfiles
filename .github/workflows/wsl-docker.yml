@@ -43,6 +43,8 @@ jobs:
             [tools]
             "ubi:kellyjonbrazil/jc" = "latest"
           cache_save: ${{ github.ref_name == 'main' }}
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
 
       - name: Get latest Ubuntu version
         id: version
