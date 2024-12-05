@@ -108,6 +108,10 @@ eval "${mise_completion}"
 gh_completion="$(gh completion --shell bash)"
 eval "${gh_completion}"
 
+# enable fzf integration
+fzf_integration="$(fzf --bash)"
+eval "${fzf_integration}"
+
 # gpg
 GPG_TTY=$(tty)
 export GPG_TTY
