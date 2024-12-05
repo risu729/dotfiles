@@ -88,15 +88,6 @@ esac
 if [[ -x /usr/bin/dircolors ]]; then
 	dircolors="$(dircolors -b)"
 	eval "${dircolors}"
-
-	# cspell:ignore vdir fgrep
-	alias ls='ls --color=auto'
-	alias dir='dir --color=auto'
-	alias vdir='vdir --color=auto'
-
-	alias grep='grep --color=auto'
-	alias fgrep='fgrep --color=auto'
-	alias egrep='egrep --color=auto'
 fi
 
 # colored GCC warnings and errors
@@ -117,12 +108,13 @@ eval "${mise_completion}"
 gh_completion="$(gh completion --shell bash)"
 eval "${gh_completion}"
 
-# vs code
-alias code="code-insiders"
-
 # gpg
 GPG_TTY=$(tty)
 export GPG_TTY
+
+# aliases
+alias l="eza --all --long --git"
+alias code="code-insiders"
 
 # cd to ghq managed directory
 gcd() {

@@ -7,6 +7,8 @@ min_version = "2024.12.0"
 # suppress experimental warnings for npm in node v23
 # ref: https://github.com/npm/cli/issues/7857
 NODE_OPTIONS = "--disable-warning=ExperimentalWarning"
+# disable bat paging
+BAT_PAGING = "never"
 
 [tools]
 # language tools
@@ -20,13 +22,13 @@ rust = "latest"
 python = "latest"
 go = "latest"
 
-# mise backends
+# mise requirements
 # cspell:ignore binstall
 cargo-binstall = "latest"
 uv = "latest"
-# required for completion
+# for completion
 usage = "latest"
-# required for aqua backend verification
+# for aqua backend verification
 cosign = "latest"
 # cspell:ignore slsa
 slsa-verifier = "latest"
@@ -38,8 +40,15 @@ ghq = "latest"
 # cspell:ignore kellyjonbrazil
 "aqua:kellyjonbrazil/jc" = "latest"
 delta = "latest"
+ripgrep = "14.1.1"
+"cargo:eza" = "0.20.10"
+# cspell:ignore sharkdp
+"aqua:sharkdp/bat" = "0.24.0"
+"aqua:sharkdp/fd" = "10.2.0"
 # cspell:ignore junegunn
 "aqua:junegunn/fzf" = "0.56.3"
+# cspell:ignore ducaale
+"aqua:ducaale/xh" = "0.23.0"
 
 # biome vs code extension requires global installation
 "aqua:biomejs/biome" = "latest"
