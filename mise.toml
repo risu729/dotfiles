@@ -87,7 +87,8 @@ run = [
 hide = true
 
 [tasks."lint:jsonschema"]
-depends = ["buni:root"]
+# schema of wrangler.jsonc is in node_modules
+depends = ["buni:root", "buni:worker"]
 run = "bun run scripts/validate-json-schema.ts"
 alias = "check:jsonschema"
 
@@ -111,11 +112,8 @@ run = "mise run util:nodiff"
 hide = true
 
 [tasks."check:taplo"]
-# schema of wrangler.toml is in node_modules
-depends = ["buni:worker"]
 run = ["taplo lint", "taplo fmt"]
 [tasks."ci:taplo"]
-depends = ["buni:worker"]
 run = ["taplo lint", "taplo fmt --check --diff"]
 hide = true
 
