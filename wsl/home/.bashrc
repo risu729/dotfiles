@@ -60,15 +60,11 @@ xterm-color | *-256color) color_prompt=yes ;;
 *) ;;
 esac
 
-if [[ -n ${force_color_prompt} ]]; then
-	# cspell:ignore setaf setf
-	if [[ -x /usr/bin/tput ]] && tput setaf 1 >&/dev/null; then
-		# We have color support; assume it's compliant with Ecma-48 (ISO/IEC-6429).
-		# (Lack of such support is extremely rare, and such a case would tend to support setf rather than setaf.)
-		color_prompt=yes
-	else
-		color_prompt=
-	fi
+# cspell:ignore setaf setf
+if [[ -x /usr/bin/tput ]] && tput setaf 1 >&/dev/null; then
+	# We have color support; assume it's compliant with Ecma-48 (ISO/IEC-6429).
+	# (Lack of such support is extremely rare, and such a case would tend to support setf rather than setaf.)
+	color_prompt=yes
 fi
 
 if [[ ${color_prompt} == yes ]]; then
@@ -76,7 +72,7 @@ if [[ ${color_prompt} == yes ]]; then
 else
 	PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
 fi
-unset color_prompt force_color_prompt
+unset color_prompt
 
 # If this is an xterm set the title to user@host:dir
 case "${TERM}" in
