@@ -120,7 +120,7 @@ alias code="code-insiders"
 gcd() {
 	local ghq_dir dir root
 	ghq_dir=$(ghq list)
-	dir=$(echo -n "${ghq_dir}" | fzf --exit-0 --query="$*" --no-sort)
+	dir=$(echo -n "${ghq_dir}" | fzf --exit-0 --query="$*" --no-sort --exact)
 	root=$(ghq root)
 	[[ -n ${dir} ]] && cd "${root}/${dir}" || return 1
 }
