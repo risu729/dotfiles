@@ -34,15 +34,14 @@ sudo apt-get install -y mise
 repo="github.com/risu729/dotfiles"
 dotfiles_dir="${HOME}/ghq/${repo}"
 mkdir --parents "${dotfiles_dir}"
-if [[ -d ${dotfiles_dir} ]]; then
-	cd "${dotfiles_dir}"
+cd "${dotfiles_dir}"
+if git rev-parse --is-inside-work-tree 1>/dev/null 2>&1; then
 	git fetch --all --prune
 	git pull --all
 else
 	git clone "https://${repo}.git" "${dotfiles_dir}"
 fi
 
-cd "${dotfiles_dir}"
 # checkout a specific ref if specified
 if [[ -n ${git_ref} ]]; then
 	git checkout "${git_ref}"
