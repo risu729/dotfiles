@@ -31,15 +31,15 @@ sudo apt-get update
 sudo apt-get install -y mise
 
 # use --parents to avoid error if the directory exists
-mkdir --parents "${HOME}/github"
-dotfiles_dir="${HOME}/github/dotfiles"
+repo="github.com/risu729/dotfiles"
+dotfiles_dir="${HOME}/ghq/${repo}"
+mkdir --parents "${dotfiles_dir}"
 if [[ -d ${dotfiles_dir} ]]; then
-	cd "${HOME}/github/dotfiles"
+	cd "${dotfiles_dir}"
 	git fetch --all --prune
 	git pull --all
 else
-	cd "${HOME}/github"
-	git clone https://github.com/risu729/dotfiles.git dotfiles
+	git clone "https://${repo}.git" "${dotfiles_dir}"
 fi
 
 cd "${dotfiles_dir}"

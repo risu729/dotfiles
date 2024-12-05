@@ -166,6 +166,8 @@ const setGitUserConfig = async (): Promise<{
 		login: string;
 	}>("/user");
 	await $`git config --file ${localGitConfigPath} user.name ${name ?? login}`.quiet();
+	// set ghq.user to override the git user name for ghq
+	await $`git config --file ${localGitConfigPath} ghq.user ${login}`.quiet();
 
 	const noReplyEmail = await ghApi<{ email: string }[]>("/user/emails").then(
 		(emails) =>
