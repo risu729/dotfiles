@@ -134,7 +134,7 @@ gcd() {
 	ghq_dir=$(ghq list)
 	dir=$(echo -n "${ghq_dir}" | fzf --exit-0 --query="$*" --no-sort)
 	root=$(ghq root)
-	[[ -n "${dir}" ]] && cd "${root}/${dir}" || return 1
+	[[ -n ${dir} ]] && cd "${root}/${dir}" || return 1
 }
 
 # activate mise
