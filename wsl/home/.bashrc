@@ -128,6 +128,15 @@ alias code="code-insiders"
 GPG_TTY=$(tty)
 export GPG_TTY
 
+# cd to ghq managed directory
+gcd() {
+	local ghq_dir dir root
+	ghq_dir=$(ghq list)
+	dir=$(echo -n "${ghq_dir}" | fzf --exit-0 --query="$*" --no-sort)
+	root=$(ghq root)
+	[[ -n ${dir} ]] && cd "${root}/${dir}" || return 1
+}
+
 # activate mise
 mise_activate="$(mise activate bash)"
 eval "${mise_activate}"

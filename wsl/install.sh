@@ -31,18 +31,17 @@ sudo apt-get update
 sudo apt-get install -y mise
 
 # use --parents to avoid error if the directory exists
-mkdir --parents "${HOME}/github"
-dotfiles_dir="${HOME}/github/dotfiles"
-if [[ -d ${dotfiles_dir} ]]; then
-	cd "${HOME}/github/dotfiles"
+repo="github.com/risu729/dotfiles"
+dotfiles_dir="${HOME}/ghq/${repo}"
+mkdir --parents "${dotfiles_dir}"
+cd "${dotfiles_dir}"
+if git rev-parse --is-inside-work-tree 1>/dev/null 2>&1; then
 	git fetch --all --prune
 	git pull --all
 else
-	cd "${HOME}/github"
-	git clone https://github.com/risu729/dotfiles.git dotfiles
+	git clone "https://${repo}.git" "${dotfiles_dir}"
 fi
 
-cd "${dotfiles_dir}"
 # checkout a specific ref if specified
 if [[ -n ${git_ref} ]]; then
 	git checkout "${git_ref}"

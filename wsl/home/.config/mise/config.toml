@@ -34,9 +34,12 @@ slsa-verifier = "latest"
 # cli tools
 jq = "latest"
 github-cli = "latest"
+ghq = "latest"
 # cspell:ignore kellyjonbrazil
 "aqua:kellyjonbrazil/jc" = "latest"
 delta = "latest"
+# cspell:ignore junegunn
+"aqua:junegunn/fzf" = "0.56.3"
 
 # biome vs code extension requires global installation
 "aqua:biomejs/biome" = "latest"
