@@ -113,6 +113,7 @@ GPG_TTY=$(tty)
 export GPG_TTY
 
 # aliases
+alias beep="printf '\a'"
 alias l="eza --all --long --git"
 alias code="code-insiders"
 
