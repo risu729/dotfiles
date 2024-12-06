@@ -30,7 +30,8 @@ jobs:
         with:
           sparse-checkout: |
             mise.toml
-            mise-tasks/*
+            tasks.toml
+            tasks/*
             worker/*
           sparse-checkout-cone-mode: false
 
@@ -63,7 +64,8 @@ jobs:
         with:
           sparse-checkout: |
             mise.toml
-            mise-tasks/*
+            tasks.toml
+            tasks/*
             worker/*
           sparse-checkout-cone-mode: false
 
