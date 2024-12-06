@@ -4,8 +4,8 @@
 # shellcheck disable=SC2148 # shebang is not required in .bashrc
 
 # activate mise
-mise_shims="$(mise activate bash)"
-eval "${mise_shims}"
+mise_activate="$(mise activate bash)"
+eval "${mise_activate}"
 
 # if not running interactively, skip other steps
 case $- in
