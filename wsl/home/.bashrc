@@ -3,11 +3,9 @@
 
 # shellcheck disable=SC2148 # shebang is not required in .bashrc
 
-# activate mise shims
-# required for IDEs to call tools managed by mise
-# this should come before mise activate bash
-mise_shims="$(mise activate bash --shims)"
-eval "${mise_shims}"
+# activate mise
+mise_activate="$(mise activate bash)"
+eval "${mise_activate}"
 
 # if not running interactively, skip other steps
 case $- in
@@ -129,7 +127,3 @@ gcd() {
 	root=$(ghq root)
 	[[ -n ${dir} ]] && cd "${root}/${dir}" || return 1
 }
-
-# activate mise
-mise_activate="$(mise activate bash)"
-eval "${mise_activate}"
