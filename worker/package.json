@@ -4,7 +4,7 @@
 	"type": "module",
 	"dependencies": {
 		"hono": "4.6.13",
-		"zod": "3.24.0"
+		"zod": "3.24.1"
 	},
 	"scripts": {
 		"deploy": "wrangler deploy $(../mise-tasks/worker/wrangler-args)"
