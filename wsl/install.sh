@@ -88,6 +88,8 @@ echo installed mise
 
 echo installed dotfiles!
 
+bun --version
+
 # shellcheck disable=SC2154 # CI is defined in GitHub Actions, SKIP_GIT_SETUP may be defined as environment variable
 if [[ ${CI:-} != true && ${SKIP_GIT_SETUP:-} != true ]]; then
 	if ! "${wsl_dir}/setup-git.ts"; then
