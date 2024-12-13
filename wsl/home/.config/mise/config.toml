@@ -6,6 +6,10 @@ min_version = "2024.12.8"
 [env]
 # disable bat paging
 BAT_PAGING = "never"
+# gpg requires tty
+GPG_TTY="{{ exec(command='tty') }}"
+# set GITHUB_TOKEN to avoid rate limit while using mise
+GITHUB_TOKEN="{{ exec(command='gh auth token') }}"
 
 [tools]
 # language tools
