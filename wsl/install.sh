@@ -84,6 +84,9 @@ cd "${HOME}"
 
 mise trust --all
 mise install --yes
+# activate to use installed tools in setup-git.ts
+mise_activate="$(mise activate bash)"
+eval "${mise_activate}"
 echo installed mise
 
 echo installed dotfiles!
