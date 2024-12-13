@@ -35,6 +35,8 @@ jobs:
           curl -fsSL https://dot.risunosu.com/wsl?ref=${{
             github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.sha
           }} | bash
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
 
   actions-timeline:
     needs:
