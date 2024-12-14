@@ -120,7 +120,7 @@
 			matchDepNames: ["mise"],
 			// cspell:ignore calver
 			// mise uses Calver, so allow automerge for all versions
-			// ref: https://mise.jdx.dev/project-roadmap.html#versioning
+			// ref: https://mise.jdx.dev/roadmap.html#versioning
 			automerge: true,
 		},
 		// set semantic commit types
