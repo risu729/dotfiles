@@ -68,7 +68,7 @@ alias = "check:ghalint"
 run = "pinact run --verify"
 ["ci:pinact"]
 depends = ["check:pinact"]
-run = "mise run util:nodiff"
+depends_post = ["util:nodiff"]
 hide = true
 
 ["check:taplo"]
@@ -140,7 +140,7 @@ hide = true
 run = "ignore-sync ."
 ["ci:ignore-sync"]
 depends = ["check:ignore-sync"]
-run = "mise run util:nodiff"
+depends_post = ["util:nodiff"]
 hide = true
 
 ["worker:dev"]
