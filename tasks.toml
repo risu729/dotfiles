@@ -146,7 +146,7 @@ hide = true
 ["worker:dev"]
 depends = ["buni:worker"]
 dir = "worker"
-run = "args=$(mise run worker:wrangler-args) && bun run wrangler dev $args"
+run = "bun run wrangler dev ${{ exec(command='mise run worker:wrangler-args') }]"
 
 ["worker:test"]
 depends = ["buni:worker"]
