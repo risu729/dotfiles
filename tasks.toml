@@ -43,10 +43,9 @@ run = "ghalint run"
 
 ["check:pinact"]
 run = "pinact run --verify"
-["ci:pinact"]
-depends = ["check:pinact"]
-depends_post = ["util:nodiff"]
-hide = true
+depends_post = [
+	"{% if env.CI is defined %}util:nodiff{% else %}util:donothing{% endif %}",
+]
 
 ["check:taplo"]
 run = [
@@ -98,10 +97,9 @@ run = "typos {% if env.LINT is undefined %}--write-changes{% endif %}"
 
 ["check:ignore-sync"]
 run = "ignore-sync ."
-["ci:ignore-sync"]
-depends = ["check:ignore-sync"]
-depends_post = ["util:nodiff"]
-hide = true
+depends_post = [
+	"{% if env.CI is defined %}util:nodiff{% else %}util:donothing{% endif %}",
+]
 
 ["worker:dev"]
 depends = ["buni:worker"]
@@ -132,6 +130,11 @@ hide = true
 
 ["util:nodiff"] # cspell:ignore nodiff
 run = ["git add .", "git diff --staged --exit-code"]
+hide = true
+
+# cspell:ignore donothing
+["util:donothing"]
+run = ""
 hide = true
 
 ["util:list-scripts"]
