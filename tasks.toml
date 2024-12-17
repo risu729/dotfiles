@@ -10,10 +10,7 @@ depends = ["buni:root"]
 run = "bun run git-cz"
 
 [check]
-depends = [
-	"check:*", # lint and/or fix formatting
-	"lint:*", # lint only
-]
+depends = ["check:*"]
 
 [ci]
 depends = [
@@ -61,6 +58,7 @@ alias = "check:actionlint"
 env = { "SHELLCHECK_OPTS" = "--enable=all --exclude=SC2312" }
 
 ["lint:ghalint"]
+wait_for = ["check:pinact"]
 run = "ghalint run"
 alias = "check:ghalint"
 
@@ -92,16 +90,16 @@ hide = true
 ["check:shfmt"]
 # cannot exclude gitignored files
 # ref: https://github.com/mvdan/sh/issues/288
-run = "scripts=$(mise run util:list-scripts) && shfmt --list --write --simplify $scripts"
+run = "shfmt --list --write --simplify {{ exec(command='mise run util:list-scripts') }}"
 ["ci:shfmt"]
-run = "scripts=$(mise run util:list-scripts) && shfmt --diff --simplify $scripts"
+run = "shfmt --diff --simplify {{ exec(command='mise run util:list-scripts') }}"
 hide = true
 
 ["lint:shellcheck"]
 # recursive globbing is not supported
 # ref: https://www.shellcheck.net/wiki/Recursiveness
 # ref: https://github.com/koalaman/shellcheck/issues/143
-run = "scripts=$(mise run util:list-scripts) && shellcheck --external-sources $scripts"
+run = "shellcheck --external-sources {{ exec(command='mise run util:list-scripts') }}"
 alias = "check:shellcheck"
 
 ["check:yamlfmt"]
@@ -146,7 +144,7 @@ hide = true
 ["worker:dev"]
 depends = ["buni:worker"]
 dir = "worker"
-run = "args=$(mise run worker:wrangler-args) && bun run wrangler dev $args"
+run = "bun run wrangler dev ${{ exec(command='mise run worker:wrangler-args') }}"
 
 ["worker:test"]
 depends = ["buni:worker"]

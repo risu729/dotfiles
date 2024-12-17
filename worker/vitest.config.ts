@@ -1,10 +1,12 @@
 // ref: https://vitest.dev/config/
 
+import { exec } from "node:child_process";
+import { promisify } from "node:util";
 import { defineWorkersConfig } from "@cloudflare/vitest-pool-workers/config";
-import { $ } from "execa";
 
-const { stdout: compatibilityDate } =
-	await $`mise run worker:wrangler-compat-date`;
+const { stdout: compatibilityDate } = await promisify(exec)(
+	"mise run worker:wrangler-compat-date",
+);
 
 export default defineWorkersConfig({
 	test: {

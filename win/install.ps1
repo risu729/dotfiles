@@ -24,6 +24,11 @@ $powertoys_backup_dir = "\\wsl.localhost\$distribution\home\$wsl_username\github
 # cspell:ignore hkcu
 Set-ItemProperty -Path HKCU:Software\Microsoft\PowerToys -Name SettingsBackupAndRestoreDir -Value "$powertoys_backup_dir"
 
+# cspell:ignore wslenv pathext
+# set WSLENV to share PATHEXT between Windows and WSL
+# ref: https://learn.microsoft.com/en-us/windows/wsl/filesystems#share-environment-variables-between-windows-and-wsl-with-wslenv
+[System.Environment]::SetEnvironmentVariable("WSLENV", "PATHEXT", [System.EnvironmentVariableTarget]::User)
+
 # setup git after browser is installed
 # use -i, interactive mode
 # need to source .bashrc to update PATH
