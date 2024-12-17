@@ -1,0 +1,40 @@
+# name must be autofix.ci for security reasons
+# ref: https://autofix.ci/security
+name: autofix.ci
+
+on:
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions: {}
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  autofix:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    permissions:
+      contents: read # for checkout
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+
+      - name: Install mise
+        uses: jdx/mise-action@5bb8f8c1911837cf42064e6490e7634fc842ee7e # v2.1.8
+        with:
+          version: 2024.12.8
+          cache_save: ${{ github.ref_name == 'main' }}
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+
+      - name: Run autofix
+        run: mise run check
+
+      - name: autofix.ci
+        uses: autofix-ci/action@2891949f3779a1cafafae1523058501de3d4e944 # v1.3.1
