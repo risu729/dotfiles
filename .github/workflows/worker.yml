@@ -35,8 +35,6 @@ jobs:
             worker/*
           sparse-checkout-cone-mode: false
 
-      - run: ls -al
-
       - name: Install mise
         uses: jdx/mise-action@5bb8f8c1911837cf42064e6490e7634fc842ee7e # v2.1.8
         with:
