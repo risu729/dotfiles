@@ -123,3 +123,42 @@ gcd() {
 	root=$(ghq root)
 	[[ -n ${dir} ]] && cd "${root}/${dir}" || return 1
 }
+
+# call windows executables without extensions if it exists
+# e.g. `clip` instead of `clip.exe`
+if [[ -z ${_win_cmd_not_found:-} ]]; then
+	_win_cmd_not_found=1
+	if [[ -n "$(declare -f command_not_found_handle)" ]]; then
+		_win_cmd_not_found_handle=$(declare -f command_not_found_handle)
+		# _command_not_found_handle is used by mise
+		eval "${_win_cmd_not_found_handle/command_not_found_handle/__command_not_found_handle}"
+	fi
+
+	command_not_found_handle() {
+		# shellcheck disable=SC2317 # command_not_found_handle is called by bash
+		# cspell:ignore pathext wslenv
+		local ext pathext
+		# shellcheck disable=SC2153,SC2154,SC2317 # PATHEXT is shared from Windows by WSLENV
+		# ref: https://learn.microsoft.com/en-us/windows/wsl/filesystems#share-environment-variables-between-windows-and-wsl-with-wslenv
+		pathext=$(echo "${PATHEXT}" | tr ';' ' ')
+		# shellcheck disable=SC2317
+		for ext in ${pathext}; do
+			if command -v "$1${ext}" >/dev/null 2>&1; then
+				"$1${ext}" "${@:2}"
+				return $?
+			fi
+		done
+		# shellcheck disable=SC2317
+		if [[ -n "$(declare -f __command_not_found_handle)" ]]; then
+			__command_not_found_handle "$@"
+		else
+			echo "bash: command not found: $1" 1>&2
+			return 127
+		fi
+	}
+fi
+
+# disable apt/snap command_not_found_handle
+# original command_not_found_handle is renamed to _command_not_found_handle by mise activate
+# ref: https://github.com/jdx/mise/blob/4ed4f02ca99200175a020acb3e8c144181caeeb7/src/shell/bash.rs#L64-L82
+unset -f _command_not_found_handle

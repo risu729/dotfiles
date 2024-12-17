@@ -28,13 +28,14 @@ jobs:
       - name: Install mise
         uses: jdx/mise-action@5bb8f8c1911837cf42064e6490e7634fc842ee7e # v2.1.8
         with:
-          version: 2024.12.8
+          version: 2024.12.13
           cache_save: ${{ github.ref_name == 'main' }}
         env:
           GITHUB_TOKEN: ${{ github.token }}
 
       - name: Run autofix
         run: mise run check
+        continue-on-error: true
 
       - name: autofix.ci
         uses: autofix-ci/action@2891949f3779a1cafafae1523058501de3d4e944 # v1.3.1
