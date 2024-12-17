@@ -10,10 +10,7 @@ depends = ["buni:root"]
 run = "bun run git-cz"
 
 [check]
-depends = [
-	"check:*", # lint and/or fix formatting
-	"lint:*", # lint only
-]
+depends = ["check:*"]
 
 [ci]
 depends = [
