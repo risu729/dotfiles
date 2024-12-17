@@ -84,9 +84,9 @@ cd "${HOME}"
 
 mise trust --all
 mise install --yes
-# activate mise shims for bun scripts
-mise_shims="$(mise activate bash --shims)"
-eval "${mise_shims}"
+# activate to use installed tools in setup-git.ts
+mise_activate="$(mise activate bash)"
+eval "${mise_activate}"
 echo installed mise
 
 echo installed dotfiles!
