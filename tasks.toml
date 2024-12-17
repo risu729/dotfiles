@@ -181,3 +181,8 @@ hide = true
 # .bashrc is not detected by shfmt --find
 run = "git_files=$(git ls-files) && scripts=$(shfmt --find $git_files) && echo wsl/home/.bashrc $scripts"
 hide = true
+
+[test]
+run = "pwd"
+dir = "{{ config_root }}"
+# dir = "worker"
