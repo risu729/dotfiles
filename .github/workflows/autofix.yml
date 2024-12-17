@@ -35,6 +35,7 @@ jobs:
 
       - name: Run autofix
         run: mise run check
+        continue-on-error: true
 
       - name: autofix.ci
         uses: autofix-ci/action@2891949f3779a1cafafae1523058501de3d4e944 # v1.3.1
