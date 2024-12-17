@@ -45,5 +45,8 @@ uvx = true
 includes = ["tasks.toml", "tasks"]
 
 [hooks]
-# skip in CI
-postinstall = "[ \"$CI\" = 'true' ] || mise run buni"
+postinstall = """
+{% if env.CI is not defined %}
+  mise run buni
+{% endif %}
+"""
