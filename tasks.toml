@@ -61,6 +61,7 @@ alias = "check:actionlint"
 env = { "SHELLCHECK_OPTS" = "--enable=all --exclude=SC2312" }
 
 ["lint:ghalint"]
+wait_for = ["check:pinact"]
 run = "ghalint run"
 alias = "check:ghalint"
 
