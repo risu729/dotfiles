@@ -46,7 +46,7 @@ includes = ["tasks.toml", "tasks"]
 
 [hooks]
 postinstall = """
-{% if env.CI is not defined %}
+{% if env.CI is undefined %}
   mise run buni
 {% endif %}
 """
