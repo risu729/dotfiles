@@ -1,34 +1,34 @@
 # ref: https://mise.jdx.dev/configuration.html
 #:schema https://mise.jdx.dev/schema/mise.json
 
-min_version = "2024.11.37"
+min_version = "2024.12.13"
 
 [tools]
-bun = "1.1.38"
-node = "23.3.0"
+bun = "1.1.40"
+node = "23.4.0"
 # cspell:ignore datasource binstall
 # renovate: datasource=crate
 cargo-binstall = "1.10.11"
-uv = "0.5.5"
+uv = "0.5.10"
 "aqua:biomejs/biome" = "1.9.4"
 actionlint = "1.7.4"
 # renovate: extractVersion=^v(?<version>.+)
-"aqua:suzuki-shunsuke/ghalint" = "1.0.0" # cspell:ignore shunsuke
+"aqua:suzuki-shunsuke/ghalint" = "1.1.0" # cspell:ignore shunsuke
 # renovate: extractVersion=^v(?<version>.+)
 "aqua:suzuki-shunsuke/pinact" = "1.0.0"
 # cspell:ignore tamasfe
 # renovate: packageName=tamasfe/taplo
 taplo = "0.9.3"
-"npm:prettier" = "3.4.1"
-markdownlint-cli2 = "0.15.0"
+"npm:prettier" = "3.4.2"
+markdownlint-cli2 = "0.16.0"
 shfmt = "3.10.0"
 shellcheck = "0.10.0"
 yamlfmt = "0.14.0"
 yamllint = "1.35.1"
-"npm:renovate" = "39.42.1"
-"npm:cspell" = "8.16.1"
-"cargo:lychee" = "0.17.0"
-typos = "1.28.1"
+"npm:renovate" = "39.74.0"
+"npm:cspell" = "8.17.1"
+"cargo:lychee" = "0.18.0"
+typos = "1.28.4"
 "npm:ignore-sync" = "7.0.1"
 
 [settings]
@@ -41,187 +41,12 @@ bun = true
 [settings.pipx]
 uvx = true
 
-[tasks.commit]
-depends = ["buni:root"]
-run = ["git add .", "bun run git-cz"]
+[task_config]
+includes = ["tasks.toml", "tasks"]
 
-[tasks."commit:staged"]
-depends = ["buni:root"]
-run = "bun run git-cz"
-
-[tasks.check]
-depends = [
-	"check:*", # lint and/or fix formatting
-	"lint:*", # lint only
-]
-
-[tasks.ci]
-depends = [
-	"ci:*", # lint and/or check formatting
-	"lint:*", # lint only
-]
-hide = true
-
-[tasks."check:biome"]
-run = "biome check --write --error-on-warnings"
-[tasks."ci:biome"]
-run = "biome ci --error-on-warnings"
-hide = true
-
-[tasks."check:tsc"]
-depends = ["buni"]
-run = [
-	"bun run tsc",
-	"bun run --cwd worker tsc --project tsconfig.base.json",
-	"bun run --cwd worker tsc --project tsconfig.src.json",
-	"bun run --cwd worker tsc --project tsconfig.test.json",
-]
-[tasks."ci:tsc"]
-depends = ["buni"]
-run = [
-	"bun run tsc --incremental false",
-	"bun run --cwd worker tsc --project tsconfig.base.json --incremental false",
-	"bun run --cwd worker tsc --project tsconfig.src.json --incremental false",
-	"bun run --cwd worker tsc --project tsconfig.test.json --incremental false",
-]
-hide = true
-
-[tasks."lint:jsonschema"]
-depends = ["buni:root"]
-run = "bun run scripts/validate-json-schema.ts"
-alias = "check:jsonschema"
-
-[tasks."lint:actionlint"]
-run = "actionlint -color"
-alias = "check:actionlint"
-# SC2312: check-extra-masked-returns
-# pipefail is set by shell: bash in GitHub Actions but cannot be detected by shellcheck
-# ref: https://docs.github.com/en/actions/writing-workflows/workflow-syntax-for-github-actions#defaultsrunshell
-env = { "SHELLCHECK_OPTS" = "--enable=all --exclude=SC2312" }
-
-[tasks."lint:ghalint"]
-run = "ghalint run"
-alias = "check:ghalint"
-
-[tasks."check:pinact"]
-run = "pinact run --verify"
-[tasks."ci:pinact"]
-depends = ["check:pinact"]
-run = "mise run util:nodiff"
-hide = true
-
-[tasks."check:taplo"]
-# schema of wrangler.toml is in node_modules
-depends = ["buni:worker"]
-run = ["taplo lint", "taplo fmt"]
-[tasks."ci:taplo"]
-depends = ["buni:worker"]
-run = ["taplo lint", "taplo fmt --check --diff"]
-hide = true
-
-[tasks."check:prettier"]
-run = "prettier --write --cache ."
-[tasks."ci:prettier"]
-run = "prettier --check ."
-hide = true
-
-[tasks."check:markdownlint"]
-run = "markdownlint-cli2 --fix"
-[tasks."ci:markdownlint"]
-run = "markdownlint-cli2"
-hide = true
-
-[tasks."check:shfmt"]
-# cannot exclude gitignored files
-# ref: https://github.com/mvdan/sh/issues/288
-run = "scripts=$(mise run util:list-scripts) && shfmt --list --write --simplify $scripts"
-[tasks."ci:shfmt"]
-run = "scripts=$(mise run util:list-scripts) && shfmt --diff --simplify $scripts"
-hide = true
-
-[tasks."lint:shellcheck"]
-# recursive globbing is not supported
-# ref: https://www.shellcheck.net/wiki/Recursiveness
-# ref: https://github.com/koalaman/shellcheck/issues/143
-run = "scripts=$(mise run util:list-scripts) && shellcheck --external-sources $scripts"
-alias = "check:shellcheck"
-
-[tasks."check:yamlfmt"]
-run = "yamlfmt ."
-[tasks."ci:yamlfmt"]
-run = "yamlfmt -lint ."
-hide = true
-
-[tasks."lint:yamllint"]
-run = "yamllint --strict ."
-alias = "check:yamllint"
-
-[tasks."lint:renovate"]
-run = "renovate-config-validator --strict"
-alias = "check:renovate"
-
-[tasks."check:cspell"]
-run = "cspell --cache \"**/*\""
-[tasks."ci:cspell"]
-run = "cspell \"**/*\""
-hide = true
-
-[tasks."check:lychee"]
-run = "lychee --cache \"**/*\""
-[tasks."ci:lychee"]
-run = "lychee --verbose \"**/*\""
-hide = true
-
-[tasks."check:typos"]
-run = "typos --write-changes"
-[tasks."ci:typos"]
-run = "typos"
-hide = true
-
-[tasks."check:ignore-sync"]
-run = "ignore-sync ."
-[tasks."ci:ignore-sync"]
-depends = ["check:ignore-sync"]
-run = "mise run util:nodiff"
-hide = true
-
-[tasks."worker:dev"]
-depends = ["buni:worker"]
-dir = "worker"
-run = "args=$(mise run worker:wrangler-args) && bun run wrangler dev $args"
-
-[tasks."worker:test"]
-depends = ["buni:worker"]
-run = "bun run vitest watch --ui"
-dir = "worker"
-[tasks."worker:test:ci"]
-depends = ["buni:worker"]
-run = "bun run vitest run"
-dir = "worker"
-hide = true
-
-[tasks."buni"]
-depends = ["buni:root", "buni:worker"]
-
-[tasks."buni:root"]
-run = "bun install --frozen-lockfile"
-hide = true
-
-[tasks."buni:worker"]
-run = "bun install --frozen-lockfile"
-dir = "worker"
-hide = true
-
-[tasks."buni:worker:silent"]
-run = "bun install --frozen-lockfile --silent"
-dir = "worker"
-hide = true
-
-[tasks."util:nodiff"] # cspell:ignore nodiff
-run = ["git add .", "git diff --staged --exit-code"]
-hide = true
-
-[tasks."util:list-scripts"]
-# .bashrc is not detected by shfmt --find
-run = "git_files=$(git ls-files) && scripts=$(shfmt --find $git_files) && echo wsl/home/.bashrc $scripts"
-hide = true
+[hooks]
+postinstall = """
+{% if env.CI is undefined %}
+  mise run buni
+{% endif %}
+"""

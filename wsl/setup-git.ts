@@ -5,7 +5,9 @@ import { homedir, tmpdir } from "node:os";
 import { join } from "node:path";
 import { $, env, spawn } from "bun";
 
-const localGitConfigPath = await $`git config --global include.path`.text();
+const localGitConfigPath = (
+	await $`git config --global include.path`.text()
+).trim();
 
 // do not use Partial as it sets all properties to optional but doesn't allow undefined
 type DeepOptional<T> = {
@@ -164,6 +166,8 @@ const setGitUserConfig = async (): Promise<{
 		login: string;
 	}>("/user");
 	await $`git config --file ${localGitConfigPath} user.name ${name ?? login}`.quiet();
+	// set ghq.user to override the git user name for ghq
+	await $`git config --file ${localGitConfigPath} ghq.user ${login}`.quiet();
 
 	const noReplyEmail = await ghApi<{ email: string }[]>("/user/emails").then(
 		(emails) =>

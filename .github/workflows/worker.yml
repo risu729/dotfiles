@@ -30,15 +30,18 @@ jobs:
         with:
           sparse-checkout: |
             mise.toml
-            mise-tasks/*
+            tasks.toml
+            tasks/*
             worker/*
           sparse-checkout-cone-mode: false
 
       - name: Install mise
-        uses: jdx/mise-action@63a673876c7072c1d6ecb2049c0d572976c83b22 # v2.1.7
+        uses: jdx/mise-action@5bb8f8c1911837cf42064e6490e7634fc842ee7e # v2.1.8
         with:
-          version: 2024.11.37
+          version: 2024.12.13
           cache_save: ${{ github.ref_name == 'main' }}
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
 
       - name: Run tests
         run: mise run worker:test:ci
@@ -61,15 +64,18 @@ jobs:
         with:
           sparse-checkout: |
             mise.toml
-            mise-tasks/*
+            tasks.toml
+            tasks/*
             worker/*
           sparse-checkout-cone-mode: false
 
       - name: Install mise
-        uses: jdx/mise-action@63a673876c7072c1d6ecb2049c0d572976c83b22 # v2.1.7
+        uses: jdx/mise-action@5bb8f8c1911837cf42064e6490e7634fc842ee7e # v2.1.8
         with:
-          version: 2024.11.37
+          version: 2024.12.13
           cache_save: ${{ github.ref_name == 'main' }}
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
 
       - name: Install package.json dependencies
         run: mise run buni:worker

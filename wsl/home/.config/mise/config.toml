@@ -1,12 +1,11 @@
 # ref: https://mise.jdx.dev/configuration.html#global-config-config-mise-config-toml
 #:schema https://mise.jdx.dev/schema/mise.json
 
-min_version = "2024.11.37"
+min_version = "2024.12.13"
 
 [env]
-# suppress experimental warnings for npm in node v23
-# ref: https://github.com/npm/cli/issues/7857
-NODE_OPTIONS = "--disable-warning=ExperimentalWarning"
+# disable bat paging
+BAT_PAGING = "never"
 
 [tools]
 # language tools
@@ -20,19 +19,30 @@ rust = "latest"
 python = "latest"
 go = "latest"
 
-# mise backends
+# mise requirements
 # cspell:ignore binstall
 cargo-binstall = "latest"
 uv = "latest"
-# required for completion
+# for completion
 usage = "latest"
+# for aqua backend verification
+cosign = "latest"
+# cspell:ignore slsa
+slsa-verifier = "latest"
 
 # cli tools
 jq = "latest"
 github-cli = "latest"
+ghq = "latest"
 # cspell:ignore kellyjonbrazil
 "aqua:kellyjonbrazil/jc" = "latest"
 delta = "latest"
+ripgrep = "14.1.1"
+"cargo:eza" = "0.20.10"
+bat = "0.24.0"
+fd = "10.2.0"
+fzf = "0.56.3"
+xh = "0.23.0"
 
 # biome vs code extension requires global installation
 "aqua:biomejs/biome" = "latest"
@@ -47,3 +57,7 @@ bun = true
 # cspell:ignore pipx
 [settings.pipx]
 uvx = true
+
+[settings.python]
+# disable python-build
+compile = false

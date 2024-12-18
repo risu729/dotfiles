@@ -1,0 +1,178 @@
+# ref: https://mise.jdx.dev/tasks/
+#:schema https://mise.jdx.dev/schema/mise-task.json
+
+[commit]
+depends = ["buni:root"]
+run = ["git add .", "bun run git-cz"]
+
+["commit:staged"]
+depends = ["buni:root"]
+run = "bun run git-cz"
+
+[check]
+depends = ["check:*"]
+
+[ci]
+depends = [
+	"ci:*", # lint and/or check formatting
+	"lint:*", # lint only
+]
+hide = true
+
+["check:biome"]
+run = "biome check --write --error-on-warnings"
+["ci:biome"]
+run = "biome ci --error-on-warnings"
+hide = true
+
+["check:tsc"]
+depends = ["buni"]
+run = [
+	"bun run tsc",
+	"bun run --cwd worker tsc --project tsconfig.base.json",
+	"bun run --cwd worker tsc --project tsconfig.src.json",
+	"bun run --cwd worker tsc --project tsconfig.test.json",
+]
+["ci:tsc"]
+depends = ["buni"]
+run = [
+	"bun run tsc --incremental false",
+	"bun run --cwd worker tsc --project tsconfig.base.json --incremental false",
+	"bun run --cwd worker tsc --project tsconfig.src.json --incremental false",
+	"bun run --cwd worker tsc --project tsconfig.test.json --incremental false",
+]
+hide = true
+
+["lint:jsonschema"]
+# schema of wrangler.jsonc is in node_modules
+depends = ["buni:root", "buni:worker"]
+run = "bun run scripts/validate-json-schema.ts"
+alias = "check:jsonschema"
+
+["lint:actionlint"]
+run = "actionlint -color"
+alias = "check:actionlint"
+# SC2312: check-extra-masked-returns
+# pipefail is set by shell: bash in GitHub Actions but cannot be detected by shellcheck
+# ref: https://docs.github.com/en/actions/writing-workflows/workflow-syntax-for-github-actions#defaultsrunshell
+env = { "SHELLCHECK_OPTS" = "--enable=all --exclude=SC2312" }
+
+["lint:ghalint"]
+wait_for = ["check:pinact"]
+run = "ghalint run"
+alias = "check:ghalint"
+
+["check:pinact"]
+run = "pinact run --verify"
+["ci:pinact"]
+depends = ["check:pinact"]
+depends_post = ["util:nodiff"]
+hide = true
+
+["check:taplo"]
+run = ["taplo lint", "taplo fmt"]
+["ci:taplo"]
+run = ["taplo lint", "taplo fmt --check --diff"]
+hide = true
+
+["check:prettier"]
+run = "prettier --write --cache ."
+["ci:prettier"]
+run = "prettier --check ."
+hide = true
+
+["check:markdownlint"]
+run = "markdownlint-cli2 --fix"
+["ci:markdownlint"]
+run = "markdownlint-cli2"
+hide = true
+
+["check:shfmt"]
+# cannot exclude gitignored files
+# ref: https://github.com/mvdan/sh/issues/288
+run = "shfmt --list --write --simplify {{ exec(command='mise run util:list-scripts') }}"
+["ci:shfmt"]
+run = "shfmt --diff --simplify {{ exec(command='mise run util:list-scripts') }}"
+hide = true
+
+["lint:shellcheck"]
+# recursive globbing is not supported
+# ref: https://www.shellcheck.net/wiki/Recursiveness
+# ref: https://github.com/koalaman/shellcheck/issues/143
+run = "shellcheck --external-sources {{ exec(command='mise run util:list-scripts') }}"
+alias = "check:shellcheck"
+
+["check:yamlfmt"]
+run = "yamlfmt ."
+["ci:yamlfmt"]
+run = "yamlfmt -lint ."
+hide = true
+
+["lint:yamllint"]
+run = "yamllint --strict ."
+alias = "check:yamllint"
+
+["lint:renovate"]
+run = "renovate-config-validator --strict"
+alias = "check:renovate"
+
+["check:cspell"]
+run = "cspell --cache \"**/*\""
+["ci:cspell"]
+run = "cspell \"**/*\""
+hide = true
+
+["check:lychee"]
+run = "lychee --cache \"**/*\""
+["ci:lychee"]
+run = "lychee --verbose \"**/*\""
+hide = true
+
+["check:typos"]
+run = "typos --write-changes"
+["ci:typos"]
+run = "typos"
+hide = true
+
+["check:ignore-sync"]
+run = "ignore-sync ."
+["ci:ignore-sync"]
+depends = ["check:ignore-sync"]
+depends_post = ["util:nodiff"]
+hide = true
+
+["worker:dev"]
+depends = ["buni:worker"]
+dir = "worker"
+run = "bun run wrangler dev ${{ exec(command='mise run worker:wrangler-args') }}"
+
+["worker:test"]
+depends = ["buni:worker"]
+run = "bun run vitest watch --ui"
+dir = "worker"
+["worker:test:ci"]
+depends = ["buni:worker"]
+run = "bun run vitest run"
+dir = "worker"
+hide = true
+
+["buni"]
+depends = ["buni:root", "buni:worker"]
+
+["buni:root"]
+run = "bun install --frozen-lockfile"
+hide = true
+
+["buni:worker"]
+run = "bun install --frozen-lockfile"
+dir = "worker"
+hide = true
+
+["util:nodiff"] # cspell:ignore nodiff
+run = ["git add .", "git diff --staged --exit-code"]
+hide = true
+
+["util:list-scripts"]
+# .bashrc is not detected by shfmt --find
+run = "git_files=$(git ls-files) && scripts=$(shfmt --find $git_files) && echo wsl/home/.bashrc $scripts"
+hide = true

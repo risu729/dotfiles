@@ -3,11 +3,9 @@
 
 # shellcheck disable=SC2148 # shebang is not required in .bashrc
 
-# activate mise shims
-# required for IDEs to call tools managed by mise
-# this should come before mise activate bash
-mise_shims="$(mise activate bash --shims)"
-eval "${mise_shims}"
+# activate mise
+mise_activate="$(mise activate bash)"
+eval "${mise_activate}"
 
 # if not running interactively, skip other steps
 case $- in
@@ -60,15 +58,11 @@ xterm-color | *-256color) color_prompt=yes ;;
 *) ;;
 esac
 
-if [[ -n ${force_color_prompt} ]]; then
-	# cspell:ignore setaf setf
-	if [[ -x /usr/bin/tput ]] && tput setaf 1 >&/dev/null; then
-		# We have color support; assume it's compliant with Ecma-48 (ISO/IEC-6429).
-		# (Lack of such support is extremely rare, and such a case would tend to support setf rather than setaf.)
-		color_prompt=yes
-	else
-		color_prompt=
-	fi
+# cspell:ignore setaf setf
+if [[ -x /usr/bin/tput ]] && tput setaf 1 >&/dev/null; then
+	# We have color support; assume it's compliant with Ecma-48 (ISO/IEC-6429).
+	# (Lack of such support is extremely rare, and such a case would tend to support setf rather than setaf.)
+	color_prompt=yes
 fi
 
 if [[ ${color_prompt} == yes ]]; then
@@ -76,7 +70,7 @@ if [[ ${color_prompt} == yes ]]; then
 else
 	PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
 fi
-unset color_prompt force_color_prompt
+unset color_prompt
 
 # If this is an xterm set the title to user@host:dir
 case "${TERM}" in
@@ -92,15 +86,6 @@ esac
 if [[ -x /usr/bin/dircolors ]]; then
 	dircolors="$(dircolors -b)"
 	eval "${dircolors}"
-
-	# cspell:ignore vdir fgrep
-	alias ls='ls --color=auto'
-	alias dir='dir --color=auto'
-	alias vdir='vdir --color=auto'
-
-	alias grep='grep --color=auto'
-	alias fgrep='fgrep --color=auto'
-	alias egrep='egrep --color=auto'
 fi
 
 # colored GCC warnings and errors
@@ -121,13 +106,67 @@ eval "${mise_completion}"
 gh_completion="$(gh completion --shell bash)"
 eval "${gh_completion}"
 
-# vs code
-alias code="code-insiders"
+# enable fzf integration
+fzf_integration="$(fzf --bash)"
+eval "${fzf_integration}"
 
 # gpg
 GPG_TTY=$(tty)
 export GPG_TTY
 
-# activate mise
-mise_activate="$(mise activate bash)"
-eval "${mise_activate}"
+# set GITHUB_TOKEN to avoid rate limit while using mise
+GITHUB_TOKEN=$(gh auth token)
+export GITHUB_TOKEN
+
+# aliases
+alias beep="printf '\a'"
+alias l="eza --all --long --git"
+alias code="code-insiders"
+
+# cd to ghq managed directory
+gcd() {
+	local ghq_dir dir root
+	ghq_dir=$(ghq list)
+	dir=$(echo -n "${ghq_dir}" | fzf --exit-0 --query="$*" --no-sort --exact)
+	root=$(ghq root)
+	[[ -n ${dir} ]] && cd "${root}/${dir}" || return 1
+}
+
+# call windows executables without extensions if it exists
+# e.g. `clip` instead of `clip.exe`
+if [[ -z ${_win_cmd_not_found:-} ]]; then
+	_win_cmd_not_found=1
+	if [[ -n "$(declare -f command_not_found_handle)" ]]; then
+		_win_cmd_not_found_handle=$(declare -f command_not_found_handle)
+		# _command_not_found_handle is used by mise
+		eval "${_win_cmd_not_found_handle/command_not_found_handle/__command_not_found_handle}"
+	fi
+
+	command_not_found_handle() {
+		# shellcheck disable=SC2317 # command_not_found_handle is called by bash
+		# cspell:ignore pathext wslenv
+		local ext pathext
+		# shellcheck disable=SC2153,SC2154,SC2317 # PATHEXT is shared from Windows by WSLENV
+		# ref: https://learn.microsoft.com/en-us/windows/wsl/filesystems#share-environment-variables-between-windows-and-wsl-with-wslenv
+		pathext=$(echo "${PATHEXT}" | tr ';' ' ')
+		# shellcheck disable=SC2317
+		for ext in ${pathext}; do
+			if command -v "$1${ext}" >/dev/null 2>&1; then
+				"$1${ext}" "${@:2}"
+				return $?
+			fi
+		done
+		# shellcheck disable=SC2317
+		if [[ -n "$(declare -f __command_not_found_handle)" ]]; then
+			__command_not_found_handle "$@"
+		else
+			echo "bash: command not found: $1" 1>&2
+			return 127
+		fi
+	}
+fi
+
+# disable apt/snap command_not_found_handle
+# original command_not_found_handle is renamed to _command_not_found_handle by mise activate
+# ref: https://github.com/jdx/mise/blob/4ed4f02ca99200175a020acb3e8c144181caeeb7/src/shell/bash.rs#L64-L82
+unset -f _command_not_found_handle
