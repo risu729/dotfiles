@@ -123,11 +123,6 @@ run = "bun install --frozen-lockfile"
 dir = "worker"
 hide = true
 
-["buni:worker:silent"]
-run = "bun install --frozen-lockfile --silent"
-dir = "worker"
-hide = true
-
 ["util:nodiff"] # cspell:ignore nodiff
 run = ["git add .", "git diff --staged --exit-code"]
 hide = true

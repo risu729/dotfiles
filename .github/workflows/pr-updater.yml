@@ -12,7 +12,7 @@ defaults:
     shell: bash
 
 jobs:
-  autofix:
+  update-prs:
     runs-on: ubuntu-24.04
     timeout-minutes: 5
     permissions:
@@ -26,34 +26,39 @@ jobs:
           app-id: ${{ vars.PR_UPDATER_APP_ID }}
           private-key: ${{ secrets.PR_UPDATER_SECRET_KEY }}
 
+      - name: Get PR number
+        id: pr-number
+        if: github.event_name == 'workflow_dispatch' && github.ref_name != github.event.repository.default_branch
+        run: |
+          number=$(gh pr list --head ${{ github.ref_name }} --json number --jq 'map(.number)')
+          echo "number=${number}" > "${GITHUB_OUTPUT}"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - name: List PRs
         id: list-prs
-        if: github.event_name == 'schedule'
+        if: steps.pr-number.outcome == 'skipped'
         run: |
-          numbers=gh api \
+          numbers=$(gh api \
             --header 'Accept: application/vnd.github+json' \
             --header 'X-GitHub-Api-Version: 2022-11-28' \
             --paginate \
-            --jq '.[].number' \
-            /repos/risu729/dotfiles/pulls
+            --jq 'map(.number)' \
+            /repos/risu729/dotfiles/pulls)
           echo "numbers=${numbers}" > "${GITHUB_OUTPUT}"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Get PR number
-        id: pr-number
-        if: github.event_name == 'workflow_dispatch'
-        run: |
-          number=$(gh pr list --head ${{ github.ref_name }} --json number --jq '.[0].number')
-          echo "number=${number}" > "${GITHUB_OUTPUT}"
-
-      - name: Update PRs
+      - name: Update PR branches
         run: |
           echo "${{ steps.list-prs.outputs.numbers || steps.pr-number.outputs.number }}" \
+            | jq --raw-output '.[]' \
             | xargs --max-args=1 --replace={} \
               gh api \
                 --header 'Accept: application/vnd.github+json' \
                 --header 'X-GitHub-Api-Version: 2022-11-28' \
-                --method PATCH \
-                /repos/${{ github.repository }}/pulls/{}
+                --method PUT \
+                /repos/${{ github.repository }}/pulls/{}/update-branch
         env:
           # use GitHub App token to run actions on updated PR
           GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
