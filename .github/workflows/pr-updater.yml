@@ -26,42 +26,28 @@ jobs:
           app-id: ${{ vars.PR_UPDATER_APP_ID }}
           private-key: ${{ secrets.PR_UPDATER_SECRET_KEY }}
 
-      - name: Get PR number
-        id: pr-number
-        if: github.event_name == 'workflow_dispatch' && github.ref_name != github.event.repository.default_branch
-        run: |
-          number=$(gh pr list --head ${{ github.ref_name }} --json number --jq 'map(.number)')
-          echo "number=${number}" > "${GITHUB_OUTPUT}"
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
       - name: List PRs
         id: list-prs
-        if: steps.pr-number.outcome == 'skipped'
         run: |
-          numbers=$(gh api \
-            --header 'Accept: application/vnd.github+json' \
-            --header 'X-GitHub-Api-Version: 2022-11-28' \
-            --paginate \
-            --jq 'map(.number)' \
-            /repos/risu729/dotfiles/pulls)
+          numbers=$(gh pr list --json number --jq 'map(.number)' ${{
+            github.event_name == 'workflow_dispatch' && github.ref_name != github.event.repository.default_branch
+              && format('--head {0}', github.ref_name)
+              || ''
+          }})
           echo "numbers=${numbers}" > "${GITHUB_OUTPUT}"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Update PR branches
         run: |
-          echo "${{ steps.list-prs.outputs.numbers || steps.pr-number.outputs.number }}" \
+          echo "${{ steps.list-prs.outputs.numbers }}" \
             | jq --raw-output '.[]' \
-            | xargs --max-args=1 --replace={} \
-              gh api \
-                --header 'Accept: application/vnd.github+json' \
-                --header 'X-GitHub-Api-Version: 2022-11-28' \
-                --method PUT \
-                /repos/${{ github.repository }}/pulls/{}/update-branch
+            | xargs --max-args=1 gh pr update-branch
         env:
           # use GitHub App token to run actions on updated PR
           GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
+        # ignore merge conflicts errors
+        continue-on-error: true
 
   actions-timeline:
     needs:
