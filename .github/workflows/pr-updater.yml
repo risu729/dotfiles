@@ -49,7 +49,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-
       - name: Update PRs
         run: |
           echo "${{ steps.list-prs.outputs.numbers || steps.pr-number.outputs.number }}" \
