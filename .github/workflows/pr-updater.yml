@@ -37,6 +37,8 @@ jobs:
             --jq '.[].number' \
             /repos/risu729/dotfiles/pulls)
           echo "numbers=${numbers}" > "${GITHUB_OUTPUT}"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Get PR number
         id: pr-number
@@ -44,6 +46,8 @@ jobs:
         run: |
           number=$(gh pr list --head ${{ github.ref_name }} --json number --jq '.[0].number')
           echo "number=${number}" > "${GITHUB_OUTPUT}"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Update PRs
         run: |
