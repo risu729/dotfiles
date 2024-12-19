@@ -7,7 +7,9 @@ min_version = "2024.12.14"
 # disable bat paging
 BAT_PAGING = "never"
 # gpg requires tty
-GPG_TTY = { value = "{{ exec(command='tty', cache_key='tty', cache_duration='1 week') }}", tools = true }
+# GitHub Actions doesn't have tty
+# ref: https://github.com/actions/runner/issues/241
+GPG_TTY = "{% if env.CI is undefined %}{{ exec(command='tty', cache_key='tty', cache_duration='1 week') }}{% endif %}"
 # set GITHUB_TOKEN to avoid rate limit while using mise
 GITHUB_TOKEN = { value = "{{ exec(command='gh auth token', cache_key='github_token', cache_duration='1 day') }}", tools = true }
 
