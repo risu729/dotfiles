@@ -44,7 +44,7 @@ jobs:
           GITHUB_TOKEN: ${{ github.token }}
 
       - name: Run tests
-        run: mise run worker:test:ci
+        run: mise run worker:test
 
   deploy-worker:
     needs:
