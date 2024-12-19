@@ -34,7 +34,7 @@ jobs:
           GITHUB_TOKEN: ${{ github.token }}
 
       - name: Run autofix
-        run: mise run check
+        run: mise run check --continue-on-error
         continue-on-error: true
 
       - name: autofix.ci
