@@ -28,7 +28,6 @@ jobs:
       image: ghcr.io/risu729/dotfiles/wsl:24.04.20241212@sha256:e9d1d55675aed4bf01aaa15503e9ad5c2af500d05a4cc3fa3e35406839359710
 
     steps:
-      - run: tty
       - name: Run installer
         # use head sha for pull requests because github.sha is set to the merge commit
         # don't use process substitution to avoid masking the errors
