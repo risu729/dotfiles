@@ -36,8 +36,7 @@ jobs:
             github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.sha
           }} | bash
         env:
-          # GH_TOKEN take precedence over GITHUB_TOKEN which is set by mise
-          GH_TOKEN: ${{ github.token }}
+          GITHUB_TOKEN: ${{ github.token }}
 
   actions-timeline:
     needs:
