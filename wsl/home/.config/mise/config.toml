@@ -9,11 +9,18 @@ BAT_PAGING = "never"
 # gpg requires tty
 # GitHub Actions doesn't have tty
 # ref: https://github.com/actions/runner/issues/241
-GPG_TTY = "{% if env.CI is undefined %}{{ exec(command='tty', cache_key='tty', cache_duration='1 week') }}{% endif %}"
+# don't cache tty because it depends on shell session
+GPG_TTY = "{% if env.CI is undefined %}{{ exec(command='tty') }}{% endif %}"
 
 # set GITHUB_TOKEN to avoid rate limit while using mise
 [env.GITHUB_TOKEN]
-value = "{% if env.CI is undefined %}{{ exec(command='gh auth token', cache_key='github_token', cache_duration='1 day') }}{% endif %}"
+value = """
+{% if env.CI is undefined %}\
+  {{ exec(command='gh auth token', cache_key='github_token', cache_duration='1 day') }}\
+{% else %}\
+  {{ env.GITHUB_TOKEN }}\
+{% endif %}\
+"""
 tools = true
 
 [tools]
