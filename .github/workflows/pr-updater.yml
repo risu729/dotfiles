@@ -29,11 +29,13 @@ jobs:
       - name: List PRs
         id: list-prs
         run: |
-          numbers=$(gh pr list --repo ${{ github.repository }} --json number --jq 'map(.number)' ${{
-            github.event_name == 'workflow_dispatch' && github.ref_name != github.event.repository.default_branch
-              && format('--head {0}', github.ref_name)
-              || ''
-          }})
+          numbers=$(gh pr list --repo ${{ github.repository }} \
+            --json number,headRefName \
+            --jq '[.[] | select(.headRefName | startswith("renovate/") | not) | .number]' ${{
+              github.event_name == 'workflow_dispatch' && github.ref_name != github.event.repository.default_branch
+                && format('--head {0}', github.ref_name)
+                || ''
+            }})
           echo "numbers=${numbers}" > "${GITHUB_OUTPUT}"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

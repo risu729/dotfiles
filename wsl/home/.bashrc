@@ -110,14 +110,6 @@ eval "${gh_completion}"
 fzf_integration="$(fzf --bash)"
 eval "${fzf_integration}"
 
-# gpg
-GPG_TTY=$(tty)
-export GPG_TTY
-
-# set GITHUB_TOKEN to avoid rate limit while using mise
-GITHUB_TOKEN=$(gh auth token)
-export GITHUB_TOKEN
-
 # aliases
 alias beep="printf '\a'"
 alias l="eza --all --long --git"
