@@ -14,7 +14,13 @@ GPG_TTY = "{% if env.CI is undefined %}{{ exec(command='tty') }}{% endif %}"
 
 # set GITHUB_TOKEN to avoid rate limit while using mise
 [env.GITHUB_TOKEN]
-value = "{% if env.CI is undefined %}{{ exec(command='gh auth token', cache_key='github_token', cache_duration='1 day') }}{% endif %}"
+value = """
+{% if env.CI is undefined %}\
+  {{ exec(command='gh auth token', cache_key='github_token', cache_duration='1 day') }}\
+{% else %}\
+  {{ env.GITHUB_TOKEN }}\
+{% endif %}\
+"""
 tools = true
 
 [tools]
