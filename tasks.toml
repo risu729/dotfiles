@@ -12,44 +12,24 @@ run = "bun run git-cz"
 [check]
 depends = ["check:*"]
 
-[ci]
-depends = [
-	"ci:*", # lint and/or check formatting
-	"lint:*", # lint only
-]
-hide = true
-
 ["check:biome"]
-run = "biome check --write --error-on-warnings"
-["ci:biome"]
-run = "biome ci --error-on-warnings"
-hide = true
+run = "biome {% if env.LINT is undefined %}check --write{% else %}ci{% endif %} --error-on-warnings"
 
 ["check:tsc"]
 depends = ["buni"]
 run = [
-	"bun run tsc",
-	"bun run --cwd worker tsc --project tsconfig.base.json",
-	"bun run --cwd worker tsc --project tsconfig.src.json",
-	"bun run --cwd worker tsc --project tsconfig.test.json",
+	"bun run tsc {% if env.CI is defined %}--incremental false{% endif %}",
+	"bun run --cwd worker tsc --project tsconfig.base.json {% if env.CI is defined %}--incremental false{% endif %}",
+	"bun run --cwd worker tsc --project tsconfig.src.json {% if env.CI is defined %}--incremental false{% endif %}",
+	"bun run --cwd worker tsc --project tsconfig.test.json {% if env.CI is defined %}--incremental false{% endif %}",
 ]
-["ci:tsc"]
-depends = ["buni"]
-run = [
-	"bun run tsc --incremental false",
-	"bun run --cwd worker tsc --project tsconfig.base.json --incremental false",
-	"bun run --cwd worker tsc --project tsconfig.src.json --incremental false",
-	"bun run --cwd worker tsc --project tsconfig.test.json --incremental false",
-]
-hide = true
 
-["lint:jsonschema"]
+["check:jsonschema"]
 # schema of wrangler.jsonc is in node_modules
 depends = ["buni:root", "buni:worker"]
 run = "bun run scripts/validate-json-schema.ts"
-alias = "check:jsonschema"
 
-["lint:actionlint"]
+["check:actionlint"]
 run = "actionlint -color"
 alias = "check:actionlint"
 # SC2312: check-extra-masked-returns
@@ -57,89 +37,69 @@ alias = "check:actionlint"
 # ref: https://docs.github.com/en/actions/writing-workflows/workflow-syntax-for-github-actions#defaultsrunshell
 env = { "SHELLCHECK_OPTS" = "--enable=all --exclude=SC2312" }
 
-["lint:ghalint"]
+["check:ghalint"]
 wait_for = ["check:pinact"]
 run = "ghalint run"
-alias = "check:ghalint"
 
 ["check:pinact"]
 run = "pinact run --verify"
-["ci:pinact"]
-depends = ["check:pinact"]
-depends_post = ["util:nodiff"]
-hide = true
+depends_post = [
+	"{% if env.CI is defined %}util:nodiff{% else %}util:donothing{% endif %}",
+]
 
 ["check:taplo"]
-run = ["taplo lint", "taplo fmt"]
-["ci:taplo"]
-run = ["taplo lint", "taplo fmt --check --diff"]
-hide = true
+run = [
+	"taplo lint",
+	"taplo fmt {% if env.LINT is undefined %}--check --diff{% endif %}",
+]
 
 ["check:prettier"]
-run = "prettier --write --cache ."
-["ci:prettier"]
-run = "prettier --check ."
-hide = true
+run = """
+prettier {% if env.LINT is undefined %}--write{% else %}--check{% endif %} \
+	{% if env.CI is undefined %}--cache{% endif %} ."""
 
 ["check:markdownlint"]
-run = "markdownlint-cli2 --fix"
-["ci:markdownlint"]
-run = "markdownlint-cli2"
-hide = true
+run = "markdownlint-cli2 {% if env.LINT is undefined %}--fix{% endif %}"
 
 ["check:shfmt"]
 # cannot exclude gitignored files
 # ref: https://github.com/mvdan/sh/issues/288
-run = "shfmt --list --write --simplify {{ exec(command='mise run util:list-scripts') }}"
-["ci:shfmt"]
-run = "shfmt --diff --simplify {{ exec(command='mise run util:list-scripts') }}"
-hide = true
+run = """
+shfmt {% if env.LINT is undefined %}--list --write{% else %}--diff{% endif %} \
+	--simplify {{ exec(command='mise run util:list-scripts') }}"""
 
-["lint:shellcheck"]
+["check:shellcheck"]
 # recursive globbing is not supported
 # ref: https://www.shellcheck.net/wiki/Recursiveness
 # ref: https://github.com/koalaman/shellcheck/issues/143
 run = "shellcheck --external-sources {{ exec(command='mise run util:list-scripts') }}"
-alias = "check:shellcheck"
 
 ["check:yamlfmt"]
-run = "yamlfmt ."
-["ci:yamlfmt"]
-run = "yamlfmt -lint ."
-hide = true
+run = "yamlfmt {% if env.LINT is defined %}-lint{% endif %} ."
 
-["lint:yamllint"]
+["check:yamllint"]
 run = "yamllint --strict ."
-alias = "check:yamllint"
 
 ["lint:renovate"]
 run = "renovate-config-validator --strict"
 alias = "check:renovate"
 
 ["check:cspell"]
-run = "cspell --cache \"**/*\""
-["ci:cspell"]
-run = "cspell \"**/*\""
-hide = true
+run = "cspell {% if env.CI is undefined %}--cache{% endif %} \"**/*\""
 
 ["check:lychee"]
-run = "lychee --cache \"**/*\""
-["ci:lychee"]
-run = "lychee --verbose \"**/*\""
-hide = true
+run = """
+lychee {% if env.LINT is defined %}--verbose{% endif %} \
+	{% if env.CI is undefined %}--cache{% endif %} \"**/*\""""
 
 ["check:typos"]
-run = "typos --write-changes"
-["ci:typos"]
-run = "typos"
-hide = true
+run = "typos {% if env.LINT is undefined %}--write-changes{% endif %}"
 
 ["check:ignore-sync"]
 run = "ignore-sync ."
-["ci:ignore-sync"]
-depends = ["check:ignore-sync"]
-depends_post = ["util:nodiff"]
-hide = true
+depends_post = [
+	"{% if env.CI is defined %}util:nodiff{% else %}util:donothing{% endif %}",
+]
 
 ["worker:dev"]
 depends = ["buni:worker"]
@@ -148,13 +108,8 @@ run = "bun run wrangler dev ${{ exec(command='mise run worker:wrangler-args') }}
 
 ["worker:test"]
 depends = ["buni:worker"]
-run = "bun run vitest watch --ui"
+run = "bun run vitest {% if env.CI is undefined %}watch --ui{% else %}run{% endif %}"
 dir = "worker"
-["worker:test:ci"]
-depends = ["buni:worker"]
-run = "bun run vitest run"
-dir = "worker"
-hide = true
 
 ["buni"]
 depends = ["buni:root", "buni:worker"]
@@ -170,6 +125,11 @@ hide = true
 
 ["util:nodiff"] # cspell:ignore nodiff
 run = ["git add .", "git diff --staged --exit-code"]
+hide = true
+
+# cspell:ignore donothing
+["util:donothing"]
+run = ""
 hide = true
 
 ["util:list-scripts"]
