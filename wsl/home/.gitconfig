@@ -9,6 +9,9 @@
 [tag]
 	gpgSign = true
 
+[submodule]
+	recurse = true
+
 [credential "https://github.com"]
 	# set helper to empty to avoid using the default helper
 	# ref: https://github.com/cli/cli/issues/3796#issuecomment-1065150465
