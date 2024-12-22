@@ -28,7 +28,7 @@ exclude = [
 	# wsl/install.sh
 	# can't be accessed
 	"https://mise.jdx.dev/deb",
-	# mise-tasks/worker/wrangler-args
+	# tasks/worker/wrangler-args
 	# an example of a url with authentication
 	"https://.+@github.com/owner/repo",
 ]
