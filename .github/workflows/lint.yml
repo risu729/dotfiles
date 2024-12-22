@@ -42,9 +42,9 @@ jobs:
       - name: List mise tasks
         id: list
         run: |
-          tasks=$(mise tasks ls --json --hidden \
+          tasks=$(mise tasks ls --json \
             | jq --raw-output --compact-output \
-              'map(select(.name | test("^(ci:|lint:)")) | {name: (.name | sub("^(ci:|lint:)" ; "")), task: .name})')
+              'map(select(.name | test("^(check:)")) | {name: (.name | sub("^.+:" ; "")), task: .name})')
           echo "tasks=${tasks}" >> "${GITHUB_OUTPUT}"
 
   lint:
@@ -77,6 +77,8 @@ jobs:
 
       - name: Run ${{ matrix.name }}
         run: mise run ${{ matrix.task }}
+        env:
+          LINT: true
 
   commitlint:
     runs-on: ubuntu-24.04
