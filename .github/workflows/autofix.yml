@@ -28,7 +28,7 @@ jobs:
       - name: Install mise
         uses: jdx/mise-action@5bb8f8c1911837cf42064e6490e7634fc842ee7e # v2.1.8
         with:
-          version: 2024.12.17
+          version: 2024.12.19
           cache_save: ${{ github.ref_name == 'main' }}
         env:
           GITHUB_TOKEN: ${{ github.token }}
