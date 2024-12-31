@@ -31,7 +31,6 @@ run = "bun run scripts/validate-json-schema.ts"
 
 ["check:actionlint"]
 run = "actionlint -color"
-alias = "check:actionlint"
 # SC2312: check-extra-masked-returns
 # pipefail is set by shell: bash in GitHub Actions but cannot be detected by shellcheck
 # ref: https://docs.github.com/en/actions/writing-workflows/workflow-syntax-for-github-actions#defaultsrunshell
@@ -80,9 +79,8 @@ run = "yamlfmt {% if env.LINT is defined %}-lint{% endif %} ."
 ["check:yamllint"]
 run = "yamllint --strict ."
 
-["lint:renovate"]
+["check:renovate"]
 run = "renovate-config-validator --strict"
-alias = "check:renovate"
 
 ["check:cspell"]
 run = "cspell {% if env.CI is undefined %}--cache{% endif %} \"**/*\""
