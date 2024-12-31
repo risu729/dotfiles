@@ -1,4 +1,2 @@
 * text=auto eol=lf
-# cspell:ignore lockb
-*.lockb binary diff=lockb
 .gitignore linguist-generated=true
