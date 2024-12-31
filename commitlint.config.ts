@@ -3,13 +3,15 @@
 import conventionalConfig from "@commitlint/config-conventional";
 import type { UserConfig } from "@commitlint/types";
 
+const excludeQuestions: string[] = [
 // exclude isBreaking, breaking, and breakingBody because this package does not have versioning
+	"isBreaking",
+	"breaking",
+	"breakingBody",
 // exclude isIssueAffected, issuesBody, and issues because I link branches to issues using GitHub
-const questions: string[] = [
-	"type",
-	"scope",
-	"subject",
-	"body",
+	"isIssueAffected",
+	"issuesBody",
+	"issues",
 ] satisfies (keyof typeof conventionalConfig.prompt.questions)[];
 
 const commitlintConfig: UserConfig = {
@@ -19,7 +21,7 @@ const commitlintConfig: UserConfig = {
 		...conventionalConfig.prompt,
 		questions: Object.fromEntries(
 			Object.entries(conventionalConfig.prompt.questions).filter(([key]) =>
-				questions.includes(key),
+				!excludeQuestions.includes(key),
 			),
 		),
 	},
