@@ -9,7 +9,8 @@ set -euo pipefail
 if command -v mise >/dev/null 2>&1; then
 	compat_date=$(mise run worker:wrangler-compat-date)
 else
-	compat_date=$(./wrangler-compat-date)
+	script_dir=$(dirname "${BASH_SOURCE[0]}")
+	compat_date=$("${script_dir}"/wrangler-compat-date)
 fi
 
 remote_info=$(git remote show origin)
