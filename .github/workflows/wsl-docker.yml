@@ -35,9 +35,9 @@ jobs:
 
     steps:
       - name: Install mise
-        uses: jdx/mise-action@5bb8f8c1911837cf42064e6490e7634fc842ee7e # v2.1.8
+        uses: jdx/mise-action@5083fe46898c414b2475087cc79da59e7da859e8 # v2.1.11
         with:
-          version: 2024.12.14
+          version: 2024.12.24
           # cspell:ignore kellyjonbrazil
           mise_toml: |
             [tools]

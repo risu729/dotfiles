@@ -5,7 +5,12 @@
 
 set -euo pipefail
 
-compat_date=$(mise run worker:wrangler-compat-date)
+# call script directly for direct call in workers build environment
+if command -v mise >/dev/null 2>&1; then
+	compat_date=$(mise run worker:wrangler-compat-date)
+else
+	compat_date=$(./wrangler-compat-date)
+fi
 
 remote_info=$(git remote show origin)
 # in cloudflare workers builds, the url is in the format `https://*****@github.com/owner/repo`

@@ -42,7 +42,7 @@
 		"winget.json": "jsonc",
 		"gpg-agent.conf": "plaintext",
 		// match on the absolute path if / is contained
-		"**/mise-tasks/**": "shellscript",
+		"**/tasks/**": "shellscript",
 		"**/wsl/etc/**": "plaintext"
 	},
 

@@ -30,11 +30,13 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
 
       - name: Install mise
-        uses: jdx/mise-action@5bb8f8c1911837cf42064e6490e7634fc842ee7e # v2.1.8
+        uses: jdx/mise-action@5083fe46898c414b2475087cc79da59e7da859e8 # v2.1.11
         with:
-          version: 2024.12.14
+          version: 2024.12.24
           cache_save: ${{ github.ref_name == 'main' }}
         env:
           GITHUB_TOKEN: ${{ github.token }}
@@ -42,9 +44,9 @@ jobs:
       - name: List mise tasks
         id: list
         run: |
-          tasks=$(mise tasks ls --json --hidden \
+          tasks=$(mise tasks ls --json \
             | jq --raw-output --compact-output \
-              'map(select(.name | test("^(ci:|lint:)")) | {name: (.name | sub("^(ci:|lint:)" ; "")), task: .name})')
+              'map(select(.name | test("^(check:)")) | {name: (.name | sub("^.+:" ; "")), task: .name})')
           echo "tasks=${tasks}" >> "${GITHUB_OUTPUT}"
 
   lint:
@@ -66,17 +68,21 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
 
       - name: Install mise
-        uses: jdx/mise-action@5bb8f8c1911837cf42064e6490e7634fc842ee7e # v2.1.8
+        uses: jdx/mise-action@5083fe46898c414b2475087cc79da59e7da859e8 # v2.1.11
         with:
-          version: 2024.12.14
+          version: 2024.12.24
           cache_save: ${{ github.ref_name == 'main' }}
         env:
           GITHUB_TOKEN: ${{ github.token }}
 
       - name: Run ${{ matrix.name }}
         run: mise run ${{ matrix.task }}
+        env:
+          LINT: true
 
   commitlint:
     runs-on: ubuntu-24.04
@@ -89,11 +95,12 @@ jobs:
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
           fetch-depth: 0 # fetch all history for commitlint
+          persist-credentials: false
 
       - name: Install mise
-        uses: jdx/mise-action@5bb8f8c1911837cf42064e6490e7634fc842ee7e # v2.1.8
+        uses: jdx/mise-action@5083fe46898c414b2475087cc79da59e7da859e8 # v2.1.11
         with:
-          version: 2024.12.14
+          version: 2024.12.24
           cache_save: ${{ github.ref_name == 'main' }}
         env:
           GITHUB_TOKEN: ${{ github.token }}

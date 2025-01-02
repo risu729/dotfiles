@@ -110,14 +110,6 @@ eval "${gh_completion}"
 fzf_integration="$(fzf --bash)"
 eval "${fzf_integration}"
 
-# gpg
-GPG_TTY=$(tty)
-export GPG_TTY
-
-# set GITHUB_TOKEN to avoid rate limit while using mise
-GITHUB_TOKEN=$(gh auth token)
-export GITHUB_TOKEN
-
 # aliases
 alias beep="printf '\a'"
 alias l="eza --all --long --git"
@@ -127,7 +119,7 @@ alias code="code-insiders"
 gcd() {
 	local ghq_dir dir root
 	ghq_dir=$(ghq list)
-	dir=$(echo -n "${ghq_dir}" | fzf --exit-0 --query="$*" --no-sort --exact)
+	dir=$(echo -n "${ghq_dir}" | fzf --exit-0 --select-1 --query="$*" --no-sort --exact)
 	root=$(ghq root)
 	[[ -n ${dir} ]] && cd "${root}/${dir}" || return 1
 }
