@@ -79,9 +79,6 @@ run = "yamlfmt {% if env.LINT is defined %}-lint{% endif %} ."
 ["check:yamllint"]
 run = "yamllint --strict ."
 
-["check:renovate"]
-run = "renovate-config-validator --strict"
-
 ["check:cspell"]
 run = "cspell {% if env.CI is undefined %}--cache{% endif %} \"**/*\""
 
