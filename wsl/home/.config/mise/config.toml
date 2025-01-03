@@ -10,7 +10,7 @@ BAT_PAGING = "never"
 # GitHub Actions doesn't have tty
 # ref: https://github.com/actions/runner/issues/241
 # don't cache tty because it depends on shell session
-GPG_TTY = "{% if env.CI is undefined %}{{ exec(command='tty') }}{% endif %}"
+GPG_TTY = "{{ exec(command='tty || true') }}"
 
 # set GITHUB_TOKEN to avoid rate limit while using mise
 [env.GITHUB_TOKEN]
