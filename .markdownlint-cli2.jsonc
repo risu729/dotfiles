@@ -5,6 +5,9 @@
 	"gitignore": true,
 	"config": {
 		// ignore line length because I don't want to wrap my text
-		"line-length": false
+		"line-length": false,
+		"no-hard-tabs": {
+			"code_blocks": false
+		}
 	}
 }
