@@ -59,6 +59,8 @@ bat = "0.24.0"
 fd = "10.2.0"
 fzf = "0.56.3"
 xh = "0.23.0"
+# cspell:ignore josephburnett
+"ubi:josephburnett/jd" = "latest"
 
 # biome vs code extension requires global installation
 "aqua:biomejs/biome" = "latest"
