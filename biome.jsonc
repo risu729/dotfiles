@@ -60,12 +60,7 @@
 		},
 		{
 			// disable noNodejsModules rule for files running in bun or Node.js
-			"include": [
-				"**/*.config.*",
-				"**/scripts/**",
-				"worker/test/**",
-				"wsl/setup-git.ts"
-			],
+			"include": ["**/*.config.*", "worker/test/**", "wsl/setup-git.ts"],
 			"linter": {
 				"rules": {
 					"correctness": {
@@ -76,7 +71,7 @@
 		},
 		{
 			// disable noConsole and useTopLevelRegex rules for scripts
-			"include": ["**/scripts/**", "wsl/setup-git.ts"],
+			"include": ["wsl/setup-git.ts"],
 			"linter": {
 				"rules": {
 					"suspicious": {

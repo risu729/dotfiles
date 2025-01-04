@@ -26,8 +26,8 @@ run = [
 
 ["check:jsonschema"]
 # schema of wrangler.jsonc is in node_modules
-depends = ["buni:root", "buni:worker"]
-run = "bun run scripts/validate-json-schema.ts"
+depends = ["buni:worker"]
+run = "jschema-validator"
 
 ["check:actionlint"]
 run = "actionlint -color"
