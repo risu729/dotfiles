@@ -6,18 +6,12 @@ min_version = "2025.1.0"
 [tools]
 bun = "1.1.42"
 node = "23.5.0"
-# cspell:ignore datasource binstall
-# renovate: datasource=crate
-cargo-binstall = "1.10.11"
+cargo-binstall = "1.10.11" # cspell:ignore binstall
 uv = "0.5.14"
 "aqua:biomejs/biome" = "1.9.4"
 actionlint = "1.7.5"
-# renovate: extractVersion=^v(?<version>.+)
 "aqua:suzuki-shunsuke/ghalint" = "1.2.1" # cspell:ignore shunsuke
-# renovate: extractVersion=^v(?<version>.+)
 "aqua:suzuki-shunsuke/pinact" = "1.1.2"
-# cspell:ignore tamasfe
-# renovate: packageName=tamasfe/taplo
 taplo = "0.9.3"
 "npm:prettier" = "3.4.2"
 markdownlint-cli2 = "0.17.1"
