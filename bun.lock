@@ -12,7 +12,7 @@
         "@tsconfig/strictest": "2.0.5",
         "@types/bun": "1.1.14",
         "commitizen": "4.3.1",
-        "jschema-validator": "1.0.3",
+        "jschema-validator": "1.0.4",
         "prettier": "3.4.2",
         "typescript": "5.7.2",
       },
@@ -297,7 +297,7 @@
 
     "js-yaml": ["js-yaml@4.1.0", "", { "dependencies": { "argparse": "^2.0.1" }, "bin": { "js-yaml": "bin/js-yaml.js" } }, "sha512-wpxZs9NoxZaJESJGIZTyDEaYpl0FKSA+FB9aJiyemKhMwkxQg63h4T1KJgUGHpTqPDNRcmmYLugrRjJlBtWvRA=="],
 
-    "jschema-validator": ["jschema-validator@1.0.3", "", { "dependencies": { "@sindresorhus/is": "7.0.1", "ajv": "8.17.1", "ajv-draft-04": "1.0.0", "ajv-formats": "3.0.1", "c12": "2.0.1", "consola": "3.3.3", "ignore-walk": "7.0.0", "json5": "2.2.3", "jsonc-parser": "3.3.1", "meow": "13.2.0" }, "bin": { "jschema-validator": "dist/bin.js" } }, "sha512-y0sWWAFv91bnrnfejwiLmVKAhgqlvhJpCxrZJiBPdSYT7KBtFMwy9A/laxTpAdGGCFLi1KbZ+AmNoZd+87CtjQ=="],
+    "jschema-validator": ["jschema-validator@1.0.4", "", { "dependencies": { "@sindresorhus/is": "7.0.1", "ajv": "8.17.1", "ajv-draft-04": "1.0.0", "ajv-formats": "3.0.1", "c12": "2.0.1", "consola": "3.3.3", "ignore-walk": "7.0.0", "json5": "2.2.3", "jsonc-parser": "3.3.1", "meow": "13.2.0" }, "bin": { "jschema-validator": "dist/bin.js" } }, "sha512-MHvKAOd+fUKLQ/DDK8mGAKa+yufs+mPidlw6/2ho8GUVtef84BGorX8RmwJBe7cKbH80R+cIKxpLMLwWOk9XSA=="],
 
     "json-parse-even-better-errors": ["json-parse-even-better-errors@2.3.1", "", {}, "sha512-xyFwyhro/JEof6Ghe2iz2NcXoj2sloNsWr/XsERDK/oiPCfaNhl5ONfp+jQdAZRQQ0IJWNzH9zIZF7li91kh2w=="],
 
