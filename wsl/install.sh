@@ -84,6 +84,8 @@ cd "${HOME}"
 
 mise trust --all
 mise install --yes
+# tools already installed are not upgraded by mise install
+mise upgrade
 # activate to use installed tools in setup-git.ts
 mise_activate="$(mise activate bash)"
 eval "${mise_activate}"
