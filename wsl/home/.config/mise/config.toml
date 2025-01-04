@@ -59,6 +59,8 @@ bat = "latest"
 fd = "latest"
 fzf = "latest"
 xh = "latest"
+# cspell:ignore josephburnett
+"ubi:josephburnett/jd" = "latest"
 
 # biome vs code extension requires global installation
 "aqua:biomejs/biome" = "latest"
