@@ -35,6 +35,7 @@ module.exports = {
 		"pinact",
 		"commitlint",
 		"hono",
+		"jschema",
 		"buni",
 	],
 };

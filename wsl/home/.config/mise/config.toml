@@ -53,12 +53,12 @@ ghq = "latest"
 # cspell:ignore kellyjonbrazil
 "aqua:kellyjonbrazil/jc" = "latest"
 delta = "latest"
-ripgrep = "14.1.1"
-"cargo:eza" = "0.20.10"
-bat = "0.24.0"
-fd = "10.2.0"
-fzf = "0.56.3"
-xh = "0.23.0"
+ripgrep = "latest"
+"cargo:eza" = "latest"
+bat = "latest"
+fd = "latest"
+fzf = "latest"
+xh = "latest"
 # cspell:ignore josephburnett
 "ubi:josephburnett/jd" = "latest"
 
