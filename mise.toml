@@ -7,7 +7,6 @@ min_version = "2025.1.0"
 bun = "1.1.42"
 node = "23.5.0"
 cargo-binstall = "1.10.19" # cspell:ignore binstall
-uv = "0.5.14"
 "aqua:biomejs/biome" = "1.9.4"
 actionlint = "1.7.6"
 "aqua:suzuki-shunsuke/ghalint" = "1.2.1" # cspell:ignore shunsuke
@@ -27,13 +26,14 @@ typos = "1.29.4"
 
 [settings]
 experimental = true
+disable_backends = [
+	# cspell:ignore pipx
+	# disable pipx backend not to require pipx/uv
+	"pipx",
+]
 
 [settings.npm]
 bun = true
-
-# cspell:ignore pipx
-[settings.pipx]
-uvx = true
 
 [task_config]
 includes = ["tasks.toml", "tasks"]
