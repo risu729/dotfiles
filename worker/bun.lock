@@ -13,7 +13,7 @@
         "@tsconfig/bun": "1.0.7",
         "@tsconfig/strictest": "2.0.5",
         "@types/bun": "1.1.15",
-        "@types/diff": "6.0.0",
+        "@types/diff": "7.0.0",
         "@vitest/ui": "2.1.8",
         "diff": "7.0.0",
         "typescript": "5.7.2",
@@ -147,7 +147,7 @@
 
     "@types/bun": ["@types/bun@1.1.15", "", { "dependencies": { "bun-types": "1.1.42" } }, "sha512-Fi7ND1jCq8O5iU3s9z3TKHggD0hidgpe7wSxyisviXpbMmY4B1KiokF3f/mmjOoDrEcf873tSpixgen7Wm9X0g=="],
 
-    "@types/diff": ["@types/diff@6.0.0", "", {}, "sha512-dhVCYGv3ZSbzmQaBSagrv1WJ6rXCdkyTcDyoNu1MD8JohI7pR7k8wdZEm+mvdxRKXyHVwckFzWU1vJc+Z29MlA=="],
+    "@types/diff": ["@types/diff@7.0.0", "", {}, "sha512-sVpkpbnTJL9CYoDf4U+tHaQLe5HiTaHWY7m9FuYA7oMCHwC9ie0Vh9eIGapyzYrU3+pILlSY2fAc4elfw5m4dg=="],
 
     "@types/estree": ["@types/estree@1.0.6", "", {}, "sha512-AYnb1nQyY49te+VRAVgmzfcgjYS91mY5P0TKUDCLEM+gNnA+3T6rWITXRLYCpahpqSQbN5cE+gHpnPyXjHWxcw=="],
 
