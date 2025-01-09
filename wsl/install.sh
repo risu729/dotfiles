@@ -52,7 +52,8 @@ cd "${wsl_dir}"
 
 # create symbolic links for home directory
 # exclude .gitignore-sync
-home_paths="$(find ./home -type f ! -name ".gitignore-sync")"
+# postpone .gitconfig to avoid auth error while installing mise tools
+home_paths="$(find ./home -type f ! -name ".gitignore-sync" ! -name ".gitconfig")"
 for path in ${home_paths}; do
 	path="$(realpath "${path}")"
 	if [[ ${path} == */.config/git/.gitignore ]]; then
@@ -90,6 +91,8 @@ mise upgrade
 mise_activate="$(mise activate bash)"
 eval "${mise_activate}"
 echo installed mise
+
+ln --symbolic --no-dereference --force "${wsl_dir}/.gitconfig" "${HOME}/.gitconfig"
 
 echo installed dotfiles!
 
