@@ -37,6 +37,7 @@ jobs:
           }} | bash
         env:
           GITHUB_TOKEN: ${{ github.token }}
+          __CI: true
 
   actions-timeline:
     needs:
