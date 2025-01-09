@@ -41,6 +41,7 @@
 		".czrc": "jsonc",
 		"winget.json": "jsonc",
 		"gpg-agent.conf": "plaintext",
+		".tool-versions": "plaintext",
 		// match on the absolute path if / is contained
 		"**/tasks/**": "shellscript",
 		"**/wsl/etc/**": "plaintext"
