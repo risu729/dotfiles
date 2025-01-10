@@ -1,7 +1,7 @@
 # ref: https://mise.jdx.dev/configuration.html#global-config-config-mise-config-toml
 #:schema https://mise.jdx.dev/schema/mise.json
 
-min_version = "2025.1.1"
+min_version = "2025.1.3"
 
 [env]
 # disable bat paging
@@ -14,8 +14,9 @@ GPG_TTY = "{{ exec(command='tty || true') }}"
 
 # set GITHUB_TOKEN to avoid rate limit while using mise
 [env.GITHUB_TOKEN]
+# use __CI instead of CI to be able to test CI locally
 value = """
-{% if env.CI is undefined %}\
+{% if env.__CI is undefined %}\
   {{ exec(command='gh auth token', cache_key='github_token', cache_duration='1 day') }}\
 {% else %}\
   {{ env.GITHUB_TOKEN }}\

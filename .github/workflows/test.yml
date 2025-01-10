@@ -25,7 +25,7 @@ jobs:
       contents: read # for checkout
 
     container:
-      image: ghcr.io/risu729/dotfiles/wsl:24.04.20241212@sha256:e9d1d55675aed4bf01aaa15503e9ad5c2af500d05a4cc3fa3e35406839359710
+      image: ghcr.io/risu729/dotfiles/wsl:24.04.20250106@sha256:6c78914113f1b31afaac1395520859c459018d1aed16232f11f193ac8c7aef7b
 
     steps:
       - name: Run installer
@@ -37,6 +37,7 @@ jobs:
           }} | bash
         env:
           GITHUB_TOKEN: ${{ github.token }}
+          __CI: true
 
   actions-timeline:
     needs:
