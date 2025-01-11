@@ -102,7 +102,7 @@ jobs:
         uses: cloudflare/wrangler-action@6d58852c35a27e6034745c5d0bc373d739014f7f # v3.13.0
         with:
           workingDirectory: worker
-          command: >
+          command: >-
             versions upload --tag ${{ steps.commit.outputs.sha }}
             --message ${{ steps.commit.outputs.message }}
             ${{ steps.wrangler-args.outputs.args }}
