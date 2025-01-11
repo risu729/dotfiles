@@ -70,6 +70,8 @@ jobs:
             worker/*
           sparse-checkout-cone-mode: false
           persist-credentials: false
+          # set fetch-depth to 2 for pull requests to get the head commit, not only the merge commit
+          fetch-depth: ${{ github.event_name == 'pull_request' && 2 || 1 }}
 
       - name: Install mise
         uses: jdx/mise-action@5083fe46898c414b2475087cc79da59e7da859e8 # v2.1.11
@@ -106,6 +108,19 @@ jobs:
               ${{ steps.wrangler-args.outputs.args }}
           apiToken: ${{ secrets.CLOUDFLARE_WORKERS_API_TOKEN }}
           accountId: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
+
+      - name: Generate Job Summary
+        if: ${{ !cancelled() }}
+        run: |
+          worker_name=$(echo "${{ steps.deploy.outputs.command-output }}" \
+            | grep --only-matching --perl-regexp '^Uploaded \K[^ ]+')
+          version_id=$(echo "${{ steps.deploy.outputs.command-output }}" \
+            | grep --only-matching --perl-regexp '^Worker Version ID: \K.+')
+          preview_url=$(echo "${{ steps.deploy.outputs.command-output }}" \
+            | grep --only-matching --perl-regexp '^Version Preview URL: \K.+')
+          echo "# ${worker_name}
+          - Version ID: ${version_id}
+          - Preview URL: ${preview_url}" >> "${GITHUB_STEP_SUMMARY}"
 
   actions-timeline:
     needs:
