@@ -33,11 +33,9 @@ module.exports = {
 		"yamlfmt",
 		"ghalint",
 		"pinact",
-		"noninteractive",
 		"commitlint",
-		"graphviz",
-		"iarna",
 		"hono",
+		"jschema",
 		"buni",
 	],
 };

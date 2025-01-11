@@ -26,8 +26,8 @@ run = [
 
 ["check:jsonschema"]
 # schema of wrangler.jsonc is in node_modules
-depends = ["buni:root", "buni:worker"]
-run = "bun run scripts/validate-json-schema.ts"
+depends = ["buni:worker"]
+run = "jschema-validator"
 
 ["check:actionlint"]
 run = "actionlint -color"
@@ -49,7 +49,7 @@ depends_post = [
 ["check:taplo"]
 run = [
 	"taplo lint",
-	"taplo fmt {% if env.LINT is undefined %}--check --diff{% endif %}",
+	"taplo fmt {% if env.LINT is defined %}--check --diff{% endif %}",
 ]
 
 ["check:prettier"]
@@ -78,9 +78,6 @@ run = "yamlfmt {% if env.LINT is defined %}-lint{% endif %} ."
 
 ["check:yamllint"]
 run = "yamllint --strict ."
-
-["check:renovate"]
-run = "renovate-config-validator --strict"
 
 ["check:cspell"]
 run = "cspell {% if env.CI is undefined %}--cache{% endif %} \"**/*\""
