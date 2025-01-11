@@ -111,7 +111,6 @@ jobs:
           accountId: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
 
       - name: Generate Job Summary
-        if: ${{ !cancelled() }}
         run: |
           worker_name=$(echo "${{ steps.deploy.outputs.command-output }}" \
             | grep --only-matching --perl-regexp '^Uploaded \K[^ ]+')
