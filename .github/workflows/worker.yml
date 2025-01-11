@@ -94,8 +94,9 @@ jobs:
         id: commit
         run: |
           sha=${{ github.event.pull_request.head.sha || github.sha }}
-          echo "sha=${sha}" >> "${GITHUB_OUTPUT}"
+          short_sha=$(git rev-parse --short "${sha}")
           message=$(git log --format=%B --max-count=1 "${sha}")
+          echo "short_sha=${short_sha}" >> "${GITHUB_OUTPUT}"
           echo "message=${message}" >> "${GITHUB_OUTPUT}"
 
       - name: Upload a Version of Cloudflare Workers with Wrangler
@@ -103,8 +104,9 @@ jobs:
         uses: cloudflare/wrangler-action@6d58852c35a27e6034745c5d0bc373d739014f7f # v3.13.0
         with:
           workingDirectory: worker
+          # tag length is limited to 25 characters
           command: >-
-            versions upload --tag ${{ steps.commit.outputs.sha }}
+            versions upload --tag ${{ steps.commit.outputs.short_sha }}
             --message "${{ steps.commit.outputs.message }}"
             ${{ steps.wrangler-args.outputs.args }}
           apiToken: ${{ secrets.CLOUDFLARE_WORKERS_API_TOKEN }}
