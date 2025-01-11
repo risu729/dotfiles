@@ -70,6 +70,8 @@ jobs:
             worker/*
           sparse-checkout-cone-mode: false
           persist-credentials: false
+          # set fetch-depth to 2 for pull requests to get the head commit, not only the merge commit
+          fetch-depth: ${{ github.event_name == 'pull_request' && 2 || 1 }}
 
       - name: Install mise
         uses: jdx/mise-action@5083fe46898c414b2475087cc79da59e7da859e8 # v2.1.11
@@ -88,11 +90,39 @@ jobs:
           args=$(mise run worker:wrangler-args)
           echo "args=${args}" >> "${GITHUB_OUTPUT}"
 
-      - name: Deploy to Cloudflare workers with Wrangler
+      - name: Get Commit SHA and Message
+        id: commit
+        run: |
+          sha=${{ github.event.pull_request.head.sha || github.sha }}
+          short_sha=$(git rev-parse --short "${sha}")
+          message=$(git log --format=%B --max-count=1 "${sha}")
+          echo "short_sha=${short_sha}" >> "${GITHUB_OUTPUT}"
+          echo "message=${message}" >> "${GITHUB_OUTPUT}"
+
+      - name: Upload a Version of Cloudflare Workers with Wrangler
+        id: deploy
         uses: cloudflare/wrangler-action@6d58852c35a27e6034745c5d0bc373d739014f7f # v3.13.0
         with:
           workingDirectory: worker
-          command: deploy --dry-run ${{ steps.wrangler-args.outputs.args }}
+          # tag length is limited to 25 characters
+          command: >-
+            versions upload --tag ${{ steps.commit.outputs.short_sha }}
+            --message "${{ steps.commit.outputs.message }}"
+            ${{ steps.wrangler-args.outputs.args }}
+          apiToken: ${{ secrets.CLOUDFLARE_WORKERS_API_TOKEN }}
+          accountId: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
+
+      - name: Generate Job Summary
+        run: |
+          worker_name=$(echo '${{ steps.deploy.outputs.command-output }}' \
+            | grep --only-matching --perl-regexp '^Uploaded \K[^ ]+')
+          version_id=$(echo '${{ steps.deploy.outputs.command-output }}' \
+            | grep --only-matching --perl-regexp '^Worker Version ID: \K.+')
+          preview_url=$(echo '${{ steps.deploy.outputs.command-output }}' \
+            | grep --only-matching --perl-regexp '^Version Preview URL: \K.+')
+          echo "# ${worker_name}
+          - Version ID: ${version_id}
+          - Preview URL: ${preview_url}" >> "${GITHUB_STEP_SUMMARY}"
 
   actions-timeline:
     needs:
