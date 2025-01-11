@@ -114,11 +114,11 @@ jobs:
 
       - name: Generate Job Summary
         run: |
-          worker_name=$(echo "${{ steps.deploy.outputs.command-output }}" \
+          worker_name=$(echo '${{ steps.deploy.outputs.command-output }}' \
             | grep --only-matching --perl-regexp '^Uploaded \K[^ ]+')
-          version_id=$(echo "${{ steps.deploy.outputs.command-output }}" \
+          version_id=$(echo '${{ steps.deploy.outputs.command-output }}' \
             | grep --only-matching --perl-regexp '^Worker Version ID: \K.+')
-          preview_url=$(echo "${{ steps.deploy.outputs.command-output }}" \
+          preview_url=$(echo '${{ steps.deploy.outputs.command-output }}' \
             | grep --only-matching --perl-regexp '^Version Preview URL: \K.+')
           echo "# ${worker_name}
           - Version ID: ${version_id}
