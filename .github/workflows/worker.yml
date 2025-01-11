@@ -93,6 +93,7 @@ jobs:
         with:
           workingDirectory: worker
           command: versions upload ${{ steps.wrangler-args.outputs.args }}
+          apiToken: ${{ secrets.CLOUDFLARE_WORKERS_API_TOKEN }}
 
   actions-timeline:
     needs:
