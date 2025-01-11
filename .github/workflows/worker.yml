@@ -105,7 +105,7 @@ jobs:
           workingDirectory: worker
           command: >-
             versions upload --tag ${{ steps.commit.outputs.sha }}
-            --message ${{ steps.commit.outputs.message }}
+            --message "${{ steps.commit.outputs.message }}"
             ${{ steps.wrangler-args.outputs.args }}
           apiToken: ${{ secrets.CLOUDFLARE_WORKERS_API_TOKEN }}
           accountId: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
