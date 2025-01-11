@@ -94,7 +94,7 @@ jobs:
         id: commit
         run: |
           sha=${{ github.event.pull_request.head.sha || github.sha }}
-          message=$(git log --format=%B --max-count=1 $sha)
+          message=$(git log --format=%B --max-count=1 "${sha}")
           echo "message=${message}" >> "${GITHUB_OUTPUT}"
 
       - name: Upload a Version of Cloudflare Workers with Wrangler
