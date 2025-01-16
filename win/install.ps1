@@ -22,6 +22,9 @@ winget import --import-file "\\wsl.localhost\$distribution\home\$wsl_username\gh
 # uninstall Windows Terminal since it's preview version is installed by winget import
 winget uninstall --id "Microsoft.WindowsTerminal"
 
+# remove generated shortcuts
+Remove-Item -Path ~\Desktop\*.lnk -Force
+
 # cspell:ignore powertoys
 # set PowerToys settings backup directory
 # ref: https://github.com/microsoft/PowerToys/blob/29ce15bb8a8b6496fb55e38ec72f746a3a4f9afa/src/settings-ui/Settings.UI.Library/SettingsBackupAndRestoreUtils.cs#L391
