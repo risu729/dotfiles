@@ -1340,7 +1340,10 @@ const main = async (): Promise<void> => {
 	}
 
 	// reset gh config because it is formatted differently by gh cli
-	const ghConfigPath = resolve(import.meta.dirname, "./home/.config/gh/config.yml");
+	const ghConfigPath = resolve(
+		import.meta.dirname,
+		"./home/.config/gh/config.yml",
+	);
 	await $`git checkout -- ${ghConfigPath}`.quiet();
 };
 await main();
