@@ -19,6 +19,9 @@ wsl /usr/bin/env bash -c "SKIP_GIT_SETUP=true bash <(curl -fsSL $wsl_script)"
 $wsl_username = "$(wsl whoami)"
 winget import --import-file "\\wsl.localhost\$distribution\home\$wsl_username\ghq\github.com\risu729\dotfiles\win\winget.json" --disable-interactivity --accept-package-agreements
 
+# uninstall Windows Terminal since it's preview version is installed by winget import
+winget uninstall --id "Microsoft.WindowsTerminal"
+
 # cspell:ignore powertoys
 # set PowerToys settings backup directory
 # ref: https://github.com/microsoft/PowerToys/blob/29ce15bb8a8b6496fb55e38ec72f746a3a4f9afa/src/settings-ui/Settings.UI.Library/SettingsBackupAndRestoreUtils.cs#L391
