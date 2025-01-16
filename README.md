@@ -53,11 +53,14 @@ bash <(curl -fsSL https://dot.risunosu.com/wsl)
 
 2. Install the following software in Windows which is not installed by the script.
 
+- [Lenovo Vantage](https://www.lenovo.com/us/en/software/vantage)  
+  It cannot be installed via `winget`.
+
 - [Minecraft Launcher](https://aka.ms/minecraftClientGameCoreWindows)  
   It cannot be installed via `winget`.
 
-- PWA apps (X, Instagram)  
-  They cannot be installed from the script.
+- [X](https://x.com)
+  PWA apps cannot be installed using the script.
 
 ## 🛠️ Development
 
