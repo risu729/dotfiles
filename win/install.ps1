@@ -15,12 +15,12 @@ if ($git_ref -ne "") {
 wsl /usr/bin/env bash -c "SKIP_GIT_SETUP=true bash <(curl -fsSL $wsl_script)"
 
 $wsl_username = "$(wsl whoami)"
-winget import --import-file "\\wsl.localhost\$distribution\home\$wsl_username\github\dotfiles\win\winget.json" --disable-interactivity --accept-package-agreements
+winget import --import-file "\\wsl.localhost\$distribution\home\$wsl_username\ghq\github.com\risu729\dotfiles\win\winget.json" --disable-interactivity --accept-package-agreements
 
 # cspell:ignore powertoys
 # Set PowerToys settings backup directory
 # ref: https://github.com/microsoft/PowerToys/blob/29ce15bb8a8b6496fb55e38ec72f746a3a4f9afa/src/settings-ui/Settings.UI.Library/SettingsBackupAndRestoreUtils.cs#L391
-$powertoys_backup_dir = "\\wsl.localhost\$distribution\home\$wsl_username\github\dotfiles\win\powertoys"
+$powertoys_backup_dir = "\\wsl.localhost\$distribution\home\$wsl_username\ghq\github.com\risu729\dotfiles\win\powertoys"
 # cspell:ignore hkcu
 Set-ItemProperty -Path HKCU:Software\Microsoft\PowerToys -Name SettingsBackupAndRestoreDir -Value "$powertoys_backup_dir"
 
@@ -32,4 +32,4 @@ Set-ItemProperty -Path HKCU:Software\Microsoft\PowerToys -Name SettingsBackupAnd
 # setup git after browser is installed
 # use -i, interactive mode
 # need to source .bashrc to update PATH
-wsl /usr/bin/env bash -ic "source ~/.bashrc; ~/github/dotfiles/wsl/setup-git.ts"
+wsl /usr/bin/env bash -ic "source ~/.bashrc; ~/ghq/github.com/risu729/dotfiles/wsl/setup-git.ts"
