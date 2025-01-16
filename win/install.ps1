@@ -1,3 +1,5 @@
+$ErrorActionPreference = 'Stop'
+
 # might be edited by the worker to use a specific ref
 $git_ref = ""
 
