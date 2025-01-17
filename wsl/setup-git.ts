@@ -2,7 +2,7 @@
 
 import { mkdtemp, rmdir } from "node:fs/promises";
 import { homedir, tmpdir } from "node:os";
-import { join } from "node:path";
+import { join, resolve } from "node:path";
 import { $, env, spawn } from "bun";
 
 const localGitConfigPath = (
@@ -1338,5 +1338,12 @@ const main = async (): Promise<void> => {
 	} finally {
 		await removeScopes();
 	}
+
+	// reset gh config because it is formatted differently by gh cli
+	const ghConfigPath = resolve(
+		import.meta.dirname,
+		"./home/.config/gh/config.yml",
+	);
+	await $`git checkout -- ${ghConfigPath}`.quiet();
 };
 await main();

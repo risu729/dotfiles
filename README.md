@@ -24,7 +24,8 @@ Since I use WSL2 as my main development environment, I only install some GUI app
 >
 > 3. Continue the setup without a Microsoft account by selecting `I don't have internet`.
 
-In PowerShell, Windows Powershell, or Command Prompt, run the following command.
+In PowerShell, Windows Powershell, or Command Prompt, run the following command.  
+Do not run it in Windows Terminal as it will be uninstalled during the installation.
 
 ```powershell
 powershell -c "irm dot.risunosu.com/win|iex"
@@ -53,11 +54,14 @@ bash <(curl -fsSL https://dot.risunosu.com/wsl)
 
 2. Install the following software in Windows which is not installed by the script.
 
+- [Lenovo Vantage](https://www.lenovo.com/us/en/software/vantage)  
+  It cannot be installed via `winget`.
+
 - [Minecraft Launcher](https://aka.ms/minecraftClientGameCoreWindows)  
   It cannot be installed via `winget`.
 
-- PWA apps (X, Instagram)  
-  They cannot be installed from the script.
+- [X](https://x.com)
+  PWA apps cannot be installed using the script.
 
 ## 🛠️ Development
 

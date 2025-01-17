@@ -73,6 +73,9 @@
 				},
 				{
 					"PackageIdentifier": "Valve.Steam"
+				},
+				{
+					"PackageIdentifier": "Logitech.OptionsPlus"
 				}
 			],
 			"SourceDetails": {
