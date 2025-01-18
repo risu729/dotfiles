@@ -81,10 +81,10 @@ for path in ${etc_paths}; do
 	echo installed "${target}"
 done
 
+# trust mise configs in dotfiles
+mise trust --all
 # back to home directory
 cd "${HOME}"
-
-mise trust --all
 mise install --yes
 # tools already installed are not upgraded by mise install
 mise upgrade
