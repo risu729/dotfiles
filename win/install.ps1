@@ -32,7 +32,7 @@ $powertoys_backup_dir = "\\wsl.localhost\$distribution\home\$wsl_username\ghq\gi
 # cspell:ignore hkcu
 Set-ItemProperty -Path HKCU:Software\Microsoft\PowerToys -Name SettingsBackupAndRestoreDir -Value "$powertoys_backup_dir"
 # delete existing PowerToys backup directory
-Remove-Item -Path ~\Documents\PowerToys -Recurse -Force
+Remove-Item -Path ~\Documents\PowerToys -Recurse -Force -ErrorAction SilentlyContinue
 
 # cspell:ignore wslenv pathext
 # set WSLENV to share PATHEXT between Windows and WSL
