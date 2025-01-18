@@ -98,7 +98,7 @@ jobs:
 
       - name: Upload a Version of Cloudflare Workers with Wrangler
         id: deploy
-        uses: cloudflare/wrangler-action@6d58852c35a27e6034745c5d0bc373d739014f7f # v3.13.0
+        uses: cloudflare/wrangler-action@7a5f8bbdfeedcde38e6777a50fe685f89259d4ca # v3.13.1
         with:
           workingDirectory: worker
           # tag length is limited to 25 characters
