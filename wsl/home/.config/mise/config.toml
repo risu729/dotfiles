@@ -23,6 +23,7 @@ value = """
 {% endif %}\
 """
 tools = true
+redact = true
 
 [tools]
 # language tools
