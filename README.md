@@ -60,6 +60,9 @@ bash <(curl -fsSL https://dot.risunosu.com/wsl)
 - [Minecraft Launcher](https://aka.ms/minecraftClientGameCoreWindows)  
   It cannot be installed via `winget`.
 
+- [LINE](https://desktop.line-scdn.net/win/new/LineInst.exe)
+  It cannot be installed via `winget`.
+
 - [X](https://x.com)
   PWA apps cannot be installed using the script.
 
