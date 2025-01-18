@@ -1,10 +1,10 @@
 # ref: https://mise.jdx.dev/configuration.html
 #:schema https://mise.jdx.dev/schema/mise.json
 
-min_version = "2025.1.7"
+min_version = "2025.1.8"
 
 [tools]
-bun = "1.1.43"
+bun = "1.1.44"
 node = "23.6.0"
 cargo-binstall = "1.10.19" # cspell:ignore binstall
 "aqua:biomejs/biome" = "1.9.4"
@@ -13,7 +13,7 @@ actionlint = "1.7.6"
 "aqua:suzuki-shunsuke/pinact" = "1.1.2"
 taplo = "0.9.3"
 "npm:prettier" = "3.4.2"
-markdownlint-cli2 = "0.17.1"
+markdownlint-cli2 = "0.17.2"
 shfmt = "3.10.0"
 shellcheck = "0.10.0"
 yamlfmt = "0.15.0"
