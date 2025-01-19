@@ -49,6 +49,7 @@ fi
 
 wsl_dir="${dotfiles_dir}/wsl"
 cd "${wsl_dir}"
+wsl_home_dir="${wsl_dir}/home"
 
 # create symbolic links for home directory
 # exclude .gitignore-sync
@@ -60,7 +61,7 @@ for path in ${home_paths}; do
 		# ignore-sync doesn't support filename `ignore-sync`, so rename generated .gitignore to ignore
 		target=".config/git/ignore"
 	else
-		target="$(realpath --relative-to="${wsl_dir}/home" "${path}")"
+		target="$(realpath --relative-to="${wsl_home_dir}" "${path}")"
 	fi
 	mkdir --parents "$(dirname "${HOME}/${target}")"
 	ln --symbolic --no-dereference --force "${path}" "${HOME}/${target}"
@@ -80,10 +81,10 @@ for path in ${etc_paths}; do
 	echo installed "${target}"
 done
 
+# trust mise configs in dotfiles
+mise trust --all
 # back to home directory
 cd "${HOME}"
-
-mise trust --all
 mise install --yes
 # tools already installed are not upgraded by mise install
 mise upgrade
@@ -92,7 +93,7 @@ mise_activate="$(mise activate bash)"
 eval "${mise_activate}"
 echo installed mise
 
-ln --symbolic --no-dereference --force "${wsl_dir}/.gitconfig" "${HOME}/.gitconfig"
+ln --symbolic --no-dereference --force "${wsl_home_dir}/.gitconfig" "${HOME}/.gitconfig"
 
 echo installed dotfiles!
 
