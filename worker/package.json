@@ -15,7 +15,7 @@
 		"@total-typescript/tsconfig": "1.0.4",
 		"@tsconfig/bun": "1.0.7",
 		"@tsconfig/strictest": "2.0.5",
-		"@types/bun": "1.1.18",
+		"@types/bun": "1.2.0",
 		"@types/diff": "7.0.0",
 		"@vitest/ui": "2.1.8",
 		"diff": "7.0.0",
