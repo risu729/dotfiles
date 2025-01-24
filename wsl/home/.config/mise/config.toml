@@ -16,8 +16,8 @@ GPG_TTY = "{{ exec(command='tty || true') }}"
 [env.GITHUB_TOKEN]
 # use __CI instead of CI to be able to test CI locally
 value = """
-{% if env.__CI is undefined and exec(command='which gh || true') != '' %}\
-  {{ exec(command='gh auth token', cache_key='github_token', cache_duration='1 day') }}\
+{% if env.__CI is undefined %}\
+  {{ exec(command='gh auth token || true', cache_key='github_token', cache_duration='1 day') }}\
 {% else %}\
   {{ env.GITHUB_TOKEN | default(value='') }}\
 {% endif %}\
