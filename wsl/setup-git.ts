@@ -1344,6 +1344,8 @@ const main = async (): Promise<void> => {
 		import.meta.dirname,
 		"./home/.config/gh/config.yml",
 	);
-	await $`git checkout -- ${ghConfigPath}`.quiet();
+	await $`git checkout -- ${ghConfigPath}`.cwd(
+		resolve(import.meta.dirname, ".."),
+	);
 };
 await main();
