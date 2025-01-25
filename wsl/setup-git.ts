@@ -1339,11 +1339,17 @@ const main = async (): Promise<void> => {
 		await removeScopes();
 	}
 
+	// invalidate mise exec template cache after github authentication
+	const miseCacheDir = await $`mise cache`.text();
+	await $`rm --force --recursive ${resolve(miseCacheDir, "exec")}`.quiet();
+
 	// reset gh config because it is formatted differently by gh cli
 	const ghConfigPath = resolve(
 		import.meta.dirname,
 		"./home/.config/gh/config.yml",
 	);
-	await $`git checkout -- ${ghConfigPath}`.quiet();
+	await $`git checkout -- ${ghConfigPath}`.cwd(
+		resolve(import.meta.dirname, ".."),
+	);
 };
 await main();
