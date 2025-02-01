@@ -4,7 +4,7 @@
 min_version = "2025.1.17"
 
 [tools]
-bun = "1.2.1"
+bun = "1.2.2"
 node = "23.7.0"
 cargo-binstall = "1.10.19" # cspell:ignore binstall
 "aqua:biomejs/biome" = "1.9.4"
