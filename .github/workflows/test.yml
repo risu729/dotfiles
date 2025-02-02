@@ -25,7 +25,7 @@ jobs:
       contents: read # for checkout
 
     container:
-      image: ghcr.io/risu729/dotfiles/wsl:24.04.20250129@sha256:94b2b6ff7654cb551f04c5464ba15643e823997b00b4a7e5f21bedbebf6a852d
+      image: ghcr.io/risu729/dotfiles/wsl:24.04.20250130@sha256:03433644cac47206a1e0bdea2567d5e3cb7dcc91b2fb2add0a6764dab9392bb2
 
     steps:
       - name: Run installer
