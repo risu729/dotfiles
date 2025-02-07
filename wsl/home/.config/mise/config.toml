@@ -52,20 +52,18 @@ slsa-verifier = "latest"
 jq = "latest"
 github-cli = "latest"
 ghq = "latest"
-# cspell:ignore kellyjonbrazil
-"aqua:kellyjonbrazil/jc" = "latest"
+jc = "latest"
 delta = "latest"
 ripgrep = "latest"
-"cargo:eza" = "latest"
+eza = "latest"
 bat = "latest"
 fd = "latest"
 fzf = "latest"
 xh = "latest"
-# cspell:ignore josephburnett
-"ubi:josephburnett/jd" = "latest"
+jd = "latest"
 
 # biome vs code extension requires global installation
-"aqua:biomejs/biome" = "latest"
+biome = "latest"
 
 [settings]
 pin = true
