@@ -4,16 +4,16 @@ on:
   schedule:
     # update once a week
     - cron: "0 0 * * SUN"
-  push:
-    branches:
-      - main
-    paths:
-      - .github/workflows/wsl-docker.yml
-  pull_request:
-    branches:
-      - main
-    paths:
-      - .github/workflows/wsl-docker.yml
+  # push:
+  #   branches:
+  #     - main
+  #   paths:
+  #     - .github/workflows/wsl-docker.yml
+  # pull_request:
+  #   branches:
+  #     - main
+  #   paths:
+  #     - .github/workflows/wsl-docker.yml
   workflow_dispatch:
 
 permissions: {}
