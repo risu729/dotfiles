@@ -30,5 +30,5 @@ exclude = [
 	"https://mise.jdx.dev/deb",
 	# tasks/worker/wrangler-args
 	# an example of a url with authentication
-	"https://.+@github.com/owner/repo",
+	"https://.+@github.com//owner/repo",
 ]
