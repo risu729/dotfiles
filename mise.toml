@@ -5,7 +5,7 @@ min_version = "2025.2.3"
 
 [tools]
 bun = "1.2.2"
-node = "23.7.0"
+node = "23.8.0"
 cargo-binstall = "1.10.19" # cspell:ignore binstall
 biome = "1.9.4"
 actionlint = "1.7.7"
