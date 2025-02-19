@@ -65,6 +65,10 @@ jd = "latest"
 # biome vs code extension requires global installation
 biome = "latest"
 
+# uni tools
+typst = "latest"
+"ubi:sharkdp/numbat" = "latest"
+
 [settings]
 pin = true
 experimental = true
