@@ -56,6 +56,7 @@ run = [
 run = """
 prettier {% if env.LINT is undefined %}--write{% else %}--check{% endif %} \
 	{% if env.CI is undefined %}--cache{% endif %} ."""
+env = { NODE_OPTIONS = "--experimental-strip-types" }
 
 ["check:markdownlint"]
 run = "markdownlint-cli2 {% if env.LINT is undefined %}--fix{% endif %}"
