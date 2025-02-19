@@ -39,7 +39,7 @@ jobs:
       - name: Install mise
         uses: jdx/mise-action@5083fe46898c414b2475087cc79da59e7da859e8 # v2.1.11
         with:
-          version: 2025.1.6
+          version: 2025.2.6
           cache_save: ${{ github.ref_name == 'main' }}
         env:
           GITHUB_TOKEN: ${{ github.token }}
@@ -76,7 +76,7 @@ jobs:
       - name: Install mise
         uses: jdx/mise-action@5083fe46898c414b2475087cc79da59e7da859e8 # v2.1.11
         with:
-          version: 2025.1.6
+          version: 2025.2.6
           cache_save: ${{ github.ref_name == 'main' }}
         env:
           GITHUB_TOKEN: ${{ github.token }}
@@ -92,13 +92,13 @@ jobs:
         run: |
           sha=${{ github.event.pull_request.head.sha || github.sha }}
           short_sha=$(git rev-parse --short "${sha}")
-          message=$(git log --format=%B --max-count=1 "${sha}")
+          message=$(git log --format=%B --max-count=1 "${sha}" | head --lines=1)
           echo "short_sha=${short_sha}" >> "${GITHUB_OUTPUT}"
           echo "message=${message}" >> "${GITHUB_OUTPUT}"
 
       - name: Upload a Version of Cloudflare Workers with Wrangler
         id: deploy
-        uses: cloudflare/wrangler-action@6d58852c35a27e6034745c5d0bc373d739014f7f # v3.13.0
+        uses: cloudflare/wrangler-action@392082e81ffbcb9ebdde27400634aa004b35ea37 # v3.14.0
         with:
           workingDirectory: worker
           # tag length is limited to 25 characters
@@ -134,4 +134,4 @@ jobs:
     steps:
       - name: actions-timeline
         # cspell:ignore kesin
-        uses: Kesin11/actions-timeline@3046833d9aacfd7745c5264b7f3af851c3e2a619 # v2.2.1
+        uses: Kesin11/actions-timeline@427ee2cf860166e404d0d69b4f2b24012bb7af4f # v2.2.3

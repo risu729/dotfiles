@@ -2,7 +2,7 @@
 
 import { mkdtemp, rmdir } from "node:fs/promises";
 import { homedir, tmpdir } from "node:os";
-import { join } from "node:path";
+import { join, resolve } from "node:path";
 import { $, env, spawn } from "bun";
 
 const localGitConfigPath = (
@@ -1338,5 +1338,18 @@ const main = async (): Promise<void> => {
 	} finally {
 		await removeScopes();
 	}
+
+	// invalidate mise exec template cache after github authentication
+	const miseCacheDir = await $`mise cache`.text();
+	await $`rm --force --recursive ${resolve(miseCacheDir, "exec")}`.quiet();
+
+	// reset gh config because it is formatted differently by gh cli
+	const ghConfigPath = resolve(
+		import.meta.dirname,
+		"./home/.config/gh/config.yml",
+	);
+	await $`git checkout -- ${ghConfigPath}`.cwd(
+		resolve(import.meta.dirname, ".."),
+	);
 };
 await main();

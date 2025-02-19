@@ -25,7 +25,7 @@ jobs:
       contents: read # for checkout
 
     container:
-      image: ghcr.io/risu729/dotfiles/wsl:24.04.20250109@sha256:13649e38dd4031a6a11e7166da6f3d23a9beec672bf67c72f9b8c542daa5ebda
+      image: ghcr.io/risu729/dotfiles/wsl:24.04.20250130@sha256:03433644cac47206a1e0bdea2567d5e3cb7dcc91b2fb2add0a6764dab9392bb2
 
     steps:
       - name: Run installer
@@ -52,4 +52,4 @@ jobs:
     steps:
       - name: actions-timeline
         # cspell:ignore kesin
-        uses: Kesin11/actions-timeline@3046833d9aacfd7745c5264b7f3af851c3e2a619 # v2.2.1
+        uses: Kesin11/actions-timeline@427ee2cf860166e404d0d69b4f2b24012bb7af4f # v2.2.3

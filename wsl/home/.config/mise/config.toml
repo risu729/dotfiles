@@ -1,7 +1,7 @@
 # ref: https://mise.jdx.dev/configuration.html#global-config-config-mise-config-toml
 #:schema https://mise.jdx.dev/schema/mise.json
 
-min_version = "2025.1.6"
+min_version = "2025.2.6"
 
 [env]
 # disable bat paging
@@ -17,12 +17,13 @@ GPG_TTY = "{{ exec(command='tty || true') }}"
 # use __CI instead of CI to be able to test CI locally
 value = """
 {% if env.__CI is undefined %}\
-  {{ exec(command='gh auth token', cache_key='github_token', cache_duration='1 day') }}\
+  {{ exec(command='gh auth token || true', cache_key='github_token', cache_duration='1 day') }}\
 {% else %}\
-  {{ env.GITHUB_TOKEN }}\
+  {{ env.GITHUB_TOKEN | default(value='') }}\
 {% endif %}\
 """
 tools = true
+redact = true
 
 [tools]
 # language tools
@@ -51,20 +52,24 @@ slsa-verifier = "latest"
 jq = "latest"
 github-cli = "latest"
 ghq = "latest"
-# cspell:ignore kellyjonbrazil
-"aqua:kellyjonbrazil/jc" = "latest"
+jc = "latest"
 delta = "latest"
 ripgrep = "latest"
-"cargo:eza" = "latest"
+eza = "latest"
 bat = "latest"
 fd = "latest"
 fzf = "latest"
 xh = "latest"
-# cspell:ignore josephburnett
-"ubi:josephburnett/jd" = "latest"
+jd = "latest"
 
 # biome vs code extension requires global installation
-"aqua:biomejs/biome" = "latest"
+biome = "latest"
+
+# uni tools
+# cspell:ignore typst
+typst = "latest"
+# cspell:ignore sharkdp
+"ubi:sharkdp/numbat" = "latest"
 
 [settings]
 pin = true

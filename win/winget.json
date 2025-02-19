@@ -15,9 +15,6 @@
 					"PackageIdentifier": "Discord.Discord.PTB"
 				},
 				{
-					"PackageIdentifier": "LINE.LINE"
-				},
-				{
 					"PackageIdentifier": "SlackTechnologies.Slack"
 				},
 				{
@@ -73,6 +70,9 @@
 				},
 				{
 					"PackageIdentifier": "Valve.Steam"
+				},
+				{
+					"PackageIdentifier": "Logitech.OptionsPlus"
 				}
 			],
 			"SourceDetails": {
