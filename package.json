@@ -12,7 +12,7 @@
 		"@types/bun": "1.2.2",
 		"commitizen": "4.3.1",
 		"jschema-validator": "1.0.8",
-		"prettier": "3.5.1",
+		"prettier": "3.5.2",
 		"typescript": "5.7.3"
 	}
 }
