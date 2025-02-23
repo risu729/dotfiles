@@ -3,11 +3,13 @@
 
 [commit]
 depends = ["buni:root"]
-run = ["git add .", "bun run git-cz"]
+run = ["git add ."]
+depends_post = ["commit:staged"]
 
 ["commit:staged"]
 depends = ["buni:root"]
 run = "bun run git-cz"
+raw = true
 
 [check]
 depends = ["check:*"]

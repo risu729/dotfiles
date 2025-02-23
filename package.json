@@ -6,13 +6,13 @@
 		"@commitlint/config-conventional": "19.7.1",
 		"@commitlint/cz-commitlint": "19.6.1",
 		"@commitlint/types": "19.5.0",
-		"@cspell/cspell-types": "8.17.4",
+		"@cspell/cspell-types": "8.17.5",
 		"@tsconfig/bun": "1.0.7",
 		"@tsconfig/strictest": "2.0.5",
-		"@types/bun": "1.2.2",
+		"@types/bun": "1.2.3",
 		"commitizen": "4.3.1",
-		"jschema-validator": "1.0.7",
-		"prettier": "3.5.1",
+		"jschema-validator": "1.0.8",
+		"prettier": "3.5.2",
 		"typescript": "5.7.3"
 	}
 }
