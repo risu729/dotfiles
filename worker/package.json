@@ -11,7 +11,7 @@
 	},
 	"devDependencies": {
 		"@cloudflare/vitest-pool-workers": "0.7.2",
-		"@cloudflare/workers-types": "4.20250214.0",
+		"@cloudflare/workers-types": "4.20250224.0",
 		"@total-typescript/tsconfig": "1.0.4",
 		"@tsconfig/bun": "1.0.7",
 		"@tsconfig/strictest": "2.0.5",
