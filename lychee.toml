@@ -17,6 +17,8 @@ exclude = [
 	"https://dot.risunosu.com",
 	# exclude ${} patterns
 	".*\\$(%7B.*%7D.*)?$",
+	# README.md
+	"https://x.com/",
 	# win/winget.json
 	"https://cdn.winget.microsoft.com/cache",
 	# .vscode/
