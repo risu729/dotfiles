@@ -1,4 +1,4 @@
 # ref: https://asdf-vm.com/manage/configuration.html
 # Cloudflare Workers Builds uses asdf, so specify the versions of tools for deployment
-bun 1.2.3
-nodejs 23.8.0
+bun 1.2.4
+nodejs 23.9.0
