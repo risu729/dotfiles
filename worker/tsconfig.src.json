@@ -1,16 +1,11 @@
 {
 	// ref: https://www.typescriptlang.org/tsconfig/
 	"$schema": "https://json.schemastore.org/tsconfig",
-	"extends": [
-		"@total-typescript/tsconfig/bundler/no-dom/app",
-		"@tsconfig/strictest/tsconfig.json"
-	],
+	"extends": "@risu729/tsconfigs/bundler",
 	"compilerOptions": {
 		// use the latest compatibility date
 		// ref: https://github.com/cloudflare/workerd/blob/main/npm/workers-types/README.md
-		"types": ["@cloudflare/workers-types/experimental"],
-		"incremental": true,
-		"allowImportingTsExtensions": true
+		"types": ["@cloudflare/workers-types/experimental"]
 	},
 	"include": ["src"]
 }
