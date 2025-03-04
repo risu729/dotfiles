@@ -1,2 +1,3 @@
 * text=auto eol=lf
 .gitignore linguist-generated=true
+tsconfig*.json linguist-language=JSON-with-Comments
