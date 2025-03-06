@@ -15,10 +15,10 @@
 		"@risu729/tsconfigs": "1.0.0",
 		"@types/bun": "1.2.4",
 		"@types/diff": "7.0.1",
-		"@vitest/ui": "3.0.7",
+		"@vitest/ui": "3.0.8",
 		"diff": "7.0.0",
 		"typescript": "5.8.2",
-		"vitest": "3.0.7",
+		"vitest": "3.0.8",
 		"wrangler": "3.113.0"
 	}
 }
