@@ -1,3 +1,5 @@
 * text=auto eol=lf
 .gitignore linguist-generated=true
 tsconfig*.json linguist-language=JSON-with-Comments
+win/winget.json linguist-language=JSON-with-Comments
+.vscode/*.json linguist-language=JSON-with-Comments
