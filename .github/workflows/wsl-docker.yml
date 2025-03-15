@@ -37,7 +37,7 @@ jobs:
       - name: Install mise
         uses: jdx/mise-action@5083fe46898c414b2475087cc79da59e7da859e8 # v2.1.11
         with:
-          version: 2025.3.2
+          version: 2025.3.3
           # cspell:ignore kellyjonbrazil
           mise_toml: |
             [tools]
@@ -116,7 +116,7 @@ jobs:
 
       - name: Login to GitHub Container Registry
         if: ${{ steps.rootfs.outcome != 'skipped' }}
-        uses: docker/login-action@9780b0c442fbb1117ed29e0efdff1e18412f7567 # v3.3.0
+        uses: docker/login-action@74a5d142397b4f367a81961eba4e8cd7edddf772 # v3.4.0
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}

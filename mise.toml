@@ -1,11 +1,11 @@
 # ref: https://mise.jdx.dev/configuration.html
 #:schema https://mise.jdx.dev/schema/mise.json
 
-min_version = "2025.3.2"
+min_version = "2025.3.3"
 
 [tools]
 bun = "1.2.5"
-node = "23.9.0"
+node = "23.10.0"
 biome = "1.9.4"
 actionlint = "1.7.7"
 "aqua:suzuki-shunsuke/ghalint" = "1.2.3" # cspell:ignore shunsuke
