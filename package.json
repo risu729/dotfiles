@@ -10,7 +10,7 @@
 		"@risu729/tsconfigs": "1.0.0",
 		"@types/bun": "1.2.5",
 		"commitizen": "4.3.1",
-		"jschema-validator": "1.0.10",
+		"jschema-validator": "1.0.11",
 		"prettier": "3.5.3",
 		"typescript": "5.8.2"
 	}
