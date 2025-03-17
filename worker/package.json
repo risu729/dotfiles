@@ -11,7 +11,7 @@
 	},
 	"devDependencies": {
 		"@cloudflare/vitest-pool-workers": "0.8.0",
-		"@cloudflare/workers-types": "4.20250313.0",
+		"@cloudflare/workers-types": "4.20250317.0",
 		"@risu729/tsconfigs": "1.0.0",
 		"@types/bun": "1.2.5",
 		"@types/diff": "7.0.1",
