@@ -1,7 +1,7 @@
 # ref: https://mise.jdx.dev/configuration.html
 #:schema https://mise.jdx.dev/schema/mise.json
 
-min_version = "2025.3.3"
+min_version = "2025.3.6"
 
 [tools]
 bun = "1.2.5"
@@ -9,7 +9,7 @@ node = "23.10.0"
 biome = "1.9.4"
 actionlint = "1.7.7"
 "aqua:suzuki-shunsuke/ghalint" = "1.2.3" # cspell:ignore shunsuke
-"aqua:suzuki-shunsuke/pinact" = "1.3.0"
+"aqua:suzuki-shunsuke/pinact" = "1.4.0"
 taplo = "0.9.3"
 "npm:prettier" = "3.5.3"
 markdownlint-cli2 = "0.17.2"
@@ -22,7 +22,7 @@ yamllint = "1.36.2"
 lychee = "0.18.1"
 typos = "1.30.2"
 "npm:ignore-sync" = "8.0.0"
-"npm:jschema-validator" = "1.0.11"
+"npm:jschema-validator" = "1.0.12"
 
 [settings]
 experimental = true
