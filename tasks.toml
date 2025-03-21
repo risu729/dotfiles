@@ -3,12 +3,10 @@
 
 [commit]
 depends = ["buni:root"]
-run = ["git add ."]
-depends_post = ["commit:staged"]
-
-["commit:staged"]
-depends = ["buni:root"]
-run = "bun run git-cz"
+run = [
+	"{% if flag(name='staged') == 'false' %}git add .{% endif %}",
+	"bun run git-cz",
+]
 raw = true
 
 [check]
