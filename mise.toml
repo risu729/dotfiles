@@ -28,11 +28,6 @@ typos = "1.30.2"
 
 [settings]
 experimental = true
-disable_backends = [
-	# cspell:ignore pipx
-	# disable pipx backend not to require pipx/uv
-	"pipx",
-]
 
 [settings.npm]
 bun = true
