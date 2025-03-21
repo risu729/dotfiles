@@ -3,7 +3,7 @@
 	"name": "@risu729/dotfiles-worker",
 	"type": "module",
 	"dependencies": {
-		"hono": "4.7.4",
+		"hono": "4.7.5",
 		"zod": "3.24.2"
 	},
 	"scripts": {
@@ -19,6 +19,6 @@
 		"diff": "7.0.0",
 		"typescript": "5.8.2",
 		"vitest": "3.0.9",
-		"wrangler": "4.2.0"
+		"wrangler": "4.3.0"
 	}
 }
