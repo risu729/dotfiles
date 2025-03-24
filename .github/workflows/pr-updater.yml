@@ -37,7 +37,8 @@ jobs:
             --draft=false \
             --json number,headRefName \
             --jq '[.[] | select(.headRefName | startswith("renovate/") | not) | .number]' \
-            ${head_filter}
+            "${head_filter}" \
+          )
           echo "numbers=${numbers}" > "${GITHUB_OUTPUT}"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
