@@ -82,7 +82,6 @@ jobs:
       - name: Run ${{ matrix.name }}
         run: mise run ${{ matrix.task }}
         env:
-          MISE_LOG_LEVEL: debug
           LINT: true
           GITHUB_TOKEN: ${{ github.token }}
 
