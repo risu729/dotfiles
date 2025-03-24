@@ -43,6 +43,10 @@ run = "ghalint run"
 ["check:pinact"]
 run = "pinact run --verify {% if env.LINT is defined %}--check{% endif %}"
 
+["check:zizmor"]
+run = "zizmor --pedantic ."
+env = { "GH_TOKEN" = "{{ env.GITHUB_TOKEN }}" }
+
 ["check:taplo"]
 run = [
 	"taplo lint",

@@ -71,7 +71,7 @@ jobs:
       - name: Get Ubuntu WSL build info
         id: build-info
         run: |
-          serial=$(curl --fail-with-body --location https://cloud-images.ubuntu.com/wsl/${{ steps.version.outputs.series }}/current/unpacked/build-info.txt \
+          serial=$(curl --fail-with-body --location "https://cloud-images.ubuntu.com/wsl/${SERIES}/current/unpacked/build-info.txt" \
             | grep --only-matching --perl-regexp 'SERIAL=\K\d+')
           if [[ -z "${serial}" ]]; then
             echo "Failed to get the serial" >&2
@@ -80,7 +80,10 @@ jobs:
           # + is appropriate for build date as semver but it cannot be used in docker tag
           # use . instead because - is treated as platform/compatibility indicator by renovate
           # ref: https://docs.renovatebot.com/modules/versioning/docker/
-          echo "tag=${{ steps.version.outputs.version }}.${serial}" >> "${GITHUB_OUTPUT}"
+          echo "tag=${VERSION}.${serial}" >> "${GITHUB_OUTPUT}"
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+          SERIES: ${{ steps.version.outputs.series }}
 
       - name: Get latest Ubuntu WSL image tag
         id: latest-tag
@@ -89,11 +92,12 @@ jobs:
         # cspell:ignore fwsl
         run: |
           latest_tag=$(gh api --header "Accept: application/vnd.github+json" --header "X-GitHub-Api-Version: 2022-11-28" \
-            /user/packages/container/${{ github.event.repository.name }}%2Fwsl/versions \
+            "/user/packages/container/${REPO_NAME}%2Fwsl/versions" \
             --jq '.[] | select(.metadata.container.tags | contains(["latest"])) | .metadata.container.tags[] | select(. != "latest")')
           echo "latest_tag=${latest_tag}" >> "${GITHUB_OUTPUT}"
         env:
           GITHUB_TOKEN: ${{ github.token }}
+          REPO_NAME: ${{ github.event.repository.name }}
         # 404 error for the first run
         continue-on-error: true
 
@@ -104,7 +108,9 @@ jobs:
         if: ${{ github.event_name == 'pull_request' || steps.build-info.outputs.tag != steps.latest-tag.outputs.latest_tag }}
         run: |
           curl --fail-with-body --location --output ubuntu.tar.gz \
-            https://cloud-images.ubuntu.com/wsl/${{ steps.version.outputs.series }}/current/ubuntu-${{ steps.version.outputs.series }}-wsl-amd64-ubuntu.rootfs.tar.gz
+            "https://cloud-images.ubuntu.com/wsl/${SERIES}/current/ubuntu-${SERIES}-wsl-amd64-ubuntu.rootfs.tar.gz"
+        env:
+          SERIES: ${{ steps.version.outputs.series }}
 
       - name: Create Dockerfile
         if: ${{ steps.rootfs.outcome != 'skipped' }}
@@ -126,9 +132,10 @@ jobs:
       - name: Setup Buildx
         if: ${{ steps.rootfs.outcome != 'skipped' }}
         uses: docker/setup-buildx-action@b5ca514318bd6ebac0fb2aedd5d36ec1b5c232a2 # v3.10.0
+        with:
+          cache-binary: false
 
       - name: Build and push Docker image
-        id: push
         if: ${{ steps.rootfs.outcome != 'skipped' }}
         uses: docker/build-push-action@471d1dc4e07e5cdedd4c2171150001c434f0b7a4 # v6.15.0
         with:
@@ -141,10 +148,7 @@ jobs:
           tags: |
             ghcr.io/${{ env.IMAGE_NAME }}:${{ steps.build-info.outputs.tag }}
             ghcr.io/${{ env.IMAGE_NAME }}:latest
-          cache-from: type=gha
-          # disable cache saving for non-default branches
-          # ref: https://github.com/docker/build-push-action/issues/845
-          cache-to: ${{ github.ref_name == 'main' && 'type=gha,mode=max' || '' }}
+          no-cache: true
 
   actions-timeline:
     needs:

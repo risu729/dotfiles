@@ -29,26 +29,32 @@ jobs:
       - name: List PRs
         id: list-prs
         run: |
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" && \
+              "${REF_NAME}" != "${DEFAULT_BRANCH}" ]]; then
+            head_filter="--head=${REF_NAME}"
+          fi
           numbers=$(gh pr list --repo ${{ github.repository }} \
             --draft=false \
             --json number,headRefName \
-            --jq '[.[] | select(.headRefName | startswith("renovate/") | not) | .number]' ${{
-              github.event_name == 'workflow_dispatch' && github.ref_name != github.event.repository.default_branch
-                && format('--head {0}', github.ref_name)
-                || ''
-            }})
+            --jq '[.[] | select(.headRefName | startswith("renovate/") | not) | .number]' \
+            "${head_filter}" \
+          )
           echo "numbers=${numbers}" > "${GITHUB_OUTPUT}"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REF_NAME: ${{ github.ref_name }}
+          DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
 
       - name: Update PR branches
         run: |
-          echo "${{ steps.list-prs.outputs.numbers }}" \
+          echo "${PR_NUMBERS}" \
             | jq --raw-output '.[]' \
-            | xargs --max-args=1 gh pr update-branch --repo ${{ github.repository }}
+            | xargs --max-args=1 gh pr update-branch --repo "${REPO}"
         env:
           # use GitHub App token to run actions on updated PR
           GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
+          PR_NUMBERS: ${{ steps.list-prs.outputs.numbers }}
+          REPO: ${{ github.repository }}
         # ignore merge conflicts errors
         continue-on-error: true
 
