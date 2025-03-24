@@ -15,7 +15,7 @@ sudo apt-get upgrade --yes
 sudo apt-get install --yes zip unzip
 
 # use PPA for wslu as recommended
-# ref: https://wslutiliti.es/wslu/install.html#ubuntu
+# ref: https://wslu.wedotstud.io/wslu/install.html#ubuntu
 # wslu is for wslview, which opens Windows browser from WSL
 # cspell:ignore wslutilities wslu wslview
 sudo add-apt-repository --yes ppa:wslutilities/wslu
