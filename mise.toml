@@ -18,7 +18,7 @@ shellcheck = "0.10.0"
 yamlfmt = "0.16.0"
 # required for pipx backend
 uv = "0.6.9"
-yamllint = "1.36.2"
+yamllint = "1.37.0"
 "npm:cspell" = "8.17.5"
 # cspell:ignore lycheeverse
 lychee = "0.18.1"
