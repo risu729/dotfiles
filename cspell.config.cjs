@@ -33,6 +33,7 @@ module.exports = {
 		"yamlfmt",
 		"ghalint",
 		"pinact",
+		"zizmor",
 		"commitlint",
 		"hono",
 		"jschema",

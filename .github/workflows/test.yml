@@ -32,12 +32,11 @@ jobs:
         # use head sha for pull requests because github.sha is set to the merge commit
         # don't use process substitution to avoid masking the errors
         run: |
-          curl -fsSL https://dot.risunosu.com/wsl?ref=${{
-            github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.sha
-          }} | bash
+          curl -fsSL "https://dot.risunosu.com/wsl?ref=${SHA}" | bash
         env:
           GITHUB_TOKEN: ${{ github.token }}
           __CI: true
+          SHA: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.sha }}
 
   actions-timeline:
     needs:
