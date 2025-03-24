@@ -84,6 +84,7 @@ jobs:
         env:
           MISE_LOG_LEVEL: debug
           LINT: true
+          GITHUB_TOKEN: ${{ github.token }}
 
   commitlint:
     runs-on: ubuntu-24.04
