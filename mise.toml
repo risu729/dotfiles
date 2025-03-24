@@ -26,7 +26,7 @@ yamllint = "1.37.0"
 "npm:cspell" = "8.17.5"
 # cspell:ignore lycheeverse
 lychee = "0.18.1"
-typos = "1.30.2"
+typos = "1.30.3"
 "npm:ignore-sync" = "8.0.0"
 "npm:jschema-validator" = "1.0.12"
 
