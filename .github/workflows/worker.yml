@@ -112,11 +112,11 @@ jobs:
 
       - name: Generate Job Summary
         run: |
-          worker_name=$(echo '${DEPLOY_OUTPUT}' \
+          worker_name=$(echo "${DEPLOY_OUTPUT}" \
             | grep --only-matching --perl-regexp '^Uploaded \K[^ ]+')
-          version_id=$(echo '${DEPLOY_OUTPUT}' \
+          version_id=$(echo "${DEPLOY_OUTPUT}" \
             | grep --only-matching --perl-regexp '^Worker Version ID: \K.+')
-          preview_url=$(echo '${DEPLOY_OUTPUT}' \
+          preview_url=$(echo "${DEPLOY_OUTPUT}" \
             | grep --only-matching --perl-regexp '^Version Preview URL: \K.+')
           echo "# ${worker_name}
           - Version ID: ${version_id}
