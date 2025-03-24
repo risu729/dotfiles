@@ -92,7 +92,8 @@ jobs:
         run: |
           sha=${{ github.event.pull_request.head.sha || github.sha }}
           short_sha=$(git rev-parse --short "${sha}")
-          message=$(git log --format=%B --max-count=1 "${sha}" | head --lines=1)
+          # escape double quotes in the commit message
+          message=$(git log --format=%B --max-count=1 "${sha}" | head --lines=1 | sed 's/"/\\"/g')
           echo "short_sha=${short_sha}" >> "${GITHUB_OUTPUT}"
           echo "message=${message}" >> "${GITHUB_OUTPUT}"
 
