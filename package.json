@@ -8,7 +8,7 @@
 		"@commitlint/types": "19.8.0",
 		"@cspell/cspell-types": "8.17.5",
 		"@risu729/tsconfigs": "1.0.0",
-		"@types/bun": "1.2.5",
+		"@types/bun": "1.2.6",
 		"commitizen": "4.3.1",
 		"jschema-validator": "1.0.12",
 		"prettier": "3.5.3",

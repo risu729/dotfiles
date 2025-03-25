@@ -4,12 +4,16 @@
 min_version = "2025.3.7"
 
 [tools]
-bun = "1.2.5"
+bun = "1.2.6"
 node = "23.10.0"
 biome = "1.9.4"
 actionlint = "1.7.7"
 "aqua:suzuki-shunsuke/ghalint" = "1.2.3" # cspell:ignore shunsuke
-"aqua:suzuki-shunsuke/pinact" = "2.0.4"
+"aqua:suzuki-shunsuke/pinact" = "2.1.0"
+# required for cargo backend
+# cspell:ignore binstall
+cargo-binstall = "1.12.2"
+"cargo:zizmor" = "1.5.2"
 taplo = "0.9.3"
 "npm:prettier" = "3.5.3"
 markdownlint-cli2 = "0.17.2"
@@ -18,11 +22,11 @@ shellcheck = "0.10.0"
 yamlfmt = "0.16.0"
 # required for pipx backend
 uv = "0.6.9"
-yamllint = "1.36.2"
+yamllint = "1.37.0"
 "npm:cspell" = "8.17.5"
 # cspell:ignore lycheeverse
 lychee = "0.18.1"
-typos = "1.30.2"
+typos = "1.30.3"
 "npm:ignore-sync" = "8.0.0"
 "npm:jschema-validator" = "1.0.12"
 

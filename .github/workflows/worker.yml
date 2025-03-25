@@ -90,11 +90,12 @@ jobs:
       - name: Get Commit SHA and Message
         id: commit
         run: |
-          sha=${{ github.event.pull_request.head.sha || github.sha }}
-          short_sha=$(git rev-parse --short "${sha}")
-          message=$(git log --format=%B --max-count=1 "${sha}" | head --lines=1)
+          short_sha=$(git rev-parse --short "${SHA}")
+          message=$(git log --format=%B --max-count=1 "${SHA}" | head --lines=1 | sed 's/"/\\"/g')
           echo "short_sha=${short_sha}" >> "${GITHUB_OUTPUT}"
           echo "message=${message}" >> "${GITHUB_OUTPUT}"
+        env:
+          SHA: ${{ github.event.pull_request.head.sha || github.sha }}
 
       - name: Upload a Version of Cloudflare Workers with Wrangler
         id: deploy
@@ -111,15 +112,17 @@ jobs:
 
       - name: Generate Job Summary
         run: |
-          worker_name=$(echo '${{ steps.deploy.outputs.command-output }}' \
+          worker_name=$(echo "${DEPLOY_OUTPUT}" \
             | grep --only-matching --perl-regexp '^Uploaded \K[^ ]+')
-          version_id=$(echo '${{ steps.deploy.outputs.command-output }}' \
+          version_id=$(echo "${DEPLOY_OUTPUT}" \
             | grep --only-matching --perl-regexp '^Worker Version ID: \K.+')
-          preview_url=$(echo '${{ steps.deploy.outputs.command-output }}' \
+          preview_url=$(echo "${DEPLOY_OUTPUT}" \
             | grep --only-matching --perl-regexp '^Version Preview URL: \K.+')
           echo "# ${worker_name}
           - Version ID: ${version_id}
           - Preview URL: ${preview_url}" >> "${GITHUB_STEP_SUMMARY}"
+        env:
+          DEPLOY_OUTPUT: ${{ steps.deploy.outputs.command-output }}
 
   actions-timeline:
     needs:
