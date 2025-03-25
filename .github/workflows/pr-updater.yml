@@ -29,16 +29,17 @@ jobs:
       - name: List PRs
         id: list-prs
         run: |
+          args=(
+            --repo "${{ github.repository }}"
+            --draft=false
+            --json "number,headRefName"
+            --jq '[.[] | select(.headRefName | startswith("renovate/") | not) | .number]'
+          )
           if [[ "${{ github.event_name }}" == "workflow_dispatch" && \
               "${REF_NAME}" != "${DEFAULT_BRANCH}" ]]; then
-            head_filter="--head=${REF_NAME}"
+              args+=("${head_filter}")
           fi
-          numbers=$(gh pr list --repo ${{ github.repository }} \
-            --draft=false \
-            --json number,headRefName \
-            --jq '[.[] | select(.headRefName | startswith("renovate/") | not) | .number]' \
-            "${head_filter}" \
-          )
+          numbers=$(gh pr list "${args[@]}")
           echo "numbers=${numbers}" > "${GITHUB_OUTPUT}"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
