@@ -21,7 +21,7 @@ shfmt = "3.11.0"
 shellcheck = "0.10.0"
 yamlfmt = "0.16.0"
 # required for pipx backend
-uv = "0.6.9"
+uv = "0.6.10"
 yamllint = "1.37.0"
 "npm:cspell" = "8.17.5"
 # cspell:ignore lycheeverse
