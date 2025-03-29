@@ -10,8 +10,8 @@
 		"deploy": "wrangler deploy $(../tasks/worker/wrangler-args)"
 	},
 	"devDependencies": {
-		"@cloudflare/vitest-pool-workers": "0.8.7",
-		"@cloudflare/workers-types": "4.20250321.0",
+		"@cloudflare/vitest-pool-workers": "0.8.8",
+		"@cloudflare/workers-types": "4.20250327.0",
 		"@risu729/tsconfigs": "1.0.0",
 		"@types/bun": "1.2.8",
 		"@types/diff": "7.0.2",
@@ -19,6 +19,6 @@
 		"diff": "7.0.0",
 		"typescript": "5.8.2",
 		"vitest": "3.0.9",
-		"wrangler": "4.5.0"
+		"wrangler": "4.6.0"
 	}
 }
