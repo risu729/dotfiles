@@ -12,7 +12,7 @@ sudo apt-get upgrade --yes
 
 # not pre-installed in wsl ubuntu
 # ref: https://cloud-images.ubuntu.com/wsl/noble/current/ubuntu-noble-wsl-amd64-wsl.manifest
-sudo apt-get install --yes zip unzip
+sudo apt-get install --yes zip unzip build-essential
 
 # use PPA for wslu as recommended
 # ref: https://wslu.wedotstud.io/wslu/install.html#ubuntu
