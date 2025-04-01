@@ -9,7 +9,7 @@ node = "23.10.0"
 biome = "1.9.4"
 actionlint = "1.7.7"
 "aqua:suzuki-shunsuke/ghalint" = "1.2.4" # cspell:ignore shunsuke
-"aqua:suzuki-shunsuke/pinact" = "2.2.1"
+"aqua:suzuki-shunsuke/pinact" = "3.0.1"
 # required for cargo backend
 # cspell:ignore binstall
 cargo-binstall = "1.12.2"
