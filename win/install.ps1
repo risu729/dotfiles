@@ -24,6 +24,8 @@ winget uninstall --id "Microsoft.WindowsTerminal"
 
 # remove generated shortcuts
 Remove-Item -Path ~\Desktop\*.lnk -Force
+# some apps create shortcuts in public desktop
+Remove-Item -Path "$env:PUBLIC\Desktop\*.lnk" -Force
 
 # cspell:ignore powertoys
 # set PowerToys settings backup directory
