@@ -1,7 +1,7 @@
 # ref: https://mise.jdx.dev/configuration.html
 #:schema https://mise.jdx.dev/schema/mise.json
 
-min_version = "2025.3.11"
+min_version = "2025.4.0"
 
 [tools]
 bun = "1.2.8"
