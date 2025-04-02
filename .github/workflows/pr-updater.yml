@@ -25,6 +25,9 @@ jobs:
         with:
           app-id: ${{ vars.PR_UPDATER_APP_ID }}
           private-key: ${{ secrets.PR_UPDATER_SECRET_KEY }}
+          permission-contents: write
+          permission-pull-requests: write
+          permission-workflows: write
 
       - name: List PRs
         id: list-prs
