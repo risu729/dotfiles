@@ -76,10 +76,6 @@ experimental = true
 [settings.npm]
 bun = true
 
-# cspell:ignore pipx
-[settings.pipx]
-uvx = true
-
 [settings.python]
 # disable python-build
 compile = false
