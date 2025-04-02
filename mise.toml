@@ -36,10 +36,6 @@ experimental = true
 [settings.npm]
 bun = true
 
-# cspell:ignore pipx
-[settings.pipx]
-uvx = true
-
 [task_config]
 includes = ["tasks.toml", "tasks"]
 
