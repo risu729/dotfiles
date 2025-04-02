@@ -9,9 +9,9 @@
 		// cspell:ignore mrmlnc
 		"mrmlnc.vscode-json5",
 		// cspell:ignore esbenp
-		"esbenp.prettier-vscode", // for yaml and markdown
+		"esbenp.prettier-vscode",
 		// cspell:ignore tamasfe
-		"tamasfe.even-better-toml", // for toml
+		"tamasfe.even-better-toml",
 		// cspell:ignore mkhl
 		"mkhl.shfmt",
 		// cspell:ignore timonwong
