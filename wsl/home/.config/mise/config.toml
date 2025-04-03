@@ -1,7 +1,7 @@
 # ref: https://mise.jdx.dev/configuration.html#global-config-config-mise-config-toml
 #:schema https://mise.jdx.dev/schema/mise.json
 
-min_version = "2025.3.11"
+min_version = "2025.4.0"
 
 [env]
 # disable bat paging
@@ -75,10 +75,6 @@ experimental = true
 
 [settings.npm]
 bun = true
-
-# cspell:ignore pipx
-[settings.pipx]
-uvx = true
 
 [settings.python]
 # disable python-build

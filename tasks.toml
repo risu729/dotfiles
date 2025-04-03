@@ -3,31 +3,60 @@
 
 [commit]
 depends = ["buni:root"]
+usage = '''
+flag "--staged" help="Only commit staged files" default="false"
+'''
 run = [
 	"{% if flag(name='staged') == 'false' %}git add .{% endif %}",
 	"bun run git-cz",
 ]
 raw = true
+description = "Commit changes with commitizen."
 
 [check]
 depends = ["check:*"]
+description = "Run all linters and formatters. Set LINT=true to check formatting without applying it."
 
 ["check:biome"]
 run = "biome {% if env.LINT is undefined %}check --write{% else %}ci{% endif %} --error-on-warnings"
+description = "Run Biome to lint and format JavaScript/TypeScript/JSON/JSONC files."
 
 ["check:tsc"]
-depends = ["buni"]
-run = [
-	"bun run tsc {% if env.CI is defined %}--incremental false{% endif %}",
-	"bun run --cwd worker tsc --project tsconfig.base.json {% if env.CI is defined %}--incremental false{% endif %}",
-	"bun run --cwd worker tsc --project tsconfig.src.json {% if env.CI is defined %}--incremental false{% endif %}",
-	"bun run --cwd worker tsc --project tsconfig.test.json {% if env.CI is defined %}--incremental false{% endif %}",
-]
+depends = ["check:tsc:*"]
+description = "Run TypeScript compiler to check types."
+
+["check:tsc:root"]
+depends = ["buni:root"]
+run = "bun run tsc {% if env.CI is defined %}--incremental false{% endif %}"
+description = "Run TypeScript compiler to check types in the root directory."
+
+["check:tsc:worker"]
+depends = ["check:tsc:worker:*"]
+description = "Run TypeScript compiler to check types in the worker directory."
+
+["check:tsc:worker:base"]
+depends = ["buni:worker"]
+run = "bun run tsc --project tsconfig.base.json {% if env.CI is defined %}--incremental false{% endif %}"
+dir = "worker"
+description = "Run TypeScript compiler to check types in the worker directory (base)."
+
+["check:tsc:worker:src"]
+depends = ["buni:worker"]
+run = "bun run tsc --project tsconfig.src.json {% if env.CI is defined %}--incremental false{% endif %}"
+dir = "worker"
+description = "Run TypeScript compiler to check types in the worker directory (src)."
+
+["check:tsc:worker:test"]
+depends = ["buni:worker"]
+run = "bun run tsc --project tsconfig.test.json {% if env.CI is defined %}--incremental false{% endif %}"
+dir = "worker"
+description = "Run TypeScript compiler to check types in the worker directory (test)."
 
 ["check:jsonschema"]
 # schema of wrangler.jsonc is in node_modules
 depends = ["buni:worker"]
 run = "jschema-validator"
+description = "Validate JSON/JSONC/JSON5 files with JSON schema."
 
 ["check:actionlint"]
 run = "actionlint -color"
@@ -35,31 +64,38 @@ run = "actionlint -color"
 # pipefail is set by shell: bash in GitHub Actions but cannot be detected by shellcheck
 # ref: https://docs.github.com/en/actions/writing-workflows/workflow-syntax-for-github-actions#defaultsrunshell
 env = { "SHELLCHECK_OPTS" = "--enable=all --exclude=SC2312" }
+description = "Run actionlint to check GitHub Actions workflows."
 
 ["check:ghalint"]
 wait_for = ["check:pinact"]
 run = "ghalint run"
+description = "Run ghalint to check GitHub Actions workflows."
 
 ["check:pinact"]
 run = "pinact run --verify {% if env.LINT is defined %}--check{% endif %}"
+description = "Run pinact to pin/check pinned GitHub Actions dependencies in workflows."
 
 ["check:zizmor"]
 run = "zizmor --pedantic ."
 env = { "GH_TOKEN" = "{{ env.GITHUB_TOKEN }}" }
+description = "Run Zizmor to check GitHub Actions workflows."
 
 ["check:taplo"]
 run = [
 	"taplo lint",
 	"taplo fmt {% if env.LINT is defined %}--check --diff{% endif %}",
 ]
+description = "Run Taplo to lint and format TOML files."
 
 ["check:prettier"]
 run = """
 prettier {% if env.LINT is undefined %}--write{% else %}--check{% endif %} \
 	{% if env.CI is undefined %}--cache{% endif %} ."""
+description = "Run Prettier to format JSON5/Markdown files."
 
 ["check:markdownlint"]
 run = "markdownlint-cli2 {% if env.LINT is undefined %}--fix{% endif %}"
+description = "Run markdownlint to lint Markdown files."
 
 ["check:shfmt"]
 # cannot exclude gitignored files
@@ -67,68 +103,84 @@ run = "markdownlint-cli2 {% if env.LINT is undefined %}--fix{% endif %}"
 run = """
 shfmt {% if env.LINT is undefined %}--list --write{% else %}--diff{% endif %} \
 	--simplify {{ exec(command='mise run util:list-scripts') }}"""
+description = "Run shfmt to format shell scripts."
 
 ["check:shellcheck"]
 # recursive globbing is not supported
 # ref: https://www.shellcheck.net/wiki/Recursiveness
 # ref: https://github.com/koalaman/shellcheck/issues/143
 run = "shellcheck --external-sources {{ exec(command='mise run util:list-scripts') }}"
+description = "Run shellcheck to lint shell scripts."
 
 ["check:yamlfmt"]
 run = "yamlfmt {% if env.LINT is defined %}-lint{% endif %} ."
+description = "Run yamlfmt to format YAML files."
 
 ["check:yamllint"]
 run = "yamllint --strict ."
+description = "Run yamllint to lint YAML files."
 
 ["check:cspell"]
 run = "cspell {% if env.CI is undefined %}--cache{% endif %} \"**/*\""
+description = "Run cspell to check spelling in files."
 
 ["check:lychee"]
 run = """
 lychee {% if env.LINT is defined %}--verbose{% endif %} \
 	{% if env.CI is undefined %}--cache{% endif %} \"**/*\""""
+description = "Run Lychee to check links in files."
 
 ["check:typos"]
 run = "typos {% if env.LINT is undefined %}--write-changes{% endif %}"
+description = "Run typos to check typo in files."
 
 ["check:ignore-sync"]
 run = "ignore-sync ."
 depends_post = [
 	"{% if env.CI is defined %}util:nodiff{% else %}util:donothing{% endif %}",
 ]
+description = "Generate/update .gitignore from .gitignore-sync."
 
 ["worker:dev"]
 depends = ["buni:worker"]
 dir = "worker"
 run = "bun run wrangler dev ${{ exec(command='mise run worker:wrangler-args') }}"
+description = "Start a local development server for the worker."
 
 ["worker:test"]
 depends = ["buni:worker"]
 run = "bun run vitest {% if env.CI is undefined %}watch --ui{% else %}run{% endif %}"
 dir = "worker"
+description = "Run tests for the worker."
 
 ["buni"]
 depends = ["buni:root", "buni:worker"]
+description = "Install Bun dependencies."
 
 ["buni:root"]
 run = "bun install --frozen-lockfile"
 hide = true
+description = "Install Bun dependencies in the root directory."
 
 ["buni:worker"]
 run = "bun install --frozen-lockfile"
 dir = "worker"
 hide = true
+description = "Install Bun dependencies in the worker directory."
 
 ["util:nodiff"] # cspell:ignore nodiff
 run = ["git add .", "git diff --staged --exit-code"]
 hide = true
+description = "Check there are no changes in the repository."
 
 # cspell:ignore donothing
 ["util:donothing"]
 run = ""
 hide = true
+description = "Do nothing. This is used to skip depends/depends_post."
 
 ["util:list-scripts"]
 # .bashrc is not detected by shfmt --find
 run = "git_files=$(git ls-files) && scripts=$(shfmt --find $git_files) && echo wsl/home/.bashrc $scripts"
 hide = true
+description = "List all shell scripts paths in the repository."

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-#MISE description="Print compatibility date for wrangler"
+#MISE description="Print compatibility date for wrangler."
 #MISE hide=true
 #MISE dir="worker"
 #MISE depends=["buni:worker --silent"]
