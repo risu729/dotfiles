@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-#MISE description="Print wrangler arguments for compatibility date and variables"
+#MISE description="Print wrangler arguments for compatibility date and variables."
 #MISE hide=true
 #MISE dir="worker"
 
