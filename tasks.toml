@@ -22,14 +22,35 @@ run = "biome {% if env.LINT is undefined %}check --write{% else %}ci{% endif %} 
 description = "Run Biome to lint and format JavaScript/TypeScript/JSON/JSONC files."
 
 ["check:tsc"]
-depends = ["buni"]
-run = [
-	"bun run tsc {% if env.CI is defined %}--incremental false{% endif %}",
-	"bun run --cwd worker tsc --project tsconfig.base.json {% if env.CI is defined %}--incremental false{% endif %}",
-	"bun run --cwd worker tsc --project tsconfig.src.json {% if env.CI is defined %}--incremental false{% endif %}",
-	"bun run --cwd worker tsc --project tsconfig.test.json {% if env.CI is defined %}--incremental false{% endif %}",
-]
+depends = ["check:tsc:*"]
 description = "Run TypeScript compiler to check types."
+
+["check:tsc:root"]
+depends = ["buni:root"]
+run = "bun run tsc {% if env.CI is defined %}--incremental false{% endif %}"
+description = "Run TypeScript compiler to check types in the root directory."
+
+["check:tsc:worker"]
+depends = ["check:tsc:worker:*"]
+description = "Run TypeScript compiler to check types in the worker directory."
+
+["check:tsc:worker:base"]
+depends = ["buni:worker"]
+run = "bun run tsc --project tsconfig.base.json {% if env.CI is defined %}--incremental false{% endif %}"
+dir = "worker"
+description = "Run TypeScript compiler to check types in the worker directory (base)."
+
+["check:tsc:worker:src"]
+depends = ["buni:worker"]
+run = "bun run tsc --project tsconfig.src.json {% if env.CI is defined %}--incremental false{% endif %}"
+dir = "worker"
+description = "Run TypeScript compiler to check types in the worker directory (src)."
+
+["check:tsc:worker:test"]
+depends = ["buni:worker"]
+run = "bun run tsc --project tsconfig.test.json {% if env.CI is defined %}--incremental false{% endif %}"
+dir = "worker"
+description = "Run TypeScript compiler to check types in the worker directory (test)."
 
 ["check:jsonschema"]
 # schema of wrangler.jsonc is in node_modules
