@@ -13,7 +13,7 @@
 		"@cloudflare/vitest-pool-workers": "0.8.12",
 		"@cloudflare/workers-types": "4.20250407.0",
 		"@risu729/tsconfigs": "1.0.0",
-		"@types/bun": "1.2.8",
+		"@types/bun": "1.2.9",
 		"@types/diff": "7.0.2",
 		"@vitest/ui": "3.1.1",
 		"diff": "7.0.0",
