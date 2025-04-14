@@ -10,7 +10,7 @@
       "devDependencies": {
         "@cloudflare/vitest-pool-workers": "0.8.12",
         "@cloudflare/workers-types": "4.20250414.0",
-        "@risu729/tsconfigs": "1.0.0",
+        "@risu729/tsconfigs": "1.0.1",
         "@types/bun": "1.2.9",
         "@types/diff": "7.0.2",
         "@vitest/ui": "3.1.1",
@@ -142,7 +142,7 @@
 
     "@polka/url": ["@polka/url@1.0.0-next.28", "", {}, "sha512-8LduaNlMZGwdZ6qWrKlfa+2M4gahzFkprZiAt2TF8uS0qQgBizKXpXURqvTJ4WtmupWxaLqjRb2UCTe72mu+Aw=="],
 
-    "@risu729/tsconfigs": ["@risu729/tsconfigs@1.0.0", "", {}, "sha512-PP7MSJnFwJhqBW1/dnbD2vGXqnJ7wU7nao1XJiUnOHChGkOTfwzf+YjJkDwLX3DDhJp59mRwUv3PYZfthT3Z1w=="],
+    "@risu729/tsconfigs": ["@risu729/tsconfigs@1.0.1", "", {}, "sha512-aOXwG0bxFmZw9D/eD8mOQTd3qPt/9X7G1u20a3xz/xmpMmbLZdwsU/rH4lAVBem9EO9F/gQawiETeChu6Ta/vw=="],
 
     "@rollup/rollup-android-arm-eabi": ["@rollup/rollup-android-arm-eabi@4.34.9", "", { "os": "android", "cpu": "arm" }, "sha512-qZdlImWXur0CFakn2BJ2znJOdqYZKiedEPEVNTBrpfPjc/YuTGcaYZcdmNFTkUj3DU0ZM/AElcM8Ybww3xVLzA=="],
 
