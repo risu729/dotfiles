@@ -9,7 +9,7 @@
         "@commitlint/cz-commitlint": "19.8.0",
         "@commitlint/types": "19.8.0",
         "@cspell/cspell-types": "8.18.1",
-        "@risu729/tsconfigs": "1.0.0",
+        "@risu729/tsconfigs": "1.0.1",
         "@types/bun": "1.2.9",
         "commitizen": "4.3.1",
         "jschema-validator": "1.0.13",
@@ -61,7 +61,7 @@
 
     "@cspell/cspell-types": ["@cspell/cspell-types@8.18.1", "", {}, "sha512-d/nMG+qnMbI/1JPm+lD0KcKpgtEHMRsHxkdtGyNCDgvHL/JOGaSHc5ERS3IUgBW0Dfya/3z9wPdaMcHEzt7YCQ=="],
 
-    "@risu729/tsconfigs": ["@risu729/tsconfigs@1.0.0", "", {}, "sha512-PP7MSJnFwJhqBW1/dnbD2vGXqnJ7wU7nao1XJiUnOHChGkOTfwzf+YjJkDwLX3DDhJp59mRwUv3PYZfthT3Z1w=="],
+    "@risu729/tsconfigs": ["@risu729/tsconfigs@1.0.1", "", {}, "sha512-aOXwG0bxFmZw9D/eD8mOQTd3qPt/9X7G1u20a3xz/xmpMmbLZdwsU/rH4lAVBem9EO9F/gQawiETeChu6Ta/vw=="],
 
     "@sindresorhus/is": ["@sindresorhus/is@7.0.1", "", {}, "sha512-QWLl2P+rsCJeofkDNIT3WFmb6NrRud1SUYW8dIhXK/46XFV8Q/g7Bsvib0Askb0reRLe+WYPeeE+l5cH7SlkuQ=="],
 
