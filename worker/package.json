@@ -10,15 +10,15 @@
 		"deploy": "wrangler deploy $(../tasks/worker/wrangler-args)"
 	},
 	"devDependencies": {
-		"@cloudflare/vitest-pool-workers": "0.8.12",
-		"@cloudflare/workers-types": "4.20250407.0",
-		"@risu729/tsconfigs": "1.0.0",
-		"@types/bun": "1.2.8",
+		"@cloudflare/vitest-pool-workers": "0.8.15",
+		"@cloudflare/workers-types": "4.20250414.0",
+		"@risu729/tsconfigs": "1.0.1",
+		"@types/bun": "1.2.9",
 		"@types/diff": "7.0.2",
 		"@vitest/ui": "3.1.1",
 		"diff": "7.0.0",
 		"typescript": "5.8.3",
 		"vitest": "3.1.1",
-		"wrangler": "4.8.0"
+		"wrangler": "4.10.0"
 	}
 }

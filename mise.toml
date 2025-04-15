@@ -1,10 +1,10 @@
 # ref: https://mise.jdx.dev/configuration.html
 #:schema https://mise.jdx.dev/schema/mise.json
 
-min_version = "2025.4.0"
+min_version = "2025.4.2"
 
 [tools]
-bun = "1.2.8"
+bun = "1.2.9"
 node = "23.11.0"
 biome = "1.9.4"
 actionlint = "1.7.7"
@@ -22,14 +22,14 @@ shellcheck = "0.10.0"
 yamlfmt = "0.16.0"
 # cspell:ignore pipx
 # required for pipx backend
-uv = "0.6.13"
+uv = "0.6.14"
 yamllint = "1.37.0"
 "npm:cspell" = "8.18.1"
 # cspell:ignore lycheeverse
 lychee = "0.18.1"
 typos = "1.31.1"
 "npm:ignore-sync" = "8.0.0"
-"npm:jschema-validator" = "1.0.13"
+"npm:jschema-validator" = "1.0.14"
 
 [settings]
 experimental = true
