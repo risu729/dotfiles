@@ -3,7 +3,7 @@
 	"name": "@risu729/dotfiles-worker",
 	"type": "module",
 	"dependencies": {
-		"hono": "4.7.6",
+		"hono": "4.7.7",
 		"zod": "3.24.2"
 	},
 	"scripts": {
@@ -11,7 +11,7 @@
 	},
 	"devDependencies": {
 		"@cloudflare/vitest-pool-workers": "0.8.17",
-		"@cloudflare/workers-types": "4.20250415.0",
+		"@cloudflare/workers-types": "4.20250416.0",
 		"@risu729/tsconfigs": "1.0.1",
 		"@types/bun": "1.2.9",
 		"@types/diff": "7.0.2",
@@ -19,6 +19,6 @@
 		"diff": "7.0.0",
 		"typescript": "5.8.3",
 		"vitest": "3.1.1",
-		"wrangler": "4.11.0"
+		"wrangler": "4.11.1"
 	}
 }
