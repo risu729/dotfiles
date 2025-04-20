@@ -99,7 +99,8 @@ if ! shopt -oq posix && [[ -f /usr/share/bash-completion/bash_completion ]]; the
 fi
 
 # enable mise completion
-mise_completion="$(mise completion bash)"
+# bash-completion 2.12 or later is required, but usually 2.11 is installed in WSL
+mise_completion="$(mise completion bash --include-bash-completion-lib)"
 eval "${mise_completion}"
 
 # enable gh completion
