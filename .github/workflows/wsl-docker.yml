@@ -42,7 +42,7 @@ jobs:
           mise_toml: |
             [tools]
             "ubi:kellyjonbrazil/jc" = "latest"
-          cache_save: ${{ github.ref_name == 'main' }}
+          cache: false
         env:
           GITHUB_TOKEN: ${{ github.token }}
 
