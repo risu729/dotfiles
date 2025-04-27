@@ -47,6 +47,8 @@ usage = "latest"
 cosign = "latest"
 # cspell:ignore slsa
 slsa-verifier = "latest"
+# cspell:ignore watchexec
+watchexec = "latest"
 
 # cli tools
 jq = "latest"
