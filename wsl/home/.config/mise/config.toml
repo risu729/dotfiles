@@ -1,7 +1,7 @@
 # ref: https://mise.jdx.dev/configuration.html#global-config-config-mise-config-toml
 #:schema https://mise.jdx.dev/schema/mise.json
 
-min_version = "2025.4.9"
+min_version = "2025.4.11"
 
 [env]
 # disable bat paging
@@ -47,6 +47,8 @@ usage = "latest"
 cosign = "latest"
 # cspell:ignore slsa
 slsa-verifier = "latest"
+# cspell:ignore watchexec
+watchexec = "latest"
 
 # cli tools
 jq = "latest"
