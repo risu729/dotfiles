@@ -46,7 +46,7 @@ jobs:
         run: |
           tasks=$(mise tasks ls --json \
             | jq --raw-output --compact-output \
-              'map(select(.name | test("^check:")) | {name: (.name | sub("^.+:" ; "")), task: .name})')
+              'map(select(.name | test("^check:[^:]+$")) | {name: (.name | sub("^.+:" ; "")), task: .name})')
           echo "tasks=${tasks}" >> "${GITHUB_OUTPUT}"
 
   lint:
