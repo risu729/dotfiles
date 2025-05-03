@@ -1,7 +1,12 @@
 # ref: https://github.com/lycheeverse/lychee/blob/master/lychee.example.toml
 
 cache = true
-cache_exclude_status = ["429", "500..599"]
+cache_exclude_status = [
+	# GitHub API also returns 403 for rate limit
+	"403",
+	"429",
+	"500..599",
+]
 
 exclude_path = [
 	".git",
