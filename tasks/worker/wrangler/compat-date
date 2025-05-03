@@ -18,4 +18,4 @@ compat_date=$(NO_COLOR=1 bun pm ls --all |
 	# extract the date part from the workerd version
 	# ref: https://github.com/cloudflare/workers-sdk/blob/81dfb1746a2b2a17c06f809b2da9f937810ca701/packages/create-cloudflare/src/helpers/compatDate.ts#L27-L28
 	sed --regexp-extended 's/.*[0-9]+\.([0-9]{4})([0-9]{2})([0-9]{2})\.[0-9]+.*/\1-\2-\3/')
-echo "${compat_date}"
+echo -n "${compat_date}"
