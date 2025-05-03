@@ -36,8 +36,7 @@ jobs:
       - name: Install mise
         uses: jdx/mise-action@7a111ead46986ccad89a74ad013ba2a7c08c9e67 # v2.2.1
         with:
-          version: 2025.4.11
-          cache_save: ${{ github.ref_name == 'main' }}
+          version: 2025.4.12
         env:
           GITHUB_TOKEN: ${{ github.token }}
 
@@ -46,7 +45,7 @@ jobs:
         run: |
           tasks=$(mise tasks ls --json \
             | jq --raw-output --compact-output \
-              'map(select(.name | test("^check:")) | {name: (.name | sub("^.+:" ; "")), task: .name})')
+              'map(select(.name | test("^check:[^:]+$")) | {name: (.name | sub("^.+:" ; "")), task: .name})')
           echo "tasks=${tasks}" >> "${GITHUB_OUTPUT}"
 
   lint:
@@ -74,8 +73,7 @@ jobs:
       - name: Install mise
         uses: jdx/mise-action@7a111ead46986ccad89a74ad013ba2a7c08c9e67 # v2.2.1
         with:
-          version: 2025.4.11
-          cache_save: ${{ github.ref_name == 'main' }}
+          version: 2025.4.12
         env:
           GITHUB_TOKEN: ${{ github.token }}
 
@@ -118,8 +116,7 @@ jobs:
       - name: Install mise
         uses: jdx/mise-action@7a111ead46986ccad89a74ad013ba2a7c08c9e67 # v2.2.1
         with:
-          version: 2025.4.11
-          cache_save: ${{ github.ref_name == 'main' }}
+          version: 2025.4.12
         env:
           GITHUB_TOKEN: ${{ github.token }}
 
