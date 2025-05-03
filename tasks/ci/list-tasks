@@ -7,11 +7,11 @@ set -euo pipefail
 tasks=$(mise tasks ls --json)
 
 echo "${tasks}" | jq --raw-output --compact-output \
-  'map(select(.name | test("^check:[^:]+$"))
-    | {
-      name: (.name | sub("^.+:" ; "")),
-      task: .name,
-      require_gh_token: any(.env[]; test("env\\\\.GITHUB_TOKEN")) | tostring,
-      cache_path: (.env["CACHE_PATH"] // ""),
-    }
-  )'
+	'map(select(.name | test("^check:[^:]+$"))
+		| {
+			name: (.name | sub("^.+:" ; "")),
+			task: .name,
+			require_gh_token: any(.env[]; test("env\\.GITHUB_TOKEN")) | tostring,
+			cache_path: (.env["CACHE_PATH"] // ""),
+		}
+	)'
