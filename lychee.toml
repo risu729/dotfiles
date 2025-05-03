@@ -1,5 +1,8 @@
 # ref: https://github.com/lycheeverse/lychee/blob/master/lychee.example.toml
 
+cache = true
+cache_exclude_status = ["429", "500..599"]
+
 exclude_path = [
 	".git",
 	"node_modules",
