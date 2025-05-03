@@ -17,6 +17,7 @@ jobs:
 
     steps:
       - name: Delete Action Cache
+        # cspell:ignore toshimaru
         uses: toshimaru/delete-action-cache@ab45c03c4f82162f880096a984a1fe1e7775a292 # v1.0.1
         with:
           limit: 1000
