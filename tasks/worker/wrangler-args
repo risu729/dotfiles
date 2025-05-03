@@ -3,7 +3,25 @@
 #MISE hide=true
 #MISE dir="worker"
 
+#USAGE flag "--preview" default="false" help="Print arguments for `wrangler versions upload`"
+
 set -euo pipefail
+
+# use $1 if usage_preview is not set to support direct call in workers build environment
+if [[ -z ${usage_preview:-} ]]; then
+	if [[ ${1:-} == '--preview' ]]; then
+		usage_preview=true
+	else
+		usage_preview=false
+	fi
+fi
+
+if [[ ${usage_preview} == 'true' ]]; then
+	short_sha=$(git rev-parse --short HEAD)
+	message=$(git log --format=%B --max-count=1 "${short_sha}" | head --lines=1 | sed 's/"/\\"/g')
+	# tag length is limited to 25 characters
+	echo -n "--tag ${short_sha} --message \"${message}\" "
+fi
 
 # call script directly for direct call in workers build environment
 if command -v mise >/dev/null 2>&1; then
@@ -20,4 +38,4 @@ remote_info=$(git remote show origin)
 repo_name=$(echo "${remote_info}" | sed --quiet --regexp-extended 's/.*Fetch URL:.*github.com\/+([^/.]+\/[^/.]+).*/\1/p')
 default_branch=$(echo "${remote_info}" | grep --only-matching --perl-regexp '(?<=HEAD branch: ).+')
 
-echo "--compatibility-date ${compat_date} --var REPO_NAME:${repo_name} DEFAULT_BRANCH:${default_branch}"
+echo -n "--compatibility-date ${compat_date} --var REPO_NAME:${repo_name} DEFAULT_BRANCH:${default_branch}"

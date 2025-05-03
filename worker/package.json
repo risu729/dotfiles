@@ -7,7 +7,8 @@
 		"zod": "3.24.3"
 	},
 	"scripts": {
-		"deploy": "wrangler deploy $(../tasks/worker/wrangler-args)"
+		"deploy-prod": "wrangler deploy $(../tasks/worker/wrangler-args)",
+		"deploy-preview": "wrangler versions upload $(../tasks/worker/wrangler-args --preview)"
 	},
 	"devDependencies": {
 		"@cloudflare/vitest-pool-workers": "0.8.24",
