@@ -1,0 +1,44 @@
+#!/usr/bin/env bash
+#MISE description="Deploy to Cloudflare Workers."
+#MISE hide=true
+#MISE dir="worker"
+
+#USAGE flag "--preview" default="false" help="Upload a new version without deploying it."
+
+set -euo pipefail
+
+wrangler_cmd="deploy"
+
+# use $1 if usage_preview is not set to support direct call in workers build environment
+if [[ -z ${usage_preview:-} ]]; then
+	if [[ ${1:-} == '--preview' ]]; then
+		usage_preview=true
+	else
+		usage_preview=false
+	fi
+fi
+
+if [[ ${usage_preview} == 'true' ]]; then
+	wrangler_cmd="versions upload"
+	# tag length is limited to 25 characters
+	short_sha=$(git rev-parse --short HEAD)
+	message=$(git log --format=%B --max-count=1 "${short_sha}" | head --lines=1 | sed 's/"/\\"/g')
+fi
+
+# call script directly for direct call in workers build environment
+if command -v mise >/dev/null 2>&1; then
+	compat_date=$(mise run worker:wrangler:compat-date)
+	vars=$(mise run worker:wrangler:vars)
+else
+	script_dir=$(dirname "${BASH_SOURCE[0]}")
+	compat_date=$("${script_dir}"/wrangler/compat-date)
+	vars=$("${script_dir}"/wrangler/vars)
+fi
+
+set -x
+# shellcheck disable=SC2086 # avoid quoting wrangler_cmd
+bun run wrangler ${wrangler_cmd} \
+	--compatibility-date "${compat_date}" \
+	--var "${vars}" \
+	${short_sha:+--tag "${short_sha}"} \
+	${message:+--message "${message}"}

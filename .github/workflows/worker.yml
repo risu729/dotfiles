@@ -46,86 +46,9 @@ jobs:
       - name: Run tests
         run: mise run worker:test
 
-  deploy-worker:
-    needs:
-      - test-worker
-
-    # skip for main branch as Cloudflare workers builds will deploy automatically
-    if: github.event_name != 'push'
-
-    runs-on: ubuntu-24.04
-    timeout-minutes: 10
-    permissions:
-      contents: read # for checkout
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
-        with:
-          sparse-checkout: |
-            mise.toml
-            tasks.toml
-            tasks/*
-            worker/*
-          sparse-checkout-cone-mode: false
-          persist-credentials: false
-          # set fetch-depth to 2 for pull requests to get the head commit, not only the merge commit
-          fetch-depth: ${{ github.event_name == 'pull_request' && 2 || 1 }}
-
-      - name: Install mise
-        uses: jdx/mise-action@7a111ead46986ccad89a74ad013ba2a7c08c9e67 # v2.2.1
-        with:
-          version: 2025.4.12
-          cache: false
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
-
-      - name: Get Wrangler args
-        id: wrangler-args
-        run: |
-          args=$(mise run worker:wrangler-args)
-          echo "args=${args}" >> "${GITHUB_OUTPUT}"
-
-      - name: Get Commit SHA and Message
-        id: commit
-        run: |
-          short_sha=$(git rev-parse --short "${SHA}")
-          message=$(git log --format=%B --max-count=1 "${SHA}" | head --lines=1 | sed 's/"/\\"/g')
-          echo "short_sha=${short_sha}" >> "${GITHUB_OUTPUT}"
-          echo "message=${message}" >> "${GITHUB_OUTPUT}"
-        env:
-          SHA: ${{ github.event.pull_request.head.sha || github.sha }}
-
-      - name: Upload a Version of Cloudflare Workers with Wrangler
-        id: deploy
-        uses: cloudflare/wrangler-action@da0e0dfe58b7a431659754fdf3f186c529afbe65 # v3.14.1
-        with:
-          workingDirectory: worker
-          # tag length is limited to 25 characters
-          command: >-
-            versions upload --tag ${{ steps.commit.outputs.short_sha }}
-            --message "${{ steps.commit.outputs.message }}"
-            ${{ steps.wrangler-args.outputs.args }}
-          apiToken: ${{ secrets.CLOUDFLARE_WORKERS_API_TOKEN }}
-          accountId: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
-
-      - name: Generate Job Summary
-        run: |
-          worker_name=$(echo "${DEPLOY_OUTPUT}" \
-            | grep --only-matching --perl-regexp '^Uploaded \K[^ ]+')
-          version_id=$(echo "${DEPLOY_OUTPUT}" \
-            | grep --only-matching --perl-regexp '^Worker Version ID: \K.+')
-          preview_url=$(echo "${DEPLOY_OUTPUT}" \
-            | grep --only-matching --perl-regexp '^Version Preview URL: \K.+')
-          echo "# ${worker_name}
-          - Version ID: ${version_id}
-          - Preview URL: ${preview_url}" >> "${GITHUB_STEP_SUMMARY}"
-        env:
-          DEPLOY_OUTPUT: ${{ steps.deploy.outputs.command-output }}
-
   actions-timeline:
     needs:
-      - deploy-worker
+      - test-worker
     if: ${{ !cancelled() }}
 
     runs-on: ubuntu-24.04

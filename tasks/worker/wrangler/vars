@@ -1,17 +1,9 @@
 #!/usr/bin/env bash
-#MISE description="Print wrangler arguments for compatibility date and variables."
+#MISE description="Print variables for wrangler."
 #MISE hide=true
 #MISE dir="worker"
 
 set -euo pipefail
-
-# call script directly for direct call in workers build environment
-if command -v mise >/dev/null 2>&1; then
-	compat_date=$(mise run worker:wrangler-compat-date)
-else
-	script_dir=$(dirname "${BASH_SOURCE[0]}")
-	compat_date=$("${script_dir}"/wrangler-compat-date)
-fi
 
 remote_info=$(git remote show origin)
 # in cloudflare workers builds, the url is in the format `https://*****@github.com//owner/repo`
@@ -20,4 +12,4 @@ remote_info=$(git remote show origin)
 repo_name=$(echo "${remote_info}" | sed --quiet --regexp-extended 's/.*Fetch URL:.*github.com\/+([^/.]+\/[^/.]+).*/\1/p')
 default_branch=$(echo "${remote_info}" | grep --only-matching --perl-regexp '(?<=HEAD branch: ).+')
 
-echo "--compatibility-date ${compat_date} --var REPO_NAME:${repo_name} DEFAULT_BRANCH:${default_branch}"
+echo -n "REPO_NAME:${repo_name} DEFAULT_BRANCH:${default_branch}"
