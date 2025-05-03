@@ -63,7 +63,7 @@ run = "actionlint -color"
 # SC2312: check-extra-masked-returns
 # pipefail is set by shell: bash in GitHub Actions but cannot be detected by shellcheck
 # ref: https://docs.github.com/en/actions/writing-workflows/workflow-syntax-for-github-actions#defaultsrunshell
-env = { "SHELLCHECK_OPTS" = "--enable=all --exclude=SC2312" }
+env.SHELLCHECK_OPTS = "--enable=all --exclude=SC2312"
 description = "Run actionlint to check GitHub Actions workflows."
 
 ["check:ghalint"]
@@ -73,11 +73,12 @@ description = "Run ghalint to check GitHub Actions workflows."
 
 ["check:pinact"]
 run = "pinact run --verify {% if env.LINT is defined %}--check{% endif %}"
+env.GITHUB_TOKEN = "{{ env.GITHUB_TOKEN }}"
 description = "Run pinact to pin/check pinned GitHub Actions dependencies in workflows."
 
 ["check:zizmor"]
 run = "zizmor --pedantic ."
-env = { "GH_TOKEN" = "{{ env.GITHUB_TOKEN }}" }
+env.GH_TOKEN = "{{ env.GITHUB_TOKEN }}"
 description = "Run Zizmor to check GitHub Actions workflows."
 
 ["check:taplo"]
@@ -126,6 +127,10 @@ description = "Run cspell to check spelling in files."
 
 ["check:lychee"]
 run = "lychee {% if env.LINT is defined %}--verbose{% endif %} \"**/*\""
+env.GITHUB_TOKEN = "{{ env.GITHUB_TOKEN }}"
+# no other ways to set metadata for tasks
+# cspell:ignore lycheecache
+env.CACHE_PATH = ".lycheecache"
 description = "Run Lychee to check links in files."
 
 ["check:typos"]
@@ -137,6 +142,7 @@ run = "ignore-sync ."
 depends_post = [
 	"{% if env.CI is defined %}util:nodiff{% else %}util:donothing{% endif %}",
 ]
+env.GITHUB_TOKEN = "{{ env.GITHUB_TOKEN }}"
 description = "Generate/update .gitignore from .gitignore-sync."
 
 ["worker:dev"]
