@@ -5,7 +5,7 @@ import { promisify } from "node:util";
 import { defineWorkersConfig } from "@cloudflare/vitest-pool-workers/config";
 
 const { stdout: compatibilityDate } = await promisify(exec)(
-	"mise run worker:compat-date",
+	"mise run worker:wrangler:compat-date",
 );
 
 export default defineWorkersConfig({
