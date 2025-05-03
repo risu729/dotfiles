@@ -125,9 +125,7 @@ run = "cspell {% if env.CI is undefined %}--cache{% endif %} \"**/*\""
 description = "Run cspell to check spelling in files."
 
 ["check:lychee"]
-run = """
-lychee {% if env.LINT is defined %}--verbose{% endif %} \
-	{% if env.CI is undefined %}--cache{% endif %} \"**/*\""""
+run = "lychee {% if env.LINT is defined %}--verbose{% endif %} --cache \"**/*\""
 description = "Run Lychee to check links in files."
 
 ["check:typos"]
