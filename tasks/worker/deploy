@@ -36,9 +36,9 @@ else
 fi
 
 set -x
-# shellcheck disable=SC2086 # avoid quoting wrangler_cmd
+# shellcheck disable=SC2086 # avoid quoting wrangler_cmd and vars
 bun run wrangler ${wrangler_cmd} \
 	--compatibility-date "${compat_date}" \
-	--var "${vars}" \
+	--var ${vars} \
 	${short_sha:+--tag "${short_sha}"} \
 	${message:+--message "${message}"}
