@@ -12,7 +12,7 @@ cache_exclude_status = [
 	# GitHub API also returns 403 for rate limit
 	"403",
 	"429",
-	"500..599",
+	"500..=599",
 ]
 
 exclude_path = [
