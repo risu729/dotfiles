@@ -150,8 +150,8 @@ depends = ["buni:worker"]
 dir = "worker"
 run = """\
 	bun run wrangler dev \
-		--compatibility-date ${{ exec(command='mise run worker:wrangler:compat-date') }} \
-		--var ${{ exec(command='mise run worker:wrangler:vars') }}"""
+		--compatibility-date {{ exec(command='mise run worker:wrangler:compat-date') }} \
+		--var {{ exec(command='mise run worker:wrangler:vars') }}"""
 description = "Start a local development server for the worker."
 
 ["worker:test"]
