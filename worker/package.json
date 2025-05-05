@@ -4,7 +4,7 @@
 	"type": "module",
 	"dependencies": {
 		"hono": "4.7.8",
-		"zod": "3.24.3"
+		"zod": "3.24.4"
 	},
 	"scripts": {
 		"deploy": "../tasks/worker/deploy"
