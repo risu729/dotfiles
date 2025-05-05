@@ -6,7 +6,7 @@
 		"@commitlint/config-conventional": "19.8.0",
 		"@commitlint/cz-commitlint": "19.8.0",
 		"@commitlint/types": "19.8.0",
-		"@cspell/cspell-types": "8.19.4",
+		"@cspell/cspell-types": "9.0.0",
 		"@risu729/tsconfigs": "1.0.1",
 		"@types/bun": "1.2.12",
 		"commitizen": "4.3.1",
