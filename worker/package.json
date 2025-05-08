@@ -10,7 +10,7 @@
 		"deploy": "../tasks/worker/deploy"
 	},
 	"devDependencies": {
-		"@cloudflare/vitest-pool-workers": "0.8.26",
+		"@cloudflare/vitest-pool-workers": "0.8.27",
 		"@cloudflare/workers-types": "4.20250508.0",
 		"@risu729/tsconfigs": "1.0.1",
 		"@types/bun": "1.2.12",
