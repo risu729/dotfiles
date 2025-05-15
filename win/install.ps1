@@ -5,9 +5,10 @@ function Run-ExternalCommand {
         [string]$Command
     )
     Invoke-Expression $Command
+    # cspell:ignore LASTEXITCODE
     $exitCode = $LASTEXITCODE
     if ($exitCode -ne 0) {
-        Write-Error "Command failed with exit code $exitCode: $Command"
+        Write-Error "Command failed with exit code ${exitCode}: $Command"
         exit $exitCode
     }
 }
