@@ -10,7 +10,7 @@ Since I use WSL2 as my main development environment, I only install GUI applicat
 
 ### 🪟 Windows 11
 
-<!-- cspell:ignore bypassnro -->
+<!-- cspell:ignore localonly -->
 
 > \[!IMPORTANT]
 > Set up Windows 11 **without** a Microsoft account to avoid the automatic installation of OneDrive.
