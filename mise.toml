@@ -22,7 +22,7 @@ shellcheck = "0.10.0"
 yamlfmt = "0.16.0"
 # cspell:ignore pipx
 # required for pipx backend
-uv = "0.7.3"
+uv = "0.7.4"
 yamllint = "1.37.1"
 "npm:cspell" = "9.0.1"
 # cspell:ignore lycheeverse
