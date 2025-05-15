@@ -4,20 +4,33 @@
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 
+<#
+.SYNOPSIS
+Tests if the current Windows version meets the specified minimum build and display version requirements.
+
+.PARAMETER MinimumBuild
+The minimum required Windows build number (e.g., 26100).
+
+.PARAMETER RequiredDisplayVersionString
+The required Windows DisplayVersion string in NNHN format (e.g., "24H2").
+
+.NOTES
+Throws exceptions on validation failure or inability to retrieve system information.
+#>
 function Test-MinimumWindowsVersion {
 	[CmdletBinding()]
 	param(
-		[Parameter(Mandatory=$true)]
+		[Parameter(Mandatory = $true)]
 		[int]$MinimumBuild,
 
-		[Parameter(Mandatory=$true)]
+		[Parameter(Mandatory = $true)]
 		[string]$RequiredDisplayVersionString
 	)
 
 	# Check if running on Windows.
 	# The $IsWindows automatic variable might not exist in older PowerShell versions.
- 	# ref: https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_automatic_variables#iswindows
-  	# ref: https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_automatic_variables?view=powershell-5.1
+	# ref: https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_automatic_variables#iswindows
+	# ref: https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_automatic_variables?view=powershell-5.1
 	# If $IsWindows doesn't exist, we assume it's Windows.
 	if ((Test-Path Variable:\IsWindows) -and ($IsWindows -eq $false)) {
 		throw "This script can only run on Windows."
@@ -27,15 +40,17 @@ function Test-MinimumWindowsVersion {
 	# Derive the numeric version from the required display version string (NNHN format expected)
 	if ($RequiredDisplayVersionString -match '^(\d{2})H(\d)$') {
 		$requiredVerNum = [int]("$($matches[1])0$($matches[2])")
-	} else {
-		# This indicates an issue with the script's configuration
+	}
+ else {
+		# This indicates an an issue with the script's configuration
 		throw "Internal script error: Required DisplayVersion string format '$($RequiredDisplayVersionString)' is invalid. Expected NNHN format."
 	}
 
 	try {
-		$os = Get-CimInstance Win32_OperatingSystem -ErrorAction Stop
+		$os = Get-CimInstance Win32_OperatingSystem
 		$version = [System.Version]$os.Version
-	} catch {
+	}
+ catch {
 		throw "Could not retrieve operating system version information."
 	}
 
@@ -46,48 +61,56 @@ function Test-MinimumWindowsVersion {
 
 	# Further validation using DisplayVersion from registry
 	try {
- 		# cspell:ignore HKLM
+		# cspell:ignore HKLM
 		$displayVersion = Get-ItemPropertyValue -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion" -Name "DisplayVersion" -ErrorAction Stop
-	} catch {
+	}
+ catch {
 		throw "DisplayVersion not found in registry or could not be read. Cannot confirm Windows version details."
 	}
 
 	# Validate DisplayVersion format and check against minimum required numeric version
 	if ($displayVersion -match '^(\d{2})H(\d)$') {
-		$verNum = [int]("$($matches[1])0$($matches[2])")  # Convert "NNHN" to NN0N for numeric comparison
+		# Convert "NNHN" to NN0N for numeric comparison
+		$verNum = [int]("$($matches[1])0$($matches[2])")
 		if ($verNum -lt $requiredVerNum) {
 			throw "DisplayVersion '$displayVersion' is less than required '$($RequiredDisplayVersionString)'."
 		}
-	} else {
+	}
+ else {
 		throw "DisplayVersion format '$displayVersion' is invalid. Expected format like '$($RequiredDisplayVersionString)'."
 	}
 
-	# If all checks pass, the function completes successfully
-	# Print the detected version details in the verbose message
 	Write-Host "Detected Windows version (DisplayVersion '$($displayVersion)', Build $($version.Build)) meets minimum requirements ($($RequiredDisplayVersionString) / Build $($MinimumBuild)+)."
 }
 
-function Run-ExternalCommand {
-    param (
-        [string]$Command
-    )
-    Invoke-Expression $Command
-    # cspell:ignore LASTEXITCODE
-    $exitCode = $LASTEXITCODE
-    if ($exitCode -ne 0) {
-        Write-Error "Command failed with exit code ${exitCode}: $Command"
-        exit $exitCode
-    }
+<#
+.SYNOPSIS
+Runs an external command using Invoke-Expression and throws an exception on failure.
+
+.PARAMETER Command
+The command string to execute.
+#>
+function Invoke-ExternalCommand {
+	[CmdletBinding()]
+	param (
+		[string]$Command
+	)
+
+	Invoke-Expression $Command
+	# cspell:ignore LASTEXITCODE
+	$exitCode = $LASTEXITCODE
+	if ($exitCode -ne 0) {
+		throw "Command failed with exit code ${exitCode}: $Command"
+	}
 }
 
+# Test the Windows version
 $minBuild = 26100
 $requiredDisplayVersionString = "24H2"
-
-# Test the Windows version
 try {
 	Test-MinimumWindowsVersion -MinimumBuild $minBuild -RequiredDisplayVersionString $requiredDisplayVersionString
-} catch {
-	# Catch any errors thrown by the function and write them before exiting
+}
+catch {
 	Write-Error $_.Exception.Message
 	exit 1
 }
@@ -96,11 +119,9 @@ $isAdmin = ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIde
 if (-not $isAdmin) {
 	$command = "Invoke-RestMethod dot.risunosu.com/win | Invoke-Expression"
 	Start-Process powershell -ArgumentList "-NoProfile -NoExit -Command &{ $command }" -Verb RunAs
+	Write-Host "Restarting script with administrator privileges..."
 	exit
 }
-
-# If the script is running as administrator, execution continues here.
-Write-Host "Running with administrator privileges."
 
 # might be edited by the worker to use a specific ref
 $git_ref = ""
