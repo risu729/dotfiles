@@ -89,7 +89,7 @@ try {
 } catch {
 	# Catch any errors thrown by the function and write them before exiting
 	Write-Error $_.Exception.Message
-	exit 1
+	# exit 1
 }
 
 $isAdmin = ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
