@@ -95,7 +95,7 @@ try {
 $isAdmin = ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
 if (-not $isAdmin) {
 	$command = "Invoke-RestMethod dot.risunosu.com/win | Invoke-Expression"
-	Start-Process powershell -ArgumentList "-NoProfile -Command &{ $command }" -Verb RunAs
+	Start-Process powershell -ArgumentList "-NoProfile -NoExit -Command &{ $command }" -Verb RunAs
 	exit
 }
 
