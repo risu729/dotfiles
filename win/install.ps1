@@ -92,6 +92,16 @@ try {
 	exit 1
 }
 
+$isAdmin = ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
+if (-not $isAdmin) {
+	$command = "Invoke-RestMethod dot.risunosu.com/win | Invoke-Expression"
+	Start-Process powershell -ArgumentList "-NoProfile -Command &{ $command }" -Verb RunAs
+	exit
+}
+
+# If the script is running as administrator, execution continues here.
+Write-Host "Running with administrator privileges."
+
 # might be edited by the worker to use a specific ref
 $git_ref = ""
 
