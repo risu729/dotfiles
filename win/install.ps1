@@ -1,12 +1,24 @@
 $ErrorActionPreference = 'Stop'
 
+function Run-ExternalCommand {
+    param (
+        [string]$Command
+    )
+    Invoke-Expression $Command
+    $exitCode = $LASTEXITCODE
+    if ($exitCode -ne 0) {
+        Write-Error "Command failed with exit code $exitCode: $Command"
+        exit $exitCode
+    }
+}
+
 # might be edited by the worker to use a specific ref
 $git_ref = ""
 
 $distribution = "Ubuntu-24.04"
 
-wsl --install --distribution $distribution
-wsl --set-default $distribution
+Run-ExternalCommand "wsl --install --distribution `"$distribution`""
+Run-ExternalCommand "wsl --set-default `"$distribution`""
 
 $wsl_script = "https://dot.risunosu.com/wsl"
 if ($git_ref -ne "") {
@@ -14,13 +26,13 @@ if ($git_ref -ne "") {
 }
 # pipe cannot be quoted
 # ref: https://github.com/microsoft/WSL/issues/3284
-wsl /usr/bin/env bash -c "SKIP_GIT_SETUP=true bash <(curl -fsSL $wsl_script)"
+Run-ExternalCommand "wsl /usr/bin/env bash -c `"SKIP_GIT_SETUP=true bash <(curl -fsSL $wsl_script)`""
 
 $wsl_username = "$(wsl whoami)"
-winget import --import-file "\\wsl.localhost\$distribution\home\$wsl_username\ghq\github.com\risu729\dotfiles\win\winget.json" --disable-interactivity --accept-package-agreements
+Run-ExternalCommand "winget import --import-file `"\\wsl.localhost\$distribution\home\$wsl_username\ghq\github.com\risu729\dotfiles\win\winget.json`" --disable-interactivity --accept-package-agreements"
 
 # uninstall Windows Terminal since it's preview version is installed by winget import
-winget uninstall --id "Microsoft.WindowsTerminal"
+Run-ExternalCommand "winget uninstall --id `"Microsoft.WindowsTerminal`""
 
 # remove generated shortcuts
 Remove-Item -Path ~\Desktop\*.lnk -Force
@@ -44,4 +56,4 @@ Remove-Item -Path ~\Documents\PowerToys -Recurse -Force -ErrorAction SilentlyCon
 # setup git after browser is installed
 # use -i, interactive mode
 # need to source .bashrc to update PATH
-wsl /usr/bin/env bash -ic "source ~/.bashrc; ~/ghq/github.com/risu729/dotfiles/wsl/setup-git.ts"
+Run-ExternalCommand "wsl /usr/bin/env bash -ic `"source ~/.bashrc; ~/ghq/github.com/risu729/dotfiles/wsl/setup-git.ts`""
