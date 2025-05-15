@@ -88,11 +88,12 @@ try {
 	Test-MinimumWindowsVersion -MinimumBuild $minBuild -RequiredDisplayVersionString $requiredDisplayVersionString
 } catch {
 	# Catch any errors thrown by the function and write them before exiting
-	Write-Error $_.Exception.Message
+	# Write-Error $_.Exception.Message
 	# exit 1
 }
 
 $isAdmin = ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
+Write-Host $isAdmin
 if (-not $isAdmin) {
 	$command = "Invoke-RestMethod dot.risunosu.com/win | Invoke-Expression"
 	Start-Process powershell -ArgumentList "-NoProfile -Command &{ $command }" -Verb RunAs
