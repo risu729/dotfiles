@@ -19,7 +19,7 @@ Since I use WSL2 as my main development environment, I only install GUI applicat
 > 2. Run the following command in Command Prompt:
 >
 >    ```cmd
->    oobe\bypassnro
+>    start ms-cxh:localonly
 >    ```
 >
 > 3. Continue the setup without a Microsoft account by selecting `I don't have internet`.
