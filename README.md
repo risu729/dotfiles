@@ -16,7 +16,6 @@ Since I use WSL2 as my main development environment, I only install GUI applicat
 > Set up Windows 11 **without** a Microsoft account to avoid the automatic installation of OneDrive.
 >
 > 1. Press `Shift + F10` on the startup screen (do **not** connect to the internet).
->
 > 2. Run the following command in Command Prompt:
 >
 >    ```cmd
@@ -55,16 +54,16 @@ bash <(curl -fsSL https://dot.risunosu.com/wsl)
 
 2. Install the following software on Windows, which the script does not install:
 
-* [Lenovo Vantage](https://www.lenovo.com/us/en/software/vantage)
+- [Lenovo Vantage](https://www.lenovo.com/us/en/software/vantage)
   (Cannot be installed via `winget`.)
 
-* [Minecraft Launcher](https://aka.ms/minecraftClientGameCoreWindows)
+- [Minecraft Launcher](https://aka.ms/minecraftClientGameCoreWindows)
   (Cannot be installed via `winget`.)
 
-* [LINE](https://desktop.line-scdn.net/win/new/LineInst.exe)
+- [LINE](https://desktop.line-scdn.net/win/new/LineInst.exe)
   (Cannot be installed via `winget`.)
 
-* [X](https://x.com)
+- [X](https://x.com)
   (PWA apps cannot be installed using the script.)
 
 ## 🛠️ Development
