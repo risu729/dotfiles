@@ -10,7 +10,7 @@ Since I use WSL2 as my main development environment, I only install GUI applicat
 
 ### 🪟 Windows 11
 
-<!-- cspell:ignore bypassnro -->
+<!-- cspell:ignore localonly -->
 
 > \[!IMPORTANT]
 > Set up Windows 11 **without** a Microsoft account to avoid the automatic installation of OneDrive.
@@ -19,7 +19,7 @@ Since I use WSL2 as my main development environment, I only install GUI applicat
 > 2. Run the following command in Command Prompt:
 >
 >    ```cmd
->    oobe\bypassnro
+>    start ms-cxh:localonly
 >    ```
 >
 > 3. Continue the setup without a Microsoft account by selecting `I don't have internet`.
