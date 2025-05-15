@@ -8,7 +8,9 @@ git_ref=""
 # use apt-get instead of apt for scripts
 # ref: https://manpages.ubuntu.com/manpages/trusty/man8/apt.8.html#:~:text=SCRIPT%20USAGE/
 sudo apt-get update
-sudo apt-get upgrade --yes
+sudo apt-get full-upgrade --yes
+sudo apt-get autoremove --yes
+sudo apt-get autoclean --yes
 
 # not pre-installed in wsl ubuntu
 # ref: https://cloud-images.ubuntu.com/wsl/noble/current/ubuntu-noble-wsl-amd64-wsl.manifest
