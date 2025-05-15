@@ -107,6 +107,8 @@ $git_ref = ""
 
 $distribution = "Ubuntu-24.04"
 
+Run-ExternalCommand "wsl --update --pre-release"
+Run-ExternalCommand "wsl --version"
 Run-ExternalCommand "wsl --install --distribution `"$distribution`""
 Run-ExternalCommand "wsl --set-default `"$distribution`""
 
