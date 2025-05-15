@@ -47,7 +47,7 @@ function Test-MinimumWindowsVersion {
 	}
 
 	try {
-		$os = Get-CimInstance Win32_OperatingSystem -ErrorAction Stop
+		$os = Get-CimInstance Win32_OperatingSystem
 		$version = [System.Version]$os.Version
 	}
  catch {
@@ -104,15 +104,13 @@ function Invoke-ExternalCommand {
 	}
 }
 
+# Test the Windows version
 $minBuild = 26100
 $requiredDisplayVersionString = "24H2"
-
-# Test the Windows version
 try {
 	Test-MinimumWindowsVersion -MinimumBuild $minBuild -RequiredDisplayVersionString $requiredDisplayVersionString
 }
 catch {
-	# Catch any errors thrown by the function and write them before exiting
 	Write-Error $_.Exception.Message
 	exit 1
 }
@@ -121,11 +119,9 @@ $isAdmin = ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIde
 if (-not $isAdmin) {
 	$command = "Invoke-RestMethod dot.risunosu.com/win | Invoke-Expression"
 	Start-Process powershell -ArgumentList "-NoProfile -NoExit -Command &{ $command }" -Verb RunAs
+	Write-Host "Restarting script with administrator privileges..."
 	exit
 }
-
-# If the script is running as administrator, execution continues here.
-Write-Host "Running with administrator privileges."
 
 # might be edited by the worker to use a specific ref
 $git_ref = ""
