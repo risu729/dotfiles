@@ -10,6 +10,7 @@ git_ref=""
 sudo apt-get update
 sudo apt-get full-upgrade --yes
 sudo apt-get autoremove --yes
+# cspell:ignore autoclean
 sudo apt-get autoclean --yes
 
 # not pre-installed in wsl ubuntu
