@@ -16,7 +16,7 @@ function Test-MinimumWindowsVersion {
  	# ref: https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_automatic_variables#iswindows
   	# ref: https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_automatic_variables?view=powershell-5.1
 	# If $IsWindows doesn't exist, we assume it's Windows.
-	if ($IsWindows -eq $false) {
+	if ((Test-Path Variable:\IsWindows) -and ($IsWindows -eq $false)) {
 		throw "This script can only run on Windows."
 	}
 
