@@ -19,6 +19,7 @@ function Test-MinimumWindowsVersion {
 		throw "This script can only run on Windows."
 	}
 
+	# cspell:ignore NNHN
 	# Derive the numeric version from the required display version string (NNHN format expected)
 	if ($RequiredDisplayVersionString -match '^(\d{2})H(\d)$') {
 		$requiredVerNum = [int]("$($matches[1])0$($matches[2])")
@@ -41,6 +42,7 @@ function Test-MinimumWindowsVersion {
 
 	# Further validation using DisplayVersion from registry
 	try {
+ 		# cspell:ignore HKLM
 		$displayVersion = Get-ItemPropertyValue -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion" -Name "DisplayVersion" -ErrorAction Stop
 	} catch {
 		throw "DisplayVersion not found in registry or could not be read. Cannot confirm Windows version details."
