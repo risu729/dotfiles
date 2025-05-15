@@ -30,9 +30,6 @@
 					"PackageIdentifier": "Microsoft.PowerShell.Preview"
 				},
 				{
-					"PackageIdentifier": "Microsoft.WindowsTerminal.Preview"
-				},
-				{
 					// cspell:ignore termius
 					"PackageIdentifier": "Termius.Termius"
 				},
