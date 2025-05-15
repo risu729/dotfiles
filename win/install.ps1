@@ -1,5 +1,62 @@
 $ErrorActionPreference = 'Stop'
 
+function Test-MinimumWindowsVersion {
+	[CmdletBinding()]
+	param(
+		[Parameter(Mandatory=$true)]
+		[int]$MinimumBuild,
+
+		[Parameter(Mandatory=$true)]
+		[string]$RequiredDisplayVersionString
+	)
+
+	# Check if running on Windows
+	if (-not $IsWindows) {
+		throw "This script can only run on Windows."
+	}
+
+	# Derive the numeric version from the required display version string (NNHN format expected)
+	if ($RequiredDisplayVersionString -match '^(\d{2})H(\d)$') {
+		$requiredVerNum = [int]("$($matches[1])0$($matches[2])")
+	} else {
+		# This indicates an issue with the script's configuration
+		throw "Internal script error: Required DisplayVersion string format '$($RequiredDisplayVersionString)' is invalid. Expected NNHN format."
+	}
+
+	try {
+		$os = Get-CimInstance Win32_OperatingSystem -ErrorAction Stop
+		$version = [System.Version]$os.Version
+	} catch {
+		throw "Could not retrieve operating system version information."
+	}
+
+	# Check for Windows 10 Major version (which Windows 11 uses) and minimum build
+	if ($version.Major -ne 10 -or $version.Build -lt $MinimumBuild) {
+		throw "This script requires Windows 11 $($RequiredDisplayVersionString) or later (Build $($MinimumBuild)+). Detected: $($os.Caption) $($version.ToString())"
+	}
+
+	# Further validation using DisplayVersion from registry
+	try {
+		$displayVersion = Get-ItemPropertyValue -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion" -Name "DisplayVersion" -ErrorAction Stop
+	} catch {
+		throw "DisplayVersion not found in registry or could not be read. Cannot confirm Windows version details."
+	}
+
+	# Validate DisplayVersion format and check against minimum required numeric version
+	if ($displayVersion -match '^(\d{2})H(\d)$') {
+		$verNum = [int]("$($matches[1])0$($matches[2])")  # Convert "NNHN" to NN0N for numeric comparison
+		if ($verNum -lt $requiredVerNum) {
+			throw "DisplayVersion '$displayVersion' is less than required '$($RequiredDisplayVersionString)'."
+		}
+	} else {
+		throw "DisplayVersion format '$displayVersion' is invalid. Expected format like '$($RequiredDisplayVersionString)'."
+	}
+
+	# If all checks pass, the function completes successfully
+	# Print the detected version details in the verbose message
+	Write-Host "Detected Windows version (DisplayVersion '$($displayVersion)', Build $($version.Build)) meets minimum requirements ($($RequiredDisplayVersionString) / Build $($MinimumBuild)+)."
+}
+
 function Run-ExternalCommand {
     param (
         [string]$Command
@@ -11,6 +68,18 @@ function Run-ExternalCommand {
         Write-Error "Command failed with exit code ${exitCode}: $Command"
         exit $exitCode
     }
+}
+
+$minBuild = 26100
+$requiredDisplayVersionString = "24H2"
+
+# Test the Windows version
+try {
+	Test-MinimumWindowsVersion -MinimumBuild $minBuild -RequiredDisplayVersionString $requiredDisplayVersionString
+} catch {
+	# Catch any errors thrown by the function and write them before exiting
+	Write-Error $_.Exception.Message
+	exit 1
 }
 
 # might be edited by the worker to use a specific ref
