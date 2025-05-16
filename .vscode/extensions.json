@@ -18,8 +18,5 @@
 		"timonwong.shellcheck",
 		"streetsidesoftware.code-spell-checker",
 		"vitest.explorer"
-	],
-	"unwantedRecommendations": [
-		"ms-vscode.powershell" // requires powershell even in linux
 	]
 }
