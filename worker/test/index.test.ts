@@ -57,13 +57,14 @@ describe("return the installer script with a specified ref set to a variable", (
 			timeout: 10000,
 		},
 		async (path) => {
-			// biome-ignore lint/nursery/noSecrets: just a example, not a secret
-			const ref = "ed61d947087a6e943267c6eaa82d0e0039b9b279";
 			const response = await fetchWorker(
-				`https://dot.risunosu.com${path}?ref=${ref}`,
+				`https://dot.risunosu.com${path}?ref=${import.meta.env.LATEST_COMMIT_HASH}`,
 			);
 			expect(await response.text()).toMatch(
-				new RegExp(`^.?git_ref *= *"${ref}"`, "gm"),
+				new RegExp(
+					`^.?git_ref *= *"${import.meta.env.LATEST_COMMIT_HASH}"`,
+					"gm",
+				),
 			);
 		},
 	);
@@ -79,7 +80,7 @@ describe("redirect with 307 status code", () => {
 describe("return 200 status code with ref query parameters", () => {
 	it.each(["/win", "/wsl"])("return %s with ref", async (path) => {
 		const response = await fetchWorker(
-			`https://dot.risunosu.com${path}?ref=ed61d947087a6e943267c6eaa82d0e0039b9b279`,
+			`https://dot.risunosu.com${path}?ref=${import.meta.env.LATEST_COMMIT_HASH}`,
 		);
 		expect(response.status).toBe(200);
 	});
@@ -88,8 +89,7 @@ describe("return 200 status code with ref query parameters", () => {
 describe("installer script for wsl should have a shebang", () => {
 	it("return /wsl with ref", async () => {
 		const response = await fetchWorker(
-			// biome-ignore lint/nursery/noSecrets: false positive
-			"https://dot.risunosu.com/wsl?ref=ed61d947087a6e943267c6eaa82d0e0039b9b279",
+			`https://dot.risunosu.com/wsl?ref=${import.meta.env.LATEST_COMMIT_HASH}`,
 		);
 		// biome-ignore lint/performance/useTopLevelRegex: ignore performance warning in test
 		expect(await response.text()).toMatch(/^#!(?:\/\w+)+/);
@@ -98,15 +98,13 @@ describe("installer script for wsl should have a shebang", () => {
 
 describe("installer script contains the source URL", () => {
 	it.each(["/win", "/wsl"])("return %s with ref", async (path) => {
-		// biome-ignore lint/nursery/noSecrets: just a example, not a secret
-		const ref = "ed61d947087a6e943267c6eaa82d0e0039b9b279";
 		const response = await fetchWorker(
-			`https://dot.risunosu.com${path}?ref=${ref}`,
+			`https://dot.risunosu.com${path}?ref=${import.meta.env.LATEST_COMMIT_HASH}`,
 		);
 		const script = await response.text();
 		const sourceUrl = [...script.matchAll(/# source: (.+)/g)][0]?.[1];
 		expect(sourceUrl).toBe(
-			`https://raw.githubusercontent.com/risu729/dotfiles/${ref}${path}/install.${
+			`https://raw.githubusercontent.com/risu729/dotfiles/${import.meta.env.LATEST_COMMIT_HASH}${path}/install.${
 				path === "/win" ? "ps1" : "sh"
 			}`,
 		);
@@ -115,10 +113,8 @@ describe("installer script contains the source URL", () => {
 
 describe("installer script is almost the same as the source", () => {
 	it.each(["/win", "/wsl"])("return %s with ref", async (path) => {
-		// biome-ignore lint/nursery/noSecrets: just a example, not a secret
-		const ref = "ed61d947087a6e943267c6eaa82d0e0039b9b279";
 		const response = await fetchWorker(
-			`https://dot.risunosu.com${path}?ref=${ref}`,
+			`https://dot.risunosu.com${path}?ref=${import.meta.env.LATEST_COMMIT_HASH}`,
 		);
 		const script = await response.text();
 		const sourceUrl = [...script.matchAll(/# source: (.+)/g)][0]?.[1];
