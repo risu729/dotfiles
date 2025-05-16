@@ -83,6 +83,49 @@ function Test-MinimumWindowsVersion {
 	Write-Host "Detected Windows version (DisplayVersion '$($displayVersion)', Build $($version.Build)) meets minimum requirements ($($RequiredDisplayVersionString) / Build $($MinimumBuild)+)."
 }
 
+
+<#
+.SYNOPSIS
+Checks if the script is running with elevated privileges (Administrator).
+If not, it restarts the script with elevated privileges.
+If already elevated, it continues execution.
+
+.PARAMETER ScriptBaseUrl
+The base URL for the setup script.
+
+.PARAMETER GitRef
+The Git reference (branch or tag) to use for the setup script.
+#>
+function Invoke-ElevatedScript {
+	[CmdletBinding()]
+	param(
+		[Parameter(Mandatory = $true)]
+		[string]$ScriptBaseUrl,
+
+		[Parameter(Mandatory = $true)]
+		[string]$GitRef
+	)
+
+	$isAdmin = ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
+	if ($isAdmin) {
+		return
+	}
+
+	Write-Host "Administrator privileges required. Restarting script with administrator privileges..."
+
+	$winScriptUrl = [System.UriBuilder]::new($ScriptBaseUrl)
+	$winScriptUrl.Path = "/win"
+	if ($GitRef -ne "") {
+		$winScriptUrl.Query = "ref=$GitRef"
+	}
+	# Wait for the user to press Enter before closing the elevated PowerShell window
+	$command = "Invoke-RestMethod $($winScriptUrl.ToString()) | Invoke-Expression; Read-Host -Prompt 'Press Enter to exit'"
+	Start-Process powershell -Verb RunAs -ArgumentList "-NoProfile -Command `"$command`""
+
+	# Exit the current non-elevated process
+	exit
+}
+
 <#
 .SYNOPSIS
 Runs an external command using Invoke-Expression and throws an exception on failure.
@@ -93,6 +136,7 @@ The command string to execute.
 function Invoke-ExternalCommand {
 	[CmdletBinding()]
 	param (
+		[Parameter(Mandatory = $true)]
 		[string]$Command
 	)
 
@@ -104,69 +148,310 @@ function Invoke-ExternalCommand {
 	}
 }
 
-# Test the Windows version
-$minBuild = 26100
-$requiredDisplayVersionString = "24H2"
-try {
-	Test-MinimumWindowsVersion -MinimumBuild $minBuild -RequiredDisplayVersionString $requiredDisplayVersionString
-}
-catch {
-	Write-Error $_.Exception.Message
-	exit 1
+<#
+.SYNOPSIS
+Runs a command in WSL and returns the output.
+
+.PARAMETER Command
+The command string to execute in WSL.
+
+.PARAMETER Root
+If true, the command is executed as root.
+If false, the command is executed as the default user.
+
+.PARAMETER Interactive
+If true, the command is executed in interactive mode.
+
+.NOTES
+The command is executed with /usr/bin/env bash -c.
+#>
+function Invoke-WSLCommand {
+	[CmdletBinding()]
+	param (
+		[Parameter(Mandatory = $true)]
+		[string]$Command,
+
+		[Parameter(Mandatory = $false)]
+		[bool]$Root = $false,
+
+		[Parameter(Mandatory = $false)]
+		[bool]$Interactive = $false
+	)
+
+	$bashArg = "-c `"$Command`""
+	$bashArg = if ($Interactive) { "-i $bashArg" } else { $bashArg }
+	$wslArg = "--exec /usr/bin/env bash $bashArg"
+	$wslArg = if ($Root) { "--user root $wslArg" } else { $wslArg }
+	Invoke-ExternalCommand "wsl $wslArg"
 }
 
-$isAdmin = ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
-if (-not $isAdmin) {
-	$command = "Invoke-RestMethod dot.risunosu.com/win | Invoke-Expression"
-	Start-Process powershell -ArgumentList "-NoProfile -NoExit -Command &{ $command }" -Verb RunAs
-	Write-Host "Restarting script with administrator privileges..."
-	exit
+<#
+.SYNOPSIS
+Prompts the user for a password and confirms it.
+
+.OUTPUTS
+Returns the confirmed password as a plain text string.
+#>
+function Read-Password {
+	[CmdletBinding()]
+	param ()
+
+	while ($true) {
+		Write-Host "Enter password:"
+		# Use -AsSecureString to mask input
+		$passwordSecure = Read-Host -AsSecureString
+		$password = [System.Runtime.InteropServices.Marshal]::PtrToStringAuto([System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($passwordSecure))
+
+		if ($null -eq $password -or [string]::IsNullOrEmpty($password)) {
+			Write-Warning "Password cannot be empty. Try again."
+			continue
+		}
+
+		Write-Host "Re-enter password:"
+		$confirmPasswordSecure = Read-Host -AsSecureString
+		$confirmPassword = [System.Runtime.InteropServices.Marshal]::PtrToStringAuto([System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($confirmPasswordSecure))
+
+		# if doesn't match, prompt again
+		if ($password -ne $confirmPassword) {
+			Write-Warning "Passwords do not match. Try again."
+			continue
+		}
+
+		return $password
+	}
 }
+
+<#
+.SYNOPSIS
+Creates a new user in the WSL distribution.
+
+.PARAMETER Distribution
+The name of the WSL distribution to create the user in.
+
+.PARAMETER Username
+The username for the new WSL user.
+
+.PARAMETER Password
+The plain text password for the new user.
+#>
+function New-WslUser {
+	[CmdletBinding()]
+	[Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSAvoidUsingPlainTextForPassword", "", Justification = "chpasswd requires plain text password")]
+	param(
+		[Parameter(Mandatory = $true)]
+		[string]$Distribution,
+
+		[Parameter(Mandatory = $true)]
+		[string]$Username,
+
+		[Parameter(Mandatory = $true)]
+		[string]$Password
+	)
+
+	# No need to check the duplicate username because useradd will fail if it exists
+	Invoke-WSLCommand -Root -Command "useradd --create-home `"$Username`""
+	Invoke-WSLCommand -Root -Command "echo `"${Username}:$Password`" | chpasswd"
+	# cspell:ignore usermod
+	Invoke-WSLCommand -Root -Command "usermod --append --groups sudo `"$Username`""
+
+	Write-Host "User '$Username' created in WSL distribution '$Distribution'."
+}
+
+<#
+.SYNOPSIS
+Sets up the WSL distribution.
+
+.PARAMETER Distribution
+The name of the WSL distribution to install (e.g., "Ubuntu-24.04").
+
+.PARAMETER Username
+The username for the new WSL user.
+
+.NOTES
+Requires user interaction for password input.
+Fails if the distribution is already installed.
+#>
+function Install-WslDistribution {
+	[CmdletBinding()]
+	param (
+		[Parameter(Mandatory = $true)]
+		[string]$Distribution,
+
+		[Parameter(Mandatory = $true)]
+		[string]$Username
+	)
+
+	Invoke-ExternalCommand "wsl --set-default-version 2"
+	Invoke-ExternalCommand "wsl --update --pre-release"
+	Invoke-ExternalCommand "wsl --install --distribution `"$Distribution`""
+	Invoke-ExternalCommand "wsl --set-default `"$Distribution`""
+
+	# wsl --install in non-interactive mode does not create a user so we need to create manually
+	# ref: https://github.com/microsoft/WSL/issues/10386
+	$password = Read-Password
+	New-WslUser -Distribution $Distribution -Username $Username -Password $password
+	# Set the default user to the created user
+	Invoke-ExternalCommand "wsl --manage `"$Distribution`" --set-default-user `"$Username`""
+}
+
+<#
+.SYNOPSIS
+Runs a setup script in WSL.
+
+.PARAMETER ScriptBaseUrl
+The base URL for the setup script to be executed in WSL.
+
+.PARAMETER GitRef
+The Git reference (branch or tag) to use for the setup script.
+#>
+function Invoke-WslSetupScript {
+	[CmdletBinding()]
+	param(
+		[Parameter(Mandatory = $true)]
+		[string]$ScriptBaseUrl,
+
+		[Parameter(Mandatory = $true)]
+		[string]$GitRef
+	)
+
+	$wslScriptUrl = [System.UriBuilder]::new($ScriptBaseUrl)
+	$wslScriptUrl.Path = "/wsl"
+	if ($GitRef -ne "") {
+		$wslScriptUrl.Query = "ref=$GitRef"
+	}
+	Invoke-WSLCommand -Command "SKIP_GIT_SETUP=true bash <(curl -fsSL $($wslScriptUrl.ToString()))"
+}
+
+<#
+.SYNOPSIS
+Imports winget packages from a JSON file.
+
+.PARAMETER Distribution
+The name of the WSL distribution where the JSON file is located.
+
+.PARAMETER WslUsername
+The username of the user in WSL whose home directory contains the JSON file.
+
+.NOTES
+Requires access to the WSL filesystem via \\wsl.localhost.
+#>
+function Import-WingetPackages {
+	[CmdletBinding()]
+	param(
+		[Parameter(Mandatory = $true)]
+		[string]$Distribution,
+
+		[Parameter(Mandatory = $true)]
+		[string]$WslUsername
+	)
+	$wingetConfigFile = "\\wsl.localhost\$Distribution\home\$WslUsername\ghq\github.com\risu729\dotfiles\win\winget.json"
+	Invoke-ExternalCommand "winget import --import-file `"$wingetConfigFile`" --disable-interactivity --accept-package-agreements"
+	Write-Host "winget packages imported successfully."
+
+	# Remove the generated shortcuts from the desktop
+	Remove-Item -Path "$([Environment]::GetFolderPath('Desktop'))\*.lnk" -Force -ErrorAction SilentlyContinue
+	# Some apps create shortcuts in the public desktop
+	Remove-Item -Path "$env:PUBLIC\Desktop\*.lnk" -Force -ErrorAction SilentlyContinue
+}
+
+<#
+.SYNOPSIS
+Configures the PowerToys settings backup directory to a WSL path.
+
+.PARAMETER Distribution
+The name of the WSL distribution where the backup directory should be located.
+
+.PARAMETER WslUsername
+The username of the user in the WSL distribution whose home directory contains the backup directory.
+
+.NOTES
+Requires access to the WSL filesystem via \\wsl.localhost.
+This function only sets the registry key for PowerToys settings backup directory.
+It does not restore the settings from the backup.
+#>
+# cspell:ignore powertoys
+function Set-PowerToysBackupDirectory {
+	[CmdletBinding()]
+	param(
+		[Parameter(Mandatory = $true)]
+		[string]$Distribution,
+
+		[Parameter(Mandatory = $true)]
+		[string]$WslUsername
+	)
+	$powertoys_backup_dir = "\\wsl.localhost\$Distribution\home\$WslUsername\ghq\github.com\risu729\dotfiles\win\powertoys"
+	# cspell:ignore HKCU
+	# Use -Force in case the key/value doesn't exist
+	# ref: https://github.com/microsoft/PowerToys/blob/75121ca7f3491f769423ba2c141934d6b5402de8/src/settings-ui/Settings.UI.Library/SettingsBackupAndRestoreUtils.cs#L392
+	Set-ItemProperty -Path HKCU:Software\Microsoft\PowerToys -Name SettingsBackupAndRestoreDir -Value "$powertoys_backup_dir" -Force
+
+	# Delete existing PowerToys backup directory in Documents
+	Remove-Item -Path "$([Environment]::GetFolderPath('MyDocuments'))\PowerToys" -Recurse -Force -ErrorAction SilentlyContinue
+	Write-Host "PowerToys settings backup directory configured."
+}
+
+<#
+.SYNOPSIS
+Sets the WSLENV environment variable to share environment variables between Windows and WSL.
+#>
+function Set-WSLENV {
+	[CmdletBinding()]
+	param()
+
+	# cspell:ignore WSLENV PATHEXT
+	# Set WSLENV to share PATHEXT between Windows and WSL
+	# ref: https://learn.microsoft.com/en-us/windows/wsl/filesystems#share-environment-variables-between-windows-and-wsl-with-wslenv
+	[System.Environment]::SetEnvironmentVariable("WSLENV", "PATHEXT", [System.EnvironmentVariableTarget]::User)
+}
+
+<#
+.SYNOPSIS
+Runs a git setup script in WSL.
+
+.PARAMETER Distribution
+The name of the WSL distribution where the script is located.
+
+.PARAMETER WslUsername
+The username of the user in the WSL distribution whose home directory contains the script path.
+
+.NOTES
+Requires a browser in Windows to be installed.
+#>
+function Invoke-GitSetupInWsl {
+	[CmdletBinding()]
+	param(
+		[Parameter(Mandatory = $true)]
+		[string]$Distribution,
+
+		[Parameter(Mandatory = $true)]
+		[string]$WslUsername
+	)
+
+	# source .bashrc is required to update PATH
+	Invoke-WSLCommand -Interactive -Command "source ~/.bashrc; ~/ghq/github.com/risu729/dotfiles/wsl/setup-git.ts"
+}
+
+# ===== Main Script Execution =====
 
 # might be edited by the worker to use a specific ref
-$git_ref = ""
+$gitRef = ""
+$wslDistribution = "Ubuntu-24.04"
+$wslUsername = $env:USERNAME
+$scriptBaseUrl = "https://dot.risunosu.com"
 
-$distribution = "Ubuntu-24.04"
+Test-MinimumWindowsVersion -MinimumBuild 26100 -RequiredDisplayVersionString "24H2"
 
-Run-ExternalCommand "wsl --update --pre-release"
-Run-ExternalCommand "wsl --version"
-Run-ExternalCommand "wsl --install --distribution `"$distribution`""
-Run-ExternalCommand "wsl --set-default `"$distribution`""
+Invoke-ElevatedScript -scriptBaseUrl $scriptBaseUrl -GitRef $gitRef
 
-$wsl_script = "https://dot.risunosu.com/wsl"
-if ($git_ref -ne "") {
-	$wsl_script += "?ref=$git_ref"
-}
-# pipe cannot be quoted
-# ref: https://github.com/microsoft/WSL/issues/3284
-Run-ExternalCommand "wsl /usr/bin/env bash -c `"SKIP_GIT_SETUP=true bash <(curl -fsSL $wsl_script)`""
+Install-WslDistribution -Distribution $wslDistribution -Username $wslUsername
 
-$wsl_username = "$(wsl whoami)"
-Run-ExternalCommand "winget import --import-file `"\\wsl.localhost\$distribution\home\$wsl_username\ghq\github.com\risu729\dotfiles\win\winget.json`" --disable-interactivity --accept-package-agreements"
+Invoke-WslSetupScript -scriptBaseUrl $scriptBaseUrl -GitRef $gitRef
 
-# uninstall Windows Terminal since it's preview version is installed by winget import
-Run-ExternalCommand "winget uninstall --id `"Microsoft.WindowsTerminal`""
+Import-WingetPackages -DistributionName $wslDistribution -WslUsername $wslUsername
 
-# remove generated shortcuts
-Remove-Item -Path ~\Desktop\*.lnk -Force
-# some apps create shortcuts in public desktop
-Remove-Item -Path "$env:PUBLIC\Desktop\*.lnk" -Force
+Set-PowerToysBackupDirectory -Distribution $wslDistribution -WslUsername $wslUsername
 
-# cspell:ignore powertoys
-# set PowerToys settings backup directory
-# ref: https://github.com/microsoft/PowerToys/blob/29ce15bb8a8b6496fb55e38ec72f746a3a4f9afa/src/settings-ui/Settings.UI.Library/SettingsBackupAndRestoreUtils.cs#L391
-$powertoys_backup_dir = "\\wsl.localhost\$distribution\home\$wsl_username\ghq\github.com\risu729\dotfiles\win\powertoys"
-# cspell:ignore hkcu
-Set-ItemProperty -Path HKCU:Software\Microsoft\PowerToys -Name SettingsBackupAndRestoreDir -Value "$powertoys_backup_dir"
-# delete existing PowerToys backup directory
-Remove-Item -Path ~\Documents\PowerToys -Recurse -Force -ErrorAction SilentlyContinue
+Set-WSLENV
 
-# cspell:ignore wslenv pathext
-# set WSLENV to share PATHEXT between Windows and WSL
-# ref: https://learn.microsoft.com/en-us/windows/wsl/filesystems#share-environment-variables-between-windows-and-wsl-with-wslenv
-[System.Environment]::SetEnvironmentVariable("WSLENV", "PATHEXT", [System.EnvironmentVariableTarget]::User)
-
-# setup git after browser is installed
-# use -i, interactive mode
-# need to source .bashrc to update PATH
-Run-ExternalCommand "wsl /usr/bin/env bash -ic `"source ~/.bashrc; ~/ghq/github.com/risu729/dotfiles/wsl/setup-git.ts`""
+# Requires a browser in Windows to be installed, so run in the end
+Invoke-GitSetupInWsl -Distribution $wslDistribution -WslUsername $wslUsername
