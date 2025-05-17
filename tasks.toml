@@ -30,28 +30,6 @@ depends = ["buni:root"]
 run = "bun run tsc {% if env.CI is defined %}--incremental false{% endif %}"
 description = "Run TypeScript compiler to check types in the root directory."
 
-["check:tsc:worker"]
-depends = ["check:tsc:worker:*"]
-description = "Run TypeScript compiler to check types in the worker directory."
-
-["check:tsc:worker:base"]
-depends = ["buni:worker"]
-run = "bun run tsc --project tsconfig.base.json {% if env.CI is defined %}--incremental false{% endif %}"
-dir = "worker"
-description = "Run TypeScript compiler to check types in the worker directory (base)."
-
-["check:tsc:worker:src"]
-depends = ["buni:worker"]
-run = "bun run tsc --project tsconfig.src.json {% if env.CI is defined %}--incremental false{% endif %}"
-dir = "worker"
-description = "Run TypeScript compiler to check types in the worker directory (src)."
-
-["check:tsc:worker:test"]
-depends = ["buni:worker"]
-run = "bun run tsc --project tsconfig.test.json {% if env.CI is defined %}--incremental false{% endif %}"
-dir = "worker"
-description = "Run TypeScript compiler to check types in the worker directory (test)."
-
 ["check:jsonschema"]
 # schema of wrangler.jsonc is in node_modules
 depends = ["buni:worker"]
@@ -145,21 +123,6 @@ depends_post = [
 env.GITHUB_TOKEN = "{{ env.GITHUB_TOKEN }}"
 description = "Generate/update .gitignore from .gitignore-sync."
 
-["worker:dev"]
-depends = ["buni:worker"]
-dir = "worker"
-run = """\
-	bun run wrangler dev \
-		--compatibility-date {{ exec(command='mise run worker:wrangler:compat-date') }} \
-		--var {{ exec(command='mise run worker:wrangler:vars') }}"""
-description = "Start a local development server for the worker."
-
-["worker:test"]
-depends = ["buni:worker"]
-run = "bun run vitest {% if env.CI is undefined %}watch --ui{% else %}run{% endif %}"
-dir = "worker"
-description = "Run tests for the worker."
-
 ["buni"]
 depends = ["buni:root", "buni:worker"]
 description = "Install Bun dependencies."
@@ -168,12 +131,6 @@ description = "Install Bun dependencies."
 run = "bun install --frozen-lockfile"
 hide = true
 description = "Install Bun dependencies in the root directory."
-
-["buni:worker"]
-run = "bun install --frozen-lockfile"
-dir = "worker"
-hide = true
-description = "Install Bun dependencies in the worker directory."
 
 ["util:nodiff"] # cspell:ignore nodiff
 run = ["git add .", "git diff --staged --exit-code"]

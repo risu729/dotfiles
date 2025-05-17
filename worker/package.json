@@ -7,7 +7,7 @@
 		"zod": "3.24.4"
 	},
 	"scripts": {
-		"deploy": "../tasks/worker/deploy"
+		"deploy": "./tasks/worker/deploy"
 	},
 	"devDependencies": {
 		"@cloudflare/vitest-pool-workers": "0.8.30",
