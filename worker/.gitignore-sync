@@ -3,7 +3,3 @@
 # cspell:ignore honojs
 [honojs/starter]
 templates/cloudflare-workers/.gitignore
-
-[inline]
-.dev.var
-
