@@ -2,7 +2,6 @@
 
 [files]
 ignore-hidden = false
-extend-exclude = [".git"]
 
 [default.extend-words]
 # abbreviation of fingerprint
