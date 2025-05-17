@@ -26,10 +26,7 @@ description = "Run TypeScript compiler to check types in the worker directory (t
 ["worker:dev"]
 depends = ["buni:worker"]
 dir = "worker"
-run = """\
-	bun run wrangler dev \
-		--compatibility-date {{ exec(command='mise run worker:wrangler:compat-date') }} \
-		--var {{ exec(command='mise run worker:wrangler:vars') }}"""
+run = "bun run wrangler dev --var {{ exec(command='mise run worker:wrangler:vars') }}"
 description = "Start a local development server for the worker."
 
 ["worker:test"]

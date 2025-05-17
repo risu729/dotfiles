@@ -27,18 +27,15 @@ fi
 
 # call script directly for direct call in workers build environment
 if command -v mise >/dev/null 2>&1; then
-	compat_date=$(mise run worker:wrangler:compat-date)
 	vars=$(mise run worker:wrangler:vars)
 else
 	script_dir=$(dirname "${BASH_SOURCE[0]}")
-	compat_date=$("${script_dir}"/wrangler/compat-date)
 	vars=$("${script_dir}"/wrangler/vars)
 fi
 
 set -x
 # shellcheck disable=SC2086 # avoid quoting wrangler_cmd and vars
 bun run wrangler ${wrangler_cmd} \
-	--compatibility-date "${compat_date}" \
 	--var ${vars} \
 	${short_sha:+--tag "${short_sha}"} \
 	${message:+--message "${message}"}
