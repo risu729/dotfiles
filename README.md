@@ -30,8 +30,6 @@ In Windows Terminal (PowerShell, Windows PowerShell, or Command Prompt), run the
 powershell -c "irm dot.risunosu.com/win | iex"
 ```
 
-Follow the on-screen instructions. When `wsl --install` completes, press `Ctrl + D` to exit the WSL shell and continue the installation.
-
 ### 🐧 WSL2
 
 The Windows installation script will install dotfiles in WSL2, so you don't need to run the installation script again.
