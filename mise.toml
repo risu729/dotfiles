@@ -38,7 +38,7 @@ experimental = true
 bun = true
 
 [task_config]
-includes = ["tasks.toml", "tasks"]
+includes = ["tasks.toml", "tasks", "worker/tasks.toml", "worker/tasks"]
 
 [hooks]
 postinstall = """
