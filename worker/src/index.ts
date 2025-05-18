@@ -1,28 +1,18 @@
 import { Hono } from "hono";
 import { HTTPException } from "hono/http-exception";
 import { poweredBy } from "hono/powered-by";
-import { type Env, envSchema } from "./env.ts";
 
-// biome-ignore lint/style/useNamingConvention: following hono's naming convention
-const app = new Hono<{ Bindings: Env }>();
+const app = new Hono();
 
 app.use(poweredBy());
 
-// validate the environment variables
-app.use(async (c, next) => {
-	const result = envSchema.safeParse(c.env);
-	if (!result.success) {
-		throw new HTTPException(500, {
-			message: `invalid environment variables: ${result.error.message}`,
-			cause: result.error,
-		});
-	}
-	await next();
-});
-
 // redirect to the readme
 app.get("/", (c) => {
-	return c.redirect(`https://github.com/${c.env.REPO_NAME}#readme`, 307);
+	return c.redirect(
+		// biome-ignore lint/correctness/noUndeclaredVariables: defined in vite.config.ts
+		`https://github.com/${__REPO_NAME__}#readme`,
+		307,
+	);
 });
 
 const gitRefRegex = /(?<=git_ref *= *")(?=")/;
@@ -36,9 +26,11 @@ app.get("/:os{win|wsl}", async (c) => {
 		// other paths must not be reached
 		throw new HTTPException(500, { message: "routing error" });
 	}
-	const scriptUrl = `https://raw.githubusercontent.com/${c.env.REPO_NAME}/${ref ?? c.env.DEFAULT_BRANCH}/${os}/install.${
-		os === "win" ? "ps1" : "sh"
-	}`;
+	const scriptUrl =
+		// biome-ignore lint/correctness/noUndeclaredVariables: defined in vite.config.ts
+		`https://raw.githubusercontent.com/${__REPO_NAME__}/${ref ?? __DEFAULT_BRANCH__}/${os}/install.${
+			os === "win" ? "ps1" : "sh"
+		}`;
 	if (ref === undefined) {
 		// just redirect to the installer script if no ref is provided
 		return c.redirect(scriptUrl, 307);
