@@ -88,9 +88,10 @@ done
 mise trust --all
 # back to home directory
 cd "${HOME}"
-mise install --yes
+# set jobs to 1 to avoid mise to hang somehow
+mise install --yes --jobs=1
 # tools already installed are not upgraded by mise install
-mise upgrade
+mise upgrade --yes --jobs=1
 # activate to use installed tools in setup-git.ts
 mise_activate="$(mise activate bash)"
 eval "${mise_activate}"
