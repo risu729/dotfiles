@@ -2,6 +2,8 @@
 
 set -euxo pipefail
 
+# must be edited by the worker to use the correct GitHub repository
+repo_name=""
 # might be edited by the worker to checkout a specific ref
 git_ref=""
 
@@ -34,7 +36,7 @@ sudo apt-get update
 sudo apt-get install -y mise
 
 # use --parents to avoid error if the directory exists
-repo="github.com/risu729/dotfiles"
+repo="github.com/${repo_name}"
 dotfiles_dir="${HOME}/ghq/${repo}"
 mkdir --parents "${dotfiles_dir}"
 cd "${dotfiles_dir}"
