@@ -2,10 +2,18 @@
 #MISE description="Deploy to Cloudflare Workers."
 #MISE hide=true
 #MISE dir="worker"
+#MISE depends=["worker:build"]
 
 #USAGE flag "--preview" default="false" help="Upload a new version without deploying it."
 
 set -euo pipefail
+
+# run dependency tasks if directly called in workers build environment
+if [[ -z ${MISE_TASK_NAME:-} ]]; then
+	script_dir=$(dirname "${BASH_SOURCE[0]}")
+	# shellcheck source=worker/tasks/worker/build
+	source "${script_dir}/build"
+fi
 
 wrangler_cmd="deploy"
 
@@ -25,20 +33,8 @@ if [[ ${usage_preview} == 'true' ]]; then
 	message=$(git log --format=%B --max-count=1 "${short_sha}" | head --lines=1 | sed 's/"/\\"/g')
 fi
 
-# call script directly for direct call in workers build environment
-if command -v mise >/dev/null 2>&1; then
-	compat_date=$(mise run worker:wrangler:compat-date)
-	vars=$(mise run worker:wrangler:vars)
-else
-	script_dir=$(dirname "${BASH_SOURCE[0]}")
-	compat_date=$("${script_dir}"/wrangler/compat-date)
-	vars=$("${script_dir}"/wrangler/vars)
-fi
-
 set -x
 # shellcheck disable=SC2086 # avoid quoting wrangler_cmd and vars
 bun run wrangler ${wrangler_cmd} \
-	--compatibility-date "${compat_date}" \
-	--var ${vars} \
 	${short_sha:+--tag "${short_sha}"} \
 	${message:+--message "${message}"}

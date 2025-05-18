@@ -42,7 +42,7 @@ exclude = [
 	# wsl/install.sh
 	# can't be accessed
 	"https://mise.jdx.dev/deb",
-	# tasks/worker/deploy
+	# worker/tasks/worker/deploy
 	# an example of a url with authentication
 	"https://.+@github.com//owner/repo",
 ]
