@@ -3,7 +3,7 @@ import {
 	env,
 	waitOnExecutionContext,
 } from "cloudflare:test";
-import { diffLines, type ChangeObject } from "diff";
+import { type ChangeObject, diffLines } from "diff";
 import { describe, expect, it, test } from "vitest";
 import worker from "../src/index.js";
 
