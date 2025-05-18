@@ -15,7 +15,7 @@ app.get("/", (c) => {
 	);
 });
 
-const gitRefRegex = /(?<=git_ref *= *")(?=")/;
+const gitRefRegex = /(?<=git(_r|R)ef *= *")(?=")/;
 const shebangRegex = /^#!.*\n+/;
 
 // redirect to the installer script

@@ -26,3 +26,5 @@
 
 [alias]
 	sm = switch main
+[gpg]
+	program = gpg

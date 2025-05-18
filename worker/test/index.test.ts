@@ -56,7 +56,7 @@ describe("return the installer script with a specified ref set to a variable", (
 			);
 			expect(await response.text()).toMatch(
 				new RegExp(
-					`^.?git_ref *= *"${import.meta.env.LATEST_COMMIT_HASH}"`,
+					`^.?git(_r|R)ef *= *"${import.meta.env.LATEST_COMMIT_HASH}"`,
 					"gm",
 				),
 			);
