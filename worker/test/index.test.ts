@@ -4,17 +4,11 @@ import {
 	waitOnExecutionContext,
 } from "cloudflare:test";
 import { diffLines } from "diff";
-import { beforeAll, describe, expect, it, test } from "vitest";
+import { describe, expect, it, test } from "vitest";
 import worker from "../src/index.js";
 
 // biome-ignore lint/correctness/noUndeclaredVariables: cannot read tsconfig.json#compilerOptions.types
 const IncomingRequest = Request<unknown, IncomingRequestCfProperties>;
-
-beforeAll(() => {
-	// set the variables that are used in the worker
-	env.REPO_NAME = "risu729/dotfiles";
-	env.DEFAULT_BRANCH = "main";
-});
 
 const fetchWorker = async (url: string): Promise<Response> => {
 	const request = new IncomingRequest(url);
