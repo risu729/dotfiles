@@ -1132,10 +1132,11 @@ const configureGitSign = async (
 	}
 
 	// cspell:ignore signingkey
-	const gitSigningKey =
+	const gitSigningKey = (
 		await $`git config --file ${localGitConfigPath} user.signingkey`
 			.nothrow()
-			.text();
+			.text()
+	).trim();
 	const keyringSecretKeys = (await getGpgKeyringSecretKeys())
 		// exclude if the key doesn't contain any secret keys to ignore imported public keys
 		.filter(
@@ -1179,8 +1180,9 @@ const configureGitSign = async (
 	}
 
 	// add public key to github
-	const activePublicKey =
-		await $`gpg --export --armor "${keyringKey.key.fingerprint}"`.text();
+	const activePublicKey = (
+		await $`gpg --export --armor "${keyringKey.key.fingerprint}"`.text()
+	).trim();
 	// api response raw key includes a trailing blank line
 	if (
 		activePublicKey.trimEnd() !== existingKeys?.githubKey?.raw_key?.trimEnd()
@@ -1189,8 +1191,8 @@ const configureGitSign = async (
 		if (existingKeys?.githubKey) {
 			await ghApi(`/user/gpg_keys/${existingKeys.githubKey.id}`, "DELETE");
 		}
-		const username = await $`whoami`.text();
-		const hostname = await $`hostname`.text();
+		const username = (await $`whoami`.text()).trim();
+		const hostname = (await $`hostname`.text()).trim();
 		await ghApi("/user/gpg_keys", "POST", {
 			name: `${username}@${hostname}`,
 			// biome-ignore lint/style/useNamingConvention: following API request naming
@@ -1276,10 +1278,11 @@ const configureGitSign = async (
 				],
 			);
 			await ghApi(`/user/gpg_keys/${githubKey.id}`, "DELETE");
-			const publicKey =
-				await $`gpg --export --armor "${keyringKey.fingerprint}"`.text();
-			const username = await $`whoami`.text();
-			const hostname = await $`hostname`.text();
+			const publicKey = (
+				await $`gpg --export --armor "${keyringKey.fingerprint}"`.text()
+			).trim();
+			const username = (await $`whoami`.text()).trim();
+			const hostname = (await $`hostname`.text()).trim();
 			await $`gh gpg-key add --title "${username}@${hostname}" < ${Buffer.from(publicKey)}`.quiet();
 		}
 	}
@@ -1340,7 +1343,7 @@ const main = async (): Promise<void> => {
 	}
 
 	// invalidate mise exec template cache after github authentication
-	const miseCacheDir = await $`mise cache`.text();
+	const miseCacheDir = (await $`mise cache`.text()).trim();
 	await $`rm --force --recursive ${resolve(miseCacheDir, "./exec")}`.quiet();
 
 	// reset gh config because it is formatted differently by gh cli
