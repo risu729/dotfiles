@@ -67,7 +67,9 @@ jobs:
       - name: Download Ubuntu WSL image
         id: download
         if: ${{ github.event_name == 'pull_request' || steps.image-info.outputs.skip_build == 'false' }}
-        run: curl --fail-with-body --location --output wsl-amd64.wsl ${{ steps.image-info.outputs.image_url }}
+        run: curl --fail-with-body --location --output wsl-amd64.wsl "${IMAGE_URL}"
+        env:
+          IMAGE_URL: ${{ steps.image-info.outputs.image_url }}
 
       - name: Create Dockerfile
         if: ${{ steps.download.outcome != 'skipped' }}
