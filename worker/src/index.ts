@@ -35,7 +35,7 @@ app.get("/:os{win|wsl}", async (c) => {
 	// do not cache the installer script to always fetch the latest version
 	const githubResponse = await fetch(scriptUrl, {
 		headers: {
-			"User-Agent": `${__REPO_NAME__} worker`,
+			"User-Agent": `${import.meta.env.REPO_NAME} worker`,
 			// authorize with the GITHUB_TOKEN if provided to avoid rate limiting
 			...(import.meta.env.GITHUB_TOKEN
 				? {
