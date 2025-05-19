@@ -22,8 +22,8 @@ if (!defaultBranch) {
 export default defineConfig(({ mode }) => {
 	return {
 		define: {
-		"import.meta.env.REPO_NAME": JSON.stringify(repoName),
-		"import.meta.env.DEFAULT_BRANCH": JSON.stringify(defaultBranch),
+			"import.meta.env.REPO_NAME": JSON.stringify(repoName),
+			"import.meta.env.DEFAULT_BRANCH": JSON.stringify(defaultBranch),
 			...(mode !== "production"
 				? {
 						"import.meta.env.GITHUB_TOKEN": JSON.stringify(
