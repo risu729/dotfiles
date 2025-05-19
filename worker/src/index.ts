@@ -8,11 +8,7 @@ app.use(poweredBy());
 
 // redirect to the readme
 app.get("/", (c) => {
-	return c.redirect(
-		// biome-ignore lint/correctness/noUndeclaredVariables: defined in vite.config.ts
-		`https://github.com/${__REPO_NAME__}#readme`,
-		307,
-	);
+	return c.redirect(`https://github.com/${__REPO_NAME__}#readme`, 307);
 });
 
 const gitRefRegex = /(?<=git_ref *= *")(?=")/;
@@ -26,11 +22,9 @@ app.get("/:os{win|wsl}", async (c) => {
 		// other paths must not be reached
 		throw new HTTPException(500, { message: "routing error" });
 	}
-	const scriptUrl =
-		// biome-ignore lint/correctness/noUndeclaredVariables: defined in vite.config.ts
-		`https://raw.githubusercontent.com/${__REPO_NAME__}/${ref ?? __DEFAULT_BRANCH__}/${os}/install.${
-			os === "win" ? "ps1" : "sh"
-		}`;
+	const scriptUrl = `https://raw.githubusercontent.com/${__REPO_NAME__}/${ref ?? __DEFAULT_BRANCH__}/${os}/install.${
+		os === "win" ? "ps1" : "sh"
+	}`;
 	if (ref === undefined) {
 		// just redirect to the installer script if no ref is provided
 		return c.redirect(scriptUrl, 307);

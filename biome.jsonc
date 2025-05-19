@@ -59,6 +59,13 @@
 			}
 		},
 		{
+			"include": ["worker/src/**"],
+			"javascript": {
+				// worker/src/vite-env.d.ts
+				"globals": ["__REPO_NAME__", "__DEFAULT_BRANCH__"]
+			}
+		},
+		{
 			// disable noNodejsModules rule for files running in bun or Node.js
 			"include": ["**/*.config.*", "worker/test/**", "wsl/setup-git.ts"],
 			"linter": {
