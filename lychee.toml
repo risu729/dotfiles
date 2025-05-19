@@ -29,7 +29,7 @@ exclude_path = [
 ]
 
 exclude = [
-	"https://dot.risunosu.com",
+	"https?://dot.risunosu.com",
 	# exclude ${} patterns
 	".*\\$(%7B.*%7D.*)?$",
 	# README.md
@@ -46,3 +46,5 @@ exclude = [
 	# an example of a url with authentication
 	"https://.+@github.com//owner/repo",
 ]
+
+exclude_all_private = true
