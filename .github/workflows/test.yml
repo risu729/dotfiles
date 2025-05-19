@@ -34,11 +34,12 @@ jobs:
         # vite preview server runs on port 4173 by default
         # ref: https://vite.dev/config/preview-options#preview-port
         options: >-
-          --entrypoint "/bin/bash -c 'set -eux; cd /dotfiles && mise worker:preview'"
+          --entrypoint /bin/bash
           --health-cmd "curl --fail http://localhost:4173"
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
+          -c "set -eux; cd /dotfiles && mise worker:preview"
         ports:
           - 80:4173
         volumes:
