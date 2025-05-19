@@ -21,10 +21,8 @@ if (!defaultBranch) {
 // ref: https://vite.dev/config/
 export default defineConfig({
 	define: {
-		// biome-ignore lint/style/useNamingConvention: constants
-		__REPO_NAME__: JSON.stringify(repoName),
-		// biome-ignore lint/style/useNamingConvention: constants
-		__DEFAULT_BRANCH__: JSON.stringify(defaultBranch),
+		"import.meta.env.REPO_NAME": JSON.stringify(repoName),
+		"import.meta.env.DEFAULT_BRANCH": JSON.stringify(defaultBranch),
 	},
 	plugins: [cloudflare()],
 });
