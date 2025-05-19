@@ -15,10 +15,8 @@ export default defineConfig((configEnv) =>
 		defineWorkersConfig({
 			// fix constants in tests
 			define: {
-				// biome-ignore lint/style/useNamingConvention: constants
-				__REPO_NAME__: JSON.stringify("risu729/dotfiles"),
-				// biome-ignore lint/style/useNamingConvention: constants
-				__DEFAULT_BRANCH__: JSON.stringify("main"),
+				"import.meta.env.REPO_NAME": JSON.stringify("risu729/dotfiles"),
+				"import.meta.env.DEFAULT_BRANCH": JSON.stringify("main"),
 			},
 			test: {
 				env: {
