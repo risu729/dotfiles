@@ -27,4 +27,7 @@ export default defineConfig({
 		__DEFAULT_BRANCH__: JSON.stringify(defaultBranch),
 	},
 	plugins: [cloudflare()],
+	preview: {
+		strictPort: true,
+	},
 });

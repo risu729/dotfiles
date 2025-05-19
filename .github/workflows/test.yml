@@ -27,15 +27,49 @@ jobs:
     container:
       image: ghcr.io/risu729/dotfiles/wsl:24.04.20250130@sha256:03433644cac47206a1e0bdea2567d5e3cb7dcc91b2fb2add0a6764dab9392bb2
 
+    services:
+      worker:
+        # cspell:ignore jdxcode
+        image: jdxcode/mise:2025.5.8@sha256:a81498a413f3c6dc2f60263a2a27e3fcc4b71b5d936e7196f8a040a46ccfdfee
+        # vite preview server runs on port 4173 by default
+        # ref: https://vite.dev/config/preview-options#preview-port
+        options: >-
+          --entrypoint "/bin/bash -c 'set -eux; cd /dotfiles && mise worker:preview'"
+          --health-cmd "curl --fail http://localhost:4173"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 80:4173
+        volumes:
+          - ${{ github.workspace }}:/dotfiles
+
     steps:
+      # checkout required to be mounted in the service container
+      - name: Checkout
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          sparse-checkout: |
+            mise.toml
+            tasks.toml
+            tasks/*
+            worker/*
+          sparse-checkout-cone-mode: false
+          persist-credentials: false
+
+      - name: Override dot.risunosu.com with service container
+        # hostname of the service container is set to its container name
+        # ref: https://docs.github.com/en/actions/use-cases-and-examples/using-containerized-services/about-service-containers#running-jobs-in-a-container
+        run: echo "worker dot.risunosu.com" | sudo tee --append /etc/hosts
+
       - name: Run installer
-        # use head sha for pull requests because github.sha is set to the merge commit
         # don't use process substitution to avoid masking the errors
         run: |
-          curl -fsSL "https://dot.risunosu.com/wsl?ref=${SHA}" | bash
+          curl -fsSL "http://dot.risunosu.com/wsl?ref=${SHA}" | bash
         env:
           GITHUB_TOKEN: ${{ github.token }}
           __CI: true
+          # use head sha for pull requests because github.sha is set to the merge commit
           SHA: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.sha }}
 
   actions-timeline:
