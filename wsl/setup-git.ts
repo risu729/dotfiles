@@ -73,6 +73,13 @@ const ensureGitHubTokenScopes = async (): Promise<() => Promise<void>> => {
 			// not included in the scopes granted by default in gh auth login
 			scope: "workflow",
 		},
+		// allow read-only access
+		{
+			scope: "read:packages",
+		},
+		{
+			scope: "read:projects",
+		},
 		{
 			// required to list, add, and delete GPG keys
 			scope: "admin:gpg_key",
