@@ -1342,10 +1342,6 @@ const main = async (): Promise<void> => {
 		await removeScopes();
 	}
 
-	// invalidate mise exec template cache after github authentication
-	const miseCacheDir = (await $`mise cache`.text()).trim();
-	await $`rm --force --recursive ${resolve(miseCacheDir, "./exec")}`.quiet();
-
 	// reset gh config because it is formatted differently by gh cli
 	const ghConfigPath = resolve(
 		import.meta.dirname,

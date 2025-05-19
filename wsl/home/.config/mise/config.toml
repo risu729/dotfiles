@@ -6,24 +6,6 @@ min_version = "2025.5.8"
 [env]
 # disable bat paging
 BAT_PAGING = "never"
-# gpg requires tty
-# GitHub Actions doesn't have tty
-# ref: https://github.com/actions/runner/issues/241
-# don't cache tty because it depends on shell session
-GPG_TTY = "{{ exec(command='tty || true') }}"
-
-# set GITHUB_TOKEN to avoid rate limit while using mise
-[env.GITHUB_TOKEN]
-# use __CI instead of CI to be able to test CI locally
-value = """
-{% if env.__CI is undefined %}\
-  {{ exec(command='gh auth token || true', cache_key='github_token', cache_duration='1 day') }}\
-{% else %}\
-  {{ env.GITHUB_TOKEN | default(value='') }}\
-{% endif %}\
-"""
-tools = true
-redact = true
 
 [tools]
 # language tools
