@@ -19,10 +19,20 @@ if (!defaultBranch) {
 }
 
 // ref: https://vite.dev/config/
-export default defineConfig({
-	define: {
+export default defineConfig(({ mode }) => {
+	return {
+		define: {
 		"import.meta.env.REPO_NAME": JSON.stringify(repoName),
 		"import.meta.env.DEFAULT_BRANCH": JSON.stringify(defaultBranch),
-	},
-	plugins: [cloudflare()],
+			...(mode !== "production"
+				? {
+						"import.meta.env.GITHUB_TOKEN": JSON.stringify(
+							// biome-ignore lint/nursery/noProcessEnv: Bun.env cannot be used in vite
+							process.env["GITHUB_TOKEN"],
+						),
+					}
+				: {}),
+		},
+		plugins: [cloudflare()],
+	};
 });

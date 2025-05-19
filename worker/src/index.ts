@@ -33,7 +33,18 @@ app.get("/:os{win|wsl}", async (c) => {
 		return c.redirect(scriptUrl, 307);
 	}
 	// do not cache the installer script to always fetch the latest version
-	const githubResponse = await fetch(scriptUrl);
+	const githubResponse = await fetch(scriptUrl, {
+		headers: {
+			"User-Agent": `${__REPO_NAME__} worker`,
+			// authorize with the GITHUB_TOKEN if provided to avoid rate limiting
+			...(import.meta.env.GITHUB_TOKEN
+				? {
+						// biome-ignore lint/style/useNamingConvention: following fetch
+						Authorization: `Bearer ${import.meta.env.GITHUB_TOKEN}`,
+					}
+				: {}),
+		},
+	});
 	if (!githubResponse.ok) {
 		throw new HTTPException(500, {
 			message: `failed to fetch installer script from GitHub: ${githubResponse.statusText}`,
