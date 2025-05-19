@@ -2,3 +2,11 @@
 
 declare const __REPO_NAME__: string;
 declare const __DEFAULT_BRANCH__: string;
+
+interface ImportMetaEnv {
+	readonly GITHUB_TOKEN: string | undefined;
+}
+
+interface ImportMeta {
+	readonly env: ImportMetaEnv;
+}
