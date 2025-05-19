@@ -33,14 +33,17 @@ echo "Last build date: ${last_modified}"
 # - can be used but renovate treats it as a platform/compatibility indicator
 new_tag="${version}.${date}"
 
-# URL-encode the image name
+# IMAGE_NAME is in the format of <username>/<repo>/<image>
 # shellcheck disable=SC2153,SC2154 # environment variable should be provided
-image_name=$(echo "${IMAGE_NAME}" | jq --raw-input --raw-output '@uri')
+username=$(echo "${IMAGE_NAME}" | cut --delimiter='/' --fields=1)
+image_name=$(echo "${IMAGE_NAME}" | cut --delimiter='/' --fields=2-)
+# URL-encode the image name
+image_name_encoded=$(echo "${image_name}" | jq --raw-input --raw-output '@uri')
 
 set +e
 response=$(gh api --header "Accept: application/vnd.github+json" \
 	--header "X-GitHub-Api-Version: 2022-11-28" \
-	"/user/packages/container/${image_name}/versions")
+	"/users/${username}/packages/container/${image_name_encoded}/versions")
 status=$?
 set -e
 
