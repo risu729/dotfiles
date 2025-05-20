@@ -42,10 +42,7 @@ jobs:
 
       - name: List mise tasks
         id: list
-        run: |
-          tasks=$(mise run ci:list-tasks)
-          echo "${tasks}" | jq
-          echo "tasks=${tasks}" >> "${GITHUB_OUTPUT}"
+        run: mise run ci:list-tasks
 
   lint:
     needs: list-tasks
