@@ -3,8 +3,7 @@
 	"name": "@risu729/dotfiles-worker",
 	"type": "module",
 	"dependencies": {
-		"hono": "4.7.10",
-		"zod": "3.25.6"
+		"hono": "4.7.10"
 	},
 	"scripts": {
 		"deploy": "./tasks/worker/deploy"
