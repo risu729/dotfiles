@@ -19,4 +19,4 @@ output=$(echo "${tasks}" | jq --raw-output --compact-output \
 echo "${output}" | jq
 
 # shellcheck disable=SC2154 # environment variable should be provided
-echo "${output}" | jq -r 'to_entries[] | "\(.key)=\(.value)"' >>"${GITHUB_OUTPUT}"
+echo "tasks=${output}" >>"${GITHUB_OUTPUT}"
