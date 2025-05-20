@@ -73,5 +73,5 @@ output=$(
 
 echo "${output}" | jq
 
-# shellcheck disable=SC2153,SC2154 # environment variable should be provided
+# shellcheck disable=SC2154 # environment variable should be provided
 echo "${output}" | jq -r 'to_entries[] | "\(.key)=\(.value)"' >>"${GITHUB_OUTPUT}"
