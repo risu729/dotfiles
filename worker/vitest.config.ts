@@ -13,15 +13,21 @@ export default defineConfig((configEnv) =>
 	mergeConfig(
 		viteConfig(configEnv),
 		defineWorkersConfig({
-			// fix constants in tests
-			define: {
-				"import.meta.env.REPO_NAME": JSON.stringify("risu729/dotfiles"),
-				"import.meta.env.DEFAULT_BRANCH": JSON.stringify("main"),
-			},
 			test: {
 				env: {
+					// fix constants in tests
+					// biome-ignore lint/style/useNamingConvention: env var
+					REPO_NAME: "risu729/dotfiles",
+					// biome-ignore lint/style/useNamingConvention: env var
+					DEFAULT_BRANCH: "main",
+
 					// biome-ignore lint/style/useNamingConvention: env var
 					LATEST_COMMIT_HASH: latestCommitHash,
+
+					// define in vite.config.ts does not work in vitest, so define here
+					// biome-ignore lint/style/useNamingConvention: env var
+					// biome-ignore lint/nursery/noProcessEnv: Bun.env cannot be used in vite
+					GITHUB_TOKEN: process.env["GITHUB_TOKEN"],
 				},
 				poolOptions: {
 					workers: {
