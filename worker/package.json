@@ -9,7 +9,7 @@
 		"deploy": "./tasks/worker/deploy"
 	},
 	"devDependencies": {
-		"@cloudflare/vite-plugin": "1.2.2",
+		"@cloudflare/vite-plugin": "1.2.3",
 		"@cloudflare/vitest-pool-workers": "0.8.31",
 		"@cloudflare/workers-types": "4.20250520.0",
 		"@risu729/tsconfigs": "1.0.1",
