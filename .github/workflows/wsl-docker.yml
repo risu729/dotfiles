@@ -68,7 +68,7 @@ jobs:
       - name: Download Ubuntu WSL image
         id: download
         if: ${{ github.event_name == 'pull_request' || steps.image-info.outputs.skip_build == 'false' }}
-        run: curl --fail-with-body --location --output docker/wsl/wsl-amd64.wsl "${IMAGE_URL}"
+        run: curl --fail-with-body --location --output wsl-amd64.wsl "${IMAGE_URL}"
         env:
           IMAGE_URL: ${{ steps.image-info.outputs.image_url }}
 
@@ -91,7 +91,8 @@ jobs:
         if: ${{ steps.download.outcome != 'skipped' }}
         uses: docker/build-push-action@1dc73863535b631f98b2378be8619f83b136f4a0 # v6.17.0
         with:
-          context: ./docker/wsl
+          context: .
+          file: ./docker/wsl/Dockerfile
           # create a new package if the package is not found
           push: ${{ github.event_name != 'pull_request' || steps.image-info.outputs.latest_tag == 'none' }}
           # avoid image without manifest created
