@@ -64,6 +64,7 @@ jobs:
         run: mise run ci:wsl-docker:image-info
         env:
           MISE_AUTO_INSTALL: false
+          MISE_LOG_LEVEL: trace
           IMAGE_NAME: ${{ env.IMAGE_NAME }}
           GITHUB_TOKEN: ${{ github.token }}
 
