@@ -31,6 +31,7 @@ typos = "1.32.0"
 "npm:ignore-sync" = "8.0.0"
 "npm:jschema-validator" = "1.0.15"
 jc = "1.25.5"
+hadolint = "2.12.0"
 
 [settings]
 experimental = true

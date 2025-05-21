@@ -17,7 +17,8 @@
 		// cspell:ignore timonwong
 		"timonwong.shellcheck",
 		"streetsidesoftware.code-spell-checker",
-		"vitest.explorer"
+		"vitest.explorer",
+		"ms-azuretools.vscode-docker"
 	],
 	"unwantedRecommendations": [
 		"ms-vscode.powershell" // requires powershell even in linux

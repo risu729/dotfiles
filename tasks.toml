@@ -100,6 +100,12 @@ description = "Run yamlfmt to format YAML files."
 run = "yamllint --strict ."
 description = "Run yamllint to lint YAML files."
 
+["check:hadolint"]
+# hadolint does not support recursive globbing
+# ref: https://github.com/hadolint/hadolint/issues/972
+run = "hadolint --failure-threshold none docker/wsl/Dockerfile"
+description = "Run hadolint to lint Dockerfile."
+
 ["check:cspell"]
 run = "cspell {% if env.CI is undefined %}--cache{% endif %} \"**/*\""
 description = "Run cspell to check spelling in files."

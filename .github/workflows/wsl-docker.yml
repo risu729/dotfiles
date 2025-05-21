@@ -72,14 +72,6 @@ jobs:
         env:
           IMAGE_URL: ${{ steps.image-info.outputs.image_url }}
 
-      - name: Create Dockerfile
-        if: ${{ steps.download.outcome != 'skipped' }}
-        run: |
-          cat <<EOF > Dockerfile
-          FROM scratch
-          ADD wsl-amd64.wsl /
-          EOF
-
       - name: Login to GitHub Container Registry
         if: ${{ steps.download.outcome != 'skipped' }}
         uses: docker/login-action@74a5d142397b4f367a81961eba4e8cd7edddf772 # v3.4.0
@@ -100,6 +92,7 @@ jobs:
         uses: docker/build-push-action@1dc73863535b631f98b2378be8619f83b136f4a0 # v6.17.0
         with:
           context: .
+          file: docker/wsl/Dockerfile
           # create a new package if the package is not found
           push: ${{ github.event_name != 'pull_request' || steps.image-info.outputs.latest_tag == 'none' }}
           # avoid image without manifest created
