@@ -10,12 +10,14 @@ on:
     paths:
       - .github/workflows/wsl-docker.yml
       - tasks/ci/wsl-docker/**
+      - docker/wsl/**
   pull_request:
     branches:
       - main
     paths:
       - .github/workflows/wsl-docker.yml
       - tasks/ci/wsl-docker/**
+      - docker/wsl/**
   workflow_dispatch:
 
 permissions: {}
