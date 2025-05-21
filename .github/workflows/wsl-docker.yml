@@ -45,9 +45,8 @@ jobs:
           sparse-checkout: |
             mise.toml
             tasks.toml
-            tasks/*
-            docker/wsl/*
-          sparse-checkout-cone-mode: false
+            tasks/
+            docker/wsl/
           persist-credentials: false
 
       - name: Install mise

@@ -31,9 +31,8 @@ jobs:
           sparse-checkout: |
             mise.toml
             tasks.toml
-            tasks/*
-            worker/*
-          sparse-checkout-cone-mode: false
+            tasks/
+            worker/
           persist-credentials: false
 
       - name: Install mise
