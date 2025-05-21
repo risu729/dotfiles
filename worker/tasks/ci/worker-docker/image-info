@@ -1,0 +1,70 @@
+#!/usr/bin/env bash
+#MISE description="Outputs worker Docker image info to GITHUB_OUTPUT."
+#MISE hide=true
+
+set -euo pipefail
+
+mise_version_json=$(mise version --json)
+# cspell:ignore gsub
+mise_version=$(echo "${mise_version_json}" | jq --raw-output '.version | split(" ") [0] | gsub("\\."; "")')
+
+echo "mise version: ${mise_version}"
+
+# IMAGE_NAME is in the format of <username>/<repo>/<image>
+# shellcheck disable=SC2153,SC2154 # environment variable should be provided
+username=$(echo "${IMAGE_NAME}" | cut --delimiter='/' --fields=1)
+image_name=$(echo "${IMAGE_NAME}" | cut --delimiter='/' --fields=2-)
+# URL-encode the image name
+image_name_encoded=$(echo "${image_name}" | jq --raw-input --raw-output '@uri')
+
+set +e
+response=$(gh api --header "Accept: application/vnd.github+json" \
+	--header "X-GitHub-Api-Version: 2022-11-28" \
+	"/users/${username}/packages/container/${image_name_encoded}/versions")
+status=$?
+set -e
+
+if [[ ${status} -eq 0 ]]; then
+	latest_tag_data=$(echo "${response}" | jq --raw-output '.[] | select(.metadata.container.tags | contains(["latest"]))')
+	latest_tag=$(echo "${latest_tag_data}" | jq --raw-output '| .metadata.container.tags[] | select(. != "latest")')
+	latest_tag_digest=$(echo "${latest_tag_data}" | jq --raw-output '.name | sub("sha256:"; "")')
+# allow 404 Package not found error for first run
+elif echo "${response}" | jq --exit-status '.status == "404" and .message == "Package not found."' >/dev/null; then
+	latest_tag=""
+	latest_tag_digest=""
+else
+	echo "${response}"
+	exit "${status}"
+fi
+
+latest_tag_mise_version=$(echo "${latest_tag}" | cut --delimiter='.' --fields=2)
+# increment patch version if the mise version is the same as the latest tag
+if [[ ${latest_tag_mise_version} == "${mise_version}" ]]; then
+	latest_tag_patch_version=$(echo "${latest_tag}" | cut --delimiter='.' --fields=3)
+	patch_version=$((latest_tag_patch_version + 1))
+else
+	patch_version=0
+fi
+
+new_tag="1.${mise_version}.${patch_version}"
+
+output=$(
+	jq --null-input --compact-output \
+		--arg new_tag "${new_tag}" \
+		--arg latest_tag "${latest_tag}" \
+		--arg latest_tag_digest "${latest_tag_digest}" \
+		--arg mise_version "${mise_version}" \
+		--arg latest_tag_mise_version "${latest_tag_mise_version}" \
+		'{
+      "mise_version": $mise_version,
+      "new_tag": $new_tag,
+      "latest_tag": $latest_tag,
+      "latest_tag_digest": $latest_tag_digest,
+      "is_mise_version_changed": ($mise_version != $latest_tag_mise_version),
+    }'
+)
+
+echo "${output}" | jq
+
+# shellcheck disable=SC2154 # environment variable should be provided
+echo "${output}" | jq -r 'to_entries[] | "\(.key)=\(.value)"' >>"${GITHUB_OUTPUT}"
