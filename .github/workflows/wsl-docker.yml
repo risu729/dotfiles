@@ -74,14 +74,6 @@ jobs:
         env:
           IMAGE_URL: ${{ steps.image-info.outputs.image_url }}
 
-      - name: Login to GitHub Container Registry
-        if: steps.download.outcome != 'skipped'
-        uses: docker/login-action@74a5d142397b4f367a81961eba4e8cd7edddf772 # v3.4.0
-        with:
-          registry: ${{ env.REGISTRY }}
-          username: ${{ github.actor }}
-          password: ${{ github.token }}
-
       # cspell:ignore buildx
       - name: Setup Buildx
         if: steps.download.outcome != 'skipped'
@@ -89,14 +81,23 @@ jobs:
         with:
           cache-binary: false
 
+      - name: Login to GitHub Container Registry
+        id: login
+        # create a new package if the package is not found in PR
+        if: github.event_name != 'pull_request' || steps.image-info.outputs.latest_tag == ''
+        uses: docker/login-action@74a5d142397b4f367a81961eba4e8cd7edddf772 # v3.4.0
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ github.token }}
+
       - name: Build and push Docker image
         if: steps.download.outcome != 'skipped'
         uses: docker/build-push-action@1dc73863535b631f98b2378be8619f83b136f4a0 # v6.17.0
         with:
           context: .
           file: ./docker/wsl/Dockerfile
-          # create a new package if the package is not found
-          push: ${{ github.event_name != 'pull_request' || steps.image-info.outputs.latest_tag == '' }}
+          push: ${{ steps.login.outcome != 'skipped' }}
           # avoid image without manifest created
           # ref: https://github.com/docker/build-push-action/issues/900
           provenance: false
