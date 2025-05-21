@@ -1,6 +1,6 @@
 FROM ubuntu:24.04
 
-ARG MISE_VERSION_ARG
+ARG MISE_VERSION
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
@@ -10,7 +10,7 @@ ENV MISE_DATA_DIR="/mise"
 ENV MISE_CONFIG_DIR="/mise"
 ENV MISE_CACHE_DIR="/mise/cache"
 ENV MISE_INSTALL_PATH="/usr/local/bin/mise"
-ENV MISE_VERSION=${MISE_VERSION_ARG}
+ENV MISE_VERSION=${MISE_VERSION}
 ENV PATH="${MISE_DATA_DIR}/shims:${MISE_INSTALL_PATH%/*}:$PATH"
 
 # Install mise with GPG verification and specific version
