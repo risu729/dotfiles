@@ -35,6 +35,11 @@ RUN set -eux && \
     rm install.sh.sig install.sh && \
     mise version
 
+# Set git config to suppress hints and warnings
+RUN set -eux && \
+    git config --global init.defaultBranch main && \
+    git config --global advice.detachedHead false
+
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN chmod +x /usr/local/bin/entrypoint.sh
 
