@@ -26,9 +26,10 @@ RUN set -eux && \
     # use hkp because hkps fails with: gpg: keyserver receive failed: General error
     # cspell:ignore hkps keyserver
     gpg --keyserver hkp://keyserver.ubuntu.com --recv-keys 0x7413A06D && \
-    script=$(curl --fail-with-body --location "https://mise.jdx.dev/install.sh.sig") && \
-    echo "${script}" | gpg --decrypt > install.sh && \
+    curl --fail-with-body --location --output install.sh.sig "https://mise.jdx.dev/install.sh.sig" && \
+    gpg --decrypt install.sh.sig --output install.sh && \
     sh ./install.sh && \
+    rm install.sh.sig install.sh && \
     mise version
 
 RUN git --version
