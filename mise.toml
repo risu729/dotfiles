@@ -1,11 +1,11 @@
 # ref: https://mise.jdx.dev/configuration.html
 #:schema https://mise.jdx.dev/schema/mise.json
 
-min_version = "2025.5.8"
+min_version = "2025.5.9"
 
 [tools]
-bun = "1.2.13"
-node = "24.0.2"
+bun = "1.2.14"
+node = "24.1.0"
 biome = "1.9.4"
 actionlint = "1.7.7"
 ghalint = "1.4.0"

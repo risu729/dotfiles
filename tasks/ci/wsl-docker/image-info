@@ -52,7 +52,7 @@ if [[ ${status} -eq 0 ]]; then
 		'.[] | select(.metadata.container.tags | contains(["latest"])) | .metadata.container.tags[] | select(. != "latest")')
 # allow 404 Package not found error for first run
 elif echo "${response}" | jq --exit-status '.status == "404" and .message == "Package not found."' >/dev/null; then
-	latest_tag="none"
+	latest_tag=""
 else
 	echo "${response}"
 	exit "${status}"

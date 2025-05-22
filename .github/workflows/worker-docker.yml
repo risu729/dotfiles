@@ -1,23 +1,20 @@
-name: Build Ubuntu WSL Docker image
+name: Build worker Docker image
 
 on:
-  schedule:
-    # update once a week
-    - cron: "0 0 * * SUN"
   push:
     branches:
       - main
     paths:
-      - .github/workflows/wsl-docker.yml
-      - tasks/ci/wsl-docker/**
-      - docker/wsl/**
+      - .github/workflows/worker-docker.yml
+      - worker/tasks/ci/worker-docker/**
+      - worker/docker/**
   pull_request:
     branches:
       - main
     paths:
-      - .github/workflows/wsl-docker.yml
-      - tasks/ci/wsl-docker/**
-      - docker/wsl/**
+      - .github/workflows/worker-docker.yml
+      - worker/tasks/ci/worker-docker/**
+      - worker/docker/**
   workflow_dispatch:
 
 permissions: {}
@@ -27,7 +24,7 @@ defaults:
     shell: bash
 
 jobs:
-  build-wsl:
+  build-worker-image:
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     permissions:
@@ -36,7 +33,7 @@ jobs:
 
     env:
       REGISTRY: ghcr.io
-      IMAGE_NAME: ${{ github.repository }}/wsl
+      IMAGE_NAME: ${{ github.repository }}/worker
 
     steps:
       - name: Checkout
@@ -46,7 +43,7 @@ jobs:
             mise.toml
             tasks.toml
             tasks/
-            docker/wsl/
+            worker/
           persist-credentials: false
 
       - name: Install mise
@@ -55,37 +52,41 @@ jobs:
           version: 2025.5.9
           cache: false
         env:
-          # only install required tools
           MISE_ENABLE_TOOLS: jc
           GITHUB_TOKEN: ${{ github.token }}
 
-      - name: Retrieve Ubuntu WSL image info
+      - name: Retrieve worker Docker image info
         id: image-info
-        run: mise run ci:wsl-docker:image-info
+        run: mise run ci:worker-docker:image-info
         env:
-          MISE_AUTO_INSTALL: false
-          MISE_LOG_LEVEL: trace
+          MISE_ENABLE_TOOLS: jc
           IMAGE_NAME: ${{ env.IMAGE_NAME }}
           GITHUB_TOKEN: ${{ github.token }}
 
-      - name: Download Ubuntu WSL image
-        id: download
-        if: github.event_name == 'pull_request' || steps.image-info.outputs.skip_build == 'false'
-        run: curl --fail-with-body --location --output wsl-amd64.wsl "${IMAGE_URL}"
-        env:
-          IMAGE_URL: ${{ steps.image-info.outputs.image_url }}
-
       # cspell:ignore buildx
       - name: Setup Buildx
-        if: steps.download.outcome != 'skipped'
         uses: docker/setup-buildx-action@b5ca514318bd6ebac0fb2aedd5d36ec1b5c232a2 # v3.10.0
         with:
           cache-binary: false
 
+      - name: Build Docker image
+        id: build
+        # if mise version is not changed, check if the image digest is changed
+        if: steps.image-info.outputs.is_mise_version_changed == 'false'
+        uses: docker/build-push-action@1dc73863535b631f98b2378be8619f83b136f4a0 # v6.17.0
+        with:
+          context: ./worker/docker
+          build-args: |
+            MISE_VERSION=${{ steps.image-info.outputs.mise_version }}
+          provenance: false
+
       - name: Login to GitHub Container Registry
         id: login
         # create a new package if the package is not found in PR
-        if: github.event_name != 'pull_request' || steps.image-info.outputs.latest_tag == ''
+        if: >-
+          (github.event_name != 'pull_request' &&
+            steps.build.outputs.digest != steps.image-info.outputs.latest_tag_digest ) ||
+          steps.image-info.outputs.latest_tag == ''
         uses: docker/login-action@74a5d142397b4f367a81961eba4e8cd7edddf772 # v3.4.0
         with:
           registry: ${{ env.REGISTRY }}
@@ -93,23 +94,23 @@ jobs:
           password: ${{ github.token }}
 
       - name: Build and push Docker image
-        if: steps.download.outcome != 'skipped'
+        if: steps.login.outcome != 'skipped'
         uses: docker/build-push-action@1dc73863535b631f98b2378be8619f83b136f4a0 # v6.17.0
         with:
-          context: .
-          file: ./docker/wsl/Dockerfile
-          push: ${{ steps.login.outcome != 'skipped' }}
+          context: ./worker/docker
+          build-args: |
+            MISE_VERSION=${{ steps.image-info.outputs.mise_version }}
+          push: true
           # avoid image without manifest created
           # ref: https://github.com/docker/build-push-action/issues/900
           provenance: false
           tags: |
             ghcr.io/${{ env.IMAGE_NAME }}:${{ steps.image-info.outputs.new_tag }}
             ghcr.io/${{ env.IMAGE_NAME }}:latest
-          no-cache: true
 
   actions-timeline:
     needs:
-      - build-wsl
+      - build-worker-image
     if: ${{ !cancelled() }}
 
     runs-on: ubuntu-24.04
