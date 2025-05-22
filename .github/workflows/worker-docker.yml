@@ -1,0 +1,124 @@
+name: Build worker Docker image
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - .github/workflows/worker-docker.yml
+      - worker/tasks/ci/worker-docker/**
+      - worker/docker/**
+  pull_request:
+    branches:
+      - main
+    paths:
+      - .github/workflows/worker-docker.yml
+      - worker/tasks/ci/worker-docker/**
+      - worker/docker/**
+  workflow_dispatch:
+
+permissions: {}
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  build-worker-image:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions:
+      contents: read # for checkout
+      packages: write # for GitHub Package Registry
+
+    env:
+      REGISTRY: ghcr.io
+      IMAGE_NAME: ${{ github.repository }}/worker
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          sparse-checkout: |
+            mise.toml
+            tasks.toml
+            tasks/
+            worker/
+          persist-credentials: false
+
+      - name: Install mise
+        uses: jdx/mise-action@c94f0bf9e520b150e34c017db785461f7e71c5fb # v2.2.2
+        with:
+          version: 2025.5.9
+          cache: false
+        env:
+          MISE_ENABLE_TOOLS: jc
+          GITHUB_TOKEN: ${{ github.token }}
+
+      - name: Retrieve worker Docker image info
+        id: image-info
+        run: mise run ci:worker-docker:image-info
+        env:
+          MISE_ENABLE_TOOLS: jc
+          IMAGE_NAME: ${{ env.IMAGE_NAME }}
+          GITHUB_TOKEN: ${{ github.token }}
+
+      # cspell:ignore buildx
+      - name: Setup Buildx
+        uses: docker/setup-buildx-action@b5ca514318bd6ebac0fb2aedd5d36ec1b5c232a2 # v3.10.0
+        with:
+          cache-binary: false
+
+      - name: Build Docker image
+        id: build
+        # if mise version is not changed, check if the image digest is changed
+        if: steps.image-info.outputs.is_mise_version_changed == 'false'
+        uses: docker/build-push-action@1dc73863535b631f98b2378be8619f83b136f4a0 # v6.17.0
+        with:
+          context: ./worker/docker
+          build-args: |
+            MISE_VERSION=${{ steps.image-info.outputs.mise_version }}
+          push: false
+          provenance: false
+
+      - name: Login to GitHub Container Registry
+        id: login
+        # create a new package if the package is not found in PR
+        if: >-
+          (github.event_name != 'pull_request' &&
+            steps.build.outputs.digest != steps.image-info.outputs.latest_tag_digest ) ||
+          steps.image-info.outputs.latest_tag == ''
+        uses: docker/login-action@74a5d142397b4f367a81961eba4e8cd7edddf772 # v3.4.0
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ github.token }}
+
+      - name: Build and push Docker image
+        if: steps.login.outcome != 'skipped'
+        uses: docker/build-push-action@1dc73863535b631f98b2378be8619f83b136f4a0 # v6.17.0
+        with:
+          context: ./worker/docker
+          build-args: |
+            MISE_VERSION=${{ steps.image-info.outputs.mise_version }}
+          # avoid image without manifest created
+          # ref: https://github.com/docker/build-push-action/issues/900
+          provenance: false
+          tags: |
+            ghcr.io/${{ env.IMAGE_NAME }}:${{ steps.image-info.outputs.new_tag }}
+            ghcr.io/${{ env.IMAGE_NAME }}:latest
+
+  actions-timeline:
+    needs:
+      - build-worker-image
+    if: ${{ !cancelled() }}
+
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    permissions:
+      actions: read # for actions-timeline
+
+    steps:
+      - name: actions-timeline
+        # cspell:ignore kesin
+        uses: Kesin11/actions-timeline@427ee2cf860166e404d0d69b4f2b24012bb7af4f # v2.2.3

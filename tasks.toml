@@ -103,8 +103,10 @@ description = "Run yamllint to lint YAML files."
 ["check:hadolint"]
 # hadolint does not support recursive globbing
 # ref: https://github.com/hadolint/hadolint/issues/972
-run = "hadolint --failure-threshold none docker/wsl/Dockerfile"
+run = "hadolint --failure-threshold none docker/wsl/Dockerfile worker/docker/Dockerfile"
 description = "Run hadolint to lint Dockerfile."
+# SHELLCHECK_OPTS cannot be set in hadolint
+# ref: https://github.com/hadolint/hadolint/issues/469
 
 ["check:cspell"]
 run = "cspell {% if env.CI is undefined %}--cache{% endif %} \"**/*\""
