@@ -79,11 +79,8 @@ jobs:
           context: ./worker/docker
           build-args: |
             MISE_VERSION=${{ steps.image-info.outputs.mise_version }}
-          # save image to local
           push: false
-          load: true
           provenance: false
-          no-cache: true
 
       - name: Login to GitHub Container Registry
         id: login
@@ -112,7 +109,6 @@ jobs:
           tags: |
             ghcr.io/${{ env.IMAGE_NAME }}:${{ steps.image-info.outputs.new_tag }}
             ghcr.io/${{ env.IMAGE_NAME }}:latest
-          no-cache: true
 
   actions-timeline:
     needs:
