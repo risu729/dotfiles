@@ -11,6 +11,13 @@ test("redirect / to repository readme", async () => {
 	);
 });
 
+test("redirect / with 307 status code", async () => {
+	const response = await SELF.fetch("https://dot.risunosu.com/", {
+		redirect: "manual",
+	});
+	expect(response.status).toBe(307);
+});
+
 describe("return 200 status code", () => {
 	it.each(["/win", "/wsl"])("return %s with 200 status code", async (path) => {
 		const response = await SELF.fetch(
@@ -66,15 +73,6 @@ describe("return the installer script with a specified ref set", () => {
 			);
 		},
 	);
-});
-
-describe("redirect with 307 status code", () => {
-	it.each(["/", "/win", "/wsl"])("redirect %s", async (path) => {
-		const response = await SELF.fetch(
-			`https://dot.risunosu.com${path}`,
-		);
-		expect(response.status).toBe(307);
-	});
 });
 
 describe("return 200 status code with ref query parameters", () => {
