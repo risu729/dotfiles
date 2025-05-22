@@ -6,7 +6,8 @@ set -euo pipefail
 
 mise_version_json=$(mise version --json)
 # cspell:ignore gsub
-mise_version=$(echo "${mise_version_json}" | jq --raw-output '.version | split(" ") [0] | gsub("\\."; "")')
+mise_version=$(echo "${mise_version_json}" | jq --raw-output '.version | split(" ") [0]')
+mise_version_number=${mise_version//./}
 
 echo "mise version: ${mise_version}"
 
@@ -39,14 +40,14 @@ fi
 
 latest_tag_mise_version=$(echo "${latest_tag}" | cut --delimiter='.' --fields=2)
 # increment patch version if the mise version is the same as the latest tag
-if [[ ${latest_tag_mise_version} == "${mise_version}" ]]; then
+if [[ ${latest_tag_mise_version} == "${mise_version_number}" ]]; then
 	latest_tag_patch_version=$(echo "${latest_tag}" | cut --delimiter='.' --fields=3)
 	patch_version=$((latest_tag_patch_version + 1))
 else
 	patch_version=0
 fi
 
-new_tag="1.${mise_version}.${patch_version}"
+new_tag="1.${mise_version_number}.${patch_version}"
 
 output=$(
 	jq --null-input --compact-output \
@@ -54,13 +55,14 @@ output=$(
 		--arg latest_tag "${latest_tag}" \
 		--arg latest_tag_digest "${latest_tag_digest}" \
 		--arg mise_version "${mise_version}" \
+		--arg mise_version_number "${mise_version_number}" \
 		--arg latest_tag_mise_version "${latest_tag_mise_version}" \
 		'{
       "mise_version": $mise_version,
       "new_tag": $new_tag,
       "latest_tag": $latest_tag,
       "latest_tag_digest": $latest_tag_digest,
-      "is_mise_version_changed": ($mise_version != $latest_tag_mise_version),
+      "is_mise_version_changed": ($mise_version_number != $latest_tag_mise_version),
     }'
 )
 
