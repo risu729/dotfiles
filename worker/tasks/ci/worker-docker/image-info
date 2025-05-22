@@ -27,7 +27,7 @@ set -e
 
 if [[ ${status} -eq 0 ]]; then
 	latest_tag_data=$(echo "${response}" | jq --raw-output '.[] | select(.metadata.container.tags | contains(["latest"]))')
-	latest_tag=$(echo "${latest_tag_data}" | jq --raw-output '| .metadata.container.tags[] | select(. != "latest")')
+	latest_tag=$(echo "${latest_tag_data}" | jq --raw-output '.metadata.container.tags[] | select(. != "latest")')
 	latest_tag_digest=$(echo "${latest_tag_data}" | jq --raw-output '.name | sub("sha256:"; "")')
 # allow 404 Package not found error for first run
 elif echo "${response}" | jq --exit-status '.status == "404" and .message == "Package not found."' >/dev/null; then
