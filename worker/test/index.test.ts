@@ -13,7 +13,9 @@ test("redirect / to repository readme", async () => {
 
 describe("return 200 status code", () => {
 	it.each(["/win", "/wsl"])("return %s with 200 status code", async (path) => {
-		const response = await SELF.fetch(`https://dot.risunosu.com${path}`);
+		const response = await SELF.fetch(
+			`https://dot.risunosu.com${path}?ref=${import.meta.env.LATEST_COMMIT_HASH}`,
+		);
 		expect(response.status).toBe(200);
 	});
 });
@@ -68,7 +70,9 @@ describe("return the installer script with a specified ref set", () => {
 
 describe("redirect with 307 status code", () => {
 	it.each(["/", "/win", "/wsl"])("redirect %s", async (path) => {
-		const response = await SELF.fetch(`https://dot.risunosu.com${path}`);
+		const response = await SELF.fetch(
+			`https://dot.risunosu.com${path}?ref=${import.meta.env.LATEST_COMMIT_HASH}`,
+		);
 		expect(response.status).toBe(307);
 	});
 });
@@ -99,7 +103,9 @@ test(
 
 describe("installer script must contain the source URL", () => {
 	it.each(["/win", "/wsl"])("return %s with default branch", async (path) => {
-		const response = await SELF.fetch(`https://dot.risunosu.com${path}`);
+		const response = await SELF.fetch(
+			`https://dot.risunosu.com${path}?ref=${import.meta.env.LATEST_COMMIT_HASH}`,
+		);
 		const script = await response.text();
 		const sourceUrl = [...script.matchAll(/# source: (?<url>.+)/g)].at(0)
 			?.groups?.["url"];
@@ -144,7 +150,9 @@ describe("installer script is almost the same as the source", () => {
 	};
 
 	it.each(["/win", "/wsl"])("return %s with default branch", async (path) => {
-		const response = await SELF.fetch(`https://dot.risunosu.com${path}`);
+		const response = await SELF.fetch(
+			`https://dot.risunosu.com${path}?ref=${import.meta.env.LATEST_COMMIT_HASH}`,
+		);
 		const diff = await getDiffLines(response);
 		// source URL and git ref must be different
 		expect(diff.filter((d) => d.added)).toHaveLength(2);
