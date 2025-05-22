@@ -37,8 +37,6 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
-        ports:
-          - 80:4173
         env:
           GIT_REPO_URL: ${{ github.event.repository.clone_url }}
           # use head sha for pull requests because github.sha is set to the merge commit
@@ -53,7 +51,7 @@ jobs:
       - name: Run installer
         # don't use process substitution to avoid masking the errors
         run: |
-          curl -fsSL "http://worker/wsl?ref=${SHA}" | bash
+          curl -fsSL "http://worker:4173/wsl?ref=${SHA}" | bash
         env:
           GITHUB_TOKEN: ${{ github.token }}
           __CI: true
