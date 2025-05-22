@@ -7,7 +7,7 @@ SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 # version of gnupg does not matter
 # hadolint ignore=DL3008
 RUN apt-get update && \
-    apt-get install -y --no-install-recommends curl ca-certificates gnupg && \
+    apt-get install -y --no-install-recommends curl ca-certificates gnupg git && \
     rm -rf /var/lib/apt/lists/*
 
 # Configure mise environment variables
@@ -31,8 +31,6 @@ RUN set -eux && \
     sh ./install.sh && \
     rm install.sh.sig install.sh && \
     mise version
-
-RUN git --version
 
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN chmod +x /usr/local/bin/entrypoint.sh
