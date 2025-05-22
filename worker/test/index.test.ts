@@ -71,7 +71,7 @@ describe("return the installer script with a specified ref set", () => {
 describe("redirect with 307 status code", () => {
 	it.each(["/", "/win", "/wsl"])("redirect %s", async (path) => {
 		const response = await SELF.fetch(
-			`https://dot.risunosu.com${path}?ref=${import.meta.env.LATEST_COMMIT_HASH}`,
+			`https://dot.risunosu.com${path}`,
 		);
 		expect(response.status).toBe(307);
 	});
@@ -110,7 +110,7 @@ describe("installer script must contain the source URL", () => {
 		const sourceUrl = [...script.matchAll(/# source: (?<url>.+)/g)].at(0)
 			?.groups?.["url"];
 		expect(sourceUrl).toBe(
-			`https://raw.githubusercontent.com/risu729/dotfiles/main${path}/install.${path === "/win" ? "ps1" : "sh"}`,
+			`https://raw.githubusercontent.com/risu729/dotfiles/${import.meta.env.LATEST_COMMIT_HASH}${path}/install.${path === "/win" ? "ps1" : "sh"}`,
 		);
 	});
 
@@ -155,7 +155,7 @@ describe("installer script is almost the same as the source", () => {
 		);
 		const diff = await getDiffLines(response);
 		// source URL and git ref must be different
-		expect(diff.filter((d) => d.added)).toHaveLength(2);
+		expect(diff.filter((d) => d.added)).toHaveLength(3);
 	});
 
 	it.each(["/win", "/wsl"])("return %s with ref", async (path) => {
