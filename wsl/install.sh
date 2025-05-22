@@ -47,6 +47,11 @@ sudo apt-get update
 # cspell:ignore containerd buildx
 sudo apt-get install --yes wslu mise docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 
+# add user to docker group
+# ref: https://docs.docker.com/engine/install/linux-postinstall/
+# cspell:ignore usermod
+sudo usermod --append --groups docker "${USER}"
+
 # use --parents to avoid error if the directory exists
 repo="github.com/risu729/dotfiles"
 dotfiles_dir="${HOME}/ghq/${repo}"
