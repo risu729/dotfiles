@@ -98,7 +98,7 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ github.token }}
 
-      - name: Push Docker image
+      - name: Build and push Docker image
         if: steps.login.outcome != 'skipped'
         uses: docker/build-push-action@1dc73863535b631f98b2378be8619f83b136f4a0 # v6.17.0
         with:
