@@ -133,7 +133,7 @@ describe("installer script is almost the same as the source", () => {
 		if (!sourceUrl) {
 			throw new Error("source URL not found (covered by the previous test)");
 		}
-		const sourceResponse = await SELF.fetch(sourceUrl);
+		const sourceResponse = await fetch(sourceUrl);
 		if (!sourceResponse.ok) {
 			throw new Error(
 				`failed to fetch source script: ${sourceResponse.statusText}`,
