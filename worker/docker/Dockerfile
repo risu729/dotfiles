@@ -7,7 +7,7 @@ SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 # version of gnupg does not matter
 # hadolint ignore=DL3008
 RUN apt-get update && \
-    apt-get install -y --no-install-recommends gnupg && \
+    apt-get install -y --no-install-recommends curl gnupg && \
     rm -rf /var/lib/apt/lists/*
 
 # Configure mise environment variables
@@ -23,6 +23,7 @@ ENV PATH="${MISE_DATA_DIR}/shims:${MISE_INSTALL_PATH%/*}:$PATH"
 RUN set -eux && \
     echo "Installing mise version: ${MISE_VERSION}" && \
     # ref: https://mise.jdx.dev/installing-mise.html#https-mise-run
+    # use hkp because hkps fails with: gpg: keyserver receive failed: General error
     # cspell:ignore hkps keyserver
     gpg --keyserver hkp://keyserver.ubuntu.com --recv-keys 0x7413A06D && \
     script=$(curl --fail-with-body --location "https://mise.jdx.dev/install.sh.sig") && \
