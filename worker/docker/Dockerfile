@@ -24,7 +24,7 @@ RUN set -eux && \
     echo "Installing mise version: ${MISE_VERSION}" && \
     # ref: https://mise.jdx.dev/installing-mise.html#https-mise-run
     # cspell:ignore hkps keyserver
-    gpg --keyserver hkps://keyserver.ubuntu.com --recv-keys 0x7413A06D && \
+    gpg --keyserver hkps://keyserver.ubuntu.com:443 --recv-keys 0x7413A06D && \
     script=$(curl --fail-with-body --location "https://mise.jdx.dev/install.sh.sig") && \
     echo "${script}" | gpg --decrypt > install.sh && \
     sh ./install.sh && \
