@@ -1,0 +1,77 @@
+#!/usr/bin/env bash
+#MISE description="Outputs Ubuntu WSL image info to GITHUB_OUTPUT."
+#MISE hide=true
+
+set -euo pipefail
+
+distro_info_csv=$(curl --fail-with-body --location --silent https://debian.pages.debian.net/distro-info-data/ubuntu.csv)
+distro_info_json=$(echo "${distro_info_csv}" | jc --csv)
+today=$(date --utc --iso-8601)
+latest_lts=$(echo "${distro_info_json}" | jq --raw-output "[
+	.[]
+		| select(.version | contains(\"LTS\"))
+		| select(.release <= \"${today}\")
+	]
+	| sort_by(.release)
+	| reverse
+	| .[0]")
+
+version=$(echo "${latest_lts}" | jq --raw-output '.version | sub(" LTS"; "")')
+series=$(echo "${latest_lts}" | jq --raw-output '.series')
+
+echo "Latest LTS: ${version} (${series})"
+
+image_url="https://cdimages.ubuntu.com/ubuntu-wsl/${series}/daily-live/current/${series}-wsl-amd64.wsl"
+headers=$(curl --fail-with-body --location --silent --head "${image_url}")
+headers_json=$(echo "${headers}" | jc --curl-head)
+last_modified=$(echo "${headers_json}" | jq --raw-output '.[0]."last-modified"')
+date=$(date --date="${last_modified}" --utc +%Y%m%d)
+
+echo "Last build date: ${last_modified}"
+
+# + cannot be used in docker tag
+# - can be used but renovate treats it as a platform/compatibility indicator
+new_tag="${version}.${date}"
+
+# IMAGE_NAME is in the format of <username>/<repo>/<image>
+# shellcheck disable=SC2153,SC2154 # environment variable should be provided
+username=$(echo "${IMAGE_NAME}" | cut --delimiter='/' --fields=1)
+image_name=$(echo "${IMAGE_NAME}" | cut --delimiter='/' --fields=2-)
+# URL-encode the image name
+image_name_encoded=$(echo "${image_name}" | jq --raw-input --raw-output '@uri')
+
+set +e
+response=$(gh api --header "Accept: application/vnd.github+json" \
+	--header "X-GitHub-Api-Version: 2022-11-28" \
+	"/users/${username}/packages/container/${image_name_encoded}/versions")
+status=$?
+set -e
+
+if [[ ${status} -eq 0 ]]; then
+	latest_tag=$(echo "${response}" | jq --raw-output \
+		'.[] | select(.metadata.container.tags | contains(["latest"])) | .metadata.container.tags[] | select(. != "latest")')
+# allow 404 Package not found error for first run
+elif echo "${response}" | jq --exit-status '.status == "404" and .message == "Package not found."' >/dev/null; then
+	latest_tag=""
+else
+	echo "${response}"
+	exit "${status}"
+fi
+
+output=$(
+	jq --null-input --compact-output \
+		--arg new_tag "${new_tag}" \
+		--arg latest_tag "${latest_tag}" \
+		--arg image_url "${image_url}" \
+		'{
+      "new_tag": $new_tag,
+      "latest_tag": $latest_tag,
+      "skip_build": ($new_tag == $latest_tag),
+      "image_url": $image_url
+    }'
+)
+
+echo "${output}" | jq
+
+# shellcheck disable=SC2154 # environment variable should be provided
+echo "${output}" | jq -r 'to_entries[] | "\(.key)=\(.value)"' >>"${GITHUB_OUTPUT}"

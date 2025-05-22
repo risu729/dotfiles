@@ -73,6 +73,13 @@ const ensureGitHubTokenScopes = async (): Promise<() => Promise<void>> => {
 			// not included in the scopes granted by default in gh auth login
 			scope: "workflow",
 		},
+		// allow read-only access
+		{
+			scope: "read:packages",
+		},
+		{
+			scope: "read:projects",
+		},
 		{
 			// required to list, add, and delete GPG keys
 			scope: "admin:gpg_key",
@@ -1341,10 +1348,6 @@ const main = async (): Promise<void> => {
 	} finally {
 		await removeScopes();
 	}
-
-	// invalidate mise exec template cache after github authentication
-	const miseCacheDir = (await $`mise cache`.text()).trim();
-	await $`rm --force --recursive ${resolve(miseCacheDir, "./exec")}`.quiet();
 
 	// reset gh config because it is formatted differently by gh cli
 	const ghConfigPath = resolve(

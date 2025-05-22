@@ -9,8 +9,7 @@ app.use(poweredBy());
 // redirect to the readme
 app.get("/", (c) => {
 	return c.redirect(
-		// biome-ignore lint/correctness/noUndeclaredVariables: defined in vite.config.ts
-		`https://github.com/${__REPO_NAME__}#readme`,
+		`https://github.com/${import.meta.env.REPO_NAME}#readme`,
 		307,
 	);
 });
@@ -26,17 +25,26 @@ app.get("/:os{win|wsl}", async (c) => {
 		// other paths must not be reached
 		throw new HTTPException(500, { message: "routing error" });
 	}
-	const scriptUrl =
-		// biome-ignore lint/correctness/noUndeclaredVariables: defined in vite.config.ts
-		`https://raw.githubusercontent.com/${__REPO_NAME__}/${ref ?? __DEFAULT_BRANCH__}/${os}/install.${
-			os === "win" ? "ps1" : "sh"
-		}`;
+	const scriptUrl = `https://raw.githubusercontent.com/${import.meta.env.REPO_NAME}/${
+		ref ?? import.meta.env.DEFAULT_BRANCH
+	}/${os}/install.${os === "win" ? "ps1" : "sh"}`;
 	if (ref === undefined) {
 		// just redirect to the installer script if no ref is provided
 		return c.redirect(scriptUrl, 307);
 	}
 	// do not cache the installer script to always fetch the latest version
-	const githubResponse = await fetch(scriptUrl);
+	const githubResponse = await fetch(scriptUrl, {
+		headers: {
+			"User-Agent": `${import.meta.env.REPO_NAME} worker`,
+			// authorize with the GITHUB_TOKEN if provided to avoid rate limiting
+			...(import.meta.env.GITHUB_TOKEN
+				? {
+						// biome-ignore lint/style/useNamingConvention: following fetch
+						Authorization: `Bearer ${import.meta.env.GITHUB_TOKEN}`,
+					}
+				: {}),
+		},
+	});
 	if (!githubResponse.ok) {
 		throw new HTTPException(500, {
 			message: `failed to fetch installer script from GitHub: ${githubResponse.statusText}`,

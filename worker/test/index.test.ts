@@ -1,26 +1,12 @@
-import {
-	createExecutionContext,
-	env,
-	waitOnExecutionContext,
-} from "cloudflare:test";
+import { SELF } from "cloudflare:test";
 import { diffLines } from "diff";
 import { describe, expect, it, test } from "vitest";
-import worker from "../src/index.js";
-
-// biome-ignore lint/correctness/noUndeclaredVariables: cannot read tsconfig.json#compilerOptions.types
-const IncomingRequest = Request<unknown, IncomingRequestCfProperties>;
-
-const fetchWorker = async (url: string): Promise<Response> => {
-	const request = new IncomingRequest(url);
-	const context = createExecutionContext();
-	const response = await worker.fetch(request, env, context);
-	await waitOnExecutionContext(context);
-	return response;
-};
 
 test("redirect / to repository readme", async () => {
-	const response = await fetchWorker("https://dot.risunosu.com/");
-	expect(response.headers.get("Location")).toBe(
+	const response = await SELF.fetch("https://dot.risunosu.com/", {
+		redirect: "manual",
+	});
+	expect(response.headers.get("location")).toBe(
 		"https://github.com/risu729/dotfiles#readme",
 	);
 });
@@ -36,8 +22,10 @@ describe("redirect to the installer script", () => {
 			scriptPath: "/wsl/install.sh",
 		},
 	])("redirect $path", async ({ path, scriptPath }) => {
-		const response = await fetchWorker(`https://dot.risunosu.com${path}`);
-		expect(response.headers.get("Location")).toBe(
+		const response = await SELF.fetch(`https://dot.risunosu.com${path}`, {
+			redirect: "manual",
+		});
+		expect(response.headers.get("location")).toBe(
 			`https://raw.githubusercontent.com/risu729/dotfiles/main${scriptPath}`,
 		);
 	});
@@ -51,7 +39,7 @@ describe("return the installer script with a specified ref set to a variable", (
 			timeout: 10000,
 		},
 		async (path) => {
-			const response = await fetchWorker(
+			const response = await SELF.fetch(
 				`https://dot.risunosu.com${path}?ref=${import.meta.env.LATEST_COMMIT_HASH}`,
 			);
 			expect(await response.text()).toMatch(
@@ -66,14 +54,16 @@ describe("return the installer script with a specified ref set to a variable", (
 
 describe("redirect with 307 status code", () => {
 	it.each(["/", "/win", "/wsl"])("redirect %s", async (path) => {
-		const response = await fetchWorker(`https://dot.risunosu.com${path}`);
+		const response = await SELF.fetch(`https://dot.risunosu.com${path}`, {
+			redirect: "manual",
+		});
 		expect(response.status).toBe(307);
 	});
 });
 
 describe("return 200 status code with ref query parameters", () => {
 	it.each(["/win", "/wsl"])("return %s with ref", async (path) => {
-		const response = await fetchWorker(
+		const response = await SELF.fetch(
 			`https://dot.risunosu.com${path}?ref=${import.meta.env.LATEST_COMMIT_HASH}`,
 		);
 		expect(response.status).toBe(200);
@@ -82,7 +72,7 @@ describe("return 200 status code with ref query parameters", () => {
 
 describe("installer script for wsl should have a shebang", () => {
 	it("return /wsl with ref", async () => {
-		const response = await fetchWorker(
+		const response = await SELF.fetch(
 			`https://dot.risunosu.com/wsl?ref=${import.meta.env.LATEST_COMMIT_HASH}`,
 		);
 		// biome-ignore lint/performance/useTopLevelRegex: ignore performance warning in test
@@ -92,7 +82,7 @@ describe("installer script for wsl should have a shebang", () => {
 
 describe("installer script contains the source URL", () => {
 	it.each(["/win", "/wsl"])("return %s with ref", async (path) => {
-		const response = await fetchWorker(
+		const response = await SELF.fetch(
 			`https://dot.risunosu.com${path}?ref=${import.meta.env.LATEST_COMMIT_HASH}`,
 		);
 		const script = await response.text();
@@ -107,7 +97,7 @@ describe("installer script contains the source URL", () => {
 
 describe("installer script is almost the same as the source", () => {
 	it.each(["/win", "/wsl"])("return %s with ref", async (path) => {
-		const response = await fetchWorker(
+		const response = await SELF.fetch(
 			`https://dot.risunosu.com${path}?ref=${import.meta.env.LATEST_COMMIT_HASH}`,
 		);
 		const script = await response.text();
@@ -125,7 +115,7 @@ describe("installer script is almost the same as the source", () => {
 
 describe("return 404 for other paths", () => {
 	it.each(["/mac", "/linux/ubuntu"])("return 404 for %s", async (path) => {
-		const response = await fetchWorker(`https://dot.risunosu.com${path}`);
+		const response = await SELF.fetch(`https://dot.risunosu.com${path}`);
 		expect(response.status).toBe(404);
 	});
 });

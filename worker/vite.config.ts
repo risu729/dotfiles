@@ -19,15 +19,23 @@ if (!defaultBranch) {
 }
 
 // ref: https://vite.dev/config/
-export default defineConfig({
-	define: {
-		// biome-ignore lint/style/useNamingConvention: constants
-		__REPO_NAME__: JSON.stringify(repoName),
-		// biome-ignore lint/style/useNamingConvention: constants
-		__DEFAULT_BRANCH__: JSON.stringify(defaultBranch),
-	},
-	plugins: [cloudflare()],
-	preview: {
-		strictPort: true,
-	},
+export default defineConfig(({ mode }) => {
+	return {
+		define: {
+			"import.meta.env.REPO_NAME": JSON.stringify(repoName),
+			"import.meta.env.DEFAULT_BRANCH": JSON.stringify(defaultBranch),
+			...(mode !== "production"
+				? {
+						"import.meta.env.GITHUB_TOKEN": JSON.stringify(
+							// biome-ignore lint/nursery/noProcessEnv: Bun.env cannot be used in vite
+							process.env["GITHUB_TOKEN"],
+						),
+					}
+				: {}),
+		},
+		plugins: [cloudflare()],
+		preview: {
+			strictPort: true,
+		},
+	};
 });
