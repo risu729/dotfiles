@@ -53,7 +53,7 @@ jobs:
       - name: Run installer
         # don't use process substitution to avoid masking the errors
         run: |
-          curl -fsSL "http://dot.risunosu.com/wsl?ref=${SHA}" | bash
+          curl -fsSL "http://worker/wsl?ref=${SHA}" | bash
         env:
           GITHUB_TOKEN: ${{ github.token }}
           __CI: true
