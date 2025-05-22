@@ -11,22 +11,17 @@ test("redirect / to repository readme", async () => {
 	);
 });
 
-describe("redirect to the installer script", () => {
-	it.each([
-		{
-			path: "/win",
-			scriptPath: "/win/install.ps1",
-		},
-		{
-			path: "/wsl",
-			scriptPath: "/wsl/install.sh",
-		},
-	])("redirect $path", async ({ path, scriptPath }) => {
-		const response = await SELF.fetch(`https://dot.risunosu.com${path}`, {
-			redirect: "manual",
-		});
-		expect(response.headers.get("location")).toBe(
-			`https://raw.githubusercontent.com/risu729/dotfiles/main${scriptPath}`,
+describe("return 200 status code", () => {
+	it.each(["/win", "/wsl"])("return %s with 200 status code", async (path) => {
+		const response = await SELF.fetch(`https://dot.risunosu.com${path}`);
+		expect(response.status).toBe(200);
+	});
+});
+
+describe("return 200 status code with ref query parameters", () => {
+	it.each(["/win", "/wsl"])("return %s with ref", async (path) => {
+		const response = await SELF.fetch(
+			`https://dot.risunosu.com${path}?ref=${import.meta.env.LATEST_COMMIT_HASH}`,
 		);
 		expect(response.status).toBe(200);
 	});
@@ -73,23 +68,28 @@ describe("return the installer script with a specified ref set", () => {
 
 describe("redirect with 307 status code", () => {
 	it.each(["/", "/win", "/wsl"])("redirect %s", async (path) => {
-		const response = await fetchWorker(`https://dot.risunosu.com${path}`);
+		const response = await SELF.fetch(`https://dot.risunosu.com${path}`);
 		expect(response.status).toBe(307);
 	});
 });
 
 describe("return 200 status code with ref query parameters", () => {
 	it.each(["/win", "/wsl"])("return %s with ref", async (path) => {
-		const response = await fetchWorker(
+		const response = await SELF.fetch(
 			`https://dot.risunosu.com${path}?ref=${import.meta.env.LATEST_COMMIT_HASH}`,
 		);
 		expect(response.status).toBe(200);
 	});
 });
 
-describe("installer script for wsl should have a shebang", () => {
-	it("return /wsl with ref", async () => {
-		const response = await fetchWorker(
+test(
+	"installer script for wsl must have a shebang",
+	{
+		// regex matching takes time
+		timeout: 10000,
+	},
+	async () => {
+		const response = await SELF.fetch(
 			`https://dot.risunosu.com/wsl?ref=${import.meta.env.LATEST_COMMIT_HASH}`,
 		);
 		// biome-ignore lint/performance/useTopLevelRegex: ignore performance warning in test
@@ -99,7 +99,7 @@ describe("installer script for wsl should have a shebang", () => {
 
 describe("installer script must contain the source URL", () => {
 	it.each(["/win", "/wsl"])("return %s with default branch", async (path) => {
-		const response = await fetchWorker(`https://dot.risunosu.com${path}`);
+		const response = await SELF.fetch(`https://dot.risunosu.com${path}`);
 		const script = await response.text();
 		const sourceUrl = [...script.matchAll(/# source: (?<url>.+)/g)].at(0)
 			?.groups?.["url"];
@@ -124,17 +124,16 @@ describe("installer script must contain the source URL", () => {
 });
 
 describe("installer script is almost the same as the source", () => {
-	it.each(["/win", "/wsl"])("return %s with ref", async (path) => {
-		const response = await SELF.fetch(
-			`https://dot.risunosu.com${path}?ref=${import.meta.env.LATEST_COMMIT_HASH}`,
-		);
+	const getDiffLines = async (
+		response: Response,
+	): Promise<ChangeObject<string>[]> => {
 		const script = await response.text();
 		const sourceUrl = [...script.matchAll(/# source: (?<url>.+)/g)].at(0)
 			?.groups?.["url"];
 		if (!sourceUrl) {
 			throw new Error("source URL not found (covered by the previous test)");
 		}
-		const sourceResponse = await fetch(sourceUrl);
+		const sourceResponse = await SELF.fetch(sourceUrl);
 		if (!sourceResponse.ok) {
 			throw new Error(
 				`failed to fetch source script: ${sourceResponse.statusText}`,
@@ -145,14 +144,14 @@ describe("installer script is almost the same as the source", () => {
 	};
 
 	it.each(["/win", "/wsl"])("return %s with default branch", async (path) => {
-		const response = await fetchWorker(`https://dot.risunosu.com${path}`);
+		const response = await SELF.fetch(`https://dot.risunosu.com${path}`);
 		const diff = await getDiffLines(response);
 		// source URL and git ref must be different
 		expect(diff.filter((d) => d.added)).toHaveLength(2);
 	});
 
 	it.each(["/win", "/wsl"])("return %s with ref", async (path) => {
-		const response = await fetchWorker(
+		const response = await SELF.fetch(
 			`https://dot.risunosu.com${path}?ref=${import.meta.env.LATEST_COMMIT_HASH}`,
 		);
 		const diff = await getDiffLines(response);
