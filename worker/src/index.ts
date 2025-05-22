@@ -62,8 +62,7 @@ app.get("/:os{win|wsl}", async (c) => {
 	return c.text(
 		`${shebang}# source: ${scriptUrl}\n\n${script
 			.replace(shebang, "")
-			// biome-ignore lint/correctness/noUndeclaredVariables: defined in vite.config.ts
-			.replace(repoNameRegex, __REPO_NAME__)
+			.replace(repoNameRegex, import.meta.env.REPO_NAME)
 			.replace(gitRefRegex, ref ?? "")}`,
 	);
 });
