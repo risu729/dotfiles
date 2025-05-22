@@ -2,10 +2,14 @@
 set -euo pipefail
 
 # Environment Variables:
-# GIT_REPO_URL:  URL of the repository to clone
+# ROOT_DIR: Directory to clone the repository into
+# GIT_REPO_URL: URL of the repository to clone
 # GIT_COMMIT_SHA: Exact commit SHA to checkout
 
-ROOT_DIR="/dotfiles"
+if [[ -z ${ROOT_DIR:-} ]]; then
+	echo "Error: ROOT_DIR environment variable is not set."
+	exit 1
+fi
 
 if [[ -z ${GIT_REPO_URL:-} ]]; then
 	echo "Error: GIT_REPO_URL environment variable is not set."
