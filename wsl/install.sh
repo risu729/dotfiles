@@ -45,7 +45,7 @@ echo "deb [arch=${arch} signed-by=/etc/apt/keyrings/docker.asc] https://download
 
 sudo apt-get update
 # cspell:ignore containerd buildx
-sudo install --yes wslu mise docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+sudo apt-get install --yes wslu mise docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 
 # use --parents to avoid error if the directory exists
 repo="github.com/risu729/dotfiles"
