@@ -22,16 +22,30 @@ sudo apt-get install --yes zip unzip build-essential
 # wslu is for wslview, which opens Windows browser from WSL
 # cspell:ignore wslutilities wslu wslview
 sudo add-apt-repository --yes ppa:wslutilities/wslu
-sudo apt-get update
-sudo apt-get install --yes wslu
+
+# create keyrings directory
+sudo install --directory --mode=755 /etc/apt/keyrings
 
 # install mise
 # ref: https://mise.jdx.dev/getting-started.html#apt
-sudo install -dm 755 /etc/apt/keyrings
-wget -qO - https://mise.jdx.dev/gpg-key.pub | gpg --dearmor | sudo tee /etc/apt/keyrings/mise-archive-keyring.gpg 1>/dev/null
-echo "deb [signed-by=/etc/apt/keyrings/mise-archive-keyring.gpg arch=amd64] https://mise.jdx.dev/deb stable main" | sudo tee /etc/apt/sources.list.d/mise.list
+curl --fail-with-body --silent --show-error --location https://mise.jdx.dev/gpg-key.pub \
+	| gpg --dearmor \
+	| sudo tee /etc/apt/keyrings/mise-archive-keyring.gpg 1>/dev/null
+echo "deb [signed-by=/etc/apt/keyrings/mise-archive-keyring.gpg arch=amd64] https://mise.jdx.dev/deb stable main" \
+	| sudo tee /etc/apt/sources.list.d/mise.list
+
+# install docker
+# ref: https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository
+curl --fail-with-body --silent --show-error --location https://download.docker.com/linux/ubuntu/gpg --output /etc/apt/keyrings/docker.asc
+arch="$(dpkg --print-architecture)"
+# shellcheck source=/dev/null
+codename="$(source /etc/os-release && echo "${UBUNTU_CODENAME:-${VERSION_CODENAME}}")"
+echo "deb [arch=${arch} signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu ${codename} stable" \
+	| sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+
 sudo apt-get update
-sudo apt-get install -y mise
+# cspell:ignore containerd buildx
+sudo install --yes wslu mise docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 
 # use --parents to avoid error if the directory exists
 repo="github.com/risu729/dotfiles"
