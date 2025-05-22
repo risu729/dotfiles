@@ -37,23 +37,16 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
-        ports:
-          - 80:4173
         env:
           GIT_REPO_URL: ${{ github.event.repository.clone_url }}
           # use head sha for pull requests because github.sha is set to the merge commit
           GIT_COMMIT_SHA: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.sha }}
 
     steps:
-      - name: Override dot.risunosu.com with service container
-        # hostname of the service container is set to its container name
-        # ref: https://docs.github.com/en/actions/use-cases-and-examples/using-containerized-services/about-service-containers#running-jobs-in-a-container
-        run: echo "worker dot.risunosu.com" | sudo tee --append /etc/hosts
-
       - name: Run installer
         # don't use process substitution to avoid masking the errors
         run: |
-          curl -fsSL "http://dot.risunosu.com/wsl?ref=${SHA}" | bash
+          curl -fsSL "http://worker:4173/wsl?ref=${SHA}" | bash
         env:
           GITHUB_TOKEN: ${{ github.token }}
           __CI: true
