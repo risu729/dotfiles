@@ -28,11 +28,11 @@ sudo install --directory --mode=755 /etc/apt/keyrings
 
 # install mise
 # ref: https://mise.jdx.dev/getting-started.html#apt
-curl --fail-with-body --silent --show-error --location https://mise.jdx.dev/gpg-key.pub \
-	| gpg --dearmor \
-	| sudo tee /etc/apt/keyrings/mise-archive-keyring.gpg 1>/dev/null
-echo "deb [signed-by=/etc/apt/keyrings/mise-archive-keyring.gpg arch=amd64] https://mise.jdx.dev/deb stable main" \
-	| sudo tee /etc/apt/sources.list.d/mise.list
+curl --fail-with-body --silent --show-error --location https://mise.jdx.dev/gpg-key.pub |
+	gpg --dearmor |
+	sudo tee /etc/apt/keyrings/mise-archive-keyring.gpg 1>/dev/null
+echo "deb [signed-by=/etc/apt/keyrings/mise-archive-keyring.gpg arch=amd64] https://mise.jdx.dev/deb stable main" |
+	sudo tee /etc/apt/sources.list.d/mise.list
 
 # install docker
 # ref: https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository
@@ -40,8 +40,8 @@ curl --fail-with-body --silent --show-error --location https://download.docker.c
 arch="$(dpkg --print-architecture)"
 # shellcheck source=/dev/null
 codename="$(source /etc/os-release && echo "${UBUNTU_CODENAME:-${VERSION_CODENAME}}")"
-echo "deb [arch=${arch} signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu ${codename} stable" \
-	| sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+echo "deb [arch=${arch} signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu ${codename} stable" |
+	sudo tee /etc/apt/sources.list.d/docker.list >/dev/null
 
 sudo apt-get update
 # cspell:ignore containerd buildx
