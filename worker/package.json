@@ -15,7 +15,7 @@
 		"@risu729/tsconfigs": "1.0.1",
 		"@types/bun": "1.2.14",
 		"@vitest/ui": "3.1.4",
-		"diff": "8.0.1",
+		"diff": "8.0.2",
 		"typescript": "5.8.3",
 		"vite": "6.3.5",
 		"vitest": "3.1.4",
