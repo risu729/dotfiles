@@ -49,8 +49,9 @@ sudo apt-get install --yes wslu mise docker-ce docker-ce-cli containerd.io docke
 
 # add user to docker group
 # ref: https://docs.docker.com/engine/install/linux-postinstall/
+username=$(whoami)
 # cspell:ignore usermod
-sudo usermod --append --groups docker "${USER}"
+sudo usermod --append --groups docker "${username}"
 
 # use --parents to avoid error if the directory exists
 repo="github.com/risu729/dotfiles"
