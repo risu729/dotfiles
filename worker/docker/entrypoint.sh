@@ -52,4 +52,5 @@ echo "==> Checked out FETCH_HEAD (commit ${GIT_COMMIT_SHA})."
 
 echo "==> Successfully sparse-cloned and checked out commit ${GIT_COMMIT_SHA}."
 
-exec /bin/bash -c "mise run worker:preview"
+# --host required to be accessible from other containers
+exec /bin/bash -c "mise run worker:preview --host"
