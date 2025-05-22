@@ -31,6 +31,8 @@ RUN set -eux && \
     sh ./install.sh && \
     mise version
 
+RUN git --version
+
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN chmod +x /usr/local/bin/entrypoint.sh
 
