@@ -1,15 +1,15 @@
 # ref: https://mise.jdx.dev/configuration.html
 #:schema https://mise.jdx.dev/schema/mise.json
 
-min_version = "2025.5.6"
+min_version = "2025.5.9"
 
 [tools]
-bun = "1.2.13"
+bun = "1.2.14"
 node = "24.0.2"
 biome = "1.9.4"
 actionlint = "1.7.7"
 ghalint = "1.4.0"
-pinact = "3.1.1"
+pinact = "3.1.2"
 # required for cargo backend
 # cspell:ignore binstall
 cargo-binstall = "1.12.5"
@@ -22,14 +22,16 @@ shellcheck = "0.10.0"
 yamlfmt = "0.16.0"
 # cspell:ignore pipx
 # required for pipx backend
-uv = "0.7.5"
+uv = "0.7.6"
 yamllint = "1.37.1"
-"npm:cspell" = "9.0.1"
+"npm:cspell" = "9.0.2"
 # cspell:ignore lycheeverse
 lychee = "0.18.1"
 typos = "1.32.0"
 "npm:ignore-sync" = "8.0.0"
 "npm:jschema-validator" = "1.0.15"
+jc = "1.25.5"
+hadolint = "2.12.0"
 
 [settings]
 experimental = true

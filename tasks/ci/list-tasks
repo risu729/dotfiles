@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
-#MISE description="List tasks for CI"
+#MISE description="Outputs mise tasks to GITHUB_OUTPUT."
 #MISE hide=true
 
 set -euo pipefail
 
 tasks=$(mise tasks ls --json)
 
-echo "${tasks}" | jq --raw-output --compact-output \
+output=$(echo "${tasks}" | jq --raw-output --compact-output \
 	'map(select(.name | test("^check:[^:]+$"))
 		| {
 			name: (.name | sub("^.+:" ; "")),
@@ -14,4 +14,9 @@ echo "${tasks}" | jq --raw-output --compact-output \
 			require_gh_token: any(.env[]; test("env\\.GITHUB_TOKEN")) | tostring,
 			cache_path: (.env["CACHE_PATH"] // ""),
 		}
-	)'
+	)')
+
+echo "${output}" | jq
+
+# shellcheck disable=SC2154 # environment variable should be provided
+echo "tasks=${output}" >>"${GITHUB_OUTPUT}"
