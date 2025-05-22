@@ -7,7 +7,7 @@ SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 # version of gnupg does not matter
 # hadolint ignore=DL3008
 RUN apt-get update && \
-    apt-get install -y --no-install-recommends curl gnupg && \
+    apt-get install -y --no-install-recommends curl ca-certificates gnupg && \
     rm -rf /var/lib/apt/lists/*
 
 # Configure mise environment variables
