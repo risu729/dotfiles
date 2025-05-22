@@ -124,7 +124,7 @@ if (-not $isAdmin) {
 }
 
 # must be edited by the worker to use the correct GitHub repository
-$repo_name=""
+$repo_name = ""
 # might be edited by the worker to use a specific ref
 $git_ref = ""
 

@@ -14,7 +14,7 @@ app.get("/", (c) => {
 	);
 });
 
-const repoNameRegex = /(?<=repo_name = *")(?=")/;
+const repoNameRegex = /(?<=repo_name *= *")(?=")/;
 const gitRefRegex = /(?<=git_ref *= *")(?=")/;
 const shebangRegex = /^#!.*\n+/;
 
