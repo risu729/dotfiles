@@ -4,6 +4,12 @@ ARG MISE_VERSION
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
+# version of gnupg does not matter
+# hadolint ignore=DL3008
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends gnupg && \
+    rm -rf /var/lib/apt/lists/*
+
 # Configure mise environment variables
 # ref: https://mise.jdx.dev/mise-cookbook/docker.html
 ENV MISE_DATA_DIR="/mise"
