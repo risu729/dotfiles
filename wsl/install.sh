@@ -103,7 +103,7 @@ checkout_default_git_branch() {
 	default_branch=$(echo "${git_remote}" | grep --only-matching --perl-regexp 'HEAD branch: \K.+')
 	default_branch=$(echo "${default_branch}" | tr --delete '\n')
 
-	if [[ -z "${default_branch}" ]]; then
+	if [[ -z ${default_branch} ]]; then
 		log_error "Could not determine the default branch for '${repo_path}'."
 		exit 1
 	fi
