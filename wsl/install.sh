@@ -32,13 +32,14 @@ sudo install --directory --mode=755 /etc/apt/keyrings
 # ref: https://mise.jdx.dev/getting-started.html#apt
 curl --fail-with-body --silent --show-error --location https://mise.jdx.dev/gpg-key.pub |
 	gpg --dearmor |
-	sudo tee /etc/apt/keyrings/mise-archive-keyring.gpg 1>/dev/null
+	sudo tee /etc/apt/keyrings/mise-archive-keyring.gpg >/dev/null
 echo "deb [signed-by=/etc/apt/keyrings/mise-archive-keyring.gpg arch=amd64] https://mise.jdx.dev/deb stable main" |
-	sudo tee /etc/apt/sources.list.d/mise.list
+	sudo tee /etc/apt/sources.list.d/mise.list >/dev/null
 
 # install docker
 # ref: https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository
-curl --fail-with-body --silent --show-error --location https://download.docker.com/linux/ubuntu/gpg --output /etc/apt/keyrings/docker.asc
+curl --fail-with-body --silent --show-error --location https://download.docker.com/linux/ubuntu/gpg |
+	sudo tee /etc/apt/keyrings/docker.asc > /dev/null
 arch="$(dpkg --print-architecture)"
 # shellcheck source=/dev/null
 codename="$(source /etc/os-release && echo "${UBUNTU_CODENAME:-${VERSION_CODENAME}}")"
