@@ -81,7 +81,8 @@ describe("return the installer script with the script origin set", () => {
 		async (path) => {
 			const response = await SELF.fetch(`https://dot.risunosu.com${path}`);
 			expect(await response.text()).toMatch(
-				/^.?script_origin *= *"https:\/\/dot\.risunosu\.com"/gm,
+				// cspell:ignore rigin
+				/^.?script(_o|O)rigin *= *"https:\/\/dot\.risunosu\.com"/gm,
 			);
 		},
 	);
@@ -95,7 +96,7 @@ describe("return the installer script with the script origin set", () => {
 		async (path) => {
 			const response = await SELF.fetch(`http://localhost:8080${path}`);
 			expect(await response.text()).toMatch(
-				/^.?script_origin *= *"http:\/\/localhost:8080"/gm,
+				/^.?script(_o|O)rigin *= *"http:\/\/localhost:8080"/gm,
 			);
 		},
 	);
