@@ -2,6 +2,8 @@ import { Hono } from "hono";
 import { HTTPException } from "hono/http-exception";
 import { poweredBy } from "hono/powered-by";
 
+type OS = "win" | "wsl";
+
 const app = new Hono();
 
 app.use(poweredBy());
@@ -50,20 +52,30 @@ app.get("/:os{win|wsl}", async ({ req, text }) => {
 	const variables = [
 		{
 			name: "repo_name",
+			os: ["win", "wsl"],
 			value: import.meta.env.REPO_NAME,
 		},
 		{
 			name: "git_ref",
+			os: ["win", "wsl"],
 			value: ref ?? "",
 		},
 		{
 			name: "script_origin",
+			os: ["win"],
 			value: new URL(req.url).origin,
 		},
-	];
+	] satisfies {
+		name: string;
+		os: OS[];
+		value: string;
+	}[];
 
 	let script = await githubResponse.text();
-	for (const { name, value } of variables) {
+	for (const { name, os: osList, value } of variables) {
+		if (!osList.includes(os)) {
+			continue;
+		}
 		const regex = new RegExp(`(?<=${name} *= *")(?=")`);
 		if (!regex.test(script)) {
 			throw new HTTPException(500, {
