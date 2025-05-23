@@ -102,6 +102,7 @@ function Invoke-ElevatedScript {
 		[string]$ScriptOrigin,
 
 		[Parameter(Mandatory = $true)]
+  		[AllowEmptyString()]
 		[string]$GitRef
 	)
 
@@ -311,6 +312,7 @@ function Invoke-WslSetupScript {
 		[string]$ScriptOrigin,
 
 		[Parameter(Mandatory = $true)]
+    		[AllowEmptyString()]
 		[string]$GitRef
 	)
 
