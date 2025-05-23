@@ -42,7 +42,6 @@ function Test-MinimumWindowsVersion {
 		$requiredVerNum = [int]("$($matches[1])0$($matches[2])")
 	}
  else {
-		# This indicates an an issue with the script's configuration
 		throw "Internal script error: Required DisplayVersion string format '$($RequiredDisplayVersionString)' is invalid. Expected NNHN format."
 	}
 
