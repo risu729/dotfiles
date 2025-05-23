@@ -60,9 +60,11 @@ install_custom_registry_packages() {
 	# ref: https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository
 	curl --fail-with-body --silent --show-error --location https://download.docker.com/linux/ubuntu/gpg |
 		sudo tee /etc/apt/keyrings/docker.asc >/dev/null
-	local arch="$(dpkg --print-architecture)"
+	local arch
+	arch="$(dpkg --print-architecture)"
+	local codename
 	# shellcheck source=/dev/null
-	local codename="$(source /etc/os-release && echo "${UBUNTU_CODENAME:-${VERSION_CODENAME}}")"
+	codename="$(source /etc/os-release && echo "${UBUNTU_CODENAME:-${VERSION_CODENAME}}")"
 	echo "deb [arch=${arch} signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu ${codename} stable" |
 		sudo tee /etc/apt/sources.list.d/docker.list >/dev/null
 
@@ -75,7 +77,8 @@ install_custom_registry_packages() {
 
 configure_docker_group() {
 	log_info "Configuring Docker group..."
-	local username=$(whoami)
+	local username
+	username=$(whoami)
 	if groups "${username}" | grep --quiet --word-regexp 'docker'; then
 		log_info "User ${username} is already in the docker group."
 	else
@@ -89,15 +92,18 @@ checkout_default_git_branch() {
 	local repo_path="$1"
 	log_info "Checking out default branch..."
 
-	local original_dir=$(pwd)
+	local original_dir
+	original_dir=$(pwd)
 
-	cd "$repo_path"
+	cd "${repo_path}"
 
-	local git_remote=$(git remote show origin 2>/dev/null)
-	local default_branch=$(echo "${git_remote}" | grep --only-matching --perl-regexp 'HEAD branch: \K.+')
+	local git_remote
+	git_remote=$(git remote show origin 2>/dev/null)
+	local default_branch
+	default_branch=$(echo "${git_remote}" | grep --only-matching --perl-regexp 'HEAD branch: \K.+')
 	default_branch=$(echo "${default_branch}" | tr --delete '\n')
 
-	if [ -z "${default_branch}" ]; then
+	if [[ -z "${default_branch}" ]]; then
 		log_error "Could not determine the default branch for '${repo_path}'."
 		exit 1
 	fi
@@ -123,7 +129,8 @@ clone_or_update_dotfiles_repo() {
 	log_info "Preparing dotfiles repository: ${target_repo_name} in ${dotfiles_target_dir}"
 	mkdir --parents "${dotfiles_target_dir}"
 
-	local original_dir=$(pwd)
+	local original_dir
+	original_dir=$(pwd)
 	cd "${dotfiles_target_dir}"
 
 	if git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
@@ -158,7 +165,8 @@ create_home_symlinks() {
 
 	log_info "Creating symbolic links for home directory files from ${wsl_home_config_dir}..."
 	# Exclude .gitignore-sync and postpone .gitconfig
-	local home_paths="$(find "${wsl_home_config_dir}" -type f ! -name ".gitignore-sync" ! -name ".gitconfig")"
+	local home_paths
+	home_paths="$(find "${wsl_home_config_dir}" -type f ! -name ".gitignore-sync" ! -name ".gitconfig")"
 
 	if [[ -z ${home_paths} ]]; then
 		log_error "No home directory files found to symlink."
@@ -167,7 +175,8 @@ create_home_symlinks() {
 
 	for path in ${home_paths}; do
 		local target_name
-		local full_path=$(realpath "${path}")
+		local full_path
+		full_path=$(realpath "${path}")
 
 		if [[ ${full_path} == */.config/git/.gitignore ]]; then
 			# ignore-sync doesn't support filename `ignore-sync`, so rename generated .gitignore to ignore
@@ -189,7 +198,8 @@ create_etc_symlinks() {
 	local wsl_etc_config_dir="${wsl_config_dir}/etc"
 
 	log_info "Creating symbolic links for etc directory files from ${wsl_etc_config_dir}..."
-	local etc_paths="$(find "${wsl_etc_config_dir}" -type f)"
+	local etc_paths
+	etc_paths="$(find "${wsl_etc_config_dir}" -type f)"
 
 	if [[ -z ${etc_paths} ]]; then
 		log_error "No etc directory files found to symlink. Exiting."
@@ -197,8 +207,10 @@ create_etc_symlinks() {
 	fi
 
 	for path in ${etc_paths}; do
-		local full_path=$(realpath "${path}")
-		local target_name="$(realpath --relative-to="${wsl_etc_config_dir}" "${full_path}")"
+		local full_path
+		full_path=$(realpath "${path}")
+		local target_name
+		target_name="$(realpath --relative-to="${wsl_etc_config_dir}" "${full_path}")"
 		local target_path="/etc/${target_name}"
 
 		sudo mkdir --parents "$(dirname "${target_path}")"
@@ -259,7 +271,8 @@ main() {
 	install_custom_registry_packages
 	configure_docker_group
 
-	local dotfiles_dir=$(clone_or_update_dotfiles_repo "${repo_name}" "${git_ref}")
+	local dotfiles_dir
+	dotfiles_dir=$(clone_or_update_dotfiles_repo "${repo_name}" "${git_ref}")
 
 	local wsl_config_dir="${dotfiles_dir}/wsl"
 	create_home_symlinks "${wsl_config_dir}"
