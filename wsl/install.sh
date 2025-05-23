@@ -291,7 +291,4 @@ main() {
 	log_info "Reminder: you might need to start a new shell for all changes to take effect."
 }
 
-# Run the main function only if the script is executed directly
-if [[ ${BASH_SOURCE[0]} == "${0}" ]]; then
-	main "$@"
-fi
+main "$@"
