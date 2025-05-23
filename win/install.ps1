@@ -104,6 +104,9 @@ function Invoke-ExternalCommand {
 	}
 }
 
+# must be edited by the worker to use the same script as requested by the user
+$script_origin = ""
+
 # Test the Windows version
 $minBuild = 26100
 $requiredDisplayVersionString = "24H2"
@@ -117,7 +120,7 @@ catch {
 
 $isAdmin = ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
 if (-not $isAdmin) {
-	$command = "Invoke-RestMethod dot.risunosu.com/win | Invoke-Expression"
+	$command = "Invoke-RestMethod $script_origin/win | Invoke-Expression"
 	Start-Process powershell -ArgumentList "-NoProfile -NoExit -Command &{ $command }" -Verb RunAs
 	Write-Host "Restarting script with administrator privileges..."
 	exit
@@ -135,7 +138,7 @@ Run-ExternalCommand "wsl --version"
 Run-ExternalCommand "wsl --install --distribution `"$distribution`""
 Run-ExternalCommand "wsl --set-default `"$distribution`""
 
-$wsl_script = "https://dot.risunosu.com/wsl"
+$wsl_script = "$script_origin/wsl"
 if ($git_ref -ne "") {
 	$wsl_script += "?ref=$git_ref"
 }
