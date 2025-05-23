@@ -112,9 +112,10 @@ mise trust --all
 # back to home directory
 cd "${HOME}"
 # set jobs to 1 to avoid mise to hang somehow
-mise install --yes --jobs=1
+# use tee to disable progress bars
+mise install --yes --jobs=1 | tee /dev/null
 # tools already installed are not upgraded by mise install
-mise upgrade --yes --jobs=1
+mise upgrade --yes --jobs=1 | tee /dev/null
 # activate to use installed tools in setup-git.ts
 mise_activate="$(mise activate bash)"
 eval "${mise_activate}"
