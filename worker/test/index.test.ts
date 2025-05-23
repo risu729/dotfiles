@@ -34,7 +34,7 @@ describe("return 200 status code with ref query parameters", () => {
 	});
 });
 
-describe("return the installer script with repo_name set", () => {
+describe("return the installer script with the specified repo name set", () => {
 	it.each(["/win", "/wsl"])(
 		"return %s with repo_name",
 		{
@@ -44,13 +44,13 @@ describe("return the installer script with repo_name set", () => {
 		async (path) => {
 			const response = await SELF.fetch(`https://dot.risunosu.com${path}`);
 			expect(await response.text()).toMatch(
-				/^.?repo_name *= *"risu729\/dotfiles"/gm,
+				/^.?repo(_n|N)ame *= *"risu729\/dotfiles"/gm,
 			);
 		},
 	);
 });
 
-describe("return the installer script with a specified ref set", () => {
+describe("return the installer script with the specified ref set", () => {
 	it.each(["/win", "/wsl"])(
 		"return %s with ref",
 		{
