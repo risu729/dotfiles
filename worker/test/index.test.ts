@@ -21,7 +21,7 @@ test("redirect / with 307 status code", async () => {
 describe("return 200 status code", () => {
 	it.each(["/win", "/wsl"])("return %s with 200 status code", async (path) => {
 		const response = await SELF.fetch(
-			`https://dot.risunosu.com${path}?ref=${import.meta.env.LATEST_COMMIT_HASH}`,
+			`https://dot.risunosu.com${path}`,
 		);
 		expect(response.status).toBe(200);
 	});
@@ -45,7 +45,7 @@ describe("return the installer script with repo_name set", () => {
 		},
 		async (path) => {
 			const response = await SELF.fetch(
-				`https://dot.risunosu.com${path}?ref=${import.meta.env.LATEST_COMMIT_HASH}`,
+				`https://dot.risunosu.com${path}`,
 			);
 			expect(await response.text()).toMatch(
 				/^.?repo_name *= *"risu729\/dotfiles"/gm,
@@ -92,7 +92,7 @@ test(
 	},
 	async () => {
 		const response = await SELF.fetch(
-			`https://dot.risunosu.com/wsl?ref=${import.meta.env.LATEST_COMMIT_HASH}`,
+			`https://dot.risunosu.com/wsl`,
 		);
 		// biome-ignore lint/performance/useTopLevelRegex: ignore performance warning in test
 		expect(await response.text()).toMatch(/^#!(?:\/\w+)+/);
@@ -102,13 +102,13 @@ test(
 describe("installer script must contain the source URL", () => {
 	it.each(["/win", "/wsl"])("return %s with default branch", async (path) => {
 		const response = await SELF.fetch(
-			`https://dot.risunosu.com${path}?ref=${import.meta.env.LATEST_COMMIT_HASH}`,
+			`https://dot.risunosu.com${path}`,
 		);
 		const script = await response.text();
 		const sourceUrl = [...script.matchAll(/# source: (?<url>.+)/g)].at(0)
 			?.groups?.["url"];
 		expect(sourceUrl).toBe(
-			`https://raw.githubusercontent.com/risu729/dotfiles/${import.meta.env.LATEST_COMMIT_HASH}${path}/install.${path === "/win" ? "ps1" : "sh"}`,
+			`https://raw.githubusercontent.com/risu729/dotfiles/${import.meta.env.DEFAULT_BRANCH}${path}/install.${path === "/win" ? "ps1" : "sh"}`,
 		);
 	});
 
@@ -149,11 +149,11 @@ describe("installer script is almost the same as the source", () => {
 
 	it.each(["/win", "/wsl"])("return %s with default branch", async (path) => {
 		const response = await SELF.fetch(
-			`https://dot.risunosu.com${path}?ref=${import.meta.env.LATEST_COMMIT_HASH}`,
+			`https://dot.risunosu.com${path}`,
 		);
 		const diff = await getDiffLines(response);
 		// source URL and git ref must be different
-		expect(diff.filter((d) => d.added)).toHaveLength(3);
+		expect(diff.filter((d) => d.added)).toHaveLength(2);
 	});
 
 	it.each(["/win", "/wsl"])("return %s with ref", async (path) => {
