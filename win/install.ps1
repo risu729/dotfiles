@@ -119,7 +119,7 @@ function Invoke-ElevatedScript {
 		$winScriptUrl.Query = "ref=$GitRef"
 	}
 	# Wait for the user to press Enter before closing the elevated PowerShell window
-	$command = "Invoke-RestMethod $($winScriptUrl.ToString()) | Invoke-Expression; Read-Host -Prompt 'Press Enter to exit'"
+	$command = "try { Invoke-RestMethod $($winScriptUrl.ToString()) | Invoke-Expression } finally { Read-Host -Prompt 'Press Enter to exit' }"
 	Start-Process powershell -Verb RunAs -ArgumentList "-NoProfile -Command `"$command`""
 
 	# Exit the current non-elevated process
