@@ -137,22 +137,22 @@ clone_or_update_dotfiles_repo() {
 		log_info "Existing repository found. Pulling updates..."
 		# Do not pull if on a detached HEAD.
 		if git symbolic-ref --quiet HEAD >/dev/null; then
-			git pull --all --prune
+			git pull --all --prune >&2
 		else
-			git fetch --all --prune
+			git fetch --all --prune >&2
 		fi
 	else
 		log_info "Cloning repository https://${repo_url}.git into ${dotfiles_target_dir}..."
-		git clone --origin origin "https://${repo_url}.git" "${dotfiles_target_dir}"
+		git clone --origin origin "https://${repo_url}.git" "${dotfiles_target_dir}" >&2
 	fi
 
 	# Checkout a specific ref if specified
 	if [[ -n ${target_git_ref} ]]; then
 		log_info "Checking out specified git ref for setup: ${target_git_ref}..."
-		git checkout "${target_git_ref}"
+		git checkout "${target_git_ref}" >&2
 		log_info "Successfully checked out ${target_git_ref}."
 	else
-		checkout_default_git_branch "${dotfiles_target_dir}"
+		checkout_default_git_branch "${dotfiles_target_dir}" >&2
 	fi
 
 	cd "${original_dir}"
