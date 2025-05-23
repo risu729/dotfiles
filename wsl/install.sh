@@ -49,7 +49,7 @@ install_custom_registry_packages() {
 	sudo install --directory --mode=0755 /etc/apt/keyrings
 
 	log_info "Adding mise APT repository..."
- 	# ref: https://mise.jdx.dev/getting-started.html#apt
+	# ref: https://mise.jdx.dev/getting-started.html#apt
 	curl --fail-with-body --silent --show-error --location https://mise.jdx.dev/gpg-key.pub |
 		gpg --dearmor |
 		sudo tee /etc/apt/keyrings/mise-archive-keyring.gpg >/dev/null
@@ -57,7 +57,7 @@ install_custom_registry_packages() {
 		sudo tee /etc/apt/sources.list.d/mise.list >/dev/null
 
 	log_info "Adding Docker APT repository..."
- 	# ref: https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository
+	# ref: https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository
 	curl --fail-with-body --silent --show-error --location https://download.docker.com/linux/ubuntu/gpg |
 		sudo tee /etc/apt/keyrings/docker.asc >/dev/null
 	local arch="$(dpkg --print-architecture)"
@@ -95,7 +95,7 @@ checkout_default_git_branch() {
 
 	local git_remote=$(git remote show origin 2>/dev/null)
 	local default_branch=$(echo "${git_remote}" | grep --only-matching --perl-regexp 'HEAD branch: \K.+')
- 	default_branch=$(echo "${default_branch}" | tr --delete '\n')
+	default_branch=$(echo "${default_branch}" | tr --delete '\n')
 
 	if [ -z "${default_branch}" ]; then
 		log_error "Could not determine the default branch for '${repo_path}'."
@@ -105,14 +105,14 @@ checkout_default_git_branch() {
 	git checkout "${default_branch}"
 	log_info "Successfully checked out ${default_branch}."
 
-    cd "${original_dir}"
+	cd "${original_dir}"
 }
 
 clone_or_update_dotfiles_repo() {
 	local target_repo_name="$1"
 	local target_git_ref="$2"
 
-	if [[ -z "${target_repo_name}" ]]; then
+	if [[ -z ${target_repo_name} ]]; then
 		log_error "Repository name not provided to clone_or_update_dotfiles_repo function."
 		exit 1
 	fi
@@ -129,7 +129,7 @@ clone_or_update_dotfiles_repo() {
 	if git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
 		log_info "Existing repository found. Pulling updates..."
 		# Do not pull if on a detached HEAD.
-		if git symbolic-ref --quiet HEAD > /dev/null; then
+		if git symbolic-ref --quiet HEAD >/dev/null; then
 			git pull --all --prune
 		else
 			git fetch --all --prune
@@ -140,7 +140,7 @@ clone_or_update_dotfiles_repo() {
 	fi
 
 	# Checkout a specific ref if specified
-	if [[ -n "${target_git_ref}" ]]; then
+	if [[ -n ${target_git_ref} ]]; then
 		log_info "Checking out specified git ref for setup: ${target_git_ref}..."
 		git checkout "${target_git_ref}"
 		log_info "Successfully checked out ${target_git_ref}."
@@ -160,7 +160,7 @@ create_home_symlinks() {
 	# Exclude .gitignore-sync and postpone .gitconfig
 	local home_paths="$(find "${wsl_home_config_dir}" -type f ! -name ".gitignore-sync" ! -name ".gitconfig")"
 
-	if [[ -z "${home_paths}" ]]; then
+	if [[ -z ${home_paths} ]]; then
 		log_error "No home directory files found to symlink."
 		exit 1
 	fi
@@ -169,7 +169,7 @@ create_home_symlinks() {
 		local target_name
 		local full_path=$(realpath "${path}")
 
-		if [[ "${full_path}" == */.config/git/.gitignore ]]; then
+		if [[ ${full_path} == */.config/git/.gitignore ]]; then
 			# ignore-sync doesn't support filename `ignore-sync`, so rename generated .gitignore to ignore
 			target_name=".config/git/ignore"
 		else
@@ -191,7 +191,7 @@ create_etc_symlinks() {
 	log_info "Creating symbolic links for etc directory files from ${wsl_etc_config_dir}..."
 	local etc_paths="$(find "${wsl_etc_config_dir}" -type f)"
 
-	if [[ -z "${etc_paths}" ]]; then
+	if [[ -z ${etc_paths} ]]; then
 		log_error "No etc directory files found to symlink. Exiting."
 		exit 1
 	fi
@@ -235,11 +235,11 @@ run_git_setup_script() {
 	local dotfiles_repo_root_path="$1"
 	local setup_script_path="${dotfiles_repo_root_path}/wsl/setup-git.ts"
 
-	if [[ "${CI:-false}" == "true" ]]; then
+	if [[ ${CI:-false} == "true" ]]; then
 		log_info "CI environment detected. Skipping git setup script: ${setup_script_path}"
 		return
 	fi
-	if [[ "${SKIP_GIT_SETUP:-false}" == "true" ]]; then
+	if [[ ${SKIP_GIT_SETUP:-false} == "true" ]]; then
 		log_info "SKIP_GIT_SETUP is true. Skipping git setup script: ${setup_script_path}"
 		return
 	fi
@@ -279,6 +279,6 @@ main() {
 }
 
 # Run the main function only if the script is executed directly
-if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
+if [[ ${BASH_SOURCE[0]} == "${0}" ]]; then
 	main "$@"
 fi
