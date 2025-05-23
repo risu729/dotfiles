@@ -202,7 +202,7 @@ create_etc_symlinks() {
 	etc_paths="$(find "${wsl_etc_config_dir}" -type f)"
 
 	if [[ -z ${etc_paths} ]]; then
-		log_error "No etc directory files found to symlink. Exiting."
+		log_error "No etc directory files found to symlink."
 		exit 1
 	fi
 
