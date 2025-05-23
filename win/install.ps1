@@ -263,7 +263,7 @@ Sets up WSL.
 #>
 function Install-Wsl {
 	[CmdletBinding()]
-	param ()
+	param()
 
 	Invoke_ExternalCommand "wsl --install"
 	Invoke-ExternalCommand "wsl --set-default-version 2"
