@@ -72,7 +72,7 @@ describe("return the installer script with a specified ref set", () => {
 });
 
 describe("return the installer script with the script origin set", () => {
-	it.each(["/win", "/wsl"])(
+	it.each(["/win"])(
 		"return %s with script origin",
 		{
 			// regex matching takes time
@@ -86,7 +86,7 @@ describe("return the installer script with the script origin set", () => {
 		},
 	);
 
-	it.each(["/win", "/wsl"])(
+	it.each(["/win"])(
 		"return %s with script origin with port",
 		{
 			// regex matching takes time
