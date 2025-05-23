@@ -14,6 +14,7 @@ app.get("/", (c) => {
 	);
 });
 
+const repoNameRegex = /(?<=repo_name *= *")(?=")/;
 const gitRefRegex = /(?<=git_ref *= *")(?=")/;
 const shebangRegex = /^#!.*\n+/;
 
@@ -28,10 +29,6 @@ app.get("/:os{win|wsl}", async (c) => {
 	const scriptUrl = `https://raw.githubusercontent.com/${import.meta.env.REPO_NAME}/${
 		ref ?? import.meta.env.DEFAULT_BRANCH
 	}/${os}/install.${os === "win" ? "ps1" : "sh"}`;
-	if (ref === undefined) {
-		// just redirect to the installer script if no ref is provided
-		return c.redirect(scriptUrl, 307);
-	}
 	// do not cache the installer script to always fetch the latest version
 	const githubResponse = await fetch(scriptUrl, {
 		headers: {
@@ -51,6 +48,11 @@ app.get("/:os{win|wsl}", async (c) => {
 		});
 	}
 	const script = await githubResponse.text();
+	if (!repoNameRegex.test(script)) {
+		throw new HTTPException(500, {
+			message: "installer script does not contain a repo_name variable",
+		});
+	}
 	if (!gitRefRegex.test(script)) {
 		throw new HTTPException(500, {
 			message: "installer script does not contain a git_ref variable",
@@ -58,7 +60,10 @@ app.get("/:os{win|wsl}", async (c) => {
 	}
 	const shebang = script.match(shebangRegex)?.[0] ?? "";
 	return c.text(
-		`${shebang}# source: ${scriptUrl}\n\n${script.replace(shebang, "").replace(gitRefRegex, ref)}`,
+		`${shebang}# source: ${scriptUrl}\n\n${script
+			.replace(shebang, "")
+			.replace(repoNameRegex, import.meta.env.REPO_NAME)
+			.replace(gitRefRegex, ref ?? "")}`,
 	);
 });
 

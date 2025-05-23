@@ -34,5 +34,8 @@ export default defineConfig(({ mode }) => {
 				: {}),
 		},
 		plugins: [cloudflare()],
+		preview: {
+			strictPort: true,
+		},
 	};
 });

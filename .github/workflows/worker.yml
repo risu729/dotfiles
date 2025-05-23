@@ -45,6 +45,7 @@ jobs:
       - name: Run tests
         run: mise run worker:test
         env:
+          CURRENT_BRANCH: ${{ github.event_name == 'pull_request' && github.head_ref || github.ref_name }}
           GITHUB_TOKEN: ${{ github.token }}
 
   actions-timeline:
