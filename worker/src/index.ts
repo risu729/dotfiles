@@ -2,7 +2,7 @@ import { Hono } from "hono";
 import { HTTPException } from "hono/http-exception";
 import { poweredBy } from "hono/powered-by";
 
-type OS = "win" | "wsl";
+type Os = "win" | "wsl";
 
 const app = new Hono();
 
@@ -67,7 +67,7 @@ app.get("/:os{win|wsl}", async ({ req, text }) => {
 		},
 	] satisfies {
 		name: string;
-		os: OS[];
+		os: Os[];
 		value: string;
 	}[];
 

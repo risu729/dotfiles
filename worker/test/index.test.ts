@@ -173,9 +173,7 @@ describe("installer script is almost the same as the source", () => {
 		const response = await SELF.fetch(`https://dot.risunosu.com${path}`);
 		const diff = await getDiffLines(response);
 		// source URL and git ref must be different
-		expect(diff.filter((d) => d.added)).toHaveLength(
-			path === "/win" ? 3 : 2,
-		);
+		expect(diff.filter((d) => d.added)).toHaveLength(path === "/win" ? 3 : 2);
 	});
 
 	it.each(["/win", "/wsl"])("return %s with ref", async (path) => {
@@ -184,9 +182,7 @@ describe("installer script is almost the same as the source", () => {
 		);
 		const diff = await getDiffLines(response);
 		// source URL, git ref, and repo name must be different
-		expect(diff.filter((d) => d.added)).toHaveLength(
-			path === "/win" ? 4 : 3,
-		);
+		expect(diff.filter((d) => d.added)).toHaveLength(path === "/win" ? 4 : 3);
 	});
 });
 
