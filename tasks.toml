@@ -34,6 +34,7 @@ description = "Run TypeScript compiler to check types in the root directory."
 # schema of wrangler.jsonc is in node_modules
 depends = ["buni:worker"]
 run = "jschema-validator"
+env.GITHUB_TOKEN = "{{ env.GITHUB_TOKEN }}"
 description = "Validate JSON/JSONC/JSON5 files with JSON schema."
 
 ["check:actionlint"]
@@ -98,6 +99,14 @@ description = "Run yamlfmt to format YAML files."
 ["check:yamllint"]
 run = "yamllint --strict ."
 description = "Run yamllint to lint YAML files."
+
+["check:hadolint"]
+# hadolint does not support recursive globbing
+# ref: https://github.com/hadolint/hadolint/issues/972
+run = "hadolint --failure-threshold none docker/wsl/Dockerfile worker/docker/Dockerfile"
+description = "Run hadolint to lint Dockerfile."
+# SHELLCHECK_OPTS cannot be set in hadolint
+# ref: https://github.com/hadolint/hadolint/issues/469
 
 ["check:cspell"]
 run = "cspell {% if env.CI is undefined %}--cache{% endif %} \"**/*\""

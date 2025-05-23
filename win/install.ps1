@@ -326,11 +326,8 @@ function Invoke-WslSetupScript {
 .SYNOPSIS
 Imports winget packages from a JSON file.
 
-.PARAMETER Distribution
-The name of the WSL distribution where the JSON file is located.
-
-.PARAMETER WslUsername
-The username of the user in WSL whose home directory contains the JSON file.
+.PARAMETER DotfilesPath
+The path to the dotfiles repository on the WSL filesystem starting with `\\wsl.localhost`.
 
 .NOTES
 Requires access to the WSL filesystem via \\wsl.localhost.
@@ -339,12 +336,10 @@ function Import-WingetPackages {
 	[CmdletBinding()]
 	param(
 		[Parameter(Mandatory = $true)]
-		[string]$Distribution,
-
-		[Parameter(Mandatory = $true)]
-		[string]$WslUsername
+		[string]$DotfilesPath
 	)
-	$wingetConfigFile = "\\wsl.localhost\$Distribution\home\$WslUsername\ghq\github.com\risu729\dotfiles\win\winget.json"
+
+	$wingetConfigFile = "$DotfilesPath\win\winget.json"
 	Invoke-ExternalCommand "winget import --import-file `"$wingetConfigFile`" --disable-interactivity --accept-package-agreements"
 	Write-Host "winget packages imported successfully."
 
@@ -358,11 +353,8 @@ function Import-WingetPackages {
 .SYNOPSIS
 Configures the PowerToys settings backup directory to a WSL path.
 
-.PARAMETER Distribution
-The name of the WSL distribution where the backup directory should be located.
-
-.PARAMETER WslUsername
-The username of the user in the WSL distribution whose home directory contains the backup directory.
+.PARAMETER DotfilesPath
+The path to the dotfiles repository on the WSL filesystem starting with `\\wsl.localhost`.
 
 .NOTES
 Requires access to the WSL filesystem via \\wsl.localhost.
@@ -374,12 +366,9 @@ function Set-PowerToysBackupDirectory {
 	[CmdletBinding()]
 	param(
 		[Parameter(Mandatory = $true)]
-		[string]$Distribution,
-
-		[Parameter(Mandatory = $true)]
-		[string]$WslUsername
+		[string]$DotfilesPath
 	)
-	$powertoys_backup_dir = "\\wsl.localhost\$Distribution\home\$WslUsername\ghq\github.com\risu729\dotfiles\win\powertoys"
+	$powertoys_backup_dir = "$DotfilesPath\win\powertoys"
 	# cspell:ignore HKCU
 	# Use -Force in case the key/value doesn't exist
 	# ref: https://github.com/microsoft/PowerToys/blob/75121ca7f3491f769423ba2c141934d6b5402de8/src/settings-ui/Settings.UI.Library/SettingsBackupAndRestoreUtils.cs#L392
@@ -408,11 +397,8 @@ function Set-WSLENV {
 .SYNOPSIS
 Runs a git setup script in WSL.
 
-.PARAMETER Distribution
-The name of the WSL distribution where the script is located.
-
-.PARAMETER WslUsername
-The username of the user in the WSL distribution whose home directory contains the script path.
+.PARAMETER RepoName
+The name of the dotfiles repository to set up in WSL.
 
 .NOTES
 Requires a browser in Windows to be installed.
@@ -421,23 +407,25 @@ function Invoke-GitSetupInWsl {
 	[CmdletBinding()]
 	param(
 		[Parameter(Mandatory = $true)]
-		[string]$Distribution,
-
-		[Parameter(Mandatory = $true)]
-		[string]$WslUsername
+		[string]$RepoName
 	)
 
 	# source .bashrc is required to update PATH
-	Invoke-WSLCommand -Interactive -Command "source ~/.bashrc; ~/ghq/github.com/risu729/dotfiles/wsl/setup-git.ts"
+	Invoke-WSLCommand -Interactive -Command "source ~/.bashrc; ~/ghq/github.com/$RepoName/wsl/setup-git.ts"
 }
 
 # ===== Main Script Execution =====
 
+# must be edited by the worker to use the correct GitHub repository
+$repoName = ""
 # might be edited by the worker to use a specific ref
 $gitRef = ""
 $wslDistribution = "Ubuntu-24.04"
 $wslUsername = $env:USERNAME
 $scriptBaseUrl = "https://dot.risunosu.com"
+
+$repoWindowsPath = $repoName -replace '/', '\'
+$dotfilesPath = "\\wsl.localhost\$wslDistribution\home\$wslUsername\ghq\github.com\$repoWindowsPath"
 
 Test-MinimumWindowsVersion -MinimumBuild 26100 -RequiredDisplayVersionString "24H2"
 
@@ -447,11 +435,11 @@ Install-WslDistribution -Distribution $wslDistribution -Username $wslUsername
 
 Invoke-WslSetupScript -scriptBaseUrl $scriptBaseUrl -GitRef $gitRef
 
-Import-WingetPackages -DistributionName $wslDistribution -WslUsername $wslUsername
+Import-WingetPackages -DotfilesPath $dotfilesPath
 
-Set-PowerToysBackupDirectory -Distribution $wslDistribution -WslUsername $wslUsername
+Set-PowerToysBackupDirectory -DotfilesPath $dotfilesPath
 
 Set-WSLENV
 
 # Requires a browser in Windows to be installed, so run in the end
-Invoke-GitSetupInWsl -Distribution $wslDistribution -WslUsername $wslUsername
+Invoke-GitSetupInWsl -RepoName $repoName

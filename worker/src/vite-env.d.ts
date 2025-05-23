@@ -1,4 +1,11 @@
 /// <reference types="vite/client" />
 
-declare const __REPO_NAME__: string;
-declare const __DEFAULT_BRANCH__: string;
+interface ImportMetaEnv {
+	readonly REPO_NAME: string;
+	readonly DEFAULT_BRANCH: string;
+	readonly GITHUB_TOKEN: string | undefined;
+}
+
+interface ImportMeta {
+	readonly env: ImportMetaEnv;
+}

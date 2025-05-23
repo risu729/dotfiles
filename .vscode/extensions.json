@@ -17,6 +17,7 @@
 		// cspell:ignore timonwong
 		"timonwong.shellcheck",
 		"streetsidesoftware.code-spell-checker",
-		"vitest.explorer"
+		"vitest.explorer",
+		"ms-azuretools.vscode-docker"
 	]
 }
