@@ -259,16 +259,13 @@ function New-WslUser {
 
 <#
 .SYNOPSIS
-Sets up WSL.
-#>
-function Install-Wsl {
-	[CmdletBinding()]
-	param ()
+Sets up the WSL distribution.
 
-	Invoke_ExternalCommand "wsl --install"
-	Invoke-ExternalCommand "wsl --set-default-version 2"
-	Invoke-ExternalCommand "wsl --update --pre-release"
-}
+.PARAMETER Distribution
+The name of the WSL distribution to install (e.g., "Ubuntu-24.04").
+
+.PARAMETER Username
+The username for the new WSL user.
 
 .NOTES
 Requires user interaction for password input.
@@ -284,6 +281,8 @@ function Install-WslDistribution {
 		[string]$Username
 	)
 
+	Invoke-ExternalCommand "wsl --set-default-version 2"
+	Invoke-ExternalCommand "wsl --update --pre-release"
 	Invoke-ExternalCommand "wsl --install --distribution `"$Distribution`""
 	Invoke-ExternalCommand "wsl --set-default `"$Distribution`""
 
@@ -434,8 +433,6 @@ $dotfilesPath = "\\wsl.localhost\$wslDistribution\home\$wslUsername\ghq\github.c
 Test-MinimumWindowsVersion -MinimumBuild 26100 -RequiredDisplayVersionString "24H2"
 
 Invoke-ElevatedScript -ScriptOrigin $scriptOrigin -GitRef $gitRef
-
-Install-Wsl
 
 Install-WslDistribution -Distribution $wslDistribution -Username $wslUsername
 
