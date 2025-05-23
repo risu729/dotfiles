@@ -90,7 +90,7 @@ Checks if the script is running with elevated privileges (Administrator).
 If not, it restarts the script with elevated privileges.
 If already elevated, it continues execution.
 
-.PARAMETER ScriptBaseUrl
+.PARAMETER ScriptOrigin
 The base URL for the setup script.
 
 .PARAMETER GitRef
@@ -100,7 +100,7 @@ function Invoke-ElevatedScript {
 	[CmdletBinding()]
 	param(
 		[Parameter(Mandatory = $true)]
-		[string]$ScriptBaseUrl,
+		[string]$ScriptOrigin,
 
 		[Parameter(Mandatory = $true)]
 		[string]$GitRef
@@ -113,7 +113,7 @@ function Invoke-ElevatedScript {
 
 	Write-Host "Administrator privileges required. Restarting script with administrator privileges..."
 
-	$winScriptUrl = [System.UriBuilder]::new($ScriptBaseUrl)
+	$winScriptUrl = [System.UriBuilder]::new($ScriptOrigin)
 	$winScriptUrl.Path = "/win"
 	if ($GitRef -ne "") {
 		$winScriptUrl.Query = "ref=$GitRef"
@@ -298,7 +298,7 @@ function Install-WslDistribution {
 .SYNOPSIS
 Runs a setup script in WSL.
 
-.PARAMETER ScriptBaseUrl
+.PARAMETER ScriptOrigin
 The base URL for the setup script to be executed in WSL.
 
 .PARAMETER GitRef
@@ -308,13 +308,13 @@ function Invoke-WslSetupScript {
 	[CmdletBinding()]
 	param(
 		[Parameter(Mandatory = $true)]
-		[string]$ScriptBaseUrl,
+		[string]$ScriptOrigin,
 
 		[Parameter(Mandatory = $true)]
 		[string]$GitRef
 	)
 
-	$wslScriptUrl = [System.UriBuilder]::new($ScriptBaseUrl)
+	$wslScriptUrl = [System.UriBuilder]::new($ScriptOrigin)
 	$wslScriptUrl.Path = "/wsl"
 	if ($GitRef -ne "") {
 		$wslScriptUrl.Query = "ref=$GitRef"
@@ -416,24 +416,25 @@ function Invoke-GitSetupInWsl {
 
 # ===== Main Script Execution =====
 
+# must be edited by the worker to use the same script as requested by the user
+$scriptOrigin = ""
 # must be edited by the worker to use the correct GitHub repository
 $repoName = ""
 # might be edited by the worker to use a specific ref
 $gitRef = ""
 $wslDistribution = "Ubuntu-24.04"
 $wslUsername = $env:USERNAME
-$scriptBaseUrl = "https://dot.risunosu.com"
 
 $repoWindowsPath = $repoName -replace '/', '\'
 $dotfilesPath = "\\wsl.localhost\$wslDistribution\home\$wslUsername\ghq\github.com\$repoWindowsPath"
 
 Test-MinimumWindowsVersion -MinimumBuild 26100 -RequiredDisplayVersionString "24H2"
 
-Invoke-ElevatedScript -scriptBaseUrl $scriptBaseUrl -GitRef $gitRef
+Invoke-ElevatedScript -ScriptOrigin $scriptOrigin -GitRef $gitRef
 
 Install-WslDistribution -Distribution $wslDistribution -Username $wslUsername
 
-Invoke-WslSetupScript -scriptBaseUrl $scriptBaseUrl -GitRef $gitRef
+Invoke-WslSetupScript -ScriptOrigin $scriptOrigin -GitRef $gitRef
 
 Import-WingetPackages -DotfilesPath $dotfilesPath
 
