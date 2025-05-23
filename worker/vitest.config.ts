@@ -3,7 +3,10 @@ import { defineWorkersConfig } from "@cloudflare/vitest-pool-workers/config";
 import { defineConfig, mergeConfig } from "vitest/config";
 import viteConfig from "./vite.config";
 
-const currentBranch = execSync("git branch --show-current").toString().trim();
+const currentBranch =
+	// biome-ignore lint/nursery/noProcessEnv: Bun.env cannot be used in vite
+	process.env["CURRENT_BRANCH"] ??
+	execSync("git branch --show-current").toString().trim();
 if (!currentBranch) {
 	throw new Error("Could not determine current branch from git.");
 }
