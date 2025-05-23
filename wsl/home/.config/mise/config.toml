@@ -50,8 +50,7 @@ jd = "latest"
 biome = "latest"
 
 # uni tools
-# cspell:ignore sharkdp
-"ubi:sharkdp/numbat" = "latest"
+numbat = "latest"
 
 [settings]
 pin = true
