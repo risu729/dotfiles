@@ -265,7 +265,7 @@ function Install-Wsl {
 	[CmdletBinding()]
 	param()
 
-	Invoke_ExternalCommand "wsl --install"
+	Invoke-ExternalCommand "wsl --install"
 	Invoke-ExternalCommand "wsl --set-default-version 2"
 	Invoke-ExternalCommand "wsl --update --pre-release"
 }
