@@ -294,16 +294,16 @@ function Install-WslDistribution {
 		[string]$Username
 	)
 
-	Invoke-ExternalCommand "wsl --install --distribution `"$Distribution`""
+	# Use no-launch not to require Ctrl+D afterwards
+	Invoke-ExternalCommand "wsl --install --distribution `"$Distribution`" --no-launch"
 	Invoke-ExternalCommand "wsl --set-default `"$Distribution`""
 
-	# TODO: determine when this step is required
-	# wsl --install in non-interactive mode does not create a user so we need to create manually
+	# no-launch skips user creation, so we need to create it manually
 	# ref: https://github.com/microsoft/WSL/issues/10386
-	# $password = Read-Password
-	# New-WslUser -Distribution $Distribution -Username $Username -Password $password
+	$password = Read-Password
+	New-WslUser -Distribution $Distribution -Username $Username -Password $password
 	# Set the default user to the created user
-	# Invoke-ExternalCommand "wsl --manage `"$Distribution`" --set-default-user `"$Username`""
+	Invoke-ExternalCommand "wsl --manage `"$Distribution`" --set-default-user `"$Username`""
 }
 
 <#
