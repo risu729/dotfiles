@@ -19,8 +19,5 @@
 		"streetsidesoftware.code-spell-checker",
 		"vitest.explorer",
 		"ms-azuretools.vscode-docker"
-	],
-	"unwantedRecommendations": [
-		"ms-vscode.powershell" // requires powershell even in linux
 	]
 }

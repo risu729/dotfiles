@@ -34,7 +34,7 @@ describe("return 200 status code with ref query parameters", () => {
 	});
 });
 
-describe("return the installer script with repo_name set", () => {
+describe("return the installer script with the specified repo name set", () => {
 	it.each(["/win", "/wsl"])(
 		"return %s with repo_name",
 		{
@@ -44,13 +44,13 @@ describe("return the installer script with repo_name set", () => {
 		async (path) => {
 			const response = await SELF.fetch(`https://dot.risunosu.com${path}`);
 			expect(await response.text()).toMatch(
-				/^.?repo_name *= *"risu729\/dotfiles"/gm,
+				/^.?repo(_n|N)ame *= *"risu729\/dotfiles"/gm,
 			);
 		},
 	);
 });
 
-describe("return the installer script with a specified ref set", () => {
+describe("return the installer script with the specified ref set", () => {
 	it.each(["/win", "/wsl"])(
 		"return %s with ref",
 		{
@@ -63,9 +63,40 @@ describe("return the installer script with a specified ref set", () => {
 			);
 			expect(await response.text()).toMatch(
 				new RegExp(
-					`^.?git_ref *= *"${import.meta.env.LATEST_COMMIT_HASH}"`,
+					`^.?git(_r|R)ef *= *"${import.meta.env.LATEST_COMMIT_HASH}"`,
 					"gm",
 				),
+			);
+		},
+	);
+});
+
+describe("return the installer script with the script origin set", () => {
+	it.each(["/win"])(
+		"return %s with script origin",
+		{
+			// regex matching takes time
+			timeout: 10000,
+		},
+		async (path) => {
+			const response = await SELF.fetch(`https://dot.risunosu.com${path}`);
+			expect(await response.text()).toMatch(
+				// cspell:ignore rigin
+				/^.?script(_o|O)rigin *= *"https:\/\/dot\.risunosu\.com"/gm,
+			);
+		},
+	);
+
+	it.each(["/win"])(
+		"return %s with script origin with port",
+		{
+			// regex matching takes time
+			timeout: 10000,
+		},
+		async (path) => {
+			const response = await SELF.fetch(`http://localhost:8080${path}`);
+			expect(await response.text()).toMatch(
+				/^.?script(_o|O)rigin *= *"http:\/\/localhost:8080"/gm,
 			);
 		},
 	);
@@ -143,7 +174,7 @@ describe("installer script is almost the same as the source", () => {
 		const response = await SELF.fetch(`https://dot.risunosu.com${path}`);
 		const diff = await getDiffLines(response);
 		// source URL and git ref must be different
-		expect(diff.filter((d) => d.added)).toHaveLength(2);
+		expect(diff.filter((d) => d.added)).toHaveLength(path === "/win" ? 3 : 2);
 	});
 
 	it.each(["/win", "/wsl"])("return %s with ref", async (path) => {
@@ -152,7 +183,7 @@ describe("installer script is almost the same as the source", () => {
 		);
 		const diff = await getDiffLines(response);
 		// source URL, git ref, and repo name must be different
-		expect(diff.filter((d) => d.added)).toHaveLength(3);
+		expect(diff.filter((d) => d.added)).toHaveLength(path === "/win" ? 4 : 3);
 	});
 });
 
