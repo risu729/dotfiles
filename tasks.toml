@@ -30,32 +30,11 @@ depends = ["buni:root"]
 run = "bun run tsc {% if env.CI is defined %}--incremental false{% endif %}"
 description = "Run TypeScript compiler to check types in the root directory."
 
-["check:tsc:worker"]
-depends = ["check:tsc:worker:*"]
-description = "Run TypeScript compiler to check types in the worker directory."
-
-["check:tsc:worker:base"]
-depends = ["buni:worker"]
-run = "bun run tsc --project tsconfig.base.json {% if env.CI is defined %}--incremental false{% endif %}"
-dir = "worker"
-description = "Run TypeScript compiler to check types in the worker directory (base)."
-
-["check:tsc:worker:src"]
-depends = ["buni:worker"]
-run = "bun run tsc --project tsconfig.src.json {% if env.CI is defined %}--incremental false{% endif %}"
-dir = "worker"
-description = "Run TypeScript compiler to check types in the worker directory (src)."
-
-["check:tsc:worker:test"]
-depends = ["buni:worker"]
-run = "bun run tsc --project tsconfig.test.json {% if env.CI is defined %}--incremental false{% endif %}"
-dir = "worker"
-description = "Run TypeScript compiler to check types in the worker directory (test)."
-
 ["check:jsonschema"]
 # schema of wrangler.jsonc is in node_modules
 depends = ["buni:worker"]
 run = "jschema-validator"
+env.GITHUB_TOKEN = "{{ env.GITHUB_TOKEN }}"
 description = "Validate JSON/JSONC/JSON5 files with JSON schema."
 
 ["check:actionlint"]
@@ -63,7 +42,7 @@ run = "actionlint -color"
 # SC2312: check-extra-masked-returns
 # pipefail is set by shell: bash in GitHub Actions but cannot be detected by shellcheck
 # ref: https://docs.github.com/en/actions/writing-workflows/workflow-syntax-for-github-actions#defaultsrunshell
-env = { "SHELLCHECK_OPTS" = "--enable=all --exclude=SC2312" }
+env.SHELLCHECK_OPTS = "--enable=all --exclude=SC2312"
 description = "Run actionlint to check GitHub Actions workflows."
 
 ["check:ghalint"]
@@ -73,11 +52,12 @@ description = "Run ghalint to check GitHub Actions workflows."
 
 ["check:pinact"]
 run = "pinact run --verify {% if env.LINT is defined %}--check{% endif %}"
+env.GITHUB_TOKEN = "{{ env.GITHUB_TOKEN }}"
 description = "Run pinact to pin/check pinned GitHub Actions dependencies in workflows."
 
 ["check:zizmor"]
 run = "zizmor --pedantic ."
-env = { "GH_TOKEN" = "{{ env.GITHUB_TOKEN }}" }
+env.GH_TOKEN = "{{ env.GITHUB_TOKEN }}"
 description = "Run Zizmor to check GitHub Actions workflows."
 
 ["check:taplo"]
@@ -120,14 +100,24 @@ description = "Run yamlfmt to format YAML files."
 run = "yamllint --strict ."
 description = "Run yamllint to lint YAML files."
 
+["check:hadolint"]
+# hadolint does not support recursive globbing
+# ref: https://github.com/hadolint/hadolint/issues/972
+run = "hadolint --failure-threshold none docker/wsl/Dockerfile worker/docker/Dockerfile"
+description = "Run hadolint to lint Dockerfile."
+# SHELLCHECK_OPTS cannot be set in hadolint
+# ref: https://github.com/hadolint/hadolint/issues/469
+
 ["check:cspell"]
 run = "cspell {% if env.CI is undefined %}--cache{% endif %} \"**/*\""
 description = "Run cspell to check spelling in files."
 
 ["check:lychee"]
-run = """
-lychee {% if env.LINT is defined %}--verbose{% endif %} \
-	{% if env.CI is undefined %}--cache{% endif %} \"**/*\""""
+run = "lychee {% if env.LINT is defined %}--verbose{% endif %} \"**/*\""
+env.GITHUB_TOKEN = "{{ env.GITHUB_TOKEN }}"
+# no other ways to set metadata for tasks
+# cspell:ignore lycheecache
+env.CACHE_PATH = ".lycheecache"
 description = "Run Lychee to check links in files."
 
 ["check:typos"]
@@ -139,19 +129,8 @@ run = "ignore-sync ."
 depends_post = [
 	"{% if env.CI is defined %}util:nodiff{% else %}util:donothing{% endif %}",
 ]
+env.GITHUB_TOKEN = "{{ env.GITHUB_TOKEN }}"
 description = "Generate/update .gitignore from .gitignore-sync."
-
-["worker:dev"]
-depends = ["buni:worker"]
-dir = "worker"
-run = "bun run wrangler dev ${{ exec(command='mise run worker:wrangler-args') }}"
-description = "Start a local development server for the worker."
-
-["worker:test"]
-depends = ["buni:worker"]
-run = "bun run vitest {% if env.CI is undefined %}watch --ui{% else %}run{% endif %}"
-dir = "worker"
-description = "Run tests for the worker."
 
 ["buni"]
 depends = ["buni:root", "buni:worker"]
@@ -161,12 +140,6 @@ description = "Install Bun dependencies."
 run = "bun install --frozen-lockfile"
 hide = true
 description = "Install Bun dependencies in the root directory."
-
-["buni:worker"]
-run = "bun install --frozen-lockfile"
-dir = "worker"
-hide = true
-description = "Install Bun dependencies in the worker directory."
 
 ["util:nodiff"] # cspell:ignore nodiff
 run = ["git add .", "git diff --staged --exit-code"]

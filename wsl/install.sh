@@ -2,105 +2,294 @@
 
 set -euxo pipefail
 
+# must be edited by the worker to use the correct GitHub repository
+repo_name=""
 # might be edited by the worker to checkout a specific ref
 git_ref=""
 
-# use apt-get instead of apt for scripts
-# ref: https://manpages.ubuntu.com/manpages/trusty/man8/apt.8.html#:~:text=SCRIPT%20USAGE/
-sudo apt-get update
-sudo apt-get upgrade --yes
+log_info() {
+	echo "INFO: $1" >&2
+}
 
-# not pre-installed in wsl ubuntu
-# ref: https://cloud-images.ubuntu.com/wsl/noble/current/ubuntu-noble-wsl-amd64-wsl.manifest
-sudo apt-get install --yes zip unzip build-essential
+log_warn() {
+	echo "WARNING: $1" >&2
+}
 
-# use PPA for wslu as recommended
-# ref: https://wslu.wedotstud.io/wslu/install.html#ubuntu
-# wslu is for wslview, which opens Windows browser from WSL
-# cspell:ignore wslutilities wslu wslview
-sudo add-apt-repository --yes ppa:wslutilities/wslu
-sudo apt-get update
-sudo apt-get install --yes wslu
+log_error() {
+	echo "ERROR: $1" >&2
+}
 
-# install mise
-# ref: https://mise.jdx.dev/getting-started.html#apt
-sudo install -dm 755 /etc/apt/keyrings
-wget -qO - https://mise.jdx.dev/gpg-key.pub | gpg --dearmor | sudo tee /etc/apt/keyrings/mise-archive-keyring.gpg 1>/dev/null
-echo "deb [signed-by=/etc/apt/keyrings/mise-archive-keyring.gpg arch=amd64] https://mise.jdx.dev/deb stable main" | sudo tee /etc/apt/sources.list.d/mise.list
-sudo apt-get update
-sudo apt-get install -y mise
+update_system_packages() {
+	log_info "Updating system packages..."
+	sudo apt-get update
+	sudo apt-get full-upgrade --yes
+	sudo apt-get autoremove --yes
+	# cspell:ignore autoclean
+	sudo apt-get autoclean --yes
+	log_info "System packages updated."
+}
 
-# use --parents to avoid error if the directory exists
-repo="github.com/risu729/dotfiles"
-dotfiles_dir="${HOME}/ghq/${repo}"
-mkdir --parents "${dotfiles_dir}"
-cd "${dotfiles_dir}"
-if git rev-parse --is-inside-work-tree 1>/dev/null 2>&1; then
-	git fetch --all --prune
-	git pull --all
-else
-	git clone "https://${repo}.git" "${dotfiles_dir}"
-fi
+install_system_packages() {
+	log_info "Installing system packages..."
+	# not pre-installed in wsl ubuntu
+	# ref: https://cdimages.ubuntu.com/ubuntu-wsl/noble/daily-live/current/noble-wsl-amd64.manifest
+	sudo apt-get install --yes zip unzip build-essential
+	log_info "Core packages installed."
+}
 
-# checkout a specific ref if specified
-if [[ -n ${git_ref} ]]; then
-	git checkout "${git_ref}"
-fi
+install_custom_registry_packages() {
+	log_info "Setting up custom APT repositories and installing additional packages..."
 
-wsl_dir="${dotfiles_dir}/wsl"
-cd "${wsl_dir}"
-wsl_home_dir="${wsl_dir}/home"
+	# use PPA for wslu as recommended
+	# ref: https://wslu.wedotstud.io/wslu/install.html#ubuntu
+	# wslu is for wslview, which opens Windows browser from WSL
+	# cspell:ignore wslutilities wslu wslview
+	sudo add-apt-repository --yes ppa:wslutilities/wslu
 
-# create symbolic links for home directory
-# exclude .gitignore-sync
-# postpone .gitconfig to avoid auth error while installing mise tools
-home_paths="$(find ./home -type f ! -name ".gitignore-sync" ! -name ".gitconfig")"
-for path in ${home_paths}; do
-	path="$(realpath "${path}")"
-	if [[ ${path} == */.config/git/.gitignore ]]; then
-		# ignore-sync doesn't support filename `ignore-sync`, so rename generated .gitignore to ignore
-		target=".config/git/ignore"
+	sudo install --directory --mode=0755 /etc/apt/keyrings
+
+	log_info "Adding mise APT repository..."
+	# ref: https://mise.jdx.dev/getting-started.html#apt
+	curl --fail-with-body --silent --show-error --location https://mise.jdx.dev/gpg-key.pub |
+		gpg --dearmor |
+		sudo tee /etc/apt/keyrings/mise-archive-keyring.gpg >/dev/null
+	echo "deb [signed-by=/etc/apt/keyrings/mise-archive-keyring.gpg arch=amd64] https://mise.jdx.dev/deb stable main" |
+		sudo tee /etc/apt/sources.list.d/mise.list >/dev/null
+
+	log_info "Adding Docker APT repository..."
+	# ref: https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository
+	curl --fail-with-body --silent --show-error --location https://download.docker.com/linux/ubuntu/gpg |
+		sudo tee /etc/apt/keyrings/docker.asc >/dev/null
+	local arch
+	arch="$(dpkg --print-architecture)"
+	local codename
+	# shellcheck source=/dev/null
+	codename="$(source /etc/os-release && echo "${UBUNTU_CODENAME:-${VERSION_CODENAME}}")"
+	echo "deb [arch=${arch} signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu ${codename} stable" |
+		sudo tee /etc/apt/sources.list.d/docker.list >/dev/null
+
+	log_info "All repositories set up. Installing packages..."
+	sudo apt-get update
+	# cspell:ignore containerd buildx
+	sudo apt-get install --yes wslu mise docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+	log_info "Additional packages installed."
+}
+
+configure_docker_group() {
+	log_info "Configuring Docker group..."
+	local username
+	username=$(whoami)
+	if groups "${username}" | grep --quiet --word-regexp 'docker'; then
+		log_info "User ${username} is already in the docker group."
 	else
-		target="$(realpath --relative-to="${wsl_home_dir}" "${path}")"
+		# cspell:ignore usermod
+		sudo usermod --append --groups docker "${username}"
+		log_info "User ${username} added to the docker group."
 	fi
-	mkdir --parents "$(dirname "${HOME}/${target}")"
-	ln --symbolic --no-dereference --force "${path}" "${HOME}/${target}"
-	# shellcheck disable=SC2088 # intentionally print ~ instead of $HOME
-	echo installed "~/${target}"
-done
+}
 
-# create symbolic links for etc directory
-etc_paths="$(find ./etc -type f)"
-for path in ${etc_paths}; do
-	path="$(realpath "${path}")"
-	target="/etc/$(realpath --relative-to="${wsl_dir}/etc" "${path}")"
-	sudo mkdir --parents "$(dirname "${target}")"
-	sudo ln --symbolic --no-dereference --force "${path}" "${target}"
-	sudo chown root:root "${target}"
-	# shellcheck disable=SC2088 # intentionally print ~ instead of $HOME
-	echo installed "${target}"
-done
+checkout_default_git_branch() {
+	local repo_path="$1"
+	log_info "Checking out default branch..."
 
-# trust mise configs in dotfiles
-mise trust --all
-# back to home directory
-cd "${HOME}"
-mise install --yes
-# tools already installed are not upgraded by mise install
-mise upgrade
-# activate to use installed tools in setup-git.ts
-mise_activate="$(mise activate bash)"
-eval "${mise_activate}"
-echo installed mise
+	local original_dir
+	original_dir=$(pwd)
 
-ln --symbolic --no-dereference --force "${wsl_home_dir}/.gitconfig" "${HOME}/.gitconfig"
+	cd "${repo_path}"
 
-echo installed dotfiles!
+	local git_remote
+	git_remote=$(git remote show origin 2>/dev/null)
+	local default_branch
+	default_branch=$(echo "${git_remote}" | grep --only-matching --perl-regexp 'HEAD branch: \K.+')
+	default_branch=$(echo "${default_branch}" | tr --delete '\n')
 
-# shellcheck disable=SC2154 # CI is defined in GitHub Actions, SKIP_GIT_SETUP may be defined as environment variable
-if [[ ${CI:-} != true && ${SKIP_GIT_SETUP:-} != true ]]; then
-	if ! "${wsl_dir}/setup-git.ts"; then
-		echo "Failed to setup Git. Please run ${wsl_dir}/setup-git.ts manually."
+	if [[ -z ${default_branch} ]]; then
+		log_error "Could not determine the default branch for '${repo_path}'."
 		exit 1
 	fi
-fi
+
+	git checkout "${default_branch}"
+	log_info "Successfully checked out ${default_branch}."
+
+	cd "${original_dir}"
+}
+
+clone_or_update_dotfiles_repo() {
+	local target_repo_name="$1"
+	local target_git_ref="$2"
+
+	if [[ -z ${target_repo_name} ]]; then
+		log_error "Repository name not provided to clone_or_update_dotfiles_repo function."
+		exit 1
+	fi
+
+	local repo_url="github.com/${target_repo_name}"
+	local dotfiles_target_dir="${HOME}/ghq/${repo_url}"
+
+	log_info "Preparing dotfiles repository: ${target_repo_name} in ${dotfiles_target_dir}"
+	mkdir --parents "${dotfiles_target_dir}"
+
+	local original_dir
+	original_dir=$(pwd)
+	cd "${dotfiles_target_dir}"
+
+	if git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+		log_info "Existing repository found. Pulling updates..."
+		# Do not pull if on a detached HEAD.
+		if git symbolic-ref --quiet HEAD >/dev/null; then
+			git pull --all --prune >&2
+		else
+			git fetch --all --prune >&2
+		fi
+	else
+		log_info "Cloning repository https://${repo_url}.git into ${dotfiles_target_dir}..."
+		git clone --origin origin "https://${repo_url}.git" "${dotfiles_target_dir}" >&2
+	fi
+
+	# Checkout a specific ref if specified
+	if [[ -n ${target_git_ref} ]]; then
+		log_info "Checking out specified git ref for setup: ${target_git_ref}..."
+		git checkout "${target_git_ref}" >&2
+		log_info "Successfully checked out ${target_git_ref}."
+	else
+		checkout_default_git_branch "${dotfiles_target_dir}" >&2
+	fi
+
+	cd "${original_dir}"
+	echo "${dotfiles_target_dir}"
+}
+
+create_home_symlinks() {
+	local wsl_config_dir="$1"
+	local wsl_home_config_dir="${wsl_config_dir}/home"
+
+	log_info "Creating symbolic links for home directory files from ${wsl_home_config_dir}..."
+	# Exclude .gitignore-sync and postpone .gitconfig
+	local home_paths
+	home_paths="$(find "${wsl_home_config_dir}" -type f ! -name ".gitignore-sync" ! -name ".gitconfig")"
+
+	if [[ -z ${home_paths} ]]; then
+		log_error "No home directory files found to symlink."
+		exit 1
+	fi
+
+	for path in ${home_paths}; do
+		local target_name
+		local full_path
+		full_path=$(realpath "${path}")
+
+		if [[ ${full_path} == */.config/git/.gitignore ]]; then
+			# ignore-sync doesn't support filename `ignore-sync`, so rename generated .gitignore to ignore
+			target_name=".config/git/ignore"
+		else
+			target_name="$(realpath --relative-to="${wsl_home_config_dir}" "${full_path}")"
+		fi
+		local target_path="${HOME}/${target_name}"
+
+		mkdir --parents "$(dirname "${target_path}")"
+		ln --symbolic --no-dereference --force "${full_path}" "${target_path}"
+		# shellcheck disable=SC2088 # intentionally print ~ instead of $HOME
+		log_info "Installed symlink: ~/${target_name}"
+	done
+}
+
+create_etc_symlinks() {
+	local wsl_config_dir="$1"
+	local wsl_etc_config_dir="${wsl_config_dir}/etc"
+
+	log_info "Creating symbolic links for etc directory files from ${wsl_etc_config_dir}..."
+	local etc_paths
+	etc_paths="$(find "${wsl_etc_config_dir}" -type f)"
+
+	if [[ -z ${etc_paths} ]]; then
+		log_error "No etc directory files found to symlink."
+		exit 1
+	fi
+
+	for path in ${etc_paths}; do
+		local full_path
+		full_path=$(realpath "${path}")
+		local target_name
+		target_name="$(realpath --relative-to="${wsl_etc_config_dir}" "${full_path}")"
+		local target_path="/etc/${target_name}"
+
+		sudo mkdir --parents "$(dirname "${target_path}")"
+		sudo ln --symbolic --no-dereference --force "${full_path}" "${target_path}"
+		sudo chown root:root "${target_path}"
+		log_info "Installed symlink: ${target_path}"
+	done
+}
+
+install_mise_tools() {
+	log_info "Installing global mise tools..."
+
+	mise trust --all
+
+	log_info "Installing tools..."
+	# Use tee to disable progress bars
+	mise install --yes | tee /dev/null
+	log_info "Upgrading tools..."
+	mise upgrade --yes | tee /dev/null
+	log_info "mise tools installed and upgraded."
+}
+
+symlink_gitconfig() {
+	local wsl_config_dir="$1"
+	local gitconfig_source="${wsl_config_dir}/home/.gitconfig"
+	local gitconfig_target="${HOME}/.gitconfig"
+
+	log_info "Symlinking .gitconfig from ${gitconfig_source} to ${gitconfig_target}..."
+	ln --symbolic --no-dereference --force "${gitconfig_source}" "${gitconfig_target}"
+	# shellcheck disable=SC2088 # intentionally print ~ instead of $HOME
+	log_info "Installed symlink for ~/.gitconfig"
+}
+
+run_git_setup_script() {
+	local dotfiles_repo_root_path="$1"
+	local setup_script_path="${dotfiles_repo_root_path}/wsl/setup-git.ts"
+
+	if [[ ${CI:-false} == "true" ]]; then
+		log_info "CI environment detected. Skipping git setup script: ${setup_script_path}"
+		return
+	fi
+	if [[ ${SKIP_GIT_SETUP:-false} == "true" ]]; then
+		log_info "SKIP_GIT_SETUP is true. Skipping git setup script: ${setup_script_path}"
+		return
+	fi
+
+	log_info "Running git setup script: ${setup_script_path}"
+
+	if "${setup_script_path}"; then
+		log_info "Git setup script completed successfully."
+	else
+		log_error "Failed to run ${setup_script_path}. Please run it manually if needed."
+	fi
+}
+
+main() {
+	update_system_packages
+	install_system_packages
+	install_custom_registry_packages
+	configure_docker_group
+
+	local dotfiles_dir
+	dotfiles_dir=$(clone_or_update_dotfiles_repo "${repo_name}" "${git_ref}")
+
+	local wsl_config_dir="${dotfiles_dir}/wsl"
+	create_home_symlinks "${wsl_config_dir}"
+	create_etc_symlinks "${wsl_config_dir}"
+
+	install_mise_tools
+
+	# Postpone .gitconfig to avoid authentication errors in install_mise_tools
+	symlink_gitconfig "${wsl_config_dir}"
+
+	run_git_setup_script "${dotfiles_dir}"
+
+	checkout_default_git_branch "${dotfiles_dir}"
+
+	log_info "WSL setup script finished successfully!"
+	log_info "Reminder: you might need to start a new shell for all changes to take effect."
+}
+
+main "$@"

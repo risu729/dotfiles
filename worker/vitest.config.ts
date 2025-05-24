@@ -1,28 +1,51 @@
-// ref: https://vitest.dev/config/
-
-import { exec } from "node:child_process";
-import { promisify } from "node:util";
+import { execSync } from "node:child_process";
 import { defineWorkersConfig } from "@cloudflare/vitest-pool-workers/config";
+import { defineConfig, mergeConfig } from "vitest/config";
+import viteConfig from "./vite.config";
 
-const { stdout: compatibilityDate } = await promisify(exec)(
-	"mise run worker:wrangler-compat-date",
-);
+const currentBranch =
+	// biome-ignore lint/nursery/noProcessEnv: Bun.env cannot be used in vite
+	process.env["CURRENT_BRANCH"] ??
+	execSync("git branch --show-current").toString().trim();
+if (!currentBranch) {
+	throw new Error("Could not determine current branch from git.");
+}
+const latestCommitHash = execSync("git rev-parse HEAD").toString().trim();
+if (!latestCommitHash) {
+	throw new Error("Could not determine latest commit hash from git.");
+}
 
-export default defineWorkersConfig({
-	test: {
-		poolOptions: {
-			workers: {
-				wrangler: {
-					configPath: "./wrangler.jsonc",
+// ref: https://vitest.dev/config/
+export default defineConfig((configEnv) =>
+	mergeConfig(
+		viteConfig(configEnv),
+		defineWorkersConfig({
+			test: {
+				env: {
+					// fix constants in tests
+					// biome-ignore lint/style/useNamingConvention: env var
+					REPO_NAME: "risu729/dotfiles",
+					// use current branch name as default branch for testing
+					// biome-ignore lint/style/useNamingConvention: env var
+					DEFAULT_BRANCH: currentBranch,
+
+					// biome-ignore lint/style/useNamingConvention: env var
+					LATEST_COMMIT_HASH: latestCommitHash,
+
+					// define in vite.config.ts does not work in vitest, so define here
+					// biome-ignore lint/style/useNamingConvention: env var
+					// biome-ignore lint/nursery/noProcessEnv: Bun.env cannot be used in vite
+					GITHUB_TOKEN: process.env["GITHUB_TOKEN"],
 				},
-				// merged with wrangler.jsonc
-				// ref: https://github.com/cloudflare/workers-sdk/blob/e42f32071871b0208e9f00cfd7078d8a5c03fe38/packages/vitest-pool-workers/src/pool/config.ts#L208
-				// cspell:ignore miniflare
-				miniflare: {
-					compatibilityDate: compatibilityDate,
+				poolOptions: {
+					workers: {
+						wrangler: {
+							configPath: "./wrangler.jsonc",
+						},
+						singleWorker: true,
+					},
 				},
-				singleWorker: true,
 			},
-		},
-	},
-});
+		}),
+	),
+);

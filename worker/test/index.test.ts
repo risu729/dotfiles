@@ -1,55 +1,56 @@
-import {
-	createExecutionContext,
-	env,
-	waitOnExecutionContext,
-} from "cloudflare:test";
-import { diffLines } from "diff";
-import { beforeAll, describe, expect, it, test } from "vitest";
-import worker from "../src/index.js";
-
-// biome-ignore lint/correctness/noUndeclaredVariables: cannot read tsconfig.json#compilerOptions.types
-const IncomingRequest = Request<unknown, IncomingRequestCfProperties>;
-
-beforeAll(() => {
-	// set the variables that are used in the worker
-	env.REPO_NAME = "risu729/dotfiles";
-	env.DEFAULT_BRANCH = "main";
-});
-
-const fetchWorker = async (url: string): Promise<Response> => {
-	const request = new IncomingRequest(url);
-	const context = createExecutionContext();
-	const response = await worker.fetch(request, env, context);
-	await waitOnExecutionContext(context);
-	return response;
-};
+import { SELF } from "cloudflare:test";
+import { type ChangeObject, diffLines } from "diff";
+import { describe, expect, it, test } from "vitest";
 
 test("redirect / to repository readme", async () => {
-	const response = await fetchWorker("https://dot.risunosu.com/");
-	expect(response.headers.get("Location")).toBe(
+	const response = await SELF.fetch("https://dot.risunosu.com/", {
+		redirect: "manual",
+	});
+	expect(response.headers.get("location")).toBe(
 		"https://github.com/risu729/dotfiles#readme",
 	);
 });
 
-describe("redirect to the installer script", () => {
-	it.each([
-		{
-			path: "/win",
-			scriptPath: "/win/install.ps1",
-		},
-		{
-			path: "/wsl",
-			scriptPath: "/wsl/install.sh",
-		},
-	])("redirect $path", async ({ path, scriptPath }) => {
-		const response = await fetchWorker(`https://dot.risunosu.com${path}`);
-		expect(response.headers.get("Location")).toBe(
-			`https://raw.githubusercontent.com/risu729/dotfiles/main${scriptPath}`,
-		);
+test("redirect / with 307 status code", async () => {
+	const response = await SELF.fetch("https://dot.risunosu.com/", {
+		redirect: "manual",
+	});
+	expect(response.status).toBe(307);
+});
+
+describe("return 200 status code", () => {
+	it.each(["/win", "/wsl"])("return %s with 200 status code", async (path) => {
+		const response = await SELF.fetch(`https://dot.risunosu.com${path}`);
+		expect(response.status).toBe(200);
 	});
 });
 
-describe("return the installer script with a specified ref set to a variable", () => {
+describe("return 200 status code with ref query parameters", () => {
+	it.each(["/win", "/wsl"])("return %s with ref", async (path) => {
+		const response = await SELF.fetch(
+			`https://dot.risunosu.com${path}?ref=${import.meta.env.LATEST_COMMIT_HASH}`,
+		);
+		expect(response.status).toBe(200);
+	});
+});
+
+describe("return the installer script with the specified repo name set", () => {
+	it.each(["/win", "/wsl"])(
+		"return %s with repo_name",
+		{
+			// regex matching takes time
+			timeout: 10000,
+		},
+		async (path) => {
+			const response = await SELF.fetch(`https://dot.risunosu.com${path}`);
+			expect(await response.text()).toMatch(
+				/^.?repo(_n|N)ame *= *"risu729\/dotfiles"/gm,
+			);
+		},
+	);
+});
+
+describe("return the installer script with the specified ref set", () => {
 	it.each(["/win", "/wsl"])(
 		"return %s with ref",
 		{
@@ -57,56 +58,92 @@ describe("return the installer script with a specified ref set to a variable", (
 			timeout: 10000,
 		},
 		async (path) => {
-			// biome-ignore lint/nursery/noSecrets: just a example, not a secret
-			const ref = "ed61d947087a6e943267c6eaa82d0e0039b9b279";
-			const response = await fetchWorker(
-				`https://dot.risunosu.com${path}?ref=${ref}`,
+			const response = await SELF.fetch(
+				`https://dot.risunosu.com${path}?ref=${import.meta.env.LATEST_COMMIT_HASH}`,
 			);
 			expect(await response.text()).toMatch(
-				new RegExp(`^.?git_ref *= *"${ref}"`, "gm"),
+				new RegExp(
+					`^.?git(_r|R)ef *= *"${import.meta.env.LATEST_COMMIT_HASH}"`,
+					"gm",
+				),
 			);
 		},
 	);
 });
 
-describe("redirect with 307 status code", () => {
-	it.each(["/", "/win", "/wsl"])("redirect %s", async (path) => {
-		const response = await fetchWorker(`https://dot.risunosu.com${path}`);
-		expect(response.status).toBe(307);
-	});
+describe("return the installer script with the script origin set", () => {
+	it.each(["/win"])(
+		"return %s with script origin",
+		{
+			// regex matching takes time
+			timeout: 10000,
+		},
+		async (path) => {
+			const response = await SELF.fetch(`https://dot.risunosu.com${path}`);
+			expect(await response.text()).toMatch(
+				// cspell:ignore rigin
+				/^.?script(_o|O)rigin *= *"https:\/\/dot\.risunosu\.com"/gm,
+			);
+		},
+	);
+
+	it.each(["/win"])(
+		"return %s with script origin with port",
+		{
+			// regex matching takes time
+			timeout: 10000,
+		},
+		async (path) => {
+			const response = await SELF.fetch(`http://localhost:8080${path}`);
+			expect(await response.text()).toMatch(
+				/^.?script(_o|O)rigin *= *"http:\/\/localhost:8080"/gm,
+			);
+		},
+	);
 });
 
 describe("return 200 status code with ref query parameters", () => {
 	it.each(["/win", "/wsl"])("return %s with ref", async (path) => {
-		const response = await fetchWorker(
-			`https://dot.risunosu.com${path}?ref=ed61d947087a6e943267c6eaa82d0e0039b9b279`,
+		const response = await SELF.fetch(
+			`https://dot.risunosu.com${path}?ref=${import.meta.env.LATEST_COMMIT_HASH}`,
 		);
 		expect(response.status).toBe(200);
 	});
 });
 
-describe("installer script for wsl should have a shebang", () => {
-	it("return /wsl with ref", async () => {
-		const response = await fetchWorker(
-			// biome-ignore lint/nursery/noSecrets: false positive
-			"https://dot.risunosu.com/wsl?ref=ed61d947087a6e943267c6eaa82d0e0039b9b279",
-		);
+test(
+	"installer script for wsl must have a shebang",
+	{
+		// regex matching takes time
+		timeout: 10000,
+	},
+	async () => {
+		const response = await SELF.fetch("https://dot.risunosu.com/wsl");
 		// biome-ignore lint/performance/useTopLevelRegex: ignore performance warning in test
 		expect(await response.text()).toMatch(/^#!(?:\/\w+)+/);
-	});
-});
+	},
+);
 
-describe("installer script contains the source URL", () => {
+describe("installer script must contain the source URL", () => {
+	it.each(["/win", "/wsl"])("return %s with default branch", async (path) => {
+		const response = await SELF.fetch(`https://dot.risunosu.com${path}`);
+		const script = await response.text();
+		const sourceUrl = [...script.matchAll(/# source: (?<url>.+)/g)].at(0)
+			?.groups?.["url"];
+		expect(sourceUrl).toBe(
+			`https://raw.githubusercontent.com/risu729/dotfiles/${import.meta.env.DEFAULT_BRANCH}${path}/install.${path === "/win" ? "ps1" : "sh"}`,
+		);
+	});
+
 	it.each(["/win", "/wsl"])("return %s with ref", async (path) => {
-		// biome-ignore lint/nursery/noSecrets: just a example, not a secret
-		const ref = "ed61d947087a6e943267c6eaa82d0e0039b9b279";
-		const response = await fetchWorker(
-			`https://dot.risunosu.com${path}?ref=${ref}`,
+		const response = await SELF.fetch(
+			`https://dot.risunosu.com${path}?ref=${import.meta.env.LATEST_COMMIT_HASH}`,
 		);
 		const script = await response.text();
-		const sourceUrl = [...script.matchAll(/# source: (.+)/g)][0]?.[1];
+		const sourceUrl = [...script.matchAll(/# source: (?<url>.+)/g)].at(0)
+			?.groups?.["url"];
 		expect(sourceUrl).toBe(
-			`https://raw.githubusercontent.com/risu729/dotfiles/${ref}${path}/install.${
+			`https://raw.githubusercontent.com/risu729/dotfiles/${import.meta.env.LATEST_COMMIT_HASH}${path}/install.${
 				path === "/win" ? "ps1" : "sh"
 			}`,
 		);
@@ -114,28 +151,45 @@ describe("installer script contains the source URL", () => {
 });
 
 describe("installer script is almost the same as the source", () => {
-	it.each(["/win", "/wsl"])("return %s with ref", async (path) => {
-		// biome-ignore lint/nursery/noSecrets: just a example, not a secret
-		const ref = "ed61d947087a6e943267c6eaa82d0e0039b9b279";
-		const response = await fetchWorker(
-			`https://dot.risunosu.com${path}?ref=${ref}`,
-		);
+	const getDiffLines = async (
+		response: Response,
+	): Promise<ChangeObject<string>[]> => {
 		const script = await response.text();
-		const sourceUrl = [...script.matchAll(/# source: (.+)/g)][0]?.[1];
+		const sourceUrl = [...script.matchAll(/# source: (?<url>.+)/g)].at(0)
+			?.groups?.["url"];
 		if (!sourceUrl) {
 			throw new Error("source URL not found (covered by the previous test)");
 		}
 		const sourceResponse = await fetch(sourceUrl);
+		if (!sourceResponse.ok) {
+			throw new Error(
+				`failed to fetch source script: ${sourceResponse.statusText}`,
+			);
+		}
 		const sourceScript = await sourceResponse.text();
-		const diff = diffLines(sourceScript, script);
-		// source URL and git_ref should be modified
-		expect(diff.filter((d) => d.added)).toHaveLength(2);
+		return diffLines(sourceScript, script);
+	};
+
+	it.each(["/win", "/wsl"])("return %s with default branch", async (path) => {
+		const response = await SELF.fetch(`https://dot.risunosu.com${path}`);
+		const diff = await getDiffLines(response);
+		// source URL and git ref must be different
+		expect(diff.filter((d) => d.added)).toHaveLength(path === "/win" ? 3 : 2);
+	});
+
+	it.each(["/win", "/wsl"])("return %s with ref", async (path) => {
+		const response = await SELF.fetch(
+			`https://dot.risunosu.com${path}?ref=${import.meta.env.LATEST_COMMIT_HASH}`,
+		);
+		const diff = await getDiffLines(response);
+		// source URL, git ref, and repo name must be different
+		expect(diff.filter((d) => d.added)).toHaveLength(path === "/win" ? 4 : 3);
 	});
 });
 
 describe("return 404 for other paths", () => {
 	it.each(["/mac", "/linux/ubuntu"])("return 404 for %s", async (path) => {
-		const response = await fetchWorker(`https://dot.risunosu.com${path}`);
+		const response = await SELF.fetch(`https://dot.risunosu.com${path}`);
 		expect(response.status).toBe(404);
 	});
 });

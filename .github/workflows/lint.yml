@@ -34,20 +34,15 @@ jobs:
           persist-credentials: false
 
       - name: Install mise
-        uses: jdx/mise-action@7a111ead46986ccad89a74ad013ba2a7c08c9e67 # v2.2.1
+        uses: jdx/mise-action@c94f0bf9e520b150e34c017db785461f7e71c5fb # v2.2.2
         with:
-          version: 2025.4.11
-          cache_save: ${{ github.ref_name == 'main' }}
+          version: 2025.5.11
         env:
           GITHUB_TOKEN: ${{ github.token }}
 
       - name: List mise tasks
         id: list
-        run: |
-          tasks=$(mise tasks ls --json \
-            | jq --raw-output --compact-output \
-              'map(select(.name | test("^check:")) | {name: (.name | sub("^.+:" ; "")), task: .name})')
-          echo "tasks=${tasks}" >> "${GITHUB_OUTPUT}"
+        run: mise run ci:list-tasks
 
   lint:
     needs: list-tasks
@@ -72,18 +67,33 @@ jobs:
           persist-credentials: false
 
       - name: Install mise
-        uses: jdx/mise-action@7a111ead46986ccad89a74ad013ba2a7c08c9e67 # v2.2.1
+        uses: jdx/mise-action@c94f0bf9e520b150e34c017db785461f7e71c5fb # v2.2.2
         with:
-          version: 2025.4.11
-          cache_save: ${{ github.ref_name == 'main' }}
+          version: 2025.5.11
         env:
           GITHUB_TOKEN: ${{ github.token }}
+
+      - name: Restore cache
+        id: restore-cache
+        if: matrix.cache_path != ''
+        uses: actions/cache/restore@5a3ec84eff668545956fd18022155c47e93e2684 # v4.2.3
+        with:
+          path: ${{ matrix.cache_path }}
+          key: cache-${{ matrix.name }}-${{ github.sha }}
+          restore-keys: cache-${{ matrix.name }}-
 
       - name: Run ${{ matrix.name }}
         run: mise run ${{ matrix.task }}
         env:
           LINT: true
-          GITHUB_TOKEN: ${{ github.token }}
+          GITHUB_TOKEN: ${{ matrix.require_gh_token == 'true' && github.token || '' }}
+
+      - name: Save cache
+        uses: actions/cache/save@5a3ec84eff668545956fd18022155c47e93e2684 # v4.2.3
+        if: ${{ !cancelled() && matrix.cache_path != '' }}
+        with:
+          path: ${{ matrix.cache_path }}
+          key: ${{ steps.restore-cache.outputs.cache-primary-key }}
 
   commitlint:
     runs-on: ubuntu-24.04
@@ -99,10 +109,9 @@ jobs:
           persist-credentials: false
 
       - name: Install mise
-        uses: jdx/mise-action@7a111ead46986ccad89a74ad013ba2a7c08c9e67 # v2.2.1
+        uses: jdx/mise-action@c94f0bf9e520b150e34c017db785461f7e71c5fb # v2.2.2
         with:
-          version: 2025.4.11
-          cache_save: ${{ github.ref_name == 'main' }}
+          version: 2025.5.11
         env:
           GITHUB_TOKEN: ${{ github.token }}
 
