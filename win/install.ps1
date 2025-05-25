@@ -219,11 +219,13 @@ function Test-WslDistributionInstalled {
 	# - ^\s*: Matches the beginning of the line with optional leading whitespace
 	# - (?:\*\s*)?: An optional non-capturing group for an asterisk (default marker) followed by whitespace
 	# - (?<DistroName>\S+): Named capture group "DistroName" for one or more non-whitespace characters
-	$regex = "^\s*(?:\*\s*)?(?<DistroName>\S+)"
+	$regex = '^\s*(?:\*\s*)?(?<DistroName>\S+)'
 
 	# Skip the header line and process the rest
 	foreach ($line in ($wslOutputLines | Select-Object -Skip 1)) {
-		if ($line -match $regex) {
+		# line might include NULL char so remove it
+		$cleanedLine = $line.Replace("`0", "").Trim()
+		if ($cleanedLine -match $regex) {
 			$foundName = $Matches.DistroName
 			if ($foundName -eq $Name) {
 				return $true
