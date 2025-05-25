@@ -244,6 +244,18 @@ symlink_gitconfig() {
 	log_info "Installed symlink for ~/.gitconfig"
 }
 
+init_gnupg_dir() {
+	local gnupg_home
+	gnupg_home="${HOME}/.gnupg"
+
+	log_info "Initializing GnuPG directory: ${gnupg_home}"
+
+	mkdir -p "${gnupg_home}"
+	chmod 700 "${gnupg_home}"
+
+	echo "GnuPG directory created."
+}
+
 run_git_setup_script() {
 	local dotfiles_repo_root_path="$1"
 	local setup_script_path="${dotfiles_repo_root_path}/wsl/setup-git.ts"
@@ -283,6 +295,8 @@ main() {
 
 	# Postpone .gitconfig to avoid authentication errors in install_mise_tools
 	symlink_gitconfig "${wsl_config_dir}"
+
+	init_gnupg_dir
 
 	run_git_setup_script "${dotfiles_dir}"
 
