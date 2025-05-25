@@ -245,15 +245,15 @@ symlink_gitconfig() {
 }
 
 init_gnupg_dir() {
-  local gnupg_home
-  gnupg_home="${HOME}/.gnupg"
+	local gnupg_home
+	gnupg_home="${HOME}/.gnupg"
 
-  log_info "Initializing GnuPG directory: ${gnupg_home}"
+	log_info "Initializing GnuPG directory: ${gnupg_home}"
 
-  mkdir -p "${gnupg_home}"
-  chmod 700 "${gnupg_home}"
+	mkdir -p "${gnupg_home}"
+	chmod 700 "${gnupg_home}"
 
-  echo "GnuPG directory created."
+	echo "GnuPG directory created."
 }
 
 run_git_setup_script() {
