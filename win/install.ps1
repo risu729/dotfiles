@@ -187,6 +187,55 @@ function Invoke-WSLCommand {
 
 <#
 .SYNOPSIS
+Checks if a specific WSL distribution is installed.
+
+.PARAMETER Name
+The name of the WSL distribution to check for (e.g., "Ubuntu-24.04"). This parameter is mandatory.
+
+.OUTPUTS
+System.Boolean
+Returns $true if the specified distribution is found.
+Returns $false if the distribution is not found, or if the 'wsl --list --verbose' command fails.
+
+.NOTES
+The function parses the output of 'wsl --list --verbose'.
+It uses a regular expression to extract the distribution name from each line.
+The comparison is case-sensitive, as WSL distribution names are generally case-sensitive.
+#>
+function Test-WslDistributionInstalled {
+	[OutputType([bool])]
+	param(
+		[Parameter(Mandatory=$true)]
+		[string]$Name
+	)
+
+	try {
+		$wslOutputLines = Invoke-ExternalCommand "wsl --list --verbose"
+	}
+ catch {
+		return $false
+	}
+
+	# - ^\s*: Matches the beginning of the line with optional leading whitespace
+	# - (?:\*\s*)?: An optional non-capturing group for an asterisk (default marker) followed by whitespace
+	# - (?<DistroName>\S+): Named capture group "DistroName" for one or more non-whitespace characters
+	$regex = "^\s*(?:\*\s*)?(?<DistroName>\S+)"
+
+	# Skip the header line and process the rest
+	foreach ($line in ($wslOutputLines | Select-Object -Skip 1)) {
+		if ($line -match $regex) {
+			$foundName = $Matches.DistroName
+			if ($foundName -eq $Name) {
+				return $true
+			}
+		}
+	}
+
+	return $false
+}
+
+<#
+.SYNOPSIS
 Prompts the user for a password and confirms it.
 
 .OUTPUTS
@@ -294,16 +343,20 @@ function Install-WslDistribution {
 		[string]$Username
 	)
 
-	# Use no-launch not to require Ctrl+D afterwards
-	Invoke-ExternalCommand "wsl --install --distribution `"$Distribution`" --no-launch"
-	Invoke-ExternalCommand "wsl --set-default `"$Distribution`""
+	if (Test-WslDistributionInstalled -Name $Distribution) {
+		Write-Host "WSL distribution '$Distribution' is already installed."
+	} else {
+		# Use no-launch not to require Ctrl+D afterwards
+		Invoke-ExternalCommand "wsl --install --distribution `"$Distribution`" --no-launch"
+		# no-launch skips user creation, so we need to create it manually
+		# ref: https://github.com/microsoft/WSL/issues/10386
+		$password = Read-Password
+		New-WslUser -Distribution $Distribution -Username $Username -Password $password
+		# Set the default user to the created user
+		Invoke-ExternalCommand "wsl --manage `"$Distribution`" --set-default-user `"$Username`""
+	}
 
-	# no-launch skips user creation, so we need to create it manually
-	# ref: https://github.com/microsoft/WSL/issues/10386
-	$password = Read-Password
-	New-WslUser -Distribution $Distribution -Username $Username -Password $password
-	# Set the default user to the created user
-	Invoke-ExternalCommand "wsl --manage `"$Distribution`" --set-default-user `"$Username`""
+	Invoke-ExternalCommand "wsl --set-default `"$Distribution`""
 }
 
 <#
