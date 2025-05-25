@@ -227,9 +227,9 @@ install_mise_tools() {
 
 	log_info "Installing tools..."
 	# Use tee to disable progress bars
-	mise install --yes | tee /dev/null
+	mise install --yes 2>&1 | tee /dev/null
 	log_info "Upgrading tools..."
-	mise upgrade --yes | tee /dev/null
+	mise upgrade --yes 2>&1 | tee /dev/null
 	log_info "mise tools installed and upgraded."
 }
 
