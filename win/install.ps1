@@ -249,10 +249,10 @@ function New-WslUser {
 	)
 
 	# No need to check the duplicate username because useradd will fail if it exists
-	Invoke-WSLCommand -Root -Command "useradd --create-home `"$Username`""
-	Invoke-WSLCommand -Root -Command "echo `"${Username}:$Password`" | chpasswd"
+	Invoke-WSLCommand -Root -Command "useradd --create-home $Username"
+	Invoke-WSLCommand -Root -Command "echo ${Username}:$Password | chpasswd"
 	# cspell:ignore usermod
-	Invoke-WSLCommand -Root -Command "usermod --append --groups sudo `"$Username`""
+	Invoke-WSLCommand -Root -Command "usermod --append --groups sudo $Username"
 
 	Write-Host "User '$Username' created in WSL distribution '$Distribution'."
 }
