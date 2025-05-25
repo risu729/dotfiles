@@ -121,7 +121,7 @@ function Invoke-ElevatedScript {
 	# Wait for the user to press Enter before closing the elevated PowerShell window
 	$command = "try { Invoke-RestMethod $($winScriptUrl.ToString()) | Invoke-Expression } catch { `$PSItem } finally { `$PSItem; Read-Host -Prompt 'Press Enter to exit' }"
 	Write-Host $command
-	Start-Process powershell -NoExit -Verb RunAs -ArgumentList "-NoProfile -Command `"$command`""
+	Start-Process powershell -Verb RunAs -ArgumentList "-NoExit -NoProfile -Command `"$command`""
 
 	# Exit the current non-elevated process
 	exit
