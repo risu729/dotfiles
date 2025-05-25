@@ -194,7 +194,7 @@ Returns the confirmed password as a plain text string.
 #>
 function Read-Password {
 	[CmdletBinding()]
-	param ()
+	param()
 
 	while ($true) {
 		Write-Host "Enter password:"
