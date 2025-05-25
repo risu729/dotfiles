@@ -172,10 +172,10 @@ function Invoke-WSLCommand {
 		[string]$Command,
 
 		[Parameter(Mandatory = $false)]
-		[bool]$Root = $false,
+		[switch]$Root,
 
 		[Parameter(Mandatory = $false)]
-		[bool]$Interactive = $false
+		[switch]$Interactive
 	)
 
 	$bashArg = "-c `"$Command`""
