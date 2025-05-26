@@ -24,7 +24,9 @@ Since I use WSL2 as my main development environment, I only install GUI applicat
 >
 > 3. Continue the setup without a Microsoft account by selecting `I don't have internet`.
 
-In Windows Terminal (PowerShell, Windows PowerShell, or Command Prompt), run the following command.
+1. Update Windows 11 to the latest version.
+2. Uninstall OneDrive.
+3. In Windows Terminal (PowerShell, Windows PowerShell, or Command Prompt), run the following command.
 
 ```powershell
 powershell -c "irm dot.risunosu.com/win | iex"
@@ -32,7 +34,7 @@ powershell -c "irm dot.risunosu.com/win | iex"
 
 ### 🐧 WSL2
 
-The Windows installation script will install dotfiles in WSL2, so you don't need to run the installation script again.
+The Windows installer script will install dotfiles in WSL2, so you don't need to run the installer script again.
 
 However, if you want to install dotfiles to WSL2 only—such as when you reset WSL2—you can run the following command in bash:
 
@@ -42,6 +44,9 @@ bash <(curl -fsSL https://dot.risunosu.com/wsl)
 
 > \[!IMPORTANT]
 > Use process substitution (`<()`) instead of piping (`|`) for interactive scripts.
+
+> \[!TIP]
+> Both installer scripts are idempotent, meaning you can run them multiple times without issues.
 
 ## ➡️ What to do next
 
@@ -62,6 +67,8 @@ bash <(curl -fsSL https://dot.risunosu.com/wsl)
 
 - [X](https://x.com)
   (PWA apps cannot be installed using the script.)
+
+3. Uninstall unnecessary software pre-installed by Windows 11.
 
 ## 🛠️ Development
 
