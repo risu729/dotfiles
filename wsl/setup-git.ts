@@ -78,7 +78,7 @@ const ensureGitHubTokenScopes = async (): Promise<() => Promise<void>> => {
 			scope: "read:packages",
 		},
 		{
-			scope: "read:projects",
+			scope: "read:project",
 		},
 		{
 			// required to list, add, and delete GPG keys
