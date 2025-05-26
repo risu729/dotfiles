@@ -32,6 +32,8 @@ typos = "1.32.0"
 "npm:jschema-validator" = "1.0.15"
 jc = "1.25.5"
 hadolint = "2.12.0"
+# ref: https://github.com/PowerShell/PowerShell/issues/23968
+"aqua:PowerShell/PowerShell" = { version = "7.5.1", postinstall = "chmod +x ~/.local/share/mise/installs/aqua-power-shell-power-shell/7.5.1/pwsh" }
 
 [settings]
 experimental = true
