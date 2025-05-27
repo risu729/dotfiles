@@ -45,6 +45,9 @@ bash <(curl -fsSL https://dot.risunosu.com/wsl)
 > \[!IMPORTANT]
 > Use process substitution (`<()`) instead of piping (`|`) for interactive scripts.
 
+<!-- avoid markdownlint error -->
+<!-- ref: https://github.com/DavidAnson/markdownlint/issues/263 -->
+
 > \[!TIP]
 > Both installer scripts are idempotent, meaning you can run them multiple times without issues.
 
@@ -52,9 +55,11 @@ bash <(curl -fsSL https://dot.risunosu.com/wsl)
 
 <!-- cspell:ignore powertoys -->
 
-1. Restore PowerToys settings. See [docs](https://learn.microsoft.com/en-us/windows/powertoys/general#backup--restore).
+1. Uninstall unnecessary software pre-installed by Windows 11.
 
-2. Install the following software on Windows, which the script does not install:
+2. Restore PowerToys settings. See [docs](https://learn.microsoft.com/en-us/windows/powertoys/general#backup--restore).
+
+3. Install the following software on Windows, which the script does not install:
 
 - [Lenovo Vantage](https://www.lenovo.com/us/en/software/vantage)
   (Cannot be installed via `winget`.)
@@ -67,8 +72,6 @@ bash <(curl -fsSL https://dot.risunosu.com/wsl)
 
 - [X](https://x.com)
   (PWA apps cannot be installed using the script.)
-
-3. Uninstall unnecessary software pre-installed by Windows 11.
 
 ## 🛠️ Development
 
