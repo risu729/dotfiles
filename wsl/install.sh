@@ -33,7 +33,7 @@ install_system_packages() {
 	log_info "Installing system packages..."
 	# not pre-installed in wsl ubuntu
 	# ref: https://cdimages.ubuntu.com/ubuntu-wsl/noble/daily-live/current/noble-wsl-amd64.manifest
-	sudo apt-get install --yes zip unzip build-essential
+	sudo apt-get install --yes zip unzip build-essential pkg-config libssl-dev
 	log_info "Core packages installed."
 }
 
@@ -226,10 +226,9 @@ install_mise_tools() {
 	mise trust --all
 
 	log_info "Installing tools..."
-	# Use tee to disable progress bars
-	mise install --yes 2>&1 | tee /dev/null
+	mise install --yes
 	log_info "Upgrading tools..."
-	mise upgrade --yes 2>&1 | tee /dev/null
+	mise upgrade --yes
 	log_info "mise tools installed and upgraded."
 }
 

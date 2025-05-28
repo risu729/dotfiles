@@ -59,7 +59,7 @@ jobs:
         id: image-info
         run: mise run ci:worker-docker:image-info
         env:
-          MISE_ENABLE_TOOLS: jc
+          MISE_AUTO_INSTALL: false
           IMAGE_NAME: ${{ env.IMAGE_NAME }}
           GITHUB_TOKEN: ${{ github.token }}
 
@@ -73,7 +73,7 @@ jobs:
         id: build
         # if mise version is not changed, check if the image digest is changed
         if: steps.image-info.outputs.is_mise_version_changed == 'false'
-        uses: docker/build-push-action@1dc73863535b631f98b2378be8619f83b136f4a0 # v6.17.0
+        uses: docker/build-push-action@263435318d21b8e681c14492fe198d362a7d2c83 # v6.18.0
         with:
           context: ./worker/docker
           build-args: |
@@ -95,7 +95,7 @@ jobs:
 
       - name: Build and push Docker image
         if: steps.login.outcome != 'skipped'
-        uses: docker/build-push-action@1dc73863535b631f98b2378be8619f83b136f4a0 # v6.17.0
+        uses: docker/build-push-action@263435318d21b8e681c14492fe198d362a7d2c83 # v6.18.0
         with:
           context: ./worker/docker
           build-args: |
