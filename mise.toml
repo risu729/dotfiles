@@ -5,7 +5,7 @@ min_version = "2025.5.16"
 
 [tools]
 bun = "1.2.15"
-node = "24.0.2"
+node = "24.1.0"
 biome = "1.9.4"
 actionlint = "1.7.7"
 ghalint = "1.4.0"
