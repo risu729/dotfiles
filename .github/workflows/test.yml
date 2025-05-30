@@ -25,11 +25,11 @@ jobs:
       contents: read # for checkout
 
     container:
-      image: ghcr.io/risu729/dotfiles/wsl:24.04.20250527@sha256:6a2ad56b2d19f41393630ad17176aefb39d21da5852c595226d9910468ab39a8
+      image: ghcr.io/risu729/dotfiles/wsl:24.04.20250529@sha256:86e6ee786fc22cc7b04b8d45913ac01f90c19805f0dd1e3e0b81893fda439daa
 
     services:
       worker:
-        image: ghcr.io/risu729/dotfiles/worker:1.2025514.2@sha256:8c5db4d43de27594576741718c80d3576680977c389b5898153327430a21e888
+        image: ghcr.io/risu729/dotfiles/worker:1.2025516.0@sha256:225802d589256baf77fbf9f73e10d2f9fed75da75c38b8fca361b217d694debd
         # vite preview server runs on port 4173 by default
         # ref: https://vite.dev/config/preview-options#preview-port
         options: >-
