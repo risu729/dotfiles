@@ -3,7 +3,7 @@
 import { mkdtemp, rmdir } from "node:fs/promises";
 import { homedir, tmpdir } from "node:os";
 import { join, resolve } from "node:path";
-import { $, env, spawn } from "bun";
+import { $, env, spawn, write } from "bun";
 
 const localGitConfigPath = (
 	await $`git config --global include.path`.text()
@@ -173,8 +173,6 @@ const setGitUserConfig = async (): Promise<{
 		login: string;
 	}>("/user");
 	await $`git config --file ${localGitConfigPath} user.name ${name ?? login}`.quiet();
-	// set ghq.user to override the git user name for ghq
-	await $`git config --file ${localGitConfigPath} ghq.user ${login}`.quiet();
 
 	const noReplyEmail = await ghApi<{ email: string }[]>("/user/emails").then(
 		(emails) =>
@@ -187,6 +185,16 @@ const setGitUserConfig = async (): Promise<{
 	}
 	await $`git config --file ${localGitConfigPath} user.email ${noReplyEmail}`.quiet();
 	return { githubId: login, email: noReplyEmail };
+};
+
+const createGhrConfig = async (githubId: string): Promise<void> => {
+	const ghrHomeDir = await $`ghr path`.text();
+	if (!ghrHomeDir) {
+		throw new Error("Failed to get ghr home directory");
+	}
+	const ghrConfigPath = resolve(ghrHomeDir, "ghr.toml");
+	const ghrConfig = `defaults.owner = "${githubId}"`;
+	await write(ghrConfigPath, ghrConfig);
 };
 
 // ref: https://github.com/gpg/gnupg/blob/master/doc/DETAILS#format-of-the-colon-listings
@@ -1344,6 +1352,7 @@ const main = async (): Promise<void> => {
 
 	try {
 		const { githubId, email } = await setGitUserConfig();
+		await createGhrConfig(githubId);
 		await configureGitSign(githubId, email);
 	} finally {
 		await removeScopes();

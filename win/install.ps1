@@ -149,7 +149,7 @@ function Invoke-WSLCommand {
 	[CmdletBinding()]
 	param (
 		[Parameter(Mandatory = $true)]
-		# The command string to execute in WSL.
+		# The command string to execute in WSL. This string will be passed to bash -c
 		[string]$Command,
 
 		[Parameter(Mandatory = $false)]
@@ -161,11 +161,31 @@ function Invoke-WSLCommand {
 		[switch]$Interactive
 	)
 
-	$bashArg = "-c `"$Command`""
-	$bashArg = if ($Interactive) { "-i $bashArg" } else { $bashArg }
-	$wslArg = "--exec /usr/bin/env bash $bashArg"
-	$wslArg = if ($Root) { "--user root $wslArg" } else { $wslArg }
-	Invoke-ExternalCommand "wsl $wslArg"
+	$wslArgs = @()
+
+	if ($Root) {
+		$wslArgs += "--user"
+		$wslArgs += "root"
+	}
+
+	$wslArgs += "--exec"
+	$wslArgs += "/usr/bin/env"
+	$wslArgs += "bash"
+
+	if ($Interactive) {
+		$wslArgs += "-i"
+	}
+
+	$wslArgs += "-c"
+	$wslArgs += $Command
+
+	# Do not use Invoke-Expression to avoid re-interpretation of the command string
+	& wsl $wslArgs
+
+	$exitCode = $LASTEXITCODE
+	if ($exitCode -ne 0) {
+		throw "WSL command failed with exit code ${exitCode}: $Command"
+	}
 }
 
 <#
@@ -442,7 +462,7 @@ function Invoke-GitSetupInWsl {
 	)
 
 	# source .bashrc is required to update PATH
-	Invoke-WSLCommand -Interactive -Command "source ~/.bashrc; ~/ghq/github.com/$RepoName/wsl/setup-git.ts"
+	Invoke-WSLCommand -Interactive -Command "source ~/.bashrc; ~/.ghr/github.com/$RepoName/wsl/setup-git.ts"
 }
 
 # ===== Main Script Execution =====
@@ -456,9 +476,6 @@ $gitRef = ""
 $wslDistribution = "Ubuntu-24.04"
 $wslUsername = $env:USERNAME
 
-$repoWindowsPath = $repoName -replace '/', '\'
-$dotfilesPath = "\\wsl.localhost\$wslDistribution\home\$wslUsername\ghq\github.com\$repoWindowsPath"
-
 Test-MinimumWindowsVersion -MinimumBuild 26100 -RequiredDisplayVersionString "24H2"
 
 Invoke-ElevatedScript -ScriptOrigin $scriptOrigin -GitRef $gitRef
@@ -468,6 +485,8 @@ Install-Wsl
 Install-WslDistribution -Distribution $wslDistribution -Username $wslUsername
 
 Invoke-WslSetupScript -ScriptOrigin $scriptOrigin -GitRef $gitRef
+
+$dotfilesPath = Invoke-WSLCommand -Command "source ~/.bashrc; wslpath -w `$(ghr path $repoName)"
 
 Import-WingetPackages -DotfilesPath $dotfilesPath
 

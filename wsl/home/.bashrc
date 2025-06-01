@@ -91,6 +91,10 @@ fi
 # colored GCC warnings and errors
 export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
 
+# install ghr shell extension
+ghr_extension="$(ghr shell bash)"
+eval "${ghr_extension}"
+
 # enable programmable completion features
 # (you don't need to enable this, if it's already enabled in /etc/bash.bashrc and /etc/profile sources /etc/bash.bashrc).
 if ! shopt -oq posix && [[ -f /usr/share/bash-completion/bash_completion ]]; then
@@ -107,9 +111,9 @@ eval "${mise_completion}"
 gh_completion="$(gh completion --shell bash)"
 eval "${gh_completion}"
 
-# enable fzf integration
-fzf_integration="$(fzf --bash)"
-eval "${fzf_integration}"
+# enable ghr completion
+ghr_completion="$(ghr shell bash --completion)"
+eval "${ghr_completion}"
 
 # gpg requires tty
 # GitHub Actions doesn't have tty
@@ -129,15 +133,6 @@ fi
 alias beep="printf '\a'"
 alias l="eza --all --long --git"
 alias code="code-insiders"
-
-# cd to ghq managed directory
-gcd() {
-	local ghq_dir dir root
-	ghq_dir=$(ghq list)
-	dir=$(echo -n "${ghq_dir}" | fzf --exit-0 --select-1 --query="$*" --no-sort --exact)
-	root=$(ghq root)
-	[[ -n ${dir} ]] && cd "${root}/${dir}" || return 1
-}
 
 # call windows executables without extensions if it exists
 # e.g. `clip` instead of `clip.exe`
