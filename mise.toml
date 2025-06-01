@@ -1,7 +1,7 @@
 # ref: https://mise.jdx.dev/configuration.html
 #:schema https://mise.jdx.dev/schema/mise.json
 
-min_version = "2025.5.16"
+min_version = "2025.5.17"
 
 [tools]
 bun = "1.2.15"
@@ -12,7 +12,7 @@ ghalint = "1.4.1"
 pinact = "3.1.2"
 # required for cargo backend
 # cspell:ignore binstall
-cargo-binstall = "1.12.5"
+cargo-binstall = "1.12.6"
 "cargo:zizmor" = "=1.8.0"
 taplo = "0.10.0"
 "npm:prettier" = "3.5.3"
