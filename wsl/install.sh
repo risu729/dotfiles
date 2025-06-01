@@ -124,7 +124,7 @@ clone_or_update_dotfiles_repo() {
 	fi
 
 	local repo_url="github.com/${target_repo_name}"
-	local dotfiles_target_dir="${HOME}/ghq/${repo_url}"
+	local dotfiles_target_dir="${HOME}/.ghr/${repo_url}"
 
 	log_info "Preparing dotfiles repository: ${target_repo_name} in ${dotfiles_target_dir}"
 	mkdir --parents "${dotfiles_target_dir}"

@@ -35,14 +35,14 @@ watchexec = "latest"
 # cli tools
 jq = "latest"
 github-cli = "latest"
-ghq = "latest"
+# cspell:ignore siketyan
+"ubi:siketyan/ghr" = "latest"
 jc = "latest"
 delta = "latest"
 ripgrep = "latest"
 eza = "latest"
 bat = "latest"
 fd = "latest"
-fzf = "latest"
 xh = "latest"
 jd = "latest"
 
