@@ -5,6 +5,11 @@ import { homedir, tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import { $, env, spawn, write } from "bun";
 
+// remove GITHUB_TOKEN from env to avoid github cli using it
+const envWithoutGitHubToken = Object.fromEntries(
+	Object.entries(env).filter(([key]) => key !== "GITHUB_TOKEN"),
+) as Record<string, string>;
+
 const localGitConfigPath = (
 	await $`git config --global include.path`.text()
 ).trim();
@@ -25,12 +30,12 @@ const ensureGitHubTokenScopes = async (): Promise<() => Promise<void>> => {
 	const authWithBrowser = async (subcommand: string): Promise<void> => {
 		// bun shell doesn't support reading from stdout and stderr while running a command
 		// ref: https://github.com/oven-sh/bun/issues/14693
-		const process = spawn(
-			["gh", "auth", ...subcommand.split(" ")],
+		const process = spawn(["gh", "auth", ...subcommand.split(" ")], {
 			// default is "inherit" which just logs to the console
 			// ref: https://bun.sh/docs/api/spawn#output-streams
-			{ stderr: "pipe" },
-		);
+			stderr: "pipe",
+			env: envWithoutGitHubToken,
+		});
 
 		const reader = process.stderr.getReader();
 		const decoder = new TextDecoder();
@@ -107,7 +112,10 @@ const ensureGitHubTokenScopes = async (): Promise<() => Promise<void>> => {
 
 	// login to GitHub if not authenticated
 	// cspell:ignore nothrow
-	const { stdout, exitCode } = await $`gh auth status`.quiet().nothrow();
+	const { stdout, exitCode } = await $`gh auth status`
+		.env(envWithoutGitHubToken)
+		.quiet()
+		.nothrow();
 	if (exitCode !== 0) {
 		await authWithBrowser(
 			`login --web --git-protocol https --scopes ${requiredScopes.map(({ scope }) => scope).join(",")}`,
@@ -158,7 +166,9 @@ const ghApi = async <ReturnType>(
 					.map(([key, value]) => ` --raw-field "${key}=${value}"`)
 					.join("")
 			: "",
-	}}`.json();
+	}}`
+		.env(envWithoutGitHubToken)
+		.json();
 };
 
 // GitHub CLI does not support setting user.name and user.email automatically
