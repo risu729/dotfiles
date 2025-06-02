@@ -7,16 +7,21 @@ repo_name=""
 # might be edited by the worker to checkout a specific ref
 git_ref=""
 
+RESET='\033[0m'
+CYAN='\033[0;36m'
+YELLOW='\033[0;33m'
+RED='\033[0;31m'
+
 log_info() {
-	echo "INFO: $1" >&2
+	echo -e "${CYAN}INFO: $1${RESET}" >&2
 }
 
 log_warn() {
-	echo "WARNING: $1" >&2
+	echo -e "${YELLOW}WARNING: $1${RESET}" >&2
 }
 
 log_error() {
-	echo "ERROR: $1" >&2
+	echo -e "${RED}ERROR: $1${RESET}" >&2
 }
 
 update_system_packages() {
