@@ -8,12 +8,12 @@ repo_name=""
 git_ref=""
 
 RESET='\033[0m'
-BLUE='\033[0;34m'
+CYAN='\033[0;36m'
 YELLOW='\033[0;33m'
 RED='\033[0;31m'
 
 log_info() {
-	echo -e "${BLUE}INFO: $1${RESET}" >&2
+	echo -e "${CYAN}INFO: $1${RESET}" >&2
 }
 
 log_warn() {
