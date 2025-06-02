@@ -473,7 +473,7 @@ $scriptOrigin = ""
 $repoName = ""
 # might be edited by the worker to use a specific ref
 $gitRef = ""
-$wslDistribution = "Ubuntu-24.04"
+$wslDistribution = "Ubuntu"
 $wslUsername = $env:USERNAME
 
 Test-MinimumWindowsVersion -MinimumBuild 26100 -RequiredDisplayVersionString "24H2"
