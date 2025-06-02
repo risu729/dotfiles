@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set -euxo pipefail
+set -euo pipefail
 
 # must be edited by the worker to use the correct GitHub repository
 repo_name=""
