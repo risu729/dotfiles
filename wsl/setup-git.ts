@@ -40,12 +40,15 @@ const ensureGitHubTokenScopes = async (): Promise<() => Promise<void>> => {
 		const reader = process.stderr.getReader();
 		const decoder = new TextDecoder();
 
+		let output = "";
+
 		while (true) {
 			const { done, value } = await reader.read();
 			if (done) {
 				break;
 			}
 			const text = decoder.decode(value, { stream: true });
+			output += text;
 			const oneTimeCode = text.match(
 				// ref: https://github.com/cli/cli/blob/14d339d9ba87e87f34b7a25f00200a2062f87039/internal/authflow/flow.go#L58
 				/First copy your one-time code: ([A-Z0-9-]+)/,
@@ -68,7 +71,7 @@ const ensureGitHubTokenScopes = async (): Promise<() => Promise<void>> => {
 
 		const exitCode = await process.exited;
 		if (exitCode !== 0) {
-			throw new Error(`Process exited with code ${exitCode}`);
+			throw new Error(`Process exited with code ${exitCode}. ${output}`);
 		}
 	};
 
