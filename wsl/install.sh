@@ -274,7 +274,7 @@ init_gnupg_dir() {
 	mkdir -p "${gnupg_home}"
 	chmod 700 "${gnupg_home}"
 
-	echo "GnuPG directory created."
+	log_info "GnuPG directory created."
 }
 
 run_git_setup_script() {
