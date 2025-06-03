@@ -64,7 +64,9 @@ const ensureGitHubTokenScopes = async (): Promise<() => Promise<void>> => {
 			)?.[1];
 			if (url) {
 				// open the url automatically in the Windows default browser
-				await $`explorer.exe ${url}`;
+				// explorer.exe always exit with exit code 1
+				// ref: https://github.com/microsoft/WSL/issues/6565
+				await $`explorer.exe ${url}`.nothrow();
 			}
 		}
 
