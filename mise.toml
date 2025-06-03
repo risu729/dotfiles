@@ -1,7 +1,7 @@
 # ref: https://mise.jdx.dev/configuration.html
 #:schema https://mise.jdx.dev/schema/mise.json
 
-min_version = "2025.5.17"
+min_version = "2025.6.0"
 
 [tools]
 bun = "1.2.15"
@@ -13,7 +13,7 @@ pinact = "3.1.2"
 # required for cargo backend
 # cspell:ignore binstall
 cargo-binstall = "1.12.6"
-"cargo:zizmor" = "=1.8.0"
+"cargo:zizmor" = "=1.9.0"
 taplo = "0.10.0"
 "npm:prettier" = "3.5.3"
 markdownlint-cli2 = "0.18.1"
@@ -27,7 +27,7 @@ yamllint = "1.37.1"
 "npm:cspell" = "9.0.2"
 # cspell:ignore lycheeverse
 lychee = "0.18.1"
-typos = "1.32.0"
+typos = "1.33.1"
 "npm:ignore-sync" = "8.0.0"
 "npm:jschema-validator" = "1.0.15"
 jc = "1.25.5"
