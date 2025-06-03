@@ -349,7 +349,7 @@ function Install-WslDistribution {
 
 	Invoke-ExternalCommand "wsl --set-default `"$Distribution`""
 
-	if ($isDistributionInstalled) {
+	if (-not $isDistributionInstalled) {
 		# no-launch skips user creation, so we need to create it manually
 		# ref: https://github.com/microsoft/WSL/issues/10386
 		$password = Read-Password
