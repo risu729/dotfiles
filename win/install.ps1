@@ -337,12 +337,19 @@ function Install-WslDistribution {
 		[string]$Username
 	)
 
-	if (Test-WslDistributionInstalled -Name $Distribution) {
+	$isDistributionInstalled = Test-WslDistributionInstalled -Name $Distribution
+
+	if ($isDistributionInstalled) {
 		Write-Host "WSL distribution '$Distribution' is already installed."
 	}
  else {
 		# Use no-launch not to require Ctrl+D afterwards
 		Invoke-ExternalCommand "wsl --install --distribution `"$Distribution`" --no-launch"
+	}
+
+	Invoke-ExternalCommand "wsl --set-default `"$Distribution`""
+
+	if ($isDistributionInstalled) {
 		# no-launch skips user creation, so we need to create it manually
 		# ref: https://github.com/microsoft/WSL/issues/10386
 		$password = Read-Password
@@ -350,8 +357,6 @@ function Install-WslDistribution {
 		# Set the default user to the created user
 		Invoke-ExternalCommand "wsl --manage `"$Distribution`" --set-default-user `"$Username`""
 	}
-
-	Invoke-ExternalCommand "wsl --set-default `"$Distribution`""
 }
 
 <#
