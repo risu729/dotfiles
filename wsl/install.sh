@@ -45,12 +45,6 @@ install_system_packages() {
 install_custom_registry_packages() {
 	log_info "Setting up custom APT repositories and installing additional packages..."
 
-	# use PPA for wslu as recommended
-	# ref: https://wslu.wedotstud.io/wslu/install.html#ubuntu
-	# wslu is for wslview, which opens Windows browser from WSL
-	# cspell:ignore wslutilities wslu wslview
-	sudo add-apt-repository --yes ppa:wslutilities/wslu
-
 	sudo install --directory --mode=0755 /etc/apt/keyrings
 
 	log_info "Adding mise APT repository..."
@@ -76,7 +70,7 @@ install_custom_registry_packages() {
 	log_info "All repositories set up. Installing packages..."
 	sudo apt-get update
 	# cspell:ignore containerd buildx
-	sudo apt-get install --yes wslu mise docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+	sudo apt-get install --yes mise docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 	log_info "Additional packages installed."
 }
 

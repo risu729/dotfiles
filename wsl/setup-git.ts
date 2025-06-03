@@ -64,8 +64,7 @@ const ensureGitHubTokenScopes = async (): Promise<() => Promise<void>> => {
 			)?.[1];
 			if (url) {
 				// open the url automatically in the Windows default browser
-				// cspell:ignore wslview
-				await $`wslview ${url}`;
+				await $`explorer.exe ${url}`;
 			}
 		}
 
