@@ -400,7 +400,7 @@ function Import-WingetPackages {
 	)
 
 	$wingetConfigFile = "$DotfilesPath\win\winget.json"
-	Invoke-ExternalCommand "winget import --import-file `"$wingetConfigFile`" --disable-interactivity --accept-package-agreements"
+	Invoke-ExternalCommand "winget import --import-file `"$wingetConfigFile`" --disable-interactivity --accept-package-agreements --no-upgrade"
 	Write-Host "winget packages imported successfully."
 
 	# Remove the generated shortcuts from the desktop
