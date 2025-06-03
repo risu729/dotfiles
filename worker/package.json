@@ -14,11 +14,11 @@
 		"@cloudflare/workers-types": "4.20250603.0",
 		"@risu729/tsconfigs": "1.0.1",
 		"@types/bun": "1.2.15",
-		"@vitest/ui": "3.2.0",
+		"@vitest/ui": "3.2.1",
 		"diff": "8.0.2",
 		"typescript": "5.8.3",
 		"vite": "6.3.5",
-		"vitest": "3.2.0",
+		"vitest": "3.2.1",
 		"wrangler": "4.18.0"
 	}
 }
