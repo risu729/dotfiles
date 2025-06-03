@@ -11,7 +11,7 @@
 	"devDependencies": {
 		"@cloudflare/vite-plugin": "1.3.1",
 		"@cloudflare/vitest-pool-workers": "0.8.34",
-		"@cloudflare/workers-types": "4.20250601.0",
+		"@cloudflare/workers-types": "4.20250603.0",
 		"@risu729/tsconfigs": "1.0.1",
 		"@types/bun": "1.2.15",
 		"@vitest/ui": "3.2.0",
