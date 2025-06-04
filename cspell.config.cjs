@@ -16,7 +16,6 @@ module.exports = {
 		// ignore auto-generated files
 		".gitignore",
 		"bun.lock",
-		"win/ublock.json", // cspell:ignore ublock
 		"win/ytenhancer.json", // cspell:ignore ytenhancer
 		// ignore license files
 		"LICENSE",

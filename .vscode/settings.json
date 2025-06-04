@@ -50,10 +50,7 @@
 	"files.readonlyInclude": {
 		// auto-generated
 		"**/.gitignore": true,
-		"**/bun.lock": true,
-		// do not edit exported files manually
-		// cspell:ignore ublock
-		"win/ublock.json": true
+		"**/bun.lock": true
 	},
 
 	"typescript.disableAutomaticTypeAcquisition": true,
