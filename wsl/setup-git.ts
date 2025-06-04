@@ -202,7 +202,7 @@ const setGitUserConfig = async (): Promise<{
 };
 
 const createGhrConfig = async (githubId: string): Promise<void> => {
-	const ghrHomeDir = await $`ghr path`.text();
+	const ghrHomeDir = (await $`ghr path`.text()).trim();
 	if (!ghrHomeDir) {
 		throw new Error("Failed to get ghr home directory");
 	}
