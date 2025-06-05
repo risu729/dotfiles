@@ -38,6 +38,7 @@ install_system_packages() {
 	log_info "Installing system packages..."
 	# not pre-installed in wsl ubuntu
 	# ref: https://cdimages.ubuntu.com/ubuntu-wsl/noble/daily-live/current/noble-wsl-amd64.manifest
+	# cspell:ignore clangd
 	sudo apt-get install --yes zip unzip build-essential pkg-config libssl-dev clang clangd
 	log_info "Core packages installed."
 }
