@@ -6,7 +6,9 @@
 		}
 
 		PSAvoidLongLines = @{
-			Enable = $true
+			# Disable because there are no ways to suppress this rule
+			# ref: https://github.com/PowerShell/PSScriptAnalyzer/issues/1957
+			Enable = $false
 		}
 
 		PSAvoidSemicolonsAsLineTerminators = @{
