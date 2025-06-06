@@ -41,5 +41,5 @@ versions=$(bun run wrangler versions list --json)
 id=$(echo "${versions}" | jq --raw-output ".[] | select(.annotations.\"workers/tag\" == \"${short_sha}\") | .id")
 
 set -x
-bun run wrangler versions deploy "${id}"
+bun run wrangler versions deploy --yes "${id}"
 set +x
