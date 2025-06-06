@@ -95,7 +95,9 @@ description = "Run shellcheck to lint shell scripts."
 ["check:pwsh"]
 depends = ["install:ps-script-analyzer"]
 shell = "pwsh -Command"
-run = "Invoke-ScriptAnalyzer -Path . -Recurse -Settings PSScriptAnalyzerSettings.psd1"
+run = """
+Invoke-ScriptAnalyzer -Settings PSScriptAnalyzerSettings.psd1 -Path . -Recurse \
+	{% if env.LINT is undefined %}-Fix{% endif %}"""
 dir = "win"
 description = "Run PSScriptAnalyzer to lint PowerShell scripts."
 
