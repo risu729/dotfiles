@@ -15,8 +15,6 @@ if [[ -z ${MISE_TASK_NAME:-} ]]; then
 	source "${script_dir}/build"
 fi
 
-wrangler_cmd="deploy"
-
 # use $1 if usage_preview is not set to support direct call in workers build environment
 if [[ -z ${usage_preview:-} ]]; then
 	if [[ ${1:-} == '--preview' ]]; then
@@ -26,15 +24,22 @@ if [[ -z ${usage_preview:-} ]]; then
 	fi
 fi
 
-if [[ ${usage_preview} == 'true' ]]; then
-	wrangler_cmd="versions upload"
-	# tag length is limited to 25 characters
-	short_sha=$(git rev-parse --short HEAD)
-	message=$(git log --format=%B --max-count=1 "${short_sha}" | head --lines=1 | sed 's/"/\\"/g')
-fi
+# tag length is limited to 25 characters
+short_sha=$(git rev-parse --short HEAD)
+message=$(git log --format=%B --max-count=1 "${short_sha}" | head --lines=1 | sed 's/"/\\"/g')
 
 set -x
 # shellcheck disable=SC2086 # avoid quoting wrangler_cmd and vars
-bun run wrangler ${wrangler_cmd} \
-	${short_sha:+--tag "${short_sha}"} \
-	${message:+--message "${message}"}
+bun run wrangler versions upload --tag "${short_sha}" --message "${message}"
+set +x
+
+if [[ ${usage_preview} == 'true' ]]; then
+	exit 0
+fi
+
+versions=$(bun run wrangler versions list --json)
+id=$(echo "${versions}" | jq --raw-output ".[] | select(.annotations.\"workers/tag\" == \"${short_sha}\") | .id")
+
+set -x
+bun run wrangler versions deploy "${id}"
+set +x
