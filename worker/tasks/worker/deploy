@@ -30,7 +30,7 @@ message=$(git log --format=%B --max-count=1 "${short_sha}" | head --lines=1 | se
 
 set -x
 # shellcheck disable=SC2086 # avoid quoting wrangler_cmd and vars
-bun run wrangler versions upload -tag "${short_sha}" --message "${message}"
+bun run wrangler versions upload --tag "${short_sha}" --message "${message}"
 set +x
 
 if [[ ${usage_preview} == 'true' ]]; then
