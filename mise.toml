@@ -4,7 +4,7 @@
 min_version = "2025.6.0"
 
 [vars]
-PS_SCRIPT_ANALYZER_VERSION = "1.23.0"
+PS_SCRIPT_ANALYZER_VERSION = "1.24.0"
 
 [tools]
 bun = "1.2.15"
