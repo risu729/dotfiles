@@ -81,7 +81,7 @@ app.get("/:os{win|wsl}", async ({ req, text }) => {
 			os === "win"
 				? name.replace(/_([a-z])/g, (_, char) => char.toUpperCase())
 				: name;
-		const regex = new RegExp(`(?<=${nameInOs} *= *")(?=")`);
+		const regex = new RegExp(`(?<=${nameInOs} *= *")(?=["'])`);
 		if (!regex.test(script)) {
 			throw new HTTPException(500, {
 				message: `installer script does not contain a ${nameInOs} variable`,
