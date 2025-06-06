@@ -1,4 +1,4 @@
-# This script must be compatible with PowerShell 5.1 because it is installed by default.
+﻿# This script must be compatible with PowerShell 5.1 because it is installed by default.
 # ref: https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_windows_powershell_5.1
 
 Set-StrictMode -Version Latest
@@ -29,7 +29,7 @@ function Test-MinimumWindowsVersion {
 	# ref: https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_automatic_variables?view=powershell-5.1
 	# If $IsWindows doesn't exist, we assume it's Windows.
 	if ((Test-Path Variable:\IsWindows) -and ($IsWindows -eq $false)) {
-		throw "This script can only run on Windows."
+		throw 'This script can only run on Windows.'
 	}
 
 	# cspell:ignore NNHN
@@ -46,7 +46,7 @@ function Test-MinimumWindowsVersion {
 		$version = [System.Version]$os.Version
 	}
  catch {
-		throw "Could not retrieve operating system version information."
+		throw 'Could not retrieve operating system version information.'
 	}
 
 	# Check for Windows 10 Major version (which Windows 11 uses) and minimum build
@@ -57,10 +57,10 @@ function Test-MinimumWindowsVersion {
 	# Further validation using DisplayVersion from registry
 	try {
 		# cspell:ignore HKLM
-		$displayVersion = Get-ItemPropertyValue -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion" -Name "DisplayVersion" -ErrorAction Stop
+		$displayVersion = Get-ItemPropertyValue -Path 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion' -Name 'DisplayVersion' -ErrorAction Stop
 	}
  catch {
-		throw "DisplayVersion not found in registry or could not be read. Cannot confirm Windows version details."
+		throw 'DisplayVersion not found in registry or could not be read. Cannot confirm Windows version details.'
 	}
 
 	# Validate DisplayVersion format and check against minimum required numeric version
@@ -103,11 +103,11 @@ function Invoke-ElevatedScript {
 		return
 	}
 
-	Write-Host "Administrator privileges required. Restarting script with administrator privileges..."
+	Write-Host 'Administrator privileges required. Restarting script with administrator privileges...'
 
 	$winScriptUrl = [System.UriBuilder]::new($ScriptOrigin)
-	$winScriptUrl.Path = "/win"
-	if ($GitRef -ne "") {
+	$winScriptUrl.Path = '/win'
+	if ($GitRef -ne '') {
 		$winScriptUrl.Query = "ref=$GitRef"
 	}
 	# Wait for the user to press Enter before closing the elevated PowerShell window
@@ -164,19 +164,19 @@ function Invoke-WSLCommand {
 	$wslArgs = @()
 
 	if ($Root) {
-		$wslArgs += "--user"
-		$wslArgs += "root"
+		$wslArgs += '--user'
+		$wslArgs += 'root'
 	}
 
-	$wslArgs += "--exec"
-	$wslArgs += "/usr/bin/env"
-	$wslArgs += "bash"
+	$wslArgs += '--exec'
+	$wslArgs += '/usr/bin/env'
+	$wslArgs += 'bash'
 
 	if ($Interactive) {
-		$wslArgs += "-i"
+		$wslArgs += '-i'
 	}
 
-	$wslArgs += "-c"
+	$wslArgs += '-c'
 	$wslArgs += $Command
 
 	# Do not use Invoke-Expression to avoid re-interpretation of the command string
@@ -211,7 +211,7 @@ function Test-WslDistributionInstalled {
 	)
 
 	try {
-		$wslOutputLines = Invoke-ExternalCommand "wsl --list --verbose"
+		$wslOutputLines = Invoke-ExternalCommand 'wsl --list --verbose'
 	}
  catch {
 		return $false
@@ -225,7 +225,7 @@ function Test-WslDistributionInstalled {
 	# Skip the header line and process the rest
 	foreach ($line in ($wslOutputLines | Select-Object -Skip 1)) {
 		# line might include NULL char so remove it
-		$cleanedLine = $line.Replace("`0", "").Trim()
+		$cleanedLine = $line.Replace("`0", '').Trim()
 		if ($cleanedLine -match $regex) {
 			$foundName = $Matches.DistroName
 			if ($foundName -eq $Name) {
@@ -249,23 +249,23 @@ function Read-Password {
 	param()
 
 	while ($true) {
-		Write-Host "Enter password:"
+		Write-Host 'Enter password:'
 		# Use -AsSecureString to mask input
 		$passwordSecure = Read-Host -AsSecureString
 		$password = [System.Runtime.InteropServices.Marshal]::PtrToStringAuto([System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($passwordSecure))
 
 		if ($null -eq $password -or [string]::IsNullOrEmpty($password)) {
-			Write-Warning "Password cannot be empty. Try again."
+			Write-Warning 'Password cannot be empty. Try again.'
 			continue
 		}
 
-		Write-Host "Re-enter password:"
+		Write-Host 'Re-enter password:'
 		$confirmPasswordSecure = Read-Host -AsSecureString
 		$confirmPassword = [System.Runtime.InteropServices.Marshal]::PtrToStringAuto([System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($confirmPasswordSecure))
 
 		# if doesn't match, prompt again
 		if ($password -ne $confirmPassword) {
-			Write-Warning "Passwords do not match. Try again."
+			Write-Warning 'Passwords do not match. Try again.'
 			continue
 		}
 
@@ -279,7 +279,7 @@ function Read-Password {
 #>
 function New-WslUser {
 	[CmdletBinding()]
-	[Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSAvoidUsingPlainTextForPassword", "", Justification = "chpasswd requires plain text password")]
+	[Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingPlainTextForPassword', '', Justification = 'chpasswd requires plain text password')]
 	param(
 		[Parameter(Mandatory = $true)]
 		# The name of the WSL distribution to create the user in.
@@ -312,9 +312,9 @@ function Install-Wsl {
 	[CmdletBinding()]
 	param()
 
-	Invoke-ExternalCommand "wsl --install --no-distribution"
-	Invoke-ExternalCommand "wsl --set-default-version 2"
-	Invoke-ExternalCommand "wsl --update --pre-release"
+	Invoke-ExternalCommand 'wsl --install --no-distribution'
+	Invoke-ExternalCommand 'wsl --set-default-version 2'
+	Invoke-ExternalCommand 'wsl --update --pre-release'
 }
 
 <#
@@ -377,8 +377,8 @@ function Invoke-WslSetupScript {
 	)
 
 	$wslScriptUrl = [System.UriBuilder]::new($ScriptOrigin)
-	$wslScriptUrl.Path = "/wsl"
-	if ($GitRef -ne "") {
+	$wslScriptUrl.Path = '/wsl'
+	if ($GitRef -ne '') {
 		$wslScriptUrl.Query = "ref=$GitRef"
 	}
 	Invoke-WSLCommand -Command "SKIP_GIT_SETUP=true bash <(curl -fsSL $($wslScriptUrl.ToString()))"
@@ -391,7 +391,7 @@ function Invoke-WslSetupScript {
 	.NOTES
 	Requires access to the WSL filesystem via \\wsl.localhost.
 #>
-function Import-WingetPackages {
+function Import-WingetPackage {
 	[CmdletBinding()]
 	param(
 		[Parameter(Mandatory = $true)]
@@ -401,7 +401,7 @@ function Import-WingetPackages {
 
 	$wingetConfigFile = "$DotfilesPath\win\winget.json"
 	Invoke-ExternalCommand "winget import --import-file `"$wingetConfigFile`" --disable-interactivity --accept-package-agreements --no-upgrade"
-	Write-Host "winget packages imported successfully."
+	Write-Host 'winget packages imported successfully.'
 
 	# Remove the generated shortcuts from the desktop
 	Remove-Item -Path "$([Environment]::GetFolderPath('Desktop'))\*.lnk" -Force -ErrorAction SilentlyContinue
@@ -434,7 +434,7 @@ function Set-PowerToysBackupDirectory {
 
 	# Delete existing PowerToys backup directory in Documents
 	Remove-Item -Path "$([Environment]::GetFolderPath('MyDocuments'))\PowerToys" -Recurse -Force -ErrorAction SilentlyContinue
-	Write-Host "PowerToys settings backup directory configured."
+	Write-Host 'PowerToys settings backup directory configured.'
 }
 
 <#
@@ -448,7 +448,7 @@ function Set-WSLENV {
 	# cspell:ignore WSLENV PATHEXT
 	# Set WSLENV to share PATHEXT between Windows and WSL
 	# ref: https://learn.microsoft.com/en-us/windows/wsl/filesystems#share-environment-variables-between-windows-and-wsl-with-wslenv
-	[System.Environment]::SetEnvironmentVariable("WSLENV", "PATHEXT", [System.EnvironmentVariableTarget]::User)
+	[System.Environment]::SetEnvironmentVariable('WSLENV', 'PATHEXT', [System.EnvironmentVariableTarget]::User)
 }
 
 <#
@@ -473,15 +473,15 @@ function Invoke-GitSetupInWsl {
 # ===== Main Script Execution =====
 
 # must be edited by the worker to use the same script as requested by the user
-$scriptOrigin = ""
+$scriptOrigin = ''
 # must be edited by the worker to use the correct GitHub repository
-$repoName = ""
+$repoName = ''
 # might be edited by the worker to use a specific ref
-$gitRef = ""
-$wslDistribution = "Ubuntu"
+$gitRef = ''
+$wslDistribution = 'Ubuntu'
 $wslUsername = $env:USERNAME
 
-Test-MinimumWindowsVersion -MinimumBuild 26100 -RequiredDisplayVersionString "24H2"
+Test-MinimumWindowsVersion -MinimumBuild 26100 -RequiredDisplayVersionString '24H2'
 
 Invoke-ElevatedScript -ScriptOrigin $scriptOrigin -GitRef $gitRef
 
