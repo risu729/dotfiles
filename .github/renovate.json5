@@ -21,15 +21,11 @@
 			// cspell:ignore jsonata
 			customType: "jsonata",
 			description: "Updates PSScriptAnalyzer version",
-			managerFilePatterns: [
-				"/^mise\\.toml$/",
-			],
+			managerFilePatterns: ["/^mise\\.toml$/"],
 			fileFormat: "toml",
 			datasourceTemplate: "github-releases",
 			packageNameTemplate: "PowerShell/PSScriptAnalyzer",
-			matchStrings: [
-				'{ "currentValue": vars.PS_SCRIPT_ANALYZER_VERSION }',
-			],
+			matchStrings: ['{ "currentValue": vars.PS_SCRIPT_ANALYZER_VERSION }'],
 		},
 	],
 }
