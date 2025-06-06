@@ -36,7 +36,7 @@ describe("return 200 status code with ref query parameters", () => {
 
 describe("return the installer script with the specified repo name set", () => {
 	it.each(["/win", "/wsl"])(
-		"return %s with repo_name",
+		"return %s with repo name",
 		{
 			// regex matching takes time
 			timeout: 10000,
@@ -44,7 +44,7 @@ describe("return the installer script with the specified repo name set", () => {
 		async (path) => {
 			const response = await SELF.fetch(`https://dot.risunosu.com${path}`);
 			expect(await response.text()).toMatch(
-				/^.?repo(_n|N)ame *= *"risu729\/dotfiles"/gm,
+				/^.?repo(_n|N)ame *= *["']risu729\/dotfiles["']/gm,
 			);
 		},
 	);
@@ -63,7 +63,7 @@ describe("return the installer script with the specified ref set", () => {
 			);
 			expect(await response.text()).toMatch(
 				new RegExp(
-					`^.?git(_r|R)ef *= *"${import.meta.env.LATEST_COMMIT_HASH}"`,
+					`^.?git(_r|R)ef *= *["']${import.meta.env.LATEST_COMMIT_HASH}["']`,
 					"gm",
 				),
 			);
@@ -82,7 +82,7 @@ describe("return the installer script with the script origin set", () => {
 			const response = await SELF.fetch(`https://dot.risunosu.com${path}`);
 			expect(await response.text()).toMatch(
 				// cspell:ignore rigin
-				/^.?script(_o|O)rigin *= *"https:\/\/dot\.risunosu\.com"/gm,
+				/^.?script(_o|O)rigin *= *["']https:\/\/dot\.risunosu\.com["']/gm,
 			);
 		},
 	);
