@@ -1,22 +1,27 @@
 #!/usr/bin/env bash
 
-set -euxo pipefail
+set -euo pipefail
 
 # must be edited by the worker to use the correct GitHub repository
 repo_name=""
 # might be edited by the worker to checkout a specific ref
 git_ref=""
 
+RESET='\033[0m'
+CYAN='\033[0;36m'
+YELLOW='\033[0;33m'
+RED='\033[0;31m'
+
 log_info() {
-	echo "INFO: $1" >&2
+	echo -e "${CYAN}INFO: $1${RESET}" >&2
 }
 
 log_warn() {
-	echo "WARNING: $1" >&2
+	echo -e "${YELLOW}WARNING: $1${RESET}" >&2
 }
 
 log_error() {
-	echo "ERROR: $1" >&2
+	echo -e "${RED}ERROR: $1${RESET}" >&2
 }
 
 update_system_packages() {
@@ -33,18 +38,13 @@ install_system_packages() {
 	log_info "Installing system packages..."
 	# not pre-installed in wsl ubuntu
 	# ref: https://cdimages.ubuntu.com/ubuntu-wsl/noble/daily-live/current/noble-wsl-amd64.manifest
-	sudo apt-get install --yes zip unzip build-essential
+	# cspell:ignore clangd
+	sudo apt-get install --yes zip unzip build-essential pkg-config libssl-dev clang clangd
 	log_info "Core packages installed."
 }
 
 install_custom_registry_packages() {
 	log_info "Setting up custom APT repositories and installing additional packages..."
-
-	# use PPA for wslu as recommended
-	# ref: https://wslu.wedotstud.io/wslu/install.html#ubuntu
-	# wslu is for wslview, which opens Windows browser from WSL
-	# cspell:ignore wslutilities wslu wslview
-	sudo add-apt-repository --yes ppa:wslutilities/wslu
 
 	sudo install --directory --mode=0755 /etc/apt/keyrings
 
@@ -71,7 +71,7 @@ install_custom_registry_packages() {
 	log_info "All repositories set up. Installing packages..."
 	sudo apt-get update
 	# cspell:ignore containerd buildx
-	sudo apt-get install --yes wslu mise docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+	sudo apt-get install --yes mise docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 	log_info "Additional packages installed."
 }
 
@@ -124,7 +124,7 @@ clone_or_update_dotfiles_repo() {
 	fi
 
 	local repo_url="github.com/${target_repo_name}"
-	local dotfiles_target_dir="${HOME}/ghq/${repo_url}"
+	local dotfiles_target_dir="${HOME}/.ghr/${repo_url}"
 
 	log_info "Preparing dotfiles repository: ${target_repo_name} in ${dotfiles_target_dir}"
 	mkdir --parents "${dotfiles_target_dir}"
@@ -134,7 +134,26 @@ clone_or_update_dotfiles_repo() {
 	cd "${dotfiles_target_dir}"
 
 	if git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
-		log_info "Existing repository found. Pulling updates..."
+		log_info "Existing repository found."
+
+		local has_changes
+		has_changes=false
+		if ! git diff --quiet HEAD || ! git diff --cached --quiet HEAD; then
+			has_changes=true
+		else
+			local untracked_files
+			untracked_files=$(git ls-files --others --exclude-standard)
+			if [[ -n ${untracked_files} ]]; then
+				has_changes=true
+			fi
+		fi
+		if [[ ${has_changes} == true ]]; then
+			log_info "Local changes detected. Stashing..."
+			git stash push --include-untracked --message "Auto-stashed by dotfiles installer script" >&2
+			log_info "Changes stashed."
+		fi
+
+		log_info "Pulling updates..."
 		# Do not pull if on a detached HEAD.
 		if git symbolic-ref --quiet HEAD >/dev/null; then
 			git pull --all --prune >&2
@@ -152,6 +171,10 @@ clone_or_update_dotfiles_repo() {
 		git checkout "${target_git_ref}" >&2
 		log_info "Successfully checked out ${target_git_ref}."
 	else
+		# If not checking out a specific ref, ensure we are on the default branch
+		# and that it's up-to-date (which pull/fetch should have handled).
+		# The checkout_default_git_branch might be redundant if pull/fetch worked,
+		# but it ensures the correct branch is checked out if it wasn't already.
 		checkout_default_git_branch "${dotfiles_target_dir}" >&2
 	fi
 
@@ -226,10 +249,9 @@ install_mise_tools() {
 	mise trust --all
 
 	log_info "Installing tools..."
-	# Use tee to disable progress bars
-	mise install --yes 2>&1 | tee /dev/null
+	mise install --yes
 	log_info "Upgrading tools..."
-	mise upgrade --yes 2>&1 | tee /dev/null
+	mise upgrade --yes
 	log_info "mise tools installed and upgraded."
 }
 
@@ -253,7 +275,7 @@ init_gnupg_dir() {
 	mkdir -p "${gnupg_home}"
 	chmod 700 "${gnupg_home}"
 
-	echo "GnuPG directory created."
+	log_info "GnuPG directory created."
 }
 
 run_git_setup_script() {

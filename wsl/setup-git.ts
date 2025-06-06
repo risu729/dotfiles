@@ -3,7 +3,12 @@
 import { mkdtemp, rmdir } from "node:fs/promises";
 import { homedir, tmpdir } from "node:os";
 import { join, resolve } from "node:path";
-import { $, env, spawn } from "bun";
+import { $, env, spawn, write } from "bun";
+
+// remove GITHUB_TOKEN from env to avoid github cli using it
+const envWithoutGitHubToken = Object.fromEntries(
+	Object.entries(env).filter(([key]) => key !== "GITHUB_TOKEN"),
+) as Record<string, string>;
 
 const localGitConfigPath = (
 	await $`git config --global include.path`.text()
@@ -25,15 +30,17 @@ const ensureGitHubTokenScopes = async (): Promise<() => Promise<void>> => {
 	const authWithBrowser = async (subcommand: string): Promise<void> => {
 		// bun shell doesn't support reading from stdout and stderr while running a command
 		// ref: https://github.com/oven-sh/bun/issues/14693
-		const process = spawn(
-			["gh", "auth", ...subcommand.split(" ")],
+		const process = spawn(["gh", "auth", ...subcommand.split(" ")], {
 			// default is "inherit" which just logs to the console
 			// ref: https://bun.sh/docs/api/spawn#output-streams
-			{ stderr: "pipe" },
-		);
+			stderr: "pipe",
+			env: envWithoutGitHubToken,
+		});
 
 		const reader = process.stderr.getReader();
 		const decoder = new TextDecoder();
+
+		let output = "";
 
 		while (true) {
 			const { done, value } = await reader.read();
@@ -41,6 +48,7 @@ const ensureGitHubTokenScopes = async (): Promise<() => Promise<void>> => {
 				break;
 			}
 			const text = decoder.decode(value, { stream: true });
+			output += text;
 			const oneTimeCode = text.match(
 				// ref: https://github.com/cli/cli/blob/14d339d9ba87e87f34b7a25f00200a2062f87039/internal/authflow/flow.go#L58
 				/First copy your one-time code: ([A-Z0-9-]+)/,
@@ -56,14 +64,15 @@ const ensureGitHubTokenScopes = async (): Promise<() => Promise<void>> => {
 			)?.[1];
 			if (url) {
 				// open the url automatically in the Windows default browser
-				// cspell:ignore wslview
-				await $`wslview ${url}`;
+				// explorer.exe always exit with exit code 1
+				// ref: https://github.com/microsoft/WSL/issues/6565
+				await $`explorer.exe ${url}`.nothrow();
 			}
 		}
 
 		const exitCode = await process.exited;
 		if (exitCode !== 0) {
-			throw new Error(`Process exited with code ${exitCode}`);
+			throw new Error(`Process exited with code ${exitCode}. ${output}`);
 		}
 	};
 
@@ -107,7 +116,10 @@ const ensureGitHubTokenScopes = async (): Promise<() => Promise<void>> => {
 
 	// login to GitHub if not authenticated
 	// cspell:ignore nothrow
-	const { stdout, exitCode } = await $`gh auth status`.quiet().nothrow();
+	const { stdout, exitCode } = await $`gh auth status`
+		.env(envWithoutGitHubToken)
+		.quiet()
+		.nothrow();
 	if (exitCode !== 0) {
 		await authWithBrowser(
 			`login --web --git-protocol https --scopes ${requiredScopes.map(({ scope }) => scope).join(",")}`,
@@ -158,7 +170,9 @@ const ghApi = async <ReturnType>(
 					.map(([key, value]) => ` --raw-field "${key}=${value}"`)
 					.join("")
 			: "",
-	}}`.json();
+	}}`
+		.env(envWithoutGitHubToken)
+		.json();
 };
 
 // GitHub CLI does not support setting user.name and user.email automatically
@@ -173,8 +187,6 @@ const setGitUserConfig = async (): Promise<{
 		login: string;
 	}>("/user");
 	await $`git config --file ${localGitConfigPath} user.name ${name ?? login}`.quiet();
-	// set ghq.user to override the git user name for ghq
-	await $`git config --file ${localGitConfigPath} ghq.user ${login}`.quiet();
 
 	const noReplyEmail = await ghApi<{ email: string }[]>("/user/emails").then(
 		(emails) =>
@@ -187,6 +199,16 @@ const setGitUserConfig = async (): Promise<{
 	}
 	await $`git config --file ${localGitConfigPath} user.email ${noReplyEmail}`.quiet();
 	return { githubId: login, email: noReplyEmail };
+};
+
+const createGhrConfig = async (githubId: string): Promise<void> => {
+	const ghrHomeDir = (await $`ghr path`.text()).trim();
+	if (!ghrHomeDir) {
+		throw new Error("Failed to get ghr home directory");
+	}
+	const ghrConfigPath = resolve(ghrHomeDir, "ghr.toml");
+	const ghrConfig = `defaults.owner = "${githubId}"`;
+	await write(ghrConfigPath, ghrConfig);
 };
 
 // ref: https://github.com/gpg/gnupg/blob/master/doc/DETAILS#format-of-the-colon-listings
@@ -1344,6 +1366,7 @@ const main = async (): Promise<void> => {
 
 	try {
 		const { githubId, email } = await setGitUserConfig();
+		await createGhrConfig(githubId);
 		await configureGitSign(githubId, email);
 	} finally {
 		await removeScopes();

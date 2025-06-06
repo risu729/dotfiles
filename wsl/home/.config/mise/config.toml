@@ -1,7 +1,7 @@
 # ref: https://mise.jdx.dev/configuration.html#global-config-config-mise-config-toml
 #:schema https://mise.jdx.dev/schema/mise.json
 
-min_version = "2025.5.12"
+min_version = "2025.6.0"
 
 [env]
 # disable bat paging
@@ -35,14 +35,14 @@ watchexec = "latest"
 # cli tools
 jq = "latest"
 github-cli = "latest"
-ghq = "latest"
+# cspell:ignore siketyan
+"ubi:siketyan/ghr" = "latest"
 jc = "latest"
 delta = "latest"
 ripgrep = "latest"
 eza = "latest"
 bat = "latest"
 fd = "latest"
-fzf = "latest"
 xh = "latest"
 jd = "latest"
 

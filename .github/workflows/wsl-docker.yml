@@ -50,9 +50,9 @@ jobs:
           persist-credentials: false
 
       - name: Install mise
-        uses: jdx/mise-action@c94f0bf9e520b150e34c017db785461f7e71c5fb # v2.2.2
+        uses: jdx/mise-action@13abe502c30c1559a5c37dff303831bab82c9402 # v2.2.3
         with:
-          version: 2025.5.12
+          version: 2025.6.0
           cache: false
         env:
           # only install required tools
@@ -63,7 +63,8 @@ jobs:
         id: image-info
         run: mise run ci:wsl-docker:image-info
         env:
-          MISE_ENABLE_TOOLS: jc
+          MISE_AUTO_INSTALL: false
+          MISE_LOG_LEVEL: trace
           IMAGE_NAME: ${{ env.IMAGE_NAME }}
           GITHUB_TOKEN: ${{ github.token }}
 
@@ -93,7 +94,7 @@ jobs:
 
       - name: Build and push Docker image
         if: steps.download.outcome != 'skipped'
-        uses: docker/build-push-action@1dc73863535b631f98b2378be8619f83b136f4a0 # v6.17.0
+        uses: docker/build-push-action@263435318d21b8e681c14492fe198d362a7d2c83 # v6.18.0
         with:
           context: .
           file: ./docker/wsl/Dockerfile

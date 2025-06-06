@@ -5,25 +5,21 @@ Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 
 <#
-.SYNOPSIS
-Tests if the current Windows version meets the specified minimum build and display version requirements.
+	.SYNOPSIS
+	Tests if the current Windows version meets the specified minimum build and display version requirements.
 
-.PARAMETER MinimumBuild
-The minimum required Windows build number (e.g., 26100).
-
-.PARAMETER RequiredDisplayVersionString
-The required Windows DisplayVersion string in NNHN format (e.g., "24H2").
-
-.NOTES
-Throws exceptions on validation failure or inability to retrieve system information.
+	.NOTES
+	Throws exceptions on validation failure or inability to retrieve system information.
 #>
 function Test-MinimumWindowsVersion {
 	[CmdletBinding()]
 	param(
 		[Parameter(Mandatory = $true)]
+		# The minimum required Windows build number (e.g., 26100).
 		[int]$MinimumBuild,
 
 		[Parameter(Mandatory = $true)]
+		# The required Windows DisplayVersion string in NNHN format (e.g., "24H2").
 		[string]$RequiredDisplayVersionString
 	)
 
@@ -84,25 +80,21 @@ function Test-MinimumWindowsVersion {
 
 
 <#
-.SYNOPSIS
-Checks if the script is running with elevated privileges (Administrator).
-If not, it restarts the script with elevated privileges.
-If already elevated, it continues execution.
-
-.PARAMETER ScriptOrigin
-The base URL for the setup script.
-
-.PARAMETER GitRef
-The Git reference (branch or tag) to use for the setup script.
+	.SYNOPSIS
+	Checks if the script is running with elevated privileges (Administrator).
+	If not, it restarts the script with elevated privileges.
+	If already elevated, it continues execution.
 #>
 function Invoke-ElevatedScript {
 	[CmdletBinding()]
 	param(
 		[Parameter(Mandatory = $true)]
+		# The base URL for the setup script.
 		[string]$ScriptOrigin,
 
 		[Parameter(Mandatory = $true)]
-  		[AllowEmptyString()]
+		[AllowEmptyString()]
+		# The Git reference (branch or tag) to use for the setup script.
 		[string]$GitRef
 	)
 
@@ -127,16 +119,14 @@ function Invoke-ElevatedScript {
 }
 
 <#
-.SYNOPSIS
-Runs an external command using Invoke-Expression and throws an exception on failure.
-
-.PARAMETER Command
-The command string to execute.
+	.SYNOPSIS
+	Runs an external command using Invoke-Expression and throws an exception on failure.
 #>
 function Invoke-ExternalCommand {
 	[CmdletBinding()]
 	param (
 		[Parameter(Mandatory = $true)]
+		# The command string to execute.
 		[string]$Command
 	)
 
@@ -149,63 +139,74 @@ function Invoke-ExternalCommand {
 }
 
 <#
-.SYNOPSIS
-Runs a command in WSL and returns the output.
+	.SYNOPSIS
+	Runs a command in WSL and returns the output.
 
-.PARAMETER Command
-The command string to execute in WSL.
-
-.PARAMETER Root
-If true, the command is executed as root.
-If false, the command is executed as the default user.
-
-.PARAMETER Interactive
-If true, the command is executed in interactive mode.
-
-.NOTES
-The command is executed with /usr/bin/env bash -c.
+	.NOTES
+	The command is executed with /usr/bin/env bash -c.
 #>
 function Invoke-WSLCommand {
 	[CmdletBinding()]
 	param (
 		[Parameter(Mandatory = $true)]
+		# The command string to execute in WSL. This string will be passed to bash -c
 		[string]$Command,
 
 		[Parameter(Mandatory = $false)]
+		# If true, the command is executed as root. If false, the command is executed as the default user.
 		[switch]$Root,
 
 		[Parameter(Mandatory = $false)]
+		# If true, the command is executed in interactive mode.
 		[switch]$Interactive
 	)
 
-	$bashArg = "-c `"$Command`""
-	$bashArg = if ($Interactive) { "-i $bashArg" } else { $bashArg }
-	$wslArg = "--exec /usr/bin/env bash $bashArg"
-	$wslArg = if ($Root) { "--user root $wslArg" } else { $wslArg }
-	Invoke-ExternalCommand "wsl $wslArg"
+	$wslArgs = @()
+
+	if ($Root) {
+		$wslArgs += "--user"
+		$wslArgs += "root"
+	}
+
+	$wslArgs += "--exec"
+	$wslArgs += "/usr/bin/env"
+	$wslArgs += "bash"
+
+	if ($Interactive) {
+		$wslArgs += "-i"
+	}
+
+	$wslArgs += "-c"
+	$wslArgs += $Command
+
+	# Do not use Invoke-Expression to avoid re-interpretation of the command string
+	& wsl $wslArgs
+
+	$exitCode = $LASTEXITCODE
+	if ($exitCode -ne 0) {
+		throw "WSL command failed with exit code ${exitCode}: $Command"
+	}
 }
 
 <#
-.SYNOPSIS
-Checks if a specific WSL distribution is installed.
+	.SYNOPSIS
+	Checks if a specific WSL distribution is installed.
 
-.PARAMETER Name
-The name of the WSL distribution to check for (e.g., "Ubuntu-24.04"). This parameter is mandatory.
+	.OUTPUTS
+	System.Boolean
+	Returns $true if the specified distribution is found.
+	Returns $false if the distribution is not found, or if the 'wsl --list --verbose' command fails.
 
-.OUTPUTS
-System.Boolean
-Returns $true if the specified distribution is found.
-Returns $false if the distribution is not found, or if the 'wsl --list --verbose' command fails.
-
-.NOTES
-The function parses the output of 'wsl --list --verbose'.
-It uses a regular expression to extract the distribution name from each line.
-The comparison is case-sensitive, as WSL distribution names are generally case-sensitive.
+	.NOTES
+	The function parses the output of 'wsl --list --verbose'.
+	It uses a regular expression to extract the distribution name from each line.
+	The comparison is case-sensitive, as WSL distribution names are generally case-sensitive.
 #>
 function Test-WslDistributionInstalled {
 	[OutputType([bool])]
 	param(
-		[Parameter(Mandatory=$true)]
+		[Parameter(Mandatory = $true)]
+		# The name of the WSL distribution to check for (e.g., "Ubuntu-24.04"). This parameter is mandatory.
 		[string]$Name
 	)
 
@@ -237,11 +238,11 @@ function Test-WslDistributionInstalled {
 }
 
 <#
-.SYNOPSIS
-Prompts the user for a password and confirms it.
+	.SYNOPSIS
+	Prompts the user for a password and confirms it.
 
-.OUTPUTS
-Returns the confirmed password as a plain text string.
+	.OUTPUTS
+	Returns the confirmed password as a plain text string.
 #>
 function Read-Password {
 	[CmdletBinding()]
@@ -273,29 +274,23 @@ function Read-Password {
 }
 
 <#
-.SYNOPSIS
-Creates a new user in the WSL distribution.
-
-.PARAMETER Distribution
-The name of the WSL distribution to create the user in.
-
-.PARAMETER Username
-The username for the new WSL user.
-
-.PARAMETER Password
-The plain text password for the new user.
+	.SYNOPSIS
+	Creates a new user in the WSL distribution.
 #>
 function New-WslUser {
 	[CmdletBinding()]
 	[Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSAvoidUsingPlainTextForPassword", "", Justification = "chpasswd requires plain text password")]
 	param(
 		[Parameter(Mandatory = $true)]
+		# The name of the WSL distribution to create the user in.
 		[string]$Distribution,
 
 		[Parameter(Mandatory = $true)]
+		# The username for the new WSL user.
 		[string]$Username,
 
 		[Parameter(Mandatory = $true)]
+		# The plain text password for the new user.
 		[string]$Password
 	)
 
@@ -310,8 +305,8 @@ function New-WslUser {
 }
 
 <#
-.SYNOPSIS
-Sets up WSL.
+	.SYNOPSIS
+	Sets up WSL.
 #>
 function Install-Wsl {
 	[CmdletBinding()]
@@ -323,34 +318,38 @@ function Install-Wsl {
 }
 
 <#
-.SYNOPSIS
-Sets up the WSL distribution.
+	.SYNOPSIS
+	Sets up the WSL distribution.
 
-.PARAMETER Distribution
-The name of the WSL distribution to install (e.g., "Ubuntu-24.04").
-
-.PARAMETER Username
-The username for the new WSL user.
-
-.NOTES
-Requires user interaction for password input.
-Fails if the distribution is already installed.
+	.NOTES
+	Requires user interaction for password input.
+	Fails if the distribution is already installed.
 #>
 function Install-WslDistribution {
 	[CmdletBinding()]
 	param (
 		[Parameter(Mandatory = $true)]
+		# The name of the WSL distribution to install (e.g., "Ubuntu-24.04").
 		[string]$Distribution,
 
 		[Parameter(Mandatory = $true)]
+		# The username for the new WSL user.
 		[string]$Username
 	)
 
-	if (Test-WslDistributionInstalled -Name $Distribution) {
+	$isDistributionInstalled = Test-WslDistributionInstalled -Name $Distribution
+
+	if ($isDistributionInstalled) {
 		Write-Host "WSL distribution '$Distribution' is already installed."
-	} else {
+	}
+ else {
 		# Use no-launch not to require Ctrl+D afterwards
 		Invoke-ExternalCommand "wsl --install --distribution `"$Distribution`" --no-launch"
+	}
+
+	Invoke-ExternalCommand "wsl --set-default `"$Distribution`""
+
+	if (-not $isDistributionInstalled) {
 		# no-launch skips user creation, so we need to create it manually
 		# ref: https://github.com/microsoft/WSL/issues/10386
 		$password = Read-Password
@@ -358,28 +357,22 @@ function Install-WslDistribution {
 		# Set the default user to the created user
 		Invoke-ExternalCommand "wsl --manage `"$Distribution`" --set-default-user `"$Username`""
 	}
-
-	Invoke-ExternalCommand "wsl --set-default `"$Distribution`""
 }
 
 <#
-.SYNOPSIS
-Runs a setup script in WSL.
-
-.PARAMETER ScriptOrigin
-The base URL for the setup script to be executed in WSL.
-
-.PARAMETER GitRef
-The Git reference (branch or tag) to use for the setup script.
+	.SYNOPSIS
+	Runs a setup script in WSL.
 #>
 function Invoke-WslSetupScript {
 	[CmdletBinding()]
 	param(
 		[Parameter(Mandatory = $true)]
+		# The base URL for the setup script to be executed in WSL.
 		[string]$ScriptOrigin,
 
 		[Parameter(Mandatory = $true)]
-    		[AllowEmptyString()]
+		[AllowEmptyString()]
+		# The Git reference (branch or tag) to use for the setup script.
 		[string]$GitRef
 	)
 
@@ -392,24 +385,22 @@ function Invoke-WslSetupScript {
 }
 
 <#
-.SYNOPSIS
-Imports winget packages from a JSON file.
+	.SYNOPSIS
+	Imports winget packages from a JSON file.
 
-.PARAMETER DotfilesPath
-The path to the dotfiles repository on the WSL filesystem starting with `\\wsl.localhost`.
-
-.NOTES
-Requires access to the WSL filesystem via \\wsl.localhost.
+	.NOTES
+	Requires access to the WSL filesystem via \\wsl.localhost.
 #>
 function Import-WingetPackages {
 	[CmdletBinding()]
 	param(
 		[Parameter(Mandatory = $true)]
+		# The path to the dotfiles repository on the WSL filesystem starting with `\\wsl.localhost`.
 		[string]$DotfilesPath
 	)
 
 	$wingetConfigFile = "$DotfilesPath\win\winget.json"
-	Invoke-ExternalCommand "winget import --import-file `"$wingetConfigFile`" --disable-interactivity --accept-package-agreements"
+	Invoke-ExternalCommand "winget import --import-file `"$wingetConfigFile`" --disable-interactivity --accept-package-agreements --no-upgrade"
 	Write-Host "winget packages imported successfully."
 
 	# Remove the generated shortcuts from the desktop
@@ -419,22 +410,20 @@ function Import-WingetPackages {
 }
 
 <#
-.SYNOPSIS
-Configures the PowerToys settings backup directory to a WSL path.
+	.SYNOPSIS
+	Configures the PowerToys settings backup directory to a WSL path.
 
-.PARAMETER DotfilesPath
-The path to the dotfiles repository on the WSL filesystem starting with `\\wsl.localhost`.
-
-.NOTES
-Requires access to the WSL filesystem via \\wsl.localhost.
-This function only sets the registry key for PowerToys settings backup directory.
-It does not restore the settings from the backup.
+	.NOTES
+	Requires access to the WSL filesystem via \\wsl.localhost.
+	This function only sets the registry key for PowerToys settings backup directory.
+	It does not restore the settings from the backup.
 #>
 # cspell:ignore powertoys
 function Set-PowerToysBackupDirectory {
 	[CmdletBinding()]
 	param(
 		[Parameter(Mandatory = $true)]
+		# The path to the dotfiles repository on the WSL filesystem starting with `\\wsl.localhost`.
 		[string]$DotfilesPath
 	)
 	$powertoys_backup_dir = "$DotfilesPath\win\powertoys"
@@ -449,8 +438,8 @@ function Set-PowerToysBackupDirectory {
 }
 
 <#
-.SYNOPSIS
-Sets the WSLENV environment variable to share environment variables between Windows and WSL.
+	.SYNOPSIS
+	Sets the WSLENV environment variable to share environment variables between Windows and WSL.
 #>
 function Set-WSLENV {
 	[CmdletBinding()]
@@ -463,24 +452,22 @@ function Set-WSLENV {
 }
 
 <#
-.SYNOPSIS
-Runs a git setup script in WSL.
+	.SYNOPSIS
+	Runs a git setup script in WSL.
 
-.PARAMETER RepoName
-The name of the dotfiles repository to set up in WSL.
-
-.NOTES
-Requires a browser in Windows to be installed.
+	.NOTES
+	Requires a browser in Windows to be installed.
 #>
 function Invoke-GitSetupInWsl {
 	[CmdletBinding()]
 	param(
 		[Parameter(Mandatory = $true)]
+		# The name of the dotfiles repository to set up in WSL.
 		[string]$RepoName
 	)
 
 	# source .bashrc is required to update PATH
-	Invoke-WSLCommand -Interactive -Command "source ~/.bashrc; ~/ghq/github.com/$RepoName/wsl/setup-git.ts"
+	Invoke-WSLCommand -Interactive -Command "source ~/.bashrc; ~/.ghr/github.com/$RepoName/wsl/setup-git.ts"
 }
 
 # ===== Main Script Execution =====
@@ -491,11 +478,8 @@ $scriptOrigin = ""
 $repoName = ""
 # might be edited by the worker to use a specific ref
 $gitRef = ""
-$wslDistribution = "Ubuntu-24.04"
+$wslDistribution = "Ubuntu"
 $wslUsername = $env:USERNAME
-
-$repoWindowsPath = $repoName -replace '/', '\'
-$dotfilesPath = "\\wsl.localhost\$wslDistribution\home\$wslUsername\ghq\github.com\$repoWindowsPath"
 
 Test-MinimumWindowsVersion -MinimumBuild 26100 -RequiredDisplayVersionString "24H2"
 
@@ -506,6 +490,8 @@ Install-Wsl
 Install-WslDistribution -Distribution $wslDistribution -Username $wslUsername
 
 Invoke-WslSetupScript -ScriptOrigin $scriptOrigin -GitRef $gitRef
+
+$dotfilesPath = Invoke-WSLCommand -Command "source ~/.bashrc; wslpath -w `$(ghr path $repoName)"
 
 Import-WingetPackages -DotfilesPath $dotfilesPath
 
