@@ -1,8 +1,9 @@
-# This script must be compatible with PowerShell 5.1 because it is installed by default.
+﻿# This script must be compatible with PowerShell 5.1 because it is installed by default.
 # ref: https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_windows_powershell_5.1
 
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
+$InformationPreference = 'Continue'
 
 <#
 	.SYNOPSIS
@@ -29,7 +30,7 @@ function Test-MinimumWindowsVersion {
 	# ref: https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_automatic_variables?view=powershell-5.1
 	# If $IsWindows doesn't exist, we assume it's Windows.
 	if ((Test-Path Variable:\IsWindows) -and ($IsWindows -eq $false)) {
-		throw "This script can only run on Windows."
+		throw 'This script can only run on Windows.'
 	}
 
 	# cspell:ignore NNHN
@@ -38,7 +39,10 @@ function Test-MinimumWindowsVersion {
 		$requiredVerNum = [int]("$($matches[1])0$($matches[2])")
 	}
  else {
-		throw "Internal script error: Required DisplayVersion string format '$($RequiredDisplayVersionString)' is invalid. Expected NNHN format."
+		throw (
+			'Internal script error: Required DisplayVersion string format ' +
+			"'$($RequiredDisplayVersionString)' is invalid. Expected NNHN format."
+		)
 	}
 
 	try {
@@ -46,21 +50,27 @@ function Test-MinimumWindowsVersion {
 		$version = [System.Version]$os.Version
 	}
  catch {
-		throw "Could not retrieve operating system version information."
+		throw 'Could not retrieve operating system version information.'
 	}
 
 	# Check for Windows 10 Major version (which Windows 11 uses) and minimum build
 	if ($version.Major -ne 10 -or $version.Build -lt $MinimumBuild) {
-		throw "This script requires Windows 11 $($RequiredDisplayVersionString) or later (Build $($MinimumBuild)+). Detected: $($os.Caption) $($version.ToString())"
+		throw (
+			"This script requires Windows 11 $($RequiredDisplayVersionString) or later (Build $($MinimumBuild)+). " +
+			"Detected: $($os.Caption) $($version.ToString())"
+		)
 	}
 
 	# Further validation using DisplayVersion from registry
 	try {
 		# cspell:ignore HKLM
-		$displayVersion = Get-ItemPropertyValue -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion" -Name "DisplayVersion" -ErrorAction Stop
+		$displayVersion = Get-ItemPropertyValue `
+			-Path 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion' `
+			-Name 'DisplayVersion' `
+			-ErrorAction Stop
 	}
  catch {
-		throw "DisplayVersion not found in registry or could not be read. Cannot confirm Windows version details."
+		throw 'DisplayVersion not found in registry or could not be read. Cannot confirm Windows version details.'
 	}
 
 	# Validate DisplayVersion format and check against minimum required numeric version
@@ -75,9 +85,11 @@ function Test-MinimumWindowsVersion {
 		throw "DisplayVersion format '$displayVersion' is invalid. Expected format like '$($RequiredDisplayVersionString)'."
 	}
 
-	Write-Host "Detected Windows version (DisplayVersion '$($displayVersion)', Build $($version.Build)) meets minimum requirements ($($RequiredDisplayVersionString) / Build $($MinimumBuild)+)."
+	Write-Information (
+		"Detected Windows version (DisplayVersion '$($displayVersion)', Build $($version.Build)) " +
+		"meets minimum requirements ($($RequiredDisplayVersionString) / Build $($MinimumBuild)+)."
+	)
 }
-
 
 <#
 	.SYNOPSIS
@@ -98,20 +110,28 @@ function Invoke-ElevatedScript {
 		[string]$GitRef
 	)
 
-	$isAdmin = ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
+	$isAdmin = (
+		[Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()
+	).IsInRole(
+		[Security.Principal.WindowsBuiltInRole]::Administrator
+	)
 	if ($isAdmin) {
 		return
 	}
 
-	Write-Host "Administrator privileges required. Restarting script with administrator privileges..."
+	Write-Warning 'Administrator privileges required. Restarting script with administrator privileges...'
 
 	$winScriptUrl = [System.UriBuilder]::new($ScriptOrigin)
-	$winScriptUrl.Path = "/win"
-	if ($GitRef -ne "") {
+	$winScriptUrl.Path = '/win'
+	if ($GitRef -ne '') {
 		$winScriptUrl.Query = "ref=$GitRef"
 	}
 	# Wait for the user to press Enter before closing the elevated PowerShell window
-	$command = "try { Invoke-RestMethod $($winScriptUrl.ToString()) | Invoke-Expression } catch { `$PSItem } finally { Read-Host -Prompt 'Press Enter to exit' }"
+	$command = (
+		"try { Invoke-RestMethod $($winScriptUrl.ToString()) | Invoke-Expression } " +
+		"catch { `$PSItem } " +
+		"finally { Read-Host -Prompt 'Press Enter to exit' }"
+	)
 	Start-Process powershell -Verb RunAs -ArgumentList "-NoProfile -Command `"$command`""
 
 	# Exit the current non-elevated process
@@ -124,6 +144,11 @@ function Invoke-ElevatedScript {
 #>
 function Invoke-ExternalCommand {
 	[CmdletBinding()]
+	[Diagnostics.CodeAnalysis.SuppressMessageAttribute(
+		'PSAvoidUsingInvokeExpression',
+		'',
+		Justification = 'Required for command execution'
+	)]
 	param (
 		[Parameter(Mandatory = $true)]
 		# The command string to execute.
@@ -164,19 +189,19 @@ function Invoke-WSLCommand {
 	$wslArgs = @()
 
 	if ($Root) {
-		$wslArgs += "--user"
-		$wslArgs += "root"
+		$wslArgs += '--user'
+		$wslArgs += 'root'
 	}
 
-	$wslArgs += "--exec"
-	$wslArgs += "/usr/bin/env"
-	$wslArgs += "bash"
+	$wslArgs += '--exec'
+	$wslArgs += '/usr/bin/env'
+	$wslArgs += 'bash'
 
 	if ($Interactive) {
-		$wslArgs += "-i"
+		$wslArgs += '-i'
 	}
 
-	$wslArgs += "-c"
+	$wslArgs += '-c'
 	$wslArgs += $Command
 
 	# Do not use Invoke-Expression to avoid re-interpretation of the command string
@@ -204,6 +229,7 @@ function Invoke-WSLCommand {
 #>
 function Test-WslDistributionInstalled {
 	[OutputType([bool])]
+	[CmdletBinding()]
 	param(
 		[Parameter(Mandatory = $true)]
 		# The name of the WSL distribution to check for (e.g., "Ubuntu-24.04"). This parameter is mandatory.
@@ -211,7 +237,7 @@ function Test-WslDistributionInstalled {
 	)
 
 	try {
-		$wslOutputLines = Invoke-ExternalCommand "wsl --list --verbose"
+		$wslOutputLines = Invoke-ExternalCommand 'wsl --list --verbose'
 	}
  catch {
 		return $false
@@ -225,7 +251,7 @@ function Test-WslDistributionInstalled {
 	# Skip the header line and process the rest
 	foreach ($line in ($wslOutputLines | Select-Object -Skip 1)) {
 		# line might include NULL char so remove it
-		$cleanedLine = $line.Replace("`0", "").Trim()
+		$cleanedLine = $line.Replace("`0", '').Trim()
 		if ($cleanedLine -match $regex) {
 			$foundName = $Matches.DistroName
 			if ($foundName -eq $Name) {
@@ -246,26 +272,35 @@ function Test-WslDistributionInstalled {
 #>
 function Read-Password {
 	[CmdletBinding()]
+	[Diagnostics.CodeAnalysis.SuppressMessageAttribute(
+		'PSAvoidUsingWriteHost',
+		'',
+		Justification = 'Required to prompt user'
+	)]
 	param()
 
 	while ($true) {
-		Write-Host "Enter password:"
+		Write-Host 'Enter password:'
 		# Use -AsSecureString to mask input
 		$passwordSecure = Read-Host -AsSecureString
-		$password = [System.Runtime.InteropServices.Marshal]::PtrToStringAuto([System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($passwordSecure))
+		$password = [System.Runtime.InteropServices.Marshal]::PtrToStringAuto(
+			[System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($passwordSecure)
+		)
 
 		if ($null -eq $password -or [string]::IsNullOrEmpty($password)) {
-			Write-Warning "Password cannot be empty. Try again."
+			Write-Warning 'Password cannot be empty. Try again.'
 			continue
 		}
 
-		Write-Host "Re-enter password:"
+		Write-Host 'Re-enter password:'
 		$confirmPasswordSecure = Read-Host -AsSecureString
-		$confirmPassword = [System.Runtime.InteropServices.Marshal]::PtrToStringAuto([System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($confirmPasswordSecure))
+		$confirmPassword = [System.Runtime.InteropServices.Marshal]::PtrToStringAuto(
+			[System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($confirmPasswordSecure)
+		)
 
 		# if doesn't match, prompt again
 		if ($password -ne $confirmPassword) {
-			Write-Warning "Passwords do not match. Try again."
+			Write-Warning 'Passwords do not match. Try again.'
 			continue
 		}
 
@@ -278,8 +313,22 @@ function Read-Password {
 	Creates a new user in the WSL distribution.
 #>
 function New-WslUser {
+	[Diagnostics.CodeAnalysis.SuppressMessageAttribute(
+		'PSUseShouldProcessForStateChangingFunctions',
+		'',
+		Justification = 'No confirmation needed for this script'
+	)]
 	[CmdletBinding()]
-	[Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSAvoidUsingPlainTextForPassword", "", Justification = "chpasswd requires plain text password")]
+	[Diagnostics.CodeAnalysis.SuppressMessageAttribute(
+		'PSAvoidUsingPlainTextForPassword',
+		'',
+		Justification = 'chpasswd requires plain text password'
+	)]
+	[Diagnostics.CodeAnalysis.SuppressMessageAttribute(
+		'PSAvoidUsingUsernameAndPasswordParams',
+		'',
+		Justification = 'chpasswd requires plain text password'
+	)]
 	param(
 		[Parameter(Mandatory = $true)]
 		# The name of the WSL distribution to create the user in.
@@ -301,7 +350,7 @@ function New-WslUser {
 	# cspell:ignore usermod
 	Invoke-WSLCommand -Root -Command "usermod --append --groups sudo $Username"
 
-	Write-Host "User '$Username' created in WSL distribution '$Distribution'."
+	Write-Information "User '$Username' created in WSL distribution '$Distribution'."
 }
 
 <#
@@ -312,9 +361,9 @@ function Install-Wsl {
 	[CmdletBinding()]
 	param()
 
-	Invoke-ExternalCommand "wsl --install --no-distribution"
-	Invoke-ExternalCommand "wsl --set-default-version 2"
-	Invoke-ExternalCommand "wsl --update --pre-release"
+	Invoke-ExternalCommand 'wsl --install --no-distribution'
+	Invoke-ExternalCommand 'wsl --set-default-version 2'
+	Invoke-ExternalCommand 'wsl --update --pre-release'
 }
 
 <#
@@ -340,7 +389,7 @@ function Install-WslDistribution {
 	$isDistributionInstalled = Test-WslDistributionInstalled -Name $Distribution
 
 	if ($isDistributionInstalled) {
-		Write-Host "WSL distribution '$Distribution' is already installed."
+		Write-Information "WSL distribution '$Distribution' is already installed."
 	}
  else {
 		# Use no-launch not to require Ctrl+D afterwards
@@ -377,8 +426,8 @@ function Invoke-WslSetupScript {
 	)
 
 	$wslScriptUrl = [System.UriBuilder]::new($ScriptOrigin)
-	$wslScriptUrl.Path = "/wsl"
-	if ($GitRef -ne "") {
+	$wslScriptUrl.Path = '/wsl'
+	if ($GitRef -ne '') {
 		$wslScriptUrl.Query = "ref=$GitRef"
 	}
 	Invoke-WSLCommand -Command "SKIP_GIT_SETUP=true bash <(curl -fsSL $($wslScriptUrl.ToString()))"
@@ -391,7 +440,7 @@ function Invoke-WslSetupScript {
 	.NOTES
 	Requires access to the WSL filesystem via \\wsl.localhost.
 #>
-function Import-WingetPackages {
+function Import-WingetPackagesFile {
 	[CmdletBinding()]
 	param(
 		[Parameter(Mandatory = $true)]
@@ -400,8 +449,11 @@ function Import-WingetPackages {
 	)
 
 	$wingetConfigFile = "$DotfilesPath\win\winget.json"
-	Invoke-ExternalCommand "winget import --import-file `"$wingetConfigFile`" --disable-interactivity --accept-package-agreements --no-upgrade"
-	Write-Host "winget packages imported successfully."
+	Invoke-ExternalCommand (
+		"winget import --import-file `"$wingetConfigFile`" " +
+		'--disable-interactivity --accept-package-agreements --no-upgrade'
+	)
+	Write-Information 'winget packages imported successfully.'
 
 	# Remove the generated shortcuts from the desktop
 	Remove-Item -Path "$([Environment]::GetFolderPath('Desktop'))\*.lnk" -Force -ErrorAction SilentlyContinue
@@ -420,6 +472,11 @@ function Import-WingetPackages {
 #>
 # cspell:ignore powertoys
 function Set-PowerToysBackupDirectory {
+	[Diagnostics.CodeAnalysis.SuppressMessageAttribute(
+		'PSUseShouldProcessForStateChangingFunctions',
+		'',
+		Justification = 'No confirmation needed for this script'
+	)]
 	[CmdletBinding()]
 	param(
 		[Parameter(Mandatory = $true)]
@@ -430,11 +487,19 @@ function Set-PowerToysBackupDirectory {
 	# cspell:ignore HKCU
 	# Use -Force in case the key/value doesn't exist
 	# ref: https://github.com/microsoft/PowerToys/blob/75121ca7f3491f769423ba2c141934d6b5402de8/src/settings-ui/Settings.UI.Library/SettingsBackupAndRestoreUtils.cs#L392
-	Set-ItemProperty -Path HKCU:Software\Microsoft\PowerToys -Name SettingsBackupAndRestoreDir -Value "$powertoys_backup_dir" -Force
+	Set-ItemProperty `
+		-Path HKCU:Software\Microsoft\PowerToys `
+		-Name SettingsBackupAndRestoreDir `
+		-Value "$powertoys_backup_dir" `
+		-Force
 
 	# Delete existing PowerToys backup directory in Documents
-	Remove-Item -Path "$([Environment]::GetFolderPath('MyDocuments'))\PowerToys" -Recurse -Force -ErrorAction SilentlyContinue
-	Write-Host "PowerToys settings backup directory configured."
+	Remove-Item `
+		-Path "$([Environment]::GetFolderPath('MyDocuments'))\PowerToys" `
+		-Recurse `
+		-Force `
+		-ErrorAction SilentlyContinue
+	Write-Information 'PowerToys settings backup directory configured.'
 }
 
 <#
@@ -442,13 +507,18 @@ function Set-PowerToysBackupDirectory {
 	Sets the WSLENV environment variable to share environment variables between Windows and WSL.
 #>
 function Set-WSLENV {
+	[Diagnostics.CodeAnalysis.SuppressMessageAttribute(
+		'PSUseShouldProcessForStateChangingFunctions',
+		'',
+		Justification = 'No confirmation needed for this script'
+	)]
 	[CmdletBinding()]
 	param()
 
 	# cspell:ignore WSLENV PATHEXT
 	# Set WSLENV to share PATHEXT between Windows and WSL
 	# ref: https://learn.microsoft.com/en-us/windows/wsl/filesystems#share-environment-variables-between-windows-and-wsl-with-wslenv
-	[System.Environment]::SetEnvironmentVariable("WSLENV", "PATHEXT", [System.EnvironmentVariableTarget]::User)
+	[System.Environment]::SetEnvironmentVariable('WSLENV', 'PATHEXT', [System.EnvironmentVariableTarget]::User)
 }
 
 <#
@@ -473,15 +543,15 @@ function Invoke-GitSetupInWsl {
 # ===== Main Script Execution =====
 
 # must be edited by the worker to use the same script as requested by the user
-$scriptOrigin = ""
+$scriptOrigin = ''
 # must be edited by the worker to use the correct GitHub repository
-$repoName = ""
+$repoName = ''
 # might be edited by the worker to use a specific ref
-$gitRef = ""
-$wslDistribution = "Ubuntu"
+$gitRef = ''
+$wslDistribution = 'Ubuntu'
 $wslUsername = $env:USERNAME
 
-Test-MinimumWindowsVersion -MinimumBuild 26100 -RequiredDisplayVersionString "24H2"
+Test-MinimumWindowsVersion -MinimumBuild 26100 -RequiredDisplayVersionString '24H2'
 
 Invoke-ElevatedScript -ScriptOrigin $scriptOrigin -GitRef $gitRef
 
@@ -493,7 +563,7 @@ Invoke-WslSetupScript -ScriptOrigin $scriptOrigin -GitRef $gitRef
 
 $dotfilesPath = Invoke-WSLCommand -Command "source ~/.bashrc; wslpath -w `$(ghr path $repoName)"
 
-Import-WingetPackages -DotfilesPath $dotfilesPath
+Import-WingetPackagesFile -DotfilesPath $dotfilesPath
 
 Set-PowerToysBackupDirectory -DotfilesPath $dotfilesPath
 

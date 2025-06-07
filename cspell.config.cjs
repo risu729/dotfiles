@@ -37,5 +37,6 @@ module.exports = {
 		"hono",
 		"jschema",
 		"buni",
+		"pwsh",
 	],
 };

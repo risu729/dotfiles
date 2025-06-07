@@ -3,6 +3,9 @@
 
 min_version = "2025.6.0"
 
+[vars]
+PS_SCRIPT_ANALYZER_VERSION = "1.24.0"
+
 [tools]
 bun = "1.2.15"
 node = "24.1.0"
@@ -12,7 +15,7 @@ ghalint = "1.4.1"
 pinact = "3.1.2"
 # required for cargo backend
 # cspell:ignore binstall
-cargo-binstall = "1.12.6"
+cargo-binstall = "1.12.7"
 "cargo:zizmor" = "=1.9.0"
 taplo = "0.10.0"
 "npm:prettier" = "3.5.3"
@@ -22,7 +25,7 @@ shellcheck = "0.10.0"
 yamlfmt = "0.17.0"
 # cspell:ignore pipx
 # required for pipx backend
-uv = "0.7.11"
+uv = "0.7.12"
 yamllint = "1.37.1"
 "npm:cspell" = "9.0.2"
 # cspell:ignore lycheeverse
@@ -32,6 +35,13 @@ typos = "1.33.1"
 "npm:jschema-validator" = "1.0.16"
 jc = "1.25.5"
 hadolint = "2.12.0"
+# pwsh is not executable so postinstall is required
+# ref: https://github.com/PowerShell/PowerShell/issues/23968
+"aqua:PowerShell/PowerShell" = { version = "7.5.1", postinstall = """
+list=$(mise list aqua:PowerShell/PowerShell --json)
+install_path=$(echo "$list" | jq --raw-output 'first(.[] | select(.active)) | .install_path')
+chmod +x "${install_path}/pwsh"
+""" }
 
 [settings]
 experimental = true
@@ -45,6 +55,6 @@ includes = ["tasks.toml", "tasks", "worker/tasks.toml", "worker/tasks"]
 [hooks]
 postinstall = """
 {% if env.CI is undefined %}
-  mise run buni
+  mise run buni ::: install:ps-script-analyzer
 {% endif %}
 """
