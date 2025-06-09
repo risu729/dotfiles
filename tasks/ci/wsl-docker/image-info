@@ -64,11 +64,11 @@ output=$(
 		--arg latest_tag "${latest_tag}" \
 		--arg image_url "${image_url}" \
 		'{
-      "new_tag": $new_tag,
-      "latest_tag": $latest_tag,
-      "skip_build": ($new_tag == $latest_tag),
-      "image_url": $image_url
-    }'
+			"new_tag": $new_tag,
+			"latest_tag": $latest_tag,
+			"skip_build": ($new_tag == $latest_tag),
+			"image_url": $image_url
+		}'
 )
 
 echo "${output}" | jq
