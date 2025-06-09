@@ -58,12 +58,12 @@ output=$(
 		--arg mise_version_number "${mise_version_number}" \
 		--arg latest_tag_mise_version "${latest_tag_mise_version}" \
 		'{
-      "mise_version": $mise_version,
-      "new_tag": $new_tag,
-      "latest_tag": $latest_tag,
-      "latest_tag_digest": $latest_tag_digest,
-      "is_mise_version_changed": ($mise_version_number != $latest_tag_mise_version),
-    }'
+			"mise_version": $mise_version,
+			"new_tag": $new_tag,
+			"latest_tag": $latest_tag,
+			"latest_tag_digest": $latest_tag_digest,
+			"is_mise_version_changed": ($mise_version_number != $latest_tag_mise_version),
+		}'
 )
 
 echo "${output}" | jq
