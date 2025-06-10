@@ -1368,15 +1368,14 @@ const main = async (): Promise<void> => {
 		await configureGitSign(githubId, email);
 	} finally {
 		await removeScopes();
+		// reset gh config because it is formatted differently by gh cli
+		const ghConfigPath = resolve(
+			import.meta.dirname,
+			"./home/.config/gh/config.yml",
+		);
+		await $`git checkout -- ${ghConfigPath}`.cwd(
+			resolve(import.meta.dirname, ".."),
+		);
 	}
-
-	// reset gh config because it is formatted differently by gh cli
-	const ghConfigPath = resolve(
-		import.meta.dirname,
-		"./home/.config/gh/config.yml",
-	);
-	await $`git checkout -- ${ghConfigPath}`.cwd(
-		resolve(import.meta.dirname, ".."),
-	);
 };
 await main();
