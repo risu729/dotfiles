@@ -536,7 +536,7 @@ function Invoke-GitSetupInWsl {
 		[string]$RepoName
 	)
 
-	Invoke-WSLCommand -Interactive -Command "eval `$(mise env); ~/.ghr/github.com/$RepoName/wsl/setup-git.ts"
+	Invoke-WSLCommand -Interactive -Command "eval `$(mise env --shell bash); ~/.ghr/github.com/$RepoName/wsl/setup-git.ts"
 }
 
 # ===== Main Script Execution =====
@@ -560,7 +560,7 @@ Install-WslDistribution -Distribution $wslDistribution -Username $wslUsername
 
 Invoke-WslSetupScript -ScriptOrigin $scriptOrigin -GitRef $gitRef
 
-$dotfilesPath = Invoke-WSLCommand -Command "eval `$(mise env); ~/.bashrc; wslpath -w `$(ghr path $repoName)"
+$dotfilesPath = Invoke-WSLCommand -Command "eval `$(mise env --shell bash); ~/.bashrc; wslpath -w `$(ghr path $repoName)"
 
 Import-WingetPackagesFile -DotfilesPath $dotfilesPath
 
