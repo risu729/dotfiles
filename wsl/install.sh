@@ -295,6 +295,10 @@ run_git_setup_script() {
 
 	# shellcheck source=wsl/home/.bashrc
 	source "${HOME}/.bashrc"
+	log_warn $-
+	# not set, print NONE
+	log_warn "${BROWSER:-NONE}"
+	log_warn $(which bun)
 
 	if "${setup_script_path}"; then
 		log_info "Git setup script completed successfully."
