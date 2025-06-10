@@ -129,6 +129,9 @@ if [[ -z ${__CI} ]]; then
 	export GITHUB_TOKEN
 fi
 
+# xdg-open
+export BROWSER="pwsh.exe -c Start-Process"
+
 # aliases
 alias beep="printf '\a'"
 alias l="eza --all --long --git"
