@@ -536,8 +536,7 @@ function Invoke-GitSetupInWsl {
 		[string]$RepoName
 	)
 
-	# source .bashrc is required to update PATH
-	Invoke-WSLCommand -Interactive -Command "source ~/.bashrc; ~/.ghr/github.com/$RepoName/wsl/setup-git.ts"
+	Invoke-WSLCommand -Interactive -Command "source `"`${HOME}/.bashrc`"; ~/.ghr/github.com/$RepoName/wsl/setup-git.ts"
 }
 
 # ===== Main Script Execution =====
@@ -561,7 +560,7 @@ Install-WslDistribution -Distribution $wslDistribution -Username $wslUsername
 
 Invoke-WslSetupScript -ScriptOrigin $scriptOrigin -GitRef $gitRef
 
-$dotfilesPath = Invoke-WSLCommand -Command "source ~/.bashrc; wslpath -w `$(ghr path $repoName)"
+$dotfilesPath = Invoke-WSLCommand -Command "eval `$(mise env --shell bash); wslpath -w `$(ghr path $repoName)"
 
 Import-WingetPackagesFile -DotfilesPath $dotfilesPath
 
