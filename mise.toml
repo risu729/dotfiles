@@ -1,7 +1,7 @@
 # ref: https://mise.jdx.dev/configuration.html
 #:schema https://mise.jdx.dev/schema/mise.json
 
-min_version = "2025.6.0"
+min_version = "2025.6.1"
 
 [vars]
 PS_SCRIPT_ANALYZER_VERSION = "1.24.0"
@@ -37,10 +37,9 @@ jc = "1.25.5"
 hadolint = "2.12.0"
 # pwsh is not executable so postinstall is required
 # ref: https://github.com/PowerShell/PowerShell/issues/23968
+# ref: https://github.com/jdx/mise/discussions/4189
 "aqua:PowerShell/PowerShell" = { version = "7.5.1", postinstall = """
-list=$(mise list aqua:PowerShell/PowerShell --json)
-install_path=$(echo "$list" | jq --raw-output 'first(.[] | select(.active)) | .install_path')
-chmod +x "${install_path}/pwsh"
+chmod +x $(find $(mise where aqua:PowerShell/PowerShell) -name pwsh)
 """ }
 
 [settings]

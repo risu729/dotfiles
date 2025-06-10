@@ -11,14 +11,13 @@
 	"devDependencies": {
 		"@cloudflare/vite-plugin": "1.5.0",
 		"@cloudflare/vitest-pool-workers": "0.8.36",
-		"@cloudflare/workers-types": "4.20250607.0",
 		"@risu729/tsconfigs": "1.0.1",
 		"@types/bun": "1.2.15",
-		"@vitest/ui": "3.2.2",
+		"@vitest/ui": "3.2.3",
 		"diff": "8.0.2",
 		"typescript": "5.8.3",
 		"vite": "6.3.5",
-		"vitest": "3.2.2",
+		"vitest": "3.2.3",
 		"wrangler": "4.19.1"
 	}
 }

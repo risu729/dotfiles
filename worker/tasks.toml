@@ -12,19 +12,19 @@ dir = "worker"
 description = "Run TypeScript compiler to check types in the worker directory (base)."
 
 ["check:tsc:worker:src"]
-depends = ["buni:worker"]
+depends = ["worker:generate:types"]
 run = "bun run tsc --project tsconfig.src.json {% if env.CI is defined %}--incremental false{% endif %}"
 dir = "worker"
 description = "Run TypeScript compiler to check types in the worker directory (src)."
 
 ["check:tsc:worker:test"]
-depends = ["buni:worker"]
+depends = ["worker:generate:types"]
 run = "bun run tsc --project tsconfig.test.json {% if env.CI is defined %}--incremental false{% endif %}"
 dir = "worker"
 description = "Run TypeScript compiler to check types in the worker directory (test)."
 
 ["worker:dev"]
-depends = ["buni:worker"]
+depends = ["worker:generate:types"]
 dir = "worker"
 run = "bun run vite dev"
 description = "Start a local development server for the worker."
@@ -36,7 +36,7 @@ run = "bun run vite preview"
 description = "Preview the built worker."
 
 ["worker:test"]
-depends = ["buni:worker"]
+depends = ["worker:generate:types"]
 run = "bun run vitest {% if env.CI is undefined %}watch --ui{% else %}run{% endif %}"
 dir = "worker"
 description = "Run tests for the worker."
@@ -46,3 +46,10 @@ run = "bun install --frozen-lockfile"
 dir = "worker"
 hide = true
 description = "Install Bun dependencies in the worker directory."
+
+["worker:generate:types"]
+depends = ["buni:worker"]
+run = "bun run wrangler types src/worker-configuration.d.ts"
+dir = "worker"
+hide = true
+description = "Generate types of Cloudflare Worker runtimes."
