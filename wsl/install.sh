@@ -293,6 +293,9 @@ run_git_setup_script() {
 
 	log_info "Running git setup script: ${setup_script_path}"
 
+	# shellcheck source=wsl/home/.bashrc
+	source "${HOME}/.bashrc"
+
 	if "${setup_script_path}"; then
 		log_info "Git setup script completed successfully."
 	else

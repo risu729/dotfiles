@@ -536,7 +536,7 @@ function Invoke-GitSetupInWsl {
 		[string]$RepoName
 	)
 
-	Invoke-WSLCommand -Interactive -Command "eval `$(mise env --shell bash); ~/.ghr/github.com/$RepoName/wsl/setup-git.ts"
+	Invoke-WSLCommand -Interactive -Command "source `"`${HOME}/.bashrc`"; ~/.ghr/github.com/$RepoName/wsl/setup-git.ts"
 }
 
 # ===== Main Script Execution =====
