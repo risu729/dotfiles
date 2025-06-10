@@ -560,7 +560,7 @@ Install-WslDistribution -Distribution $wslDistribution -Username $wslUsername
 
 Invoke-WslSetupScript -ScriptOrigin $scriptOrigin -GitRef $gitRef
 
-$dotfilesPath = Invoke-WSLCommand -Command "eval `$(mise env --shell bash); ~/.bashrc; wslpath -w `$(ghr path $repoName)"
+$dotfilesPath = Invoke-WSLCommand -Command "eval `$(mise env --shell bash); wslpath -w `$(ghr path $repoName)"
 
 Import-WingetPackagesFile -DotfilesPath $dotfilesPath
 
