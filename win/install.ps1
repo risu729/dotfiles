@@ -430,7 +430,7 @@ function Invoke-WslSetupScript {
 	if ($GitRef -ne '') {
 		$wslScriptUrl.Query = "ref=$GitRef"
 	}
-	Invoke-WSLCommand -Command "SKIP_GIT_SETUP=true bash <(curl -fsSL $($wslScriptUrl.ToString()))"
+	Invoke-WSLCommand -Command "bash <(curl -fsSL $($wslScriptUrl.ToString()))"
 }
 
 <#
@@ -536,7 +536,7 @@ function Invoke-GitSetupInWsl {
 		[string]$RepoName
 	)
 
-	Invoke-WSLCommand -Interactive -Command "source `"`${HOME}/.bashrc`"; ~/.ghr/github.com/$RepoName/wsl/setup-git.ts"
+	Invoke-WSLCommand -Interactive -Command "~/.ghr/github.com/$RepoName/wsl/setup-git.ts"
 }
 
 # ===== Main Script Execution =====
