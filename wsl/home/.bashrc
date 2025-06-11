@@ -3,8 +3,6 @@
 
 # shellcheck disable=SC2148 # shebang is not required in .bashrc
 
-set -x
-
 # activate mise
 mise_activate="$(mise activate bash)"
 eval "${mise_activate}"
