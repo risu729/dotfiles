@@ -14,8 +14,7 @@ fi
 
 # vscode extensions call bash in interactive mode
 # ref: https://code.visualstudio.com/docs/editor/command-line#_how-do-i-detect-when-a-shell-was-launched-by-vs-code
-# shellcheck disable=SC2154 # might be set by vscode
-if [[ ${VSCODE_RESOLVING_ENVIRONMENT} == 1 ]]; then
+if [[ ${VSCODE_RESOLVING_ENVIRONMENT:-} == 1 ]]; then
 	return
 fi
 
@@ -149,18 +148,16 @@ if [[ -z ${_win_cmd_not_found:-} ]]; then
 	command_not_found_handle() {
 		# shellcheck disable=SC2317 # command_not_found_handle is called by bash
 		# cspell:ignore pathext wslenv
-		local ext pathext
-		# shellcheck disable=SC2153,SC2154,SC2317 # PATHEXT is shared from Windows by WSLENV
+		local pathext
 		# ref: https://learn.microsoft.com/en-us/windows/wsl/filesystems#share-environment-variables-between-windows-and-wsl-with-wslenv
-		pathext=$(echo "${PATHEXT}" | tr ';' ' ')
-		# shellcheck disable=SC2317
+		pathext=$(echo "${PATHEXT:-}" | tr ';' ' ')
+		local ext
 		for ext in ${pathext}; do
 			if command -v "$1${ext}" >/dev/null 2>&1; then
 				"$1${ext}" "${@:2}"
 				return $?
 			fi
 		done
-		# shellcheck disable=SC2317
 		if [[ -n "$(declare -f __command_not_found_handle)" ]]; then
 			__command_not_found_handle "$@"
 		else
