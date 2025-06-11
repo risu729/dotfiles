@@ -8,7 +8,7 @@ PS_SCRIPT_ANALYZER_VERSION = "1.24.0"
 
 [tools]
 bun = "1.2.15"
-node = "24.1.0"
+node = "24.2.0"
 biome = "1.9.4"
 actionlint = "1.7.7"
 ghalint = "1.4.1"
