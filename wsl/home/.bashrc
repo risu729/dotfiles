@@ -51,33 +51,20 @@ if [[ -z ${debian_chroot:-} ]] && [[ -r /etc/debian_chroot ]]; then
 fi
 
 # set a fancy prompt (non-color, unless we know we "want" color)
-case "${TERM}" in
-xterm-color | *-256color) color_prompt=yes ;;
-*) ;;
-esac
-
-# cspell:ignore setaf setf
-if [[ -x /usr/bin/tput ]] && tput setaf 1 >&/dev/null; then
+if [[ ${TERM:-} == "xterm-color" || ${TERM:-} == *-256color ]] ||
+	# cspell:ignore setf setaf
 	# We have color support; assume it's compliant with Ecma-48 (ISO/IEC-6429).
 	# (Lack of such support is extremely rare, and such a case would tend to support setf rather than setaf.)
-	color_prompt=yes
-fi
-
-if [[ ${color_prompt} == yes ]]; then
+	{ [[ -x /usr/bin/tput ]] && tput setaf 1 >&/dev/null; }; then
 	PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
 else
 	PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
 fi
-unset color_prompt
 
 # If this is an xterm set the title to user@host:dir
-case "${TERM}" in
-# cspell:ignore rxvt
-xterm* | rxvt*)
+if [[ ${TERM:-} == xterm* || ${TERM:-} == rxvt* ]]; then
 	PS1="\[\e]0;${debian_chroot:+(${debian_chroot})}\u@\h: \w\a\]${PS1}"
-	;;
-*) ;;
-esac
+fi
 
 # enable color support of ls and also add handy aliases
 # cspell:ignore dircolors
@@ -94,14 +81,14 @@ ghr_extension="$(ghr shell bash)"
 eval "${ghr_extension}"
 
 # enable programmable completion features
-# (you don't need to enable this, if it's already enabled in /etc/bash.bashrc and /etc/profile sources /etc/bash.bashrc).
 if ! shopt -oq posix && [[ -f /usr/share/bash-completion/bash_completion ]]; then
 	# shellcheck source=/dev/null # no need to check
-	. /usr/share/bash-completion/bash_completion
+	source /usr/share/bash-completion/bash_completion
 fi
 
 # enable mise completion
-# bash-completion 2.12 or later is required, but usually 2.11 is installed in WSL
+# bash-completion 2.12 or later is required, but 2.11 is installed
+# ref: https://cdimages.ubuntu.com/ubuntu-wsl/noble/daily-live/current/noble-wsl-amd64.manifest
 mise_completion="$(mise completion bash --include-bash-completion-lib)"
 eval "${mise_completion}"
 
@@ -122,7 +109,7 @@ export GPG_TTY
 
 # set GITHUB_TOKEN to avoid rate limit while using mise
 # use __CI instead of CI to be able to test CI locally
-if [[ -z ${__CI} ]]; then
+if [[ -z ${__CI:-} ]]; then
 	GITHUB_TOKEN=$(gh auth token)
 	export GITHUB_TOKEN
 fi
@@ -133,7 +120,6 @@ export BROWSER="pwsh.exe -c Start-Process"
 # aliases
 alias beep="printf '\a'"
 alias l="eza --all --long --git"
-alias code="code-insiders"
 
 # call windows executables without extensions if it exists
 # e.g. `clip` instead of `clip.exe`
