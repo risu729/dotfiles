@@ -39,7 +39,7 @@ The Windows installer script will install dotfiles in WSL2, so you don't need to
 However, if you want to install dotfiles to WSL2 only—such as when you reset WSL2—you can run the following command in bash:
 
 ```bash
-bash <(curl -fsSL https://dot.risunosu.com/wsl)
+bash -i <(curl -fsSL https://dot.risunosu.com/wsl)
 ```
 
 > \[!IMPORTANT]
