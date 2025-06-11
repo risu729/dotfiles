@@ -288,6 +288,8 @@ run_git_setup_script() {
 		return
 	fi
 
+	log_info "Sourcing .bashrc to set up environment for git setup script..."
+
 	# Source the .bashrc to use mise tools and xdg-open
 	# shellcheck source=wsl/home/.bashrc
 	source "${HOME}/.bashrc"
