@@ -111,7 +111,8 @@ export GPG_TTY
 # set GITHUB_TOKEN to avoid rate limit while using mise
 # use __CI instead of CI to be able to test CI locally
 if [[ -z ${__CI:-} ]]; then
-	GITHUB_TOKEN=$(gh auth token)
+	# suppress error
+	GITHUB_TOKEN=$(gh auth token 2>/dev/null || true)
 	export GITHUB_TOKEN
 fi
 
