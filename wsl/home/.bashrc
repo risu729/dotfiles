@@ -61,6 +61,7 @@ else
 	PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
 fi
 
+# cspell:ignore rxvt
 # If this is an xterm set the title to user@host:dir
 if [[ ${TERM:-} == xterm* || ${TERM:-} == rxvt* ]]; then
 	PS1="\[\e]0;${debian_chroot:+(${debian_chroot})}\u@\h: \w\a\]${PS1}"
