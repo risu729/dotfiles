@@ -266,7 +266,7 @@ const getGpgKeyringSecretKeys = async (
 		validity: string | null;
 		// biome-ignore lint/style/useNamingConvention: following jc naming convention
 		key_id: string | null;
-		// biome-ignore lint/style/useNamingConvention:F
+		// biome-ignore lint/style/useNamingConvention:
 		creation_date: string | null;
 		// biome-ignore lint/style/useNamingConvention:
 		expiration_date: string | null;
@@ -328,7 +328,7 @@ const getGpgKeyringSecretKeys = async (
 				isSecretKeyAvailable,
 				keyUsages,
 				isUltimatelyTrusted: key.owner_trust === "u",
-				subkeys: undefined,
+				subkeys: [],
 			});
 			return acc;
 		}
