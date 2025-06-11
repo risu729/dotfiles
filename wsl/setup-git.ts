@@ -64,9 +64,7 @@ const ensureGitHubTokenScopes = async (): Promise<() => Promise<void>> => {
 			)?.[1];
 			if (url) {
 				// open the url automatically in the Windows default browser
-				// explorer.exe always exit with exit code 1
-				// ref: https://github.com/microsoft/WSL/issues/6565
-				await $`explorer.exe ${url}`.nothrow();
+				await $`xdg-open ${url}`.nothrow();
 			}
 		}
 
@@ -1370,15 +1368,14 @@ const main = async (): Promise<void> => {
 		await configureGitSign(githubId, email);
 	} finally {
 		await removeScopes();
+		// reset gh config because it is formatted differently by gh cli
+		const ghConfigPath = resolve(
+			import.meta.dirname,
+			"./home/.config/gh/config.yml",
+		);
+		await $`git checkout -- ${ghConfigPath}`.cwd(
+			resolve(import.meta.dirname, ".."),
+		);
 	}
-
-	// reset gh config because it is formatted differently by gh cli
-	const ghConfigPath = resolve(
-		import.meta.dirname,
-		"./home/.config/gh/config.yml",
-	);
-	await $`git checkout -- ${ghConfigPath}`.cwd(
-		resolve(import.meta.dirname, ".."),
-	);
 };
 await main();

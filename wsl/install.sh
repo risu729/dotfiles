@@ -39,7 +39,7 @@ install_system_packages() {
 	# not pre-installed in wsl ubuntu
 	# ref: https://cdimages.ubuntu.com/ubuntu-wsl/noble/daily-live/current/noble-wsl-amd64.manifest
 	# cspell:ignore clangd
-	sudo apt-get install --yes zip unzip build-essential pkg-config libssl-dev clang clangd
+	sudo apt-get install --yes zip unzip build-essential pkg-config libssl-dev clang clangd xdg-utils
 	log_info "Core packages installed."
 }
 
@@ -292,6 +292,9 @@ run_git_setup_script() {
 	fi
 
 	log_info "Running git setup script: ${setup_script_path}"
+
+	# shellcheck source=wsl/home/.bashrc
+	source "${HOME}/.bashrc"
 
 	if "${setup_script_path}"; then
 		log_info "Git setup script completed successfully."

@@ -8,10 +8,9 @@ mise_activate="$(mise activate bash)"
 eval "${mise_activate}"
 
 # if not running interactively, skip other steps
-case $- in
-*i*) ;;
-*) return ;;
-esac
+if [[ ! $- =~ i ]]; then
+	return
+fi
 
 # vscode extensions call bash in interactive mode
 # ref: https://code.visualstudio.com/docs/editor/command-line#_how-do-i-detect-when-a-shell-was-launched-by-vs-code
@@ -128,6 +127,9 @@ if [[ -z ${__CI} ]]; then
 	GITHUB_TOKEN=$(gh auth token)
 	export GITHUB_TOKEN
 fi
+
+# xdg-open
+export BROWSER="pwsh.exe -c Start-Process"
 
 # aliases
 alias beep="printf '\a'"
