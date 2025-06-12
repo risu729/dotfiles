@@ -150,7 +150,9 @@ description = "Install Bun dependencies in the root directory."
 
 ["install:ps-script-analyzer"]
 shell = "pwsh -Command"
-run = "Install-Module -Name PSScriptAnalyzer -RequiredVersion {{ vars.PS_SCRIPT_ANALYZER_VERSION }}"
+# Force is required to bypass untrusted repository confirmation
+# ref: https://github.com/PowerShell/PowerShellGetv2/issues/461
+run = "Install-Module -Name PSScriptAnalyzer -RequiredVersion {{ vars.PS_SCRIPT_ANALYZER_VERSION }} -Force"
 
 ["util:nodiff"] # cspell:ignore nodiff
 run = ["git add .", "git diff --staged --exit-code"]

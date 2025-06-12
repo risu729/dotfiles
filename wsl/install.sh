@@ -282,19 +282,19 @@ run_git_setup_script() {
 	local dotfiles_repo_root_path="$1"
 	local setup_script_path="${dotfiles_repo_root_path}/wsl/setup-git.ts"
 
-	if [[ ${CI:-false} == "true" ]]; then
-		log_info "CI environment detected. Skipping git setup script: ${setup_script_path}"
-		return
-	fi
-	if [[ ${SKIP_GIT_SETUP:-false} == "true" ]]; then
-		log_info "SKIP_GIT_SETUP is true. Skipping git setup script: ${setup_script_path}"
+	# Skip if running in non-interactive shell
+	if [[ ! $- =~ i ]]; then
+		log_info "Non-interactive shell detected. Skipping git setup script: ${setup_script_path}"
 		return
 	fi
 
-	log_info "Running git setup script: ${setup_script_path}"
+	log_info "Sourcing .bashrc to set up environment for git setup script..."
 
+	# Source the .bashrc to use mise tools and xdg-open
 	# shellcheck source=wsl/home/.bashrc
 	source "${HOME}/.bashrc"
+
+	log_info "Running git setup script: ${setup_script_path}"
 
 	if "${setup_script_path}"; then
 		log_info "Git setup script completed successfully."
