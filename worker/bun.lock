@@ -7,7 +7,7 @@
         "hono": "4.7.11",
       },
       "devDependencies": {
-        "@cloudflare/vite-plugin": "1.5.1",
+        "@cloudflare/vite-plugin": "1.6.0",
         "@cloudflare/vitest-pool-workers": "0.8.38",
         "@risu729/tsconfigs": "1.0.1",
         "@types/bun": "1.2.16",
@@ -25,7 +25,7 @@
 
     "@cloudflare/unenv-preset": ["@cloudflare/unenv-preset@2.3.2", "", { "peerDependencies": { "unenv": "2.0.0-rc.17", "workerd": "^1.20250508.0" }, "optionalPeers": ["workerd"] }, "sha512-MtUgNl+QkQyhQvv5bbWP+BpBC1N0me4CHHuP2H4ktmOMKdB/6kkz/lo+zqiA4mEazb4y+1cwyNjVrQ2DWeE4mg=="],
 
-    "@cloudflare/vite-plugin": ["@cloudflare/vite-plugin@1.5.1", "", { "dependencies": { "@cloudflare/unenv-preset": "2.3.2", "@mjackson/node-fetch-server": "^0.6.1", "@rollup/plugin-replace": "^6.0.1", "get-port": "^7.1.0", "miniflare": "4.20250604.0", "picocolors": "^1.1.1", "tinyglobby": "^0.2.12", "unenv": "2.0.0-rc.17", "wrangler": "4.19.2", "ws": "8.18.0" }, "peerDependencies": { "vite": "^6.1.0" } }, "sha512-raGk/5/AOXG7LrJEejU17e9RLXTtEg5j81z03ULcmzAlHqIbLdM6wOd81Afm6Tuu8C8IZk4DKHer7yk1u6d7VQ=="],
+    "@cloudflare/vite-plugin": ["@cloudflare/vite-plugin@1.6.0", "", { "dependencies": { "@cloudflare/unenv-preset": "2.3.2", "@mjackson/node-fetch-server": "^0.6.1", "@rollup/plugin-replace": "^6.0.1", "get-port": "^7.1.0", "miniflare": "4.20250604.1", "picocolors": "^1.1.1", "tinyglobby": "^0.2.12", "unenv": "2.0.0-rc.17", "wrangler": "4.20.0", "ws": "8.18.0" }, "peerDependencies": { "vite": "^6.1.0" } }, "sha512-pK5uqCXzXePnpUY4tDIFE1TJNMnybdInN28QU+il1ElbJUuVCM/9YnzJIvYzSrDbXzVUSAIZDleqf5kAOjQALg=="],
 
     "@cloudflare/vitest-pool-workers": ["@cloudflare/vitest-pool-workers@0.8.38", "", { "dependencies": { "birpc": "0.2.14", "cjs-module-lexer": "^1.2.3", "devalue": "^4.3.0", "miniflare": "4.20250604.1", "semver": "^7.7.1", "wrangler": "4.20.0", "zod": "^3.22.3" }, "peerDependencies": { "@vitest/runner": "2.0.x - 3.2.x", "@vitest/snapshot": "2.0.x - 3.2.x", "vitest": "2.0.x - 3.2.x" } }, "sha512-/eeHW5RbU/eWy5UHOZlYh+7J4DTC5GmMW33Iz7GfKAPBgsNHUqx0/AQotjb4qqB3jW/QvsIQM+jZofmMfdPSZw=="],
 
@@ -301,7 +301,7 @@
 
     "mime": ["mime@3.0.0", "", { "bin": { "mime": "cli.js" } }, "sha512-jSCU7/VB1loIWBZe14aEYHU/+1UMEHoaO7qxCOVJOw9GgH72VAWppxNcjU+x9a2k3GSIBXNKxXQFqRvvZ7vr3A=="],
 
-    "miniflare": ["miniflare@4.20250604.0", "", { "dependencies": { "@cspotcode/source-map-support": "0.8.1", "acorn": "8.14.0", "acorn-walk": "8.3.2", "exit-hook": "2.2.1", "glob-to-regexp": "0.4.1", "sharp": "^0.33.5", "stoppable": "1.1.0", "undici": "^5.28.5", "workerd": "1.20250604.0", "ws": "8.18.0", "youch": "3.3.4", "zod": "3.22.3" }, "bin": { "miniflare": "bootstrap.js" } }, "sha512-Vd6zRiuCOTGs5EFBFXOdDHLQce9bp/Ktyp+Y3PGeDdL3qbwToyiMxObiBYmcdB51yLXdby/dgy58HyDMPLCIdA=="],
+    "miniflare": ["miniflare@4.20250604.1", "", { "dependencies": { "@cspotcode/source-map-support": "0.8.1", "acorn": "8.14.0", "acorn-walk": "8.3.2", "exit-hook": "2.2.1", "glob-to-regexp": "0.4.1", "sharp": "^0.33.5", "stoppable": "1.1.0", "undici": "^5.28.5", "workerd": "1.20250604.0", "ws": "8.18.0", "youch": "3.3.4", "zod": "3.22.3" }, "bin": { "miniflare": "bootstrap.js" } }, "sha512-HJQ9YhH0F0fI73Vsdy3PNVau+PfHZYK7trI5WJEcbfl5HzqhMU0DRNtA/G5EXQgiumkjrmbW4Zh1DVTtsqICPg=="],
 
     "mrmime": ["mrmime@2.0.1", "", {}, "sha512-Y3wQdFg2Va6etvQ5I82yUhGdsKrcYox6p7FfL1LbK2J4V01F9TGlepTIhnK24t7koZibmg82KGglhA1XK5IsLQ=="],
 
@@ -397,7 +397,7 @@
 
     "zod": ["zod@3.24.4", "", {}, "sha512-OdqJE9UDRPwWsrHjLN2F8bPxvwJBK22EHLWtanu0LSYr5YqzsaaW3RMgmjwr8Rypg5k+meEJdSPXJZXE/yqOMg=="],
 
-    "@cloudflare/vitest-pool-workers/miniflare": ["miniflare@4.20250604.1", "", { "dependencies": { "@cspotcode/source-map-support": "0.8.1", "acorn": "8.14.0", "acorn-walk": "8.3.2", "exit-hook": "2.2.1", "glob-to-regexp": "0.4.1", "sharp": "^0.33.5", "stoppable": "1.1.0", "undici": "^5.28.5", "workerd": "1.20250604.0", "ws": "8.18.0", "youch": "3.3.4", "zod": "3.22.3" }, "bin": { "miniflare": "bootstrap.js" } }, "sha512-HJQ9YhH0F0fI73Vsdy3PNVau+PfHZYK7trI5WJEcbfl5HzqhMU0DRNtA/G5EXQgiumkjrmbW4Zh1DVTtsqICPg=="],
+    "@cloudflare/vite-plugin/wrangler": ["wrangler@4.20.0", "", { "dependencies": { "@cloudflare/kv-asset-handler": "0.4.0", "@cloudflare/unenv-preset": "2.3.2", "blake3-wasm": "2.1.5", "esbuild": "0.25.4", "miniflare": "4.20250604.1", "path-to-regexp": "6.3.0", "unenv": "2.0.0-rc.17", "workerd": "1.20250604.0" }, "optionalDependencies": { "fsevents": "~2.3.2" }, "peerDependencies": { "@cloudflare/workers-types": "^4.20250604.0" }, "optionalPeers": ["@cloudflare/workers-types"], "bin": { "wrangler": "bin/wrangler.js", "wrangler2": "bin/wrangler.js" } }, "sha512-gxMLaSnYp3VLdGPZu4fc/9UlB7PnSVwni25v32NM9szG2yTt+gx5RunWzmoLplplIfEMkBuV3wA47vccNu7zcA=="],
 
     "@cloudflare/vitest-pool-workers/wrangler": ["wrangler@4.20.0", "", { "dependencies": { "@cloudflare/kv-asset-handler": "0.4.0", "@cloudflare/unenv-preset": "2.3.2", "blake3-wasm": "2.1.5", "esbuild": "0.25.4", "miniflare": "4.20250604.1", "path-to-regexp": "6.3.0", "unenv": "2.0.0-rc.17", "workerd": "1.20250604.0" }, "optionalDependencies": { "fsevents": "~2.3.2" }, "peerDependencies": { "@cloudflare/workers-types": "^4.20250604.0" }, "optionalPeers": ["@cloudflare/workers-types"], "bin": { "wrangler": "bin/wrangler.js", "wrangler2": "bin/wrangler.js" } }, "sha512-gxMLaSnYp3VLdGPZu4fc/9UlB7PnSVwni25v32NM9szG2yTt+gx5RunWzmoLplplIfEMkBuV3wA47vccNu7zcA=="],
 
@@ -407,6 +407,8 @@
 
     "vite/tinyglobby": ["tinyglobby@0.2.13", "", { "dependencies": { "fdir": "^6.4.4", "picomatch": "^4.0.2" } }, "sha512-mEwzpUgrLySlveBwEVDMKk5B57bhLPYovRfPAXD5gA/98Opn0rCDj3GtLwFvCvH5RK9uPCExUROW5NjDwvqkxw=="],
 
-    "@cloudflare/vitest-pool-workers/miniflare/zod": ["zod@3.22.3", "", {}, "sha512-EjIevzuJRiRPbVH4mGc8nApb/lVLKVpmUhAaR5R5doKGfAnGJ6Gr3CViAVjP+4FWSxCsybeWQdcgCtbX+7oZug=="],
+    "wrangler/miniflare": ["miniflare@4.20250604.0", "", { "dependencies": { "@cspotcode/source-map-support": "0.8.1", "acorn": "8.14.0", "acorn-walk": "8.3.2", "exit-hook": "2.2.1", "glob-to-regexp": "0.4.1", "sharp": "^0.33.5", "stoppable": "1.1.0", "undici": "^5.28.5", "workerd": "1.20250604.0", "ws": "8.18.0", "youch": "3.3.4", "zod": "3.22.3" }, "bin": { "miniflare": "bootstrap.js" } }, "sha512-Vd6zRiuCOTGs5EFBFXOdDHLQce9bp/Ktyp+Y3PGeDdL3qbwToyiMxObiBYmcdB51yLXdby/dgy58HyDMPLCIdA=="],
+
+    "wrangler/miniflare/zod": ["zod@3.22.3", "", {}, "sha512-EjIevzuJRiRPbVH4mGc8nApb/lVLKVpmUhAaR5R5doKGfAnGJ6Gr3CViAVjP+4FWSxCsybeWQdcgCtbX+7oZug=="],
   }
 }
