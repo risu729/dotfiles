@@ -117,7 +117,8 @@ if [[ -z ${__CI:-} ]]; then
 fi
 
 # xdg-open
-export BROWSER="pwsh.exe -c Start-Process"
+# use powershell instead of pwsh as pwsh is not in the PATH sometimes
+export BROWSER="powershell.exe -c Start-Process"
 
 # aliases
 alias beep="printf '\a'"
