@@ -3,54 +3,52 @@
 
 # shellcheck disable=SC2148 # shebang is not required in .bashrc
 
-# activate mise
-mise_activate="$(mise activate bash)"
-eval "${mise_activate}"
+# Activate mise
+if command -v mise &>/dev/null; then
+	mise_activate="$(mise activate bash)"
+	eval "${mise_activate}"
+fi
 
-# if not running interactively, skip other steps
+# If not running interactively, skip other steps
 if [[ ! $- =~ i ]]; then
 	return
 fi
 
-# vscode extensions call bash in interactive mode
+# VSCode extensions call bash in interactive mode
 # ref: https://code.visualstudio.com/docs/editor/command-line#_how-do-i-detect-when-a-shell-was-launched-by-vs-code
 if [[ ${VSCODE_RESOLVING_ENVIRONMENT:-} == 1 ]]; then
 	return
 fi
 
-# don't put duplicate lines or lines starting with space in the history.
-# See bash(1) for more options
+# Don't put duplicate lines or lines starting with space in the history.
 # cspell:ignore ignoreboth
-HISTCONTROL=ignoreboth
+export HISTCONTROL=ignoreboth
 
-# append to the history file, don't overwrite it
+# Append to the history file, don't overwrite it
 # cspell:ignore histappend
 shopt -s histappend
 
-# for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
-HISTSIZE=1000
-HISTFILESIZE=2000
+# For setting history length
+export HISTSIZE=1000
+export HISTFILESIZE=2000
 
-# check the window size after each command and, if necessary, update the values of LINES and COLUMNS.
 # cspell:ignore checkwinsize
 shopt -s checkwinsize
-
-# if set, the pattern "**" used in a pathname expansion context will match all files and zero or more directories and subdirectories.
 shopt -s globstar
 
-# make less more friendly for non-text input files, see lesspipe(1)
+# Make less more friendly for non-text input files
 # cspell:ignore lesspipe
 if [[ -x /usr/bin/lesspipe ]]; then
 	lesspipe="$(SHELL=/bin/sh lesspipe)"
 	eval "${lesspipe}"
 fi
 
-# set variable identifying the chroot you work in (used in the prompt below)
+# Set variable identifying the chroot you work in (used in the prompt below)
 if [[ -z ${debian_chroot:-} ]] && [[ -r /etc/debian_chroot ]]; then
 	debian_chroot=$(cat /etc/debian_chroot)
 fi
 
-# set a fancy prompt (non-color, unless we know we "want" color)
+# Set a fancy prompt (non-color, unless we know we "want" color)
 if [[ ${TERM:-} == "xterm-color" || ${TERM:-} == *-256color ]] ||
 	# cspell:ignore setf setaf
 	# We have color support; assume it's compliant with Ecma-48 (ISO/IEC-6429).
@@ -61,69 +59,79 @@ else
 	PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
 fi
 
-# cspell:ignore rxvt
 # If this is an xterm set the title to user@host:dir
+# cspell:ignore rxvt
 if [[ ${TERM:-} == xterm* || ${TERM:-} == rxvt* ]]; then
 	PS1="\[\e]0;${debian_chroot:+(${debian_chroot})}\u@\h: \w\a\]${PS1}"
 fi
 
-# enable color support of ls and also add handy aliases
+# Enable color support of ls and also add handy aliases
 # cspell:ignore dircolors
 if [[ -x /usr/bin/dircolors ]]; then
 	dircolors="$(dircolors -b)"
 	eval "${dircolors}"
 fi
 
-# colored GCC warnings and errors
+# Colored GCC warnings and errors
 export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
 
-# install ghr shell extension
-ghr_extension="$(ghr shell bash)"
-eval "${ghr_extension}"
-
-# enable programmable completion features
+# Enable programmable completion features
 if ! shopt -oq posix && [[ -f /usr/share/bash-completion/bash_completion ]]; then
-	# shellcheck source=/dev/null # no need to check
+	# shellcheck source=/dev/null
 	source /usr/share/bash-completion/bash_completion
 fi
 
-# enable mise completion
-# bash-completion 2.12 or later is required, but 2.11 is installed
-# ref: https://cdimages.ubuntu.com/ubuntu-wsl/noble/daily-live/current/noble-wsl-amd64.manifest
-mise_completion="$(mise completion bash --include-bash-completion-lib)"
-eval "${mise_completion}"
+# Enable mise completion
+if command -v mise &>/dev/null; then
+	# bash-completion 2.12 or later is required, but 2.11 is installed
+	# ref: https://cdimages.ubuntu.com/ubuntu-wsl/noble/daily-live/current/noble-wsl-amd64.manifest
+	mise_completion="$(mise completion bash --include-bash-completion-lib)"
+	eval "${mise_completion}"
+fi
 
-# enable gh completion
-gh_completion="$(gh completion --shell bash)"
-eval "${gh_completion}"
+# Enable gh completion
+if command -v gh &>/dev/null; then
+	gh_completion="$(gh completion --shell bash)"
+	eval "${gh_completion}"
+fi
 
-# enable ghr completion
-ghr_completion="$(ghr shell bash --completion)"
-eval "${ghr_completion}"
+# Install ghr shell extension and enable completion
+if command -v ghr &>/dev/null; then
+	ghr_extension="$(ghr shell bash)"
+	eval "${ghr_extension}"
+	ghr_completion="$(ghr shell bash --completion)"
+	eval "${ghr_completion}"
+fi
 
 # gpg requires tty
 # GitHub Actions doesn't have tty
 # ref: https://github.com/actions/runner/issues/241
-# don't cache tty because it depends on shell session
-GPG_TTY=$(tty)
-export GPG_TTY
+if [[ -n ${PS1} ]]; then
+	GPG_TTY=$(tty)
+	export GPG_TTY
+fi
 
-# set GITHUB_TOKEN to avoid rate limit while using mise
-# use __CI instead of CI to be able to test CI locally
-if [[ -z ${__CI:-} ]]; then
-	# suppress error
-	GITHUB_TOKEN=$(gh auth token 2>/dev/null || true)
+# Set GITHUB_TOKEN to avoid rate limit while using mise
+# Use __CI instead of CI to be able to test CI locally
+if [[ -z ${__CI:-} ]] && command -v gh &>/dev/null; then
+	# Suppress error
+	GITHUB_TOKEN=$(gh auth token 2>/dev/null)
 	export GITHUB_TOKEN
 fi
 
 # xdg-open
-export BROWSER="pwsh.exe -c Start-Process"
+# use powershell instead of pwsh as pwsh is not in the PATH sometimes
+if command -v powershell.exe &>/dev/null; then
+	export BROWSER="powershell.exe -c Start-Process"
+fi
 
-# aliases
+# Aliases
 alias beep="printf '\a'"
-alias l="eza --all --long --git"
+if command -v eza &>/dev/null; then
+	alias l="eza --all --long --git"
+fi
 
-# call windows executables without extensions if it exists
+# Call windows executables without extensions if it exists
 # e.g. `clip` instead of `clip.exe`
 if [[ -z ${_win_cmd_not_found:-} ]]; then
 	_win_cmd_not_found=1
@@ -146,16 +154,18 @@ if [[ -z ${_win_cmd_not_found:-} ]]; then
 				return $?
 			fi
 		done
-		if [[ -n "$(declare -f __command_not_found_handle)" ]]; then
+
+		if declare -f __command_not_found_handle >/dev/null; then
 			__command_not_found_handle "$@"
 		else
-			echo "bash: command not found: $1" 1>&2
+			printf 'bash: command not found: %s\n' "$1" >&2
 			return 127
 		fi
 	}
 fi
 
-# disable apt/snap command_not_found_handle
+# Disable apt/snap command_not_found_handle
 # original command_not_found_handle is renamed to _command_not_found_handle by mise activate
-# ref: https://github.com/jdx/mise/blob/4ed4f02ca99200175a020acb3e8c144181caeeb7/src/shell/bash.rs#L64-L82
-unset -f _command_not_found_handle
+if declare -f _command_not_found_handle >/dev/null; then
+	unset -f _command_not_found_handle
+fi
