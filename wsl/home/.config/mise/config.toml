@@ -45,6 +45,7 @@ bat = "latest"
 fd = "latest"
 xh = "latest"
 jd = "latest"
+sd = "latest"
 
 # biome vs code extension requires global installation
 biome = "latest"
