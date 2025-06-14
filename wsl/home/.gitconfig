@@ -4,6 +4,9 @@
 [fetch]
 	prune = true
 
+[push]
+	autoSetupRemote = true
+
 [commit]
 	gpgSign = true
 [tag]
