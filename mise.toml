@@ -1,7 +1,7 @@
 # ref: https://mise.jdx.dev/configuration.html
 #:schema https://mise.jdx.dev/schema/mise.json
 
-min_version = "2025.6.2"
+min_version = "2025.6.3"
 
 [vars]
 PS_SCRIPT_ANALYZER_VERSION = "1.24.0"
@@ -12,7 +12,7 @@ node = "24.2.0"
 biome = "1.9.4"
 actionlint = "1.7.7"
 ghalint = "1.4.1"
-pinact = "3.1.2"
+pinact = "3.2.0"
 # required for cargo backend
 # cspell:ignore binstall
 cargo-binstall = "1.13.0"

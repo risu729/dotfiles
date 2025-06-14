@@ -1,7 +1,7 @@
 # ref: https://mise.jdx.dev/configuration.html#global-config-config-mise-config-toml
 #:schema https://mise.jdx.dev/schema/mise.json
 
-min_version = "2025.6.2"
+min_version = "2025.6.3"
 
 [env]
 # disable bat paging
@@ -45,6 +45,7 @@ bat = "latest"
 fd = "latest"
 xh = "latest"
 jd = "latest"
+sd = "latest"
 
 # biome vs code extension requires global installation
 biome = "latest"
