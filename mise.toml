@@ -1,7 +1,7 @@
 # ref: https://mise.jdx.dev/configuration.html
 #:schema https://mise.jdx.dev/schema/mise.json
 
-min_version = "2025.6.3"
+min_version = "2025.6.4"
 
 [vars]
 PS_SCRIPT_ANALYZER_VERSION = "1.24.0"
@@ -12,7 +12,7 @@ node = "24.2.0"
 biome = "1.9.4"
 actionlint = "1.7.7"
 ghalint = "1.4.1"
-pinact = "3.2.0"
+pinact = "3.3.0"
 # required for cargo backend
 # cspell:ignore binstall
 cargo-binstall = "1.13.0"
@@ -27,7 +27,7 @@ yamlfmt = "0.17.0"
 # required for pipx backend
 uv = "0.7.13"
 yamllint = "1.37.1"
-"npm:cspell" = "9.0.2"
+"npm:cspell" = "9.1.1"
 # cspell:ignore lycheeverse
 lychee = "0.19.0"
 typos = "1.33.1"
