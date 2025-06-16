@@ -11,7 +11,7 @@ bun = "1.2.16"
 node = "24.2.0"
 biome = "1.9.4"
 actionlint = "1.7.7"
-ghalint = "1.4.1"
+ghalint = "1.5.1"
 pinact = "3.3.0"
 # required for cargo backend
 # cspell:ignore binstall
