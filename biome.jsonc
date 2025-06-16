@@ -7,7 +7,11 @@
 		"useIgnoreFile": true
 	},
 	"files": {
-		"ignoreUnknown": true
+		"ignoreUnknown": true,
+		"ignore": [
+			// useIgnoreFile seems not to work in subdirectories
+			"worker/src/worker-configuration.d.ts"
+		]
 	},
 	"formatter": {
 		"formatWithErrors": true
