@@ -1,47 +1,157 @@
 {
-	// ref: https://biomejs.dev/reference/configuration/
-	"$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
-	"vcs": {
-		"enabled": true,
-		"clientKind": "git",
-		"useIgnoreFile": true
+	// ref: https://next.biomejs.dev/reference/configuration/
+	"$schema": "https://biomejs.dev/schemas/2.0.0/schema.json",
+	"assist": {
+		"actions": {
+			"source": {
+				"useSortedAttributes": "on",
+				"useSortedKeys": "on"
+			}
+		}
 	},
 	"files": {
-		"ignoreUnknown": true,
-		"ignore": [
-			// useIgnoreFile seems not to work in subdirectories
-			"worker/src/worker-configuration.d.ts"
-		]
+		"ignoreUnknown": true
 	},
 	"formatter": {
 		"formatWithErrors": true
-	},
-	"linter": {
-		"rules": {
-			"all": true,
-			"complexity": {
-				// incompatible with `noPropertyAccessFromIndexSignature` option in tsconfig
-				// ref: https://github.com/biomejs/biome/issues/463
-				"useLiteralKeys": "off"
-			},
-			"correctness": {
-				// this project does not use React
-				"useHookAtTopLevel": "off"
-			},
-			"nursery": {
-				"all": true
-			}
-		}
 	},
 	"json": {
 		"parser": {
 			"allowComments": true
 		}
 	},
+	"linter": {
+		"domains": {
+			"project": "all",
+			"test": "all"
+		},
+		"rules": {
+			"complexity": {
+				"noExcessiveCognitiveComplexity": "on",
+				"noForEach": "on",
+				"noUselessStringConcat": "on",
+				"noVoid": "on",
+				// incompatible with `noPropertyAccessFromIndexSignature` option in tsconfig
+				// ref: https://github.com/biomejs/biome/issues/463
+				"useLiteralKeys": "off",
+				"useSimplifiedLogicExpression": "on",
+				"useWhile": "on"
+			},
+			"correctness": {
+				"noUndeclaredVariables": "on"
+			},
+			"nursery": {
+				"noAwaitInLoop": "on",
+				"noBitwiseOperators": "on",
+				"noConstantBinaryExpression": "on",
+				"noGlobalDirnameFilename": "on",
+				// cspell:ignore noninteractive
+				"noNoninteractiveElementInteractions": "on",
+				"noProcessGlobal": "on",
+				"noReactPropAssign": "on",
+				"noSecrets": "on",
+				"noShadow": "on",
+				"noTsIgnore": "on",
+				// included in project domain, but ignore as it causes many false positives
+				"noUnresolvedImports": "off",
+				"noUselessBackrefInRegex": "on",
+				"noUselessEscapeInString": "on",
+				"noUselessUndefined": "on",
+				"useAdjacentGetterSetter": "on",
+				"useConsistentObjectDefinition": "on",
+				"useConsistentResponse": "on",
+				"useExplicitType": "on",
+				"useExportsLast": "on",
+				"useIndexOf": "on",
+				"useIterableCallbackReturn": "on",
+				"useJsonImportAttribute": "on",
+				"useNumericSeparators": "on",
+				"useObjectSpread": "on",
+				"useParseIntRadix": "on",
+				"useSingleJsDocAsterisk": "on",
+				"useSortedClasses": "on",
+				"useSymbolDescription": "on"
+			},
+			"performance": {
+				"noBarrelFile": "on",
+				"noDelete": "on",
+				"noNamespaceImport": "on",
+				"noReExportAll": "on",
+				"useTopLevelRegex": "on"
+			},
+			"style": {
+				"noCommonJs": "on",
+				"noDefaultExport": "on",
+				"noDoneCallback": "on",
+				"noEnum": "on",
+				"noExportedImports": "on",
+				"noImplicitBoolean": "on",
+				"noInferrableTypes": "on",
+				"noNamespace": "on",
+				"noNegationElse": "on",
+				"noNestedTernary": "on",
+				"noParameterAssign": "on",
+				"noParameterProperties": "on",
+				"noProcessEnv": "on",
+				"noRestrictedGlobals": "on",
+				// cspell:ignore shouty
+				"noShoutyConstants": "on",
+				"noSubstr": "on",
+				"noUnusedTemplateLiteral": "on",
+				"noUselessElse": "on",
+				"noYodaExpression": "on",
+				"useAsConstAssertion": "on",
+				"useAtIndex": "on",
+				"useBlockStatements": "on",
+				"useCollapsedElseIf": "on",
+				"useCollapsedIf": "on",
+				"useComponentExportOnlyModules": {
+					"level": "on",
+					"options": {
+						"allowExportNames": ["metadata"]
+					}
+				},
+				"useConsistentArrayType": "on",
+				"useConsistentBuiltinInstantiation": "on",
+				"useConsistentCurlyBraces": "on",
+				"useConsistentMemberAccessibility": "on",
+				"useDefaultParameterLast": "on",
+				"useDefaultSwitchClause": "on",
+				"useEnumInitializers": "on",
+				"useExplicitLengthCheck": "on",
+				// cspell:ignore filenaming
+				"useFilenamingConvention": "on",
+				"useForOf": "on",
+				"useFragmentSyntax": "on",
+				"useNamingConvention": "on",
+				"useNodeAssertStrict": "on",
+				"useNumberNamespace": "on",
+				"useSelfClosingElements": "on",
+				"useShorthandAssign": "on",
+				"useSingleVarDeclarator": "on",
+				"useThrowNewError": "on",
+				"useThrowOnlyError": "on",
+				"useTrimStartEnd": "on"
+			},
+			"suspicious": {
+				"noConsole": "on",
+				"noEmptyBlockStatements": "on",
+				"noEvolvingTypes": "on",
+				"noMisplacedAssertion": "on",
+				"noSkippedTests": "on",
+				"noVar": "on",
+				"useAwait": "on",
+				"useErrorMessage": "on",
+				"useGuardForIn": "on",
+				"useNumberToFixedDigitsArgument": "on",
+				"useStrictMode": "on"
+			}
+		}
+	},
 	"overrides": [
 		{
 			// disable noDefaultExport rule for config files
-			"include": ["**/*.config.*"],
+			"includes": ["**/*.config.*"],
 			"linter": {
 				"rules": {
 					"style": {
@@ -51,41 +161,23 @@
 			}
 		},
 		{
-			"include": ["worker/**"],
-			"linter": {
-				"rules": {
-					"correctness": {
-						// cannot read dependencies from package.json in subdirectories
-						// ref: https://github.com/biomejs/biome/issues/2010
-						"noUndeclaredDependencies": "off"
-					}
-				}
-			}
-		},
-		{
-			// disable noNodejsModules rule for files running in bun or Node.js
-			"include": ["**/*.config.*", "worker/test/**", "wsl/setup-git.ts"],
-			"linter": {
-				"rules": {
-					"correctness": {
-						"noNodejsModules": "off"
-					}
-				}
-			}
-		},
-		{
 			// disable noConsole and useTopLevelRegex rules for scripts
-			"include": ["wsl/setup-git.ts"],
+			"includes": ["wsl/setup-git.ts"],
 			"linter": {
 				"rules": {
-					"suspicious": {
-						"noConsole": "off"
-					},
 					"performance": {
 						"useTopLevelRegex": "off"
+					},
+					"suspicious": {
+						"noConsole": "off"
 					}
 				}
 			}
 		}
-	]
+	],
+	"vcs": {
+		"clientKind": "git",
+		"enabled": true,
+		"useIgnoreFile": true
+	}
 }
