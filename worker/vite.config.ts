@@ -3,18 +3,20 @@ import process from "node:process";
 import { cloudflare } from "@cloudflare/vite-plugin";
 import { defineConfig } from "vite";
 
-const remoteInfo = execSync("git remote show origin").toString();
+const remoteInfo: string | undefined = execSync(
+	"git remote show origin",
+).toString();
 // in cloudflare workers builds, the url is in the format `https://*****@github.com//owner/repo`
 // not sure why there are two slashes, so use `+` to match one or more slashes
-const repoName = remoteInfo.match(
+const repoName: string | undefined = remoteInfo.match(
 	/Fetch URL:.*github\.com\/+(?<repo>[^/.]+\/[^/.]+)/,
 )?.groups?.["repo"];
 if (!repoName) {
 	throw new Error("Could not determine repository name from git remote.");
 }
-const defaultBranch = remoteInfo.match(/HEAD branch: (?<branch>.+)/)?.groups?.[
-	"branch"
-];
+const defaultBranch: string | undefined = remoteInfo.match(
+	/HEAD branch: (?<branch>.+)/,
+)?.groups?.["branch"];
 if (!defaultBranch) {
 	throw new Error("Could not determine default branch from git remote.");
 }

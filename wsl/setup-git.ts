@@ -10,7 +10,7 @@ const envWithoutGitHubToken = Object.fromEntries(
 	Object.entries(env).filter(([key]) => key !== "GITHUB_TOKEN"),
 ) as Record<string, string>;
 
-const localGitConfigPath = (
+const localGitConfigPath: string = (
 	await $`git config --global include.path`.text()
 ).trim();
 
@@ -794,6 +794,7 @@ const refineGpgKey = async (
 	};
 
 	// need to be called after each operation that modifies the key
+	// biome-ignore lint/nursery/useExplicitType: type is inferable
 	const updateKey = async (modifiesSecretKey = true): Promise<void> => {
 		const keyringSecretKeys = await getGpgKeyringSecretKeys();
 		const updatedKey = keyringSecretKeys.find(
@@ -830,6 +831,9 @@ const refineGpgKey = async (
 	const signingSubkeys = ({
 		allowNoSecretKey = false,
 		allowExpired = false,
+	}: {
+		allowNoSecretKey?: boolean;
+		allowExpired?: boolean;
 	} = {}): KeyringSecretKey["subkeys"] =>
 		key.subkeys
 			.filter(({ isRevoked }) => !isRevoked)

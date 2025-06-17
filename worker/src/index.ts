@@ -4,7 +4,7 @@ import { poweredBy } from "hono/powered-by";
 
 type Os = "win" | "wsl";
 
-const app = new Hono();
+const app: Hono = new Hono();
 
 app.use(poweredBy());
 

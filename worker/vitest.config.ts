@@ -4,13 +4,15 @@ import { defineWorkersConfig } from "@cloudflare/vitest-pool-workers/config";
 import { defineConfig, mergeConfig } from "vitest/config";
 import viteConfig from "./vite.config.ts";
 
-const currentBranch =
+const currentBranch: string =
 	process.env["CURRENT_BRANCH"] ??
 	execSync("git branch --show-current").toString().trim();
 if (!currentBranch) {
 	throw new Error("Could not determine current branch from git.");
 }
-const latestCommitHash = execSync("git rev-parse HEAD").toString().trim();
+const latestCommitHash: string = execSync("git rev-parse HEAD")
+	.toString()
+	.trim();
 if (!latestCommitHash) {
 	throw new Error("Could not determine latest commit hash from git.");
 }
