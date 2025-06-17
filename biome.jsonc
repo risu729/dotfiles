@@ -149,54 +149,54 @@
 		}
 	},
 	"overrides": [
-		// {
-		// 	// disable noDefaultExport rule for config files
-		// 	"include": ["**/*.config.*"],
-		// 	"linter": {
-		// 		"rules": {
-		// 			"style": {
-		// 				"noDefaultExport": "off"
-		// 			}
-		// 		}
-		// 	}
-		// },
-		// {
-		// 	"include": ["worker/**"],
-		// 	"linter": {
-		// 		"rules": {
-		// 			"correctness": {
-		// 				// cannot read dependencies from package.json in subdirectories
-		// 				// ref: https://github.com/biomejs/biome/issues/2010
-		// 				"noUndeclaredDependencies": "off"
-		// 			}
-		// 		}
-		// 	}
-		// },
-		// {
-		// 	// disable noNodejsModules rule for files running in bun or Node.js
-		// 	"include": ["**/*.config.*", "worker/test/**", "wsl/setup-git.ts"],
-		// 	"linter": {
-		// 		"rules": {
-		// 			"correctness": {
-		// 				"noNodejsModules": "off"
-		// 			}
-		// 		}
-		// 	}
-		// },
-		// {
-		// 	// disable noConsole and useTopLevelRegex rules for scripts
-		// 	"include": ["wsl/setup-git.ts"],
-		// 	"linter": {
-		// 		"rules": {
-		// 			"suspicious": {
-		// 				"noConsole": "off"
-		// 			},
-		// 			"performance": {
-		// 				"useTopLevelRegex": "off"
-		// 			}
-		// 		}
-		// 	}
-		// }
+		{
+			// disable noDefaultExport rule for config files
+			"includes": ["**/*.config.*"]
+			// "linter": {
+			// 	"rules": {
+			// 		"style": {
+			// 			"noDefaultExport": "off"
+			// 		}
+			// 	}
+			// }
+		},
+		{
+			"includes": ["worker/**"]
+			// "linter": {
+			// 	"rules": {
+			// 		"correctness": {
+			// 			// cannot read dependencies from package.json in subdirectories
+			// 			// ref: https://github.com/biomejs/biome/issues/2010
+			// 			"noUndeclaredDependencies": "off"
+			// 		}
+			// 	}
+			// }
+		},
+		{
+			// disable noNodejsModules rule for files running in bun or Node.js
+			"includes": ["**/*.config.*", "worker/test/**", "wsl/setup-git.ts"]
+			// "linter": {
+			// 	"rules": {
+			// 		"correctness": {
+			// 			"noNodejsModules": "off"
+			// 		}
+			// 	}
+			// }
+		},
+		{
+			// disable noConsole and useTopLevelRegex rules for scripts
+			"includes": ["wsl/setup-git.ts"]
+			// "linter": {
+			// 	"rules": {
+			// 		"performance": {
+			// 			"useTopLevelRegex": "off"
+			// 		},
+			// 		"suspicious": {
+			// 			"noConsole": "off"
+			// 		}
+			// 	}
+			// }
+		}
 	],
 	"vcs": {
 		"clientKind": "git",
