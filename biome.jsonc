@@ -151,51 +151,28 @@
 	"overrides": [
 		{
 			// disable noDefaultExport rule for config files
-			"includes": ["**/*.config.*"]
-			// "linter": {
-			// 	"rules": {
-			// 		"style": {
-			// 			"noDefaultExport": "off"
-			// 		}
-			// 	}
-			// }
-		},
-		{
-			"includes": ["worker/**"]
-			// "linter": {
-			// 	"rules": {
-			// 		"correctness": {
-			// 			// cannot read dependencies from package.json in subdirectories
-			// 			// ref: https://github.com/biomejs/biome/issues/2010
-			// 			"noUndeclaredDependencies": "off"
-			// 		}
-			// 	}
-			// }
-		},
-		{
-			// disable noNodejsModules rule for files running in bun or Node.js
-			"includes": ["**/*.config.*", "worker/test/**", "wsl/setup-git.ts"]
-			// "linter": {
-			// 	"rules": {
-			// 		"correctness": {
-			// 			"noNodejsModules": "off"
-			// 		}
-			// 	}
-			// }
+			"includes": ["**/*.config.*"],
+			"linter": {
+				"rules": {
+					"style": {
+						"noDefaultExport": "off"
+					}
+				}
+			}
 		},
 		{
 			// disable noConsole and useTopLevelRegex rules for scripts
-			"includes": ["wsl/setup-git.ts"]
-			// "linter": {
-			// 	"rules": {
-			// 		"performance": {
-			// 			"useTopLevelRegex": "off"
-			// 		},
-			// 		"suspicious": {
-			// 			"noConsole": "off"
-			// 		}
-			// 	}
-			// }
+			"includes": ["wsl/setup-git.ts"],
+			"linter": {
+				"rules": {
+					"performance": {
+						"useTopLevelRegex": "off"
+					},
+					"suspicious": {
+						"noConsole": "off"
+					}
+				}
+			}
 		}
 	],
 	"vcs": {
