@@ -28,7 +28,6 @@ export default defineConfig(({ mode }) => {
 			...(mode !== "production"
 				? {
 						"import.meta.env.GITHUB_TOKEN": JSON.stringify(
-							// biome-ignore lint/nursery/noProcessEnv: Bun.env cannot be used in vite
 							process.env["GITHUB_TOKEN"],
 						),
 					}

@@ -254,7 +254,7 @@ const getGpgKeyringSecretKeys = async (
 			...env,
 			...(gpgHome
 				? {
-						// biome-ignore lint/style/useNamingConvention:
+						// biome-ignore lint/style/useNamingConvention: env var
 						GNUPG_HOME: gpgHome,
 					}
 				: {}),
@@ -262,27 +262,20 @@ const getGpgKeyringSecretKeys = async (
 		.arrayBuffer();
 	const rawSecretKeys: {
 		// ref: https://github.com/gpg/gnupg/blob/master/doc/DETAILS#format-of-the-colon-listings
+		// biome-ignore-start lint/style/useNamingConvention: following jc naming convention
 		type: string;
 		validity: string | null;
-		// biome-ignore lint/style/useNamingConvention: following jc naming convention
 		key_id: string | null;
-		// biome-ignore lint/style/useNamingConvention:
 		creation_date: string | null;
-		// biome-ignore lint/style/useNamingConvention:
 		expiration_date: string | null;
 		// cspell:ignore certsn uidhash trustinfo
-		// biome-ignore lint/style/useNamingConvention:
 		certsn_uidhash_trustinfo: string | null;
-		// biome-ignore lint/style/useNamingConvention:
 		owner_trust: string | null;
-		// biome-ignore lint/style/useNamingConvention:
 		user_id: string | null;
-		// biome-ignore lint/style/useNamingConvention:
 		key_capabilities: string | null;
-		// biome-ignore lint/style/useNamingConvention:
 		token_sn: string | null;
-		// biome-ignore lint/style/useNamingConvention:
 		curve_name: string | null;
+		// biome-ignore-end lint/style/useNamingConvention: following jc naming convention
 	}[] =
 		// jc freezes if empty buffer is passed
 		gpgStdout.byteLength > 0 ? await $`jc --gpg < ${gpgStdout}`.json() : [];
@@ -477,27 +470,22 @@ const selectFromList = async <T>(
 
 // ref: https://docs.github.com/en/rest/users/gpg-keys?apiVersion=2022-11-28#list-gpg-keys-for-the-authenticated-user
 type GitHubGpgKey = {
+	// biome-ignore-start lint/style/useNamingConvention: following API response naming
 	id: string;
-	// biome-ignore lint/style/useNamingConvention: following API response naming
 	key_id: string;
 	name: string | null;
-	// biome-ignore lint/style/useNamingConvention:
 	created_at: string;
-	// biome-ignore lint/style/useNamingConvention:
 	expires_at: string | null;
 	revoked: boolean | null;
 	emails: { email: string }[];
-	// biome-ignore lint/style/useNamingConvention:
 	raw_key: string | null;
 	subkeys: {
 		id: string;
-		// biome-ignore lint/style/useNamingConvention:
 		key_id: string;
-		// biome-ignore lint/style/useNamingConvention:
 		created_at: string;
-		// biome-ignore lint/style/useNamingConvention:
 		expires_at: string | null;
 		revoked: boolean | null;
+		// biome-ignore-end lint/style/useNamingConvention: following API response naming
 	}[];
 };
 
@@ -551,7 +539,7 @@ const importGpgSecretKey = async (
 			await $`gpg --import < ${Buffer.from(armor)}`
 				.env({
 					...env,
-					// biome-ignore lint/style/useNamingConvention:
+					// biome-ignore lint/style/useNamingConvention: env var
 					GNUPG_HOME: tempDir,
 				})
 				.quiet();

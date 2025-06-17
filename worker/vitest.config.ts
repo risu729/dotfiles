@@ -5,7 +5,6 @@ import { defineConfig, mergeConfig } from "vitest/config";
 import viteConfig from "./vite.config.ts";
 
 const currentBranch =
-	// biome-ignore lint/nursery/noProcessEnv: Bun.env cannot be used in vite
 	process.env["CURRENT_BRANCH"] ??
 	execSync("git branch --show-current").toString().trim();
 if (!currentBranch) {
@@ -23,20 +22,17 @@ export default defineConfig((configEnv) =>
 		defineWorkersConfig({
 			test: {
 				env: {
+					// biome-ignore-start lint/style/useNamingConvention: env var
 					// use current branch name as default branch for testing
-					// biome-ignore lint/style/useNamingConvention: env var
 					DEFAULT_BRANCH: currentBranch,
 
 					// define in vite.config.ts does not work in vitest, so define here
-					// biome-ignore lint/style/useNamingConvention: env var
-					// biome-ignore lint/nursery/noProcessEnv: Bun.env cannot be used in vite
 					GITHUB_TOKEN: process.env["GITHUB_TOKEN"],
 
-					// biome-ignore lint/style/useNamingConvention: env var
 					LATEST_COMMIT_HASH: latestCommitHash,
 					// fix constants in tests
-					// biome-ignore lint/style/useNamingConvention: env var
 					REPO_NAME: "risu729/dotfiles",
+					// biome-ignore-end lint/style/useNamingConvention: env var
 				},
 				poolOptions: {
 					workers: {
