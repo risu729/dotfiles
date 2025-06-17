@@ -1,24 +1,12 @@
 {
 	// ref: https://code.visualstudio.com/docs/getstarted/settings#_workspace-settings
 
-	"files.autoSave": "afterDelay",
-	"editor.formatOnSave": true,
-	"editor.formatOnPaste": true,
-
-	// ref: https://biomejs.dev/reference/vscode/
-	"editor.codeActionsOnSave": {
-		// cspell:ignore quickfix
-		"quickfix.biome": "explicit",
-		"source.organizeImports.biome": "explicit"
-	},
-	// ref: https://biomejs.dev/internals/language-support/
 	"[javascript][typescript][json][jsonc]": {
 		"editor.defaultFormatter": "biomejs.biome"
 	},
-
-	"[yaml][github-actions-workflow]": {
-		// cspell:ignore bluebrown
-		"editor.defaultFormatter": "bluebrown.yamlfmt"
+	"[markdown][json5]": {
+		// cspell:ignore esbenp
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
 	},
 	"[shellscript]": {
 		// cspell:ignore mkhl
@@ -28,24 +16,36 @@
 		// cspell:ignore tamasfe
 		"editor.defaultFormatter": "tamasfe.even-better-toml"
 	},
-	"[markdown][json5]": {
-		// cspell:ignore esbenp
-		"editor.defaultFormatter": "esbenp.prettier-vscode"
+
+	"[yaml][github-actions-workflow]": {
+		// cspell:ignore bluebrown
+		"editor.defaultFormatter": "bluebrown.yamlfmt"
 	},
 
+	// ref: https://biomejs.dev/reference/vscode/
+	"editor.codeActionsOnSave": {
+		// cspell:ignore quickfix
+		"quickfix.biome": "explicit",
+		"source.organizeImports.biome": "explicit"
+	},
+	"editor.formatOnPaste": true,
+	"editor.formatOnSave": true,
+
 	"files.associations": {
-		"*ignore-sync": "ini",
-		// cspell:ignore shellcheckrc
-		"shellcheckrc": "ini",
-		// cspell:ignore czrc
 		".czrc": "jsonc",
-		"winget.json": "jsonc",
-		"gpg-agent.conf": "plaintext",
 		".tool-versions": "plaintext",
 		// match on the absolute path if / is contained
 		"**/tasks/**": "shellscript",
-		"**/wsl/etc/**": "plaintext"
+		"**/wsl/etc/**": "plaintext",
+		"*ignore-sync": "ini",
+		"gpg-agent.conf": "plaintext",
+		// cspell:ignore shellcheckrc
+		"shellcheckrc": "ini",
+		"winget.json": "jsonc"
 	},
+	// ref: https://code.visualstudio.com/docs/getstarted/settings#_workspace-settings
+
+	"files.autoSave": "afterDelay",
 
 	"files.readonlyInclude": {
 		// auto-generated
@@ -53,8 +53,8 @@
 		"**/bun.lock": true
 	},
 
-	"typescript.disableAutomaticTypeAcquisition": true,
-	"typescript.tsdk": "node_modules/typescript/lib",
+	"powershell.scriptAnalysis.settingsPath": "win/PSScriptAnalyzerSettings.psd1",
 
-	"powershell.scriptAnalysis.settingsPath": "win/PSScriptAnalyzerSettings.psd1"
+	"typescript.disableAutomaticTypeAcquisition": true,
+	"typescript.tsdk": "node_modules/typescript/lib"
 }

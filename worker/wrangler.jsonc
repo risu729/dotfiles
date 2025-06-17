@@ -1,25 +1,25 @@
 // ref: https://developers.cloudflare.com/workers/wrangler/configuration
 {
 	"$schema": "./node_modules/wrangler/config-schema.json",
-	"name": "dotfiles-worker",
-	"main": "src/index.ts",
 	"compatibility_date": "2025-06-04",
 	"compatibility_flags": [
 		// required to use vitest
 		// ref: https://developers.cloudflare.com/workers/testing/vitest-integration/configuration/#workerspooloptions
 		"nodejs_compat"
 	],
-	// disable *.worker.dev domain
-	"workers_dev": false,
-	"route": {
-		"pattern": "dot.risunosu.com",
-		"custom_domain": true
-	},
-	"send_metrics": true,
+	"main": "src/index.ts",
+	"name": "dotfiles-worker",
 	"observability": {
 		"enabled": true
 	},
 	"placement": {
 		"mode": "smart"
-	}
+	},
+	"route": {
+		"custom_domain": true,
+		"pattern": "dot.risunosu.com"
+	},
+	"send_metrics": true,
+	// disable *.worker.dev domain
+	"workers_dev": false
 }

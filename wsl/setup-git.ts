@@ -31,10 +31,10 @@ const ensureGitHubTokenScopes = async (): Promise<() => Promise<void>> => {
 		// bun shell doesn't support reading from stdout and stderr while running a command
 		// ref: https://github.com/oven-sh/bun/issues/14693
 		const process = spawn(["gh", "auth", ...subcommand.split(" ")], {
+			env: envWithoutGitHubToken,
 			// default is "inherit" which just logs to the console
 			// ref: https://bun.sh/docs/api/spawn#output-streams
 			stderr: "pipe",
-			env: envWithoutGitHubToken,
 		});
 
 		const reader = process.stderr.getReader();
@@ -88,15 +88,15 @@ const ensureGitHubTokenScopes = async (): Promise<() => Promise<void>> => {
 			scope: "read:project",
 		},
 		{
+			removeAfterUse: true,
 			// required to list, add, and delete GPG keys
 			scope: "admin:gpg_key",
-			removeAfterUse: true,
 		},
 		{
-			// required to get user email
-			scope: "user:email",
 			generalScope: "user",
 			removeAfterUse: true,
+			// required to get user email
+			scope: "user:email",
 		},
 	];
 
@@ -196,7 +196,7 @@ const setGitUserConfig = async (): Promise<{
 		throw new Error("Failed to get GitHub-provided no-reply email");
 	}
 	await $`git config --file ${localGitConfigPath} user.email ${noReplyEmail}`.quiet();
-	return { githubId: login, email: noReplyEmail };
+	return { email: noReplyEmail, githubId: login };
 };
 
 const createGhrConfig = async (githubId: string): Promise<void> => {
@@ -317,18 +317,18 @@ const getGpgKeyringSecretKeys = async (
 		if (key.type === "sec") {
 			// add previous key to the list
 			acc.push({
-				keyId: key.key_id ?? undefined,
-				fingerprint: undefined,
-				keygrip: undefined,
-				curveName,
-				userIds: undefined,
 				createdAt,
+				curveName,
 				expiresAt,
+				fingerprint: undefined,
 				isRevoked,
 				isSecretKeyAvailable,
-				keyUsages,
 				isUltimatelyTrusted: key.owner_trust === "u",
+				keygrip: undefined,
+				keyId: key.key_id ?? undefined,
+				keyUsages,
 				subkeys: [],
+				userIds: undefined,
 			});
 			return acc;
 		}
@@ -345,11 +345,11 @@ const getGpgKeyringSecretKeys = async (
 					/(?<name>[^ ]+) (?:(?<comment>.+) )?<(?<email>.+)>/,
 				);
 				current.userIds.push({
-					name: userId?.groups?.["name"],
 					comment: userId?.groups?.["comment"] ?? null,
 					email: userId?.groups?.["email"],
 					hash: key.certsn_uidhash_trustinfo ?? undefined,
 					isRevoked,
+					name: userId?.groups?.["name"],
 				});
 				break;
 			}
@@ -358,14 +358,14 @@ const getGpgKeyringSecretKeys = async (
 					current.subkeys = [];
 				}
 				current.subkeys.push({
-					keyId: key.key_id ?? undefined,
-					fingerprint: undefined,
-					keygrip: undefined,
-					curveName,
 					createdAt,
+					curveName,
 					expiresAt,
+					fingerprint: undefined,
 					isRevoked,
 					isSecretKeyAvailable,
+					keygrip: undefined,
+					keyId: key.key_id ?? undefined,
 					keyUsages,
 				});
 				break;
@@ -461,7 +461,7 @@ const selectFromList = async <T>(
 	);
 	for await (const line of console) {
 		if (line.trim().toLowerCase() === "c") {
-			return undefined;
+			return;
 		}
 		const index = Number.parseInt(line.trim());
 		if (Number.isNaN(index) || index < 1 || index > items.length) {
@@ -640,12 +640,12 @@ const findExistingKeys = async (
 			);
 			if (currentKeyringKey) {
 				return {
+					githubKey: currentGitHubKey,
 					keyringSecretKey: currentKeyringKey,
 					// biome-ignore lint/style/noNonNullAssertion: currentKeyringKey must contain the subkey if found
 					subkey: currentKeyringKey.subkeys.find(
 						({ keyId }) => `${keyId}!` === gitSigningKey,
 					)!,
-					githubKey: currentGitHubKey,
 				};
 			}
 			console.warn(
@@ -663,12 +663,12 @@ const findExistingKeys = async (
 			);
 			if (importedKey) {
 				return {
+					githubKey: currentGitHubKey,
 					keyringSecretKey: importedKey.importedKey,
 					// biome-ignore lint/style/noNonNullAssertion: currentKeyringKey must contain the subkey if imported
 					subkey: importedKey.importedKey.subkeys.find(
 						({ keyId }) => `${keyId}!` === gitSigningKey,
 					)!,
-					githubKey: currentGitHubKey,
 				};
 			}
 		}
@@ -699,8 +699,8 @@ const findExistingKeys = async (
 			);
 			if (selectedKey) {
 				return {
-					keyringSecretKey: selectedKey.keyring,
 					githubKey: selectedKey.github,
+					keyringSecretKey: selectedKey.keyring,
 				};
 			}
 		}
@@ -719,11 +719,11 @@ const findExistingKeys = async (
 		);
 		if (importedKey) {
 			return {
-				keyringSecretKey: importedKey.importedKey,
 				// biome-ignore lint/style/noNonNullAssertion: key must be found if imported
 				githubKey: githubKeys.find(
 					({ key_id }) => importedKey.importedKey.keyId === key_id,
 				)!,
+				keyringSecretKey: importedKey.importedKey,
 			};
 		}
 	}
@@ -761,7 +761,7 @@ const findExistingKeys = async (
 	}
 
 	// if no key is imported, return undefined
-	return undefined;
+	return;
 };
 
 const recommendedCurveName = "ed25519";
@@ -1125,8 +1125,8 @@ const refineGpgKey = async (
 
 	return {
 		key,
-		subkey,
 		printSecretKey,
+		subkey,
 	};
 };
 
@@ -1221,9 +1221,9 @@ const configureGitSign = async (
 		const username = (await $`whoami`.text()).trim();
 		const hostname = (await $`hostname`.text()).trim();
 		await ghApi("/user/gpg_keys", "POST", {
-			name: `${username}@${hostname}`,
 			// biome-ignore lint/style/useNamingConvention: following API request naming
 			armored_public_key: activePublicKey,
+			name: `${username}@${hostname}`,
 		});
 	}
 

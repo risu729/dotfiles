@@ -1,6 +1,6 @@
 {
 	// ref: https://www.typescriptlang.org/tsconfig/
 	"$schema": "https://json.schemastore.org/tsconfig",
-	"extends": "@risu729/tsconfigs/bundler",
-	"exclude": ["node_modules", "src", "test", "dist"]
+	"exclude": ["node_modules", "src", "test", "dist"],
+	"extends": "@risu729/tsconfigs/bundler"
 }

@@ -1,4 +1,5 @@
 import { execSync } from "node:child_process";
+import process from "node:process";
 import { cloudflare } from "@cloudflare/vite-plugin";
 import { defineConfig } from "vite";
 
@@ -22,8 +23,8 @@ if (!defaultBranch) {
 export default defineConfig(({ mode }) => {
 	return {
 		define: {
-			"import.meta.env.REPO_NAME": JSON.stringify(repoName),
 			"import.meta.env.DEFAULT_BRANCH": JSON.stringify(defaultBranch),
+			"import.meta.env.REPO_NAME": JSON.stringify(repoName),
 			...(mode !== "production"
 				? {
 						"import.meta.env.GITHUB_TOKEN": JSON.stringify(
