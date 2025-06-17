@@ -32,6 +32,7 @@
 	"editor.formatOnSave": true,
 
 	"files.associations": {
+		// cspell:ignore czrc
 		".czrc": "jsonc",
 		".tool-versions": "plaintext",
 		// match on the absolute path if / is contained
@@ -43,7 +44,6 @@
 		"shellcheckrc": "ini",
 		"winget.json": "jsonc"
 	},
-	// ref: https://code.visualstudio.com/docs/getstarted/settings#_workspace-settings
 
 	"files.autoSave": "afterDelay",
 
