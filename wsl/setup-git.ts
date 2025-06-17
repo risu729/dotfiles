@@ -43,6 +43,7 @@ const ensureGitHubTokenScopes = async (): Promise<() => Promise<void>> => {
 		let output = "";
 
 		while (true) {
+			// biome-ignore lint/nursery/noAwaitInLoop: required to read line by line
 			const { done, value } = await reader.read();
 			if (done) {
 				break;
@@ -68,9 +69,9 @@ const ensureGitHubTokenScopes = async (): Promise<() => Promise<void>> => {
 			}
 		}
 
-		const exitCode = await process.exited;
-		if (exitCode !== 0) {
-			throw new Error(`Process exited with code ${exitCode}. ${output}`);
+		const processExitCode = await process.exited;
+		if (processExitCode !== 0) {
+			throw new Error(`Process exited with code ${processExitCode}. ${output}`);
 		}
 	};
 
@@ -289,10 +290,10 @@ const getGpgKeyringSecretKeys = async (
 		// already in epoch timestamp but in string
 		const curveName = key.curve_name ?? undefined;
 		const createdAt = key.creation_date
-			? Number.parseInt(key.creation_date)
+			? Number.parseInt(key.creation_date, 10)
 			: undefined;
 		const expiresAt = key.expiration_date
-			? Number.parseInt(key.expiration_date)
+			? Number.parseInt(key.expiration_date, 10)
 			: null;
 		const isRevoked = key.validity === "r";
 		const isSecretKeyAvailable = ["+", "#"].includes(key.token_sn ?? "")
@@ -456,7 +457,7 @@ const selectFromList = async <T>(
 		if (line.trim().toLowerCase() === "c") {
 			return;
 		}
-		const index = Number.parseInt(line.trim());
+		const index = Number.parseInt(line.trim(), 10);
 		if (Number.isNaN(index) || index < 1 || index > items.length) {
 			console.error(
 				"Invalid input. Please enter a number listed above. Enter C to cancel.",
@@ -512,6 +513,7 @@ const importGpgSecretKey = async (
 			"Paste the secret key in ASCII armor format. Enter 'quit' to cancel.",
 		);
 		const lines: string[] = [];
+		// biome-ignore lint/nursery/noAwaitInLoop: required to read line by line
 		for await (const line of console) {
 			if (line === "-----END PGP PRIVATE KEY BLOCK-----") {
 				break;
@@ -781,8 +783,8 @@ const refineGpgKey = async (
 		);
 		const importedKey = await importGpgSecretKey(
 			`Import the key for ${reason}?`,
-			(importedKey) => ({
-				continueImport: importedKey.fingerprint === key.fingerprint,
+			(importedGpgKey) => ({
+				continueImport: importedGpgKey.fingerprint === key.fingerprint,
 				errorMessage: "Imported key mismatched.",
 			}),
 		);
@@ -895,10 +897,10 @@ const refineGpgKey = async (
 		);
 		const importedKey = await importGpgSecretKey(
 			"Import a secret key?",
-			(importedKey) => ({
+			(importedGpgKey) => ({
 				continueImport:
-					importedKey.fingerprint === key.fingerprint &&
-					importedKey.subkeys
+					importedGpgKey.fingerprint === key.fingerprint &&
+					importedGpgKey.subkeys
 						.filter(({ isRevoked }) => !isRevoked)
 						.filter(({ keyUsages }) => keyUsages.includes("s"))
 						.some(({ isSecretKeyAvailable }) => isSecretKeyAvailable),
@@ -943,7 +945,7 @@ const refineGpgKey = async (
 		const unrecommendedSubkeys = signingSubkeys().filter(
 			({ fingerprint }) =>
 				!recommendedSubkeys
-					.map(({ fingerprint }) => fingerprint)
+					.map((unrecommendedSubkey) => unrecommendedSubkey.fingerprint)
 					.includes(fingerprint),
 		);
 		// first suggest selecting from subkeys with recommended settings
@@ -1161,7 +1163,7 @@ const configureGitSign = async (
 		.filter(
 			({ isSecretKeyAvailable, subkeys }) =>
 				isSecretKeyAvailable ||
-				subkeys.some(({ isSecretKeyAvailable }) => isSecretKeyAvailable),
+				subkeys.some((subkey) => subkey.isSecretKeyAvailable),
 		)
 		// ignore revoked primary keys as they cannot be un-revoked
 		.filter(({ isRevoked }) => !isRevoked);
@@ -1227,19 +1229,20 @@ const configureGitSign = async (
 		console.warn("Unrevoked old GPG key registered to GitHub found.");
 		for (const githubKey of revokableGithubKeys) {
 			if (
+				// biome-ignore lint/nursery/noAwaitInLoop: required to wait for user input
 				!(await askYesNo(
 					`Do you want to revoke the key ${githubKey.name} (${githubKey.key_id})?`,
 				))
 			) {
 				break;
 			}
-			let keyringKey = (await getGpgKeyringSecretKeys()).find(
+			let keyringRevokableKey = (await getGpgKeyringSecretKeys()).find(
 				({ keyId }) => keyId === githubKey.key_id,
 			);
-			if (!keyringKey?.isSecretKeyAvailable) {
+			if (!keyringRevokableKey?.isSecretKeyAvailable) {
 				// revocation certificate only works when the public key is available
 				if (
-					keyringKey ||
+					keyringRevokableKey ||
 					(await $`gpg --list-keys`.text()).includes(githubKey.key_id)
 				) {
 					const hasRevocationCertificate = await askYesNo(
@@ -1264,13 +1267,13 @@ const configureGitSign = async (
 							continue;
 						}
 						await $`gpg --import < ${Buffer.from(lines.join("\n"))}`.quiet();
-						keyringKey = (await getGpgKeyringSecretKeys()).find(
+						keyringRevokableKey = (await getGpgKeyringSecretKeys()).find(
 							({ keyId }) => keyId === githubKey.key_id,
 						);
 					}
 				}
-				if (!keyringKey?.isRevoked) {
-					keyringKey = (
+				if (!keyringRevokableKey?.isRevoked) {
+					keyringRevokableKey = (
 						await importGpgSecretKey(
 							`Import the secret key for ${githubKey.name} (${githubKey.key_id})?`,
 							(importedKey) => ({
@@ -1283,11 +1286,11 @@ const configureGitSign = async (
 					)?.importedKey;
 				}
 			}
-			if (!keyringKey) {
+			if (!keyringRevokableKey) {
 				break;
 			}
 			await editGpgKey(
-				keyringKey.fingerprint,
+				keyringRevokableKey.fingerprint,
 				["revkey"],
 				[
 					"y", // confirm revoke
@@ -1298,7 +1301,7 @@ const configureGitSign = async (
 			);
 			await ghApi(`/user/gpg_keys/${githubKey.id}`, "DELETE");
 			const publicKey = (
-				await $`gpg --export --armor "${keyringKey.fingerprint}"`.text()
+				await $`gpg --export --armor "${keyringRevokableKey.fingerprint}"`.text()
 			).trim();
 			const username = (await $`whoami`.text()).trim();
 			const hostname = (await $`hostname`.text()).trim();
