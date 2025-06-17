@@ -31,6 +31,9 @@
 				"noForEach": "on",
 				"noUselessStringConcat": "on",
 				"noVoid": "on",
+				// incompatible with `noPropertyAccessFromIndexSignature` option in tsconfig
+				// ref: https://github.com/biomejs/biome/issues/463
+				"useLiteralKeys": "off",
 				"useSimplifiedLogicExpression": "on",
 				"useWhile": "on"
 			},
@@ -49,6 +52,8 @@
 				"noSecrets": "on",
 				"noShadow": "on",
 				"noTsIgnore": "on",
+				// included in project domain, but ignore as it causes many false positives
+				"noUnresolvedImports": "off",
 				"noUselessBackrefInRegex": "on",
 				"noUselessEscapeInString": "on",
 				"noUselessUndefined": "on",
