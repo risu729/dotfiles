@@ -1,13 +1,13 @@
 {
-	"name": "main",
-	"target": "branch",
-	"enforcement": "active",
+	"bypass_actors": [],
 	"conditions": {
 		"ref_name": {
 			"exclude": [],
 			"include": ["~DEFAULT_BRANCH"]
 		}
 	},
+	"enforcement": "active",
+	"name": "main",
 	"rules": [
 		{
 			"type": "deletion"
@@ -22,44 +22,44 @@
 			"type": "required_linear_history"
 		},
 		{
-			"type": "pull_request",
 			"parameters": {
-				"required_approving_review_count": 0,
+				"allowed_merge_methods": ["squash"],
+				"automatic_copilot_code_review_enabled": false,
 				"dismiss_stale_reviews_on_push": true,
 				"require_code_owner_review": false,
 				"require_last_push_approval": false,
-				"required_review_thread_resolution": false,
-				"automatic_copilot_code_review_enabled": false,
-				"allowed_merge_methods": ["squash"]
-			}
+				"required_approving_review_count": 0,
+				"required_review_thread_resolution": false
+			},
+			"type": "pull_request"
 		},
 		{
-			"type": "required_status_checks",
 			"parameters": {
-				"strict_required_status_checks_policy": false,
 				"do_not_enforce_on_create": false,
 				"required_status_checks": [
 					{
 						"context": "merge-gatekeeper"
 					}
-				]
-			}
+				],
+				"strict_required_status_checks_policy": false
+			},
+			"type": "required_status_checks"
 		},
 		{
 			"type": "required_signatures"
 		},
 		{
-			"type": "code_scanning",
 			"parameters": {
 				"code_scanning_tools": [
 					{
-						"tool": "CodeQL",
+						"alerts_threshold": "all",
 						"security_alerts_threshold": "all",
-						"alerts_threshold": "all"
+						"tool": "CodeQL"
 					}
 				]
-			}
+			},
+			"type": "code_scanning"
 		}
 	],
-	"bypass_actors": []
+	"target": "branch"
 }

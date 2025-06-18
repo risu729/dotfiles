@@ -1,7 +1,7 @@
 # ref: https://mise.jdx.dev/configuration.html#global-config-config-mise-config-toml
 #:schema https://mise.jdx.dev/schema/mise.json
 
-min_version = "2025.6.4"
+min_version = "2025.6.5"
 
 [env]
 # disable bat paging
@@ -48,7 +48,8 @@ jd = "latest"
 sd = "latest"
 
 # biome vs code extension requires global installation
-biome = "latest"
+# use ubi instead of aqua to avoid mise errors
+"ubi:biomejs/biome" = "@biomejs/biome@2.0.0"
 
 # uni tools
 numbat = "latest"

@@ -39,7 +39,7 @@ describe("return the installer script with the specified repo name set", () => {
 		"return %s with repo name",
 		{
 			// regex matching takes time
-			timeout: 10000,
+			timeout: 10_000,
 		},
 		async (path) => {
 			const response = await SELF.fetch(`https://dot.risunosu.com${path}`);
@@ -55,7 +55,7 @@ describe("return the installer script with the specified ref set", () => {
 		"return %s with ref",
 		{
 			// regex matching takes time
-			timeout: 10000,
+			timeout: 10_000,
 		},
 		async (path) => {
 			const response = await SELF.fetch(
@@ -76,7 +76,7 @@ describe("return the installer script with the script origin set", () => {
 		"return %s with script origin",
 		{
 			// regex matching takes time
-			timeout: 10000,
+			timeout: 10_000,
 		},
 		async (path) => {
 			const response = await SELF.fetch(`https://dot.risunosu.com${path}`);
@@ -91,7 +91,7 @@ describe("return the installer script with the script origin set", () => {
 		"return %s with script origin with port",
 		{
 			// regex matching takes time
-			timeout: 10000,
+			timeout: 10_000,
 		},
 		async (path) => {
 			const response = await SELF.fetch(`http://localhost:8080${path}`);
@@ -115,7 +115,7 @@ test(
 	"installer script for wsl must have a shebang",
 	{
 		// regex matching takes time
-		timeout: 10000,
+		timeout: 10_000,
 	},
 	async () => {
 		const response = await SELF.fetch("https://dot.risunosu.com/wsl");

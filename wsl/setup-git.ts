@@ -10,7 +10,7 @@ const envWithoutGitHubToken = Object.fromEntries(
 	Object.entries(env).filter(([key]) => key !== "GITHUB_TOKEN"),
 ) as Record<string, string>;
 
-const localGitConfigPath = (
+const localGitConfigPath: string = (
 	await $`git config --global include.path`.text()
 ).trim();
 
@@ -31,10 +31,10 @@ const ensureGitHubTokenScopes = async (): Promise<() => Promise<void>> => {
 		// bun shell doesn't support reading from stdout and stderr while running a command
 		// ref: https://github.com/oven-sh/bun/issues/14693
 		const process = spawn(["gh", "auth", ...subcommand.split(" ")], {
+			env: envWithoutGitHubToken,
 			// default is "inherit" which just logs to the console
 			// ref: https://bun.sh/docs/api/spawn#output-streams
 			stderr: "pipe",
-			env: envWithoutGitHubToken,
 		});
 
 		const reader = process.stderr.getReader();
@@ -43,6 +43,7 @@ const ensureGitHubTokenScopes = async (): Promise<() => Promise<void>> => {
 		let output = "";
 
 		while (true) {
+			// biome-ignore lint/nursery/noAwaitInLoop: required to read line by line
 			const { done, value } = await reader.read();
 			if (done) {
 				break;
@@ -68,9 +69,9 @@ const ensureGitHubTokenScopes = async (): Promise<() => Promise<void>> => {
 			}
 		}
 
-		const exitCode = await process.exited;
-		if (exitCode !== 0) {
-			throw new Error(`Process exited with code ${exitCode}. ${output}`);
+		const processExitCode = await process.exited;
+		if (processExitCode !== 0) {
+			throw new Error(`Process exited with code ${processExitCode}. ${output}`);
 		}
 	};
 
@@ -88,15 +89,15 @@ const ensureGitHubTokenScopes = async (): Promise<() => Promise<void>> => {
 			scope: "read:project",
 		},
 		{
+			removeAfterUse: true,
 			// required to list, add, and delete GPG keys
 			scope: "admin:gpg_key",
-			removeAfterUse: true,
 		},
 		{
-			// required to get user email
-			scope: "user:email",
 			generalScope: "user",
 			removeAfterUse: true,
+			// required to get user email
+			scope: "user:email",
 		},
 	];
 
@@ -196,7 +197,7 @@ const setGitUserConfig = async (): Promise<{
 		throw new Error("Failed to get GitHub-provided no-reply email");
 	}
 	await $`git config --file ${localGitConfigPath} user.email ${noReplyEmail}`.quiet();
-	return { githubId: login, email: noReplyEmail };
+	return { email: noReplyEmail, githubId: login };
 };
 
 const createGhrConfig = async (githubId: string): Promise<void> => {
@@ -254,7 +255,7 @@ const getGpgKeyringSecretKeys = async (
 			...env,
 			...(gpgHome
 				? {
-						// biome-ignore lint/style/useNamingConvention:
+						// biome-ignore lint/style/useNamingConvention: env var
 						GNUPG_HOME: gpgHome,
 					}
 				: {}),
@@ -262,27 +263,20 @@ const getGpgKeyringSecretKeys = async (
 		.arrayBuffer();
 	const rawSecretKeys: {
 		// ref: https://github.com/gpg/gnupg/blob/master/doc/DETAILS#format-of-the-colon-listings
+		// biome-ignore-start lint/style/useNamingConvention: following jc naming convention
 		type: string;
 		validity: string | null;
-		// biome-ignore lint/style/useNamingConvention: following jc naming convention
 		key_id: string | null;
-		// biome-ignore lint/style/useNamingConvention:
 		creation_date: string | null;
-		// biome-ignore lint/style/useNamingConvention:
 		expiration_date: string | null;
 		// cspell:ignore certsn uidhash trustinfo
-		// biome-ignore lint/style/useNamingConvention:
 		certsn_uidhash_trustinfo: string | null;
-		// biome-ignore lint/style/useNamingConvention:
 		owner_trust: string | null;
-		// biome-ignore lint/style/useNamingConvention:
 		user_id: string | null;
-		// biome-ignore lint/style/useNamingConvention:
 		key_capabilities: string | null;
-		// biome-ignore lint/style/useNamingConvention:
 		token_sn: string | null;
-		// biome-ignore lint/style/useNamingConvention:
 		curve_name: string | null;
+		// biome-ignore-end lint/style/useNamingConvention: following jc naming convention
 	}[] =
 		// jc freezes if empty buffer is passed
 		gpgStdout.byteLength > 0 ? await $`jc --gpg < ${gpgStdout}`.json() : [];
@@ -296,10 +290,10 @@ const getGpgKeyringSecretKeys = async (
 		// already in epoch timestamp but in string
 		const curveName = key.curve_name ?? undefined;
 		const createdAt = key.creation_date
-			? Number.parseInt(key.creation_date)
+			? Number.parseInt(key.creation_date, 10)
 			: undefined;
 		const expiresAt = key.expiration_date
-			? Number.parseInt(key.expiration_date)
+			? Number.parseInt(key.expiration_date, 10)
 			: null;
 		const isRevoked = key.validity === "r";
 		const isSecretKeyAvailable = ["+", "#"].includes(key.token_sn ?? "")
@@ -317,18 +311,18 @@ const getGpgKeyringSecretKeys = async (
 		if (key.type === "sec") {
 			// add previous key to the list
 			acc.push({
-				keyId: key.key_id ?? undefined,
-				fingerprint: undefined,
-				keygrip: undefined,
-				curveName,
-				userIds: undefined,
 				createdAt,
+				curveName,
 				expiresAt,
+				fingerprint: undefined,
 				isRevoked,
 				isSecretKeyAvailable,
-				keyUsages,
 				isUltimatelyTrusted: key.owner_trust === "u",
+				keygrip: undefined,
+				keyId: key.key_id ?? undefined,
+				keyUsages,
 				subkeys: [],
+				userIds: undefined,
 			});
 			return acc;
 		}
@@ -345,11 +339,11 @@ const getGpgKeyringSecretKeys = async (
 					/(?<name>[^ ]+) (?:(?<comment>.+) )?<(?<email>.+)>/,
 				);
 				current.userIds.push({
-					name: userId?.groups?.["name"],
 					comment: userId?.groups?.["comment"] ?? null,
 					email: userId?.groups?.["email"],
 					hash: key.certsn_uidhash_trustinfo ?? undefined,
 					isRevoked,
+					name: userId?.groups?.["name"],
 				});
 				break;
 			}
@@ -358,14 +352,14 @@ const getGpgKeyringSecretKeys = async (
 					current.subkeys = [];
 				}
 				current.subkeys.push({
-					keyId: key.key_id ?? undefined,
-					fingerprint: undefined,
-					keygrip: undefined,
-					curveName,
 					createdAt,
+					curveName,
 					expiresAt,
+					fingerprint: undefined,
 					isRevoked,
 					isSecretKeyAvailable,
+					keygrip: undefined,
+					keyId: key.key_id ?? undefined,
 					keyUsages,
 				});
 				break;
@@ -461,9 +455,9 @@ const selectFromList = async <T>(
 	);
 	for await (const line of console) {
 		if (line.trim().toLowerCase() === "c") {
-			return undefined;
+			return;
 		}
-		const index = Number.parseInt(line.trim());
+		const index = Number.parseInt(line.trim(), 10);
 		if (Number.isNaN(index) || index < 1 || index > items.length) {
 			console.error(
 				"Invalid input. Please enter a number listed above. Enter C to cancel.",
@@ -477,27 +471,22 @@ const selectFromList = async <T>(
 
 // ref: https://docs.github.com/en/rest/users/gpg-keys?apiVersion=2022-11-28#list-gpg-keys-for-the-authenticated-user
 type GitHubGpgKey = {
+	// biome-ignore-start lint/style/useNamingConvention: following API response naming
 	id: string;
-	// biome-ignore lint/style/useNamingConvention: following API response naming
 	key_id: string;
 	name: string | null;
-	// biome-ignore lint/style/useNamingConvention:
 	created_at: string;
-	// biome-ignore lint/style/useNamingConvention:
 	expires_at: string | null;
 	revoked: boolean | null;
 	emails: { email: string }[];
-	// biome-ignore lint/style/useNamingConvention:
 	raw_key: string | null;
 	subkeys: {
 		id: string;
-		// biome-ignore lint/style/useNamingConvention:
 		key_id: string;
-		// biome-ignore lint/style/useNamingConvention:
 		created_at: string;
-		// biome-ignore lint/style/useNamingConvention:
 		expires_at: string | null;
 		revoked: boolean | null;
+		// biome-ignore-end lint/style/useNamingConvention: following API response naming
 	}[];
 };
 
@@ -524,6 +513,7 @@ const importGpgSecretKey = async (
 			"Paste the secret key in ASCII armor format. Enter 'quit' to cancel.",
 		);
 		const lines: string[] = [];
+		// biome-ignore lint/nursery/noAwaitInLoop: required to read line by line
 		for await (const line of console) {
 			if (line === "-----END PGP PRIVATE KEY BLOCK-----") {
 				break;
@@ -551,7 +541,7 @@ const importGpgSecretKey = async (
 			await $`gpg --import < ${Buffer.from(armor)}`
 				.env({
 					...env,
-					// biome-ignore lint/style/useNamingConvention:
+					// biome-ignore lint/style/useNamingConvention: env var
 					GNUPG_HOME: tempDir,
 				})
 				.quiet();
@@ -640,12 +630,12 @@ const findExistingKeys = async (
 			);
 			if (currentKeyringKey) {
 				return {
+					githubKey: currentGitHubKey,
 					keyringSecretKey: currentKeyringKey,
 					// biome-ignore lint/style/noNonNullAssertion: currentKeyringKey must contain the subkey if found
 					subkey: currentKeyringKey.subkeys.find(
 						({ keyId }) => `${keyId}!` === gitSigningKey,
 					)!,
-					githubKey: currentGitHubKey,
 				};
 			}
 			console.warn(
@@ -663,12 +653,12 @@ const findExistingKeys = async (
 			);
 			if (importedKey) {
 				return {
+					githubKey: currentGitHubKey,
 					keyringSecretKey: importedKey.importedKey,
 					// biome-ignore lint/style/noNonNullAssertion: currentKeyringKey must contain the subkey if imported
 					subkey: importedKey.importedKey.subkeys.find(
 						({ keyId }) => `${keyId}!` === gitSigningKey,
 					)!,
-					githubKey: currentGitHubKey,
 				};
 			}
 		}
@@ -699,8 +689,8 @@ const findExistingKeys = async (
 			);
 			if (selectedKey) {
 				return {
-					keyringSecretKey: selectedKey.keyring,
 					githubKey: selectedKey.github,
+					keyringSecretKey: selectedKey.keyring,
 				};
 			}
 		}
@@ -719,11 +709,11 @@ const findExistingKeys = async (
 		);
 		if (importedKey) {
 			return {
-				keyringSecretKey: importedKey.importedKey,
 				// biome-ignore lint/style/noNonNullAssertion: key must be found if imported
 				githubKey: githubKeys.find(
 					({ key_id }) => importedKey.importedKey.keyId === key_id,
 				)!,
+				keyringSecretKey: importedKey.importedKey,
 			};
 		}
 	}
@@ -761,7 +751,7 @@ const findExistingKeys = async (
 	}
 
 	// if no key is imported, return undefined
-	return undefined;
+	return;
 };
 
 const recommendedCurveName = "ed25519";
@@ -793,8 +783,8 @@ const refineGpgKey = async (
 		);
 		const importedKey = await importGpgSecretKey(
 			`Import the key for ${reason}?`,
-			(importedKey) => ({
-				continueImport: importedKey.fingerprint === key.fingerprint,
+			(importedGpgKey) => ({
+				continueImport: importedGpgKey.fingerprint === key.fingerprint,
 				errorMessage: "Imported key mismatched.",
 			}),
 		);
@@ -806,6 +796,7 @@ const refineGpgKey = async (
 	};
 
 	// need to be called after each operation that modifies the key
+	// biome-ignore lint/nursery/useExplicitType: type is inferable
 	const updateKey = async (modifiesSecretKey = true): Promise<void> => {
 		const keyringSecretKeys = await getGpgKeyringSecretKeys();
 		const updatedKey = keyringSecretKeys.find(
@@ -842,6 +833,9 @@ const refineGpgKey = async (
 	const signingSubkeys = ({
 		allowNoSecretKey = false,
 		allowExpired = false,
+	}: {
+		allowNoSecretKey?: boolean;
+		allowExpired?: boolean;
 	} = {}): KeyringSecretKey["subkeys"] =>
 		key.subkeys
 			.filter(({ isRevoked }) => !isRevoked)
@@ -903,10 +897,10 @@ const refineGpgKey = async (
 		);
 		const importedKey = await importGpgSecretKey(
 			"Import a secret key?",
-			(importedKey) => ({
+			(importedGpgKey) => ({
 				continueImport:
-					importedKey.fingerprint === key.fingerprint &&
-					importedKey.subkeys
+					importedGpgKey.fingerprint === key.fingerprint &&
+					importedGpgKey.subkeys
 						.filter(({ isRevoked }) => !isRevoked)
 						.filter(({ keyUsages }) => keyUsages.includes("s"))
 						.some(({ isSecretKeyAvailable }) => isSecretKeyAvailable),
@@ -951,7 +945,7 @@ const refineGpgKey = async (
 		const unrecommendedSubkeys = signingSubkeys().filter(
 			({ fingerprint }) =>
 				!recommendedSubkeys
-					.map(({ fingerprint }) => fingerprint)
+					.map((unrecommendedSubkey) => unrecommendedSubkey.fingerprint)
 					.includes(fingerprint),
 		);
 		// first suggest selecting from subkeys with recommended settings
@@ -1125,8 +1119,8 @@ const refineGpgKey = async (
 
 	return {
 		key,
-		subkey,
 		printSecretKey,
+		subkey,
 	};
 };
 
@@ -1169,7 +1163,7 @@ const configureGitSign = async (
 		.filter(
 			({ isSecretKeyAvailable, subkeys }) =>
 				isSecretKeyAvailable ||
-				subkeys.some(({ isSecretKeyAvailable }) => isSecretKeyAvailable),
+				subkeys.some((subkey) => subkey.isSecretKeyAvailable),
 		)
 		// ignore revoked primary keys as they cannot be un-revoked
 		.filter(({ isRevoked }) => !isRevoked);
@@ -1221,9 +1215,9 @@ const configureGitSign = async (
 		const username = (await $`whoami`.text()).trim();
 		const hostname = (await $`hostname`.text()).trim();
 		await ghApi("/user/gpg_keys", "POST", {
-			name: `${username}@${hostname}`,
 			// biome-ignore lint/style/useNamingConvention: following API request naming
 			armored_public_key: activePublicKey,
+			name: `${username}@${hostname}`,
 		});
 	}
 
@@ -1235,19 +1229,20 @@ const configureGitSign = async (
 		console.warn("Unrevoked old GPG key registered to GitHub found.");
 		for (const githubKey of revokableGithubKeys) {
 			if (
+				// biome-ignore lint/nursery/noAwaitInLoop: required to wait for user input
 				!(await askYesNo(
 					`Do you want to revoke the key ${githubKey.name} (${githubKey.key_id})?`,
 				))
 			) {
 				break;
 			}
-			let keyringKey = (await getGpgKeyringSecretKeys()).find(
+			let keyringRevokableKey = (await getGpgKeyringSecretKeys()).find(
 				({ keyId }) => keyId === githubKey.key_id,
 			);
-			if (!keyringKey?.isSecretKeyAvailable) {
+			if (!keyringRevokableKey?.isSecretKeyAvailable) {
 				// revocation certificate only works when the public key is available
 				if (
-					keyringKey ||
+					keyringRevokableKey ||
 					(await $`gpg --list-keys`.text()).includes(githubKey.key_id)
 				) {
 					const hasRevocationCertificate = await askYesNo(
@@ -1272,13 +1267,13 @@ const configureGitSign = async (
 							continue;
 						}
 						await $`gpg --import < ${Buffer.from(lines.join("\n"))}`.quiet();
-						keyringKey = (await getGpgKeyringSecretKeys()).find(
+						keyringRevokableKey = (await getGpgKeyringSecretKeys()).find(
 							({ keyId }) => keyId === githubKey.key_id,
 						);
 					}
 				}
-				if (!keyringKey?.isRevoked) {
-					keyringKey = (
+				if (!keyringRevokableKey?.isRevoked) {
+					keyringRevokableKey = (
 						await importGpgSecretKey(
 							`Import the secret key for ${githubKey.name} (${githubKey.key_id})?`,
 							(importedKey) => ({
@@ -1291,11 +1286,11 @@ const configureGitSign = async (
 					)?.importedKey;
 				}
 			}
-			if (!keyringKey) {
+			if (!keyringRevokableKey) {
 				break;
 			}
 			await editGpgKey(
-				keyringKey.fingerprint,
+				keyringRevokableKey.fingerprint,
 				["revkey"],
 				[
 					"y", // confirm revoke
@@ -1306,7 +1301,7 @@ const configureGitSign = async (
 			);
 			await ghApi(`/user/gpg_keys/${githubKey.id}`, "DELETE");
 			const publicKey = (
-				await $`gpg --export --armor "${keyringKey.fingerprint}"`.text()
+				await $`gpg --export --armor "${keyringRevokableKey.fingerprint}"`.text()
 			).trim();
 			const username = (await $`whoami`.text()).trim();
 			const hostname = (await $`hostname`.text()).trim();
