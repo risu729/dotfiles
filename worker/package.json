@@ -4,8 +4,8 @@
 		"hono": "4.8.0"
 	},
 	"devDependencies": {
-		"@cloudflare/vite-plugin": "1.7.0",
-		"@cloudflare/vitest-pool-workers": "0.8.39",
+		"@cloudflare/vite-plugin": "1.7.2",
+		"@cloudflare/vitest-pool-workers": "0.8.41",
 		"@risu729/tsconfigs": "1.0.1",
 		"@types/bun": "1.2.16",
 		"@vitest/ui": "3.2.4",
@@ -13,7 +13,7 @@
 		"typescript": "5.8.3",
 		"vite": "6.3.5",
 		"vitest": "3.2.4",
-		"wrangler": "4.20.0"
+		"wrangler": "4.20.3"
 	},
 	"name": "@risu729/dotfiles-worker",
 	"scripts": {
