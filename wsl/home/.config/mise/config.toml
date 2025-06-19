@@ -54,6 +54,11 @@ sd = "latest"
 # uni tools
 numbat = "latest"
 
+# mise development
+aqua = "latest"
+# cspell:ignore vfox
+"aqua:version-fox/vfox" = "latest"
+
 [settings]
 pin = true
 experimental = true
