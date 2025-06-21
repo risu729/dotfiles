@@ -1,11 +1,11 @@
 {
 	"$schema": "https://json.schemastore.org/package.json",
 	"dependencies": {
-		"hono": "4.8.0"
+		"hono": "4.8.1"
 	},
 	"devDependencies": {
-		"@cloudflare/vite-plugin": "1.7.2",
-		"@cloudflare/vitest-pool-workers": "0.8.41",
+		"@cloudflare/vite-plugin": "1.7.3",
+		"@cloudflare/vitest-pool-workers": "0.8.43",
 		"@risu729/tsconfigs": "1.0.1",
 		"@types/bun": "1.2.16",
 		"@vitest/ui": "3.2.4",
@@ -13,7 +13,7 @@
 		"typescript": "5.8.3",
 		"vite": "6.3.5",
 		"vitest": "3.2.4",
-		"wrangler": "4.20.3"
+		"wrangler": "4.20.5"
 	},
 	"name": "@risu729/dotfiles-worker",
 	"scripts": {
