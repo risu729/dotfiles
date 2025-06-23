@@ -48,8 +48,7 @@ jd = "latest"
 sd = "latest"
 
 # biome vs code extension requires global installation
-# use ubi instead of aqua to avoid mise errors
-"ubi:biomejs/biome" = "@biomejs/biome@2.0.0"
+biome = "latest"
 
 # uni tools
 numbat = "latest"
