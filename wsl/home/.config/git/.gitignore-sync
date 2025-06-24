@@ -2,10 +2,17 @@
 
 # ignore-sync doesn't support filename `ignore-sync`, so rename generated .gitignore to ignore in install.sh
 
-[inline]
-.mise.local.toml
-mise.local.toml
-
 [github/gitignore]
 Global/Linux.gitignore
+Global/Windows.gitignore
+Global/macOS.gitignore
 Global/VisualStudioCode.gitignore
+Global/JetBrains.gitignore
+Global/mise.gitignore
+Node.gitignore
+Java.gitignore
+Gradle.gitignore
+Rust.gitignore
+Go.gitignore
+Python.gitignore
+C.gitignore
