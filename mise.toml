@@ -22,7 +22,7 @@ taplo = "0.10.0"
 markdownlint-cli2 = "0.18.1"
 shfmt = "3.11.0"
 shellcheck = "0.10.0"
-yamlfmt = "0.17.1"
+yamlfmt = "0.17.2"
 # cspell:ignore pipx
 # required for pipx backend
 uv = "0.7.14"
