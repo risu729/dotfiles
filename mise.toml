@@ -8,7 +8,7 @@ PS_SCRIPT_ANALYZER_VERSION = "1.24.0"
 
 [tools]
 bun = "1.2.17"
-node = "24.2.0"
+node = "24.3.0"
 biome = "2.0.0"
 actionlint = "1.7.7"
 ghalint = "1.5.1"
@@ -22,12 +22,12 @@ taplo = "0.10.0"
 markdownlint-cli2 = "0.18.1"
 shfmt = "3.11.0"
 shellcheck = "0.10.0"
-yamlfmt = "0.17.1"
+yamlfmt = "0.17.2"
 # cspell:ignore pipx
 # required for pipx backend
 uv = "0.7.14"
 yamllint = "1.37.1"
-"npm:cspell" = "9.1.1"
+"npm:cspell" = "9.1.2"
 # cspell:ignore lycheeverse
 lychee = "0.19.1"
 typos = "1.33.1"
