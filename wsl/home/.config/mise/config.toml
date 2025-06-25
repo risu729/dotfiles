@@ -46,6 +46,7 @@ fd = "latest"
 xh = "latest"
 jd = "latest"
 sd = "latest"
+"npm:@google/gemini-cli" = "latest"
 
 # biome vs code extension requires global installation
 biome = "latest"
