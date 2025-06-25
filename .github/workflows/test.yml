@@ -52,6 +52,7 @@ jobs:
           __CI: true
           # use head sha for pull requests because github.sha is set to the merge commit
           SHA: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.sha }}
+          MISE_LOG_LEVEL: trace
 
   actions-timeline:
     needs:
