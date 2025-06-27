@@ -1,4 +1,4 @@
-name: Test installer on Linux
+name: Test Installer on Linux
 
 on:
   push:
@@ -19,6 +19,7 @@ defaults:
 
 jobs:
   test-linux:
+    name: Test Installer Scripts on WSL Ubuntu Image
     runs-on: ubuntu-24.04
     timeout-minutes: 30
     permissions:
@@ -54,6 +55,7 @@ jobs:
           SHA: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.sha }}
 
   actions-timeline:
+    name: Generate Actions Timeline
     needs:
       - test-linux
     if: ${{ !cancelled() }}
