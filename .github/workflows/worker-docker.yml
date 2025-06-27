@@ -1,4 +1,4 @@
-name: Build worker Docker image
+name: Build Workers Docker Image
 
 on:
   push:
@@ -25,6 +25,7 @@ defaults:
 
 jobs:
   build-worker-image:
+    name: Build Cloudflare Workers Docker Image
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     permissions:
@@ -109,6 +110,7 @@ jobs:
             ghcr.io/${{ env.IMAGE_NAME }}:latest
 
   actions-timeline:
+    name: Generate Actions Timeline
     needs:
       - build-worker-image
     if: ${{ !cancelled() }}

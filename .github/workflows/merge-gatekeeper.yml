@@ -12,6 +12,7 @@ permissions: {}
 
 jobs:
   merge-gatekeeper:
+    name: Merge Gatekeeper
     runs-on: ubuntu-24.04
     # set the longest timeout of all jobs
     timeout-minutes: 30
