@@ -29,3 +29,19 @@ jobs:
           ignored: Generate Actions Timeline, Merge Gatekeeper
           # use timeout-minutes instead of timeout
           timeout: 3600
+
+  actions-timeline:
+    name: Generate Actions Timeline
+    needs:
+      - merge-gatekeeper
+    if: ${{ !cancelled() }}
+
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    permissions:
+      actions: read # for actions-timeline
+
+    steps:
+      - name: actions-timeline
+        # cspell:ignore kesin
+        uses: Kesin11/actions-timeline@427ee2cf860166e404d0d69b4f2b24012bb7af4f # v2.2.3
