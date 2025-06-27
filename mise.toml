@@ -1,7 +1,7 @@
 # ref: https://mise.jdx.dev/configuration.html
 #:schema https://mise.jdx.dev/schema/mise.json
 
-min_version = "2025.6.7"
+min_version = "2025.6.8"
 
 [vars]
 PS_SCRIPT_ANALYZER_VERSION = "1.24.0"
@@ -18,7 +18,7 @@ pinact = "3.3.0"
 cargo-binstall = "1.14.1"
 "cargo:zizmor" = "=1.10.0"
 taplo = "0.10.0"
-"npm:prettier" = "3.6.1"
+"npm:prettier" = "3.6.2"
 markdownlint-cli2 = "0.18.1"
 shfmt = "3.11.0"
 shellcheck = "0.10.0"
