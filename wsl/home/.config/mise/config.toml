@@ -15,7 +15,7 @@ yarn = "latest"
 pnpm = "latest"
 java = "latest"
 gradle = "latest"
-# rust = "latest"
+rust = "latest"
 python = "latest"
 go = "latest"
 
