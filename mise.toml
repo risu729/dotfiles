@@ -38,7 +38,7 @@ hadolint = "2.12.0"
 # pwsh is not executable so postinstall is required
 # ref: https://github.com/PowerShell/PowerShell/issues/23968
 # ref: https://github.com/jdx/mise/discussions/4189
-"aqua:PowerShell/PowerShell" = { version = "7.5.1", postinstall = """
+powershell = { version = "7.5.1", postinstall = """
 chmod +x $(find $(mise where aqua:PowerShell/PowerShell) -name pwsh)
 """ }
 
