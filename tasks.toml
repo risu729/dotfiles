@@ -56,7 +56,7 @@ env.GITHUB_TOKEN = "{{ env.GITHUB_TOKEN }}"
 description = "Run pinact to pin/check pinned GitHub Actions dependencies in workflows."
 
 ["check:zizmor"]
-run = "zizmor --pedantic ."
+run = "zizmor --pedantic {% if env.LINT is undefined %}--fix{% endif %} ."
 env.GH_TOKEN = "{{ env.GITHUB_TOKEN }}"
 description = "Run Zizmor to check GitHub Actions workflows."
 

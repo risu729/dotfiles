@@ -1,4 +1,4 @@
-name: Cloudflare worker
+name: Cloudflare Workers
 
 on:
   push:
@@ -19,6 +19,7 @@ defaults:
 
 jobs:
   test-worker:
+    name: Cloudflare Workers Tests
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     permissions:
@@ -49,6 +50,7 @@ jobs:
           GITHUB_TOKEN: ${{ github.token }}
 
   actions-timeline:
+    name: Generate Actions Timeline
     needs:
       - test-worker
     if: ${{ !cancelled() }}

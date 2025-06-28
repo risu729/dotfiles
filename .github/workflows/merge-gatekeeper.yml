@@ -12,6 +12,7 @@ permissions: {}
 
 jobs:
   merge-gatekeeper:
+    name: Merge Gatekeeper
     runs-on: ubuntu-24.04
     # set the longest timeout of all jobs
     timeout-minutes: 30
@@ -25,6 +26,22 @@ jobs:
         uses: upsidr/merge-gatekeeper@09af7a82c1666d0e64d2bd8c01797a0bcfd3bb5d # v1.2.1
         with:
           token: ${{ github.token }}
-          ignored: actions-timeline
+          ignored: Generate Actions Timeline, Merge Gatekeeper
           # use timeout-minutes instead of timeout
           timeout: 3600
+
+  actions-timeline:
+    name: Generate Actions Timeline
+    needs:
+      - merge-gatekeeper
+    if: ${{ !cancelled() }}
+
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    permissions:
+      actions: read # for actions-timeline
+
+    steps:
+      - name: actions-timeline
+        # cspell:ignore kesin
+        uses: Kesin11/actions-timeline@427ee2cf860166e404d0d69b4f2b24012bb7af4f # v2.2.3

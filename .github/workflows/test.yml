@@ -1,4 +1,4 @@
-name: Test installer on Linux
+name: Test Installer on Linux
 
 on:
   push:
@@ -19,13 +19,14 @@ defaults:
 
 jobs:
   test-linux:
+    name: Test Installer Scripts on WSL Ubuntu Image
     runs-on: ubuntu-24.04
     timeout-minutes: 30
     permissions:
       contents: read # for checkout
 
     container:
-      image: ghcr.io/risu729/dotfiles/wsl:24.04.20250625@sha256:0d5e265193bc50f249c6160dd0cce88ec1a65f4d40df3dd15f2eb683ed39aff4
+      image: ghcr.io/risu729/dotfiles/wsl:24.04.20250627@sha256:3c67477573ca404ac3229949cbf562fc7bbbb4dd701620139aa38dabdb843d0b
 
     services:
       worker:
@@ -52,8 +53,10 @@ jobs:
           __CI: true
           # use head sha for pull requests because github.sha is set to the merge commit
           SHA: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.sha }}
+          MISE_LOG_LEVEL: ${{ runner.debug == '1' && 'debug' || 'info' }}
 
   actions-timeline:
+    name: Generate Actions Timeline
     needs:
       - test-linux
     if: ${{ !cancelled() }}

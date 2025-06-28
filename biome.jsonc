@@ -1,6 +1,6 @@
 {
 	// ref: https://next.biomejs.dev/reference/configuration/
-	"$schema": "https://biomejs.dev/schemas/2.0.5/schema.json",
+	"$schema": "https://biomejs.dev/schemas/2.0.6/schema.json",
 	"assist": {
 		"actions": {
 			"source": {
@@ -44,7 +44,9 @@
 				"noAwaitInLoop": "on",
 				"noBitwiseOperators": "on",
 				"noConstantBinaryExpression": "on",
+				"noExcessiveLinesPerFunction": "off",
 				"noGlobalDirnameFilename": "on",
+				"noImplicitCoercion": "on",
 				// cspell:ignore noninteractive
 				"noNoninteractiveElementInteractions": "on",
 				"noProcessGlobal": "on",
@@ -52,6 +54,7 @@
 				"noSecrets": "on",
 				"noShadow": "on",
 				"noTsIgnore": "on",
+				"noUnassignedVariables": "on",
 				// included in project domain, but ignore as it causes many false positives
 				"noUnresolvedImports": "off",
 				"noUselessBackrefInRegex": "on",
@@ -68,9 +71,11 @@
 				"useNumericSeparators": "on",
 				"useObjectSpread": "on",
 				"useParseIntRadix": "on",
+				"useReadonlyClassProperties": "on",
 				"useSingleJsDocAsterisk": "on",
 				"useSortedClasses": "on",
-				"useSymbolDescription": "on"
+				"useSymbolDescription": "on",
+				"useUnifiedTypeSignature": "on"
 			},
 			"performance": {
 				"noBarrelFile": "on",

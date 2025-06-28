@@ -13,6 +13,7 @@ defaults:
 
 jobs:
   update-prs:
+    name: Update PRs
     runs-on: ubuntu-24.04
     timeout-minutes: 5
     permissions:
@@ -65,6 +66,7 @@ jobs:
         continue-on-error: true
 
   actions-timeline:
+    name: Generate Actions Timeline
     needs:
       - update-prs
     if: ${{ !cancelled() }}
