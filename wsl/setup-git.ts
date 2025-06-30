@@ -1,5 +1,8 @@
 #!/usr/bin/env bun
 
+// biome-ignore-all lint/performance/useTopLevelRegex: allow in scripts
+// biome-ignore-all lint/suspicious/noConsole: allow in scripts
+
 import { mkdtemp, rmdir } from "node:fs/promises";
 import { homedir, tmpdir } from "node:os";
 import { join, resolve } from "node:path";
