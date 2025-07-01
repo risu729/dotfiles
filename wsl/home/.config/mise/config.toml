@@ -34,6 +34,7 @@ watchexec = "latest"
 
 # cli tools
 jq = "latest"
+yq = "latest"
 github-cli = "latest"
 # cspell:ignore siketyan
 "ubi:siketyan/ghr" = "latest"
