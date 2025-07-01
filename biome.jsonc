@@ -1,10 +1,9 @@
 {
-	// ref: https://next.biomejs.dev/reference/configuration/
+	// ref: https://biomejs.dev/reference/configuration/
 	"$schema": "https://biomejs.dev/schemas/2.0.6/schema.json",
 	"assist": {
 		"actions": {
 			"source": {
-				"useSortedAttributes": "on",
 				"useSortedKeys": "on"
 			}
 		}
@@ -44,16 +43,14 @@
 				"noAwaitInLoop": "on",
 				"noBitwiseOperators": "on",
 				"noConstantBinaryExpression": "on",
+				"noExcessiveLinesPerFunction": "off",
 				"noGlobalDirnameFilename": "on",
-				// cspell:ignore noninteractive
-				"noNoninteractiveElementInteractions": "on",
+				"noImplicitCoercion": "on",
 				"noProcessGlobal": "on",
-				"noReactPropAssign": "on",
 				"noSecrets": "on",
 				"noShadow": "on",
 				"noTsIgnore": "on",
-				// included in project domain, but ignore as it causes many false positives
-				"noUnresolvedImports": "off",
+				"noUnassignedVariables": "on",
 				"noUselessBackrefInRegex": "on",
 				"noUselessEscapeInString": "on",
 				"noUselessUndefined": "on",
@@ -68,9 +65,10 @@
 				"useNumericSeparators": "on",
 				"useObjectSpread": "on",
 				"useParseIntRadix": "on",
+				"useReadonlyClassProperties": "on",
 				"useSingleJsDocAsterisk": "on",
-				"useSortedClasses": "on",
-				"useSymbolDescription": "on"
+				"useSymbolDescription": "on",
+				"useUnifiedTypeSignature": "on"
 			},
 			"performance": {
 				"noBarrelFile": "on",
@@ -105,12 +103,6 @@
 				"useBlockStatements": "on",
 				"useCollapsedElseIf": "on",
 				"useCollapsedIf": "on",
-				"useComponentExportOnlyModules": {
-					"level": "on",
-					"options": {
-						"allowExportNames": ["metadata"]
-					}
-				},
 				"useConsistentArrayType": "on",
 				"useConsistentBuiltinInstantiation": "on",
 				"useConsistentCurlyBraces": "on",
@@ -122,11 +114,9 @@
 				// cspell:ignore filenaming
 				"useFilenamingConvention": "on",
 				"useForOf": "on",
-				"useFragmentSyntax": "on",
 				"useNamingConvention": "on",
 				"useNodeAssertStrict": "on",
 				"useNumberNamespace": "on",
-				"useSelfClosingElements": "on",
 				"useShorthandAssign": "on",
 				"useSingleVarDeclarator": "on",
 				"useThrowNewError": "on",
