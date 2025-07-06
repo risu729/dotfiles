@@ -1,7 +1,7 @@
 # ref: https://mise.jdx.dev/configuration.html#global-config-config-mise-config-toml
 #:schema https://mise.jdx.dev/schema/mise.json
 
-min_version = "2025.6.8"
+min_version = "2025.7.0"
 
 [env]
 # disable bat paging
@@ -34,6 +34,7 @@ watchexec = "latest"
 
 # cli tools
 jq = "latest"
+yq = "latest"
 github-cli = "latest"
 # cspell:ignore siketyan
 "ubi:siketyan/ghr" = "latest"
@@ -46,7 +47,7 @@ fd = "latest"
 xh = "latest"
 jd = "latest"
 sd = "latest"
-"npm:@google/gemini-cli" = "latest"
+gemini-cli = "latest"
 
 # biome vs code extension requires global installation
 biome = "latest"
