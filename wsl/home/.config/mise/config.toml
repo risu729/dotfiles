@@ -37,7 +37,7 @@ jq = "latest"
 yq = "latest"
 github-cli = "latest"
 # cspell:ignore siketyan
-"ubi:siketyan/ghr" = "latest"
+"aqua:siketyan/ghr" = "latest"
 jc = "latest"
 delta = "latest"
 ripgrep = "latest"
