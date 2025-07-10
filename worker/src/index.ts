@@ -97,5 +97,4 @@ app.get("/:os{win|wsl}", async ({ req, text }) => {
 });
 
 // biome-ignore lint/style/noDefaultExport: required by hono
-// biome-ignore lint/correctness/noUndeclaredVariables: declared in worker-configuration.d.ts
 export default app satisfies ExportedHandler;
