@@ -151,20 +151,6 @@
 					}
 				}
 			}
-		},
-		{
-			// disable noConsole and useTopLevelRegex rules for scripts
-			"includes": ["wsl/setup-git.ts"],
-			"linter": {
-				"rules": {
-					"performance": {
-						"useTopLevelRegex": "off"
-					},
-					"suspicious": {
-						"noConsole": "off"
-					}
-				}
-			}
 		}
 	],
 	"vcs": {
