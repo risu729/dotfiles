@@ -4,7 +4,7 @@
 		"hono": "4.8.4"
 	},
 	"devDependencies": {
-		"@cloudflare/vite-plugin": "1.9.3",
+		"@cloudflare/vite-plugin": "1.9.4",
 		"@cloudflare/vitest-pool-workers": "0.8.51",
 		"@risu729/tsconfigs": "1.0.1",
 		"@types/bun": "1.2.18",
