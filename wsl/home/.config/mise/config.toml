@@ -58,7 +58,7 @@ numbat = "latest"
 # mise development
 aqua = "latest"
 # cspell:ignore vfox
-"aqua:version-fox/vfox" = "latest"
+vfox = "latest"
 
 [settings]
 pin = true
