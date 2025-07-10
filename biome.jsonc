@@ -46,6 +46,7 @@
 				"noExcessiveLinesPerFunction": "off",
 				"noGlobalDirnameFilename": "on",
 				"noImplicitCoercion": "on",
+				"noMisusedPromises": "on",
 				"noProcessGlobal": "on",
 				// many false positives
 				"noSecrets": "off",
