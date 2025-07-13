@@ -67,6 +67,9 @@
 				},
 				{
 					"PackageIdentifier": "Logitech.OptionsPlus"
+				},
+				{
+					"PackageIdentifier": "jdx.mise"
 				}
 			],
 			"SourceDetails": {
