@@ -43,7 +43,8 @@ install_system_packages() {
 		zip unzip \
 		build-essential pkg-config libssl-dev \
 		clang clangd clang-format llvm \
-		xdg-utils strace
+		xdg-utils desktop-file-utils \
+		strace
 	log_info "Core packages installed."
 }
 
@@ -282,6 +283,12 @@ init_gnupg_dir() {
 	log_info "GnuPG directory created."
 }
 
+update_desktop_database() {
+	log_info "Updating desktop database..."
+	sudo update-desktop-database
+	log_info "Desktop database updated."
+}
+
 run_git_setup_script() {
 	local dotfiles_repo_root_path="$1"
 	local setup_script_path="${dotfiles_repo_root_path}/wsl/setup-git.ts"
@@ -326,6 +333,8 @@ main() {
 	symlink_gitconfig "${wsl_config_dir}"
 
 	init_gnupg_dir
+
+	update_desktop_database
 
 	run_git_setup_script "${dotfiles_dir}"
 

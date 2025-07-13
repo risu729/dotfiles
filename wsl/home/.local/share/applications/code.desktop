@@ -3,4 +3,5 @@ Name=Visual Studio Code
 GenericName=Text Editor
 Exec=code %U
 Type=Application
+Terminal=false
 MimeType=text/plain;inode/directory;
