@@ -42,7 +42,7 @@ install_system_packages() {
 	sudo apt-get install --yes \
 		zip unzip \
 		build-essential pkg-config libssl-dev \
-		clang clangd clang-format llvm \
+		clang clangd clang-format llvm gdb \
 		xdg-utils desktop-file-utils \
 		strace
 	log_info "Core packages installed."
