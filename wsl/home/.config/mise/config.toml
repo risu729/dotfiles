@@ -1,7 +1,7 @@
 # ref: https://mise.jdx.dev/configuration.html#global-config-config-mise-config-toml
 #:schema https://mise.jdx.dev/schema/mise.json
 
-min_version = "2025.7.0"
+min_version = "2025.7.4"
 
 [env]
 # disable bat paging
@@ -37,7 +37,7 @@ jq = "latest"
 yq = "latest"
 github-cli = "latest"
 # cspell:ignore siketyan
-"ubi:siketyan/ghr" = "latest"
+"aqua:siketyan/ghr" = "latest"
 jc = "latest"
 delta = "latest"
 ripgrep = "latest"
@@ -58,7 +58,7 @@ numbat = "latest"
 # mise development
 aqua = "latest"
 # cspell:ignore vfox
-"aqua:version-fox/vfox" = "latest"
+vfox = "latest"
 
 [settings]
 pin = true
