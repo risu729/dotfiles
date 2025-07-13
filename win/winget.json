@@ -31,6 +31,9 @@
 					"PackageIdentifier": "Termius.Termius"
 				},
 				{
+					"PackageIdentifier": "Microsoft.Edit"
+				},
+				{
 					"PackageIdentifier": "Microsoft.VisualStudioCode.Insiders"
 				},
 				{
