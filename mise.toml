@@ -7,7 +7,7 @@ min_version = "2025.7.17"
 PS_SCRIPT_ANALYZER_VERSION = "1.24.0"
 
 [tools]
-bun = "1.2.18"
+bun = "1.2.19"
 node = "24.4.1"
 biome = "2.1.2"
 actionlint = "1.7.7"
