@@ -31,6 +31,9 @@
 					"PackageIdentifier": "Termius.Termius"
 				},
 				{
+					"PackageIdentifier": "Microsoft.Edit"
+				},
+				{
 					"PackageIdentifier": "Microsoft.VisualStudioCode.Insiders"
 				},
 				{
@@ -67,6 +70,9 @@
 				},
 				{
 					"PackageIdentifier": "Logitech.OptionsPlus"
+				},
+				{
+					"PackageIdentifier": "jdx.mise"
 				}
 			],
 			"SourceDetails": {

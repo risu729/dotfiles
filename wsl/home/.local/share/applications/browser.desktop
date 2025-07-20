@@ -1,0 +1,7 @@
+[Desktop Entry]
+Name=Windows Default Browser
+GenericName=Web Browser
+Exec=powershell.exe -c Start-Process %U
+Type=Application
+Terminal=false
+MimeType=text/html;x-scheme-handler/http;x-scheme-handler/https;
