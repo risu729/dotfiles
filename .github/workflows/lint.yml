@@ -38,7 +38,7 @@ jobs:
         uses: jdx/mise-action@eb2f5cb41b0a8175dad2f797e3daca6fe7795a19 # v2.4.2
         with:
           version: 2025.7.27
-          sha256: 4a1712f6fe9317074c8ccd426d9de42ab713ffccbdfb835d96a508422810e6a0
+          sha256: fe734fda24998331886ecc7331f157268dcefbdb16fb8489a1181dde5c9f29f3
         env:
           GITHUB_TOKEN: ${{ github.token }}
 
@@ -72,7 +72,7 @@ jobs:
         uses: jdx/mise-action@eb2f5cb41b0a8175dad2f797e3daca6fe7795a19 # v2.4.2
         with:
           version: 2025.7.27
-          sha256: 4a1712f6fe9317074c8ccd426d9de42ab713ffccbdfb835d96a508422810e6a0
+          sha256: fe734fda24998331886ecc7331f157268dcefbdb16fb8489a1181dde5c9f29f3
         env:
           GITHUB_TOKEN: ${{ github.token }}
 
@@ -117,7 +117,7 @@ jobs:
         uses: jdx/mise-action@eb2f5cb41b0a8175dad2f797e3daca6fe7795a19 # v2.4.2
         with:
           version: 2025.7.27
-          sha256: 4a1712f6fe9317074c8ccd426d9de42ab713ffccbdfb835d96a508422810e6a0
+          sha256: fe734fda24998331886ecc7331f157268dcefbdb16fb8489a1181dde5c9f29f3
         env:
           GITHUB_TOKEN: ${{ github.token }}
 
