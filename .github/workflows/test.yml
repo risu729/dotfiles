@@ -26,7 +26,7 @@ jobs:
       contents: read # for checkout
 
     container:
-      image: ghcr.io/risu729/dotfiles/wsl:24.04.20250727@sha256:c3ba4abf78b1c51db71f226291cdbf0dbf89de9621f685e4cd307bd002f21750
+      image: ghcr.io/risu729/dotfiles/wsl:24.04.20250728@sha256:6caf27159267a6d254df442838b569285eaf11d06d9097b156927cc8f471dfcf
 
     services:
       worker:
