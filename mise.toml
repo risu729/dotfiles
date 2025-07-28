@@ -1,7 +1,7 @@
 # ref: https://mise.jdx.dev/configuration.html
 #:schema https://mise.jdx.dev/schema/mise.json
 
-min_version = "2025.7.27"
+min_version = "2025.7.29"
 
 [vars]
 PS_SCRIPT_ANALYZER_VERSION = "1.24.0"
