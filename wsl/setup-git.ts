@@ -45,6 +45,7 @@ const ensureGitHubTokenScopes = async (): Promise<() => Promise<void>> => {
 
 		let output = "";
 
+		// biome-ignore lint/nursery/noUnnecessaryConditions: intentional infinite loop
 		while (true) {
 			// biome-ignore lint/nursery/noAwaitInLoop: required to read line by line
 			const { done, value } = await reader.read();
@@ -165,6 +166,7 @@ const ghApi = async <ReturnType>(
 ): Promise<ReturnType> => {
 	return await $`gh api ${endpoint} --header "Accept: application/vnd.github+json" --header "X-GitHub-Api-Version: 2022-11-28"${{
 		// disable escapes
+		// biome-ignore lint/nursery/noUnnecessaryConditions: false positive for optional parameter type
 		raw: method ? ` --method ${method}` : "",
 	}}${{
 		raw: fields
@@ -511,6 +513,7 @@ const importGpgSecretKey = async (
 		return;
 	}
 	// retry until valid key is imported or canceled
+	// biome-ignore lint/nursery/noUnnecessaryConditions: intentional infinite loop
 	while (true) {
 		console.info(
 			"Paste the secret key in ASCII armor format. Enter 'quit' to cancel.",

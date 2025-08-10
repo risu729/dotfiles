@@ -47,18 +47,26 @@
 				"noGlobalDirnameFilename": "on",
 				"noImplicitCoercion": "on",
 				"noMisusedPromises": "on",
+				"noNonNullAssertedOptionalChain": "on",
 				"noProcessGlobal": "on",
 				// many false positives
 				"noSecrets": "off",
 				"noShadow": "on",
 				"noTsIgnore": "on",
 				"noUnassignedVariables": "on",
+				"noUnnecessaryConditions": "on",
 				"noUselessBackrefInRegex": "on",
 				"noUselessEscapeInString": "on",
 				"noUselessUndefined": "on",
 				"useAdjacentGetterSetter": "on",
 				"useConsistentObjectDefinition": "on",
 				"useConsistentResponse": "on",
+				"useConsistentTypeDefinitions": {
+					"level": "on",
+					"options": {
+						"style": "type"
+					}
+				},
 				"useExplicitType": "on",
 				"useExportsLast": "on",
 				"useIndexOf": "on",
