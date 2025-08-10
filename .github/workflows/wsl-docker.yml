@@ -87,7 +87,7 @@ jobs:
         id: login
         # create a new package if the package is not found in PR
         if: github.event_name != 'pull_request' || steps.image-info.outputs.latest_tag == ''
-        uses: docker/login-action@74a5d142397b4f367a81961eba4e8cd7edddf772 # v3.4.0
+        uses: docker/login-action@184bdaa0721073962dff0199f1fb9940f07167d1 # v3.5.0
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
