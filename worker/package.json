@@ -7,7 +7,7 @@
 		"@cloudflare/vite-plugin": "1.11.2",
 		"@cloudflare/vitest-pool-workers": "0.8.61",
 		"@risu729/tsconfigs": "1.0.1",
-		"@types/bun": "1.2.19",
+		"@types/bun": "1.2.20",
 		"@vitest/ui": "3.2.4",
 		"diff": "8.0.2",
 		"typescript": "5.9.2",
