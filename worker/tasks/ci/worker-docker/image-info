@@ -7,7 +7,9 @@ set -euo pipefail
 mise_version_json=$(mise version --json)
 # cspell:ignore gsub
 mise_version=$(echo "${mise_version_json}" | jq --raw-output '.version | split(" ") [0]')
-mise_version_number=${mise_version//./}
+mise_version_number=$(
+	IFS=. read -r year month day _ <<<"${mise_version}" && printf '%s%02d%02d' "${year}" "${month:-0}" "${day:-0}"
+)
 
 echo "mise version: ${mise_version}"
 
