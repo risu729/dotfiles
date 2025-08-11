@@ -1,5 +1,5 @@
 {
-  "preferredEditor": "vscode",
-  "selectedAuthType": "gemini-api-key",
-  "theme": "Google Code"
+	"preferredEditor": "vscode",
+	"selectedAuthType": "gemini-api-key",
+	"theme": "Google Code"
 }
