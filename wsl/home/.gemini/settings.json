@@ -1,5 +1,7 @@
 {
+	"hasSeenIdeIntegrationNudge": true,
+	"ideMode": true,
 	"preferredEditor": "vscode",
-	"selectedAuthType": "oauth-personal",
+	"selectedAuthType": "gemini-api-key",
 	"theme": "Google Code"
 }
