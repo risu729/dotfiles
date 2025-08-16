@@ -9,7 +9,7 @@
       "devDependencies": {
         "@cloudflare/vite-plugin": "1.11.5",
         "@cloudflare/vitest-pool-workers": "0.8.64",
-        "@risu729/tsconfigs": "1.0.1",
+        "@risu729/tsconfigs": "2.0.0",
         "@types/bun": "1.2.20",
         "@vitest/ui": "3.2.4",
         "diff": "8.0.2",
@@ -147,7 +147,7 @@
 
     "@poppinss/exception": ["@poppinss/exception@1.2.2", "", {}, "sha512-m7bpKCD4QMlFCjA/nKTs23fuvoVFoA83brRKmObCUNmi/9tVu8Ve3w4YQAnJu4q3Tjf5fr685HYIC/IA2zHRSg=="],
 
-    "@risu729/tsconfigs": ["@risu729/tsconfigs@1.0.1", "", {}, "sha512-aOXwG0bxFmZw9D/eD8mOQTd3qPt/9X7G1u20a3xz/xmpMmbLZdwsU/rH4lAVBem9EO9F/gQawiETeChu6Ta/vw=="],
+    "@risu729/tsconfigs": ["@risu729/tsconfigs@2.0.0", "", {}, "sha512-j0Tx/OeacDkCN0IiaU/cp3bF6s+nNydCq3nK3lUA3fUU/pwcHrTwnOP917AsRpsRu4RcLWWNpgl3Z4bqzNvv9w=="],
 
     "@rollup/plugin-replace": ["@rollup/plugin-replace@6.0.2", "", { "dependencies": { "@rollup/pluginutils": "^5.0.1", "magic-string": "^0.30.3" }, "peerDependencies": { "rollup": "^1.20.0||^2.0.0||^3.0.0||^4.0.0" }, "optionalPeers": ["rollup"] }, "sha512-7QaYCf8bqF04dOy7w/eHmJeNExxTYwvKAmlSAH/EaWWUzbT0h5sbF6bktFoX/0F/0qwng5/dWFMyf3gzaM8DsQ=="],
 
