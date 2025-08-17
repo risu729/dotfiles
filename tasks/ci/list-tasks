@@ -12,7 +12,7 @@ output=$(echo "${tasks}" | jq --raw-output --compact-output \
 			name: (.name | sub("^.+:" ; "")),
 			task: .name,
 			require_gh_token: any(.env[]; test("env\\.GITHUB_TOKEN")) | tostring,
-			cache_path: (.env["CACHE_PATH"] // ""),
+			cache_path: ([.env[] | select(startswith("CACHE_PATH=")) | sub("^CACHE_PATH="; "")] | first // ""),
 		}
 	)')
 

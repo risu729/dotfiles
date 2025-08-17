@@ -45,8 +45,9 @@ const ensureGitHubTokenScopes = async (): Promise<() => Promise<void>> => {
 
 		let output = "";
 
+		// biome-ignore lint/nursery/noUnnecessaryConditions: intentional infinite loop
 		while (true) {
-			// biome-ignore lint/nursery/noAwaitInLoop: required to read line by line
+			// biome-ignore lint/performance/noAwaitInLoops: required to read line by line
 			const { done, value } = await reader.read();
 			if (done) {
 				break;
@@ -165,6 +166,7 @@ const ghApi = async <ReturnType>(
 ): Promise<ReturnType> => {
 	return await $`gh api ${endpoint} --header "Accept: application/vnd.github+json" --header "X-GitHub-Api-Version: 2022-11-28"${{
 		// disable escapes
+		// biome-ignore lint/nursery/noUnnecessaryConditions: false positive for optional parameter type
 		raw: method ? ` --method ${method}` : "",
 	}}${{
 		raw: fields
@@ -511,12 +513,13 @@ const importGpgSecretKey = async (
 		return;
 	}
 	// retry until valid key is imported or canceled
+	// biome-ignore lint/nursery/noUnnecessaryConditions: intentional infinite loop
 	while (true) {
 		console.info(
 			"Paste the secret key in ASCII armor format. Enter 'quit' to cancel.",
 		);
 		const lines: string[] = [];
-		// biome-ignore lint/nursery/noAwaitInLoop: required to read line by line
+		// biome-ignore lint/performance/noAwaitInLoops: required to read line by line
 		for await (const line of console) {
 			if (line === "-----END PGP PRIVATE KEY BLOCK-----") {
 				break;
@@ -1232,7 +1235,7 @@ const configureGitSign = async (
 		console.warn("Unrevoked old GPG key registered to GitHub found.");
 		for (const githubKey of revokableGithubKeys) {
 			if (
-				// biome-ignore lint/nursery/noAwaitInLoop: required to wait for user input
+				// biome-ignore lint/performance/noAwaitInLoops: required to wait for user input
 				!(await askYesNo(
 					`Do you want to revoke the key ${githubKey.name} (${githubKey.key_id})?`,
 				))
