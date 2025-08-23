@@ -47,6 +47,7 @@ $RECYCLE.BIN/
 
 # General
 .DS_Store
+__MACOSX/
 .AppleDouble
 .LSOverride
 Icon[]
