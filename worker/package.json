@@ -5,7 +5,7 @@
 	},
 	"devDependencies": {
 		"@cloudflare/vite-plugin": "1.12.1",
-		"@cloudflare/vitest-pool-workers": "0.8.68",
+		"@cloudflare/vitest-pool-workers": "0.8.69",
 		"@risu729/tsconfigs": "2.0.0",
 		"@types/bun": "1.2.21",
 		"@vitest/ui": "3.2.4",
