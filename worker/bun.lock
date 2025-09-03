@@ -4,7 +4,7 @@
     "": {
       "name": "@risu729/dotfiles-worker",
       "dependencies": {
-        "hono": "4.9.5",
+        "hono": "4.9.6",
       },
       "devDependencies": {
         "@cloudflare/vite-plugin": "1.12.2",
@@ -291,7 +291,7 @@
 
     "glob-to-regexp": ["glob-to-regexp@0.4.1", "", {}, "sha512-lkX1HJXwyMcprw/5YUZc2s7DrpAiHB21/V+E1rHUrVNokkvB6bqMzT0VfV6/86ZNabt1k14YOIaT7nDvOX3Iiw=="],
 
-    "hono": ["hono@4.9.5", "", {}, "sha512-aLAVl5/67ifNnoFVxnhR89dpmSLsgwBprw/PT671ASwUpJqmd7Ne8KPTQo37DbRZfgpHaHeZ4bPVUvbOkeedMw=="],
+    "hono": ["hono@4.9.6", "", {}, "sha512-doVjXhSFvYZ7y0dNokjwwSahcrAfdz+/BCLvAMa/vHLzjj8+CFyV5xteThGUsKdkaasgN+gF2mUxao+SGLpUeA=="],
 
     "is-arrayish": ["is-arrayish@0.3.2", "", {}, "sha512-eVRqCvVlZbuw3GrM63ovNSNAeA1K16kaR/LRY/92w0zxQ5/1YzwblUX652i4Xs9RwAGjW9d9y6X88t8OaAJfWQ=="],
 
