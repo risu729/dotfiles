@@ -16,3 +16,7 @@ Rust.gitignore
 Go.gitignore
 Python.gitignore
 C.gitignore
+
+[inline]
+!env/
+!ENV/
