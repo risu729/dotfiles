@@ -1,15 +1,15 @@
 # ref: https://mise.jdx.dev/configuration.html
 #:schema https://mise.jdx.dev/schema/mise.json
 
-min_version = "2025.9.4"
+min_version = "2025.9.10"
 
 [vars]
 PS_SCRIPT_ANALYZER_VERSION = "1.24.0"
 
 [tools]
 bun = "1.2.21"
-node = "24.7.0"
-biome = "2.2.3"
+node = "24.8.0"
+biome = "2.2.4"
 actionlint = "1.7.7"
 ghalint = "1.5.3"
 pinact = "3.4.2"
@@ -22,7 +22,7 @@ shellcheck = "0.11.0"
 yamlfmt = "0.17.2"
 # cspell:ignore pipx
 # required for pipx backend
-uv = "0.8.15"
+uv = "0.8.17"
 yamllint = "1.37.1"
 cspell = "9.2.1"
 # cspell:ignore lycheeverse
@@ -35,7 +35,7 @@ hadolint = "2.13.1"
 # pwsh is not executable so postinstall is required
 # ref: https://github.com/PowerShell/PowerShell/issues/23968
 # ref: https://github.com/jdx/mise/discussions/4189
-powershell = { version = "7.5.2", postinstall = """
+powershell = { version = "7.5.3", postinstall = """
 chmod +x $(find $(mise where powershell) -name pwsh)
 """ }
 
