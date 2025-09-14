@@ -9,7 +9,7 @@
 		"@risu729/tsconfigs": "2.0.0",
 		"@types/bun": "1.2.21",
 		"commitizen": "4.3.1",
-		"jschema-validator": "1.0.19",
+		"jschema-validator": "1.0.20",
 		"prettier": "3.6.2",
 		"typescript": "5.9.2"
 	},

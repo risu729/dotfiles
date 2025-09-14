@@ -12,7 +12,7 @@
         "@risu729/tsconfigs": "2.0.0",
         "@types/bun": "1.2.21",
         "commitizen": "4.3.1",
-        "jschema-validator": "1.0.19",
+        "jschema-validator": "1.0.20",
         "prettier": "3.6.2",
         "typescript": "5.9.2",
       },
@@ -67,7 +67,7 @@
 
     "@risu729/tsconfigs": ["@risu729/tsconfigs@2.0.0", "", {}, "sha512-j0Tx/OeacDkCN0IiaU/cp3bF6s+nNydCq3nK3lUA3fUU/pwcHrTwnOP917AsRpsRu4RcLWWNpgl3Z4bqzNvv9w=="],
 
-    "@sindresorhus/is": ["@sindresorhus/is@7.0.2", "", {}, "sha512-d9xRovfKNz1SKieM0qJdO+PQonjnnIfSNWfHYnBSJ9hkjm0ZPw6HlxscDXYstp3z+7V2GOFHc+J0CYrYTjqCJw=="],
+    "@sindresorhus/is": ["@sindresorhus/is@7.1.0", "", {}, "sha512-7F/yz2IphV39hiS2zB4QYVkivrptHHh0K8qJJd9HhuWSdvf8AN7NpebW3CcDZDBQsUPMoDKWsY2WWgW7bqOcfA=="],
 
     "@types/bun": ["@types/bun@1.2.21", "", { "dependencies": { "bun-types": "1.2.21" } }, "sha512-NiDnvEqmbfQ6dmZ3EeUO577s4P5bf4HCTXtI6trMc6f6RzirY5IrF3aIookuSpyslFzrnvv2lmEWv5HyC1X79A=="],
 
@@ -287,7 +287,7 @@
 
     "js-yaml": ["js-yaml@4.1.0", "", { "dependencies": { "argparse": "^2.0.1" }, "bin": { "js-yaml": "bin/js-yaml.js" } }, "sha512-wpxZs9NoxZaJESJGIZTyDEaYpl0FKSA+FB9aJiyemKhMwkxQg63h4T1KJgUGHpTqPDNRcmmYLugrRjJlBtWvRA=="],
 
-    "jschema-validator": ["jschema-validator@1.0.19", "", { "dependencies": { "@sindresorhus/is": "7.0.2", "ajv": "8.17.1", "ajv-draft-04": "1.0.0", "ajv-formats": "3.0.1", "c12": "3.2.0", "consola": "3.4.2", "ignore-walk": "8.0.0", "json5": "2.2.3", "jsonc-parser": "3.3.1", "meow": "13.2.0" }, "bin": { "jschema-validator": "dist/bin.js" } }, "sha512-NPXlYfHa0FaCggf7xMOT++jlHDkT+AOreef6C+ui9Rzv22QfCAXS2OiqtKpmLGNeiZUkc3h0W3z4ayFdiYDhww=="],
+    "jschema-validator": ["jschema-validator@1.0.20", "", { "dependencies": { "@sindresorhus/is": "7.1.0", "ajv": "8.17.1", "ajv-draft-04": "1.0.0", "ajv-formats": "3.0.1", "c12": "3.2.0", "consola": "3.4.2", "ignore-walk": "8.0.0", "json5": "2.2.3", "jsonc-parser": "3.3.1", "meow": "13.2.0" }, "bin": { "jschema-validator": "dist/bin.js" } }, "sha512-diwheQWdXbn9IMlB+T2SvLtpkkS2AjRziBKK8MuaodGs596m9Mkoy/Ry0+PolTtXp6krKIC/Bg/RASDdZYQvtg=="],
 
     "json-parse-even-better-errors": ["json-parse-even-better-errors@2.3.1", "", {}, "sha512-xyFwyhro/JEof6Ghe2iz2NcXoj2sloNsWr/XsERDK/oiPCfaNhl5ONfp+jQdAZRQQ0IJWNzH9zIZF7li91kh2w=="],
 
