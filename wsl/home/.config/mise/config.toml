@@ -1,7 +1,7 @@
 # ref: https://mise.jdx.dev/configuration.html#global-config-config-mise-config-toml
 #:schema https://mise.jdx.dev/schema/mise.json
 
-min_version = "2025.9.10"
+min_version = "2025.9.13"
 
 [env]
 # disable bat paging
@@ -11,7 +11,7 @@ BAT_PAGING = "never"
 # language tools
 node = "latest"
 bun = "latest"
-"aqua:yarn" = "latest"
+yarn = "latest"
 pnpm = "latest"
 java = "latest"
 gradle = "latest"
