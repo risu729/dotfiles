@@ -31,7 +31,7 @@ typos = "1.36.2"
 "npm:ignore-sync" = "8.0.0"
 "npm:jschema-validator" = "1.0.22"
 jc = "1.25.5"
-hadolint = "2.13.1"
+hadolint = "2.14.0"
 # pwsh is not executable so postinstall is required
 # ref: https://github.com/PowerShell/PowerShell/issues/23968
 # ref: https://github.com/jdx/mise/discussions/4189
