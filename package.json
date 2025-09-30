@@ -1,9 +1,9 @@
 {
 	"$schema": "https://json.schemastore.org/package.json",
 	"devDependencies": {
-		"@commitlint/cli": "20.0.0",
+		"@commitlint/cli": "20.1.0",
 		"@commitlint/config-conventional": "20.0.0",
-		"@commitlint/cz-commitlint": "20.0.0",
+		"@commitlint/cz-commitlint": "20.1.0",
 		"@commitlint/types": "20.0.0",
 		"@cspell/cspell-types": "9.2.1",
 		"@risu729/tsconfigs": "2.0.0",
