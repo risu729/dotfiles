@@ -23,10 +23,6 @@ cargo-binstall = "latest"
 uv = "latest"
 # for completion
 usage = "latest"
-# for aqua backend verification
-cosign = "latest"
-# cspell:ignore slsa
-slsa-verifier = "latest"
 # cspell:ignore watchexec
 watchexec = "latest"
 
