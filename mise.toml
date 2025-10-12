@@ -1,7 +1,7 @@
 # ref: https://mise.jdx.dev/configuration.html
 #:schema https://mise.jdx.dev/schema/mise.json
 
-min_version = "2025.10.2"
+min_version = "2025.10.6"
 
 [vars]
 PS_SCRIPT_ANALYZER_VERSION = "1.24.0"
@@ -22,12 +22,12 @@ shellcheck = "0.11.0"
 yamlfmt = "0.17.2"
 # cspell:ignore pipx
 # required for pipx backend
-uv = "0.8.23"
+uv = "0.9.1"
 yamllint = "1.37.1"
 cspell = "9.2.1"
 # cspell:ignore lycheeverse
 lychee = "0.20.1"
-typos = "1.37.2"
+typos = "1.38.1"
 "npm:ignore-sync" = "8.0.0"
 "npm:jschema-validator" = "1.0.22"
 jc = "1.25.5"
