@@ -1,24 +1,24 @@
 {
 	"$schema": "https://raw.githubusercontent.com/google-gemini/gemini-cli/main/schemas/settings.schema.json",
 	"general": {
-		"preferredEditor": "vscode",
 		"disableAutoUpdate": true,
 		"disableUpdateNag": true,
 		"enablePromptCompletion": true,
+		"preferredEditor": "vscode",
 		"retryFetchErrors": true
-	},
-	"ui": {
-		"theme": "Google Code"
 	},
 	"ide": {
 		"enabled": true,
 		"hasSeenNudge": true
 	},
 	"tools": {
+		"autoAccept": true,
 		"shell": {
 			"showColor": true
 		},
-		"autoAccept": true,
 		"useRipgrep": true
+	},
+	"ui": {
+		"theme": "Google Code"
 	}
 }
