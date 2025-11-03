@@ -1,7 +1,24 @@
 {
-	"hasSeenIdeIntegrationNudge": true,
-	"ideMode": true,
-	"preferredEditor": "vscode",
-	"selectedAuthType": "oauth-personal",
-	"theme": "Google Code"
+	"$schema": "https://raw.githubusercontent.com/google-gemini/gemini-cli/main/schemas/settings.schema.json",
+	"general": {
+		"preferredEditor": "vscode",
+		"disableAutoUpdate": true,
+		"disableUpdateNag": true,
+		"enablePromptCompletion": true,
+		"retryFetchErrors": true
+	},
+	"ui": {
+		"theme": "Google Code"
+	},
+	"ide": {
+		"enabled": true,
+		"hasSeenNudge": true
+	},
+	"tools": {
+		"shell": {
+			"showColor": true
+		},
+		"autoAccept": true,
+		"useRipgrep": true
+	}
 }
