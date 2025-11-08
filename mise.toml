@@ -24,7 +24,7 @@ yamlfmt = "0.20.0"
 # required for pipx backend
 uv = "0.9.8"
 yamllint = "1.37.1"
-cspell = "9.2.2"
+cspell = "9.3.0"
 # cspell:ignore lycheeverse
 lychee = "0.21.0"
 typos = "1.39.0"
