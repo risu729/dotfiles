@@ -11,6 +11,11 @@
 		"enabled": true,
 		"hasSeenNudge": true
 	},
+	"security": {
+		"auth": {
+			"selectedType": "oauth-personal"
+		}
+	},
 	"tools": {
 		"autoAccept": true,
 		"shell": {
