@@ -43,8 +43,22 @@ jd = "latest"
 sd = "latest"
 gemini-cli = "latest"
 
-# biome vs code extension requires global installation
+# linter/formatter tools
 biome = "latest"
+actionlint = "latest"
+ghalint = "latest"
+pinact = "latest"
+zizmor = "latest"
+taplo = "latest"
+prettier = "latest"
+shfmt = "latest"
+shellcheck = "latest"
+yamlfmt = "latest"
+yamllint = "latest"
+cspell = "latest"
+lychee = "latest"
+typos = "latest"
+hadolint = "latest"
 
 # uni tools
 numbat = "latest"
