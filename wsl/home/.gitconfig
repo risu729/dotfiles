@@ -29,5 +29,6 @@
 
 [alias]
 	sm = switch main
+	sync = !curr=$(git rev-parse --abbrev-ref HEAD) && git fetch --all && git submodule update --init --recursive && git pull --ff-only upstream \"$curr\" && git push origin \"$curr\"
 [gpg]
 	program = gpg
