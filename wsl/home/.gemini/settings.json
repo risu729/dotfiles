@@ -5,6 +5,7 @@
 		"disableUpdateNag": true,
 		"enablePromptCompletion": true,
 		"preferredEditor": "vscode",
+		"previewFeatures": true,
 		"retryFetchErrors": true
 	},
 	"ide": {
