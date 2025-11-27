@@ -700,3 +700,4 @@ dkms.conf
 
 !env/
 !ENV/
+mise-local-tasks/
