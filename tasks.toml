@@ -115,6 +115,13 @@ description = "Run hadolint to lint Dockerfile."
 # SHELLCHECK_OPTS cannot be set in hadolint
 # ref: https://github.com/hadolint/hadolint/issues/469
 
+["check:mise"]
+run = ["mise fmt", "mise task validate"]
+depends_post = [
+	"{% if env.CI is defined %}util:nodiff{% else %}util:donothing{% endif %}",
+]
+description = "Format mise.toml and validate tasks."
+
 ["check:cspell"]
 run = "cspell {% if env.CI is undefined %}--cache{% endif %} \"**/*\""
 description = "Run cspell to check spelling in files."
@@ -161,7 +168,7 @@ description = "Check there are no changes in the repository."
 
 # cspell:ignore donothing
 ["util:donothing"]
-run = ""
+run = ":"
 hide = true
 description = "Do nothing. This is used to skip depends/depends_post."
 
