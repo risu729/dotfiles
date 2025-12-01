@@ -46,20 +46,23 @@
 				"useSingleJsDocAsterisk": "on"
 			},
 			"nursery": {
+				// too strict
+				"noContinue": "off",
+				"noEqualsToNull": "on",
+				"noForIn": "on",
+				"noIncrementDecrement": "on",
 				"noMisusedPromises": "on",
-				"noNonNullAssertedOptionalChain": "on",
-				// many false positives
-				"noSecrets": "off",
+				"noMultiStr": "on",
+				"noParametersOnlyUsedInRecursion": "on",
+				"noProto": "on",
 				"noShadow": "on",
+				// i prefer ternary expressions
+				"noTernary": "off",
 				"noUnnecessaryConditions": "on",
 				"noUselessUndefined": "on",
-				"useConsistentTypeDefinitions": {
-					"level": "on",
-					"options": {
-						"style": "type"
-					}
-				},
-				"useExplicitType": "on"
+				"useExplicitType": "on",
+				"useFind": "on",
+				"useSpread": "on"
 			},
 			"performance": {
 				"noAwaitInLoops": "on",
@@ -68,6 +71,10 @@
 				"noNamespaceImport": "on",
 				"noReExportAll": "on",
 				"useTopLevelRegex": "on"
+			},
+			"security": {
+				// many false positives
+				"noSecrets": "off"
 			},
 			"style": {
 				"noCommonJs": "on",
@@ -100,6 +107,12 @@
 				"useConsistentCurlyBraces": "on",
 				"useConsistentMemberAccessibility": "on",
 				"useConsistentObjectDefinitions": "on",
+				"useConsistentTypeDefinitions": {
+					"level": "on",
+					"options": {
+						"style": "type"
+					}
+				},
 				"useDefaultParameterLast": "on",
 				"useDefaultSwitchClause": "on",
 				"useEnumInitializers": "on",
