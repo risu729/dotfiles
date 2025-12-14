@@ -37,7 +37,7 @@ jobs:
       - name: Install mise
         uses: jdx/mise-action@146a28175021df8ca24f8ee1828cc2a60f980bd5 # v3.5.1
         with:
-          version: 2025.12.0
+          version: 2025.12.4
         env:
           GITHUB_TOKEN: ${{ github.token }}
 
@@ -70,14 +70,14 @@ jobs:
       - name: Install mise
         uses: jdx/mise-action@146a28175021df8ca24f8ee1828cc2a60f980bd5 # v3.5.1
         with:
-          version: 2025.12.0
+          version: 2025.12.4
         env:
           GITHUB_TOKEN: ${{ github.token }}
 
       - name: Restore cache
         id: restore-cache
         if: matrix.cache_path != ''
-        uses: actions/cache/restore@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
+        uses: actions/cache/restore@9255dc7a253b0ccc959486e2bca901246202afeb # v5.0.1
         with:
           path: ${{ matrix.cache_path }}
           key: cache-${{ matrix.name }}-${{ github.sha }}
@@ -91,7 +91,7 @@ jobs:
           TASK_NAME: ${{ matrix.task }}
 
       - name: Save cache
-        uses: actions/cache/save@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
+        uses: actions/cache/save@9255dc7a253b0ccc959486e2bca901246202afeb # v5.0.1
         if: ${{ !cancelled() && matrix.cache_path != '' }}
         with:
           path: ${{ matrix.cache_path }}
@@ -114,7 +114,7 @@ jobs:
       - name: Install mise
         uses: jdx/mise-action@146a28175021df8ca24f8ee1828cc2a60f980bd5 # v3.5.1
         with:
-          version: 2025.12.0
+          version: 2025.12.4
         env:
           GITHUB_TOKEN: ${{ github.token }}
 
