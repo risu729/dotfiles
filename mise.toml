@@ -1,18 +1,18 @@
 # ref: https://mise.jdx.dev/configuration.html
 #:schema https://mise.jdx.dev/schema/mise.json
 
-min_version = "2025.12.4"
+min_version = "2025.12.12"
 
 [vars]
 PS_SCRIPT_ANALYZER_VERSION = "1.24.0"
 
 [tools]
-bun = "1.3.4"
+bun = "1.3.5"
 node = "24.11.1"
 biome = "2.2.7"
 actionlint = "1.7.9"
 ghalint = "1.5.4"
-pinact = "3.5.0"
+pinact = "3.6.0"
 zizmor = "1.11.0"
 taplo = "0.10.0"
 prettier = "3.7.4"
@@ -22,7 +22,7 @@ shellcheck = "0.11.0"
 yamlfmt = "0.20.0"
 # cspell:ignore pipx
 # required for pipx backend
-uv = "0.9.17"
+uv = "0.9.18"
 yamllint = "1.37.1"
 cspell = "9.4.0"
 # cspell:ignore lycheeverse

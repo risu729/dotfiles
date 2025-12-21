@@ -50,7 +50,7 @@ jobs:
       - name: Install mise
         uses: jdx/mise-action@146a28175021df8ca24f8ee1828cc2a60f980bd5 # v3.5.1
         with:
-          version: 2025.12.4
+          version: 2025.12.12
           cache: false
         env:
           MISE_ENABLE_TOOLS: jc
@@ -66,7 +66,7 @@ jobs:
 
       # cspell:ignore buildx
       - name: Setup Buildx
-        uses: docker/setup-buildx-action@e468171a9de216ec08956ac3ada2f0791b6bd435 # v3.11.1
+        uses: docker/setup-buildx-action@8d2750c68a42422c14e847fe6c8ac0403b4cbd6f # v3.12.0
         with:
           cache-binary: false
 
