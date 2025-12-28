@@ -119,7 +119,7 @@ jobs:
           GITHUB_TOKEN: ${{ github.token }}
 
       - name: Install package.json dependencies
-        run: mise run buni:root
+        run: mise prepare --only bun
 
       - name: "commitlint (push: initial commit)"
         id: commitlint-push-initial

@@ -46,6 +46,17 @@ includes = ["tasks.toml", "tasks", "worker/tasks.toml", "worker/tasks"]
 [hooks]
 postinstall = """
 {% if env.CI is undefined %}
-  mise run buni ::: install:ps-script-analyzer
+  install:ps-script-analyzer
 {% endif %}
 """
+
+[prepare.bun]
+auto = true
+run = "bun install --frozen-lockfile"
+
+[prepare.bun_worker]
+auto = true
+dir = "worker"
+sources = ["worker/bun.lock", "worker/package.json"]
+outputs = ["worker/node_modules"]
+run = "bun install --frozen-lockfile"

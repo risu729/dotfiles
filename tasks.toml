@@ -2,7 +2,6 @@
 #:schema https://mise.jdx.dev/schema/mise-task.json
 
 [commit]
-depends = ["buni:root"]
 usage = '''
 flag "--staged" help="Only commit staged files" default="false"
 '''
@@ -26,13 +25,10 @@ depends = ["check:tsc:*"]
 description = "Run TypeScript compiler to check types."
 
 ["check:tsc:root"]
-depends = ["buni:root"]
 run = "bun run tsc {% if env.CI is defined %}--incremental false{% endif %}"
 description = "Run TypeScript compiler to check types in the root directory."
 
 ["check:jsonschema"]
-# schema of wrangler.jsonc is in node_modules
-depends = ["buni:worker"]
 run = "jschema-validator"
 env.GITHUB_TOKEN = "{{ env.GITHUB_TOKEN }}"
 description = "Validate JSON/JSONC/JSON5 files with JSON schema."
@@ -145,15 +141,6 @@ depends_post = [
 ]
 env.GITHUB_TOKEN = "{{ env.GITHUB_TOKEN }}"
 description = "Generate/update .gitignore from .gitignore-sync."
-
-["buni"]
-depends = ["buni:root", "buni:worker"]
-description = "Install Bun dependencies."
-
-["buni:root"]
-run = "bun install --frozen-lockfile"
-hide = true
-description = "Install Bun dependencies in the root directory."
 
 ["install:ps-script-analyzer"]
 shell = "pwsh -Command"

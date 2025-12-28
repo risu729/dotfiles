@@ -2,7 +2,6 @@
 #MISE description="Build the worker for production."
 #MISE hide=true
 #MISE dir="worker"
-#MISE depends=["buni:worker"]
 
 set -euo pipefail
 
