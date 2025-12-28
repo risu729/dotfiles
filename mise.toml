@@ -32,12 +32,7 @@ typos = "1.40.0"
 "npm:jschema-validator" = "1.0.26"
 jc = "1.25.6"
 hadolint = "2.14.0"
-# pwsh is not executable so postinstall is required
-# ref: https://github.com/PowerShell/PowerShell/issues/23968
-# ref: https://github.com/jdx/mise/discussions/4189
-powershell = { version = "7.5.4", postinstall = """
-chmod +x $(find $(mise where powershell) -name pwsh)
-""" }
+powershell = "7.5.4"
 
 [settings]
 experimental = true
