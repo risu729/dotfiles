@@ -125,12 +125,6 @@ if command -v powershell.exe &>/dev/null; then
 	export BROWSER="powershell.exe -c Start-Process"
 fi
 
-# Aliases
-alias beep="printf '\a'"
-if command -v eza &>/dev/null; then
-	alias l="eza --all --long --git"
-fi
-
 # Call windows executables without extensions if it exists
 # e.g. `clip` instead of `clip.exe`
 if [[ -z ${_win_cmd_not_found:-} ]]; then
