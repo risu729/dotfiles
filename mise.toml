@@ -46,7 +46,7 @@ includes = ["tasks.toml", "tasks", "worker/tasks.toml", "worker/tasks"]
 [hooks]
 postinstall = """
 {% if env.CI is undefined %}
-  install:ps-script-analyzer
+  mise run install:ps-script-analyzer
 {% endif %}
 """
 
