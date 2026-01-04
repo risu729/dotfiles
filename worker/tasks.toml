@@ -6,7 +6,6 @@ depends = ["check:tsc:worker:*"]
 description = "Run TypeScript compiler to check types in the worker directory."
 
 ["check:tsc:worker:base"]
-depends = ["buni:worker"]
 run = "bun run tsc --project tsconfig.base.json {% if env.CI is defined %}--incremental false{% endif %}"
 dir = "worker"
 description = "Run TypeScript compiler to check types in the worker directory (base)."
@@ -41,14 +40,7 @@ run = "bun run vitest {% if env.CI is undefined %}watch --ui{% else %}run{% endi
 dir = "worker"
 description = "Run tests for the worker."
 
-["buni:worker"]
-run = "bun install --frozen-lockfile"
-dir = "worker"
-hide = true
-description = "Install Bun dependencies in the worker directory."
-
 ["worker:generate:types"]
-depends = ["buni:worker"]
 run = "bun run wrangler types src/worker-configuration.d.ts"
 dir = "worker"
 hide = true
