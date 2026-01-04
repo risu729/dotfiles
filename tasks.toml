@@ -5,10 +5,7 @@
 usage = '''
 flag "--staged" help="Only commit staged files" default="false"
 '''
-run = [
-	"{% if flag(name='staged') == 'false' %}git add .{% endif %}",
-	"bun run git-cz",
-]
+run = ["{% if usage.staged == false %}git add .{% endif %}", "bun run git-cz"]
 raw = true
 description = "Commit changes with commitizen."
 
