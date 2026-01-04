@@ -78,3 +78,6 @@ bun = true
 [settings.python]
 # disable python-build
 compile = false
+
+[shell_alias]
+l = "eza --all --long --git"
