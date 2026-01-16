@@ -9,7 +9,7 @@
         "@commitlint/config-conventional": "20.3.1",
         "@commitlint/cz-commitlint": "20.3.1",
         "@commitlint/types": "20.3.1",
-        "@cspell/cspell-types": "9.5.0",
+        "@cspell/cspell-types": "9.6.0",
         "@risu729/tsconfigs": "2.0.0",
         "@types/bun": "1.3.5",
         "commitizen": "4.3.1",
@@ -60,7 +60,7 @@
 
     "@commitlint/types": ["@commitlint/types@20.3.1", "", { "dependencies": { "@types/conventional-commits-parser": "^5.0.0", "chalk": "^5.3.0" } }, "sha512-VmIFV/JkBRhDRRv7N5B7zEUkNZIx9Mp+8Pe65erz0rKycXLsi8Epcw0XJ+btSeRXgTzE7DyOyA9bkJ9mn/yqVQ=="],
 
-    "@cspell/cspell-types": ["@cspell/cspell-types@9.5.0", "", {}, "sha512-S7jiggB7iuvCG9R5O42PA7HoRtSIvWfUVUTRAd4eDBWOAR6vUQRuksbI79Qb+b4mhKajrkUGOCInnPDlniFMpA=="],
+    "@cspell/cspell-types": ["@cspell/cspell-types@9.6.0", "", {}, "sha512-JTqrD47tV+rWc1y2W8T0NTfWLQMlSWX4OF64/Jf3WbsOD+4UXVIfjRlzPry7+1Zekm6pa38+23jkDBytYpu8yw=="],
 
     "@isaacs/balanced-match": ["@isaacs/balanced-match@4.0.1", "", {}, "sha512-yzMTt9lEb8Gv7zRioUilSglI0c0smZ9k5D65677DLWLtWJaXIS3CqcGyUFByYKlnUj6TkjLVs54fBl6+TiGQDQ=="],
 
