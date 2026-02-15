@@ -74,7 +74,7 @@ jobs:
         id: build
         # if mise version is not changed, check if the image digest is changed
         if: steps.image-info.outputs.is_mise_version_changed == 'false'
-        uses: docker/build-push-action@263435318d21b8e681c14492fe198d362a7d2c83 # v6.18.0
+        uses: docker/build-push-action@10e90e3645eae34f1e60eeb005ba3a3d33f178e8 # v6.19.2
         with:
           context: ./worker/docker
           build-args: |
@@ -96,7 +96,7 @@ jobs:
 
       - name: Build and push Docker image
         if: steps.login.outcome != 'skipped'
-        uses: docker/build-push-action@263435318d21b8e681c14492fe198d362a7d2c83 # v6.18.0
+        uses: docker/build-push-action@10e90e3645eae34f1e60eeb005ba3a3d33f178e8 # v6.19.2
         with:
           context: ./worker/docker
           build-args: |
@@ -123,4 +123,4 @@ jobs:
     steps:
       - name: actions-timeline
         # cspell:ignore kesin
-        uses: Kesin11/actions-timeline@7c7e0821d38f27460f4a71ef874a1c8cf23602e4 # v2.2.6
+        uses: Kesin11/actions-timeline@e018cfefea60b4f44266998551211a35a58b8097 # v3.0.0
