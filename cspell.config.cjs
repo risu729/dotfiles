@@ -36,7 +36,6 @@ module.exports = {
 		"commitlint",
 		"hono",
 		"jschema",
-		"buni",
 		"pwsh",
 	],
 };
