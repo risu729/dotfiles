@@ -1,8 +1,8 @@
 {
 	"$schema": "https://json.schemastore.org/package.json",
 	"devDependencies": {
-		"@commitlint/cli": "20.4.1",
-		"@commitlint/config-conventional": "20.4.1",
+		"@commitlint/cli": "20.4.2",
+		"@commitlint/config-conventional": "20.4.2",
 		"@commitlint/cz-commitlint": "20.4.1",
 		"@commitlint/types": "20.4.0",
 		"@cspell/cspell-types": "9.6.4",
