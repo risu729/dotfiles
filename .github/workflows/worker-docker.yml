@@ -48,7 +48,7 @@ jobs:
           persist-credentials: false
 
       - name: Install mise
-        uses: jdx/mise-action@6d1e696aa24c1aa1bcc1adea0212707c71ab78a8 # v3.6.1
+        uses: jdx/mise-action@5228313ee0372e111a38da051671ca30fc5a96db # v3.6.3
         with:
           version: 2025.12.13
           cache: false
@@ -88,7 +88,7 @@ jobs:
           (github.event_name != 'pull_request' &&
             steps.build.outputs.digest != steps.image-info.outputs.latest_tag_digest ) ||
           steps.image-info.outputs.latest_tag == ''
-        uses: docker/login-action@c94ce9fb468520275223c153574b00df6fe4bcc9 # v3.7.0
+        uses: docker/login-action@b45d80f862d83dbcd57f89517bcf500b2ab88fb2 # v4.0.0
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
