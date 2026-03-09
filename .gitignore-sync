@@ -4,8 +4,7 @@
 src/cli/init/gitignore.default
 
 [inline]
-.cspellcache
-.lycheecache # cspell:ignore lycheecache
+.lycheecache
 
 [github/gitignore]
 Global/Windows.gitignore

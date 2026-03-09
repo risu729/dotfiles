@@ -9,6 +9,7 @@ BAT_PAGING = "never"
 # language tools
 node = "latest"
 bun = "latest"
+npm = "latest"
 yarn = "latest"
 pnpm = "latest"
 java = "latest"
@@ -18,19 +19,16 @@ python = "latest"
 go = "latest"
 
 # mise requirements
-# cspell:ignore binstall
 cargo-binstall = "latest"
 uv = "latest"
 # for completion
 usage = "latest"
-# cspell:ignore watchexec
 watchexec = "latest"
 
 # cli tools
 jq = "latest"
 yq = "latest"
 github-cli = "latest"
-# cspell:ignore siketyan
 "aqua:siketyan/ghr" = "latest"
 jc = "latest"
 delta = "latest"
@@ -41,7 +39,15 @@ fd = "latest"
 xh = "latest"
 jd = "latest"
 sd = "latest"
+kubectl = "latest"
+kubectx = "latest"
+mitmproxy = "latest"
+pitchfork = "latest"
+
+# ai agents
+claude = "latest"
 gemini-cli = "latest"
+opencode = "latest"
 
 # linter/formatter tools
 biome = "latest"
@@ -55,7 +61,6 @@ shfmt = "3.12.0"
 shellcheck = "latest"
 yamlfmt = "latest"
 yamllint = "latest"
-cspell = "latest"
 lychee = "latest"
 typos = "latest"
 hadolint = "latest"
@@ -65,7 +70,6 @@ numbat = "latest"
 
 # mise development
 aqua = "latest"
-# cspell:ignore vfox
 vfox = "latest"
 
 [settings]

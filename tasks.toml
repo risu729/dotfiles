@@ -119,15 +119,10 @@ depends_post = [
 ]
 description = "Format mise.toml and validate tasks."
 
-["check:cspell"]
-run = "cspell {% if env.CI is undefined %}--cache{% endif %} \"**/*\""
-description = "Run cspell to check spelling in files."
-
 ["check:lychee"]
 run = "lychee {% if env.LINT is defined %}--verbose{% endif %} \"**/*\""
 env.GITHUB_TOKEN = "{{ env.GITHUB_TOKEN }}"
 # no other ways to set metadata for tasks
-# cspell:ignore lycheecache
 env.CACHE_PATH = ".lycheecache"
 description = "Run Lychee to check links in files."
 
@@ -158,12 +153,11 @@ shell = "pwsh -Command"
 # ref: https://github.com/PowerShell/PowerShellGetv2/issues/461
 run = "Install-Module -Name PSScriptAnalyzer -RequiredVersion {{ vars.PS_SCRIPT_ANALYZER_VERSION }} -Force"
 
-["util:nodiff"] # cspell:ignore nodiff
+["util:nodiff"]
 run = ["git add .", "git diff --staged --exit-code"]
 hide = true
 description = "Check there are no changes in the repository."
 
-# cspell:ignore donothing
 ["util:donothing"]
 run = ":"
 hide = true
