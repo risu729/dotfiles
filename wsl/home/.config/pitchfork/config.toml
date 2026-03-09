@@ -3,3 +3,5 @@
 [settings]
 general.mise = true
 web.auto_start = true
+
+[daemons]
