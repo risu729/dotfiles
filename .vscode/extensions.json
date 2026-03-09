@@ -10,7 +10,6 @@
 		"tamasfe.even-better-toml",
 		"mkhl.shfmt",
 		"timonwong.shellcheck",
-		"streetsidesoftware.code-spell-checker",
 		"vitest.explorer",
 		"ms-azuretools.vscode-docker"
 	]
