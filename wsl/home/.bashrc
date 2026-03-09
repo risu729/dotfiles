@@ -21,23 +21,19 @@ if [[ ${VSCODE_RESOLVING_ENVIRONMENT:-} == 1 ]]; then
 fi
 
 # Don't put duplicate lines or lines starting with space in the history.
-# cspell:ignore ignoreboth
 export HISTCONTROL=ignoreboth
 
 # Append to the history file, don't overwrite it
-# cspell:ignore histappend
 shopt -s histappend
 
 # For setting history length
 export HISTSIZE=1000
 export HISTFILESIZE=2000
 
-# cspell:ignore checkwinsize
 shopt -s checkwinsize
 shopt -s globstar
 
 # Make less more friendly for non-text input files
-# cspell:ignore lesspipe
 if [[ -x /usr/bin/lesspipe ]]; then
 	lesspipe="$(SHELL=/bin/sh lesspipe)"
 	eval "${lesspipe}"
@@ -50,7 +46,6 @@ fi
 
 # Set a fancy prompt (non-color, unless we know we "want" color)
 if [[ ${TERM:-} == "xterm-color" || ${TERM:-} == *-256color ]] ||
-	# cspell:ignore setf setaf
 	# We have color support; assume it's compliant with Ecma-48 (ISO/IEC-6429).
 	# (Lack of such support is extremely rare, and such a case would tend to support setf rather than setaf.)
 	{ [[ -x /usr/bin/tput ]] && tput setaf 1 >&/dev/null; }; then
@@ -60,13 +55,11 @@ else
 fi
 
 # If this is an xterm set the title to user@host:dir
-# cspell:ignore rxvt
 if [[ ${TERM:-} == xterm* || ${TERM:-} == rxvt* ]]; then
 	PS1="\[\e]0;${debian_chroot:+(${debian_chroot})}\u@\h: \w\a\]${PS1}"
 fi
 
 # Enable color support of ls and also add handy aliases
-# cspell:ignore dircolors
 if [[ -x /usr/bin/dircolors ]]; then
 	dircolors="$(dircolors -b)"
 	eval "${dircolors}"
@@ -149,7 +142,6 @@ if [[ -z ${_win_cmd_not_found:-} ]]; then
 
 	command_not_found_handle() {
 		# shellcheck disable=SC2317 # command_not_found_handle is called by bash
-		# cspell:ignore pathext wslenv
 		local pathext
 		# ref: https://learn.microsoft.com/en-us/windows/wsl/filesystems#share-environment-variables-between-windows-and-wsl-with-wslenv
 		pathext=$(echo "${PATHEXT:-}" | tr ';' ' ')

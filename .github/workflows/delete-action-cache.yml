@@ -18,7 +18,6 @@ jobs:
 
     steps:
       - name: Delete Action Cache
-        # cspell:ignore toshimaru
         uses: toshimaru/delete-action-cache@ab45c03c4f82162f880096a984a1fe1e7775a292 # v1.0.1
         with:
           limit: 1000
@@ -36,5 +35,4 @@ jobs:
 
     steps:
       - name: actions-timeline
-        # cspell:ignore kesin
         uses: Kesin11/actions-timeline@e018cfefea60b4f44266998551211a35a58b8097 # v3.0.0
