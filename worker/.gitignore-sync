@@ -1,6 +1,5 @@
 # ref: https://github.com/foray1010/ignore-sync?tab=readme-ov-file#how-to-use
 
-# cspell:ignore honojs
 [honojs/starter]
 templates/cloudflare-workers/.gitignore
 

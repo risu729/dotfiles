@@ -29,7 +29,6 @@ update_system_packages() {
 	sudo apt-get update
 	sudo apt-get full-upgrade --yes
 	sudo apt-get autoremove --yes
-	# cspell:ignore autoclean
 	sudo apt-get autoclean --yes
 	log_info "System packages updated."
 }
@@ -38,7 +37,6 @@ install_system_packages() {
 	log_info "Installing system packages..."
 	# not pre-installed in wsl ubuntu
 	# ref: https://cdimages.ubuntu.com/ubuntu-wsl/noble/daily-live/current/noble-wsl-amd64.manifest
-	# cspell:ignore clangd
 	sudo apt-get install --yes \
 		zip unzip \
 		build-essential pkg-config libssl-dev \
@@ -75,7 +73,6 @@ install_custom_registry_packages() {
 
 	log_info "All repositories set up. Installing packages..."
 	sudo apt-get update
-	# cspell:ignore containerd buildx
 	sudo apt-get install --yes mise docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 	log_info "Additional packages installed."
 }
@@ -87,7 +84,6 @@ configure_docker_group() {
 	if groups "${username}" | grep --quiet --word-regexp 'docker'; then
 		log_info "User ${username} is already in the docker group."
 	else
-		# cspell:ignore usermod
 		sudo usermod --append --groups docker "${username}"
 		log_info "User ${username} added to the docker group."
 	fi

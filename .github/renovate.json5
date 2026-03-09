@@ -1,7 +1,7 @@
 {
 	// ref: https://docs.renovatebot.com/configuration-options/
 	$schema: "https://docs.renovatebot.com/renovate-schema.json",
-	extends: ["github>risu729/renovate-config#3.11.0"],
+	extends: ["github>risu729/renovate-config#3.14.0"],
 	packageRules: [
 		// set semantic commit types
 		{
@@ -18,7 +18,6 @@
 	// ref: https://docs.renovatebot.com/modules/manager/regex/#advanced-capture
 	customManagers: [
 		{
-			// cspell:ignore jsonata
 			customType: "jsonata",
 			description: "Updates PSScriptAnalyzer version",
 			managerFilePatterns: ["/^mise\\.toml$/"],

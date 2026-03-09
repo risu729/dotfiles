@@ -27,7 +27,6 @@
 					"PackageIdentifier": "Microsoft.PowerShell.Preview"
 				},
 				{
-					// cspell:ignore termius
 					"PackageIdentifier": "Termius.Termius"
 				},
 				{
@@ -52,14 +51,12 @@
 					"PackageIdentifier": "GIMP.GIMP.Nightly"
 				},
 				{
-					// cspell:ignore inkscape
 					"PackageIdentifier": "Inkscape.Inkscape"
 				},
 				{
 					"PackageIdentifier": "Cloudflare.Warp"
 				},
 				{
-					// cspell:ignore tailscale
 					"PackageIdentifier": "tailscale.tailscale"
 				},
 				{
@@ -77,7 +74,6 @@
 			],
 			"SourceDetails": {
 				"Argument": "https://cdn.winget.microsoft.com/cache",
-				// cspell:ignore 8wekyb3d8bbwe
 				"Identifier": "Microsoft.Winget.Source_8wekyb3d8bbwe",
 				"Name": "winget",
 				"Type": "Microsoft.PreIndexed.Package"

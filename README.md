@@ -10,8 +10,6 @@ Since I use WSL2 as my main development environment, I only install GUI applicat
 
 ### 🪟 Windows 11
 
-<!-- cspell:ignore localonly -->
-
 > \[!IMPORTANT]
 > Set up Windows 11 **without** a Microsoft account to avoid the automatic installation of OneDrive.
 >
@@ -52,8 +50,6 @@ bash -i <(curl -fsSL https://dot.risunosu.com/wsl)
 > Both installer scripts are idempotent, meaning you can run them multiple times without issues.
 
 ## ➡️ What to do next
-
-<!-- cspell:ignore powertoys -->
 
 1. Uninstall unnecessary software pre-installed by Windows 11.
 
