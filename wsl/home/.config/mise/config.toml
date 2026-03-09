@@ -9,6 +9,7 @@ BAT_PAGING = "never"
 # language tools
 node = "latest"
 bun = "latest"
+npm = "latest"
 yarn = "latest"
 pnpm = "latest"
 java = "latest"
@@ -41,7 +42,15 @@ fd = "latest"
 xh = "latest"
 jd = "latest"
 sd = "latest"
+kubectl = "latest"
+kubectx = "latest"
+mitmproxy = "latest"
+pitchfork = "latest"
+
+# ai agents
+claude = "latest"
 gemini-cli = "latest"
+opencode = "latest"
 
 # linter/formatter tools
 biome = "latest"
