@@ -16,7 +16,7 @@ description = "Run all linters and formatters. Set LINT=true to check formatting
 
 ["check:oxlint"]
 run = "oxlint --report-unused-disable-directives-severity error {% if env.LINT is undefined %}--fix{% endif %}"
-description = "Run oxlint to lint VitePress documentation."
+description = "Run oxlint to lint JavaScript/TypeScript files."
 
 ["check:oxfmt"]
 run = "oxfmt {% if env.LINT is defined %}--check{% endif %}"
