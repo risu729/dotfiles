@@ -8,8 +8,6 @@
 		"github.vscode-github-actions",
 		// cspell:ignore mrmlnc
 		"mrmlnc.vscode-json5",
-		// cspell:ignore esbenp
-		"esbenp.prettier-vscode",
 		// cspell:ignore tamasfe
 		"tamasfe.even-better-toml",
 		// cspell:ignore mkhl
