@@ -1,4 +1,4 @@
-#:schema https://pitchfork.dev/schema.json
+#:schema https://pitchfork.jdx.dev/schema.json
 
 [settings]
 general.mise = true
