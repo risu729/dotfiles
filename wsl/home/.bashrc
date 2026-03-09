@@ -125,6 +125,16 @@ if command -v powershell.exe &>/dev/null; then
 	export BROWSER="powershell.exe -c Start-Process"
 fi
 
+# antigravity
+if command -v antigravity &>/dev/null; then
+	ag() {
+		local target="${1:-.}"
+		local abs_path
+		abs_path=$(realpath "${target}")
+		antigravity --remote "wsl+${WSL_DISTRO_NAME:-}" "${abs_path}"
+	}
+fi
+
 # Call windows executables without extensions if it exists
 # e.g. `clip` instead of `clip.exe`
 if [[ -z ${_win_cmd_not_found:-} ]]; then
