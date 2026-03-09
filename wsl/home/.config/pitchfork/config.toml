@@ -1,0 +1,5 @@
+#:schema https://pitchfork.dev/schema.json
+
+[settings]
+general.mise = true
+web.auto_start = true

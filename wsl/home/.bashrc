@@ -81,12 +81,24 @@ if ! shopt -oq posix && [[ -f /usr/share/bash-completion/bash_completion ]]; the
 	source /usr/share/bash-completion/bash_completion
 fi
 
+# Activate pitchfork
+if command -v mise &>/dev/null; then
+	mise_activate="$(pitchfork activate bash)"
+	eval "${mise_activate}"
+fi
+
 # Enable mise completion
 if command -v mise &>/dev/null; then
 	# bash-completion 2.12 or later is required, but 2.11 is installed
 	# ref: https://cdimages.ubuntu.com/ubuntu-wsl/noble/daily-live/current/noble-wsl-amd64.manifest
 	mise_completion="$(mise completion bash --include-bash-completion-lib)"
 	eval "${mise_completion}"
+fi
+
+# Enable pitchfork completion
+if command -v pitchfork &>/dev/null; then
+	pitchfork_completion="$(pitchfork completion bash)"
+	eval "${pitchfork_completion}"
 fi
 
 # Enable gh completion
