@@ -4,10 +4,7 @@
 src/cli/init/gitignore.default
 
 [inline]
-.cspellcache
-.lycheecache # cspell:ignore lycheecache
-
-[github/gitignore]
+.lycheecache [github/gitignore]
 Global/Windows.gitignore
 Global/macOS.gitignore
 Global/Linux.gitignore

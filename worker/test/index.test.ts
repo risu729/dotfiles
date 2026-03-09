@@ -81,7 +81,6 @@ describe("return the installer script with the script origin set", () => {
 		async (path) => {
 			const response = await SELF.fetch(`https://dot.risunosu.com${path}`);
 			expect(await response.text()).toMatch(
-				// cspell:ignore rigin
 				/^.?script(_o|O)rigin *= *["']https:\/\/dot\.risunosu\.com["']/gm,
 			);
 		},

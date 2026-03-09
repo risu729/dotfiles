@@ -118,7 +118,6 @@ const ensureGitHubTokenScopes = async (): Promise<() => Promise<void>> => {
 	};
 
 	// login to GitHub if not authenticated
-	// cspell:ignore nothrow
 	const { stdout, exitCode } = await $`gh auth status`
 		.env(envWithoutGitHubToken)
 		.quiet()
@@ -219,7 +218,6 @@ const createGhrConfig = async (githubId: string): Promise<void> => {
 type KeyringSecretKey = {
 	keyId: string;
 	fingerprint: string;
-	// cspell:ignore keygrip
 	keygrip: string;
 	curveName: string | null;
 	userIds: {
@@ -236,7 +234,6 @@ type KeyringSecretKey = {
 	isSecretKeyAvailable: boolean;
 	keyUsages: string[];
 	isUltimatelyTrusted: boolean;
-	// cspell:ignore subkeys
 	subkeys: {
 		keyId: string;
 		fingerprint: string;
@@ -274,7 +271,6 @@ const getGpgKeyringSecretKeys = async (
 		key_id: string | null;
 		creation_date: string | null;
 		expiration_date: string | null;
-		// cspell:ignore certsn uidhash trustinfo
 		certsn_uidhash_trustinfo: string | null;
 		owner_trust: string | null;
 		user_id: string | null;
@@ -617,7 +613,6 @@ const findExistingKeys = async (
 ): Promise<
 	| {
 			keyringSecretKey: KeyringSecretKey;
-			// cspell:ignore subkey
 			subkey?: KeyringSecretKey["subkeys"][number];
 			githubKey?: GitHubGpgKey;
 	  }
@@ -1069,7 +1064,6 @@ const refineGpgKey = async (
 				key.fingerprint,
 				revokableSubkeys.flatMap(({ fingerprint }) => [
 					`key ${fingerprint}`,
-					// cspell:ignore revkey
 					"revkey",
 				]),
 				revokableSubkeys.flatMap(() => [
@@ -1158,7 +1152,6 @@ const configureGitSign = async (
 		throw new Error("GNUPG_HOME is set. GnuPG home must be the default.");
 	}
 
-	// cspell:ignore signingkey
 	const gitSigningKey = (
 		await $`git config --file ${localGitConfigPath} user.signingkey`
 			.nothrow()
