@@ -119,7 +119,6 @@ test(
 	},
 	async () => {
 		const response = await SELF.fetch("https://dot.risunosu.com/wsl");
-		// biome-ignore lint/performance/useTopLevelRegex: ignore performance warning in test
 		expect(await response.text()).toMatch(/^#!(?:\/\w+)+/);
 	},
 );

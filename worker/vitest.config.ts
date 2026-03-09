@@ -24,7 +24,6 @@ export default defineConfig((configEnv) =>
 		defineWorkersConfig({
 			test: {
 				env: {
-					// biome-ignore-start lint/style/useNamingConvention: env var
 					// use current branch name as default branch for testing
 					DEFAULT_BRANCH: currentBranch,
 
@@ -34,7 +33,6 @@ export default defineConfig((configEnv) =>
 					LATEST_COMMIT_HASH: latestCommitHash,
 					// fix constants in tests
 					REPO_NAME: "risu729/dotfiles",
-					// biome-ignore-end lint/style/useNamingConvention: env var
 				},
 				poolOptions: {
 					workers: {

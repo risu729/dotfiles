@@ -1,8 +1,5 @@
 #!/usr/bin/env bun
 
-// biome-ignore-all lint/performance/useTopLevelRegex: allow in scripts
-// biome-ignore-all lint/suspicious/noConsole: allow in scripts
-
 import { mkdtemp, rmdir } from "node:fs/promises";
 import { homedir, tmpdir } from "node:os";
 import { join, resolve } from "node:path";
@@ -45,9 +42,7 @@ const ensureGitHubTokenScopes = async (): Promise<() => Promise<void>> => {
 
 		let output = "";
 
-		// biome-ignore lint/nursery/noUnnecessaryConditions: intentional infinite loop
 		while (true) {
-			// biome-ignore lint/performance/noAwaitInLoops: required to read line by line
 			const { done, value } = await reader.read();
 			if (done) {
 				break;
@@ -166,7 +161,6 @@ const ghApi = async <ReturnType>(
 ): Promise<ReturnType> => {
 	return await $`gh api ${endpoint} --header "Accept: application/vnd.github+json" --header "X-GitHub-Api-Version: 2022-11-28"${{
 		// disable escapes
-		// biome-ignore lint/nursery/noUnnecessaryConditions: false positive for optional parameter type
 		raw: method ? ` --method ${method}` : "",
 	}}${{
 		raw: fields
@@ -260,7 +254,6 @@ const getGpgKeyringSecretKeys = async (
 			...env,
 			...(gpgHome
 				? {
-						// biome-ignore lint/style/useNamingConvention: env var
 						GNUPG_HOME: gpgHome,
 					}
 				: {}),
@@ -268,7 +261,6 @@ const getGpgKeyringSecretKeys = async (
 		.arrayBuffer();
 	const rawSecretKeys: {
 		// ref: https://github.com/gpg/gnupg/blob/master/doc/DETAILS#format-of-the-colon-listings
-		// biome-ignore-start lint/style/useNamingConvention: following jc naming convention
 		type: string;
 		validity: string | null;
 		key_id: string | null;
@@ -281,7 +273,6 @@ const getGpgKeyringSecretKeys = async (
 		key_capabilities: string | null;
 		token_sn: string | null;
 		curve_name: string | null;
-		// biome-ignore-end lint/style/useNamingConvention: following jc naming convention
 	}[] =
 		// jc freezes if empty buffer is passed
 		gpgStdout.byteLength > 0 ? await $`jc --gpg < ${gpgStdout}`.json() : [];
@@ -289,7 +280,6 @@ const getGpgKeyringSecretKeys = async (
 	const keyringSecretKeys = rawSecretKeys.reduce<
 		// allow undefined values for all properties
 		DeepOptional<KeyringSecretKey>[]
-		// biome-ignore lint/complexity/noExcessiveCognitiveComplexity: the data structure is complex
 	>((acc, key, index, array) => {
 		// calculate common entries for sec, uid, ssb
 		// already in epoch timestamp but in string
@@ -376,7 +366,6 @@ const getGpgKeyringSecretKeys = async (
 						break;
 					}
 					case "ssb": {
-						// biome-ignore lint/style/noNonNullAssertion: subkeys exists if previous key type is ssb
 						current.subkeys!.at(-1)!.fingerprint = key.user_id ?? undefined;
 						break;
 					}
@@ -391,7 +380,6 @@ const getGpgKeyringSecretKeys = async (
 						break;
 					}
 					case "ssb": {
-						// biome-ignore lint/style/noNonNullAssertion: subkeys exists if previous key type is ssb
 						current.subkeys!.at(-1)!.keygrip = key.user_id ?? undefined;
 						break;
 					}
@@ -476,7 +464,6 @@ const selectFromList = async <T>(
 
 // ref: https://docs.github.com/en/rest/users/gpg-keys?apiVersion=2022-11-28#list-gpg-keys-for-the-authenticated-user
 type GitHubGpgKey = {
-	// biome-ignore-start lint/style/useNamingConvention: following API response naming
 	id: string;
 	key_id: string;
 	name: string | null;
@@ -491,7 +478,6 @@ type GitHubGpgKey = {
 		created_at: string;
 		expires_at: string | null;
 		revoked: boolean | null;
-		// biome-ignore-end lint/style/useNamingConvention: following API response naming
 	}[];
 };
 
@@ -507,19 +493,16 @@ const importGpgSecretKey = async (
 			importedSecretKey: string;
 	  }
 	| undefined
-	// biome-ignore lint/complexity/noExcessiveCognitiveComplexity: no way to simplify the logic
 > => {
 	if (!(await askYesNo(prompt))) {
 		return;
 	}
 	// retry until valid key is imported or canceled
-	// biome-ignore lint/nursery/noUnnecessaryConditions: intentional infinite loop
 	while (true) {
 		console.info(
 			"Paste the secret key in ASCII armor format. Enter 'quit' to cancel.",
 		);
 		const lines: string[] = [];
-		// biome-ignore lint/performance/noAwaitInLoops: required to read line by line
 		for await (const line of console) {
 			if (line === "-----END PGP PRIVATE KEY BLOCK-----") {
 				break;
@@ -547,7 +530,6 @@ const importGpgSecretKey = async (
 			await $`gpg --import < ${Buffer.from(armor)}`
 				.env({
 					...env,
-					// biome-ignore lint/style/useNamingConvention: env var
 					GNUPG_HOME: tempDir,
 				})
 				.quiet();
@@ -622,7 +604,6 @@ const findExistingKeys = async (
 			githubKey?: GitHubGpgKey;
 	  }
 	| undefined
-	// biome-ignore lint/complexity/noExcessiveCognitiveComplexity: too many conditions to check
 > => {
 	// prioritize keys registered to github
 	if (githubKeys.length > 0) {
@@ -638,7 +619,6 @@ const findExistingKeys = async (
 				return {
 					githubKey: currentGitHubKey,
 					keyringSecretKey: currentKeyringKey,
-					// biome-ignore lint/style/noNonNullAssertion: currentKeyringKey must contain the subkey if found
 					subkey: currentKeyringKey.subkeys.find(
 						({ keyId }) => `${keyId}!` === gitSigningKey,
 					)!,
@@ -661,7 +641,6 @@ const findExistingKeys = async (
 				return {
 					githubKey: currentGitHubKey,
 					keyringSecretKey: importedKey.importedKey,
-					// biome-ignore lint/style/noNonNullAssertion: currentKeyringKey must contain the subkey if imported
 					subkey: importedKey.importedKey.subkeys.find(
 						({ keyId }) => `${keyId}!` === gitSigningKey,
 					)!,
@@ -715,7 +694,6 @@ const findExistingKeys = async (
 		);
 		if (importedKey) {
 			return {
-				// biome-ignore lint/style/noNonNullAssertion: key must be found if imported
 				githubKey: githubKeys.find(
 					({ key_id }) => importedKey.importedKey.keyId === key_id,
 				)!,
@@ -774,7 +752,6 @@ const refineGpgKey = async (
 			printSecretKey: boolean;
 	  }
 	| undefined
-	// biome-ignore lint/complexity/noExcessiveCognitiveComplexity: too many checks
 > => {
 	let key = initialKey;
 	let subkey = initialSubkey;
@@ -802,7 +779,6 @@ const refineGpgKey = async (
 	};
 
 	// need to be called after each operation that modifies the key
-	// biome-ignore lint/nursery/useExplicitType: type is inferable
 	const updateKey = async (modifiesSecretKey = true): Promise<void> => {
 		const keyringSecretKeys = await getGpgKeyringSecretKeys();
 		const updatedKey = keyringSecretKeys.find(
@@ -1152,7 +1128,6 @@ const generateGpgKey = async (
 const configureGitSign = async (
 	githubId: string,
 	email: string,
-	// biome-ignore lint/complexity/noExcessiveCognitiveComplexity: too many steps to configure
 ): Promise<void> => {
 	if (env["GNUPG_HOME"]) {
 		throw new Error("GNUPG_HOME is set. GnuPG home must be the default.");
@@ -1221,7 +1196,6 @@ const configureGitSign = async (
 		const username = (await $`whoami`.text()).trim();
 		const hostname = (await $`hostname`.text()).trim();
 		await ghApi("/user/gpg_keys", "POST", {
-			// biome-ignore lint/style/useNamingConvention: following API request naming
 			armored_public_key: activePublicKey,
 			name: `${username}@${hostname}`,
 		});
@@ -1235,7 +1209,6 @@ const configureGitSign = async (
 		console.warn("Unrevoked old GPG key registered to GitHub found.");
 		for (const githubKey of revokableGithubKeys) {
 			if (
-				// biome-ignore lint/performance/noAwaitInLoops: required to wait for user input
 				!(await askYesNo(
 					`Do you want to revoke the key ${githubKey.name} (${githubKey.key_id})?`,
 				))

@@ -27,7 +27,6 @@ module.exports = {
 		"risunosu",
 		"dotfiles",
 		"winget",
-		"biomejs",
 		"taplo",
 		"yamlfmt",
 		"ghalint",
@@ -38,5 +37,6 @@ module.exports = {
 		"jschema",
 		"buni",
 		"pwsh",
+		"oxlint",
 	],
 };

@@ -37,7 +37,6 @@ app.get("/:os{win|wsl}", async ({ req, text }) => {
 			// authorize with the GITHUB_TOKEN if provided to avoid rate limiting
 			...(import.meta.env.GITHUB_TOKEN
 				? {
-						// biome-ignore lint/style/useNamingConvention: following fetch
 						Authorization: `Bearer ${import.meta.env.GITHUB_TOKEN}`,
 					}
 				: {}),
@@ -96,5 +95,4 @@ app.get("/:os{win|wsl}", async ({ req, text }) => {
 	);
 });
 
-// biome-ignore lint/style/noDefaultExport: required by hono
 export default app satisfies ExportedHandler;

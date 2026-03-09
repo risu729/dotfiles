@@ -1,5 +1,6 @@
 {
 	"$schema": "https://json.schemastore.org/package.json",
+	"name": "@risu729/dotfiles",
 	"devDependencies": {
 		"@commitlint/cli": "20.4.3",
 		"@commitlint/config-conventional": "20.4.3",
@@ -12,6 +13,5 @@
 		"jschema-validator": "1.0.27",
 		"prettier": "3.8.1",
 		"typescript": "5.9.3"
-	},
-	"name": "@risu729/dotfiles"
+	}
 }
