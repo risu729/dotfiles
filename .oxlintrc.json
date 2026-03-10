@@ -11,6 +11,7 @@
 		"suspicious": "error"
 	},
 	"rules": {
+		"eslint/no-magic-numbers": "allow",
 		"eslint/no-ternary": "allow",
 		"import/unambiguous": "allow"
 	}

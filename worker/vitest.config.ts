@@ -16,21 +16,21 @@ if (!latestCommitHash) {
 	throw new Error("Could not determine latest commit hash from git.");
 }
 
-// ref: https://vitest.dev/config/
+// Ref: https://vitest.dev/config/
 export default defineConfig((configEnv) =>
 	mergeConfig(
 		viteConfig(configEnv),
 		defineWorkersConfig({
 			test: {
 				env: {
-					// use current branch name as default branch for testing
+					// Use current branch name as default branch for testing
 					DEFAULT_BRANCH: currentBranch,
 
-					// define in vite.config.ts does not work in vitest, so define here
+					// Define in vite.config.ts does not work in vitest, so define here
 					GITHUB_TOKEN: process.env["GITHUB_TOKEN"],
 
 					LATEST_COMMIT_HASH: latestCommitHash,
-					// fix constants in tests
+					// Fix constants in tests
 					REPO_NAME: "risu729/dotfiles",
 				},
 				poolOptions: {
