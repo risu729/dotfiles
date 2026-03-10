@@ -13,6 +13,13 @@ aliases:
   dev: issue develop --checkout
   prc: pr create --fill-first
   prm: pr merge --auto --squash
+  renovate: |
+    !gh search prs --owner "@me" --author "app/renovate" --state open "archived:false" --json repository,title,createdAt --limit 100 --sort created | \
+    mlr --ijson --opprint put '
+      $Repo = $repository["nameWithOwner"];
+      $Dependency = sub($title, "^(fix|ci|chore)\(deps\): (update (dependency )?)?", "");
+      $Date = substr($createdAt, 0, 9);
+    ' then cut -o -f Repo,Dependency,Date
 # The path to a unix socket through which send HTTP connections. If blank, HTTP traffic will be handled by net/http.DefaultTransport.
 http_unix_socket:
 # What web browser gh should use when opening URLs. If blank, will refer to environment.
