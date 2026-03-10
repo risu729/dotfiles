@@ -2,6 +2,8 @@ import { Hono } from "hono";
 import { HTTPException } from "hono/http-exception";
 import { poweredBy } from "hono/powered-by";
 
+/* oxlint-disable eslint/max-lines-per-function eslint/max-statements jest/require-hook */
+
 type Os = "win" | "wsl";
 
 const app: Hono = new Hono();
@@ -9,7 +11,9 @@ const app: Hono = new Hono();
 app.use(poweredBy());
 
 // Redirect to the readme
-app.get("/", (c) => c.redirect(`https://github.com/${import.meta.env.REPO_NAME}#readme`, 307));
+app.get("/", ({ redirect }) =>
+	redirect(`https://github.com/${import.meta.env.REPO_NAME}#readme`, 307),
+);
 
 const shebangRegex = /^#!.*\n+/;
 

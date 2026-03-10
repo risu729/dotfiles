@@ -8,7 +8,7 @@ const config: Config = {
 		// Ref: https://tc39.es/archives/bugzilla/3157/
 		unicodeRegExp: false,
 	},
-	// TODO: enable after fixing hanging issue
+	// Enable after fixing hanging issue
 	"wsl/home/.gemini/settings.json": false,
 };
 

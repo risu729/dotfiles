@@ -6,6 +6,8 @@ import { join, resolve } from "node:path";
 
 import { $, env, spawn, write } from "bun";
 
+/* oxlint-disable eslint/complexity eslint/max-depth eslint/max-lines-per-function eslint/max-statements eslint/max-params eslint/no-await-in-loop */
+
 // Remove GITHUB_TOKEN from env to avoid github cli using it
 const envWithoutGitHubToken = Object.fromEntries(
 	Object.entries(env).filter(([key]) => key !== "GITHUB_TOKEN"),
@@ -15,6 +17,7 @@ const localGitConfigPath: string = (await $`git config --global include.path`.te
 
 // Do not use Partial as it sets all properties to optional but doesn't allow undefined
 type DeepOptional<T> = {
+	// oxlint-disable-next-line eslint/id-length
 	[P in keyof T]: T[P] extends (infer U)[]
 		? DeepOptional<U>[] | undefined
 		: T[P] extends object
@@ -23,7 +26,7 @@ type DeepOptional<T> = {
 };
 
 /**
- * @returns function to remove unnecessary granted scopes
+ * @returns {Promise<() => Promise<void>>} function to remove unnecessary granted scopes
  */
 const ensureGitHubTokenScopes = async (): Promise<() => Promise<void>> => {
 	const authWithBrowser = async (subcommand: string): Promise<void> => {
@@ -490,8 +493,8 @@ const importGpgSecretKey = async (
 		// Gpg --import requires the trailing newline
 		const armor = `${lines.join("\n")}\n`;
 
-		let tempDir: string | undefined;
-		let fingerprint: string | undefined;
+		let tempDir: string | undefined = undefined;
+		let fingerprint: string | undefined = undefined;
 		try {
 			// Import in temp dir to get fingerprint of the key
 			// If the key is merged, we cannot know which key is imported
@@ -684,7 +687,6 @@ const findExistingKeys = async (
 	}
 
 	// If no key is imported, return undefined
-	return;
 };
 
 const recommendedCurveName = "ed25519";
