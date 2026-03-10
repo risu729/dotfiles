@@ -14,9 +14,13 @@ description = "Commit changes with commitizen."
 depends = ["check:*"]
 description = "Run all linters and formatters. Set LINT=true to check formatting without applying it."
 
-["check:biome"]
-run = "biome {% if env.LINT is undefined %}check --write{% else %}ci{% endif %} --error-on-warnings"
-description = "Run Biome to lint and format JavaScript/TypeScript/JSON/JSONC files."
+["check:oxlint"]
+run = "oxlint --report-unused-disable-directives-severity error {% if env.LINT is undefined %}--fix{% endif %}"
+description = "Run oxlint to lint JavaScript/TypeScript files."
+
+["check:oxfmt"]
+run = "oxfmt {% if env.LINT is defined %}--check{% endif %}"
+description = "Run oxfmt to format JavaScript/TypeScript/JSON/JSONC/JSON5/Markdown files."
 
 ["check:tsc"]
 depends = ["check:tsc:*"]
@@ -63,12 +67,6 @@ run = [
 	"taplo fmt {% if env.LINT is defined %}--check --diff{% endif %}",
 ]
 description = "Run Taplo to lint and format TOML files."
-
-["check:prettier"]
-run = """
-prettier {% if env.LINT is undefined %}--write{% else %}--check{% endif %} \
-	{% if env.CI is undefined %}--cache{% endif %} ."""
-description = "Run Prettier to format JSON5/Markdown files."
 
 ["check:markdownlint"]
 run = "markdownlint-cli2 {% if env.LINT is undefined %}--fix{% endif %}"

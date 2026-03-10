@@ -51,6 +51,8 @@ opencode = "latest"
 
 # linter/formatter tools
 biome = "latest"
+oxlint = "latest"
+oxfmt = "latest"
 actionlint = "latest"
 ghalint = "latest"
 pinact = "latest"

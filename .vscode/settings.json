@@ -1,11 +1,8 @@
 {
 	// ref: https://code.visualstudio.com/docs/getstarted/settings#_workspace-settings
 
-	"[javascript][typescript][json][jsonc]": {
-		"editor.defaultFormatter": "biomejs.biome"
-	},
-	"[markdown][json5]": {
-		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	"[javascript][typescript][json][jsonc][markdown][json5]": {
+		"editor.defaultFormatter": "oxc.oxc-vscode"
 	},
 	"[shellscript]": {
 		"editor.defaultFormatter": "mkhl.shfmt"
@@ -18,10 +15,6 @@
 		"editor.defaultFormatter": "bluebrown.yamlfmt"
 	},
 
-	// ref: https://biomejs.dev/reference/vscode/
-	"editor.codeActionsOnSave": {
-		"source.fixAll.biome": "explicit"
-	},
 	"editor.formatOnPaste": true,
 	"editor.formatOnSave": true,
 
