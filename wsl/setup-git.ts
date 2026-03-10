@@ -148,7 +148,8 @@ const ghApi = async <ReturnType>(
 	endpoint: `/${string}`,
 	method?: "POST" | "PUT" | "PATCH" | "DELETE",
 	fields?: Record<string, string>,
-): Promise<ReturnType> => await $`gh api ${endpoint} --header "Accept: application/vnd.github+json" --header "X-GitHub-Api-Version: 2022-11-28"${{
+): Promise<ReturnType> =>
+	await $`gh api ${endpoint} --header "Accept: application/vnd.github+json" --header "X-GitHub-Api-Version: 2022-11-28"${{
 		// Disable escapes
 		raw: method ? ` --method ${method}` : "",
 	}}${{

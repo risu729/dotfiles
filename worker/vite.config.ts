@@ -22,17 +22,17 @@ if (!defaultBranch) {
 
 // Ref: https://vite.dev/config/
 export default defineConfig(({ mode }) => ({
-		define: {
-			"import.meta.env.DEFAULT_BRANCH": JSON.stringify(defaultBranch),
-			"import.meta.env.REPO_NAME": JSON.stringify(repoName),
-			...(mode !== "production"
-				? {
-						"import.meta.env.GITHUB_TOKEN": JSON.stringify(process.env["GITHUB_TOKEN"]),
-					}
-				: {}),
-		},
-		plugins: [cloudflare()],
-		preview: {
-			strictPort: true,
-		},
-	}));
+	define: {
+		"import.meta.env.DEFAULT_BRANCH": JSON.stringify(defaultBranch),
+		"import.meta.env.REPO_NAME": JSON.stringify(repoName),
+		...(mode !== "production"
+			? {
+					"import.meta.env.GITHUB_TOKEN": JSON.stringify(process.env["GITHUB_TOKEN"]),
+				}
+			: {}),
+	},
+	plugins: [cloudflare()],
+	preview: {
+		strictPort: true,
+	},
+}));
