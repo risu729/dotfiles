@@ -687,6 +687,7 @@ const findExistingKeys = async (
 	}
 
 	// If no key is imported, return undefined
+	return;
 };
 
 const recommendedCurveName = "ed25519";

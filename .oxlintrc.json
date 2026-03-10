@@ -31,6 +31,7 @@
 		"eslint/no-ternary": "allow",
 		"eslint/no-undef": "allow",
 		"eslint/no-undefined": "allow",
+		"eslint/no-useless-return": "allow",
 		// Let oxfmt handle import sorting
 		"eslint/sort-imports": "allow",
 		"import/no-default-export": "allow",
