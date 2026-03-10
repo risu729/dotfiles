@@ -5,9 +5,9 @@
 		// ignore line length because I don't want to wrap my text
 		"line-length": false,
 		"no-hard-tabs": {
-			"code_blocks": false
-		}
+			"code_blocks": false,
+		},
 	},
 	"gitignore": true,
-	"globs": ["**/*.md"]
+	"globs": ["**/*.md"],
 }

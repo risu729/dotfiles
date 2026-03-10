@@ -12,6 +12,6 @@
 		"mkhl.shfmt",
 		"timonwong.shellcheck",
 		"vitest.explorer",
-		"ms-azuretools.vscode-docker",
+		"ms-azuretools.vscode-docker"
 	]
 }

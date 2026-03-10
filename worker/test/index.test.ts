@@ -6,9 +6,7 @@ test("redirect / to repository readme", async () => {
 	const response = await SELF.fetch("https://dot.risunosu.com/", {
 		redirect: "manual",
 	});
-	expect(response.headers.get("location")).toBe(
-		"https://github.com/risu729/dotfiles#readme",
-	);
+	expect(response.headers.get("location")).toBe("https://github.com/risu729/dotfiles#readme");
 });
 
 test("redirect / with 307 status code", async () => {
@@ -43,9 +41,7 @@ describe("return the installer script with the specified repo name set", () => {
 		},
 		async (path) => {
 			const response = await SELF.fetch(`https://dot.risunosu.com${path}`);
-			expect(await response.text()).toMatch(
-				/^.?repo(_n|N)ame *= *["']risu729\/dotfiles["']/gm,
-			);
+			expect(await response.text()).toMatch(/^.?repo(_n|N)ame *= *["']risu729\/dotfiles["']/gm);
 		},
 	);
 });
@@ -62,10 +58,7 @@ describe("return the installer script with the specified ref set", () => {
 				`https://dot.risunosu.com${path}?ref=${import.meta.env.LATEST_COMMIT_HASH}`,
 			);
 			expect(await response.text()).toMatch(
-				new RegExp(
-					`^.?git(_r|R)ef *= *["']${import.meta.env.LATEST_COMMIT_HASH}["']`,
-					"gm",
-				),
+				new RegExp(`^.?git(_r|R)ef *= *["']${import.meta.env.LATEST_COMMIT_HASH}["']`, "gm"),
 			);
 		},
 	);
@@ -126,8 +119,7 @@ describe("installer script must contain the source URL", () => {
 	it.each(["/win", "/wsl"])("return %s with default branch", async (path) => {
 		const response = await SELF.fetch(`https://dot.risunosu.com${path}`);
 		const script = await response.text();
-		const sourceUrl = [...script.matchAll(/# source: (?<url>.+)/g)].at(0)
-			?.groups?.["url"];
+		const sourceUrl = [...script.matchAll(/# source: (?<url>.+)/g)].at(0)?.groups?.["url"];
 		expect(sourceUrl).toBe(
 			`https://raw.githubusercontent.com/risu729/dotfiles/${import.meta.env.DEFAULT_BRANCH}${path}/install.${path === "/win" ? "ps1" : "sh"}`,
 		);
@@ -138,8 +130,7 @@ describe("installer script must contain the source URL", () => {
 			`https://dot.risunosu.com${path}?ref=${import.meta.env.LATEST_COMMIT_HASH}`,
 		);
 		const script = await response.text();
-		const sourceUrl = [...script.matchAll(/# source: (?<url>.+)/g)].at(0)
-			?.groups?.["url"];
+		const sourceUrl = [...script.matchAll(/# source: (?<url>.+)/g)].at(0)?.groups?.["url"];
 		expect(sourceUrl).toBe(
 			`https://raw.githubusercontent.com/risu729/dotfiles/${import.meta.env.LATEST_COMMIT_HASH}${path}/install.${
 				path === "/win" ? "ps1" : "sh"
@@ -149,20 +140,15 @@ describe("installer script must contain the source URL", () => {
 });
 
 describe("installer script is almost the same as the source", () => {
-	const getDiffLines = async (
-		response: Response,
-	): Promise<ChangeObject<string>[]> => {
+	const getDiffLines = async (response: Response): Promise<ChangeObject<string>[]> => {
 		const script = await response.text();
-		const sourceUrl = [...script.matchAll(/# source: (?<url>.+)/g)].at(0)
-			?.groups?.["url"];
+		const sourceUrl = [...script.matchAll(/# source: (?<url>.+)/g)].at(0)?.groups?.["url"];
 		if (!sourceUrl) {
 			throw new Error("source URL not found (covered by the previous test)");
 		}
 		const sourceResponse = await fetch(sourceUrl);
 		if (!sourceResponse.ok) {
-			throw new Error(
-				`failed to fetch source script: ${sourceResponse.statusText}`,
-			);
+			throw new Error(`failed to fetch source script: ${sourceResponse.statusText}`);
 		}
 		const sourceScript = await sourceResponse.text();
 		return diffLines(sourceScript, script);

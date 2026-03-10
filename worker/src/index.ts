@@ -10,10 +10,7 @@ app.use(poweredBy());
 
 // redirect to the readme
 app.get("/", (c) => {
-	return c.redirect(
-		`https://github.com/${import.meta.env.REPO_NAME}#readme`,
-		307,
-	);
+	return c.redirect(`https://github.com/${import.meta.env.REPO_NAME}#readme`, 307);
 });
 
 const shebangRegex = /^#!.*\n+/;
@@ -77,9 +74,7 @@ app.get("/:os{win|wsl}", async ({ req, text }) => {
 		}
 		// use camel case for Windows and snake case for WSL
 		const nameInOs =
-			os === "win"
-				? name.replace(/_([a-z])/g, (_, char) => char.toUpperCase())
-				: name;
+			os === "win" ? name.replace(/_([a-z])/g, (_, char) => char.toUpperCase()) : name;
 		const regex = new RegExp(`(?<=${nameInOs} *= *["'])(?=["'])`);
 		if (!regex.test(script)) {
 			throw new HTTPException(500, {
@@ -90,9 +85,7 @@ app.get("/:os{win|wsl}", async ({ req, text }) => {
 	}
 
 	const shebang = script.match(shebangRegex)?.[0] ?? "";
-	return text(
-		`${shebang}# source: ${scriptUrl}\n\n${script.replace(shebang, "")}`,
-	);
+	return text(`${shebang}# source: ${scriptUrl}\n\n${script.replace(shebang, "")}`);
 });
 
 export default app satisfies ExportedHandler;
