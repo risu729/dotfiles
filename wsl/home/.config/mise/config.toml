@@ -43,6 +43,8 @@ kubectl = "latest"
 kubectx = "latest"
 mitmproxy = "latest"
 pitchfork = "latest"
+miller = "latest"
+glow = "latest"
 
 # ai agents
 claude = "latest"
