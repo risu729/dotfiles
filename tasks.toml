@@ -13,9 +13,13 @@ description = "Commit changes with commitizen."
 depends = ["check:*"]
 description = "Run all linters and formatters. Set LINT=true to check formatting without applying it."
 
-["check:biome"]
-run = "biome {% if env.LINT is undefined %}check --write{% else %}ci{% endif %} --error-on-warnings"
-description = "Run Biome to lint and format JavaScript/TypeScript/JSON/JSONC files."
+["check:oxlint"]
+run = "oxlint --report-unused-disable-directives-severity error {% if env.LINT is undefined %}--fix{% endif %}"
+description = "Run oxlint to lint JavaScript/TypeScript files."
+
+["check:oxfmt"]
+run = "oxfmt {% if env.LINT is defined %}--check{% endif %}"
+description = "Run oxfmt to format JavaScript/TypeScript/JSON/JSONC/JSON5/Markdown files."
 
 ["check:tsc"]
 depends = ["check:tsc:*"]
@@ -59,12 +63,6 @@ run = [
 	"taplo fmt {% if env.LINT is defined %}--check --diff{% endif %}",
 ]
 description = "Run Taplo to lint and format TOML files."
-
-["check:prettier"]
-run = """
-prettier {% if env.LINT is undefined %}--write{% else %}--check{% endif %} \
-	{% if env.CI is undefined %}--cache{% endif %} ."""
-description = "Run Prettier to format JSON5/Markdown files."
 
 ["check:markdownlint"]
 run = "markdownlint-cli2 {% if env.LINT is undefined %}--fix{% endif %}"
@@ -115,15 +113,10 @@ depends_post = [
 ]
 description = "Format mise.toml and validate tasks."
 
-["check:cspell"]
-run = "cspell {% if env.CI is undefined %}--cache{% endif %} \"**/*\""
-description = "Run cspell to check spelling in files."
-
 ["check:lychee"]
 run = "lychee {% if env.LINT is defined %}--verbose{% endif %} \"**/*\""
 env.GITHUB_TOKEN = "{{ env.GITHUB_TOKEN }}"
 # no other ways to set metadata for tasks
-# cspell:ignore lycheecache
 env.CACHE_PATH = ".lycheecache"
 description = "Run Lychee to check links in files."
 
@@ -145,12 +138,11 @@ shell = "pwsh -Command"
 # ref: https://github.com/PowerShell/PowerShellGetv2/issues/461
 run = "Install-Module -Name PSScriptAnalyzer -RequiredVersion {{ vars.PS_SCRIPT_ANALYZER_VERSION }} -Force"
 
-["util:nodiff"] # cspell:ignore nodiff
+["util:nodiff"]
 run = ["git add .", "git diff --staged --exit-code"]
 hide = true
 description = "Check there are no changes in the repository."
 
-# cspell:ignore donothing
 ["util:donothing"]
 run = ":"
 hide = true

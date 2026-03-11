@@ -1,0 +1,7 @@
+#:schema https://pitchfork.jdx.dev/schema.json
+
+[settings]
+general.mise = true
+web.auto_start = true
+
+[daemons]

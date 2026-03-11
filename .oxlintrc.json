@@ -1,0 +1,42 @@
+{
+	"$schema": "https://raw.githubusercontent.com/oxc-project/oxc/main/npm/oxlint/configuration_schema.json",
+	"plugins": ["import", "jsdoc", "node", "vitest", "promise"],
+	"categories": {
+		"correctness": "error",
+		"nursery": "error",
+		"pedantic": "error",
+		"perf": "error",
+		"restriction": "error",
+		"style": "error",
+		"suspicious": "error"
+	},
+	"rules": {
+		"eslint/id-length": [
+			"error",
+			{
+				"checkGeneric": false,
+				"exceptions": ["_"]
+			}
+		],
+		"eslint/no-console": "allow",
+		"eslint/no-continue": "allow",
+		"eslint/no-duplicate-imports": [
+			"error",
+			{
+				"allowSeparateTypeImports": true
+			}
+		],
+		"eslint/no-inline-comments": "allow",
+		"eslint/no-magic-numbers": "allow",
+		"eslint/no-ternary": "allow",
+		"eslint/no-undef": "allow",
+		"eslint/no-undefined": "allow",
+		"eslint/no-useless-return": "allow",
+		// Let oxfmt handle import sorting
+		"eslint/sort-imports": "allow",
+		"import/no-default-export": "allow",
+		"import/no-nodejs-modules": "allow",
+		"import/unambiguous": "allow",
+		"vitest/no-importing-vitest-globals": "allow"
+	}
+}

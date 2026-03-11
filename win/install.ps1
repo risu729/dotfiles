@@ -33,7 +33,6 @@ function Test-MinimumWindowsVersion {
 		throw 'This script can only run on Windows.'
 	}
 
-	# cspell:ignore NNHN
 	# Derive the numeric version from the required display version string (NNHN format expected)
 	if ($RequiredDisplayVersionString -match '^(\d{2})H(\d)$') {
 		$requiredVerNum = [int]("$($matches[1])0$($matches[2])")
@@ -63,7 +62,6 @@ function Test-MinimumWindowsVersion {
 
 	# Further validation using DisplayVersion from registry
 	try {
-		# cspell:ignore HKLM
 		$displayVersion = Get-ItemPropertyValue `
 			-Path 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion' `
 			-Name 'DisplayVersion' `
@@ -156,7 +154,6 @@ function Invoke-ExternalCommand {
 	)
 
 	Invoke-Expression $Command
-	# cspell:ignore LASTEXITCODE
 	$exitCode = $LASTEXITCODE
 	if ($exitCode -ne 0) {
 		throw "Command failed with exit code ${exitCode}: $Command"
@@ -347,7 +344,6 @@ function New-WslUser {
 	# The default shell is /bin/sh so override it with /bin/bash
 	Invoke-WSLCommand -Root -Command "useradd --create-home --shell /bin/bash $Username"
 	Invoke-WSLCommand -Root -Command "echo ${Username}:$Password | chpasswd"
-	# cspell:ignore usermod
 	Invoke-WSLCommand -Root -Command "usermod --append --groups sudo $Username"
 
 	Write-Information "User '$Username' created in WSL distribution '$Distribution'."
@@ -470,7 +466,6 @@ function Import-WingetPackagesFile {
 	This function only sets the registry key for PowerToys settings backup directory.
 	It does not restore the settings from the backup.
 #>
-# cspell:ignore powertoys
 function Set-PowerToysBackupDirectory {
 	[Diagnostics.CodeAnalysis.SuppressMessageAttribute(
 		'PSUseShouldProcessForStateChangingFunctions',
@@ -484,7 +479,6 @@ function Set-PowerToysBackupDirectory {
 		[string]$DotfilesPath
 	)
 	$powertoys_backup_dir = "$DotfilesPath\win\powertoys"
-	# cspell:ignore HKCU
 	# Use -Force in case the key/value doesn't exist
 	# ref: https://github.com/microsoft/PowerToys/blob/75121ca7f3491f769423ba2c141934d6b5402de8/src/settings-ui/Settings.UI.Library/SettingsBackupAndRestoreUtils.cs#L392
 	Set-ItemProperty `
@@ -515,7 +509,6 @@ function Set-WSLENV {
 	[CmdletBinding()]
 	param()
 
-	# cspell:ignore WSLENV PATHEXT
 	# Set WSLENV to share PATHEXT between Windows and WSL
 	# ref: https://learn.microsoft.com/en-us/windows/wsl/filesystems#share-environment-variables-between-windows-and-wsl-with-wslenv
 	[System.Environment]::SetEnvironmentVariable('WSLENV', 'PATHEXT', [System.EnvironmentVariableTarget]::User)

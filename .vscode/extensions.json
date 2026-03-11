@@ -2,21 +2,15 @@
 	// ref: https://code.visualstudio.com/docs/editor/extension-marketplace#_workspace-recommended-extensions
 	"recommendations": [
 		"oven.bun-vscode",
-		"biomejs.biome",
+		"oxc.oxc-vscode",
 		// cspell:ignore bluebrown
 		"bluebrown.yamlfmt",
 		"github.vscode-github-actions",
-		// cspell:ignore mrmlnc
 		"mrmlnc.vscode-json5",
-		// cspell:ignore esbenp
-		"esbenp.prettier-vscode",
 		// cspell:ignore tamasfe
 		"tamasfe.even-better-toml",
-		// cspell:ignore mkhl
 		"mkhl.shfmt",
-		// cspell:ignore timonwong
 		"timonwong.shellcheck",
-		"streetsidesoftware.code-spell-checker",
 		"vitest.explorer",
 		"ms-azuretools.vscode-docker"
 	]

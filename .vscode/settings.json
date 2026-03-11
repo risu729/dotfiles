@@ -1,36 +1,24 @@
 {
 	// ref: https://code.visualstudio.com/docs/getstarted/settings#_workspace-settings
 
-	"[javascript][typescript][json][jsonc]": {
-		"editor.defaultFormatter": "biomejs.biome"
-	},
-	"[markdown][json5]": {
-		// cspell:ignore esbenp
-		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	"[javascript][typescript][json][jsonc][markdown][json5]": {
+		"editor.defaultFormatter": "oxc.oxc-vscode"
 	},
 	"[shellscript]": {
-		// cspell:ignore mkhl
 		"editor.defaultFormatter": "mkhl.shfmt"
 	},
 	"[toml]": {
-		// cspell:ignore tamasfe
 		"editor.defaultFormatter": "tamasfe.even-better-toml"
 	},
 
 	"[yaml][github-actions-workflow]": {
-		// cspell:ignore bluebrown
 		"editor.defaultFormatter": "bluebrown.yamlfmt"
 	},
 
-	// ref: https://biomejs.dev/reference/vscode/
-	"editor.codeActionsOnSave": {
-		"source.fixAll.biome": "explicit"
-	},
 	"editor.formatOnPaste": true,
 	"editor.formatOnSave": true,
 
 	"files.associations": {
-		// cspell:ignore czrc
 		".czrc": "jsonc",
 		".tool-versions": "plaintext",
 		// match on the absolute path if / is contained
@@ -38,7 +26,6 @@
 		"**/wsl/etc/**": "plaintext",
 		"*ignore-sync": "ini",
 		"gpg-agent.conf": "plaintext",
-		// cspell:ignore shellcheckrc
 		"shellcheckrc": "ini",
 		"winget.json": "jsonc"
 	},
