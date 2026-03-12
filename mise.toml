@@ -29,7 +29,7 @@ typos = "1.44.0"
 "npm:jschema-validator" = "1.0.27"
 jc = "1.25.6"
 hadolint = "2.14.0"
-powershell = "7.5.4"
+powershell = "7.5.5"
 
 [settings]
 experimental = true
