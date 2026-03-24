@@ -703,4 +703,5 @@ dkms.conf
 
 !env/
 !ENV/
+!lib/
 mise-local-tasks/

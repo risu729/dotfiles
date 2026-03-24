@@ -20,4 +20,5 @@ C.gitignore
 [inline]
 !env/
 !ENV/
+!lib/
 mise-local-tasks/
