@@ -81,7 +81,7 @@ pin = true
 experimental = true
 
 [settings.npm]
-bun = true
+package_manager = "bun"
 
 [settings.python]
 # disable python-build
