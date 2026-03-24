@@ -88,4 +88,8 @@ bun = true
 compile = false
 
 [shell_alias]
+m = "mise"
+mx = "mise x"
 l = "eza --all --long --git"
+k = "kubecolor"
+aptup = "sudo apt update && sudo apt upgrade -y"
