@@ -39,6 +39,7 @@ fd = "latest"
 xh = "latest"
 jd = "latest"
 sd = "latest"
+kubecolor = "latest"
 kubectl = "latest"
 kubectx = "latest"
 mitmproxy = "latest"
@@ -47,6 +48,7 @@ miller = "latest"
 glow = "latest"
 
 # ai agents
+codex = "latest"
 claude = "latest"
 gemini-cli = "latest"
 opencode = "latest"
@@ -81,11 +83,15 @@ pin = true
 experimental = true
 
 [settings.npm]
-bun = true
+package_manager = "bun"
 
 [settings.python]
 # disable python-build
 compile = false
 
 [shell_alias]
+m = "mise"
+mx = "mise x"
 l = "eza --all --long --git"
+k = "kubecolor"
+aptup = "sudo apt update && sudo apt upgrade -y"
