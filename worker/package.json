@@ -6,7 +6,7 @@
 		"deploy": "./tasks/worker/deploy"
 	},
 	"dependencies": {
-		"hono": "4.12.9"
+		"hono": "4.12.10"
 	},
 	"devDependencies": {
 		"@cloudflare/vite-plugin": "1.30.3",
