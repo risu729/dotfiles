@@ -28,7 +28,7 @@
 	path = ~/.gitconfig.local
 
 [alias]
-	sm = switch main
+	sm = "!branch=$(git symbolic-ref --quiet --short refs/remotes/origin/HEAD 2>/dev/null); branch=${branch#origin/}; if [ -z \"$branch\" ]; then branch=$(git remote show origin | sed -n '/HEAD branch/s/.*: //p'); fi; [ -n \"$branch\" ] && git switch \"$branch\""
 	sync = !curr=$(git rev-parse --abbrev-ref HEAD) && git fetch --all && git submodule update --init --recursive && git pull --ff-only upstream \"$curr\" && git push origin \"$curr\"
 [gpg]
 	program = gpg
