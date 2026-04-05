@@ -1,7 +1,7 @@
 // ref: https://developers.cloudflare.com/workers/wrangler/configuration
 {
 	"$schema": "./node_modules/wrangler/config-schema.json",
-	"compatibility_date": "2026-03-17",
+	"compatibility_date": "2026-04-01",
 	"compatibility_flags": [
 		// required to use vitest
 		// ref: https://developers.cloudflare.com/workers/testing/vitest-integration/configuration/#workerspooloptions
