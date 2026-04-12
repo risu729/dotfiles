@@ -50,7 +50,7 @@ jobs:
       - name: Install mise
         uses: jdx/mise-action@1648a7812b9aeae629881980618f079932869151 # v4.0.1
         with:
-          version: 2026.4.3
+          version: 2026.4.9
           cache: false
         env:
           MISE_ENABLE_TOOLS: jc
@@ -73,7 +73,7 @@ jobs:
         id: build
         # if mise version is not changed, check if the image digest is changed
         if: steps.image-info.outputs.is_mise_version_changed == 'false'
-        uses: docker/build-push-action@d08e5c354a6adb9ed34480a06d141179aa583294 # v7.0.0
+        uses: docker/build-push-action@bcafcacb16a39f128d818304e6c9c0c18556b85f # v7.1.0
         with:
           context: ./worker/docker
           build-args: |
@@ -95,7 +95,7 @@ jobs:
 
       - name: Build and push Docker image
         if: steps.login.outcome != 'skipped'
-        uses: docker/build-push-action@d08e5c354a6adb9ed34480a06d141179aa583294 # v7.0.0
+        uses: docker/build-push-action@bcafcacb16a39f128d818304e6c9c0c18556b85f # v7.1.0
         with:
           context: ./worker/docker
           build-args: |
