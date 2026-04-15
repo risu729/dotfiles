@@ -29,6 +29,7 @@ watchexec = "latest"
 jq = "latest"
 yq = "latest"
 github-cli = "latest"
+"github:seachicken/gh-poi" = { version = "latest", bin = "gh-poi" }
 "aqua:siketyan/ghr" = "latest"
 jc = "latest"
 delta = "latest"
@@ -44,9 +45,11 @@ kubectl = "latest"
 kubectx = "latest"
 kubeseal = "0.35.0"
 mitmproxy = "latest"
+doggo = "1.1.5"
 pitchfork = "latest"
 miller = "latest"
 glow = "latest"
+"github:garden-rs/garden" = "2.6.0"
 
 # ai agents
 codex = "latest"
@@ -74,6 +77,7 @@ hadolint = "latest"
 
 # uni tools
 numbat = "latest"
+typst = "0.14.2"
 
 # mise development
 aqua = "latest"
