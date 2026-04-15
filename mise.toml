@@ -35,7 +35,7 @@ powershell = "7.6.0"
 experimental = true
 
 [settings.npm]
-bun = true
+package_manager = "bun"
 
 [task_config]
 includes = ["tasks.toml", "tasks", "worker/tasks.toml", "worker/tasks"]
