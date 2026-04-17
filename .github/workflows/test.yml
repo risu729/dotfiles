@@ -30,7 +30,7 @@ jobs:
 
     services:
       worker:
-        image: ghcr.io/risu729/dotfiles/worker:1.20260411.0@sha256:78391ca16dee271f2ee6779aaf164f98c6a894bbf4032a87e33b04643d676e67
+        image: ghcr.io/risu729/dotfiles/worker:1.20260415.1@sha256:b9c115118065495abf0e8d098f049001eb53eb39bf8a1fbca0a39d8111aa64b6
         # vite preview server runs on port 4173 by default
         # ref: https://vite.dev/config/preview-options#preview-port
         options: >-
