@@ -1,5 +1,5 @@
 [providers.bun]
-"bun.lock" = "2e792101881dbc351bb5c20da79dd8330e3a4584b0fb37bd357a8162c353710f"
-"package.json" = "465a51857168a968ac3d4737e798d152ba6d63ab8c6fe9d47e134ea952e44eb5"
+"bun.lock" = "0c9382e4c0b5d352478b140592feb15787b629e02eaef86aa737bd65146e290a"
+"package.json" = "9275ee522e00012a5f6eaa374c29f79f696d7d82cf265b7605a1e40f760206b2"
 
 [providers.bun_worker]
