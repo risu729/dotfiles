@@ -3,9 +3,7 @@
 	"billing": {
 		"overageStrategy": "always"
 	},
-	"experimental": {
-		"plan": true
-	},
+	"experimental": {},
 	"general": {
 		"defaultApprovalMode": "plan",
 		"enableAutoUpdate": false,
@@ -16,6 +14,9 @@
 		"sessionRetention": {
 			"enabled": true,
 			"maxAge": "120d"
+		},
+		"plan": {
+			"enabled": true
 		}
 	},
 	"ide": {
@@ -49,5 +50,8 @@
 		"showModelInfoInChat": true,
 		"showStatusInTitle": true,
 		"theme": "Atom One"
+	},
+	"agents": {
+		"overrides": {}
 	}
 }

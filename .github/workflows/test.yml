@@ -26,11 +26,11 @@ jobs:
       contents: read # for checkout
 
     container:
-      image: ghcr.io/risu729/dotfiles/wsl:24.04.20260410@sha256:e74fca1fa0bfc351a5ce47c19a1af32dae00f4c60f3b5d6efcb71bf258a19c11
+      image: ghcr.io/risu729/dotfiles/wsl:24.04.20260418@sha256:1ce6d6622f334fe70248ef7df5c98d0957c82e52f39d64eddf90ff5220f4fda6
 
     services:
       worker:
-        image: ghcr.io/risu729/dotfiles/worker:1.20260408.0@sha256:46d2438ebd1f39797fc229a92bb6b6692a08a9647b4196871c60124e9040a6dc
+        image: ghcr.io/risu729/dotfiles/worker:1.20260417.0@sha256:bafd76e595549607dca9665970bf9799a503e0f2ab18c8ea95b9c0a6adcd6483
         # vite preview server runs on port 4173 by default
         # ref: https://vite.dev/config/preview-options#preview-port
         options: >-
@@ -68,4 +68,4 @@ jobs:
 
     steps:
       - name: actions-timeline
-        uses: Kesin11/actions-timeline@e018cfefea60b4f44266998551211a35a58b8097 # v3.0.0
+        uses: Kesin11/actions-timeline@44c9c178ffb2fb1d9859614a3ffa79ccfb77565e # v3.1.0
