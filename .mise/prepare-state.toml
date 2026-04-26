@@ -1,0 +1,5 @@
+[providers.bun]
+"bun.lock" = "0c9382e4c0b5d352478b140592feb15787b629e02eaef86aa737bd65146e290a"
+"package.json" = "9275ee522e00012a5f6eaa374c29f79f696d7d82cf265b7605a1e40f760206b2"
+
+[providers.bun_worker]
