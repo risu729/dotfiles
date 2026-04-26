@@ -82,6 +82,7 @@ typst = "0.14.2"
 # mise development
 aqua = "latest"
 vfox = "latest"
+copilot = "1.0.27"
 
 [settings]
 pin = true
