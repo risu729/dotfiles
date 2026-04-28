@@ -2,9 +2,9 @@
 	"$schema": "https://json.schemastore.org/package.json",
 	"name": "@risu729/dotfiles",
 	"devDependencies": {
-		"@commitlint/cli": "20.5.0",
+		"@commitlint/cli": "20.5.2",
 		"@commitlint/config-conventional": "20.5.0",
-		"@commitlint/cz-commitlint": "20.5.1",
+		"@commitlint/cz-commitlint": "20.5.2",
 		"@commitlint/types": "20.5.0",
 		"@risu729/tsconfigs": "2.0.0",
 		"@types/bun": "1.3.12",
