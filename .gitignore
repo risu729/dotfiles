@@ -140,6 +140,7 @@ tmbootpicker.efi
 # Log files created by default by the nohup command
 nohup.out
 
+# Visual Studio Code
 .vscode/*
 !.vscode/settings.json
 !.vscode/tasks.json
