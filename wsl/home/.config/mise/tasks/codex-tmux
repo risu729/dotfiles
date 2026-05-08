@@ -17,18 +17,18 @@ hash_pwd() {
 }
 
 sanitize_tmux_name() {
-	printf '%s' "$1" \
-		| tr -cs '[:alnum:]_.-' '-' \
-		| sed 's/^-//; s/-$//'
+	printf '%s' "$1" |
+		tr -cs '[:alnum:]_.-' '-' |
+		sed 's/^-//; s/-$//'
 }
 
 BASE_NAME="codex-$(sanitize_tmux_name "$DIR_NAME")-$(hash_pwd)"
 SESSION_NAME="$BASE_NAME"
 
-if [[ "$NEW_SESSION" == "true" ]]; then
+if [[ $NEW_SESSION == "true" ]]; then
 	SESSION_NAME="${BASE_NAME}-$(date +%Y%m%d%H%M%S)-$$"
 elif tmux has-session -t "=${SESSION_NAME}" 2>/dev/null; then
-	if [[ -n "${TMUX:-}" ]]; then
+	if [[ -n ${TMUX:-} ]]; then
 		exec tmux switch-client -t "=${SESSION_NAME}"
 	else
 		exec tmux attach-session -t "=${SESSION_NAME}"
@@ -37,7 +37,7 @@ fi
 
 CODEX_CMD="cd $(printf '%q' "$PWD_REAL") && exec codex"
 
-if [[ -n "${TMUX:-}" ]]; then
+if [[ -n ${TMUX:-} ]]; then
 	tmux new-session -d -s "$SESSION_NAME" bash -c "$CODEX_CMD"
 	exec tmux switch-client -t "=${SESSION_NAME}"
 else
