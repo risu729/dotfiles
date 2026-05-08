@@ -42,6 +42,7 @@ jobs:
         with:
           sparse-checkout: |
             mise.toml
+            mise.lock
             tasks.toml
             tasks/
             worker/
@@ -52,6 +53,7 @@ jobs:
         with:
           version: 2026.5.2
           cache: false
+          install_args: --locked
         env:
           MISE_ENABLE_TOOLS: jc
           GITHUB_TOKEN: ${{ github.token }}

@@ -45,6 +45,7 @@ jobs:
         with:
           sparse-checkout: |
             mise.toml
+            mise.lock
             tasks.toml
             tasks/
             docker/wsl/
@@ -55,6 +56,7 @@ jobs:
         with:
           version: 2026.5.2
           cache: false
+          install_args: --locked
         env:
           # only install required tools
           MISE_ENABLE_TOOLS: jc

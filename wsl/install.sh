@@ -261,10 +261,8 @@ install_mise_tools() {
 	mise trust --all
 
 	log_info "Installing tools..."
-	mise install --yes
-	log_info "Upgrading tools..."
-	mise upgrade --yes
-	log_info "mise tools installed and upgraded."
+	mise install --yes --locked
+	log_info "mise tools installed from lockfile."
 }
 
 symlink_gitconfig() {
