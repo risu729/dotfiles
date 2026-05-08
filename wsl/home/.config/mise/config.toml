@@ -51,6 +51,7 @@ pitchfork = "latest"
 miller = "latest"
 glow = "latest"
 "github:garden-rs/garden" = "2.6.0"
+"pipx:markitdown" = { version = "latest", extras = "all" }
 
 # ai agents
 codex = "latest"
