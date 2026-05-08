@@ -38,11 +38,22 @@ install_system_packages() {
 	# not pre-installed in wsl ubuntu
 	# ref: https://cdimages.ubuntu.com/ubuntu-wsl/noble/daily-live/current/noble-wsl-amd64.manifest
 	sudo apt-get install --yes \
-		zip unzip \
-		build-essential pkg-config libssl-dev \
-		clang clangd clang-format llvm gdb \
-		xdg-utils desktop-file-utils \
-		strace
+		bubblewrap \
+		build-essential \
+		clang \
+		clangd \
+		clang-format \
+		cmake \
+		desktop-file-utils \
+		ffmpeg \
+		gdb \
+		graphviz \
+		libssl-dev \
+		llvm \
+		pkg-config \
+		strace \
+		xdg-utils \
+		zip
 	log_info "Core packages installed."
 }
 
@@ -50,6 +61,11 @@ install_custom_registry_packages() {
 	log_info "Setting up custom APT repositories and installing additional packages..."
 
 	sudo install --directory --mode=0755 /etc/apt/keyrings
+
+	local arch codename
+	arch="$(dpkg --print-architecture)"
+	# shellcheck source=/dev/null
+	codename="$(source /etc/os-release && echo "${UBUNTU_CODENAME:-${VERSION_CODENAME}}")"
 
 	log_info "Adding mise APT repository..."
 	# ref: https://mise.jdx.dev/getting-started.html#apt
@@ -63,17 +79,12 @@ install_custom_registry_packages() {
 	# ref: https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository
 	curl --fail-with-body --silent --show-error --location https://download.docker.com/linux/ubuntu/gpg |
 		sudo tee /etc/apt/keyrings/docker.asc >/dev/null
-	local arch
-	arch="$(dpkg --print-architecture)"
-	local codename
-	# shellcheck source=/dev/null
-	codename="$(source /etc/os-release && echo "${UBUNTU_CODENAME:-${VERSION_CODENAME}}")"
 	echo "deb [arch=${arch} signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu ${codename} stable" |
 		sudo tee /etc/apt/sources.list.d/docker.list >/dev/null
 
 	log_info "All repositories set up. Installing packages..."
 	sudo apt-get update
-	sudo apt-get install --yes mise docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+	sudo apt-get install --yes containerd.io docker-buildx-plugin docker-ce docker-ce-cli docker-compose-plugin mise
 	log_info "Additional packages installed."
 }
 
