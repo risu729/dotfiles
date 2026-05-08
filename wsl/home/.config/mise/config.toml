@@ -102,10 +102,14 @@ package_manager = "aube"
 # disable python-build
 compile = false
 
+[task_config]
+includes = [".config/mise/tasks"]
+
 [shell_alias]
 clip = "clip.exe"
 m = "mise"
 mx = "mise x"
+c = "mise run codex-tmux"
 l = "eza --all --long --git"
 k = "kubecolor"
 aptup = "sudo apt update && sudo apt upgrade -y"

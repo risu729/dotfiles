@@ -1,0 +1,55 @@
+#!/usr/bin/env bash
+#MISE description "Launch Codex CLI in a tmux session scoped to the current directory"
+#USAGE flag "-n --new" help="Force creation of a new tmux session instead of attaching to the existing one for this directory"
+
+set -euo pipefail
+
+if ! command -v codex >/dev/null 2>&1; then
+	echo "error: codex command not found" >&2
+	exit 1
+fi
+
+if ! command -v tmux >/dev/null 2>&1; then
+	echo "error: tmux command not found" >&2
+	exit 1
+fi
+
+NEW_SESSION="${usage_new:-false}"
+PWD_REAL="$(pwd -P)"
+DIR_NAME="$(basename "${PWD_REAL}")"
+
+hash_pwd() {
+	if command -v sha1sum >/dev/null 2>&1; then
+		printf '%s' "${PWD_REAL}" | sha1sum | awk '{print substr($1,1,10)}'
+	else
+		printf '%s' "${PWD_REAL}" | shasum -a 1 | awk '{print substr($1,1,10)}'
+	fi
+}
+
+sanitize_tmux_name() {
+	printf '%s' "${1}" |
+		tr -cs '[:alnum:]_.-' '-' |
+		sed 's/^-//; s/-$//'
+}
+
+_dir_safe="$(sanitize_tmux_name "${DIR_NAME}")"
+_hash="$(hash_pwd)"
+BASE_NAME="codex-${_dir_safe}-${_hash}"
+SESSION_NAME="${BASE_NAME}"
+
+if [[ ${NEW_SESSION} == "true" ]]; then
+	SESSION_NAME="${BASE_NAME}-$(date +%Y%m%d%H%M%S)-$$"
+elif tmux has-session -t "=${SESSION_NAME}" 2>/dev/null; then
+	if [[ -n ${TMUX:-} ]]; then
+		exec tmux switch-client -t "=${SESSION_NAME}"
+	else
+		exec tmux attach-session -t "=${SESSION_NAME}"
+	fi
+fi
+
+if [[ -n ${TMUX:-} ]]; then
+	tmux new-session -d -s "${SESSION_NAME}" -c "${PWD_REAL}" codex
+	exec tmux switch-client -t "=${SESSION_NAME}"
+else
+	exec tmux new-session -s "${SESSION_NAME}" -c "${PWD_REAL}" codex
+fi
