@@ -5,6 +5,8 @@
 RUSTC_WRAPPER = "sccache"
 # disable bat paging
 BAT_PAGING = "never"
+# ~/.local/bin/cargo wrapper (max 3 parallel compile-like cargo processes)
+_.path = ["~/.local/bin"]
 
 [tools]
 # language tools
