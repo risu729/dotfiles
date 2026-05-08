@@ -210,6 +210,14 @@ backend = "aqua:hadolint/hadolint"
 checksum = "sha256:6bf226944684f56c84dd014e8b979d27425c0148f61b3bd99bcc6f39e9dc5a47"
 url = "https://github.com/hadolint/hadolint/releases/download/v2.14.0/hadolint-linux-x86_64"
 
+[[tools.hk]]
+version = "1.45.0"
+backend = "aqua:jdx/hk"
+
+[tools.hk."platforms.linux-x64"]
+checksum = "sha256:47a3338403f689cc295d36213cfede4e1098c335d18064416ea9ac2b9739c148"
+url = "https://github.com/jdx/hk/releases/download/v1.45.0/hk-x86_64-unknown-linux-gnu.tar.gz"
+
 [[tools.java]]
 version = "26.0.1"
 backend = "core:java"
@@ -380,6 +388,14 @@ url = "https://github.com/BurntSushi/ripgrep/releases/download/15.1.0/ripgrep-15
 [[tools.rust]]
 version = "1.95.0"
 backend = "core:rust"
+
+[[tools.sccache]]
+version = "0.15.0"
+backend = "aqua:mozilla/sccache"
+
+[tools.sccache."platforms.linux-x64"]
+checksum = "sha256:782d2b5dd7ae0a55ebe368ab258114d0928d019ac2d949ab85d5d02f3926709e"
+url = "https://github.com/mozilla/sccache/releases/download/v0.15.0/sccache-v0.15.0-x86_64-unknown-linux-musl.tar.gz"
 
 [[tools.sd]]
 version = "1.1.0"
