@@ -108,6 +108,15 @@ if command -v ghr &>/dev/null; then
 	eval "${ghr_completion}"
 fi
 
+# Alias completions
+if declare -f _mise >/dev/null; then
+	complete -F _mise m
+	complete -F _mise mx
+fi
+if declare -f __start_kubectl >/dev/null; then
+	complete -o default -F __start_kubectl k
+fi
+
 # gpg requires tty
 # GitHub Actions doesn't have tty
 # ref: https://github.com/actions/runner/issues/241
