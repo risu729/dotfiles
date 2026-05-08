@@ -11,6 +11,10 @@ on:
   schedule:
     - cron: "0 0 * * SUN"
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 permissions: {}
 
 defaults:
@@ -30,7 +34,7 @@ jobs:
 
     services:
       worker:
-        image: ghcr.io/risu729/dotfiles/worker:1.20260418.0@sha256:cc1e5a1a1743660e015192e57490d379eaf3f2ff9b34cd06237f6a1d2416dca7
+        image: ghcr.io/risu729/dotfiles/worker:1.20260502.0@sha256:5017eba91780eabd6c39bd7ce510abdbf5b0effb753ce28c7e2b25e75b166314
         # vite preview server runs on port 4173 by default
         # ref: https://vite.dev/config/preview-options#preview-port
         options: >-
