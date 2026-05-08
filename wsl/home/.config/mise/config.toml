@@ -57,7 +57,6 @@ glow = "latest"
 codex = "latest"
 claude = "latest"
 gemini-cli = "latest"
-opencode = "latest"
 copilot = "latest"
 
 # linter/formatter tools
@@ -84,7 +83,6 @@ typst = "latest"
 
 # mise development
 aqua = "latest"
-vfox = "latest"
 
 [settings]
 pin = true

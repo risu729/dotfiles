@@ -316,14 +316,6 @@ backend = "aqua:sharkdp/numbat"
 checksum = "sha256:09efa9dfbff4d983fb0484e2bfc126df9d0cbedede627d22ac61141457b5daa1"
 url = "https://github.com/sharkdp/numbat/releases/download/v1.23.0/numbat-v1.23.0-x86_64-unknown-linux-musl.tar.gz"
 
-[[tools.opencode]]
-version = "1.14.33"
-backend = "aqua:anomalyco/opencode"
-
-[tools.opencode."platforms.linux-x64"]
-checksum = "sha256:ab3de3d40a67573419ec74916210cf90dcf8c180dc9d8052db71ac9f55c28810"
-url = "https://github.com/anomalyco/opencode/releases/download/v1.14.33/opencode-linux-x64.tar.gz"
-
 [[tools.oxfmt]]
 version = "0.47.0"
 backend = "npm:oxfmt"
@@ -452,14 +444,6 @@ backend = "aqua:astral-sh/uv"
 checksum = "sha256:80521f18ba83109acd17e0730bd8ff898c3426aa62252c627d63418b353e788a"
 url = "https://github.com/astral-sh/uv/releases/download/0.11.11/uv-x86_64-unknown-linux-musl.tar.gz"
 provenance = "github-attestations"
-
-[[tools.vfox]]
-version = "1.0.11"
-backend = "aqua:version-fox/vfox"
-
-[tools.vfox."platforms.linux-x64"]
-checksum = "sha256:c012c9f35f2b2954d65ab7a5cb938c3a21e25fb726573172d4faaa7b615a50cc"
-url = "https://github.com/version-fox/vfox/releases/download/v1.0.11/vfox_1.0.11_linux_x86_64.tar.gz"
 
 [[tools.watchexec]]
 version = "2.5.1"
