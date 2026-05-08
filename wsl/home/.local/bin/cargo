@@ -32,12 +32,12 @@ run_limited() {
 	done
 }
 
-if [[ ! -x "${REAL_CARGO}" ]]; then
+if [[ ! -x ${REAL_CARGO} ]]; then
 	printf 'cargo wrapper: not executable: %s\n' "${REAL_CARGO}" >&2
 	exit 127
 fi
 
-if [[ "${1:-}" == +* ]]; then
+if [[ ${1:-} == +* ]]; then
 	if should_limit "${2:-}"; then
 		run_limited "$@"
 	else
