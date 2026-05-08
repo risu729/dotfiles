@@ -45,7 +45,6 @@ jobs:
       - name: Regenerate lockfiles
         run: |
           mise lock
-          mise lock --platform linux-x64 -C wsl/home/.config/mise
 
       - name: autofix.ci
         uses: autofix-ci/action@c5b2d67aa2274e7b5a18224e8171550871fc7e4a # v1.3.4
