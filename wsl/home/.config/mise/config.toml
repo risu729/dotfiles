@@ -2,6 +2,7 @@
 #:schema https://mise.jdx.dev/schema/mise.json
 
 [env]
+RUSTC_WRAPPER = "sccache"
 # disable bat paging
 BAT_PAGING = "never"
 
@@ -9,6 +10,7 @@ BAT_PAGING = "never"
 # language tools
 node = "latest"
 bun = "latest"
+aube = "latest"
 npm = "latest"
 # Don't use the vfox plugin; it doesn't support lockfiles
 "aqua:yarn" = "latest"
@@ -57,10 +59,10 @@ glow = "latest"
 codex = "latest"
 claude = "latest"
 gemini-cli = "latest"
-opencode = "latest"
 copilot = "latest"
 
 # linter/formatter tools
+hk = "latest"
 biome = "latest"
 oxlint = "latest"
 oxfmt = "latest"
@@ -84,8 +86,8 @@ typst = "latest"
 
 # mise development
 aqua = "latest"
-vfox = "latest"
-aube = "latest"
+pipx = "latest"
+sccache = "latest"
 
 [settings]
 pin = true

@@ -220,6 +220,14 @@ backend = "aqua:hadolint/hadolint"
 checksum = "sha256:6bf226944684f56c84dd014e8b979d27425c0148f61b3bd99bcc6f39e9dc5a47"
 url = "https://github.com/hadolint/hadolint/releases/download/v2.14.0/hadolint-linux-x86_64"
 
+[[tools.hk]]
+version = "1.45.0"
+backend = "aqua:jdx/hk"
+
+[tools.hk."platforms.linux-x64"]
+checksum = "sha256:47a3338403f689cc295d36213cfede4e1098c335d18064416ea9ac2b9739c148"
+url = "https://github.com/jdx/hk/releases/download/v1.45.0/hk-x86_64-unknown-linux-gnu.tar.gz"
+
 [[tools.java]]
 version = "26.0.1"
 backend = "core:java"
@@ -326,14 +334,6 @@ backend = "aqua:sharkdp/numbat"
 checksum = "sha256:09efa9dfbff4d983fb0484e2bfc126df9d0cbedede627d22ac61141457b5daa1"
 url = "https://github.com/sharkdp/numbat/releases/download/v1.23.0/numbat-v1.23.0-x86_64-unknown-linux-musl.tar.gz"
 
-[[tools.opencode]]
-version = "1.14.33"
-backend = "aqua:anomalyco/opencode"
-
-[tools.opencode."platforms.linux-x64"]
-checksum = "sha256:ab3de3d40a67573419ec74916210cf90dcf8c180dc9d8052db71ac9f55c28810"
-url = "https://github.com/anomalyco/opencode/releases/download/v1.14.33/opencode-linux-x64.tar.gz"
-
 [[tools.oxfmt]]
 version = "0.47.0"
 backend = "npm:oxfmt"
@@ -350,6 +350,14 @@ backend = "aqua:suzuki-shunsuke/pinact"
 checksum = "sha256:6adcc8a2217e4114e0841f8bca0cddf9958a9c52e3e89760c35b791cdba1a916"
 url = "https://github.com/suzuki-shunsuke/pinact/releases/download/v3.9.2/pinact_linux_amd64.tar.gz"
 provenance = "github-attestations"
+
+[[tools.pipx]]
+version = "1.11.1"
+backend = "aqua:pypa/pipx"
+
+[tools.pipx."platforms.linux-x64"]
+checksum = "sha256:60c947d2449af642c17079a2119ef87e426ad83967b8bb223bb27c802fc29ccd"
+url = "https://github.com/pypa/pipx/releases/download/1.11.1/pipx.pyz"
 
 [[tools."pipx:markitdown"]]
 version = "0.1.5"
@@ -398,6 +406,14 @@ url = "https://github.com/BurntSushi/ripgrep/releases/download/15.1.0/ripgrep-15
 [[tools.rust]]
 version = "1.95.0"
 backend = "core:rust"
+
+[[tools.sccache]]
+version = "0.15.0"
+backend = "aqua:mozilla/sccache"
+
+[tools.sccache."platforms.linux-x64"]
+checksum = "sha256:782d2b5dd7ae0a55ebe368ab258114d0928d019ac2d949ab85d5d02f3926709e"
+url = "https://github.com/mozilla/sccache/releases/download/v0.15.0/sccache-v0.15.0-x86_64-unknown-linux-musl.tar.gz"
 
 [[tools.sd]]
 version = "1.1.0"
@@ -462,14 +478,6 @@ backend = "aqua:astral-sh/uv"
 checksum = "sha256:80521f18ba83109acd17e0730bd8ff898c3426aa62252c627d63418b353e788a"
 url = "https://github.com/astral-sh/uv/releases/download/0.11.11/uv-x86_64-unknown-linux-musl.tar.gz"
 provenance = "github-attestations"
-
-[[tools.vfox]]
-version = "1.0.11"
-backend = "aqua:version-fox/vfox"
-
-[tools.vfox."platforms.linux-x64"]
-checksum = "sha256:c012c9f35f2b2954d65ab7a5cb938c3a21e25fb726573172d4faaa7b615a50cc"
-url = "https://github.com/version-fox/vfox/releases/download/v1.0.11/vfox_1.0.11_linux_x86_64.tar.gz"
 
 [[tools.watchexec]]
 version = "2.5.1"
