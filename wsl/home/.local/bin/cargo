@@ -1,15 +1,14 @@
 #!/usr/bin/env bash
-# Caps parallel invocations of compile-like cargo subcommands to 3 processes
-# (separate from per-command `-j`; uses three flock slots under LOCK_DIR).
+# Caps parallel invocations of selected cargo subcommands to 3 processes
+# (GNU parallel sem / parallel --semaphore; separate from per-invocation -j).
 set -euo pipefail
 
 REAL_CARGO="${REAL_CARGO:-${HOME}/.cargo/bin/cargo}"
-LOCK_DIR="${XDG_RUNTIME_DIR:-/tmp}/cargo-parallel.${UID}"
-mkdir -p "${LOCK_DIR}"
+readonly SEM_ID="cargo-wrapper-${UID}"
 
 should_limit() {
 	case "$1" in
-	build | check | test | clippy | bench)
+	build | check | test | clippy | bench | doc | run)
 		return 0
 		;;
 	*)
@@ -19,25 +18,22 @@ should_limit() {
 }
 
 run_limited() {
-	while true; do
-		for slot in 1 2 3; do
-			local lock_fd
-			exec {lock_fd}>"${LOCK_DIR}/slot-${slot}.lock"
-			if flock -n "${lock_fd}"; then
-				exec "${REAL_CARGO}" "$@"
-			fi
-			exec {lock_fd}>&-
-		done
-		sleep 0.05
-	done
+	if command -v sem >/dev/null 2>&1; then
+		sem --id "${SEM_ID}" -j 3 --fg -- "${REAL_CARGO}" "$@"
+	elif command -v parallel >/dev/null 2>&1; then
+		parallel --semaphore --id "${SEM_ID}" -j 3 --fg -- "${REAL_CARGO}" "$@"
+	else
+		printf '%s\n' 'cargo wrapper: GNU parallel required (sem or parallel on PATH; apt install parallel)' >&2
+		exit 127
+	fi
 }
 
-if [[ ! -x ${REAL_CARGO} ]]; then
+if [[ ! -x "${REAL_CARGO}" ]]; then
 	printf 'cargo wrapper: not executable: %s\n' "${REAL_CARGO}" >&2
 	exit 127
 fi
 
-if [[ ${1:-} == +* ]]; then
+if [[ "${1:-}" == +* ]]; then
 	if should_limit "${2:-}"; then
 		run_limited "$@"
 	else
