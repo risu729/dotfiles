@@ -66,9 +66,6 @@ bash -i <(curl -fsSL https://dot.risunosu.com/wsl)
 - [LINE](https://desktop.line-scdn.net/win/new/LineInst.exe)
   (Cannot be installed via `winget`.)
 
-- [X](https://x.com)
-  (PWA apps cannot be installed using the script.)
-
 ## 🛠️ Development
 
 ### ⚙️ Setup
@@ -87,14 +84,6 @@ The following command will lint and format the code, including auto-fixes:
 
 ```bash
 mise check
-```
-
-### ✏️ Commit
-
-The following command will commit changes interactively:
-
-```bash
-mise commit
 ```
 
 ## 📜 License
