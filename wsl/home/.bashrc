@@ -74,6 +74,27 @@ if ! shopt -oq posix && [[ -f /usr/share/bash-completion/bash_completion ]]; the
 	source /usr/share/bash-completion/bash_completion
 fi
 
+# kubectl completion (`__start_kubectl` is required for kubecolor below)
+# ref: https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/#enable-shell-autocompletion
+# ref: https://kubernetes.io/docs/reference/kubectl/generated/kubectl_completion/
+if command -v kubectl &>/dev/null; then
+	kubectl_completion="$(kubectl completion bash)"
+	eval "${kubectl_completion}"
+fi
+
+# kubecolor and the mise `k` shell_alias share kubectl’s completion
+# ref: https://kubecolor.github.io/setup/shells/bash/
+if command -v kubectl &>/dev/null && command -v kubecolor &>/dev/null; then
+	complete -o default -F __start_kubectl kubecolor
+	complete -o default -F __start_kubectl k
+fi
+
+# ref: https://mikefarah.gitbook.io/yq/v/v4.x/commands/shell-completion
+if command -v yq &>/dev/null; then
+	yq_completion="$(yq shell-completion bash)"
+	eval "${yq_completion}"
+fi
+
 # Activate pitchfork
 if command -v mise &>/dev/null; then
 	mise_activate="$(pitchfork activate bash)"
@@ -106,6 +127,20 @@ if command -v ghr &>/dev/null; then
 	eval "${ghr_extension}"
 	ghr_completion="$(ghr shell bash --completion)"
 	eval "${ghr_completion}"
+fi
+
+# mise shell_alias completions (`m` → mise, `mx` → mise x)
+if declare -f _mise >/dev/null; then
+	complete -F _mise m
+	_mx_complete() {
+		local original_words=("${COMP_WORDS[@]}")
+		local original_cword=${COMP_CWORD}
+
+		COMP_WORDS=("mise" "x" "${original_words[@]:1}")
+		COMP_CWORD=$((original_cword + 1))
+		_mise
+	}
+	complete -F _mx_complete mx
 fi
 
 # gpg requires tty
