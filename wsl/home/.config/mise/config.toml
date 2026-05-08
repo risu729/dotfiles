@@ -85,6 +85,7 @@ typst = "latest"
 # mise development
 aqua = "latest"
 vfox = "latest"
+pipx = "latest"
 
 [settings]
 pin = true
