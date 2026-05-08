@@ -49,8 +49,8 @@ elif tmux has-session -t "=${SESSION_NAME}" 2>/dev/null; then
 fi
 
 if [[ -n ${TMUX:-} ]]; then
-	tmux new-session -d -s "${SESSION_NAME}" -c "${PWD_REAL}" codex
+	tmux new-session -d -s "${SESSION_NAME}" -c "${PWD_REAL}" codex --disable terminal_resize_reflow
 	exec tmux switch-client -t "=${SESSION_NAME}"
 else
-	exec tmux new-session -s "${SESSION_NAME}" -c "${PWD_REAL}" codex
+	exec tmux new-session -s "${SESSION_NAME}" -c "${PWD_REAL}" codex --disable terminal_resize_reflow
 fi
