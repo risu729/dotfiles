@@ -3,7 +3,7 @@ import { diffLines } from "diff";
 import type { ChangeObject } from "diff";
 import { describe, expect, it } from "vitest";
 
-/* oxlint-disable eslint/max-lines-per-function eslint/max-statements jest/no-conditional-in-test */
+/* oxlint-disable eslint/max-lines-per-function eslint/max-statements jest/no-conditional-in-test jest/prefer-expect-assertions vitest/prefer-expect-assertions vitest/require-test-timeout */
 
 describe("worker", () => {
 	it("redirect / to repository readme", async () => {
