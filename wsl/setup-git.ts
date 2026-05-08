@@ -493,6 +493,7 @@ const importGpgSecretKey = async (
 		// Gpg --import requires the trailing newline
 		const armor = `${lines.join("\n")}\n`;
 
+		// oxlint-disable-next-line eslint/no-useless-assignment -- init-declarations requires `= undefined` here
 		let tempDir: string | undefined = undefined;
 		let fingerprint: string | undefined = undefined;
 		try {
