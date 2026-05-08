@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 #MISE description "Launch Codex CLI in a tmux session scoped to the current directory"
+#MISE dir="{{cwd}}"
 #USAGE flag "-n --new" help="Force creation of a new tmux session instead of attaching to the existing one for this directory"
 
 set -euo pipefail
