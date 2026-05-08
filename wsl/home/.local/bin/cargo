@@ -11,7 +11,7 @@ run_limited() {
 		printf '%s\n' 'cargo wrapper: sem not found (apt install parallel)' >&2
 		exit 127
 	fi
-	sem --id "${SEM_ID}" -j 3 --fg -- "${REAL_CARGO}" "$@"
+	sem --id "${SEM_ID}" -j 3 --ungroup --fg -- "${REAL_CARGO}" "$@"
 }
 
 if [[ ! -x ${REAL_CARGO} ]]; then
