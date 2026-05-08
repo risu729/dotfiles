@@ -44,19 +44,20 @@ sd = "latest"
 kubecolor = "latest"
 kubectl = "latest"
 kubectx = "latest"
-kubeseal = "0.36.6"
+kubeseal = "latest"
 mitmproxy = "latest"
-doggo = "1.1.5"
+doggo = "latest"
 pitchfork = "latest"
 miller = "latest"
 glow = "latest"
-"github:garden-rs/garden" = "2.6.0"
+"github:garden-rs/garden" = "latest"
 
 # ai agents
 codex = "latest"
 claude = "latest"
 gemini-cli = "latest"
 opencode = "latest"
+copilot = "latest"
 
 # linter/formatter tools
 biome = "latest"
@@ -78,12 +79,11 @@ hadolint = "latest"
 
 # uni tools
 numbat = "latest"
-typst = "0.14.2"
+typst = "latest"
 
 # mise development
 aqua = "latest"
 vfox = "latest"
-copilot = "1.0.43"
 
 [settings]
 pin = true
