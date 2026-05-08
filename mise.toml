@@ -35,7 +35,7 @@ powershell = "7.6.1"
 experimental = true
 
 [settings.npm]
-package_manager = "bun"
+package_manager = "aube"
 
 [task_config]
 includes = ["tasks.toml", "tasks", "worker/tasks.toml", "worker/tasks"]
