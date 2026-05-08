@@ -10,6 +10,7 @@ BAT_PAGING = "never"
 # language tools
 node = "latest"
 bun = "latest"
+aube = "latest"
 npm = "latest"
 # Don't use the vfox plugin; it doesn't support lockfiles
 "aqua:yarn" = "latest"
@@ -93,7 +94,7 @@ pin = true
 experimental = true
 
 [settings.npm]
-package_manager = "bun"
+package_manager = "aube"
 
 [settings.python]
 # disable python-build
