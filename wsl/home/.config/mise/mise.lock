@@ -10,13 +10,13 @@ url = "https://github.com/rhysd/actionlint/releases/download/v1.7.12/actionlint_
 provenance = "github-attestations"
 
 [[tools.aqua]]
-version = "2.57.2"
+version = "2.58.0"
 backend = "github:aquaproj/aqua"
 
 [tools.aqua."platforms.linux-x64"]
-checksum = "sha256:d3d8fc69adc28588d900f1dff6e4aaa8c4105f2e929bf96ba9527f3bbe6139d0"
-url = "https://github.com/aquaproj/aqua/releases/download/v2.57.2/aqua_linux_amd64.tar.gz"
-url_api = "https://api.github.com/repos/aquaproj/aqua/releases/assets/405294911"
+checksum = "sha256:e4db66fca1cf9061d18ff1c0abc1cb68ada30e1e2500438ec8a20b72661111be"
+url = "https://github.com/aquaproj/aqua/releases/download/v2.58.0/aqua_linux_amd64.tar.gz"
+url_api = "https://api.github.com/repos/aquaproj/aqua/releases/assets/413125175"
 provenance = "github-attestations"
 
 [[tools."aqua:siketyan/ghr"]]
@@ -37,13 +37,13 @@ backend = "aqua:yarn"
 url = "https://repo.yarnpkg.com/4.14.1/packages/yarnpkg-cli/bin/yarn.js"
 
 [[tools.aube]]
-version = "1.8.0"
+version = "1.9.0"
 backend = "github:endevco/aube"
 
 [tools.aube."platforms.linux-x64"]
-checksum = "sha256:298ff8f1a1820a68a369d03c3dfa46aca8ccbceb1a4facd97329b10a03322abb"
-url = "https://github.com/endevco/aube/releases/download/v1.8.0/aube-v1.8.0-x86_64-unknown-linux-gnu.tar.gz"
-url_api = "https://api.github.com/repos/endevco/aube/releases/assets/411329171"
+checksum = "sha256:f27e4ecdd5669e76d2d1f7be69ca29e0ba0a8943b71172e5f7b785ab9a5c5132"
+url = "https://github.com/endevco/aube/releases/download/v1.9.0/aube-v1.9.0-x86_64-unknown-linux-gnu.tar.gz"
+url_api = "https://api.github.com/repos/endevco/aube/releases/assets/412877756"
 provenance = "github-attestations"
 
 [[tools.bat]]
