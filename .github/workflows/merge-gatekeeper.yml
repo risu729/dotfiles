@@ -8,6 +8,10 @@ on:
     branches:
       - main
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 permissions: {}
 
 jobs:
@@ -17,8 +21,8 @@ jobs:
     # set the longest timeout of all jobs
     timeout-minutes: 30
     permissions:
-      checks: read
-      statuses: read
+      checks: read # list check runs for merge-gatekeeper
+      statuses: read # read commit statuses for merge-gatekeeper
 
     steps:
       - name: Merge Gatekeeper
