@@ -129,6 +129,12 @@ if command -v ghr &>/dev/null; then
 	eval "${ghr_completion}"
 fi
 
+# ref: https://hk.jdx.dev/cli/completion.html — requires `usage` on PATH (mise installs it globally)
+if command -v hk &>/dev/null; then
+	hk_completion="$(hk completion bash)"
+	eval "${hk_completion}"
+fi
+
 # mise shell_alias completions (`m` → mise, `mx` → mise x)
 if declare -f _mise >/dev/null; then
 	complete -F _mise m
