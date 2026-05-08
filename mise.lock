@@ -52,6 +52,24 @@ url = "https://github.com/endevco/aube/releases/download/v1.9.1/aube-v1.9.1-x86_
 url_api = "https://api.github.com/repos/endevco/aube/releases/assets/413927618"
 provenance = "github-attestations"
 
+[tools.aube."platforms.linux-x64-baseline"]
+checksum = "sha256:298ff8f1a1820a68a369d03c3dfa46aca8ccbceb1a4facd97329b10a03322abb"
+url = "https://github.com/endevco/aube/releases/download/v1.8.0/aube-v1.8.0-x86_64-unknown-linux-gnu.tar.gz"
+url_api = "https://api.github.com/repos/endevco/aube/releases/assets/411329171"
+provenance = "github-attestations"
+
+[tools.aube."platforms.linux-x64-musl"]
+checksum = "sha256:332379d6b167c83b7ab7d5a393e55f9dcea5185d3819ee5211739a6d81dba328"
+url = "https://github.com/endevco/aube/releases/download/v1.8.0/aube-v1.8.0-x86_64-unknown-linux-musl.tar.gz"
+url_api = "https://api.github.com/repos/endevco/aube/releases/assets/411310212"
+provenance = "github-attestations"
+
+[tools.aube."platforms.linux-x64-musl-baseline"]
+checksum = "sha256:332379d6b167c83b7ab7d5a393e55f9dcea5185d3819ee5211739a6d81dba328"
+url = "https://github.com/endevco/aube/releases/download/v1.8.0/aube-v1.8.0-x86_64-unknown-linux-musl.tar.gz"
+url_api = "https://api.github.com/repos/endevco/aube/releases/assets/411310212"
+provenance = "github-attestations"
+
 [[tools.bun]]
 version = "1.3.13"
 backend = "core:bun"

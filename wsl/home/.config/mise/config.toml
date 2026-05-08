@@ -5,6 +5,7 @@
 RUSTC_WRAPPER = "sccache"
 # disable bat paging
 BAT_PAGING = "never"
+_.path = ["~/.local/bin"]
 
 [tools]
 # language tools
@@ -57,6 +58,7 @@ glow = "latest"
 
 # ai agents
 codex = "latest"
+"npm:@ccusage/codex" = "latest"
 claude = "latest"
 gemini-cli = "latest"
 copilot = "latest"
@@ -100,10 +102,15 @@ package_manager = "aube"
 # disable python-build
 compile = false
 
+[task_config]
+includes = [".config/mise/tasks"]
+
 [shell_alias]
 clip = "clip.exe"
 m = "mise"
 mx = "mise x"
+c = "mise run codex-tmux"
 l = "eza --all --long --git"
 k = "kubecolor"
 aptup = "sudo apt update && sudo apt upgrade -y"
+cux = "ccusage-codex"

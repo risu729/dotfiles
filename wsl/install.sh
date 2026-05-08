@@ -50,6 +50,7 @@ install_system_packages() {
 		graphviz \
 		libssl-dev \
 		llvm \
+		parallel \
 		pkg-config \
 		strace \
 		xdg-utils \
