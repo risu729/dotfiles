@@ -5,6 +5,7 @@
 RUSTC_WRAPPER = "sccache"
 # disable bat paging
 BAT_PAGING = "never"
+_.path = ["~/.local/bin"]
 
 [tools]
 # language tools
