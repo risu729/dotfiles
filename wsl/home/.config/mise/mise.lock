@@ -326,6 +326,10 @@ url = "https://nodejs.org/dist/v25.9.0/node-v25.9.0-linux-x64.tar.gz"
 version = "11.13.0"
 backend = "npm:npm"
 
+[[tools."npm:@ccusage/codex"]]
+version = "18.0.11"
+backend = "npm:@ccusage/codex"
+
 [[tools.numbat]]
 version = "1.23.0"
 backend = "aqua:sharkdp/numbat"
