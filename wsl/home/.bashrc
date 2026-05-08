@@ -111,6 +111,23 @@ fi
 # Alias completions
 if declare -f _mise >/dev/null; then
 	complete -F _mise m
+	_mx_complete() {
+		local original_words=("${COMP_WORDS[@]}")
+		local original_cword=${COMP_CWORD}
+
+		COMP_WORDS=("mise" "x" "${original_words[@]:1}")
+		COMP_CWORD=$((original_cword + 1))
+		_mise
+	}
+	complete -F _mx_complete mx
+fi
+if declare -f __start_kubectl >/dev/null; then
+	complete -o default -F __start_kubectl k
+fi
+
+# Alias completions
+if declare -f _mise >/dev/null; then
+	complete -F _mise m
 	complete -F _mise mx
 fi
 if declare -f __start_kubectl >/dev/null; then
