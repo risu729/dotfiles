@@ -389,6 +389,14 @@ url = "https://github.com/BurntSushi/ripgrep/releases/download/15.1.0/ripgrep-15
 version = "1.95.0"
 backend = "core:rust"
 
+[[tools.sccache]]
+version = "0.15.0"
+backend = "aqua:mozilla/sccache"
+
+[tools.sccache."platforms.linux-x64"]
+checksum = "sha256:782d2b5dd7ae0a55ebe368ab258114d0928d019ac2d949ab85d5d02f3926709e"
+url = "https://github.com/mozilla/sccache/releases/download/v0.15.0/sccache-v0.15.0-x86_64-unknown-linux-musl.tar.gz"
+
 [[tools.sd]]
 version = "1.1.0"
 backend = "aqua:chmln/sd"
