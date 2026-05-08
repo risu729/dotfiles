@@ -4,22 +4,12 @@
 
 set -euo pipefail
 
-distro_info_csv=$(curl --fail-with-body --location --silent https://debian.pages.debian.net/distro-info-data/ubuntu.csv)
-distro_info_json=$(echo "${distro_info_csv}" | jc --csv)
-today=$(date --utc --iso-8601)
-latest_lts=$(echo "${distro_info_json}" | jq --raw-output "[
-	.[]
-		| select(.version | contains(\"LTS\"))
-		| select(.release <= \"${today}\")
-	]
-	| sort_by(.release)
-	| reverse
-	| .[0]")
+# Keep WSL image target stable because newest LTS metadata can
+# appear before cdimages publishes the corresponding wsl artifact.
+version="24.04"
+series="noble"
 
-version=$(echo "${latest_lts}" | jq --raw-output '.version | sub(" LTS"; "")')
-series=$(echo "${latest_lts}" | jq --raw-output '.series')
-
-echo "Latest LTS: ${version} (${series})"
+echo "Pinned LTS: ${version} (${series})"
 
 image_url="https://cdimages.ubuntu.com/ubuntu-wsl/${series}/daily-live/current/${series}-wsl-amd64.wsl"
 headers=$(curl --fail-with-body --location --silent --head "${image_url}")
