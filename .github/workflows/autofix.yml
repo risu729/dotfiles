@@ -35,6 +35,9 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ github.token }}
 
+      - name: Install tools (locked)
+        run: mise install --locked
+
       - name: Run autofix
         run: mise run check --continue-on-error
         continue-on-error: true

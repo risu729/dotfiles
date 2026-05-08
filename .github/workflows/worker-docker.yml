@@ -42,6 +42,7 @@ jobs:
         with:
           sparse-checkout: |
             mise.toml
+            mise.lock
             tasks.toml
             tasks/
             worker/
@@ -55,6 +56,9 @@ jobs:
         env:
           MISE_ENABLE_TOOLS: jc
           GITHUB_TOKEN: ${{ github.token }}
+
+      - name: Install tools (locked)
+        run: mise install --locked
 
       - name: Retrieve worker Docker image info
         id: image-info
