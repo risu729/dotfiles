@@ -745,3 +745,4 @@ dkms.conf
 !ENV/
 !lib/
 mise-local-tasks/
+.codex
