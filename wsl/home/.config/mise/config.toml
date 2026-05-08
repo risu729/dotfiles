@@ -108,6 +108,4 @@ mx = "mise x"
 l = "eza --all --long --git"
 k = "kubecolor"
 aptup = "sudo apt update && sudo apt upgrade -y"
-# OpenAI Codex via mise (npm backend also exposes ccusage-codex for analytics)
-codex = "mise x -- codex"
 cux = "ccusage-codex"
