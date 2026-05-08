@@ -1,4 +1,0 @@
-{
-	// ref: https://github.com/commitizen/cz-cli?tab=readme-ov-file#making-your-repo-commitizen-friendly
-	"path": "@commitlint/cz-commitlint"
-}
