@@ -37,17 +37,17 @@ _hash="$(hash_pwd)"
 BASE_NAME="codex-${_dir_safe}-${_hash}"
 SESSION_NAME="${BASE_NAME}"
 
-if [[ "${NEW_SESSION}" == "true" ]]; then
+if [[ ${NEW_SESSION} == "true" ]]; then
 	SESSION_NAME="${BASE_NAME}-$(date +%Y%m%d%H%M%S)-$$"
 elif tmux has-session -t "=${SESSION_NAME}" 2>/dev/null; then
-	if [[ -n "${TMUX:-}" ]]; then
+	if [[ -n ${TMUX:-} ]]; then
 		exec tmux switch-client -t "=${SESSION_NAME}"
 	else
 		exec tmux attach-session -t "=${SESSION_NAME}"
 	fi
 fi
 
-if [[ -n "${TMUX:-}" ]]; then
+if [[ -n ${TMUX:-} ]]; then
 	tmux new-session -d -s "${SESSION_NAME}" -c "${PWD_REAL}" codex
 	exec tmux switch-client -t "=${SESSION_NAME}"
 else
