@@ -346,17 +346,17 @@ version = "1.38.0"
 backend = "pipx:yamllint"
 
 [[tools.zizmor]]
-version = "1.11.0"
+version = "1.24.1"
 backend = "aqua:zizmorcore/zizmor"
 
 [tools.zizmor."platforms.linux-x64"]
-checksum = "sha256:da35e666827cbb1e6ca98b18b7969657b9f186467bfebfa25e730aac527c36f8"
-url = "https://github.com/zizmorcore/zizmor/releases/download/v1.11.0/zizmor-x86_64-unknown-linux-gnu.tar.gz"
+checksum = "sha256:a8000f3c683319a523d3b20df0e75457ba591f049cfcbfa98966631b56733c03"
+url = "https://github.com/zizmorcore/zizmor/releases/download/v1.24.1/zizmor-x86_64-unknown-linux-gnu.tar.gz"
 provenance = "github-attestations"
 
 [tools.zizmor."platforms.linux-x64-baseline"]
-checksum = "sha256:da35e666827cbb1e6ca98b18b7969657b9f186467bfebfa25e730aac527c36f8"
-url = "https://github.com/zizmorcore/zizmor/releases/download/v1.11.0/zizmor-x86_64-unknown-linux-gnu.tar.gz"
+checksum = "sha256:a8000f3c683319a523d3b20df0e75457ba591f049cfcbfa98966631b56733c03"
+url = "https://github.com/zizmorcore/zizmor/releases/download/v1.24.1/zizmor-x86_64-unknown-linux-gnu.tar.gz"
 provenance = "github-attestations"
 
 [tools.zizmor."platforms.linux-x64-musl"]

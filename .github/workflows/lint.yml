@@ -11,6 +11,10 @@ on:
   schedule:
     - cron: "0 0 * * SUN"
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 permissions: {}
 
 defaults:
@@ -108,7 +112,7 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 5
     permissions:
-      actions: read
+      actions: read # read workflow runs for Kesin11/actions-timeline
 
     steps:
       - name: actions-timeline
