@@ -6,17 +6,6 @@ set -euo pipefail
 REAL_CARGO="${REAL_CARGO:-${HOME}/.cargo/bin/cargo}"
 readonly SEM_ID="cargo-wrapper-${UID}"
 
-should_limit() {
-	case "$1" in
-	build | check | test | clippy | bench | doc | run)
-		return 0
-		;;
-	*)
-		return 1
-		;;
-	esac
-}
-
 run_limited() {
 	if ! command -v sem >/dev/null 2>&1; then
 		printf '%s\n' 'cargo wrapper: sem not found (apt install parallel)' >&2
@@ -25,21 +14,22 @@ run_limited() {
 	sem --id "${SEM_ID}" -j 3 --fg -- "${REAL_CARGO}" "$@"
 }
 
-if [[ ! -x ${REAL_CARGO} ]]; then
+if [[ ! -x "${REAL_CARGO}" ]]; then
 	printf 'cargo wrapper: not executable: %s\n' "${REAL_CARGO}" >&2
 	exit 127
 fi
 
-if [[ ${1:-} == +* ]]; then
-	if should_limit "${2:-}"; then
-		run_limited "$@"
-	else
-		exec "${REAL_CARGO}" "$@"
-	fi
+if [[ "${1:-}" == +* ]]; then
+	subcmd="${2:-}"
 else
-	if should_limit "${1:-}"; then
-		run_limited "$@"
-	else
-		exec "${REAL_CARGO}" "$@"
-	fi
+	subcmd="${1:-}"
 fi
+
+case "${subcmd}" in
+build | check | test | clippy | bench | doc | run)
+	run_limited "$@"
+	;;
+*)
+	exec "${REAL_CARGO}" "$@"
+	;;
+esac
