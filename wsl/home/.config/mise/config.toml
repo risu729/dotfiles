@@ -87,6 +87,7 @@ typst = "latest"
 # mise development
 aqua = "latest"
 vfox = "latest"
+pipx = "latest"
 sccache = "latest"
 
 [settings]
