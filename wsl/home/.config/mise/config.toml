@@ -2,6 +2,7 @@
 #:schema https://mise.jdx.dev/schema/mise.json
 
 [env]
+RUSTC_WRAPPER = "sccache"
 # disable bat paging
 BAT_PAGING = "never"
 
@@ -61,6 +62,7 @@ opencode = "latest"
 copilot = "latest"
 
 # linter/formatter tools
+hk = "latest"
 biome = "latest"
 oxlint = "latest"
 oxfmt = "latest"
@@ -86,6 +88,7 @@ typst = "latest"
 aqua = "latest"
 vfox = "latest"
 pipx = "latest"
+sccache = "latest"
 
 [settings]
 pin = true
