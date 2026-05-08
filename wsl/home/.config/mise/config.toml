@@ -30,7 +30,7 @@ jq = "latest"
 yq = "latest"
 github-cli = "latest"
 "github:seachicken/gh-poi" = { version = "latest", bin = "gh-poi" }
-"aqua:siketyan/ghr" = "latest"
+"aqua:siketyan/ghr" = { version = "latest", prerelease = true }
 jc = "latest"
 delta = "latest"
 ripgrep = "latest"
