@@ -1,15 +1,6 @@
 # ref: https://mise.jdx.dev/tasks/
 #:schema https://mise.jdx.dev/schema/mise-task.json
 
-[commit]
-depends = ["buni:root"]
-usage = '''
-flag "--staged" help="Only commit staged files" default="false"
-'''
-run = ["{% if usage.staged == false %}git add .{% endif %}", "bun run git-cz"]
-raw = true
-description = "Commit changes with commitizen."
-
 [check]
 depends = ["check:*"]
 description = "Run all linters and formatters. Set LINT=true to check formatting without applying it."

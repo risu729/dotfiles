@@ -97,74 +97,10 @@ jobs:
           path: ${{ matrix.cache_path }}
           key: ${{ steps.restore-cache.outputs.cache-primary-key }}
 
-  commitlint:
-    name: Run commitlint
-    runs-on: ubuntu-24.04
-    timeout-minutes: 10
-    permissions:
-      contents: read # for checkout
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
-        with:
-          fetch-depth: 0 # fetch all history for commitlint
-          persist-credentials: false
-
-      - name: Install mise
-        uses: jdx/mise-action@1648a7812b9aeae629881980618f079932869151 # v4.0.1
-        with:
-          version: 2026.4.18
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
-
-      - name: Install package.json dependencies
-        run: mise run buni:root
-
-      - name: "commitlint (push: initial commit)"
-        id: commitlint-push-initial
-        # commit hash will be 000... if it doesn't exist
-        if: github.event_name == 'push' && github.event.before == '0000000000000000000000000000000000000000'
-        run: bun run commitlint --verbose --to "${AFTER_SHA}"
-        env:
-          AFTER_SHA: ${{ github.event.after }}
-
-      - name: commitlint (push)
-        id: commitlint-push
-        if: github.event_name == 'push' && steps.commitlint-push-initial.outcome == 'skipped'
-        run: bun run commitlint --verbose --from "${BEFORE_SHA}" --to "${AFTER_SHA}"
-        env:
-          BEFORE_SHA: ${{ github.event.before }}
-          AFTER_SHA: ${{ github.event.after }}
-
-      - name: commitlint (pull_request)
-        id: commitlint-pr
-        if: github.event_name == 'pull_request'
-        run: |
-          bun run commitlint --verbose --from "${BASE_SHA}" --to "${HEAD_SHA}"
-        env:
-          BASE_SHA: ${{ github.event.pull_request.base.sha }}
-          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
-
-      - name: commitlint (pull request title)
-        # continue even if the previous step fails
-        # do not use continue-on-error because it will result in a successful job
-        if: ${{ !cancelled() && (steps.commitlint-pr.outcome == 'success' || steps.commitlint-pr.outcome == 'failure') }}
-        run: echo "${PR_TITLE}" | bun run commitlint --verbose
-        env:
-          PR_TITLE: ${{ github.event.pull_request.title }}
-
-      - name: commitlint (last commit)
-        if: steps.commitlint-push-initial.outcome == 'skipped' && steps.commitlint-push.outcome == 'skipped' && steps.commitlint-pr.outcome == 'skipped'
-        run: bun run commitlint --verbose --from "${SHA}"~1 --to "${SHA}"
-        env:
-          SHA: ${{ github.sha }}
-
   actions-timeline:
     name: Generate Actions Timeline
     needs:
       - lint
-      - commitlint
     if: ${{ !cancelled() }}
 
     runs-on: ubuntu-24.04
