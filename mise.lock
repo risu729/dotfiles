@@ -9,6 +9,15 @@ checksum = "sha256:8aca8db96f1b94770f1b0d72b6dddcb1ebb8123cb3712530b08cc387b349a
 url = "https://github.com/rhysd/actionlint/releases/download/v1.7.12/actionlint_1.7.12_linux_amd64.tar.gz"
 provenance = "github-attestations"
 
+[tools.actionlint."platforms.linux-x64-baseline"]
+provenance = "github-attestations"
+
+[tools.actionlint."platforms.linux-x64-musl"]
+provenance = "github-attestations"
+
+[tools.actionlint."platforms.linux-x64-musl-baseline"]
+provenance = "github-attestations"
+
 [[tools.bun]]
 version = "1.3.13"
 backend = "core:bun"
@@ -39,6 +48,15 @@ url = "https://github.com/suzuki-shunsuke/ghalint/releases/download/v1.5.5/ghali
 
 [tools.ghalint."platforms.linux-x64".provenance.slsa]
 url = "https://github.com/suzuki-shunsuke/ghalint/releases/download/v1.5.5/multiple.intoto.jsonl"
+
+[tools.ghalint."platforms.linux-x64-baseline"]
+provenance = "slsa"
+
+[tools.ghalint."platforms.linux-x64-musl"]
+provenance = "slsa"
+
+[tools.ghalint."platforms.linux-x64-musl-baseline"]
+provenance = "slsa"
 
 [[tools.hadolint]]
 version = "2.14.0"
@@ -76,6 +94,18 @@ backend = "core:node"
 checksum = "sha256:44836872d9aec49f1e6b52a9a922872db9a2b02d235a616a5681b6a85fec8d89"
 url = "https://nodejs.org/dist/v24.15.0/node-v24.15.0-linux-x64.tar.gz"
 
+[tools.node."platforms.linux-x64-baseline"]
+checksum = "sha256:44836872d9aec49f1e6b52a9a922872db9a2b02d235a616a5681b6a85fec8d89"
+url = "https://nodejs.org/dist/v24.15.0/node-v24.15.0-linux-x64.tar.gz"
+
+[tools.node."platforms.linux-x64-musl"]
+checksum = "sha256:f55af5bd489c5347b113ca6594cae00a54b30ba57ac5875324311bfc6f4762e3"
+url = "https://unofficial-builds.nodejs.org/download/release/v24.15.0/node-v24.15.0-linux-x64-musl.tar.gz"
+
+[tools.node."platforms.linux-x64-musl-baseline"]
+checksum = "sha256:f55af5bd489c5347b113ca6594cae00a54b30ba57ac5875324311bfc6f4762e3"
+url = "https://unofficial-builds.nodejs.org/download/release/v24.15.0/node-v24.15.0-linux-x64-musl.tar.gz"
+
 [[tools."npm:ignore-sync"]]
 version = "8.0.0"
 backend = "npm:ignore-sync"
@@ -99,6 +129,15 @@ backend = "aqua:suzuki-shunsuke/pinact"
 [tools.pinact."platforms.linux-x64"]
 checksum = "sha256:6adcc8a2217e4114e0841f8bca0cddf9958a9c52e3e89760c35b791cdba1a916"
 url = "https://github.com/suzuki-shunsuke/pinact/releases/download/v3.9.2/pinact_linux_amd64.tar.gz"
+provenance = "github-attestations"
+
+[tools.pinact."platforms.linux-x64-baseline"]
+provenance = "github-attestations"
+
+[tools.pinact."platforms.linux-x64-musl"]
+provenance = "github-attestations"
+
+[tools.pinact."platforms.linux-x64-musl-baseline"]
 provenance = "github-attestations"
 
 [[tools.powershell]]
@@ -130,6 +169,7 @@ version = "0.10.0"
 backend = "aqua:tamasfe/taplo"
 
 [tools.taplo."platforms.linux-x64"]
+checksum = "blake3:4871fab0e60275a1eb46e7190726e144f56c9a9527f59b0d1da5a042baead8e2"
 url = "https://github.com/tamasfe/taplo/releases/download/0.10.0/taplo-linux-x86_64.gz"
 
 [[tools.typos]]
@@ -147,6 +187,15 @@ backend = "aqua:astral-sh/uv"
 [tools.uv."platforms.linux-x64"]
 checksum = "sha256:80521f18ba83109acd17e0730bd8ff898c3426aa62252c627d63418b353e788a"
 url = "https://github.com/astral-sh/uv/releases/download/0.11.11/uv-x86_64-unknown-linux-musl.tar.gz"
+provenance = "github-attestations"
+
+[tools.uv."platforms.linux-x64-baseline"]
+provenance = "github-attestations"
+
+[tools.uv."platforms.linux-x64-musl"]
+provenance = "github-attestations"
+
+[tools.uv."platforms.linux-x64-musl-baseline"]
 provenance = "github-attestations"
 
 [[tools.yamlfmt]]
@@ -168,4 +217,13 @@ backend = "aqua:zizmorcore/zizmor"
 [tools.zizmor."platforms.linux-x64"]
 checksum = "sha256:da35e666827cbb1e6ca98b18b7969657b9f186467bfebfa25e730aac527c36f8"
 url = "https://github.com/zizmorcore/zizmor/releases/download/v1.11.0/zizmor-x86_64-unknown-linux-gnu.tar.gz"
+provenance = "github-attestations"
+
+[tools.zizmor."platforms.linux-x64-baseline"]
+provenance = "github-attestations"
+
+[tools.zizmor."platforms.linux-x64-musl"]
+provenance = "github-attestations"
+
+[tools.zizmor."platforms.linux-x64-musl-baseline"]
 provenance = "github-attestations"
