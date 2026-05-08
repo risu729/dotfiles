@@ -61,6 +61,7 @@ opencode = "latest"
 copilot = "latest"
 
 # linter/formatter tools
+hk = "latest"
 biome = "latest"
 oxlint = "latest"
 oxfmt = "latest"
