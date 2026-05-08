@@ -57,6 +57,7 @@ glow = "latest"
 
 # ai agents
 codex = "latest"
+"npm:@ccusage/codex" = "latest"
 claude = "latest"
 gemini-cli = "latest"
 copilot = "latest"
@@ -107,3 +108,4 @@ mx = "mise x"
 l = "eza --all --long --git"
 k = "kubecolor"
 aptup = "sudo apt update && sudo apt upgrade -y"
+cux = "ccusage-codex"
