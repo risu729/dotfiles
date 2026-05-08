@@ -85,13 +85,14 @@ typst = "latest"
 # mise development
 aqua = "latest"
 vfox = "latest"
+aube = "latest"
 
 [settings]
 pin = true
 experimental = true
 
 [settings.npm]
-package_manager = "bun"
+package_manager = "aube"
 
 [settings.python]
 # disable python-build
