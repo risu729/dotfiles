@@ -140,38 +140,6 @@ if command -v antigravity &>/dev/null; then
 	}
 fi
 
-# Call windows executables without extensions if it exists
-# e.g. `clip` instead of `clip.exe`
-if [[ -z ${_win_cmd_not_found:-} ]]; then
-	_win_cmd_not_found=1
-	if [[ -n "$(declare -f command_not_found_handle)" ]]; then
-		_win_cmd_not_found_handle=$(declare -f command_not_found_handle)
-		# _command_not_found_handle is used by mise
-		eval "${_win_cmd_not_found_handle/command_not_found_handle/__command_not_found_handle}"
-	fi
-
-	command_not_found_handle() {
-		# shellcheck disable=SC2317 # command_not_found_handle is called by bash
-		local pathext
-		# ref: https://learn.microsoft.com/en-us/windows/wsl/filesystems#share-environment-variables-between-windows-and-wsl-with-wslenv
-		pathext=$(echo "${PATHEXT:-}" | tr ';' ' ')
-		local ext
-		for ext in ${pathext}; do
-			if command -v "$1${ext}" >/dev/null 2>&1; then
-				"$1${ext}" "${@:2}"
-				return $?
-			fi
-		done
-
-		if declare -f __command_not_found_handle >/dev/null; then
-			__command_not_found_handle "$@"
-		else
-			printf 'bash: command not found: %s\n' "$1" >&2
-			return 127
-		fi
-	}
-fi
-
 # Disable apt/snap command_not_found_handle
 # original command_not_found_handle is renamed to _command_not_found_handle by mise activate
 if declare -f _command_not_found_handle >/dev/null; then
