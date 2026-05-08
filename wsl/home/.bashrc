@@ -129,6 +129,14 @@ if command -v ghr &>/dev/null; then
 	eval "${ghr_completion}"
 fi
 
+# Enable usage CLI completion (hk and other usage-based CLIs invoke `usage complete-word`; needs `_comp*`
+# from mise’s `completion bash --include-bash-completion-lib` above)
+# ref: https://usage.jdx.dev
+if command -v usage &>/dev/null; then
+	usage_completion="$(usage generate completion bash usage --usage-cmd 'usage --usage-spec')"
+	eval "${usage_completion}"
+fi
+
 # ref: https://hk.jdx.dev/cli/completion.html — requires `usage` on PATH (mise installs it globally)
 if command -v hk &>/dev/null; then
 	hk_completion="$(hk completion bash)"
