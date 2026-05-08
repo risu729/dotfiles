@@ -140,9 +140,6 @@ if command -v antigravity &>/dev/null; then
 	}
 fi
 
-# alias for windows clipboard command
-alias clip="clip.exe"
-
 # Disable apt/snap command_not_found_handle
 # original command_not_found_handle is renamed to _command_not_found_handle by mise activate
 if declare -f _command_not_found_handle >/dev/null; then

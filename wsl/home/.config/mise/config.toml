@@ -100,6 +100,7 @@ package_manager = "bun"
 compile = false
 
 [shell_alias]
+clip = "clip.exe"
 m = "mise"
 mx = "mise x"
 l = "eza --all --long --git"
