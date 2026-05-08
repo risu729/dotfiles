@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Caps parallel invocations of selected cargo subcommands to 3 processes
-# (GNU parallel sem / parallel --semaphore; separate from per-invocation -j).
+# via GNU sem (separate from per-invocation -j).
 set -euo pipefail
 
 REAL_CARGO="${REAL_CARGO:-${HOME}/.cargo/bin/cargo}"
@@ -18,22 +18,19 @@ should_limit() {
 }
 
 run_limited() {
-	if command -v sem >/dev/null 2>&1; then
-		sem --id "${SEM_ID}" -j 3 --fg -- "${REAL_CARGO}" "$@"
-	elif command -v parallel >/dev/null 2>&1; then
-		parallel --semaphore --id "${SEM_ID}" -j 3 --fg -- "${REAL_CARGO}" "$@"
-	else
-		printf '%s\n' 'cargo wrapper: GNU parallel required (sem or parallel on PATH; apt install parallel)' >&2
+	if ! command -v sem >/dev/null 2>&1; then
+		printf '%s\n' 'cargo wrapper: sem not found (apt install parallel)' >&2
 		exit 127
 	fi
+	sem --id "${SEM_ID}" -j 3 --fg -- "${REAL_CARGO}" "$@"
 }
 
-if [[ ! -x ${REAL_CARGO} ]]; then
+if [[ ! -x "${REAL_CARGO}" ]]; then
 	printf 'cargo wrapper: not executable: %s\n' "${REAL_CARGO}" >&2
 	exit 127
 fi
 
-if [[ ${1:-} == +* ]]; then
+if [[ "${1:-}" == +* ]]; then
 	if should_limit "${2:-}"; then
 		run_limited "$@"
 	else
