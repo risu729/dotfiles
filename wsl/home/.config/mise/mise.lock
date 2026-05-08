@@ -29,6 +29,13 @@ backend = "aqua:siketyan/ghr"
 [tools."aqua:siketyan/ghr"."platforms.linux-x64"]
 url = "https://github.com/siketyan/ghr/releases/download/v0.4.5/ghr-x86_64-unknown-linux-gnu.tar.gz"
 
+[[tools."aqua:yarn"]]
+version = "4.14.1"
+backend = "aqua:yarn"
+
+[tools."aqua:yarn"."platforms.linux-x64"]
+url = "https://repo.yarnpkg.com/4.14.1/packages/yarnpkg-cli/bin/yarn.js"
+
 [[tools.bat]]
 version = "0.26.1"
 backend = "aqua:sharkdp/bat"
@@ -206,6 +213,10 @@ url = "https://github.com/hadolint/hadolint/releases/download/v2.14.0/hadolint-l
 [[tools.java]]
 version = "26.0.1"
 backend = "core:java"
+
+[tools.java."platforms.linux-x64"]
+checksum = "sha256:2f2802d57b5fc414f1ddf6648ba12cc9a6454cf67b32ac95407c018f2e6ab0b0"
+url = "https://download.java.net/java/GA/jdk26.0.1/458fda22e4c54d5ba572ab8d2b22eb83/8/GPL/openjdk-26.0.1_linux-x64_bin.tar.gz"
 
 [[tools.jc]]
 version = "1.25.6"
@@ -470,10 +481,6 @@ url = "https://github.com/google/yamlfmt/releases/download/v0.21.0/yamlfmt_0.21.
 [[tools.yamllint]]
 version = "1.38.0"
 backend = "pipx:yamllint"
-
-[[tools.yarn]]
-version = "4.14.1"
-backend = "vfox:mise-plugins/vfox-yarn"
 
 [[tools.yq]]
 version = "4.53.2"
