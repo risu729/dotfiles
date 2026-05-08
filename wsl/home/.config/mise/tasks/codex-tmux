@@ -4,6 +4,16 @@
 
 set -euo pipefail
 
+if ! command -v codex >/dev/null 2>&1; then
+	echo "error: codex command not found" >&2
+	exit 1
+fi
+
+if ! command -v tmux >/dev/null 2>&1; then
+	echo "error: tmux command not found" >&2
+	exit 1
+fi
+
 NEW_SESSION="${usage_new:-false}"
 PWD_REAL="$(pwd -P)"
 DIR_NAME="$(basename "${PWD_REAL}")"
