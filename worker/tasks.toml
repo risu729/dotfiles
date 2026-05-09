@@ -1,27 +1,6 @@
 # ref: https://mise.jdx.dev/tasks/
 #:schema https://mise.jdx.dev/schema/mise-task.json
 
-["check:tsc:worker"]
-depends = ["check:tsc:worker:*"]
-description = "Run TypeScript compiler to check types in the worker directory."
-
-["check:tsc:worker:base"]
-run = "bun run tsc --project tsconfig.base.json {% if env.CI is defined %}--incremental false{% endif %}"
-dir = "worker"
-description = "Run TypeScript compiler to check types in the worker directory (base)."
-
-["check:tsc:worker:src"]
-depends = ["worker:generate:types"]
-run = "bun run tsc --project tsconfig.src.json {% if env.CI is defined %}--incremental false{% endif %}"
-dir = "worker"
-description = "Run TypeScript compiler to check types in the worker directory (src)."
-
-["check:tsc:worker:test"]
-depends = ["worker:generate:types"]
-run = "bun run tsc --project tsconfig.test.json {% if env.CI is defined %}--incremental false{% endif %}"
-dir = "worker"
-description = "Run TypeScript compiler to check types in the worker directory (test)."
-
 ["worker:dev"]
 depends = ["worker:generate:types"]
 dir = "worker"
