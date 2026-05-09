@@ -42,8 +42,7 @@ dir = "worker"
 description = "Run tests for the worker."
 
 ["buni:worker"]
-run = "bun install --frozen-lockfile"
-dir = "worker"
+run = "mise deps bun-worker"
 hide = true
 description = "Install Bun dependencies in the worker directory."
 

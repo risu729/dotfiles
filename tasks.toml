@@ -128,11 +128,11 @@ env.GITHUB_TOKEN = "{{ env.GITHUB_TOKEN }}"
 description = "Generate/update .gitignore from .gitignore-sync."
 
 ["buni"]
-depends = ["buni:root", "buni:worker"]
+run = "mise deps"
 description = "Install Bun dependencies."
 
 ["buni:root"]
-run = "bun install --frozen-lockfile"
+run = "mise deps bun"
 hide = true
 description = "Install Bun dependencies in the root directory."
 
