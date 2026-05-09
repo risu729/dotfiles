@@ -5,7 +5,7 @@
     "": {
       "name": "@risu729/dotfiles-worker",
       "dependencies": {
-        "hono": "4.12.17",
+        "hono": "4.12.18",
       },
       "devDependencies": {
         "@cloudflare/vite-plugin": "1.36.0",
@@ -284,7 +284,7 @@
 
     "fsevents": ["fsevents@2.3.3", "", { "os": "darwin" }, "sha512-5xoDfX+fL7faATnagmWPpbFtwh/R77WmMMqqHGS65C3vvB0YHrgF+B1YmZ3441tMj5n63k0212XNoJwzlhffQw=="],
 
-    "hono": ["hono@4.12.17", "", {}, "sha512-FbJJNb/XgX7YW0hX/V8w5oYLztKEsRLykCMZWt1WdLtsfjzMvmoqWBA4H4t5norinq8/rh20oiZYr+WSl4UzAQ=="],
+    "hono": ["hono@4.12.18", "", {}, "sha512-RWzP96k/yv0PQfyXnWjs6zot20TqfpfsNXhOnev8d1InAxubW93L11/oNUc3tQqn2G0bSdAOBpX+2uDFHV7kdQ=="],
 
     "js-tokens": ["js-tokens@9.0.1", "", {}, "sha512-mxa9E9ITFOt0ban3j6L5MpjwegGz6lBQmM1IJkWeBZGcMxto50+eWdjC/52xDbS2vy0k7vIMK0Fe2wfL9OQSpQ=="],
 
