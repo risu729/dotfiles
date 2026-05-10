@@ -40,6 +40,8 @@ package_manager = "aube"
 
 [deps.bun]
 auto = true
+sources = ["package.json", "bun.lock"]
+outputs = ["node_modules"]
 run = "bun install --frozen-lockfile"
 
 [deps.bun-worker]
