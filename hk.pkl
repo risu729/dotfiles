@@ -34,20 +34,16 @@ local const lintSteps = new Mapping<String, Step> {
     check_diff = "zizmor --no-progress --pedantic {{ files }}"
     fix = "zizmor --no-progress --pedantic --fix {{ files }}"
   }
-  ["taplo"] {
+  ["tombi"] {
     types = List("toml")
-    env {
-      ["RUST_LOG"] = "warn"
-    }
-    check = "taplo lint {{ files }}"
+    batch = true
+    check = "tombi lint {{ files }}"
   }
-  ["taplo-format"] {
+  ["tombi-format"] {
     types = List("toml")
-    env {
-      ["RUST_LOG"] = "warn"
-    }
-    check_diff = "taplo format --check --diff {{ files }}"
-    fix = "taplo format {{ files }}"
+    batch = true
+    check_diff = "tombi format --check --diff {{ files }}"
+    fix = "tombi format {{ files }}"
   }
   ["markdownlint"] {
     types = List("markdown")
