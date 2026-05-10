@@ -15,7 +15,7 @@ local const lintSteps = new Mapping<String, Step> {
     fix = "oxlint --no-error-on-unmatched-pattern --report-unused-disable-directives-severity error --fix {{ files }}"
   }
   ["oxfmt"] {
-    types = List("javascript", "typescript", "json", "markdown")
+    types = List("javascript", "typescript", "json")
     check = "oxfmt --check {{ files }}"
     fix = "oxfmt {{ files }}"
   }
@@ -47,10 +47,17 @@ local const lintSteps = new Mapping<String, Step> {
     check_diff = "tombi format --check --diff {{ files }}"
     fix = "tombi format {{ files }}"
   }
-  ["markdownlint"] {
+  ["rumdl"] {
     types = List("markdown")
-    check = "markdownlint-cli2 {{ files }}"
-    fix = "markdownlint-cli2 --fix {{ files }}"
+    batch = true
+    check = "rumdl check {{ files }}"
+    fix = "rumdl check --fix {{ files }}"
+  }
+  ["rumdl-format"] {
+    types = List("markdown")
+    batch = true
+    check_diff = "rumdl fmt --check --diff {{ files }}"
+    fix = "rumdl fmt {{ files }}"
   }
   ["shfmt"] {
     types = shellTypes
