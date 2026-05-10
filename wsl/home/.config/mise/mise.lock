@@ -1231,7 +1231,11 @@ url = "https://github.com/zizmorcore/zizmor/releases/download/v1.24.1/zizmor-x86
 provenance = "github-attestations"
 
 [tools.zizmor."platforms.linux-x64-musl"]
+checksum = "sha256:a8000f3c683319a523d3b20df0e75457ba591f049cfcbfa98966631b56733c03"
+url = "https://github.com/zizmorcore/zizmor/releases/download/v1.24.1/zizmor-x86_64-unknown-linux-gnu.tar.gz"
 provenance = "github-attestations"
 
 [tools.zizmor."platforms.linux-x64-musl-baseline"]
+checksum = "sha256:a8000f3c683319a523d3b20df0e75457ba591f049cfcbfa98966631b56733c03"
+url = "https://github.com/zizmorcore/zizmor/releases/download/v1.24.1/zizmor-x86_64-unknown-linux-gnu.tar.gz"
 provenance = "github-attestations"
