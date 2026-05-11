@@ -99,6 +99,7 @@ fi
 if command -v zoxide &>/dev/null; then
 	zoxide_init="$(zoxide init bash)"
 	eval "${zoxide_init}"
+	unset zoxide_init
 fi
 
 # Activate pitchfork
