@@ -76,6 +76,7 @@ Clone this repository and run the following command:
 
 ```bash
 mise i
+mise deps
 ```
 
 ### 🧵 Lint and Format

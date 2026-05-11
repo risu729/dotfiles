@@ -38,12 +38,25 @@ experimental = true
 [settings.npm]
 package_manager = "aube"
 
+[deps.bun]
+auto = true
+sources = ["package.json", "bun.lock"]
+outputs = ["node_modules"]
+run = "bun install --frozen-lockfile"
+
+[deps.bun-worker]
+auto = true
+dir = "worker"
+sources = ["package.json", "bun.lock"]
+outputs = ["node_modules"]
+run = "bun install --frozen-lockfile"
+
 [task_config]
 includes = ["tasks.toml", "tasks", "worker/tasks.toml", "worker/tasks"]
 
 [hooks]
 postinstall = """
 {% if env.CI is undefined %}
-  mise run buni ::: install:ps-script-analyzer
+  mise run --no-deps install:ps-script-analyzer
 {% endif %}
 """
