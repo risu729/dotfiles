@@ -95,6 +95,13 @@ if command -v yq &>/dev/null; then
 	eval "${yq_completion}"
 fi
 
+# Activate zoxide
+if command -v zoxide &>/dev/null; then
+	zoxide_init="$(zoxide init bash)"
+	eval "${zoxide_init}"
+	unset zoxide_init
+fi
+
 # Activate pitchfork
 if command -v mise &>/dev/null; then
 	mise_activate="$(pitchfork activate bash)"
