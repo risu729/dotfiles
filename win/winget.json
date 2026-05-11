@@ -18,6 +18,9 @@
 					"PackageIdentifier": "Notion.Notion"
 				},
 				{
+					"PackageIdentifier": "Bitwarden.Bitwarden"
+				},
+				{
 					"PackageIdentifier": "Zoom.Zoom"
 				},
 				{

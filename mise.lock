@@ -117,6 +117,46 @@ url = "https://github.com/endevco/aube/releases/download/v1.9.1/aube-v1.9.1-x86_
 url_api = "https://api.github.com/repos/endevco/aube/releases/assets/413940844"
 provenance = "github-attestations"
 
+[[tools.bitwarden]]
+version = "2026.4.1"
+backend = "aqua:bitwarden/clients"
+
+[tools.bitwarden."platforms.linux-x64"]
+checksum = "sha256:2172dc63f821fcbd4b4ce65e7106f1ebab26b6cb16c9c8a5b28230dcc6f8a774"
+url = "https://github.com/bitwarden/clients/releases/download/cli-v2026.4.1/bw-linux-2026.4.1.zip"
+
+[tools.bitwarden."platforms.linux-x64-baseline"]
+checksum = "sha256:2172dc63f821fcbd4b4ce65e7106f1ebab26b6cb16c9c8a5b28230dcc6f8a774"
+url = "https://github.com/bitwarden/clients/releases/download/cli-v2026.4.1/bw-linux-2026.4.1.zip"
+
+[tools.bitwarden."platforms.linux-x64-musl"]
+checksum = "sha256:2172dc63f821fcbd4b4ce65e7106f1ebab26b6cb16c9c8a5b28230dcc6f8a774"
+url = "https://github.com/bitwarden/clients/releases/download/cli-v2026.4.1/bw-linux-2026.4.1.zip"
+
+[tools.bitwarden."platforms.linux-x64-musl-baseline"]
+checksum = "sha256:2172dc63f821fcbd4b4ce65e7106f1ebab26b6cb16c9c8a5b28230dcc6f8a774"
+url = "https://github.com/bitwarden/clients/releases/download/cli-v2026.4.1/bw-linux-2026.4.1.zip"
+
+[tools.bitwarden."platforms.macos-arm64"]
+checksum = "sha256:964f2645fb11c44d00a3de0aaa337468b4ecd55a56f9cb7d114b77799086d9f3"
+url = "https://github.com/bitwarden/clients/releases/download/cli-v2026.4.1/bw-macos-2026.4.1.zip"
+
+[tools.bitwarden."platforms.macos-x64"]
+checksum = "sha256:964f2645fb11c44d00a3de0aaa337468b4ecd55a56f9cb7d114b77799086d9f3"
+url = "https://github.com/bitwarden/clients/releases/download/cli-v2026.4.1/bw-macos-2026.4.1.zip"
+
+[tools.bitwarden."platforms.macos-x64-baseline"]
+checksum = "sha256:964f2645fb11c44d00a3de0aaa337468b4ecd55a56f9cb7d114b77799086d9f3"
+url = "https://github.com/bitwarden/clients/releases/download/cli-v2026.4.1/bw-macos-2026.4.1.zip"
+
+[tools.bitwarden."platforms.windows-x64"]
+checksum = "sha256:e19cc1ef466ac7f48b632b0143f74725da0f9b6bbef750b8bdd08356ce87e49b"
+url = "https://github.com/bitwarden/clients/releases/download/cli-v2026.4.1/bw-windows-2026.4.1.zip"
+
+[tools.bitwarden."platforms.windows-x64-baseline"]
+checksum = "sha256:e19cc1ef466ac7f48b632b0143f74725da0f9b6bbef750b8bdd08356ce87e49b"
+url = "https://github.com/bitwarden/clients/releases/download/cli-v2026.4.1/bw-windows-2026.4.1.zip"
+
 [[tools.bun]]
 version = "1.3.13"
 backend = "core:bun"
