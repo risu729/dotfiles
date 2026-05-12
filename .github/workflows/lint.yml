@@ -90,10 +90,16 @@ jobs:
           restore-keys: cache-${{ matrix.name }}-
 
       - name: Run ${{ matrix.name }}
-        run: mise run "${TASK_NAME}"
+        run: |
+          mise_run_options=()
+          if [[ ${SKIP_DEPS} == 'true' ]]; then
+            mise_run_options+=(--no-deps)
+          fi
+          mise run "${mise_run_options[@]}" "${TASK_NAME}"
         env:
           LINT: true
           GITHUB_TOKEN: ${{ matrix.require_gh_token == 'true' && github.token || '' }}
+          SKIP_DEPS: ${{ matrix.skip_deps }}
           TASK_NAME: ${{ matrix.task }}
 
       - name: Save cache
