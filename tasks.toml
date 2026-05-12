@@ -66,14 +66,14 @@ description = "Run markdownlint to lint Markdown files."
 # ref: https://github.com/mvdan/sh/issues/288
 run = """
 shfmt {% if env.LINT is undefined %}--list --write{% else %}--diff{% endif %} \
-	--simplify {{ exec(command='mise run util:list-scripts') }}"""
+	--simplify {{ exec(command='mise run --no-deps util:list-scripts') }}"""
 description = "Run shfmt to format shell scripts."
 
 ["check:shellcheck"]
 # recursive globbing is not supported
 # ref: https://www.shellcheck.net/wiki/Recursiveness
 # ref: https://github.com/koalaman/shellcheck/issues/143
-run = "shellcheck --external-sources {{ exec(command='mise run util:list-scripts') }}"
+run = "shellcheck --external-sources {{ exec(command='mise run --no-deps util:list-scripts') }}"
 description = "Run shellcheck to lint shell scripts."
 
 ["check:pwsh"]

@@ -64,7 +64,7 @@ jobs:
 
       - name: Retrieve worker Docker image info
         id: image-info
-        run: mise run ci:worker-docker:image-info
+        run: mise run --no-deps ci:worker-docker:image-info
         env:
           MISE_AUTO_INSTALL: false
           IMAGE_NAME: ${{ env.IMAGE_NAME }}
