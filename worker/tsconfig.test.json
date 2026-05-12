@@ -2,8 +2,8 @@
 	// ref: https://www.typescriptlang.org/tsconfig/
 	"$schema": "https://json.schemastore.org/tsconfig",
 	"compilerOptions": {
-		"types": ["@cloudflare/vitest-pool-workers"]
+		"types": ["@cloudflare/vitest-pool-workers/types"]
 	},
 	"extends": ["./tsconfig.src.json"],
-	"include": ["test"]
+	"include": ["src/vite-env.d.ts", "src/worker-configuration.d.ts", "test"]
 }
