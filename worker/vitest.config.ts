@@ -1,10 +1,8 @@
 import { execSync } from "node:child_process";
 import process from "node:process";
 
-import { defineWorkersConfig } from "@cloudflare/vitest-pool-workers/config";
-import { defineConfig, mergeConfig } from "vitest/config";
-
-import viteConfig from "./vite.config.ts";
+import { cloudflareTest } from "@cloudflare/vitest-pool-workers";
+import { defineConfig } from "vitest/config";
 
 const currentBranch: string =
 	process.env["CURRENT_BRANCH"] ?? execSync("git branch --show-current").toString().trim();
@@ -17,31 +15,25 @@ if (!latestCommitHash) {
 }
 
 // Ref: https://vitest.dev/config/
-export default defineConfig((configEnv) =>
-	mergeConfig(
-		viteConfig(configEnv),
-		defineWorkersConfig({
-			test: {
-				env: {
-					// Use current branch name as default branch for testing
-					DEFAULT_BRANCH: currentBranch,
-
-					// Define in vite.config.ts does not work in vitest, so define here
-					GITHUB_TOKEN: process.env["GITHUB_TOKEN"],
-
-					LATEST_COMMIT_HASH: latestCommitHash,
-					// Fix constants in tests
-					REPO_NAME: "risu729/dotfiles",
-				},
-				poolOptions: {
-					workers: {
-						singleWorker: true,
-						wrangler: {
-							configPath: "./wrangler.jsonc",
-						},
-					},
-				},
+export default defineConfig({
+	plugins: [
+		cloudflareTest({
+			wrangler: {
+				configPath: "./wrangler.jsonc",
 			},
 		}),
-	),
-);
+	],
+	test: {
+		env: {
+			// Use current branch name as default branch for testing
+			DEFAULT_BRANCH: currentBranch,
+
+			// Define in vite.config.ts does not work in vitest, so define here
+			GITHUB_TOKEN: process.env["GITHUB_TOKEN"],
+
+			LATEST_COMMIT_HASH: latestCommitHash,
+			// Fix constants in tests
+			REPO_NAME: "risu729/dotfiles",
+		},
+	},
+});

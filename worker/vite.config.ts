@@ -31,6 +31,7 @@ export default defineConfig(({ mode }) => ({
 	},
 	plugins: [cloudflare()],
 	preview: {
+		allowedHosts: ["worker"],
 		strictPort: true,
 	},
 }));
