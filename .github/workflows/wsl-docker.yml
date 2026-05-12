@@ -68,7 +68,7 @@ jobs:
 
       - name: Retrieve Ubuntu WSL image info
         id: image-info
-        run: mise run ci:wsl-docker:image-info
+        run: mise run --no-deps ci:wsl-docker:image-info
         env:
           MISE_AUTO_INSTALL: false
           MISE_LOG_LEVEL: trace

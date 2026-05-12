@@ -48,7 +48,7 @@ jobs:
 
       - name: List mise tasks
         id: list
-        run: mise run ci:list-tasks
+        run: mise run --no-deps ci:list-tasks
 
   lint:
     needs: list-tasks
