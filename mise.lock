@@ -491,62 +491,62 @@ version = "1.62.0"
 backend = "npm:oxlint"
 
 [[tools.pinact]]
-version = "3.9.2"
+version = "3.10.0"
 backend = "aqua:suzuki-shunsuke/pinact"
 
 [tools.pinact."platforms.linux-arm64"]
-checksum = "sha256:468bf7afd0f22b30ecb17fcf02f76d8b5c3bca59bb85a29017d7daebde96b33f"
-url = "https://github.com/suzuki-shunsuke/pinact/releases/download/v3.9.2/pinact_linux_arm64.tar.gz"
+checksum = "sha256:e9659cab46ddc904bbcd19bb91266c32864d75eecaa683b5ddbed17b93a82188"
+url = "https://github.com/suzuki-shunsuke/pinact/releases/download/v3.10.0/pinact_linux_arm64.tar.gz"
 provenance = "github-attestations"
 
 [tools.pinact."platforms.linux-arm64-musl"]
-checksum = "sha256:468bf7afd0f22b30ecb17fcf02f76d8b5c3bca59bb85a29017d7daebde96b33f"
-url = "https://github.com/suzuki-shunsuke/pinact/releases/download/v3.9.2/pinact_linux_arm64.tar.gz"
+checksum = "sha256:e9659cab46ddc904bbcd19bb91266c32864d75eecaa683b5ddbed17b93a82188"
+url = "https://github.com/suzuki-shunsuke/pinact/releases/download/v3.10.0/pinact_linux_arm64.tar.gz"
 provenance = "github-attestations"
 
 [tools.pinact."platforms.linux-x64"]
-checksum = "sha256:6adcc8a2217e4114e0841f8bca0cddf9958a9c52e3e89760c35b791cdba1a916"
-url = "https://github.com/suzuki-shunsuke/pinact/releases/download/v3.9.2/pinact_linux_amd64.tar.gz"
+checksum = "sha256:89df727e7315e62f79aa865a98216ae60ca8d8cb5d7bcf6f78b6fdc4c44f4a46"
+url = "https://github.com/suzuki-shunsuke/pinact/releases/download/v3.10.0/pinact_linux_amd64.tar.gz"
 provenance = "github-attestations"
 
 [tools.pinact."platforms.linux-x64-baseline"]
-checksum = "sha256:6adcc8a2217e4114e0841f8bca0cddf9958a9c52e3e89760c35b791cdba1a916"
-url = "https://github.com/suzuki-shunsuke/pinact/releases/download/v3.9.2/pinact_linux_amd64.tar.gz"
+checksum = "sha256:89df727e7315e62f79aa865a98216ae60ca8d8cb5d7bcf6f78b6fdc4c44f4a46"
+url = "https://github.com/suzuki-shunsuke/pinact/releases/download/v3.10.0/pinact_linux_amd64.tar.gz"
 provenance = "github-attestations"
 
 [tools.pinact."platforms.linux-x64-musl"]
-checksum = "sha256:6adcc8a2217e4114e0841f8bca0cddf9958a9c52e3e89760c35b791cdba1a916"
-url = "https://github.com/suzuki-shunsuke/pinact/releases/download/v3.9.2/pinact_linux_amd64.tar.gz"
+checksum = "sha256:89df727e7315e62f79aa865a98216ae60ca8d8cb5d7bcf6f78b6fdc4c44f4a46"
+url = "https://github.com/suzuki-shunsuke/pinact/releases/download/v3.10.0/pinact_linux_amd64.tar.gz"
 provenance = "github-attestations"
 
 [tools.pinact."platforms.linux-x64-musl-baseline"]
-checksum = "sha256:6adcc8a2217e4114e0841f8bca0cddf9958a9c52e3e89760c35b791cdba1a916"
-url = "https://github.com/suzuki-shunsuke/pinact/releases/download/v3.9.2/pinact_linux_amd64.tar.gz"
+checksum = "sha256:89df727e7315e62f79aa865a98216ae60ca8d8cb5d7bcf6f78b6fdc4c44f4a46"
+url = "https://github.com/suzuki-shunsuke/pinact/releases/download/v3.10.0/pinact_linux_amd64.tar.gz"
 provenance = "github-attestations"
 
 [tools.pinact."platforms.macos-arm64"]
-checksum = "sha256:4a6b481b16b7bb67153f96aaf60cbe61d3a739bdce35b1cb3fd3de5372f58c31"
-url = "https://github.com/suzuki-shunsuke/pinact/releases/download/v3.9.2/pinact_darwin_arm64.tar.gz"
+checksum = "sha256:2e7fb2295d2df9bb1113b48f18d1af9222b6b809c9407a4dbeeeba420ebb050f"
+url = "https://github.com/suzuki-shunsuke/pinact/releases/download/v3.10.0/pinact_darwin_arm64.tar.gz"
 provenance = "github-attestations"
 
 [tools.pinact."platforms.macos-x64"]
-checksum = "sha256:5facbcd8cd4e20fb88c4ef3ace9c54b7d295735563634ef4373694cd286be67a"
-url = "https://github.com/suzuki-shunsuke/pinact/releases/download/v3.9.2/pinact_darwin_amd64.tar.gz"
+checksum = "sha256:5b68b8343e83dbb8971c79386367bacafa9a259e56e0188b45c55887d29878e5"
+url = "https://github.com/suzuki-shunsuke/pinact/releases/download/v3.10.0/pinact_darwin_amd64.tar.gz"
 provenance = "github-attestations"
 
 [tools.pinact."platforms.macos-x64-baseline"]
-checksum = "sha256:5facbcd8cd4e20fb88c4ef3ace9c54b7d295735563634ef4373694cd286be67a"
-url = "https://github.com/suzuki-shunsuke/pinact/releases/download/v3.9.2/pinact_darwin_amd64.tar.gz"
+checksum = "sha256:5b68b8343e83dbb8971c79386367bacafa9a259e56e0188b45c55887d29878e5"
+url = "https://github.com/suzuki-shunsuke/pinact/releases/download/v3.10.0/pinact_darwin_amd64.tar.gz"
 provenance = "github-attestations"
 
 [tools.pinact."platforms.windows-x64"]
-checksum = "sha256:a7f82e352eb4f706addfb864a7c4853f34bdcfc604ebef8733adecbbbacaaeef"
-url = "https://github.com/suzuki-shunsuke/pinact/releases/download/v3.9.2/pinact_windows_amd64.zip"
+checksum = "sha256:0fb39a543a4d8e6d08cc4c7cb414a2b4e03c448e5aef50085ea581bffc1db3b2"
+url = "https://github.com/suzuki-shunsuke/pinact/releases/download/v3.10.0/pinact_windows_amd64.zip"
 provenance = "github-attestations"
 
 [tools.pinact."platforms.windows-x64-baseline"]
-checksum = "sha256:a7f82e352eb4f706addfb864a7c4853f34bdcfc604ebef8733adecbbbacaaeef"
-url = "https://github.com/suzuki-shunsuke/pinact/releases/download/v3.9.2/pinact_windows_amd64.zip"
+checksum = "sha256:0fb39a543a4d8e6d08cc4c7cb414a2b4e03c448e5aef50085ea581bffc1db3b2"
+url = "https://github.com/suzuki-shunsuke/pinact/releases/download/v3.10.0/pinact_windows_amd64.zip"
 provenance = "github-attestations"
 
 [[tools.powershell]]
