@@ -2,7 +2,15 @@ amends "package://github.com/jdx/hk/releases/download/v1.45.0/hk@1.45.0#/Config.
 import "package://github.com/jdx/hk/releases/download/v1.45.0/hk@1.45.0#/Builtins.pkl"
 
 local const jsTsTypes = List("javascript", "typescript")
-local const bashrcGlob = List("wsl/home/.bashrc")
+local const shellGlobs = List(
+  "tasks/**",
+  "worker/docker/entrypoint.sh",
+  "worker/tasks/**",
+  "wsl/home/.bashrc",
+  "wsl/home/.config/mise/tasks/**",
+  "wsl/home/.local/bin/**",
+  "wsl/install.sh",
+)
 
 local const lintSteps = new Mapping<String, Step> {
   ["oxlint"] = (Builtins.ox_lint) {
@@ -51,33 +59,18 @@ local const lintSteps = new Mapping<String, Step> {
     fix = "markdownlint-cli2 --fix {{ files }}"
   }
   ["shfmt"] {
-    types = List("shell")
+    glob = shellGlobs
     batch = false
-    check_diff = "shfmt --diff --simplify {{ files }}"
-    fix = "shfmt --write --simplify {{ files }}"
-  }
-  ["shfmt:bashrc"] {
-    glob = bashrcGlob
     check_diff = "shfmt --diff --simplify {{ files }}"
     fix = "shfmt --write --simplify {{ files }}"
   }
   ["shellcheck"] {
-    types = List("shell")
+    glob = shellGlobs
     batch = false
     check = "shellcheck --external-sources {{ files }}"
   }
-  ["shellcheck:bashrc"] {
-    glob = bashrcGlob
-    check = "shellcheck --external-sources {{ files }}"
-  }
-  ["install:ps-script-analyzer"] {
-    glob = List("win/**/*.ps1")
-    check = "mise run --no-deps install:ps-script-analyzer"
-    hide = true
-  }
   ["pwsh"] {
     glob = List("win/**/*.ps1")
-    depends = "install:ps-script-analyzer"
     check = "pwsh -Command 'Invoke-ScriptAnalyzer -Path win -Recurse -EnableExit -Settings win/PSScriptAnalyzerSettings.psd1'"
   }
   ["yamlfmt"] = (Builtins.yamlfmt) {
