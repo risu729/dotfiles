@@ -60,61 +60,61 @@ url = "https://github.com/rhysd/actionlint/releases/download/v1.7.12/actionlint_
 provenance = "github-attestations"
 
 [[tools.aube]]
-version = "1.9.1"
+version = "1.14.0"
 backend = "github:endevco/aube"
 
 [tools.aube."platforms.linux-arm64"]
-checksum = "sha256:5b8c6c73a6f3e84d1b978f62d4d2465e080a7e0e38465d7ce7fa038d4e773178"
-url = "https://github.com/endevco/aube/releases/download/v1.9.1/aube-v1.9.1-aarch64-unknown-linux-gnu.tar.gz"
-url_api = "https://api.github.com/repos/endevco/aube/releases/assets/413927279"
+checksum = "sha256:1df1e71addfd42461265af3e9b9fcb81d9cd63b7c6058e5ebf4d4bb2a2dceca2"
+url = "https://github.com/endevco/aube/releases/download/v1.14.0/aube-v1.14.0-aarch64-unknown-linux-gnu.tar.gz"
+url_api = "https://api.github.com/repos/endevco/aube/releases/assets/420268833"
 provenance = "github-attestations"
 
 [tools.aube."platforms.linux-arm64-musl"]
-checksum = "sha256:dc41bbde80afff2fb03237f5cabc3111d2d9c10b6d2909f41450d2511575a677"
-url = "https://github.com/endevco/aube/releases/download/v1.9.1/aube-v1.9.1-aarch64-unknown-linux-musl.tar.gz"
-url_api = "https://api.github.com/repos/endevco/aube/releases/assets/413927033"
+checksum = "sha256:c46bb477e5a6fffbe4a36118b860512ac8a256e44edb68bc27d25760374108a6"
+url = "https://github.com/endevco/aube/releases/download/v1.14.0/aube-v1.14.0-aarch64-unknown-linux-musl.tar.gz"
+url_api = "https://api.github.com/repos/endevco/aube/releases/assets/420247630"
 provenance = "github-attestations"
 
 [tools.aube."platforms.linux-x64"]
-checksum = "sha256:f921773be555e382ba4ed16ce5e38dbdb0dbb70861476b4235c2c4b3432d7f01"
-url = "https://github.com/endevco/aube/releases/download/v1.9.1/aube-v1.9.1-x86_64-unknown-linux-gnu.tar.gz"
-url_api = "https://api.github.com/repos/endevco/aube/releases/assets/413927617"
+checksum = "sha256:c97b7d2cba3bf5bf617daa5b993aebb845878270fafbc59fb55f2d01ed83a10a"
+url = "https://github.com/endevco/aube/releases/download/v1.14.0/aube-v1.14.0-x86_64-unknown-linux-gnu.tar.gz"
+url_api = "https://api.github.com/repos/endevco/aube/releases/assets/420252790"
 provenance = "github-attestations"
 
 [tools.aube."platforms.linux-x64-baseline"]
-checksum = "sha256:f921773be555e382ba4ed16ce5e38dbdb0dbb70861476b4235c2c4b3432d7f01"
-url = "https://github.com/endevco/aube/releases/download/v1.9.1/aube-v1.9.1-x86_64-unknown-linux-gnu.tar.gz"
-url_api = "https://api.github.com/repos/endevco/aube/releases/assets/413927617"
+checksum = "sha256:c97b7d2cba3bf5bf617daa5b993aebb845878270fafbc59fb55f2d01ed83a10a"
+url = "https://github.com/endevco/aube/releases/download/v1.14.0/aube-v1.14.0-x86_64-unknown-linux-gnu.tar.gz"
+url_api = "https://api.github.com/repos/endevco/aube/releases/assets/420252790"
 provenance = "github-attestations"
 
 [tools.aube."platforms.linux-x64-musl"]
-checksum = "sha256:354d60237715fb90ae9010759cc0942c0fdf6a2895b3b8d11133ebab6e6611c2"
-url = "https://github.com/endevco/aube/releases/download/v1.9.1/aube-v1.9.1-x86_64-unknown-linux-musl.tar.gz"
-url_api = "https://api.github.com/repos/endevco/aube/releases/assets/413927618"
+checksum = "sha256:5a1f766b9c1e41edfcd312e785f3638bca6c9935252c86d3d1d8216cf7ff23b6"
+url = "https://github.com/endevco/aube/releases/download/v1.14.0/aube-v1.14.0-x86_64-unknown-linux-musl.tar.gz"
+url_api = "https://api.github.com/repos/endevco/aube/releases/assets/420252625"
 provenance = "github-attestations"
 
 [tools.aube."platforms.linux-x64-musl-baseline"]
-checksum = "sha256:354d60237715fb90ae9010759cc0942c0fdf6a2895b3b8d11133ebab6e6611c2"
-url = "https://github.com/endevco/aube/releases/download/v1.9.1/aube-v1.9.1-x86_64-unknown-linux-musl.tar.gz"
-url_api = "https://api.github.com/repos/endevco/aube/releases/assets/413927618"
+checksum = "sha256:5a1f766b9c1e41edfcd312e785f3638bca6c9935252c86d3d1d8216cf7ff23b6"
+url = "https://github.com/endevco/aube/releases/download/v1.14.0/aube-v1.14.0-x86_64-unknown-linux-musl.tar.gz"
+url_api = "https://api.github.com/repos/endevco/aube/releases/assets/420252625"
 provenance = "github-attestations"
 
 [tools.aube."platforms.macos-arm64"]
-checksum = "sha256:080059d65daf5273cf3cc211c1820b822a17972446466afdd5de3980b39cb7cf"
-url = "https://github.com/endevco/aube/releases/download/v1.9.1/aube-v1.9.1-aarch64-apple-darwin.tar.gz"
-url_api = "https://api.github.com/repos/endevco/aube/releases/assets/413929094"
+checksum = "sha256:b2565b43448680d75625001ebc20ae624404960921184939a44d19e3db4917e3"
+url = "https://github.com/endevco/aube/releases/download/v1.14.0/aube-v1.14.0-aarch64-apple-darwin.tar.gz"
+url_api = "https://api.github.com/repos/endevco/aube/releases/assets/420307873"
 provenance = "github-attestations"
 
 [tools.aube."platforms.windows-x64"]
-checksum = "sha256:1383611a0680b34b0f26db9adc1bd716d2b2b257b9d3e0506449f01c83df580a"
-url = "https://github.com/endevco/aube/releases/download/v1.9.1/aube-v1.9.1-x86_64-pc-windows-msvc.zip"
-url_api = "https://api.github.com/repos/endevco/aube/releases/assets/413940844"
+checksum = "sha256:fee5babb82e52d23b62ead3cb5be85d925a908cc93a6c3a3dc403c89f40989b8"
+url = "https://github.com/endevco/aube/releases/download/v1.14.0/aube-v1.14.0-x86_64-pc-windows-msvc.zip"
+url_api = "https://api.github.com/repos/endevco/aube/releases/assets/420259155"
 provenance = "github-attestations"
 
 [tools.aube."platforms.windows-x64-baseline"]
-checksum = "sha256:1383611a0680b34b0f26db9adc1bd716d2b2b257b9d3e0506449f01c83df580a"
-url = "https://github.com/endevco/aube/releases/download/v1.9.1/aube-v1.9.1-x86_64-pc-windows-msvc.zip"
-url_api = "https://api.github.com/repos/endevco/aube/releases/assets/413940844"
+checksum = "sha256:fee5babb82e52d23b62ead3cb5be85d925a908cc93a6c3a3dc403c89f40989b8"
+url = "https://github.com/endevco/aube/releases/download/v1.14.0/aube-v1.14.0-x86_64-pc-windows-msvc.zip"
+url_api = "https://api.github.com/repos/endevco/aube/releases/assets/420259155"
 provenance = "github-attestations"
 
 [[tools.bitwarden]]
