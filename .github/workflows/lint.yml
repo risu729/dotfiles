@@ -22,49 +22,12 @@ defaults:
     shell: bash
 
 jobs:
-  list-tasks:
-    name: List Lint Tasks
-    runs-on: ubuntu-24.04
-    timeout-minutes: 10
-    permissions:
-      contents: read # for checkout
-
-    outputs:
-      tasks: ${{ steps.list.outputs.tasks }}
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
-        with:
-          persist-credentials: false
-
-      - name: Install mise
-        uses: jdx/mise-action@1648a7812b9aeae629881980618f079932869151 # v4.0.1
-        with:
-          version: 2026.5.7
-          install_args: --locked
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
-
-      - name: List mise tasks
-        id: list
-        run: mise run --no-deps ci:list-tasks
-
   lint:
-    needs: list-tasks
-
+    name: Lint
     runs-on: ubuntu-24.04
-    timeout-minutes: 10
+    timeout-minutes: 20
     permissions:
       contents: read # for checkout
-
-    name: ${{ matrix.name }}
-    strategy:
-      fail-fast: false
-      matrix:
-        # use include not to be treated as multi-dimensional matrix
-        # ref: https://docs.github.com/en/actions/using-jobs/using-a-matrix-for-your-jobs#expanding-or-adding-matrix-configurations
-        include: ${{ fromJson(needs.list-tasks.outputs.tasks) }}
 
     steps:
       - name: Checkout
@@ -80,34 +43,18 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ github.token }}
 
-      - name: Restore cache
-        id: restore-cache
-        if: matrix.cache_path != ''
-        uses: actions/cache/restore@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
+      - name: Cache lychee
+        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
         with:
-          path: ${{ matrix.cache_path }}
-          key: cache-${{ matrix.name }}-${{ github.sha }}
-          restore-keys: cache-${{ matrix.name }}-
+          path: .lycheecache
+          key: cache-lychee-${{ github.sha }}
+          restore-keys: cache-lychee-
 
-      - name: Run ${{ matrix.name }}
-        run: |
-          mise_run_options=()
-          if [[ ${SKIP_DEPS} == 'true' ]]; then
-            mise_run_options+=(--no-deps)
-          fi
-          mise run "${mise_run_options[@]}" "${TASK_NAME}"
+      - name: Run check
+        run: mise run check
         env:
           LINT: true
-          GITHUB_TOKEN: ${{ matrix.require_gh_token == 'true' && github.token || '' }}
-          SKIP_DEPS: ${{ matrix.skip_deps }}
-          TASK_NAME: ${{ matrix.task }}
-
-      - name: Save cache
-        uses: actions/cache/save@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
-        if: ${{ !cancelled() && matrix.cache_path != '' }}
-        with:
-          path: ${{ matrix.cache_path }}
-          key: ${{ steps.restore-cache.outputs.cache-primary-key }}
+          GITHUB_TOKEN: ${{ github.token }}
 
   actions-timeline:
     name: Generate Actions Timeline
