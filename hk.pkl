@@ -99,6 +99,7 @@ local const lintSteps = new Mapping<String, Step> {
     exclusive = true
   }
   ["jsonschema"] {
+    // hk maps .jsonc and .json5 to the json type.
     types = List("json")
     check = "jschema-validator"
   }
