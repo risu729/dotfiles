@@ -215,21 +215,21 @@ checksum = "sha256:4a50fcf01418862e2fa8e4076cb6cb80ff4061b0c0b1464e71a63ce01ee29
 url = "https://github.com/cargo-bins/cargo-binstall/releases/download/v1.19.1/cargo-binstall-x86_64-unknown-linux-musl.tgz"
 
 [[tools.claude]]
-version = "2.1.138"
+version = "2.1.142"
 backend = "aqua:anthropics/claude-code"
 
 [tools.claude."platforms.linux-x64"]
-checksum = "blake3:54f24d9a26963756b248866825ce1dbfb494294bc46eef49454ae36d7d1e2ee9"
-url = "https://storage.googleapis.com/claude-code-dist-86c565f3-f756-42ad-8dfa-d59b1c096819/claude-code-releases/2.1.138/linux-x64/claude"
+checksum = "blake3:70fb63453e03ab2c244ebb8af47761b941b3eaad58a0cb299b9e2616c245694a"
+url = "https://storage.googleapis.com/claude-code-dist-86c565f3-f756-42ad-8dfa-d59b1c096819/claude-code-releases/2.1.142/linux-x64/claude"
 
 [tools.claude."platforms.linux-x64-baseline"]
-url = "https://storage.googleapis.com/claude-code-dist-86c565f3-f756-42ad-8dfa-d59b1c096819/claude-code-releases/2.1.138/linux-x64/claude"
+url = "https://storage.googleapis.com/claude-code-dist-86c565f3-f756-42ad-8dfa-d59b1c096819/claude-code-releases/2.1.142/linux-x64/claude"
 
 [tools.claude."platforms.linux-x64-musl"]
-url = "https://storage.googleapis.com/claude-code-dist-86c565f3-f756-42ad-8dfa-d59b1c096819/claude-code-releases/2.1.138/linux-x64-musl/claude"
+url = "https://storage.googleapis.com/claude-code-dist-86c565f3-f756-42ad-8dfa-d59b1c096819/claude-code-releases/2.1.142/linux-x64-musl/claude"
 
 [tools.claude."platforms.linux-x64-musl-baseline"]
-url = "https://storage.googleapis.com/claude-code-dist-86c565f3-f756-42ad-8dfa-d59b1c096819/claude-code-releases/2.1.138/linux-x64-musl/claude"
+url = "https://storage.googleapis.com/claude-code-dist-86c565f3-f756-42ad-8dfa-d59b1c096819/claude-code-releases/2.1.142/linux-x64-musl/claude"
 
 [[tools.codex]]
 version = "0.130.0"
@@ -252,24 +252,24 @@ checksum = "sha256:59051283a24a774f8c81444a3f45ff0bb22bd5362547294aedd5a9b8092b1
 url = "https://github.com/openai/codex/releases/download/rust-v0.130.0/codex-x86_64-unknown-linux-musl.zst"
 
 [[tools.copilot]]
-version = "1.0.44"
+version = "1.0.48"
 backend = "aqua:github/copilot-cli"
 
 [tools.copilot."platforms.linux-x64"]
-checksum = "sha256:ff074c6b98987511a22ee908b86cd499721769afa59b1688efd339807092d03c"
-url = "https://github.com/github/copilot-cli/releases/download/v1.0.44/copilot-linux-x64.tar.gz"
+checksum = "sha256:f2a1278c3c2fe22cbcbe51c0d2ee251f7621d2ea2211fe1c7b3668ab3b363ffd"
+url = "https://github.com/github/copilot-cli/releases/download/v1.0.48/copilot-linux-x64.tar.gz"
 
 [tools.copilot."platforms.linux-x64-baseline"]
-checksum = "sha256:ff074c6b98987511a22ee908b86cd499721769afa59b1688efd339807092d03c"
-url = "https://github.com/github/copilot-cli/releases/download/v1.0.44/copilot-linux-x64.tar.gz"
+checksum = "sha256:f2a1278c3c2fe22cbcbe51c0d2ee251f7621d2ea2211fe1c7b3668ab3b363ffd"
+url = "https://github.com/github/copilot-cli/releases/download/v1.0.48/copilot-linux-x64.tar.gz"
 
 [tools.copilot."platforms.linux-x64-musl"]
-checksum = "sha256:ff074c6b98987511a22ee908b86cd499721769afa59b1688efd339807092d03c"
-url = "https://github.com/github/copilot-cli/releases/download/v1.0.44/copilot-linux-x64.tar.gz"
+checksum = "sha256:f2a1278c3c2fe22cbcbe51c0d2ee251f7621d2ea2211fe1c7b3668ab3b363ffd"
+url = "https://github.com/github/copilot-cli/releases/download/v1.0.48/copilot-linux-x64.tar.gz"
 
 [tools.copilot."platforms.linux-x64-musl-baseline"]
-checksum = "sha256:ff074c6b98987511a22ee908b86cd499721769afa59b1688efd339807092d03c"
-url = "https://github.com/github/copilot-cli/releases/download/v1.0.44/copilot-linux-x64.tar.gz"
+checksum = "sha256:f2a1278c3c2fe22cbcbe51c0d2ee251f7621d2ea2211fe1c7b3668ab3b363ffd"
+url = "https://github.com/github/copilot-cli/releases/download/v1.0.48/copilot-linux-x64.tar.gz"
 
 [[tools.delta]]
 version = "0.19.2"
@@ -352,7 +352,7 @@ checksum = "sha256:e3257d48e29a6be965187dbd24ce9af564e0fe67b3e73c9bdcd180f4ec11b
 url = "https://github.com/sharkdp/fd/releases/download/v10.4.2/fd-v10.4.2-x86_64-unknown-linux-musl.tar.gz"
 
 [[tools.gemini-cli]]
-version = "0.41.2"
+version = "0.42.0"
 backend = "npm:@google/gemini-cli"
 
 [[tools.ghalint]]
@@ -658,24 +658,24 @@ url = "https://github.com/kubecolor/kubecolor/releases/download/v0.6.0/kubecolor
 provenance = "github-attestations"
 
 [[tools.kubectl]]
-version = "1.36.0"
+version = "1.36.1"
 backend = "aqua:kubernetes/kubernetes/kubectl"
 
 [tools.kubectl."platforms.linux-x64"]
-checksum = "sha256:123d8c8844f46b1244c547fffb3c17180c0c26dac9890589fe7e67763298748e"
-url = "https://dl.k8s.io/v1.36.0/bin/linux/amd64/kubectl"
+checksum = "sha256:629d3f410e09bf49b64ae7079f7f0bda1191efed311f7d37fdbab0ad5b0ec2b7"
+url = "https://dl.k8s.io/v1.36.1/bin/linux/amd64/kubectl"
 
 [tools.kubectl."platforms.linux-x64-baseline"]
-checksum = "sha256:123d8c8844f46b1244c547fffb3c17180c0c26dac9890589fe7e67763298748e"
-url = "https://dl.k8s.io/v1.36.0/bin/linux/amd64/kubectl"
+checksum = "sha256:629d3f410e09bf49b64ae7079f7f0bda1191efed311f7d37fdbab0ad5b0ec2b7"
+url = "https://dl.k8s.io/v1.36.1/bin/linux/amd64/kubectl"
 
 [tools.kubectl."platforms.linux-x64-musl"]
-checksum = "sha256:123d8c8844f46b1244c547fffb3c17180c0c26dac9890589fe7e67763298748e"
-url = "https://dl.k8s.io/v1.36.0/bin/linux/amd64/kubectl"
+checksum = "sha256:629d3f410e09bf49b64ae7079f7f0bda1191efed311f7d37fdbab0ad5b0ec2b7"
+url = "https://dl.k8s.io/v1.36.1/bin/linux/amd64/kubectl"
 
 [tools.kubectl."platforms.linux-x64-musl-baseline"]
-checksum = "sha256:123d8c8844f46b1244c547fffb3c17180c0c26dac9890589fe7e67763298748e"
-url = "https://dl.k8s.io/v1.36.0/bin/linux/amd64/kubectl"
+checksum = "sha256:629d3f410e09bf49b64ae7079f7f0bda1191efed311f7d37fdbab0ad5b0ec2b7"
+url = "https://dl.k8s.io/v1.36.1/bin/linux/amd64/kubectl"
 
 [[tools.kubectx]]
 version = "0.11.0"
@@ -758,7 +758,7 @@ checksum = "sha256:5a1b4322dae60857e8de6ac4acd5a2ce97b174667ee5f4de059cf05ced4b5
 url = "https://github.com/johnkerl/miller/releases/download/v6.18.1/miller-6.18.1-linux-amd64.tar.gz"
 
 [[tools.mitmproxy]]
-version = "12.2.2"
+version = "12.2.3"
 backend = "pipx:mitmproxy"
 
 [[tools.node]]
@@ -801,6 +801,10 @@ url = "https://registry.npmjs.org/npm/-/npm-11.14.1.tgz"
 [[tools."npm:@ccusage/codex"]]
 version = "18.0.11"
 backend = "npm:@ccusage/codex"
+
+[[tools."npm:resend-cli"]]
+version = "2.2.1"
+backend = "npm:resend-cli"
 
 [[tools.numbat]]
 version = "1.23.0"
@@ -879,27 +883,27 @@ checksum = "sha256:a6a09cce0b08135cdb884b6c70c7413bd3991f03c084bdc11bf778bb27411
 url = "https://github.com/endevco/pitchfork/releases/download/v2.10.0/pitchfork-x86_64-unknown-linux-gnu.tar.gz"
 
 [[tools.pnpm]]
-version = "11.0.9"
+version = "11.1.2"
 backend = "aqua:pnpm/pnpm"
 
 [tools.pnpm."platforms.linux-x64"]
-checksum = "sha256:ec84b7750ed24a47e55b71fba528499862bddaf8d9770b2f58a294b8692a8cbf"
-url = "https://github.com/pnpm/pnpm/releases/download/v11.0.9/pnpm-linux-x64.tar.gz"
+checksum = "sha256:f82f761572d9621c5a646ccc00a1ecec4cf5839d66b714497e6ca10cd2e086ee"
+url = "https://github.com/pnpm/pnpm/releases/download/v11.1.2/pnpm-linux-x64.tar.gz"
 provenance = "github-attestations"
 
 [tools.pnpm."platforms.linux-x64-baseline"]
-checksum = "sha256:ec84b7750ed24a47e55b71fba528499862bddaf8d9770b2f58a294b8692a8cbf"
-url = "https://github.com/pnpm/pnpm/releases/download/v11.0.9/pnpm-linux-x64.tar.gz"
+checksum = "sha256:f82f761572d9621c5a646ccc00a1ecec4cf5839d66b714497e6ca10cd2e086ee"
+url = "https://github.com/pnpm/pnpm/releases/download/v11.1.2/pnpm-linux-x64.tar.gz"
 provenance = "github-attestations"
 
 [tools.pnpm."platforms.linux-x64-musl"]
-checksum = "sha256:964f716be77cab7cbd796a72bc2ec60703bccdfc8ac524fb3b5cbe7a105799b0"
-url = "https://github.com/pnpm/pnpm/releases/download/v11.0.9/pnpm-linux-x64-musl.tar.gz"
+checksum = "sha256:3c98dfa5f0c2ba86eb48916318108dbfa0a0710dac46861b3f64d72e3defda00"
+url = "https://github.com/pnpm/pnpm/releases/download/v11.1.2/pnpm-linux-x64-musl.tar.gz"
 provenance = "github-attestations"
 
 [tools.pnpm."platforms.linux-x64-musl-baseline"]
-checksum = "sha256:964f716be77cab7cbd796a72bc2ec60703bccdfc8ac524fb3b5cbe7a105799b0"
-url = "https://github.com/pnpm/pnpm/releases/download/v11.0.9/pnpm-linux-x64-musl.tar.gz"
+checksum = "sha256:3c98dfa5f0c2ba86eb48916318108dbfa0a0710dac46861b3f64d72e3defda00"
+url = "https://github.com/pnpm/pnpm/releases/download/v11.1.2/pnpm-linux-x64-musl.tar.gz"
 provenance = "github-attestations"
 
 [[tools.prettier]]
@@ -907,27 +911,27 @@ version = "3.8.3"
 backend = "npm:prettier"
 
 [[tools.python]]
-version = "3.14.4"
+version = "3.14.5"
 backend = "core:python"
 
 [tools.python."platforms.linux-x64"]
-checksum = "sha256:fe9a9c32d13870af632cbac3dfc7528ae53597e94472aa4c7d6a42e8166136cd"
-url = "https://github.com/astral-sh/python-build-standalone/releases/download/20260414/cpython-3.14.4+20260414-x86_64-unknown-linux-gnu-install_only_stripped.tar.gz"
+checksum = "blake3:a1c289075e88a3a31f93ddffec2c4e7a75ea663b204d93d8969046cc4aebd55f"
+url = "https://github.com/astral-sh/python-build-standalone/releases/download/20260510/cpython-3.14.5+20260510-x86_64-unknown-linux-gnu-install_only_stripped.tar.gz"
 provenance = "github-attestations"
 
 [tools.python."platforms.linux-x64-baseline"]
-checksum = "sha256:fe9a9c32d13870af632cbac3dfc7528ae53597e94472aa4c7d6a42e8166136cd"
-url = "https://github.com/astral-sh/python-build-standalone/releases/download/20260414/cpython-3.14.4+20260414-x86_64-unknown-linux-gnu-install_only_stripped.tar.gz"
+checksum = "sha256:dc10977b0db3bef1ee2275107fde6fe9c148135b556fa352e83c6baa67d17ed6"
+url = "https://github.com/astral-sh/python-build-standalone/releases/download/20260510/cpython-3.14.5+20260510-x86_64-unknown-linux-gnu-install_only_stripped.tar.gz"
 provenance = "github-attestations"
 
 [tools.python."platforms.linux-x64-musl"]
-checksum = "sha256:d6005226cd24e780630626232c7a63243d4885fdf975dcf930a0758a0759ce14"
-url = "https://github.com/astral-sh/python-build-standalone/releases/download/20260414/cpython-3.14.4+20260414-x86_64-unknown-linux-musl-install_only_stripped.tar.gz"
+checksum = "sha256:6bc02ce4575e5d5379f4533f3d3f77acfdfd5ccd9c4edf790fcdd84578a1df01"
+url = "https://github.com/astral-sh/python-build-standalone/releases/download/20260510/cpython-3.14.5+20260510-x86_64-unknown-linux-musl-install_only_stripped.tar.gz"
 provenance = "github-attestations"
 
 [tools.python."platforms.linux-x64-musl-baseline"]
-checksum = "sha256:d6005226cd24e780630626232c7a63243d4885fdf975dcf930a0758a0759ce14"
-url = "https://github.com/astral-sh/python-build-standalone/releases/download/20260414/cpython-3.14.4+20260414-x86_64-unknown-linux-musl-install_only_stripped.tar.gz"
+checksum = "sha256:6bc02ce4575e5d5379f4533f3d3f77acfdfd5ccd9c4edf790fcdd84578a1df01"
+url = "https://github.com/astral-sh/python-build-standalone/releases/download/20260510/cpython-3.14.5+20260510-x86_64-unknown-linux-musl-install_only_stripped.tar.gz"
 provenance = "github-attestations"
 
 [[tools.ripgrep]]
