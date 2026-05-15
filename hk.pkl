@@ -70,8 +70,8 @@ local const lintSteps = new Mapping<String, Step> {
     check = "shellcheck --external-sources {{ files }}"
   }
   ["pwsh"] {
-    glob = List("win/**/*.ps1", "win/**/*.psd1")
-    check = "pwsh -Command 'Invoke-ScriptAnalyzer -Path win -Recurse -EnableExit -Settings win/PSScriptAnalyzerSettings.psd1'"
+    glob = List("win/**/*.ps1", "win/**/*.psd1", "win/**/*.psm1")
+    check = "pwsh -NoProfile -Command 'Invoke-ScriptAnalyzer -Path win -Recurse -EnableExit -Settings win/PSScriptAnalyzerSettings.psd1'"
   }
   ["yamlfmt"] = (Builtins.yamlfmt) {
     types = List("yaml")
