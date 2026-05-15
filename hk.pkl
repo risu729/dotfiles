@@ -20,7 +20,8 @@ local const lintSteps = new Mapping<String, Step> {
     fix = "oxfmt {{ files }}"
   }
   ["actionlint"] = (Builtins.actionlint) {
-    // Builtins.actionlint batches by file; one invocation keeps local output concise.
+    // Builtins.actionlint's batch=true splits workflow files into parallel chunks.
+    // Keep one actionlint invocation with all files for concise local output.
     batch = false
     check = "actionlint -color {{ files }}"
     env {
