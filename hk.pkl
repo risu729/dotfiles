@@ -4,6 +4,9 @@ import "package://github.com/jdx/hk/releases/download/v1.45.0/hk@1.45.0#/Builtin
 local const jsTsTypes = List("javascript", "typescript")
 local const shellTypes = List("shell")
 local const bashrcGlobs = List("wsl/home/.bashrc")
+local const shfmtCheck = "shfmt --diff --simplify {{ files }}"
+local const shfmtFix = "shfmt --write --simplify {{ files }}"
+local const shellcheckCheck = "shellcheck --external-sources {{ files }}"
 
 local const lintSteps = new Mapping<String, Step> {
   ["oxlint"] = (Builtins.ox_lint) {
@@ -54,26 +57,26 @@ local const lintSteps = new Mapping<String, Step> {
   ["shfmt"] {
     types = shellTypes
     batch = false
-    check_diff = "shfmt --diff --simplify {{ files }}"
-    fix = "shfmt --write --simplify {{ files }}"
+    check_diff = shfmtCheck
+    fix = shfmtFix
   }
   // hk narrows selection when both glob and types are set, so .bashrc needs
   // separate steps because it has no shell extension or shebang.
   ["shfmt:bashrc"] {
     glob = bashrcGlobs
     batch = false
-    check_diff = "shfmt --diff --simplify {{ files }}"
-    fix = "shfmt --write --simplify {{ files }}"
+    check_diff = shfmtCheck
+    fix = shfmtFix
   }
   ["shellcheck"] {
     types = shellTypes
     batch = false
-    check = "shellcheck --external-sources {{ files }}"
+    check = shellcheckCheck
   }
   ["shellcheck:bashrc"] {
     glob = bashrcGlobs
     batch = false
-    check = "shellcheck --external-sources {{ files }}"
+    check = shellcheckCheck
   }
   ["pwsh"] {
     glob = List("win/**/*.ps1")
