@@ -81,6 +81,34 @@ url = "https://repo.yarnpkg.com/4.14.1/packages/yarnpkg-cli/bin/yarn.js"
 [tools."aqua:yarn"."platforms.linux-x64-musl-baseline"]
 url = "https://repo.yarnpkg.com/4.14.1/packages/yarnpkg-cli/bin/yarn.js"
 
+[[tools.aube]]
+version = "1.9.0"
+backend = "github:endevco/aube"
+
+[tools.aube."platforms.linux-x64"]
+checksum = "sha256:f27e4ecdd5669e76d2d1f7be69ca29e0ba0a8943b71172e5f7b785ab9a5c5132"
+url = "https://github.com/endevco/aube/releases/download/v1.9.0/aube-v1.9.0-x86_64-unknown-linux-gnu.tar.gz"
+url_api = "https://api.github.com/repos/endevco/aube/releases/assets/412877756"
+provenance = "github-attestations"
+
+[tools.aube."platforms.linux-x64-baseline"]
+checksum = "sha256:f27e4ecdd5669e76d2d1f7be69ca29e0ba0a8943b71172e5f7b785ab9a5c5132"
+url = "https://github.com/endevco/aube/releases/download/v1.9.0/aube-v1.9.0-x86_64-unknown-linux-gnu.tar.gz"
+url_api = "https://api.github.com/repos/endevco/aube/releases/assets/412877756"
+provenance = "github-attestations"
+
+[tools.aube."platforms.linux-x64-musl"]
+checksum = "sha256:6245a25dab1903d76222edc493f5c908b6fc52cac1dc591a3e1760b066af5c6b"
+url = "https://github.com/endevco/aube/releases/download/v1.9.0/aube-v1.9.0-x86_64-unknown-linux-musl.tar.gz"
+url_api = "https://api.github.com/repos/endevco/aube/releases/assets/412878508"
+provenance = "github-attestations"
+
+[tools.aube."platforms.linux-x64-musl-baseline"]
+checksum = "sha256:6245a25dab1903d76222edc493f5c908b6fc52cac1dc591a3e1760b066af5c6b"
+url = "https://github.com/endevco/aube/releases/download/v1.9.0/aube-v1.9.0-x86_64-unknown-linux-musl.tar.gz"
+url_api = "https://api.github.com/repos/endevco/aube/releases/assets/412878508"
+provenance = "github-attestations"
+
 [[tools.bat]]
 version = "0.26.1"
 backend = "aqua:sharkdp/bat"
