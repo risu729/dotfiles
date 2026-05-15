@@ -57,6 +57,7 @@ miller = "latest"
 glow = "latest"
 "github:garden-rs/garden" = "latest"
 "pipx:markitdown" = { version = "latest", extras = "all" }
+"npm:resend-cli" = "latest"
 
 # ai agents
 codex = "latest"
