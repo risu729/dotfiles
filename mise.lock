@@ -432,4 +432,3 @@ provenance = "github-attestations"
 
 [tools.zizmor."platforms.linux-x64-musl-baseline"]
 provenance = "github-attestations"
-
