@@ -20,6 +20,8 @@ local const lintSteps = new Mapping<String, Step> {
     fix = "oxfmt {{ files }}"
   }
   ["actionlint"] = (Builtins.actionlint) {
+    // Builtins.actionlint's batch=true splits workflow files into parallel chunks.
+    // Keep one actionlint invocation with all files for concise local output.
     batch = false
     check = "actionlint -color {{ files }}"
     env {
@@ -56,7 +58,6 @@ local const lintSteps = new Mapping<String, Step> {
   }
   ["shfmt"] {
     types = shellTypes
-    batch = false
     check_diff = shfmtCheck
     fix = shfmtFix
   }
@@ -64,18 +65,15 @@ local const lintSteps = new Mapping<String, Step> {
   // separate steps because it has no shell extension or shebang.
   ["shfmt:bashrc"] {
     glob = bashrcGlobs
-    batch = false
     check_diff = shfmtCheck
     fix = shfmtFix
   }
   ["shellcheck"] {
     types = shellTypes
-    batch = false
     check = shellcheckCheck
   }
   ["shellcheck:bashrc"] {
     glob = bashrcGlobs
-    batch = false
     check = shellcheckCheck
   }
   ["pwsh"] {
