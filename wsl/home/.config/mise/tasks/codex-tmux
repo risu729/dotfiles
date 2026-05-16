@@ -303,7 +303,9 @@ select_existing_session() {
 	) || exit 130
 
 	session_name=${selected%%$'\t'*}
-	[[ ${session_name} != "new" ]]
+	if [[ ${session_name} == "new" ]]; then
+		return 1
+	fi
 	printf '%s\n' "${session_name}"
 }
 
