@@ -1,0 +1,35 @@
+name: dotfiles-ci
+
+services:
+  worker:
+    build:
+      context: ./worker/docker
+      args:
+        MISE_VERSION: ${MISE_VERSION:-}
+    environment:
+      GIT_REPO_URL: ${GIT_REPO_URL:-}
+      GIT_COMMIT_SHA: ${GIT_COMMIT_SHA:-}
+      GITHUB_TOKEN: ${GITHUB_TOKEN:-}
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "http://localhost:4173"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  test-linux:
+    build:
+      context: .
+      dockerfile: ./docker/wsl/Dockerfile
+    depends_on:
+      worker:
+        condition: service_healthy
+    environment:
+      GITHUB_TOKEN: ${GITHUB_TOKEN:-}
+      __CI: ${__CI:-}
+      SHA: ${GIT_COMMIT_SHA:-}
+      MISE_LOG_LEVEL: ${MISE_LOG_LEVEL:-info}
+    command:
+      - /bin/bash
+      - -lc
+      - |
+        curl -fsSL "http://worker:4173/wsl?ref=$${SHA}" | bash
