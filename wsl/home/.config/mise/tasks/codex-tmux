@@ -1,56 +1,545 @@
 #!/usr/bin/env bash
-#MISE description "Launch Codex CLI in a tmux session scoped to the current directory"
+# shellcheck disable=SC2310 # fallback functions intentionally return status
+#MISE description "Launch Codex CLI in a tmux-backed Worktrunk worktree"
 #MISE dir="{{cwd}}"
-#USAGE flag "-n --new" help="Force creation of a new tmux session instead of attaching to the existing one for this directory"
+#USAGE about "Launch Codex in a tmux-backed Worktrunk checkout"
+#USAGE flag "-n --new" help="Skip attach selection and create a new worktree/session"
+#USAGE arg "[repo]" help="ghr repo name, host:owner/repo, or owner/repo" required=#false
+#USAGE cmd cleanup help="Remove Codex Worktrunk worktrees" {
+#USAGE   flag "--repo" help="Repository to clean up" {
+#USAGE     arg <repo>
+#USAGE   }
+#USAGE   flag "-f --force" help="Force worktree removal"
+#USAGE   flag "-D --force-delete" help="Delete unmerged branches"
+#USAGE   arg "[branch-or-path]" help="Branch name or worktree path to remove" required=#false
+#USAGE }
 
 set -euo pipefail
 
-if ! command -v codex >/dev/null 2>&1; then
-	echo "error: codex command not found" >&2
+CACHE_DIR="${CODEX_TMUX_CACHE_DIR:-${HOME}/.cache/codex-tmux}"
+CLEANUP_LOG="${CACHE_DIR}/cleanup.log"
+SCRIPT_PATH="$(readlink -f "${BASH_SOURCE[0]}")"
+
+shell_join() {
+	local joined
+
+	(($# == 0)) && return 0
+	printf -v joined '%q ' "$@"
+	printf '%s' "${joined% }"
+}
+
+tmux_single_quote() {
+	local value=$1
+	value=${value//\'/\'\\\'\'}
+	printf "'%s'" "${value}"
+}
+
+die() {
+	printf 'error: %s\n' "$*" >&2
 	exit 1
-fi
+}
 
-if ! command -v tmux >/dev/null 2>&1; then
-	echo "error: tmux command not found" >&2
-	exit 1
-fi
+need_cmd() {
+	local cmd=$1
 
-NEW_SESSION="${usage_new:-false}"
-PWD_REAL="$(pwd -P)"
-DIR_NAME="$(basename "${PWD_REAL}")"
-
-hash_pwd() {
-	if command -v sha1sum >/dev/null 2>&1; then
-		printf '%s' "${PWD_REAL}" | sha1sum | awk '{print substr($1,1,10)}'
-	else
-		printf '%s' "${PWD_REAL}" | shasum -a 1 | awk '{print substr($1,1,10)}'
+	if ! command -v "${cmd}" >/dev/null 2>&1; then
+		die "${cmd} command not found"
 	fi
 }
 
-sanitize_tmux_name() {
+sanitize_name() {
 	printf '%s' "${1}" |
 		tr -cs '[:alnum:]_.-' '-' |
 		sed 's/^-//; s/-$//'
 }
 
-_dir_safe="$(sanitize_tmux_name "${DIR_NAME}")"
-_hash="$(hash_pwd)"
-BASE_NAME="codex-${_dir_safe}-${_hash}"
-SESSION_NAME="${BASE_NAME}"
-
-if [[ ${NEW_SESSION} == "true" ]]; then
-	SESSION_NAME="${BASE_NAME}-$(date +%Y%m%d%H%M%S)-$$"
-elif tmux has-session -t "=${SESSION_NAME}" 2>/dev/null; then
-	if [[ -n ${TMUX:-} ]]; then
-		exec tmux switch-client -t "=${SESSION_NAME}"
+random_hex() {
+	if command -v od >/dev/null 2>&1; then
+		od -An -N3 -tx1 /dev/urandom | tr -d ' \n'
 	else
-		exec tmux attach-session -t "=${SESSION_NAME}"
+		printf '%04x%02x' "${RANDOM}" "${RANDOM}"
 	fi
-fi
+}
 
-if [[ -n ${TMUX:-} ]]; then
-	tmux new-session -d -s "${SESSION_NAME}" -c "${PWD_REAL}" codex --disable terminal_resize_reflow
-	exec tmux switch-client -t "=${SESSION_NAME}"
-else
-	exec tmux new-session -s "${SESSION_NAME}" -c "${PWD_REAL}" codex --disable terminal_resize_reflow
-fi
+hash_text() {
+	if command -v sha1sum >/dev/null 2>&1; then
+		printf '%s' "$1" | sha1sum | awk '{print substr($1,1,10)}'
+	else
+		printf '%s' "$1" | shasum -a 1 | awk '{print substr($1,1,10)}'
+	fi
+}
+
+canonical_remote_url() {
+	local url=$1
+
+	url=${url%/}
+	url=${url%.git}
+	case "${url}" in
+	git@*:*)
+		url=${url#git@}
+		url=${url/:/\/}
+		;;
+	ssh://git@*)
+		url=${url#ssh://git@}
+		;;
+	ssh://*)
+		url=${url#ssh://}
+		url=${url#*@}
+		;;
+	https://*)
+		url=${url#https://}
+		;;
+	http://*)
+		url=${url#http://}
+		;;
+	*) ;;
+	esac
+
+	printf '%s\n' "${url}"
+}
+
+ghr_repo_from_remote() {
+	local remote_url=$1
+	local canonical host path
+
+	canonical=$(canonical_remote_url "${remote_url}")
+	host=${canonical%%/*}
+	path=${canonical#*/}
+	if [[ -z ${host} || -z ${path} || ${host} == "${path}" ]]; then
+		return 1
+	fi
+
+	printf '%s:%s\n' "${host}" "${path}"
+}
+
+repo_remote_url() {
+	local repo_path=$1
+	local remote default_ref
+
+	default_ref=$(git -C "${repo_path}" symbolic-ref refs/remotes/origin/HEAD 2>/dev/null || true)
+	if [[ -n ${default_ref} ]]; then
+		remote=${default_ref#refs/remotes/}
+		remote=${remote%%/*}
+	elif git -C "${repo_path}" config --get remote.origin.url >/dev/null 2>&1; then
+		remote=origin
+	else
+		remote=$(git -C "${repo_path}" remote 2>/dev/null | sed -n '1p')
+	fi
+
+	[[ -n ${remote:-} ]] || return 1
+	git -C "${repo_path}" config --get "remote.${remote}.url"
+}
+
+repo_from_path() {
+	local repo_path=$1
+	local remote_url
+
+	remote_url=$(repo_remote_url "${repo_path}") || return 1
+	ghr_repo_from_remote "${remote_url}"
+}
+
+repo_short_name() {
+	local repo_name=$1
+
+	printf '%s\n' "${repo_name#*:}"
+}
+
+resolve_explicit_repo() {
+	local input=$1
+	local repo_path repo_name
+
+	repo_path=$(ghr path "${input}") || die "ghr could not resolve repo: ${input}"
+	repo_path=$(realpath "${repo_path}")
+
+	if ! git -C "${repo_path}" rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+		die "resolved ghr path is not a git repository: ${repo_path}"
+	fi
+
+	repo_name=$(repo_from_path "${repo_path}" || true)
+	if [[ -z ${repo_name} ]]; then
+		repo_name="${input}"
+	fi
+
+	printf '%s\t%s\n' "${repo_name}" "${repo_path}"
+}
+
+resolve_current_repo() {
+	local root remote_url repo_name repo_path
+
+	root=$(git rev-parse --show-toplevel --path-format=absolute 2>/dev/null) || return 1
+	remote_url=$(repo_remote_url "${root}") || die "current git repo has no remote"
+	repo_name=$(ghr_repo_from_remote "${remote_url}") || die "could not convert remote to ghr repo: ${remote_url}"
+	repo_path=$(ghr path "${repo_name}") || die "current repo is not managed by ghr: ${repo_name}"
+	repo_path=$(realpath "${repo_path}")
+
+	if ! git -C "${repo_path}" rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+		die "resolved ghr path is not a git repository: ${repo_path}"
+	fi
+
+	printf '%s\t%s\n' "${repo_name}" "${repo_path}"
+}
+
+select_repo() {
+	local repo
+
+	need_cmd fzf
+	repo=$(ghr list | fzf --prompt='c repo> ' --height=80% --reverse) || exit 130
+	[[ -n ${repo} ]] || exit 130
+	resolve_explicit_repo "${repo}"
+}
+
+resolve_repo() {
+	if [[ -n ${usage_repo:-} ]]; then
+		resolve_explicit_repo "${usage_repo}"
+	elif resolve_current_repo; then
+		return 0
+	else
+		select_repo
+	fi
+}
+
+session_rows_for_repo() {
+	local repo_name=$1
+	local sessions
+
+	sessions=$(tmux list-sessions -F '#{session_name}	#{@codex-tmux-repo}	#{@codex-tmux-branch}	#{@codex-tmux-worktree}' 2>/dev/null || true)
+	[[ -n ${sessions} ]] || return 0
+	awk -F '\t' -v repo="${repo_name}" '$2 == repo { print }' <<<"${sessions}"
+}
+
+attach_session() {
+	local session_name=$1
+
+	if [[ -n ${TMUX:-} ]]; then
+		exec tmux switch-client -t "=${session_name}"
+	else
+		exec tmux attach-session -t "=${session_name}"
+	fi
+}
+
+select_existing_session() {
+	local repo_name=$1
+	local rows selected session_name
+
+	rows=$(session_rows_for_repo "${repo_name}")
+	[[ -n ${rows} ]] || return 1
+
+	need_cmd fzf
+	selected=$(
+		{
+			printf 'new\tCreate new Worktrunk session\t\n'
+			printf '%s\n' "${rows}"
+		} | fzf --prompt='codex session> ' --height=80% --reverse --with-nth=1,3,4
+	) || exit 130
+
+	session_name=${selected%%$'\t'*}
+	[[ ${session_name} != "new" ]]
+	printf '%s\n' "${session_name}"
+}
+
+new_branch_name() {
+	local timestamp random
+
+	timestamp=$(date +%Y%m%d-%H%M%S)
+	random=$(random_hex)
+	printf 'codex/%s-%s\n' "${timestamp}" "${random}"
+}
+
+create_worktree() {
+	local repo_path=$1
+	local branch=$2
+	local output json path
+
+	output=$(wt -C "${repo_path}" switch --create --no-cd --format json "${branch}")
+	json=$(printf '%s\n' "${output}" | sed -n '/^{/p' | tail -n 1)
+	[[ -n ${json} ]] || die "wt switch did not return JSON output"
+	path=$(jq -r '.path // .worktree_path // empty' <<<"${json}")
+	[[ -n ${path} && ${path} != "null" ]] || die "wt switch JSON did not include a worktree path"
+
+	printf '%s\n' "${path}"
+}
+
+write_state_file() {
+	local state_file=$1
+	local repo_name=$2
+	local repo_path=$3
+	local branch=$4
+	local worktree_path=$5
+	local session_name=$6
+
+	mkdir -p "$(dirname "${state_file}")"
+	{
+		printf 'CODEX_TMUX_REPO=%q\n' "${repo_name}"
+		printf 'CODEX_TMUX_REPO_PATH=%q\n' "${repo_path}"
+		printf 'CODEX_TMUX_BRANCH=%q\n' "${branch}"
+		printf 'CODEX_TMUX_WORKTREE=%q\n' "${worktree_path}"
+		printf 'CODEX_TMUX_SESSION=%q\n' "${session_name}"
+		printf 'CODEX_TMUX_PATH=%q\n' "${PATH}"
+		printf 'CODEX_TMUX_CLEANED=false\n'
+	} >"${state_file}"
+}
+
+mark_state_cleaned() {
+	local state_file=$1
+	local cleaned_at
+
+	cleaned_at=$(date --iso-8601=seconds)
+
+	{
+		printf '\n'
+		printf 'CODEX_TMUX_CLEANED=true\n'
+		printf 'CODEX_TMUX_CLEANED_AT=%q\n' "${cleaned_at}"
+	} >>"${state_file}"
+}
+
+log_cleanup_failure() {
+	local repo_name=$1
+	local repo_path=$2
+	local target=$3
+	shift 3
+	local command failed_at manual_command
+
+	command=$(shell_join "$@")
+	failed_at=$(date --iso-8601=seconds)
+	manual_command=$(shell_join c cleanup --repo "${repo_name}" "${target}")
+	mkdir -p "${CACHE_DIR}"
+	{
+		printf '[%s] cleanup failed\n' "${failed_at}"
+		printf 'repo=%s\n' "${repo_name}"
+		printf 'repo_path=%s\n' "${repo_path}"
+		printf 'target=%s\n' "${target}"
+		printf 'attempted=%s\n' "${command}"
+		printf 'manual=%s\n' "${manual_command}"
+		printf '\n'
+	} >>"${CLEANUP_LOG}"
+}
+
+run_worktrunk_remove() {
+	local repo_name=$1
+	local repo_path=$2
+	local target=$3
+	local force=$4
+	local force_delete=$5
+	local -a command
+
+	command=(wt -C "${repo_path}" remove --foreground)
+	if [[ ${force} == true ]]; then
+		command+=(--force)
+	fi
+	if [[ ${force_delete} == true ]]; then
+		command+=(--force-delete)
+	fi
+	command+=("${target}")
+
+	if "${command[@]}"; then
+		return 0
+	fi
+
+	log_cleanup_failure "${repo_name}" "${repo_path}" "${target}" "${command[@]}"
+	return 1
+}
+
+cleanup_state_file() {
+	local state_file=$1
+	local lock_dir="${state_file}.lock"
+	local CODEX_TMUX_BRANCH CODEX_TMUX_CLEANED CODEX_TMUX_PATH CODEX_TMUX_REPO CODEX_TMUX_REPO_PATH
+
+	[[ -r ${state_file} ]] || return 0
+	# shellcheck source=/dev/null
+	source "${state_file}"
+	if [[ ${CODEX_TMUX_CLEANED:-false} == true ]]; then
+		return 0
+	fi
+
+	if ! mkdir "${lock_dir}" 2>/dev/null; then
+		return 0
+	fi
+	trap 'rmdir "${lock_dir}" 2>/dev/null || true' RETURN
+
+	# shellcheck source=/dev/null
+	source "${state_file}"
+	if [[ ${CODEX_TMUX_CLEANED:-false} == true ]]; then
+		return 0
+	fi
+	if [[ -n ${CODEX_TMUX_PATH:-} ]]; then
+		PATH=${CODEX_TMUX_PATH}
+		export PATH
+	fi
+
+	if run_worktrunk_remove \
+		"${CODEX_TMUX_REPO}" \
+		"${CODEX_TMUX_REPO_PATH}" \
+		"${CODEX_TMUX_BRANCH}" \
+		false \
+		false; then
+		mark_state_cleaned "${state_file}"
+	fi
+}
+
+internal_pane() {
+	local state_file=$1
+	local codex_status=0
+	local CODEX_TMUX_PATH CODEX_TMUX_REPO_PATH CODEX_TMUX_WORKTREE
+
+	[[ -r ${state_file} ]] || die "missing cleanup state file: ${state_file}"
+	# shellcheck source=/dev/null
+	source "${state_file}"
+	if [[ -n ${CODEX_TMUX_PATH:-} ]]; then
+		PATH=${CODEX_TMUX_PATH}
+		export PATH
+	fi
+
+	# shellcheck disable=SC2329 # invoked by the EXIT trap
+	cleanup_on_exit() {
+		local status=$?
+		cd "${CODEX_TMUX_REPO_PATH}" 2>/dev/null || cd "${HOME}"
+		cleanup_state_file "${state_file}" || true
+		exit "${status}"
+	}
+
+	trap cleanup_on_exit EXIT
+	cd "${CODEX_TMUX_WORKTREE}"
+	codex --disable terminal_resize_reflow || codex_status=$?
+	exit "${codex_status}"
+}
+
+ensure_unique_session_name() {
+	local base_name=$1
+	local session_name=${base_name}
+
+	while tmux has-session -t "=${session_name}" 2>/dev/null; do
+		session_name="${base_name}-$(random_hex)"
+	done
+	printf '%s\n' "${session_name}"
+}
+
+cleanup_session() {
+	local session_name=$1
+	local state_file
+	local CODEX_TMUX_SESSION
+
+	for state_file in "${CACHE_DIR}"/*.env; do
+		[[ -r ${state_file} ]] || continue
+		CODEX_TMUX_SESSION=
+		# shellcheck source=/dev/null
+		source "${state_file}"
+		if [[ ${CODEX_TMUX_SESSION:-} == "${session_name}" ]]; then
+			cleanup_state_file "${state_file}"
+		fi
+	done
+}
+
+install_global_cleanup_hook() {
+	local installed hook_shell hook_command
+
+	installed=$(tmux show-options -gqv @codex-tmux-hook-installed 2>/dev/null || true)
+	[[ ${installed} == "${SCRIPT_PATH}" ]] && return 0
+
+	hook_shell="$(shell_join "${SCRIPT_PATH}" __cleanup-session) \"#{hook_session_name}\""
+	hook_command="run-shell -b $(tmux_single_quote "${hook_shell}")"
+	tmux set-hook -g -a session-closed "${hook_command}"
+	tmux set-option -gq @codex-tmux-hook-installed "${SCRIPT_PATH}"
+}
+
+start_session() {
+	local repo_name=$1
+	local repo_path=$2
+	local branch=$3
+	local worktree_path=$4
+	local short_repo safe_repo safe_branch session_base session_name state_id state_file pane_command
+
+	short_repo=$(repo_short_name "${repo_name}")
+	safe_repo=$(sanitize_name "${short_repo}")
+	safe_branch=$(sanitize_name "${branch}")
+	session_base="codex-${safe_repo}-${safe_branch}"
+	session_name=$(ensure_unique_session_name "${session_base}")
+	state_id="$(hash_text "${repo_name}:${branch}:${session_name}")"
+	state_file="${CACHE_DIR}/${state_id}.env"
+
+	write_state_file "${state_file}" "${repo_name}" "${repo_path}" "${branch}" "${worktree_path}" "${session_name}"
+
+	pane_command=$(shell_join "${SCRIPT_PATH}" __pane "${state_file}")
+	install_global_cleanup_hook
+	tmux new-session -d -s "${session_name}" -c "${worktree_path}" "${pane_command}"
+
+	tmux set-option -q -t "${session_name}" @codex-tmux-repo "${repo_name}"
+	tmux set-option -q -t "${session_name}" @codex-tmux-repo-path "${repo_path}"
+	tmux set-option -q -t "${session_name}" @codex-tmux-branch "${branch}"
+	tmux set-option -q -t "${session_name}" @codex-tmux-worktree "${worktree_path}"
+	tmux set-option -q -t "${session_name}" @codex-tmux-state "${state_file}"
+
+	attach_session "${session_name}"
+}
+
+manual_cleanup() {
+	local repo_name repo_path target current_branch resolved
+	local force="${usage_force:-false}"
+	local force_delete="${usage_force_delete:-false}"
+
+	need_cmd ghr
+	need_cmd wt
+
+	if [[ -n ${usage_repo:-} ]]; then
+		resolved=$(resolve_explicit_repo "${usage_repo}")
+		repo_name=${resolved%%$'\t'*}
+		repo_path=${resolved#*$'\t'}
+	else
+		resolved=$(resolve_current_repo) || die "pass --repo when running cleanup outside a git repo"
+		repo_name=${resolved%%$'\t'*}
+		repo_path=${resolved#*$'\t'}
+	fi
+
+	target="${usage_branch_or_path:-}"
+	if [[ -z ${target} ]]; then
+		current_branch=$(git -C "$(pwd -P)" branch --show-current 2>/dev/null || true)
+		[[ -n ${current_branch} ]] || die "cleanup target branch-or-path is required"
+		target=${current_branch}
+	fi
+
+	run_worktrunk_remove "${repo_name}" "${repo_path}" "${target}" "${force}" "${force_delete}"
+}
+
+main() {
+	local resolved repo_name repo_path session_name branch worktree_path
+
+	need_cmd codex
+	need_cmd ghr
+	need_cmd jq
+	need_cmd tmux
+	need_cmd wt
+
+	resolved=$(resolve_repo)
+	repo_name=${resolved%%$'\t'*}
+	repo_path=${resolved#*$'\t'}
+
+	if [[ ${usage_new:-false} != true ]]; then
+		if session_name=$(select_existing_session "${repo_name}"); then
+			attach_session "${session_name}"
+		fi
+	fi
+
+	branch=$(new_branch_name)
+	worktree_path=$(create_worktree "${repo_path}" "${branch}")
+	start_session "${repo_name}" "${repo_path}" "${branch}" "${worktree_path}"
+}
+
+case "${1:-}" in
+__pane)
+	shift
+	internal_pane "$@"
+	;;
+__cleanup)
+	shift
+	cleanup_state_file "$@"
+	;;
+__cleanup-session)
+	shift
+	cleanup_session "$@"
+	;;
+cleanup)
+	manual_cleanup
+	;;
+*)
+	main
+	;;
+esac
