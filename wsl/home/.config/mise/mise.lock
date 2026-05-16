@@ -367,6 +367,13 @@ url = "https://github.com/junegunn/fzf/releases/download/v0.72.0/fzf-0.72.0-linu
 version = "0.42.0"
 backend = "npm:@google/gemini-cli"
 
+[[tools.gemini-cli]]
+version = "0.42.0"
+backend = "npm:@google/gemini-cli"
+
+[tools.gemini-cli.options]
+aube_args = "--allow-build=@github/keytar --allow-build=node-pty"
+
 [[tools.ghalint]]
 version = "1.5.6"
 backend = "aqua:suzuki-shunsuke/ghalint"
@@ -927,7 +934,7 @@ version = "3.14.5"
 backend = "core:python"
 
 [tools.python."platforms.linux-x64"]
-checksum = "blake3:a1c289075e88a3a31f93ddffec2c4e7a75ea663b204d93d8969046cc4aebd55f"
+checksum = "sha256:dc10977b0db3bef1ee2275107fde6fe9c148135b556fa352e83c6baa67d17ed6"
 url = "https://github.com/astral-sh/python-build-standalone/releases/download/20260510/cpython-3.14.5+20260510-x86_64-unknown-linux-gnu-install_only_stripped.tar.gz"
 provenance = "github-attestations"
 
