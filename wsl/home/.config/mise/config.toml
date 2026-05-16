@@ -11,7 +11,7 @@ _.path = ["~/.local/bin"]
 # language tools
 node = "latest"
 bun = "latest"
-aube = "1.9.0" # 1.9.1+ missing GitHub attestations on linux-x64 (mise lock fails)
+aube = "1.9.0"  # 1.9.1+ missing GitHub attestations on linux-x64 (mise lock fails)
 npm = "latest"
 # Don't use the vfox plugin; it doesn't support lockfiles
 "aqua:yarn" = "latest"
@@ -65,7 +65,7 @@ glow = "latest"
 codex = "latest"
 "npm:@ccusage/codex" = "latest"
 claude = "latest"
-gemini-cli = "latest"
+gemini-cli = { version = "latest", aube_args = "--allow-build=@github/keytar --allow-build=node-pty" }
 copilot = "latest"
 
 # linter/formatter tools
@@ -92,7 +92,7 @@ numbat = "latest"
 typst = "latest"
 
 # mise development
-aqua = "2.58.0" # 2.58.1+ missing GitHub attestations on linux-x64 (mise lock fails)
+aqua = "2.58.0"    # 2.58.1+ missing GitHub attestations on linux-x64 (mise lock fails)
 pipx = "latest"
 sccache = "latest"
 
