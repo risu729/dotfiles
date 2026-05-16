@@ -1,0 +1,11 @@
+#:schema tombi://www.schemastore.org/tombi.json
+# ref: https://tombi-toml.github.io/tombi/docs/configuration/
+
+[format.rules]
+indent-style = "tab"
+trailing-comment-space-width = 1
+
+[lint.rules]
+dotted-keys-out-of-order = "error"
+key-empty = "error"
+tables-out-of-order = "error"
