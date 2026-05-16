@@ -333,24 +333,24 @@ checksum = "sha256:fb096c5d1ac6beabbdbaa2874d025badb03ee07929f0c9ff67563ce8c7539
 url = "https://github.com/mvdan/sh/releases/download/v3.13.1/shfmt_v3.13.1_linux_amd64"
 
 [[tools.tombi]]
-version = "0.11.1"
+version = "0.11.4"
 backend = "aqua:tombi-toml/tombi"
 
 [tools.tombi."platforms.linux-x64"]
-checksum = "sha256:827a8de6959b37b28e9a4d2dc3bfdb28e647d6de690d81a9a6751afabaa73763"
-url = "https://github.com/tombi-toml/tombi/releases/download/v0.11.1/tombi-cli-0.11.1-x86_64-unknown-linux-musl.tar.gz"
+checksum = "sha256:05fd1fb924588e25b575e5178fae22f5725ad852358a69966c93309b6b69d478"
+url = "https://github.com/tombi-toml/tombi/releases/download/v0.11.4/tombi-cli-0.11.4-x86_64-unknown-linux-musl.tar.gz"
 
 [tools.tombi."platforms.linux-x64-baseline"]
-checksum = "sha256:827a8de6959b37b28e9a4d2dc3bfdb28e647d6de690d81a9a6751afabaa73763"
-url = "https://github.com/tombi-toml/tombi/releases/download/v0.11.1/tombi-cli-0.11.1-x86_64-unknown-linux-musl.tar.gz"
+checksum = "sha256:05fd1fb924588e25b575e5178fae22f5725ad852358a69966c93309b6b69d478"
+url = "https://github.com/tombi-toml/tombi/releases/download/v0.11.4/tombi-cli-0.11.4-x86_64-unknown-linux-musl.tar.gz"
 
 [tools.tombi."platforms.linux-x64-musl"]
-checksum = "sha256:827a8de6959b37b28e9a4d2dc3bfdb28e647d6de690d81a9a6751afabaa73763"
-url = "https://github.com/tombi-toml/tombi/releases/download/v0.11.1/tombi-cli-0.11.1-x86_64-unknown-linux-musl.tar.gz"
+checksum = "sha256:05fd1fb924588e25b575e5178fae22f5725ad852358a69966c93309b6b69d478"
+url = "https://github.com/tombi-toml/tombi/releases/download/v0.11.4/tombi-cli-0.11.4-x86_64-unknown-linux-musl.tar.gz"
 
 [tools.tombi."platforms.linux-x64-musl-baseline"]
-checksum = "sha256:827a8de6959b37b28e9a4d2dc3bfdb28e647d6de690d81a9a6751afabaa73763"
-url = "https://github.com/tombi-toml/tombi/releases/download/v0.11.1/tombi-cli-0.11.1-x86_64-unknown-linux-musl.tar.gz"
+checksum = "sha256:05fd1fb924588e25b575e5178fae22f5725ad852358a69966c93309b6b69d478"
+url = "https://github.com/tombi-toml/tombi/releases/download/v0.11.4/tombi-cli-0.11.4-x86_64-unknown-linux-musl.tar.gz"
 
 [[tools.typos]]
 version = "1.46.1"
