@@ -28,36 +28,44 @@ jobs:
     timeout-minutes: 30
     permissions:
       contents: read # for checkout
-
-    container:
-      image: ghcr.io/risu729/dotfiles/wsl:24.04.20260516@sha256:cba434556b8ef07f5e08afaf5be6f44ebc9b754fa74eb7f3adbbb62e51b99e07
-
-    services:
-      worker:
-        image: ghcr.io/risu729/dotfiles/worker:1.20260510.0@sha256:ae74ad378209a9cb9a40b0a0d2b1a26ba52e38b5a88174fa3256d02a30d79d69
-        # vite preview server runs on port 4173 by default
-        # ref: https://vite.dev/config/preview-options#preview-port
-        options: >-
-          --health-cmd "curl --fail http://localhost:4173"
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-        env:
-          GIT_REPO_URL: ${{ github.event.repository.clone_url }}
-          # use head sha for pull requests because github.sha is set to the merge commit
-          GIT_COMMIT_SHA: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.sha }}
+    env:
+      COMPOSE_PROJECT_NAME: dotfiles-ci-${{ github.run_id }}-${{ github.run_attempt }}
 
     steps:
-      - name: Run installer
-        # don't use process substitution to avoid masking the errors
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
+
+      - name: Prepare Docker Compose environment
         run: |
-          curl -fsSL "http://worker:4173/wsl?ref=${SHA}" | bash
+          mise_version=$(sed -n 's/^min_version = "\(.*\)"$/\1/p' mise.toml)
+          if [[ -z ${mise_version} ]]; then
+            echo "Failed to read mise min_version." >&2
+            exit 1
+          fi
+          echo "MISE_VERSION=${mise_version}" >> "${GITHUB_ENV}"
+
+      - name: Download Ubuntu WSL image
+        run: curl --fail-with-body --location --output wsl-amd64.wsl "${IMAGE_URL}"
+        env:
+          # Keep WSL image target stable because newest LTS metadata can
+          # appear before cdimages publishes the corresponding wsl artifact.
+          IMAGE_URL: https://cdimages.ubuntu.com/ubuntu-wsl/noble/daily-live/current/noble-wsl-amd64.wsl
+
+      - name: Run installer
+        run: docker compose --file compose.ci.yml up --build --abort-on-container-exit --exit-code-from test-linux
         env:
           GITHUB_TOKEN: ${{ github.token }}
           __CI: true
+          GIT_REPO_URL: ${{ github.event.repository.clone_url }}
           # use head sha for pull requests because github.sha is set to the merge commit
-          SHA: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.sha }}
+          GIT_COMMIT_SHA: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.sha }}
           MISE_LOG_LEVEL: ${{ runner.debug == '1' && 'debug' || 'info' }}
+
+      - name: Clean up Docker Compose
+        if: ${{ always() }}
+        run: docker compose --file compose.ci.yml down --volumes --remove-orphans
 
   actions-timeline:
     name: Generate Actions Timeline
