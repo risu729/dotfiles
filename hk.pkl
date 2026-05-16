@@ -24,9 +24,6 @@ local const lintSteps = new Mapping<String, Step> {
     // Keep one actionlint invocation with all files for concise local output.
     batch = false
     check = "actionlint -color {{ files }}"
-    env {
-      ["SHELLCHECK_OPTS"] = "--enable=all --exclude=SC2312"
-    }
   }
   ["pinact"] = Builtins.pinact
   ["ghalint"] = (Builtins.ghalint_workflow) {

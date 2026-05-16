@@ -1,7 +1,7 @@
 # ~/.bashrc: executed by bash(1) for non-login shells.
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc) for examples
 
-# shellcheck disable=SC2148,SC2312 # shebang is not required; completion helpers intentionally use process substitutions
+# shellcheck disable=SC2148 # shebang is not required in .bashrc
 
 # Activate mise
 if command -v mise &>/dev/null; then
@@ -168,6 +168,7 @@ _c_codex_tmux_usage_candidates() {
 _c_codex_tmux_non_file_usage_candidates() {
 	local candidate
 
+	# shellcheck disable=SC2312 # completion candidates are best-effort
 	while IFS= read -r candidate; do
 		[[ -n ${candidate} ]] || continue
 		if [[ ${candidate} == */ && -d ${candidate%/} ]]; then
@@ -229,8 +230,6 @@ _c_codex_tmux_has_root_repo() {
 	for ((index = 1; index < cword; index++)); do
 		word=${words[index]}
 		case "${word}" in
-		-n | --new)
-			;;
 		-*)
 			;;
 		*)
@@ -244,15 +243,16 @@ _c_codex_tmux_has_root_repo() {
 _c_codex_tmux_complete() {
 	local cur prev words cword
 
-	COMP_WORDBREAKS=${COMP_WORDBREAKS//:/}
 	_comp_initialize -n : -- "$@" || return
 
 	if _c_codex_tmux_has_cleanup; then
 		if [[ ${prev} == "--repo" ]]; then
+			# shellcheck disable=SC2312 # completion candidates are best-effort
 			_c_codex_tmux_complete_lines "${cur}" < <(_c_codex_tmux_repo_candidates "${cur}")
 			return 0
 		fi
 		if [[ ${cur} == -* ]]; then
+			# shellcheck disable=SC2312 # completion candidates are best-effort
 			_c_codex_tmux_complete_lines "${cur}" < <(_c_codex_tmux_usage_candidates)
 			return 0
 		fi
@@ -260,6 +260,7 @@ _c_codex_tmux_complete() {
 	fi
 
 	if [[ ${cur} == -* ]]; then
+		# shellcheck disable=SC2312 # completion candidates are best-effort
 		_c_codex_tmux_complete_lines "${cur}" < <(_c_codex_tmux_usage_candidates)
 		return 0
 	fi
@@ -268,6 +269,7 @@ _c_codex_tmux_complete() {
 		return 0
 	fi
 
+	# shellcheck disable=SC2312 # completion candidates are best-effort
 	_c_codex_tmux_complete_lines "${cur}" < <(
 		_c_codex_tmux_non_file_usage_candidates
 		_c_codex_tmux_repo_candidates "${cur}"
