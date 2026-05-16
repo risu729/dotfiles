@@ -1,0 +1,316 @@
+#!/usr/bin/env bash
+#MISE description="Manage Codex auth.json account snapshots."
+
+#USAGE flag "--codex-home <dir>" help="Codex home directory" env="CODEX_HOME" global=#true
+#USAGE cmd "list" help="List saved Codex accounts"
+#USAGE cmd "current" help="Print the active Codex account"
+#USAGE cmd "save" help="Save the current auth.json as a named account" {
+#USAGE   arg "<account>" help="Account name" env="USAGE_ACCOUNT"
+#USAGE }
+#USAGE cmd "use" help="Switch auth.json to a saved account" {
+#USAGE   arg "[account]" help="Account name, or omit for an interactive picker" env="USAGE_ACCOUNT"
+#USAGE }
+#USAGE cmd "login" help="Print safe login instructions for a new account" {
+#USAGE   arg "[account]" help="Account name to save after logging in" env="USAGE_ACCOUNT"
+#USAGE }
+
+set -euo pipefail
+
+die() {
+	printf 'error: %s\n' "$*" >&2
+	exit 1
+}
+
+codex_home=${usage_codex_home:-${CODEX_HOME:-${HOME:?HOME must be set}/.codex}}
+accounts_dir="${codex_home}/accounts"
+auth_path="${codex_home}/auth.json"
+current_name_path="${codex_home}/current"
+
+normalize_account_name() {
+	local raw_name=${1:-}
+	local name=${raw_name%.json}
+
+	if [[ ! ${name} =~ ^[a-zA-Z0-9][a-zA-Z0-9._-]*$ ]]; then
+		die "invalid account name: ${raw_name:-<empty>}"
+	fi
+
+	printf '%s\n' "${name}"
+}
+
+ensure_accounts_dir() {
+	mkdir -p -- "${accounts_dir}"
+	chmod 700 -- "${codex_home}" "${accounts_dir}" 2>/dev/null || true
+}
+
+account_file_path() {
+	local account_name=$1
+	printf '%s/%s.json\n' "${accounts_dir}" "${account_name}"
+}
+
+absolute_path() {
+	local target=$1
+	local dir
+	local base
+
+	dir=$(dirname -- "${target}")
+	base=$(basename -- "${target}")
+	(
+		cd -- "${dir}"
+		printf '%s/%s\n' "${PWD}" "${base}"
+	)
+}
+
+list_account_names() {
+	local account_file
+	local account_name
+
+	[[ -d ${accounts_dir} ]] || return 0
+
+	shopt -s nullglob
+	for account_file in "${accounts_dir}"/*.json; do
+		[[ -f ${account_file} ]] || continue
+		account_name=$(basename -- "${account_file}")
+		printf '%s\n' "${account_name%.json}"
+	done | sort --ignore-case
+}
+
+current_account_name() {
+	local current_name
+	local auth_target
+	local auth_target_abs
+	local accounts_dir_abs
+	local auth_base
+
+	if [[ -f ${current_name_path} ]]; then
+		read -r current_name <"${current_name_path}" || true
+		if [[ -n ${current_name:-} ]]; then
+			printf '%s\n' "${current_name}"
+			return 0
+		fi
+	fi
+
+	[[ -L ${auth_path} ]] || return 0
+
+	auth_target=$(readlink -- "${auth_path}") || return 0
+	if [[ ${auth_target} != /* ]]; then
+		auth_target="$(dirname -- "${auth_path}")/${auth_target}"
+	fi
+
+	auth_target_abs=$(realpath -- "${auth_target}" 2>/dev/null || true)
+	accounts_dir_abs=$(realpath -- "${accounts_dir}" 2>/dev/null || true)
+	[[ -n ${auth_target_abs} && -n ${accounts_dir_abs} ]] || return 0
+
+	case "${auth_target_abs}" in
+	"${accounts_dir_abs}"/*.json)
+		auth_base=$(basename -- "${auth_target_abs}")
+		printf '%s\n' "${auth_base%.json}"
+		;;
+	*) ;;
+	esac
+}
+
+print_accounts() {
+	local current_name
+	local account_names
+	local account_name
+	local marker
+
+	account_names=$(list_account_names)
+	if [[ -z ${account_names} ]]; then
+		printf 'No saved Codex accounts in %s\n' "${accounts_dir}"
+		return 0
+	fi
+
+	current_name=$(current_account_name)
+	while IFS= read -r account_name; do
+		marker=' '
+		if [[ ${account_name} == "${current_name}" ]]; then
+			marker='*'
+		fi
+		printf '%s %s\n' "${marker}" "${account_name}"
+	done <<<"${account_names}"
+}
+
+select_account_name() {
+	local accounts=()
+	local selected
+
+	# shellcheck disable=SC2312
+	mapfile -t accounts < <(list_account_names)
+	((${#accounts[@]} > 0)) || die "no saved Codex accounts in ${accounts_dir}"
+
+	if [[ ! -t 0 ]]; then
+		die "no account provided; pass one or set USAGE_ACCOUNT"
+	fi
+
+	PS3='Select Codex account: '
+	select selected in "${accounts[@]}"; do
+		if [[ -n ${selected:-} ]]; then
+			printf '%s\n' "${selected}"
+			return 0
+		fi
+	done
+}
+
+save_account() {
+	local raw_name=$1
+	local account_name
+	local destination
+	local tmp_destination
+
+	account_name=$(normalize_account_name "${raw_name}")
+	[[ -f ${auth_path} ]] || die "no auth.json at ${auth_path}; run Codex login with this CODEX_HOME first"
+
+	ensure_accounts_dir
+	destination=$(account_file_path "${account_name}")
+	tmp_destination=$(mktemp "${destination}.tmp.XXXXXX")
+
+	if ! cp -- "${auth_path}" "${tmp_destination}"; then
+		rm -f -- "${tmp_destination}"
+		die "failed to copy ${auth_path}"
+	fi
+
+	chmod 600 -- "${tmp_destination}" 2>/dev/null || true
+	mv -f -- "${tmp_destination}" "${destination}"
+	printf 'Saved Codex auth as "%s" in %s\n' "${account_name}" "${destination}"
+}
+
+use_account() {
+	local raw_name=$1
+	local account_name
+	local source
+	local source_abs
+
+	if [[ -z ${raw_name} ]]; then
+		raw_name=$(select_account_name)
+	fi
+
+	account_name=$(normalize_account_name "${raw_name}")
+	source=$(account_file_path "${account_name}")
+	[[ -f ${source} ]] || die "account not found: ${account_name}"
+
+	ensure_accounts_dir
+	source_abs=$(absolute_path "${source}")
+
+	rm -f -- "${auth_path}"
+	ln -s -- "${source_abs}" "${auth_path}"
+	printf '%s\n' "${account_name}" >"${current_name_path}"
+	chmod 600 -- "${current_name_path}" 2>/dev/null || true
+	printf 'Switched Codex auth to "%s" using %s\n' "${account_name}" "${auth_path}"
+}
+
+print_current_account() {
+	local current_name
+
+	current_name=$(current_account_name)
+	if [[ -z ${current_name} ]]; then
+		printf 'No active Codex account recorded in %s\n' "${codex_home}"
+		return 0
+	fi
+
+	printf '%s\n' "${current_name}"
+}
+
+print_login_instructions() {
+	local raw_name=${1:-}
+	local account_name
+	local account_label='<account-name>'
+
+	if [[ -n ${raw_name} ]]; then
+		account_name=$(normalize_account_name "${raw_name}")
+		account_label=${account_name}
+	fi
+
+	cat <<EOF
+This task mirrors the auth.json snapshot model from:
+  https://github.com/Sls0n/codex-account-switcher
+
+It honors CODEX_HOME. The current target is:
+  CODEX_HOME=${codex_home@Q}
+  auth.json=${auth_path@Q}
+
+To log in to a new Codex account without overwriting a saved snapshot:
+
+1. Save the account you are using now, if it is not already saved:
+   CODEX_HOME=${codex_home@Q} mise run codex-account save <current-account-name>
+
+2. Remove only the active auth.json file or symlink. If auth.json is a symlink
+   created by this task, this removes the link, not the saved account snapshot:
+   rm -f ${auth_path@Q}
+
+3. Log in with the same CODEX_HOME:
+   CODEX_HOME=${codex_home@Q} codex login
+
+4. Save the new login:
+   CODEX_HOME=${codex_home@Q} mise run codex-account save ${account_label@Q}
+
+5. Switch accounts later:
+   CODEX_HOME=${codex_home@Q} mise run codex-account use ${account_label@Q}
+
+For env-driven usage, set USAGE_COMMAND and USAGE_ACCOUNT, for example:
+  CODEX_HOME=${codex_home@Q} USAGE_COMMAND=use USAGE_ACCOUNT=${account_label@Q} mise run codex-account
+EOF
+}
+
+find_command() {
+	local args=("$@")
+	local index=0
+	local arg
+
+	if [[ -n ${USAGE_COMMAND:-} ]]; then
+		printf '%s\n' "${USAGE_COMMAND}"
+		return 0
+	fi
+
+	while ((index < ${#args[@]})); do
+		arg=${args[index]}
+		case "${arg}" in
+		--codex-home)
+			((index += 2))
+			;;
+		--codex-home=*)
+			((index += 1))
+			;;
+		--)
+			((index += 1))
+			break
+			;;
+		-*)
+			((index += 1))
+			;;
+		*)
+			printf '%s\n' "${arg}"
+			return 0
+			;;
+		esac
+	done
+
+	return 0
+}
+
+command=$(find_command "$@")
+account_arg=${usage_account:-${USAGE_ACCOUNT:-${2:-}}}
+
+case "${command}" in
+list)
+	print_accounts
+	;;
+current)
+	print_current_account
+	;;
+save)
+	save_account "${account_arg}"
+	;;
+use)
+	use_account "${account_arg}"
+	;;
+login)
+	print_login_instructions "${account_arg}"
+	;;
+'')
+	die "missing subcommand; run 'mise run codex-account --help'"
+	;;
+*)
+	die "unknown subcommand: ${command}"
+	;;
+esac
