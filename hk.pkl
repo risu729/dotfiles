@@ -112,14 +112,14 @@ local const lintSteps = new Mapping<String, Step> {
     types = List("json")
     check = "jschema-validator"
   }
-  ["tsgo:root"] {
+  ["tsc:root"] {
     types = jsTsTypes
-    check = "bun run tsgo"
+    check = "tsgo"
     profiles = List("!ci")
   }
-  ["tsgo:root:ci"] {
+  ["tsc:root:ci"] {
     types = jsTsTypes
-    check = "bun run tsgo --incremental false"
+    check = "tsgo --incremental false"
     profiles = List("ci")
   }
   ["worker:generate-types"] {
@@ -127,42 +127,42 @@ local const lintSteps = new Mapping<String, Step> {
     dir = "worker"
     hide = true
   }
-  ["worker:tsgo:base"] {
+  ["worker:tsc:base"] {
     types = jsTsTypes
-    check = "bun run tsgo --project tsconfig.base.json"
+    check = "tsgo --project tsconfig.base.json"
     dir = "worker"
     profiles = List("!ci")
   }
-  ["worker:tsgo:base:ci"] {
+  ["worker:tsc:base:ci"] {
     types = jsTsTypes
-    check = "bun run tsgo --project tsconfig.base.json --incremental false"
+    check = "tsgo --project tsconfig.base.json --incremental false"
     dir = "worker"
     profiles = List("ci")
   }
-  ["worker:tsgo:src"] {
+  ["worker:tsc:src"] {
     types = jsTsTypes
-    check = "bun run tsgo --project tsconfig.src.json"
+    check = "tsgo --project tsconfig.src.json"
     dir = "worker"
     depends = "worker:generate-types"
     profiles = List("!ci")
   }
-  ["worker:tsgo:src:ci"] {
+  ["worker:tsc:src:ci"] {
     types = jsTsTypes
-    check = "bun run tsgo --project tsconfig.src.json --incremental false"
+    check = "tsgo --project tsconfig.src.json --incremental false"
     dir = "worker"
     depends = "worker:generate-types"
     profiles = List("ci")
   }
-  ["worker:tsgo:test"] {
+  ["worker:tsc:test"] {
     types = jsTsTypes
-    check = "bun run tsgo --project tsconfig.test.json"
+    check = "tsgo --project tsconfig.test.json"
     dir = "worker"
     depends = "worker:generate-types"
     profiles = List("!ci")
   }
-  ["worker:tsgo:test:ci"] {
+  ["worker:tsc:test:ci"] {
     types = jsTsTypes
-    check = "bun run tsgo --project tsconfig.test.json --incremental false"
+    check = "tsgo --project tsconfig.test.json --incremental false"
     dir = "worker"
     depends = "worker:generate-types"
     profiles = List("ci")
