@@ -351,6 +351,18 @@ url = "https://github.com/sharkdp/fd/releases/download/v10.4.2/fd-v10.4.2-x86_64
 checksum = "sha256:e3257d48e29a6be965187dbd24ce9af564e0fe67b3e73c9bdcd180f4ec11bdde"
 url = "https://github.com/sharkdp/fd/releases/download/v10.4.2/fd-v10.4.2-x86_64-unknown-linux-musl.tar.gz"
 
+[[tools.fzf]]
+version = "0.72.0"
+backend = "aqua:junegunn/fzf"
+
+[tools.fzf."platforms.linux-x64"]
+checksum = "sha256:0e58e4bd0b3c5d68c56b54c460a6863d0de79633ed18d388575a960ab447b006"
+url = "https://github.com/junegunn/fzf/releases/download/v0.72.0/fzf-0.72.0-linux_amd64.tar.gz"
+
+[tools.fzf."platforms.linux-x64-baseline"]
+checksum = "sha256:0e58e4bd0b3c5d68c56b54c460a6863d0de79633ed18d388575a960ab447b006"
+url = "https://github.com/junegunn/fzf/releases/download/v0.72.0/fzf-0.72.0-linux_amd64.tar.gz"
+
 [[tools.gemini-cli]]
 version = "0.42.0"
 backend = "npm:@google/gemini-cli"
@@ -1142,6 +1154,18 @@ url = "https://github.com/watchexec/watchexec/releases/download/v2.5.1/watchexec
 [tools.watchexec."platforms.linux-x64-musl-baseline"]
 checksum = "sha256:9efabd08de720c1ee7e57b487fe11904f0966828e76146e2b5ea5deee90626be"
 url = "https://github.com/watchexec/watchexec/releases/download/v2.5.1/watchexec-2.5.1-x86_64-unknown-linux-musl.tar.xz"
+
+[[tools.worktrunk]]
+version = "0.50.0"
+backend = "aqua:max-sixty/worktrunk"
+
+[tools.worktrunk."platforms.linux-x64"]
+checksum = "sha256:1f473f20a43f92172c39169259978751aa8b015fe40910a209331722aad0a908"
+url = "https://github.com/max-sixty/worktrunk/releases/download/v0.50.0/worktrunk-x86_64-unknown-linux-musl.tar.xz"
+
+[tools.worktrunk."platforms.linux-x64-baseline"]
+checksum = "sha256:1f473f20a43f92172c39169259978751aa8b015fe40910a209331722aad0a908"
+url = "https://github.com/max-sixty/worktrunk/releases/download/v0.50.0/worktrunk-x86_64-unknown-linux-musl.tar.xz"
 
 [[tools.xh]]
 version = "0.25.3"

@@ -1,7 +1,7 @@
 # ~/.bashrc: executed by bash(1) for non-login shells.
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc) for examples
 
-# shellcheck disable=SC2148 # shebang is not required in .bashrc
+# shellcheck disable=SC2148,SC2312 # shebang is not required; completion helpers intentionally use process substitutions
 
 # Activate mise
 if command -v mise &>/dev/null; then
@@ -155,6 +155,126 @@ if declare -f _mise >/dev/null; then
 	}
 	complete -F _mx_complete mx
 fi
+
+# Codex tmux launcher completion (`c` → `mise run codex-tmux`)
+_c_codex_tmux_usage_candidates() {
+	local spec_file="${CODEX_TMUX_USAGE_SPEC:-${HOME}/.config/mise/tasks/codex-tmux}"
+
+	if [[ -r ${spec_file} ]] && command -v usage >/dev/null 2>&1; then
+		usage complete-word --shell bash -f "${spec_file}" --cword="${cword}" -- "${words[@]}" 2>/dev/null
+	fi
+}
+
+_c_codex_tmux_non_file_usage_candidates() {
+	local candidate
+
+	while IFS= read -r candidate; do
+		[[ -n ${candidate} ]] || continue
+		if [[ ${candidate} == */ && -d ${candidate%/} ]]; then
+			continue
+		fi
+		if [[ -e ${candidate} ]]; then
+			continue
+		fi
+		printf '%s\n' "${candidate}"
+	done < <(_c_codex_tmux_usage_candidates)
+}
+
+_c_codex_tmux_repo_candidates() {
+	local current=$1
+
+	if ! command -v ghr >/dev/null 2>&1; then
+		return
+	fi
+
+	if [[ -z ${current} ]]; then
+		ghr list
+	else
+		ghr search "${current}"
+	fi
+}
+
+_c_codex_tmux_complete_lines() {
+	local current=$1
+	local candidate
+	local -A seen=()
+
+	COMPREPLY=()
+	while IFS= read -r candidate; do
+		[[ -n ${candidate} ]] || continue
+		[[ -z ${seen[${candidate}]+x} ]] || continue
+		seen[${candidate}]=1
+		COMPREPLY+=("${candidate}")
+	done
+
+	if declare -f _comp_ltrim_colon_completions >/dev/null; then
+		_comp_ltrim_colon_completions "${current}"
+	fi
+}
+
+_c_codex_tmux_has_cleanup() {
+	local word
+
+	for word in "${words[@]:1:cword}"; do
+		if [[ ${word} == "cleanup" ]]; then
+			return 0
+		fi
+	done
+	return 1
+}
+
+_c_codex_tmux_has_root_repo() {
+	local index word
+
+	for ((index = 1; index < cword; index++)); do
+		word=${words[index]}
+		case "${word}" in
+		-n | --new)
+			;;
+		-*)
+			;;
+		*)
+			return 0
+			;;
+		esac
+	done
+	return 1
+}
+
+_c_codex_tmux_complete() {
+	local cur prev words cword
+
+	COMP_WORDBREAKS=${COMP_WORDBREAKS//:/}
+	_comp_initialize -n : -- "$@" || return
+
+	if _c_codex_tmux_has_cleanup; then
+		if [[ ${prev} == "--repo" ]]; then
+			_c_codex_tmux_complete_lines "${cur}" < <(_c_codex_tmux_repo_candidates "${cur}")
+			return 0
+		fi
+		if [[ ${cur} == -* ]]; then
+			_c_codex_tmux_complete_lines "${cur}" < <(_c_codex_tmux_usage_candidates)
+			return 0
+		fi
+		return 0
+	fi
+
+	if [[ ${cur} == -* ]]; then
+		_c_codex_tmux_complete_lines "${cur}" < <(_c_codex_tmux_usage_candidates)
+		return 0
+	fi
+
+	if _c_codex_tmux_has_root_repo; then
+		return 0
+	fi
+
+	_c_codex_tmux_complete_lines "${cur}" < <(
+		_c_codex_tmux_non_file_usage_candidates
+		_c_codex_tmux_repo_candidates "${cur}"
+	)
+}
+
+complete -o nospace -o bashdefault -F _c_codex_tmux_complete c
 
 # gpg requires tty
 # GitHub Actions doesn't have tty
