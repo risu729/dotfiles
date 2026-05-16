@@ -1,0 +1,9 @@
+[global]
+extend-enable = ["ALL"]
+
+[MD009]
+strict = true
+
+[MD013]
+reflow = true
+strict = true

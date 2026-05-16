@@ -1,30 +1,37 @@
-# 🐿 Risu's dotfiles
+# 🐿 Risu's Dotfiles
 
 ## ⭐ Description
 
-These dotfiles are used to configure my environment, mainly Windows 11 and WSL2 (Ubuntu).
+These dotfiles are used to configure my environment, mainly Windows 11 and WSL2
+(Ubuntu).
 
-Since I use WSL2 as my main development environment, I only install GUI applications on Windows, such as browsers, IDEs, etc.
+Since I use WSL2 as my main development environment, I only install GUI
+applications on Windows, such as browsers, IDEs, etc.
 
 ## ⚙️ Installation
 
 ### 🪟 Windows 11
 
 > \[!IMPORTANT]
-> Set up Windows 11 **without** a Microsoft account to avoid the automatic installation of OneDrive.
 >
-> 1. Press `Shift + F10` on the startup screen (do **not** connect to the internet).
+> Set up Windows 11 **without** a Microsoft account to avoid the automatic
+> installation of OneDrive.
+>
+> 1. Press `Shift + F10` on the startup screen (do **not** connect to the
+>    internet).
 > 2. Run the following command in Command Prompt:
 >
 >    ```cmd
 >    start ms-cxh:localonly
 >    ```
 >
-> 3. Continue the setup without a Microsoft account by selecting `I don't have internet`.
+> 3. Continue the setup without a Microsoft account by selecting
+>    `I don't have internet`.
 
 1. Update Windows 11 to the latest version.
 2. Uninstall OneDrive.
-3. In Windows Terminal (PowerShell, Windows PowerShell, or Command Prompt), run the following command.
+3. In Windows Terminal (PowerShell, Windows PowerShell, or Command Prompt), run
+   the following command.
 
 ```powershell
 powershell -c "irm dot.risunosu.com/win | iex"
@@ -32,28 +39,33 @@ powershell -c "irm dot.risunosu.com/win | iex"
 
 ### 🐧 WSL2
 
-The Windows installer script will install dotfiles in WSL2, so you don't need to run the installer script again.
+The Windows installer script will install dotfiles in WSL2, so you don't need to
+run the installer script again.
 
-However, if you want to install dotfiles to WSL2 only—such as when you reset WSL2—you can run the following command in bash:
+However, if you want to install dotfiles to WSL2 only—such as when you reset
+WSL2—you can run the following command in bash:
 
 ```bash
 bash -i <(curl -fsSL https://dot.risunosu.com/wsl)
 ```
 
 > \[!IMPORTANT]
-> Use process substitution (`<()`) instead of piping (`|`) for interactive scripts.
+>
+> Use process substitution (`<()`) instead of piping (`|`) for interactive
+> scripts.
 
-<!-- avoid markdownlint error -->
-<!-- ref: https://github.com/DavidAnson/markdownlint/issues/263 -->
+<!-- keep separate GitHub alert blocks -->
 
 > \[!TIP]
-> Both installer scripts are idempotent, meaning you can run them multiple times without issues.
+>
+> Both installer scripts are idempotent, meaning you can run them multiple times
+> without issues.
 
-## ➡️ What to do next
+## ➡️ What to Do Next
 
 1. Uninstall unnecessary software pre-installed by Windows 11.
 
-2. Restore PowerToys settings. See [docs](https://learn.microsoft.com/en-us/windows/powertoys/general#backup--restore).
+2. Restore PowerToys settings. See [docs][powertoys-backup-restore].
 
 3. Install the following software on Windows, which the script does not install:
 
@@ -65,6 +77,8 @@ bash -i <(curl -fsSL https://dot.risunosu.com/wsl)
 
 - [LINE](https://desktop.line-scdn.net/win/new/LineInst.exe)
   (Cannot be installed via `winget`.)
+
+[powertoys-backup-restore]: https://learn.microsoft.com/windows/powertoys/general#backup--restore
 
 ## 🛠️ Development
 
