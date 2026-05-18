@@ -502,7 +502,7 @@ branch_merged_into_default() {
 	local default_ref
 
 	default_ref=$(default_checkout_ref "${repo_path}")
-	git -C "${repo_path}" merge-base --is-ancestor "${branch}" "${default_ref}" 2>/dev/null
+	git -C "${repo_path}" merge-base --is-ancestor "refs/heads/${branch}" "${default_ref}" 2>/dev/null
 }
 
 branch_pr_state() {
