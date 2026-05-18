@@ -72,6 +72,10 @@ Only settle a PR when the user explicitly asks, for example:
 - “follow up until everything settles”
 - “wait for checks and reviews”
 
+If the user asks to settle a PR at any point in the session, keep settling that
+PR after subsequent follow-up work in the same session, such as fix requests,
+until the user explicitly overrides that instruction.
+
 When settling a PR:
 
 - Wait until all relevant CI checks are no longer pending, queued, in progress,
@@ -79,6 +83,10 @@ When settling a PR:
 - Wait until AI/code reviews have completed.
 - Apply valid review suggestions.
 - For ignored suggestions, leave a brief explanation, then resolve the thread.
+- Before treating a CI failure as unrelated, inspect the failed GitHub Actions
+  logs and compare against the CI status of the base branch and recent runs for
+  other branches, if any have failed, to verify whether the failure is systemic
+  rather than caused by this PR.
 - If CI fails for reasons unrelated to the change, do not fix unrelated failures
   unless asked. Leave a PR comment explaining why the failure appears unrelated.
 - If the branch becomes conflicted with the base branch, rebase it onto the
