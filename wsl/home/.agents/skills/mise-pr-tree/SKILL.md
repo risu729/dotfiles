@@ -1,6 +1,6 @@
 ---
-name: mise-pr-tree
 description: Show risu729's current jdx/mise pull requests as a tree, grouped by dependency area, with DRAFT, WIP, DIRTY/BLOCKED/UNSTABLE status, failed checks, and explicit blocker notes. Use when the user asks for the mise PR tree, latest mise PR statuses, or which mise PR depends on which other PRs.
+name: mise-pr-tree
 ---
 
 # Mise PR Tree
