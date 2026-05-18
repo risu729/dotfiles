@@ -1,18 +1,12 @@
 #!/usr/bin/env bash
 #MISE description="Manage Codex auth.json account snapshots."
 
-#USAGE flag "--codex-home <dir>" help="Codex home directory" env="CODEX_HOME" global=#true
 #USAGE cmd "list" help="List saved Codex accounts"
-#USAGE cmd "current" help="Print the active Codex account"
-#USAGE cmd "save" help="Save the current auth.json as a named account" {
-#USAGE   arg "<account>" help="Account name" env="USAGE_ACCOUNT"
-#USAGE }
+#USAGE cmd "save" help="Save the current auth.json using its email"
 #USAGE cmd "use" help="Switch auth.json to a saved account" {
 #USAGE   arg "[account]" help="Account name, or omit for an interactive picker" env="USAGE_ACCOUNT"
 #USAGE }
-#USAGE cmd "login" help="Print safe login instructions for a new account" {
-#USAGE   arg "[account]" help="Account name to save after logging in" env="USAGE_ACCOUNT"
-#USAGE }
+#USAGE cmd "login" help="Log in to Codex and save the account snapshot"
 
 set -euo pipefail
 
@@ -21,51 +15,12 @@ die() {
 	exit 1
 }
 
-codex_home_arg=${usage_codex_home:-}
-positional_args=()
+positional_args=("$@")
 
-parse_args() {
-	while (($#)); do
-		case "$1" in
-		--codex-home)
-			shift
-			[[ $# -gt 0 ]] || die "--codex-home requires a directory"
-			codex_home_arg=$1
-			;;
-		--codex-home=*)
-			codex_home_arg=${1#--codex-home=}
-			[[ -n ${codex_home_arg} ]] || die "--codex-home requires a directory"
-			;;
-		--)
-			shift
-			positional_args+=("$@")
-			break
-			;;
-		*)
-			positional_args+=("$1")
-			;;
-		esac
-		shift
-	done
-}
-
-parse_args "$@"
-
-codex_home=${codex_home_arg:-${CODEX_HOME:-${HOME:?HOME must be set}/.codex}}
+codex_home=${CODEX_HOME:-${HOME:?HOME must be set}/.codex}
 accounts_dir="${codex_home}/accounts"
 auth_path="${codex_home}/auth.json"
 current_name_path="${codex_home}/current"
-
-normalize_account_name() {
-	local raw_name=${1:-}
-	local name=${raw_name%.json}
-
-	if [[ ! ${name} =~ ^[a-zA-Z0-9][a-zA-Z0-9._-]*$ ]]; then
-		die "invalid account name: ${raw_name:-<empty>}"
-	fi
-
-	printf '%s\n' "${name}"
-}
 
 ensure_accounts_dir() {
 	mkdir -p -- "${accounts_dir}"
@@ -75,6 +30,19 @@ ensure_accounts_dir() {
 account_file_path() {
 	local account_name=$1
 	printf '%s/%s.json\n' "${accounts_dir}" "${account_name}"
+}
+
+auth_email() {
+	local source=$1
+	local email
+
+	email=$(jq -er '.email // empty' -- "${source}") || die "auth email missing in ${source}"
+	printf '%s\n' "${email}"
+}
+
+auth_access_token() {
+	local source=$1
+	jq -er '.tokens.access_token // empty' -- "${source}" 2>/dev/null
 }
 
 absolute_path() {
@@ -88,6 +56,22 @@ absolute_path() {
 		cd -- "${dir}"
 		printf '%s/%s\n' "${PWD}" "${base}"
 	)
+}
+
+auth_json_is_managed_symlink() {
+	local auth_target_abs
+	local accounts_dir_abs
+
+	[[ -L ${auth_path} ]] || return 1
+
+	auth_target_abs=$(realpath -- "${auth_path}" 2>/dev/null || true)
+	accounts_dir_abs=$(realpath -- "${accounts_dir}" 2>/dev/null || true)
+	[[ -n ${auth_target_abs} && -n ${accounts_dir_abs} ]] || return 1
+
+	case "${auth_target_abs}" in
+	"${accounts_dir_abs}"/*.json) return 0 ;;
+	*) return 1 ;;
+	esac
 }
 
 list_account_names() {
@@ -139,11 +123,209 @@ current_account_name() {
 	esac
 }
 
-print_accounts() {
+format_reset_at() {
+	local reset_at=${1:-}
+
+	if [[ -z ${reset_at} || ${reset_at} == "null" ]]; then
+		printf 'unknown'
+		return 0
+	fi
+
+	if [[ ${reset_at} =~ ^[0-9]+$ ]]; then
+		date -d "@${reset_at}" '+%Y-%m-%d %H:%M %Z' 2>/dev/null || printf '%s' "${reset_at}"
+		return 0
+	fi
+
+	date -d "${reset_at}" '+%Y-%m-%d %H:%M %Z' 2>/dev/null || printf '%s' "${reset_at}"
+}
+
+window_json() {
+	local usage_json=$1
+	local target_seconds=$2
+	local fallback_name=$3
+
+	# shellcheck disable=SC2016
+	jq -c --argjson target_seconds "${target_seconds}" --arg fallback_name "${fallback_name}" '
+		def windows:
+			[
+				.rate_limit.primary_window?,
+				.rate_limit.secondary_window?,
+				.rate_limit.primary?,
+				.rate_limit.secondary?,
+				.rate_limits.primary_window?,
+				.rate_limits.secondary_window?,
+				.rate_limits.primary?,
+				.rate_limits.secondary?
+			]
+			| map(select(type == "object"));
+		def window_seconds:
+			(
+				.limit_window_seconds
+				// .window_seconds
+				// ((.window_minutes // .windowDurationMins) | numbers * 60)
+				// 0
+			)
+			| tonumber;
+
+		(
+			windows
+			| map(select(window_seconds == $target_seconds))
+			| first
+		) // (
+			if $fallback_name == "primary" then
+				.rate_limit.primary_window? // .rate_limit.primary? // .rate_limits.primary_window? // .rate_limits.primary?
+			else
+				.rate_limit.secondary_window? // .rate_limit.secondary? // .rate_limits.secondary_window? // .rate_limits.secondary?
+			end
+		) // empty
+	' <<<"${usage_json}"
+}
+
+window_summary() {
+	local label=$1
+	local usage_json=$2
+	local target_seconds=$3
+	local fallback_name=$4
+	local raw_window
+	local used_percent
+	local reset_at
+	local reset_text
+	local window_values=()
+
+	raw_window=$(window_json "${usage_json}" "${target_seconds}" "${fallback_name}")
+	if [[ -z ${raw_window} ]]; then
+		printf '%s: unknown' "${label}"
+		return 0
+	fi
+
+	mapfile -t window_values < <(
+		jq -r '
+			def raw_percent:
+				.used_percent // .usedPercent // .usage_percent // .usagePercent // .percent_used // .percentUsed // null;
+			def percent:
+				if raw_percent == null then
+					""
+				else
+					raw_percent
+					| tonumber
+					| if . <= 1 then . * 100 else . end
+					| round
+					| tostring
+				end;
+			def reset:
+				.reset_at
+				// .resets_at
+				// .resetAt
+				// .resetsAt
+				// (
+					if (.reset_after_seconds // .resetAfterSeconds) then
+						(now + ((.reset_after_seconds // .resetAfterSeconds) | tonumber) | floor)
+					else
+						""
+					end
+				);
+			percent, reset
+		' <<<"${raw_window}" 2>/dev/null || true
+	)
+	used_percent=${window_values[0]:-}
+	reset_at=${window_values[1]:-}
+	reset_text=$(format_reset_at "${reset_at}")
+
+	if [[ -z ${used_percent} ]]; then
+		printf '%s: unknown, resets %s' "${label}" "${reset_text}"
+	else
+		printf '%s: %s%% used, resets %s' "${label}" "${used_percent}" "${reset_text}"
+	fi
+}
+
+rate_limit_summary() {
+	local source=$1
+	local chatgpt_host
+	local chatgpt_origin
+	local token
+	local usage_json
+	local five_hour
+	local weekly
+
+	# shellcheck disable=SC2310
+	token=$(auth_access_token "${source}" || true)
+	if [[ -z ${token} ]]; then
+		printf 'rate limits unavailable: access token missing'
+		return 0
+	fi
+
+	chatgpt_host="chatgpt.com"
+	chatgpt_origin="https://${chatgpt_host}"
+	if ! usage_json=$(
+		curl -fsS \
+			--connect-timeout 3 \
+			--max-time 8 \
+			-H "Authorization: Bearer ${token}" \
+			-H "Accept: application/json" \
+			"${chatgpt_origin}/backend-api/wham/usage" 2>/dev/null
+	); then
+		printf 'rate limits unavailable'
+		return 0
+	fi
+
+	five_hour=$(window_summary "5h" "${usage_json}" 18000 primary)
+	weekly=$(window_summary "week" "${usage_json}" 604800 secondary)
+	printf '%s | %s' "${five_hour}" "${weekly}"
+}
+
+account_rows() {
 	local current_name
-	local account_names
 	local account_name
-	local marker
+	local index
+	local row_file
+	local rows_dir
+	local status=0
+	local pids=()
+
+	current_name=$(current_account_name)
+	rows_dir=$(mktemp -d "${TMPDIR:-/tmp}/codex-account.XXXXXX")
+	# shellcheck disable=SC2312
+	while IFS= read -r account_name; do
+		[[ -n ${account_name} ]] || continue
+
+		index=$(printf '%04d' "$((${#pids[@]} + 1))")
+		row_file="${rows_dir}/${index}.row"
+
+		(
+			local email
+			local limits
+			local marker
+			local source
+
+			marker=' '
+			if [[ ${account_name} == "${current_name}" ]]; then
+				marker='*'
+			fi
+
+			source=$(account_file_path "${account_name}")
+			# shellcheck disable=SC2310
+			email=$(auth_email "${source}" 2>/dev/null || printf 'unknown')
+			limits=$(rate_limit_summary "${source}")
+			printf '%s\t%s\t%s\t%s\n' "${marker}" "${account_name}" "${email}" "${limits}"
+		) >"${row_file}" &
+		pids+=("$!")
+	done < <(list_account_names)
+
+	for pid in "${pids[@]}"; do
+		wait "${pid}" || status=1
+	done
+
+	for row_file in "${rows_dir}"/*.row; do
+		[[ -f ${row_file} ]] || continue
+		cat -- "${row_file}"
+	done
+	rm -rf -- "${rows_dir}"
+	return "${status}"
+}
+
+print_accounts() {
+	local account_names
+	local rows
 
 	account_names=$(list_account_names)
 	if [[ -z ${account_names} ]]; then
@@ -151,19 +333,21 @@ print_accounts() {
 		return 0
 	fi
 
-	current_name=$(current_account_name)
-	while IFS= read -r account_name; do
-		marker=' '
-		if [[ ${account_name} == "${current_name}" ]]; then
-			marker='*'
-		fi
-		printf '%s %s\n' "${marker}" "${account_name}"
-	done <<<"${account_names}"
+	rows=$({
+		printf ' \tACCOUNT\tEMAIL\tLIMITS\n'
+		account_rows
+	})
+	if command -v column >/dev/null 2>&1; then
+		column -t -s $'\t' <<<"${rows}"
+	else
+		printf '%s\n' "${rows}"
+	fi
 }
 
 select_account_name() {
 	local accounts=()
 	local selected
+	local rows
 
 	# shellcheck disable=SC2312
 	mapfile -t accounts < <(list_account_names)
@@ -171,6 +355,13 @@ select_account_name() {
 
 	if [[ ! -t 0 ]]; then
 		die "no account provided; pass one or set USAGE_ACCOUNT"
+	fi
+
+	if command -v fzf >/dev/null 2>&1; then
+		rows=$(account_rows)
+		selected=$(fzf --prompt='codex account> ' --height=80% --reverse --delimiter=$'\t' --with-nth=1,2,3,4 <<<"${rows}") || exit 130
+		cut -f2 <<<"${selected}"
+		return 0
 	fi
 
 	PS3='Select Codex account: '
@@ -183,14 +374,14 @@ select_account_name() {
 }
 
 save_account() {
-	local raw_name=$1
 	local account_name
 	local destination
+	local destination_abs
 	local tmp_destination
 
-	account_name=$(normalize_account_name "${raw_name}")
 	[[ -f ${auth_path} ]] || die "no auth.json at ${auth_path}; run Codex login with this CODEX_HOME first"
 
+	account_name=$(auth_email "${auth_path}")
 	ensure_accounts_dir
 	destination=$(account_file_path "${account_name}")
 	tmp_destination=$(mktemp "${destination}.tmp.XXXXXX")
@@ -202,6 +393,11 @@ save_account() {
 
 	chmod 600 -- "${tmp_destination}" 2>/dev/null || true
 	mv -f -- "${tmp_destination}" "${destination}"
+	destination_abs=$(absolute_path "${destination}")
+	rm -f -- "${auth_path}"
+	ln -s -- "${destination_abs}" "${auth_path}"
+	printf '%s\n' "${account_name}" >"${current_name_path}"
+	chmod 600 -- "${current_name_path}" 2>/dev/null || true
 	printf 'Saved Codex auth as "%s" in %s\n' "${account_name}" "${destination}"
 }
 
@@ -215,7 +411,7 @@ use_account() {
 		raw_name=$(select_account_name)
 	fi
 
-	account_name=$(normalize_account_name "${raw_name}")
+	account_name=${raw_name}
 	source=$(account_file_path "${account_name}")
 	[[ -f ${source} ]] || die "account not found: ${account_name}"
 
@@ -229,80 +425,48 @@ use_account() {
 	printf 'Switched Codex auth to "%s" using %s\n' "${account_name}" "${auth_path}"
 }
 
-print_current_account() {
-	local current_name
+wait_for_auth_json() {
+	local deadline
 
-	current_name=$(current_account_name)
-	if [[ -z ${current_name} ]]; then
-		printf 'No active Codex account recorded in %s\n' "${codex_home}"
-		return 0
-	fi
+	deadline=$((SECONDS + 120))
+	while ((SECONDS < deadline)); do
+		# shellcheck disable=SC2310
+		if [[ -f ${auth_path} ]] && auth_email "${auth_path}" >/dev/null 2>&1 && auth_access_token "${auth_path}" >/dev/null 2>&1; then
+			return 0
+		fi
+		sleep 1
+	done
 
-	printf '%s\n' "${current_name}"
+	die "timed out waiting for Codex auth at ${auth_path}"
 }
 
-print_login_instructions() {
-	local raw_name=${1:-}
-	local account_name
-	local account_label='<account-name>'
-
-	if [[ -n ${raw_name} ]]; then
-		account_name=$(normalize_account_name "${raw_name}")
-		account_label=${account_name}
+login_account() {
+	if [[ -e ${auth_path} || -L ${auth_path} ]]; then
+		# shellcheck disable=SC2310
+		auth_json_is_managed_symlink || die "${auth_path} is not managed by codex-account; refusing to remove it"
+		rm -f -- "${auth_path}"
 	fi
 
-	cat <<EOF
-This task mirrors the auth.json snapshot model from:
-  https://github.com/Sls0n/codex-account-switcher
-
-It honors CODEX_HOME. The current target is:
-  CODEX_HOME=${codex_home@Q}
-  auth.json=${auth_path@Q}
-
-To log in to a new Codex account without overwriting a saved snapshot:
-
-1. Save the account you are using now, if it is not already saved:
-   CODEX_HOME=${codex_home@Q} mise run codex-account save <current-account-name>
-
-2. Remove only the active auth.json file or symlink. If auth.json is a symlink
-   created by this task, this removes the link, not the saved account snapshot:
-   rm -f ${auth_path@Q}
-
-3. Log in with the same CODEX_HOME:
-   CODEX_HOME=${codex_home@Q} codex login
-
-4. Save the new login:
-   CODEX_HOME=${codex_home@Q} mise run codex-account save ${account_label@Q}
-
-5. Switch accounts later:
-   CODEX_HOME=${codex_home@Q} mise run codex-account use ${account_label@Q}
-
-For env-driven usage, set USAGE_COMMAND and USAGE_ACCOUNT, for example:
-  CODEX_HOME=${codex_home@Q} USAGE_COMMAND=use USAGE_ACCOUNT=${account_label@Q} mise run codex-account
-EOF
+	codex login
+	wait_for_auth_json
+	save_account
 }
 
-command=${USAGE_COMMAND:-${positional_args[0]:-}}
+command=${USAGE_COMMAND:-${positional_args[0]:-list}}
 account_arg=${usage_account:-${USAGE_ACCOUNT:-${positional_args[1]:-}}}
 
 case "${command}" in
 list)
 	print_accounts
 	;;
-current)
-	print_current_account
-	;;
 save)
-	save_account "${account_arg}"
+	save_account
 	;;
 use)
 	use_account "${account_arg}"
 	;;
 login)
-	print_login_instructions "${account_arg}"
-	;;
-'')
-	die "missing subcommand; run 'mise run codex-account --help'"
+	login_account
 	;;
 *)
 	die "unknown subcommand: ${command}"
