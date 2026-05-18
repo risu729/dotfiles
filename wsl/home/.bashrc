@@ -132,6 +132,34 @@ fi
 if command -v ghr &>/dev/null; then
 	ghr_extension="$(ghr shell bash)"
 	eval "${ghr_extension}"
+	__ghr_cd() {
+		local ghr_bin="${__GHR:-}" path selected
+
+		if [[ -z ${ghr_bin} ]]; then
+			ghr_bin=$(type -P ghr) || return
+		fi
+
+		if (($# > 0)); then
+			path=$("${ghr_bin}" path "$@") || return
+			cd "${path}" || return
+			return
+		fi
+
+		if ! command -v fzf &>/dev/null; then
+			printf 'error: fzf is required for interactive ghr cd\n' >&2
+			return 1
+		fi
+
+		# shellcheck disable=SC2312 # repo list selection is best-effort interactive input
+		selected=$(
+			paste <("${ghr_bin}" list) <("${ghr_bin}" list --path) |
+				fzf --prompt='ghr cd> ' --height=80% --reverse --with-nth=1
+		) || return
+		[[ -n ${selected} ]] || return 1
+		path=${selected#*$'\t'}
+		[[ -n ${path} ]] || return 1
+		cd "${path}" || return
+	}
 	ghr_completion="$(ghr shell bash --completion)"
 	eval "${ghr_completion}"
 fi
