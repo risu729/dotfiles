@@ -321,14 +321,11 @@ create_worktree() {
 	local repo_path=$1
 	local worktree_id=$2
 	local checkout_ref=$3
-	local path
+	local output path
 
-	path="${repo_path}.${worktree_id}"
-	if [[ -e ${path} ]]; then
-		die "worktree path already exists: ${path}"
-	fi
-
-	git -C "${repo_path}" worktree add --detach "${path}" "${checkout_ref}" >/dev/null
+	output=$(wt -C "${repo_path}" switch --create "${worktree_id}" --base "${checkout_ref}" --no-cd --no-hooks --format json)
+	path=$(jq -r '.path // empty' <<<"${output}")
+	[[ -n ${path} ]] || die "worktrunk did not report a worktree path"
 
 	printf '%s\n' "${path}"
 }
@@ -499,6 +496,15 @@ branch_has_remote() {
 	git -C "${repo_path}" show-ref --verify --quiet "refs/remotes/origin/${branch}"
 }
 
+branch_merged_into_default() {
+	local repo_path=$1
+	local branch=$2
+	local default_ref
+
+	default_ref=$(default_checkout_ref "${repo_path}")
+	git -C "${repo_path}" merge-base --is-ancestor "${branch}" "${default_ref}" 2>/dev/null
+}
+
 branch_pr_state() {
 	local repo_name=$1
 	local branch=$2
@@ -537,6 +543,11 @@ stale_worktree_reason() {
 		;;
 	*) ;;
 	esac
+
+	if branch_merged_into_default "${repo_path}" "${branch}"; then
+		printf 'merged-default\n'
+		return 0
+	fi
 
 	if ! branch_has_remote "${repo_path}" "${branch}"; then
 		return 1
