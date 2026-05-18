@@ -84,8 +84,9 @@ When settling a PR:
 - Apply valid review suggestions.
 - For ignored suggestions, leave a brief explanation, then resolve the thread.
 - Before treating a CI failure as unrelated, inspect the failed GitHub Actions
-  logs and check previous CI runs for other branches if any failed, so the
-  conclusion is based on evidence outside this PR.
+  logs and compare against the CI status of the base branch and recent runs for
+  other branches, if any have failed, to verify whether the failure is systemic
+  rather than caused by this PR.
 - If CI fails for reasons unrelated to the change, do not fix unrelated failures
   unless asked. Leave a PR comment explaining why the failure appears unrelated.
 - If the branch becomes conflicted with the base branch, rebase it onto the
