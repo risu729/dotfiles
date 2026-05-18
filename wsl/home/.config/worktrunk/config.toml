@@ -1,0 +1,3 @@
+# Worktrunk does not currently expose the remote host in worktree-path templates,
+# so ghr-managed repositories are grouped by owner/repo below ~/.worktrunk.
+worktree-path = '~/.worktrunk/{{ owner | default("local") }}/{{ repo }}/{{ repo }}.{{ branch | sanitize }}'
