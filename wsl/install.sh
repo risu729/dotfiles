@@ -225,10 +225,7 @@ create_home_symlinks() {
 		mkdir --parents "$(dirname "${target_path}")"
 		if [[ ${target_name} == .agents/skills/* ]]; then
 			# Codex skips symlinked skill files during skill discovery.
-			local file_mode
-			file_mode=$(stat --format=%a "${full_path}")
-			rm --force "${target_path}"
-			install --mode="${file_mode}" "${full_path}" "${target_path}"
+			cp --preserve=mode --remove-destination "${full_path}" "${target_path}"
 			# shellcheck disable=SC2088 # intentionally print ~ instead of $HOME
 			log_info "Installed file: ~/${target_name}"
 		else
