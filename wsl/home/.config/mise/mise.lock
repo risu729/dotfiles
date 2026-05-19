@@ -25,31 +25,31 @@ url = "https://github.com/rhysd/actionlint/releases/download/v1.7.12/actionlint_
 provenance = "github-attestations"
 
 [[tools.aqua]]
-version = "2.58.0"
+version = "2.59.0"
 backend = "github:aquaproj/aqua"
 
 [tools.aqua."platforms.linux-x64"]
-checksum = "sha256:e4db66fca1cf9061d18ff1c0abc1cb68ada30e1e2500438ec8a20b72661111be"
-url = "https://github.com/aquaproj/aqua/releases/download/v2.58.0/aqua_linux_amd64.tar.gz"
-url_api = "https://api.github.com/repos/aquaproj/aqua/releases/assets/413125175"
+checksum = "sha256:08b4d13de728fbd0b8be81f91f2fefebd0672150f678156d1eeae13c6d891652"
+url = "https://github.com/aquaproj/aqua/releases/download/v2.59.0/aqua_linux_amd64.tar.gz"
+url_api = "https://api.github.com/repos/aquaproj/aqua/releases/assets/421615481"
 provenance = "github-attestations"
 
 [tools.aqua."platforms.linux-x64-baseline"]
-checksum = "sha256:e4db66fca1cf9061d18ff1c0abc1cb68ada30e1e2500438ec8a20b72661111be"
-url = "https://github.com/aquaproj/aqua/releases/download/v2.58.0/aqua_linux_amd64.tar.gz"
-url_api = "https://api.github.com/repos/aquaproj/aqua/releases/assets/413125175"
+checksum = "sha256:08b4d13de728fbd0b8be81f91f2fefebd0672150f678156d1eeae13c6d891652"
+url = "https://github.com/aquaproj/aqua/releases/download/v2.59.0/aqua_linux_amd64.tar.gz"
+url_api = "https://api.github.com/repos/aquaproj/aqua/releases/assets/421615481"
 provenance = "github-attestations"
 
 [tools.aqua."platforms.linux-x64-musl"]
-checksum = "sha256:e4db66fca1cf9061d18ff1c0abc1cb68ada30e1e2500438ec8a20b72661111be"
-url = "https://github.com/aquaproj/aqua/releases/download/v2.58.0/aqua_linux_amd64.tar.gz"
-url_api = "https://api.github.com/repos/aquaproj/aqua/releases/assets/413125175"
+checksum = "sha256:08b4d13de728fbd0b8be81f91f2fefebd0672150f678156d1eeae13c6d891652"
+url = "https://github.com/aquaproj/aqua/releases/download/v2.59.0/aqua_linux_amd64.tar.gz"
+url_api = "https://api.github.com/repos/aquaproj/aqua/releases/assets/421615481"
 provenance = "github-attestations"
 
 [tools.aqua."platforms.linux-x64-musl-baseline"]
-checksum = "sha256:e4db66fca1cf9061d18ff1c0abc1cb68ada30e1e2500438ec8a20b72661111be"
-url = "https://github.com/aquaproj/aqua/releases/download/v2.58.0/aqua_linux_amd64.tar.gz"
-url_api = "https://api.github.com/repos/aquaproj/aqua/releases/assets/413125175"
+checksum = "sha256:08b4d13de728fbd0b8be81f91f2fefebd0672150f678156d1eeae13c6d891652"
+url = "https://github.com/aquaproj/aqua/releases/download/v2.59.0/aqua_linux_amd64.tar.gz"
+url_api = "https://api.github.com/repos/aquaproj/aqua/releases/assets/421615481"
 provenance = "github-attestations"
 
 [[tools."aqua:siketyan/ghr"]]
@@ -82,31 +82,31 @@ url = "https://repo.yarnpkg.com/4.14.1/packages/yarnpkg-cli/bin/yarn.js"
 url = "https://repo.yarnpkg.com/4.14.1/packages/yarnpkg-cli/bin/yarn.js"
 
 [[tools.aube]]
-version = "1.9.0"
+version = "1.15.0"
 backend = "github:endevco/aube"
 
 [tools.aube."platforms.linux-x64"]
-checksum = "sha256:f27e4ecdd5669e76d2d1f7be69ca29e0ba0a8943b71172e5f7b785ab9a5c5132"
-url = "https://github.com/endevco/aube/releases/download/v1.9.0/aube-v1.9.0-x86_64-unknown-linux-gnu.tar.gz"
-url_api = "https://api.github.com/repos/endevco/aube/releases/assets/412877756"
+checksum = "sha256:0eacdf1abf58fbbeb63d0ee48db8fe30b3bce59b8c0cd0440aa2ee80be3d1fe1"
+url = "https://github.com/endevco/aube/releases/download/v1.15.0/aube-v1.15.0-x86_64-unknown-linux-gnu.tar.gz"
+url_api = "https://api.github.com/repos/endevco/aube/releases/assets/422669745"
 provenance = "github-attestations"
 
 [tools.aube."platforms.linux-x64-baseline"]
-checksum = "sha256:f27e4ecdd5669e76d2d1f7be69ca29e0ba0a8943b71172e5f7b785ab9a5c5132"
-url = "https://github.com/endevco/aube/releases/download/v1.9.0/aube-v1.9.0-x86_64-unknown-linux-gnu.tar.gz"
-url_api = "https://api.github.com/repos/endevco/aube/releases/assets/412877756"
+checksum = "sha256:0eacdf1abf58fbbeb63d0ee48db8fe30b3bce59b8c0cd0440aa2ee80be3d1fe1"
+url = "https://github.com/endevco/aube/releases/download/v1.15.0/aube-v1.15.0-x86_64-unknown-linux-gnu.tar.gz"
+url_api = "https://api.github.com/repos/endevco/aube/releases/assets/422669745"
 provenance = "github-attestations"
 
 [tools.aube."platforms.linux-x64-musl"]
-checksum = "sha256:6245a25dab1903d76222edc493f5c908b6fc52cac1dc591a3e1760b066af5c6b"
-url = "https://github.com/endevco/aube/releases/download/v1.9.0/aube-v1.9.0-x86_64-unknown-linux-musl.tar.gz"
-url_api = "https://api.github.com/repos/endevco/aube/releases/assets/412878508"
+checksum = "sha256:e8202e59f78c195bd2407839ba7ffd5c44e2d50a1517041c51796f1fe2f904a9"
+url = "https://github.com/endevco/aube/releases/download/v1.15.0/aube-v1.15.0-x86_64-unknown-linux-musl.tar.gz"
+url_api = "https://api.github.com/repos/endevco/aube/releases/assets/422669098"
 provenance = "github-attestations"
 
 [tools.aube."platforms.linux-x64-musl-baseline"]
-checksum = "sha256:6245a25dab1903d76222edc493f5c908b6fc52cac1dc591a3e1760b066af5c6b"
-url = "https://github.com/endevco/aube/releases/download/v1.9.0/aube-v1.9.0-x86_64-unknown-linux-musl.tar.gz"
-url_api = "https://api.github.com/repos/endevco/aube/releases/assets/412878508"
+checksum = "sha256:e8202e59f78c195bd2407839ba7ffd5c44e2d50a1517041c51796f1fe2f904a9"
+url = "https://github.com/endevco/aube/releases/download/v1.15.0/aube-v1.15.0-x86_64-unknown-linux-musl.tar.gz"
+url_api = "https://api.github.com/repos/endevco/aube/releases/assets/422669098"
 provenance = "github-attestations"
 
 [[tools.bat]]
@@ -205,71 +205,74 @@ provenance = "github-attestations"
 [tools.cargo-binstall."platforms.linux-x64-baseline"]
 checksum = "sha256:4a50fcf01418862e2fa8e4076cb6cb80ff4061b0c0b1464e71a63ce01ee29bde"
 url = "https://github.com/cargo-bins/cargo-binstall/releases/download/v1.19.1/cargo-binstall-x86_64-unknown-linux-musl.tgz"
+provenance = "github-attestations"
 
 [tools.cargo-binstall."platforms.linux-x64-musl"]
 checksum = "sha256:4a50fcf01418862e2fa8e4076cb6cb80ff4061b0c0b1464e71a63ce01ee29bde"
 url = "https://github.com/cargo-bins/cargo-binstall/releases/download/v1.19.1/cargo-binstall-x86_64-unknown-linux-musl.tgz"
+provenance = "github-attestations"
 
 [tools.cargo-binstall."platforms.linux-x64-musl-baseline"]
 checksum = "sha256:4a50fcf01418862e2fa8e4076cb6cb80ff4061b0c0b1464e71a63ce01ee29bde"
 url = "https://github.com/cargo-bins/cargo-binstall/releases/download/v1.19.1/cargo-binstall-x86_64-unknown-linux-musl.tgz"
+provenance = "github-attestations"
 
 [[tools.claude]]
-version = "2.1.142"
+version = "2.1.144"
 backend = "aqua:anthropics/claude-code"
 
 [tools.claude."platforms.linux-x64"]
-checksum = "blake3:70fb63453e03ab2c244ebb8af47761b941b3eaad58a0cb299b9e2616c245694a"
-url = "https://storage.googleapis.com/claude-code-dist-86c565f3-f756-42ad-8dfa-d59b1c096819/claude-code-releases/2.1.142/linux-x64/claude"
+checksum = "blake3:25d5a0a17a335f8e80aba32fd15948f164a43a55dcb843eb7bf4e7fb1445824e"
+url = "https://storage.googleapis.com/claude-code-dist-86c565f3-f756-42ad-8dfa-d59b1c096819/claude-code-releases/2.1.144/linux-x64/claude"
 
 [tools.claude."platforms.linux-x64-baseline"]
-url = "https://storage.googleapis.com/claude-code-dist-86c565f3-f756-42ad-8dfa-d59b1c096819/claude-code-releases/2.1.142/linux-x64/claude"
+url = "https://storage.googleapis.com/claude-code-dist-86c565f3-f756-42ad-8dfa-d59b1c096819/claude-code-releases/2.1.144/linux-x64/claude"
 
 [tools.claude."platforms.linux-x64-musl"]
-url = "https://storage.googleapis.com/claude-code-dist-86c565f3-f756-42ad-8dfa-d59b1c096819/claude-code-releases/2.1.142/linux-x64-musl/claude"
+url = "https://storage.googleapis.com/claude-code-dist-86c565f3-f756-42ad-8dfa-d59b1c096819/claude-code-releases/2.1.144/linux-x64-musl/claude"
 
 [tools.claude."platforms.linux-x64-musl-baseline"]
-url = "https://storage.googleapis.com/claude-code-dist-86c565f3-f756-42ad-8dfa-d59b1c096819/claude-code-releases/2.1.142/linux-x64-musl/claude"
+url = "https://storage.googleapis.com/claude-code-dist-86c565f3-f756-42ad-8dfa-d59b1c096819/claude-code-releases/2.1.144/linux-x64-musl/claude"
 
 [[tools.codex]]
-version = "0.130.0"
+version = "0.131.0"
 backend = "aqua:openai/codex"
 
 [tools.codex."platforms.linux-x64"]
-checksum = "sha256:59051283a24a774f8c81444a3f45ff0bb22bd5362547294aedd5a9b8092b1c21"
-url = "https://github.com/openai/codex/releases/download/rust-v0.130.0/codex-x86_64-unknown-linux-musl.zst"
+checksum = "sha256:32a2cfe5c23b5a6b9ee6546fbadc8698611890d7f88e6950e56eae74d4583dad"
+url = "https://github.com/openai/codex/releases/download/rust-v0.131.0/codex-x86_64-unknown-linux-musl.zst"
 
 [tools.codex."platforms.linux-x64-baseline"]
-checksum = "sha256:59051283a24a774f8c81444a3f45ff0bb22bd5362547294aedd5a9b8092b1c21"
-url = "https://github.com/openai/codex/releases/download/rust-v0.130.0/codex-x86_64-unknown-linux-musl.zst"
+checksum = "sha256:32a2cfe5c23b5a6b9ee6546fbadc8698611890d7f88e6950e56eae74d4583dad"
+url = "https://github.com/openai/codex/releases/download/rust-v0.131.0/codex-x86_64-unknown-linux-musl.zst"
 
 [tools.codex."platforms.linux-x64-musl"]
-checksum = "sha256:59051283a24a774f8c81444a3f45ff0bb22bd5362547294aedd5a9b8092b1c21"
-url = "https://github.com/openai/codex/releases/download/rust-v0.130.0/codex-x86_64-unknown-linux-musl.zst"
+checksum = "sha256:32a2cfe5c23b5a6b9ee6546fbadc8698611890d7f88e6950e56eae74d4583dad"
+url = "https://github.com/openai/codex/releases/download/rust-v0.131.0/codex-x86_64-unknown-linux-musl.zst"
 
 [tools.codex."platforms.linux-x64-musl-baseline"]
-checksum = "sha256:59051283a24a774f8c81444a3f45ff0bb22bd5362547294aedd5a9b8092b1c21"
-url = "https://github.com/openai/codex/releases/download/rust-v0.130.0/codex-x86_64-unknown-linux-musl.zst"
+checksum = "sha256:32a2cfe5c23b5a6b9ee6546fbadc8698611890d7f88e6950e56eae74d4583dad"
+url = "https://github.com/openai/codex/releases/download/rust-v0.131.0/codex-x86_64-unknown-linux-musl.zst"
 
 [[tools.copilot]]
-version = "1.0.48"
+version = "1.0.49"
 backend = "aqua:github/copilot-cli"
 
 [tools.copilot."platforms.linux-x64"]
-checksum = "sha256:f2a1278c3c2fe22cbcbe51c0d2ee251f7621d2ea2211fe1c7b3668ab3b363ffd"
-url = "https://github.com/github/copilot-cli/releases/download/v1.0.48/copilot-linux-x64.tar.gz"
+checksum = "sha256:e61fa2490bc584fe65c4d9f3b2337ef63439cbd9e0a4f6648eb63223e1b32afd"
+url = "https://github.com/github/copilot-cli/releases/download/v1.0.49/copilot-linux-x64.tar.gz"
 
 [tools.copilot."platforms.linux-x64-baseline"]
-checksum = "sha256:f2a1278c3c2fe22cbcbe51c0d2ee251f7621d2ea2211fe1c7b3668ab3b363ffd"
-url = "https://github.com/github/copilot-cli/releases/download/v1.0.48/copilot-linux-x64.tar.gz"
+checksum = "sha256:e61fa2490bc584fe65c4d9f3b2337ef63439cbd9e0a4f6648eb63223e1b32afd"
+url = "https://github.com/github/copilot-cli/releases/download/v1.0.49/copilot-linux-x64.tar.gz"
 
 [tools.copilot."platforms.linux-x64-musl"]
-checksum = "sha256:f2a1278c3c2fe22cbcbe51c0d2ee251f7621d2ea2211fe1c7b3668ab3b363ffd"
-url = "https://github.com/github/copilot-cli/releases/download/v1.0.48/copilot-linux-x64.tar.gz"
+checksum = "sha256:e61fa2490bc584fe65c4d9f3b2337ef63439cbd9e0a4f6648eb63223e1b32afd"
+url = "https://github.com/github/copilot-cli/releases/download/v1.0.49/copilot-linux-x64.tar.gz"
 
 [tools.copilot."platforms.linux-x64-musl-baseline"]
-checksum = "sha256:f2a1278c3c2fe22cbcbe51c0d2ee251f7621d2ea2211fe1c7b3668ab3b363ffd"
-url = "https://github.com/github/copilot-cli/releases/download/v1.0.48/copilot-linux-x64.tar.gz"
+checksum = "sha256:e61fa2490bc584fe65c4d9f3b2337ef63439cbd9e0a4f6648eb63223e1b32afd"
+url = "https://github.com/github/copilot-cli/releases/download/v1.0.49/copilot-linux-x64.tar.gz"
 
 [[tools.delta]]
 version = "0.19.2"
@@ -363,9 +366,13 @@ url = "https://github.com/junegunn/fzf/releases/download/v0.72.0/fzf-0.72.0-linu
 checksum = "sha256:0e58e4bd0b3c5d68c56b54c460a6863d0de79633ed18d388575a960ab447b006"
 url = "https://github.com/junegunn/fzf/releases/download/v0.72.0/fzf-0.72.0-linux_amd64.tar.gz"
 
-[[tools.gemini-cli]]
-version = "0.42.0"
-backend = "npm:@google/gemini-cli"
+[tools.fzf."platforms.linux-x64-musl"]
+checksum = "sha256:0e58e4bd0b3c5d68c56b54c460a6863d0de79633ed18d388575a960ab447b006"
+url = "https://github.com/junegunn/fzf/releases/download/v0.72.0/fzf-0.72.0-linux_amd64.tar.gz"
+
+[tools.fzf."platforms.linux-x64-musl-baseline"]
+checksum = "sha256:0e58e4bd0b3c5d68c56b54c460a6863d0de79633ed18d388575a960ab447b006"
+url = "https://github.com/junegunn/fzf/releases/download/v0.72.0/fzf-0.72.0-linux_amd64.tar.gz"
 
 [[tools.gemini-cli]]
 version = "0.42.0"
@@ -438,7 +445,6 @@ backend = "github:garden-rs/garden"
 checksum = "sha256:a75a071e2dd510577def4afe5016efd115e78e2333d7d5b6c1a40a5cb2e9fe71"
 url = "https://github.com/garden-rs/garden/releases/download/v2.6.0/garden-2.6.0-x86_64-unknown-linux-gnu.tar.gz"
 url_api = "https://api.github.com/repos/garden-rs/garden/releases/assets/374207329"
-github_attestations = "unavailable"
 
 [tools."github:garden-rs/garden"."platforms.linux-x64-baseline"]
 checksum = "sha256:a75a071e2dd510577def4afe5016efd115e78e2333d7d5b6c1a40a5cb2e9fe71"
@@ -463,7 +469,6 @@ backend = "github:seachicken/gh-poi"
 checksum = "sha256:369d43d6c10edb67d49aa5992cd807cf12ad2d4212aa622e365b0cda3d534e6a"
 url = "https://github.com/seachicken/gh-poi/releases/download/v0.17.1/linux-amd64"
 url_api = "https://api.github.com/repos/seachicken/gh-poi/releases/assets/410815626"
-github_attestations = "unavailable"
 
 [tools."github:seachicken/gh-poi"."platforms.linux-x64-baseline"]
 checksum = "sha256:369d43d6c10edb67d49aa5992cd807cf12ad2d4212aa622e365b0cda3d534e6a"
@@ -585,6 +590,10 @@ version = "26.0.1"
 backend = "core:java"
 
 [tools.java."platforms.linux-x64"]
+checksum = "sha256:2f2802d57b5fc414f1ddf6648ba12cc9a6454cf67b32ac95407c018f2e6ab0b0"
+url = "https://download.java.net/java/GA/jdk26.0.1/458fda22e4c54d5ba572ab8d2b22eb83/8/GPL/openjdk-26.0.1_linux-x64_bin.tar.gz"
+
+[tools.java."platforms.linux-x64-baseline"]
 checksum = "sha256:2f2802d57b5fc414f1ddf6648ba12cc9a6454cf67b32ac95407c018f2e6ab0b0"
 url = "https://download.java.net/java/GA/jdk26.0.1/458fda22e4c54d5ba572ab8d2b22eb83/8/GPL/openjdk-26.0.1_linux-x64_bin.tar.gz"
 
@@ -818,7 +827,7 @@ url = "https://registry.npmjs.org/npm/-/npm-11.14.1.tgz"
 url = "https://registry.npmjs.org/npm/-/npm-11.14.1.tgz"
 
 [[tools."npm:@ccusage/codex"]]
-version = "18.0.11"
+version = "19.0.0"
 backend = "npm:@ccusage/codex"
 
 [[tools."npm:resend-cli"]]
@@ -846,20 +855,35 @@ checksum = "sha256:09efa9dfbff4d983fb0484e2bfc126df9d0cbedede627d22ac61141457b5d
 url = "https://github.com/sharkdp/numbat/releases/download/v1.23.0/numbat-v1.23.0-x86_64-unknown-linux-musl.tar.gz"
 
 [[tools.oxfmt]]
-version = "0.50.0"
+version = "0.51.0"
 backend = "npm:oxfmt"
 
 [[tools.oxlint]]
-version = "1.65.0"
+version = "1.66.0"
 backend = "npm:oxlint"
 
 [[tools.pinact]]
-version = "3.10.0"
+version = "3.10.1"
 backend = "aqua:suzuki-shunsuke/pinact"
 
 [tools.pinact."platforms.linux-x64"]
-checksum = "sha256:89df727e7315e62f79aa865a98216ae60ca8d8cb5d7bcf6f78b6fdc4c44f4a46"
-url = "https://github.com/suzuki-shunsuke/pinact/releases/download/v3.10.0/pinact_linux_amd64.tar.gz"
+checksum = "sha256:c5234ff3a636cda47719c73ca33a0183a5f441581455eda8a0726e5030942b69"
+url = "https://github.com/suzuki-shunsuke/pinact/releases/download/v3.10.1/pinact_linux_amd64.tar.gz"
+provenance = "github-attestations"
+
+[tools.pinact."platforms.linux-x64-baseline"]
+checksum = "sha256:c5234ff3a636cda47719c73ca33a0183a5f441581455eda8a0726e5030942b69"
+url = "https://github.com/suzuki-shunsuke/pinact/releases/download/v3.10.1/pinact_linux_amd64.tar.gz"
+provenance = "github-attestations"
+
+[tools.pinact."platforms.linux-x64-musl"]
+checksum = "sha256:c5234ff3a636cda47719c73ca33a0183a5f441581455eda8a0726e5030942b69"
+url = "https://github.com/suzuki-shunsuke/pinact/releases/download/v3.10.1/pinact_linux_amd64.tar.gz"
+provenance = "github-attestations"
+
+[tools.pinact."platforms.linux-x64-musl-baseline"]
+checksum = "sha256:c5234ff3a636cda47719c73ca33a0183a5f441581455eda8a0726e5030942b69"
+url = "https://github.com/suzuki-shunsuke/pinact/releases/download/v3.10.1/pinact_linux_amd64.tar.gz"
 provenance = "github-attestations"
 
 [[tools.pipx]]
@@ -890,39 +914,39 @@ backend = "pipx:markitdown"
 extras = "all"
 
 [[tools.pitchfork]]
-version = "2.10.0"
+version = "2.11.0"
 backend = "aqua:jdx/pitchfork"
 
 [tools.pitchfork."platforms.linux-x64"]
-checksum = "sha256:a6a09cce0b08135cdb884b6c70c7413bd3991f03c084bdc11bf778bb274116c4"
-url = "https://github.com/endevco/pitchfork/releases/download/v2.10.0/pitchfork-x86_64-unknown-linux-gnu.tar.gz"
+checksum = "sha256:6d6ed643160dd6b6a71910128a0f195bea6e7ff28a74d4ed2646dd48423152db"
+url = "https://github.com/endevco/pitchfork/releases/download/v2.11.0/pitchfork-x86_64-unknown-linux-gnu.tar.gz"
 
 [tools.pitchfork."platforms.linux-x64-baseline"]
-checksum = "sha256:a6a09cce0b08135cdb884b6c70c7413bd3991f03c084bdc11bf778bb274116c4"
-url = "https://github.com/endevco/pitchfork/releases/download/v2.10.0/pitchfork-x86_64-unknown-linux-gnu.tar.gz"
+checksum = "sha256:6d6ed643160dd6b6a71910128a0f195bea6e7ff28a74d4ed2646dd48423152db"
+url = "https://github.com/endevco/pitchfork/releases/download/v2.11.0/pitchfork-x86_64-unknown-linux-gnu.tar.gz"
 
 [[tools.pnpm]]
-version = "11.1.2"
+version = "11.1.3"
 backend = "aqua:pnpm/pnpm"
 
 [tools.pnpm."platforms.linux-x64"]
-checksum = "sha256:f82f761572d9621c5a646ccc00a1ecec4cf5839d66b714497e6ca10cd2e086ee"
-url = "https://github.com/pnpm/pnpm/releases/download/v11.1.2/pnpm-linux-x64.tar.gz"
+checksum = "sha256:8e5685c22bc05e8092adb056bb3d848c3d7926a2c909ed028052098d59db9e6e"
+url = "https://github.com/pnpm/pnpm/releases/download/v11.1.3/pnpm-linux-x64.tar.gz"
 provenance = "github-attestations"
 
 [tools.pnpm."platforms.linux-x64-baseline"]
-checksum = "sha256:f82f761572d9621c5a646ccc00a1ecec4cf5839d66b714497e6ca10cd2e086ee"
-url = "https://github.com/pnpm/pnpm/releases/download/v11.1.2/pnpm-linux-x64.tar.gz"
+checksum = "sha256:8e5685c22bc05e8092adb056bb3d848c3d7926a2c909ed028052098d59db9e6e"
+url = "https://github.com/pnpm/pnpm/releases/download/v11.1.3/pnpm-linux-x64.tar.gz"
 provenance = "github-attestations"
 
 [tools.pnpm."platforms.linux-x64-musl"]
-checksum = "sha256:3c98dfa5f0c2ba86eb48916318108dbfa0a0710dac46861b3f64d72e3defda00"
-url = "https://github.com/pnpm/pnpm/releases/download/v11.1.2/pnpm-linux-x64-musl.tar.gz"
+checksum = "sha256:729e484a7ca2c0319e188b4ce97523034a8a9913a6833c8afdc144b03a9ff260"
+url = "https://github.com/pnpm/pnpm/releases/download/v11.1.3/pnpm-linux-x64-musl.tar.gz"
 provenance = "github-attestations"
 
 [tools.pnpm."platforms.linux-x64-musl-baseline"]
-checksum = "sha256:3c98dfa5f0c2ba86eb48916318108dbfa0a0710dac46861b3f64d72e3defda00"
-url = "https://github.com/pnpm/pnpm/releases/download/v11.1.2/pnpm-linux-x64-musl.tar.gz"
+checksum = "sha256:729e484a7ca2c0319e188b4ce97523034a8a9913a6833c8afdc144b03a9ff260"
+url = "https://github.com/pnpm/pnpm/releases/download/v11.1.3/pnpm-linux-x64-musl.tar.gz"
 provenance = "github-attestations"
 
 [[tools.prettier]]
@@ -1074,24 +1098,24 @@ url = "https://github.com/tamasfe/taplo/releases/download/0.10.0/taplo-linux-x86
 url = "https://github.com/tamasfe/taplo/releases/download/0.10.0/taplo-linux-x86_64.gz"
 
 [[tools.typos]]
-version = "1.46.1"
+version = "1.46.2"
 backend = "aqua:crate-ci/typos"
 
 [tools.typos."platforms.linux-x64"]
-checksum = "sha256:c574fa505596922ba2e7b1027a0a5b2df528f399b86b6915d85748186a65ca44"
-url = "https://github.com/crate-ci/typos/releases/download/v1.46.1/typos-v1.46.1-x86_64-unknown-linux-musl.tar.gz"
+checksum = "sha256:d68c1a9c5abd8de11f7749edfa414087c8bc828e89064714487d23c89f36b06e"
+url = "https://github.com/crate-ci/typos/releases/download/v1.46.2/typos-v1.46.2-x86_64-unknown-linux-musl.tar.gz"
 
 [tools.typos."platforms.linux-x64-baseline"]
-checksum = "sha256:c574fa505596922ba2e7b1027a0a5b2df528f399b86b6915d85748186a65ca44"
-url = "https://github.com/crate-ci/typos/releases/download/v1.46.1/typos-v1.46.1-x86_64-unknown-linux-musl.tar.gz"
+checksum = "sha256:d68c1a9c5abd8de11f7749edfa414087c8bc828e89064714487d23c89f36b06e"
+url = "https://github.com/crate-ci/typos/releases/download/v1.46.2/typos-v1.46.2-x86_64-unknown-linux-musl.tar.gz"
 
 [tools.typos."platforms.linux-x64-musl"]
-checksum = "sha256:c574fa505596922ba2e7b1027a0a5b2df528f399b86b6915d85748186a65ca44"
-url = "https://github.com/crate-ci/typos/releases/download/v1.46.1/typos-v1.46.1-x86_64-unknown-linux-musl.tar.gz"
+checksum = "sha256:d68c1a9c5abd8de11f7749edfa414087c8bc828e89064714487d23c89f36b06e"
+url = "https://github.com/crate-ci/typos/releases/download/v1.46.2/typos-v1.46.2-x86_64-unknown-linux-musl.tar.gz"
 
 [tools.typos."platforms.linux-x64-musl-baseline"]
-checksum = "sha256:c574fa505596922ba2e7b1027a0a5b2df528f399b86b6915d85748186a65ca44"
-url = "https://github.com/crate-ci/typos/releases/download/v1.46.1/typos-v1.46.1-x86_64-unknown-linux-musl.tar.gz"
+checksum = "sha256:d68c1a9c5abd8de11f7749edfa414087c8bc828e89064714487d23c89f36b06e"
+url = "https://github.com/crate-ci/typos/releases/download/v1.46.2/typos-v1.46.2-x86_64-unknown-linux-musl.tar.gz"
 
 [[tools.typst]]
 version = "0.14.2"
@@ -1134,12 +1158,27 @@ checksum = "sha256:9a4316d633243aa54308ff3bf6970923b18c105dea34fbc3009d51889e1dd
 url = "https://github.com/jdx/usage/releases/download/v3.3.0/usage-x86_64-unknown-linux-musl.tar.gz"
 
 [[tools.uv]]
-version = "0.11.14"
+version = "0.11.15"
 backend = "aqua:astral-sh/uv"
 
 [tools.uv."platforms.linux-x64"]
-checksum = "sha256:077d36f45a0cc6d440b653b2d5c53e7731121e99e54b0221267eec5d1cae76ce"
-url = "https://github.com/astral-sh/uv/releases/download/0.11.14/uv-x86_64-unknown-linux-musl.tar.gz"
+checksum = "sha256:200ccf2f351849c5d6698714e7e7eb9ead1e8c097dbdbb43730e1a4e059ceb87"
+url = "https://github.com/astral-sh/uv/releases/download/0.11.15/uv-x86_64-unknown-linux-musl.tar.gz"
+provenance = "github-attestations"
+
+[tools.uv."platforms.linux-x64-baseline"]
+checksum = "sha256:200ccf2f351849c5d6698714e7e7eb9ead1e8c097dbdbb43730e1a4e059ceb87"
+url = "https://github.com/astral-sh/uv/releases/download/0.11.15/uv-x86_64-unknown-linux-musl.tar.gz"
+provenance = "github-attestations"
+
+[tools.uv."platforms.linux-x64-musl"]
+checksum = "sha256:200ccf2f351849c5d6698714e7e7eb9ead1e8c097dbdbb43730e1a4e059ceb87"
+url = "https://github.com/astral-sh/uv/releases/download/0.11.15/uv-x86_64-unknown-linux-musl.tar.gz"
+provenance = "github-attestations"
+
+[tools.uv."platforms.linux-x64-musl-baseline"]
+checksum = "sha256:200ccf2f351849c5d6698714e7e7eb9ead1e8c097dbdbb43730e1a4e059ceb87"
+url = "https://github.com/astral-sh/uv/releases/download/0.11.15/uv-x86_64-unknown-linux-musl.tar.gz"
 provenance = "github-attestations"
 
 [[tools.watchexec]]
@@ -1163,16 +1202,24 @@ checksum = "sha256:9efabd08de720c1ee7e57b487fe11904f0966828e76146e2b5ea5deee9062
 url = "https://github.com/watchexec/watchexec/releases/download/v2.5.1/watchexec-2.5.1-x86_64-unknown-linux-musl.tar.xz"
 
 [[tools.worktrunk]]
-version = "0.50.0"
+version = "0.51.0"
 backend = "aqua:max-sixty/worktrunk"
 
 [tools.worktrunk."platforms.linux-x64"]
-checksum = "sha256:1f473f20a43f92172c39169259978751aa8b015fe40910a209331722aad0a908"
-url = "https://github.com/max-sixty/worktrunk/releases/download/v0.50.0/worktrunk-x86_64-unknown-linux-musl.tar.xz"
+checksum = "sha256:cc25f0fe5b5173832eb787967627a71405a02d176cabd73ca9aaaed2e779ea50"
+url = "https://github.com/max-sixty/worktrunk/releases/download/v0.51.0/worktrunk-x86_64-unknown-linux-musl.tar.xz"
 
 [tools.worktrunk."platforms.linux-x64-baseline"]
-checksum = "sha256:1f473f20a43f92172c39169259978751aa8b015fe40910a209331722aad0a908"
-url = "https://github.com/max-sixty/worktrunk/releases/download/v0.50.0/worktrunk-x86_64-unknown-linux-musl.tar.xz"
+checksum = "sha256:cc25f0fe5b5173832eb787967627a71405a02d176cabd73ca9aaaed2e779ea50"
+url = "https://github.com/max-sixty/worktrunk/releases/download/v0.51.0/worktrunk-x86_64-unknown-linux-musl.tar.xz"
+
+[tools.worktrunk."platforms.linux-x64-musl"]
+checksum = "sha256:cc25f0fe5b5173832eb787967627a71405a02d176cabd73ca9aaaed2e779ea50"
+url = "https://github.com/max-sixty/worktrunk/releases/download/v0.51.0/worktrunk-x86_64-unknown-linux-musl.tar.xz"
+
+[tools.worktrunk."platforms.linux-x64-musl-baseline"]
+checksum = "sha256:cc25f0fe5b5173832eb787967627a71405a02d176cabd73ca9aaaed2e779ea50"
+url = "https://github.com/max-sixty/worktrunk/releases/download/v0.51.0/worktrunk-x86_64-unknown-linux-musl.tar.xz"
 
 [[tools.xh]]
 version = "0.25.3"
@@ -1239,12 +1286,17 @@ checksum = "sha256:d56bf5c6819e8e696340c312bd70f849dc1678a7cda9c2ad63eebd906371d
 url = "https://github.com/mikefarah/yq/releases/download/v4.53.2/yq_linux_amd64"
 
 [[tools.zizmor]]
-version = "1.25.0"
+version = "1.25.2"
 backend = "aqua:zizmorcore/zizmor"
 
 [tools.zizmor."platforms.linux-x64"]
-checksum = "sha256:a16853f39c9e059aed04f3f7961acb75468af67b235ae36a9faff337d61e3d24"
-url = "https://github.com/zizmorcore/zizmor/releases/download/v1.25.0/zizmor-x86_64-unknown-linux-gnu.tar.gz"
+checksum = "sha256:aa1facd105f0d83fe5c55b1adcd9d7417de5d83aa27471f91dc0b66cf3803577"
+url = "https://github.com/zizmorcore/zizmor/releases/download/v1.25.2/zizmor-x86_64-unknown-linux-gnu.tar.gz"
+provenance = "github-attestations"
+
+[tools.zizmor."platforms.linux-x64-baseline"]
+checksum = "sha256:aa1facd105f0d83fe5c55b1adcd9d7417de5d83aa27471f91dc0b66cf3803577"
+url = "https://github.com/zizmorcore/zizmor/releases/download/v1.25.2/zizmor-x86_64-unknown-linux-gnu.tar.gz"
 provenance = "github-attestations"
 
 [[tools.zoxide]]

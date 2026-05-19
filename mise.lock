@@ -453,9 +453,3 @@ provenance = "github-attestations"
 checksum = "sha256:aa1facd105f0d83fe5c55b1adcd9d7417de5d83aa27471f91dc0b66cf3803577"
 url = "https://github.com/zizmorcore/zizmor/releases/download/v1.25.2/zizmor-x86_64-unknown-linux-gnu.tar.gz"
 provenance = "github-attestations"
-
-[tools.zizmor."platforms.linux-x64-musl"]
-provenance = "github-attestations"
-
-[tools.zizmor."platforms.linux-x64-musl-baseline"]
-provenance = "github-attestations"

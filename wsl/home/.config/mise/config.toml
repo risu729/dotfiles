@@ -11,7 +11,7 @@ _.path = ["~/.local/bin"]
 # language tools
 node = "latest"
 bun = "latest"
-aube = "1.9.0" # 1.9.1+ missing GitHub attestations on linux-x64 (mise lock fails)
+aube = "latest"
 npm = "latest"
 # Don't use the vfox plugin; it doesn't support lockfiles
 "aqua:yarn" = "latest"
@@ -44,7 +44,7 @@ eza = "latest"
 bat = "latest"
 fd = "latest"
 zoxide = "latest"
-btop = "1.4.7"
+btop = "latest"
 xh = "latest"
 jd = "latest"
 sd = "latest"
@@ -92,7 +92,7 @@ numbat = "latest"
 typst = "latest"
 
 # mise development
-aqua = "2.58.0" # 2.58.1+ missing GitHub attestations on linux-x64 (mise lock fails)
+aqua = "latest"
 pipx = "latest"
 sccache = "latest"
 
