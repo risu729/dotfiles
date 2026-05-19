@@ -10,7 +10,8 @@ DEPENDENCY_RE = re.compile(
     r"(depends?\s+on|requires?|stacked\s+on|based\s+on|blocked\s+on)",
     re.IGNORECASE,
 )
-URL_RE = re.compile(r"https://github\.com/([^/\s]+)/([^/\s]+)/pull/(\d+)")
+GITHUB_URL_PREFIX = "https://github.com/"
+URL_RE = re.compile(re.escape(GITHUB_URL_PREFIX) + r"([^/\s]+)/([^/\s]+)/pull/(\d+)")
 OWNER_REPO_RE = re.compile(r"([A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+)#(\d+)")
 LOCAL_REF_RE = re.compile(r"(?<![A-Za-z0-9_/.-])#(\d+)")
 
