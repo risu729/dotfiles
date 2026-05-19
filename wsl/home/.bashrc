@@ -130,8 +130,8 @@ fi
 
 # Install ghr shell extension and enable completion
 if command -v ghr &>/dev/null; then
-	ghr_extension="$(ghr shell bash)"
-	eval "${ghr_extension}"
+	# The generated shell wrapper requires an argument after `ghr cd`.
+	__GHR=$(type -P ghr) || :
 	__ghr_cd() {
 		local ghr_bin="${__GHR:-}" path selected
 
@@ -203,7 +203,7 @@ if command -v ghr &>/dev/null; then
 
 		"${ghr_bin}" "$@"
 	}
-	ghr_completion="$(ghr shell bash --completion)"
+	ghr_completion="$("${__GHR}" shell bash --completion)"
 	eval "${ghr_completion}"
 fi
 
