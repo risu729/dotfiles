@@ -38,7 +38,7 @@ auth_email() {
 	local me_json
 	local token
 
-	if email=$(jq -er '.email // empty' -- "${source}" 2>/dev/null); then
+	if email=$(jq -er '.email // empty | strings | select(length > 0)' -- "${source}" 2>/dev/null); then
 		printf '%s\n' "${email}"
 		return 0
 	fi
@@ -53,12 +53,12 @@ auth_email() {
 		return 1
 	fi
 
-	jq -er '.email // empty' <<<"${me_json}" 2>/dev/null
+	jq -er '.email // empty | strings | select(length > 0)' <<<"${me_json}" 2>/dev/null
 }
 
 auth_access_token() {
 	local source=$1
-	jq -er '.tokens.access_token // empty' -- "${source}" 2>/dev/null
+	jq -er '.tokens.access_token // empty | strings | select(length > 0)' -- "${source}" 2>/dev/null
 }
 
 chatgpt_backend_api() {
