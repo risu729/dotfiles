@@ -1,6 +1,6 @@
 ---
-name: pr-tree
 description: Show risu729's current GitHub pull requests as a dependency tree for one repository or all repositories, with DRAFT, WIP, DIRTY/BLOCKED/UNSTABLE status, failed checks, and blocker notes. Use when the user asks for a PR tree, latest PR statuses, or which PR depends on which other PRs.
+name: pr-tree
 ---
 
 # PR Tree
