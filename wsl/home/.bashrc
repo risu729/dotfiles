@@ -161,12 +161,16 @@ if command -v ghr &>/dev/null; then
 		cd "${path}" || return
 	}
 	ghr() {
-		local arg
+		local arg ghr_bin="${__GHR:-}" has_cd=false
 		local -a cd_args
+
+		if [[ -z ${ghr_bin} ]]; then
+			ghr_bin=$(type -P ghr) || return
+		fi
 
 		for arg in "$@"; do
 			if [[ ${arg} == "-h" || ${arg} == "--help" ]]; then
-				"${__GHR}" "$@"
+				"${ghr_bin}" "$@"
 				return
 			fi
 		done
@@ -179,14 +183,16 @@ if command -v ghr &>/dev/null; then
 				return
 				;;
 			clone | init)
-				if (($# > 1)) && __ghr_contains "--cd" "${@:2}"; then
-					if ! "${__GHR}" "$@"; then
-						return
+				cd_args=()
+				for arg in "${@:2}"; do
+					if [[ ${arg} == "--cd" ]]; then
+						has_cd=true
+					else
+						cd_args+=("${arg}")
 					fi
-					cd_args=()
-					for arg in "${@:2}"; do
-						[[ ${arg} == "--cd" ]] || cd_args+=("${arg}")
-					done
+				done
+				if [[ ${has_cd} == true ]]; then
+					"${ghr_bin}" "$@" || return
 					__ghr_cd "${cd_args[@]}"
 					return
 				fi
@@ -195,7 +201,7 @@ if command -v ghr &>/dev/null; then
 			esac
 		fi
 
-		"${__GHR}" "$@"
+		"${ghr_bin}" "$@"
 	}
 	ghr_completion="$(ghr shell bash --completion)"
 	eval "${ghr_completion}"
