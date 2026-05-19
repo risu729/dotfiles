@@ -92,7 +92,7 @@ numbat = "latest"
 typst = "latest"
 
 # mise development
-aqua = "2.58.0" # 2.58.1+ missing GitHub attestations on linux-x64 (mise lock fails)
+aqua = "2.59.0" # 2.58.1+ missing GitHub attestations on linux-x64 (mise lock fails)
 pipx = "latest"
 sccache = "latest"
 
