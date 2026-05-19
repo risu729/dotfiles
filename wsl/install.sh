@@ -223,9 +223,16 @@ create_home_symlinks() {
 		local target_path="${HOME}/${target_name}"
 
 		mkdir --parents "$(dirname "${target_path}")"
-		ln --symbolic --no-dereference --force "${full_path}" "${target_path}"
-		# shellcheck disable=SC2088 # intentionally print ~ instead of $HOME
-		log_info "Installed symlink: ~/${target_name}"
+		if [[ ${target_name} == .agents/skills/* ]]; then
+			# Codex skips symlinked skill files during skill discovery.
+			cp --preserve=mode --remove-destination "${full_path}" "${target_path}"
+			# shellcheck disable=SC2088 # intentionally print ~ instead of $HOME
+			log_info "Installed file: ~/${target_name}"
+		else
+			ln --symbolic --no-dereference --force "${full_path}" "${target_path}"
+			# shellcheck disable=SC2088 # intentionally print ~ instead of $HOME
+			log_info "Installed symlink: ~/${target_name}"
+		fi
 	done
 }
 
