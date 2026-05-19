@@ -35,14 +35,46 @@ account_file_path() {
 auth_email() {
 	local source=$1
 	local email
+	local me_json
+	local token
 
-	email=$(jq -er '.email // empty' -- "${source}") || die "auth email missing in ${source}"
-	printf '%s\n' "${email}"
+	if email=$(jq -er '.email // empty' -- "${source}" 2>/dev/null); then
+		printf '%s\n' "${email}"
+		return 0
+	fi
+
+	# shellcheck disable=SC2310
+	if ! token=$(auth_access_token "${source}" 2>/dev/null); then
+		return 1
+	fi
+
+	# shellcheck disable=SC2310
+	if ! me_json=$(chatgpt_backend_api "${token}" "/backend-api/me"); then
+		return 1
+	fi
+
+	jq -er '.email // empty' <<<"${me_json}" 2>/dev/null
 }
 
 auth_access_token() {
 	local source=$1
 	jq -er '.tokens.access_token // empty' -- "${source}" 2>/dev/null
+}
+
+chatgpt_backend_api() {
+	local token=$1
+	local endpoint=$2
+	local chatgpt_host
+	local chatgpt_origin
+
+	chatgpt_host="chatgpt.com"
+	chatgpt_origin="https://${chatgpt_host}"
+	curl -fsS \
+		--connect-timeout 3 \
+		--max-time 8 \
+		-H "Authorization: Bearer ${token}" \
+		-H "Accept: application/json" \
+		"${chatgpt_origin}${endpoint}" 2>/dev/null
 }
 
 absolute_path() {
@@ -240,8 +272,6 @@ window_summary() {
 
 rate_limit_summary() {
 	local source=$1
-	local chatgpt_host
-	local chatgpt_origin
 	local token
 	local usage_json
 	local five_hour
@@ -254,16 +284,8 @@ rate_limit_summary() {
 		return 0
 	fi
 
-	chatgpt_host="chatgpt.com"
-	chatgpt_origin="https://${chatgpt_host}"
-	if ! usage_json=$(
-		curl -fsS \
-			--connect-timeout 3 \
-			--max-time 8 \
-			-H "Authorization: Bearer ${token}" \
-			-H "Accept: application/json" \
-			"${chatgpt_origin}/backend-api/wham/usage" 2>/dev/null
-	); then
+	# shellcheck disable=SC2310
+	if ! usage_json=$(chatgpt_backend_api "${token}" "/backend-api/wham/usage"); then
 		printf 'rate limits unavailable'
 		return 0
 	fi
@@ -381,7 +403,8 @@ save_account() {
 
 	[[ -f ${auth_path} ]] || die "no auth.json at ${auth_path}; run Codex login with this CODEX_HOME first"
 
-	account_name=$(auth_email "${auth_path}")
+	# shellcheck disable=SC2310
+	account_name=$(auth_email "${auth_path}") || die "auth email missing in ${auth_path} and /backend-api/me lookup failed"
 	ensure_accounts_dir
 	destination=$(account_file_path "${account_name}")
 	tmp_destination=$(mktemp "${destination}.tmp.XXXXXX")
@@ -431,7 +454,7 @@ wait_for_auth_json() {
 	deadline=$((SECONDS + 120))
 	while ((SECONDS < deadline)); do
 		# shellcheck disable=SC2310
-		if [[ -f ${auth_path} ]] && auth_email "${auth_path}" >/dev/null 2>&1 && auth_access_token "${auth_path}" >/dev/null 2>&1; then
+		if [[ -f ${auth_path} ]] && auth_access_token "${auth_path}" >/dev/null 2>&1 && auth_email "${auth_path}" >/dev/null 2>&1; then
 			return 0
 		fi
 		sleep 1
