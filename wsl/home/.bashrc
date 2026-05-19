@@ -131,7 +131,7 @@ fi
 # Install ghr shell extension and enable completion
 if command -v ghr &>/dev/null; then
 	# The generated shell wrapper requires an argument after `ghr cd`.
-	__GHR=$(type -P ghr) || return
+__GHR=$(type -P ghr) || :
 	__ghr_cd() {
 		local ghr_bin="${__GHR:-}" path selected
 
