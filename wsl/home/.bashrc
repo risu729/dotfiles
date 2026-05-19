@@ -160,6 +160,49 @@ if command -v ghr &>/dev/null; then
 		[[ -n ${path} ]] || return 1
 		cd "${path}" || return
 	}
+	ghr() {
+		local arg ghr_bin="${__GHR:-}" has_cd=false
+		local -a cd_args
+
+		if [[ -z ${ghr_bin} ]]; then
+			ghr_bin=$(type -P ghr) || return
+		fi
+
+		for arg in "$@"; do
+			if [[ ${arg} == "-h" || ${arg} == "--help" ]]; then
+				"${ghr_bin}" "$@"
+				return
+			fi
+		done
+
+		if (($# > 0)); then
+			case "$1" in
+			cd)
+				shift
+				__ghr_cd "$@"
+				return
+				;;
+			clone | init)
+				cd_args=()
+				for arg in "${@:2}"; do
+					if [[ ${arg} == "--cd" ]]; then
+						has_cd=true
+					else
+						cd_args+=("${arg}")
+					fi
+				done
+				if [[ ${has_cd} == true ]]; then
+					"${ghr_bin}" "$@" || return
+					__ghr_cd "${cd_args[@]}"
+					return
+				fi
+				;;
+			*) ;;
+			esac
+		fi
+
+		"${ghr_bin}" "$@"
+	}
 	ghr_completion="$(ghr shell bash --completion)"
 	eval "${ghr_completion}"
 fi
