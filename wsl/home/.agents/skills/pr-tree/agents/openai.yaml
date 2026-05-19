@@ -1,0 +1,4 @@
+interface:
+  display_name: "PR Tree"
+  short_description: "Show grouped GitHub PR status"
+  default_prompt: "Use $pr-tree to show my current PR dependency tree."

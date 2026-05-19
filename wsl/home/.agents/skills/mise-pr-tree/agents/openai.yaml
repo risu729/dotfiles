@@ -1,4 +1,0 @@
-interface:
-  display_name: "Mise PR Tree"
-  short_description: "Show grouped jdx/mise PR status"
-  default_prompt: "Use $mise-pr-tree to show my current mise PR dependency tree."
