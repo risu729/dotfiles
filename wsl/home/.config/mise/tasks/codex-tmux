@@ -215,6 +215,12 @@ default_checkout_ref() {
 	fi
 }
 
+sync_repo() {
+	local repo_path=$1
+
+	git -C "${repo_path}" sync
+}
+
 resolve_explicit_repo() {
 	local input=$1
 	local repo_path repo_name
@@ -756,6 +762,7 @@ main() {
 		attach_session "${session_name}"
 	fi
 
+	sync_repo "${repo_path}"
 	worktree_id=$(new_worktree_id)
 	checkout_ref=$(default_checkout_ref "${repo_path}")
 	worktree_path=$(create_worktree "${repo_path}" "${worktree_id}" "${checkout_ref}")

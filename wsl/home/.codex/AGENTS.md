@@ -5,6 +5,9 @@
 - Prefer `gh pr checkout` when checking out an existing pull request.
 - Use `ghr clone` when cloning repositories temporarily.
   - Use `ghr list` to inspect existing temporary clones.
+- Before rebasing, resolving conflicts, or otherwise relying on remote branch
+  state, run `git fetch --all --prune` or an equivalent sync command so every
+  configured remote, including `origin` and `upstream`, is current.
 - Do not force-push unless it is clearly necessary.
   - Prefer `--force-with-lease` over `--force`.
   - Do not force-push just to clean up history unless explicitly asked.
