@@ -12,7 +12,7 @@ on:
     - cron: "0 0 * * SUN"
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  group: ${{ github.workflow }}-${{ case(github.event_name == 'pull_request', github.event.pull_request.number, github.ref) }}
   cancel-in-progress: true
 
 permissions: {}
@@ -60,8 +60,8 @@ jobs:
           __CI: true
           GIT_REPO_URL: ${{ github.event.repository.clone_url }}
           # use head sha for pull requests because github.sha is set to the merge commit
-          GIT_COMMIT_SHA: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.sha }}
-          MISE_LOG_LEVEL: ${{ runner.debug == '1' && 'debug' || 'info' }}
+          GIT_COMMIT_SHA: ${{ case(github.event_name == 'pull_request', github.event.pull_request.head.sha, github.sha) }}
+          MISE_LOG_LEVEL: ${{ case(runner.debug == '1', 'debug', 'info') }}
 
       - name: Clean up Docker Compose
         if: ${{ always() }}
