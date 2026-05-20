@@ -10,4 +10,12 @@ description = "Run hk linters and formatters."
 shell = "pwsh -Command"
 # Force is required to bypass untrusted repository confirmation
 # ref: https://github.com/PowerShell/PowerShellGetv2/issues/461
-run = "Install-Module -Name PSScriptAnalyzer -RequiredVersion {{ vars.PS_SCRIPT_ANALYZER_VERSION }} -Force"
+run = """
+$RequiredVersion = '{{ vars.PS_SCRIPT_ANALYZER_VERSION }}'
+
+if (Get-Module -ListAvailable -FullyQualifiedName @{ ModuleName = 'PSScriptAnalyzer'; RequiredVersion = $RequiredVersion }) {
+  exit 0
+}
+
+Install-Module -Name PSScriptAnalyzer -RequiredVersion $RequiredVersion -Force
+"""
