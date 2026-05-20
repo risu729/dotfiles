@@ -826,9 +826,9 @@ url = "https://registry.npmjs.org/npm/-/npm-11.14.1.tgz"
 [tools.npm."platforms.linux-x64-musl-baseline"]
 url = "https://registry.npmjs.org/npm/-/npm-11.14.1.tgz"
 
-[[tools."npm:@ccusage/codex"]]
-version = "19.0.0"
-backend = "npm:@ccusage/codex"
+[[tools."npm:ccusage"]]
+version = "20.0.1"
+backend = "npm:ccusage"
 
 [[tools."npm:resend-cli"]]
 version = "2.2.1"

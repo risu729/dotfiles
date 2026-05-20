@@ -63,7 +63,7 @@ glow = "latest"
 
 # ai agents
 codex = "latest"
-"npm:@ccusage/codex" = "latest"
+"npm:ccusage" = "latest"
 claude = "latest"
 gemini-cli = { version = "latest", aube_args = "--allow-build=@github/keytar --allow-build=node-pty" }
 copilot = "latest"
@@ -118,4 +118,4 @@ c = "mise run codex-tmux"
 l = "eza --all --long --git"
 k = "kubecolor"
 aptup = "sudo apt update && sudo apt upgrade -y"
-cux = "ccusage-codex"
+cux = "ccusage codex"
