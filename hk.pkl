@@ -96,6 +96,7 @@ local const lintSteps = new Mapping<String, Step> {
   }
   ["lychee"] = (Builtins.lychee) {
     check = "lychee --no-progress --verbose {{ files }}"
+    profiles = List("scheduled")
   }
   ["typos"] = Builtins.typos
   ["ignore-sync"] {
