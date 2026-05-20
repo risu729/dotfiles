@@ -13,7 +13,7 @@ shell = "pwsh -Command"
 run = """
 $RequiredVersion = '{{ vars.PS_SCRIPT_ANALYZER_VERSION }}'
 
-if (Get-Module -ListAvailable -Name PSScriptAnalyzer | Where-Object { $_.Version -eq [version]$RequiredVersion } | Select-Object -First 1) {
+if (Get-Module -ListAvailable -FullyQualifiedName @{ ModuleName = 'PSScriptAnalyzer'; RequiredVersion = $RequiredVersion }) {
   exit 0
 }
 
