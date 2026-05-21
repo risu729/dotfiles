@@ -36,7 +36,7 @@ typos = "1.46.2"
 "npm:@typescript/native-preview" = "7.0.0-dev.20260518.1"
 jc = "1.25.6"
 hadolint = "2.14.0"
-powershell = "7.6.1"
+powershell = "7.6.2"
 
 [settings]
 experimental = true
