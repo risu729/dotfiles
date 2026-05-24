@@ -225,7 +225,7 @@ checksum = "sha256:50df5d8d474892d4f7b906167df36f77f5b93908f63dc532dc568219cab65
 url = "https://unofficial-builds.nodejs.org/download/release/v24.16.0/node-v24.16.0-linux-x64-musl.tar.gz"
 
 [[tools."npm:@typescript/native-preview"]]
-version = "7.0.0-dev.20260519.1"
+version = "7.0.0-dev.20260521.1"
 backend = "npm:@typescript/native-preview"
 
 [[tools."npm:ignore-sync"]]
