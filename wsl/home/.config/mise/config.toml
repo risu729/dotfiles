@@ -58,7 +58,7 @@ pitchfork = "latest"
 miller = "latest"
 glow = "latest"
 "github:garden-rs/garden" = "latest"
-"pipx:markitdown" = { version = "latest", extras = "all" }
+"pipx:markitdown" = { version = "latest", extras = "pdf,docx,pptx,xlsx" }
 "npm:resend-cli" = "latest"
 
 # ai agents
