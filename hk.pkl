@@ -106,11 +106,6 @@ local const lintSteps = new Mapping<String, Step> {
     stage = List(".gitignore", "worker/.gitignore")
     exclusive = true
   }
-  ["jsonschema"] {
-    // hk maps .jsonc and .json5 to the json type.
-    types = List("json")
-    check = "jschema-validator"
-  }
   ["tsc:root"] {
     types = jsTsTypes
     check = "tsgo"

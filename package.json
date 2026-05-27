@@ -3,7 +3,6 @@
 	"name": "@risu729/dotfiles",
 	"devDependencies": {
 		"@risu729/tsconfigs": "3.0.0",
-		"@types/bun": "1.3.14",
-		"jschema-validator": "1.0.27"
+		"@types/bun": "1.3.14"
 	}
 }
