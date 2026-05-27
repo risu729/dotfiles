@@ -95,13 +95,6 @@ if command -v yq &>/dev/null; then
 	eval "${yq_completion}"
 fi
 
-# Activate atuin
-if command -v atuin &>/dev/null; then
-	atuin_init="$(atuin init bash)"
-	eval "${atuin_init}"
-	unset atuin_init
-fi
-
 # Activate zoxide
 if command -v zoxide &>/dev/null; then
 	zoxide_init="$(zoxide init bash)"
@@ -392,4 +385,11 @@ fi
 # original command_not_found_handle is renamed to _command_not_found_handle by mise activate
 if declare -f _command_not_found_handle >/dev/null; then
 	unset -f _command_not_found_handle
+fi
+
+# Activate atuin
+if command -v atuin &>/dev/null; then
+	atuin_init="$(atuin init bash)"
+	eval "${atuin_init}"
+	unset atuin_init
 fi
