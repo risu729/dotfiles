@@ -1,6 +1,6 @@
 #!/usr/bin/env bun
 
-import { mkdtemp, rmdir } from "node:fs/promises";
+import { lstat, mkdtemp, rmdir, unlink } from "node:fs/promises";
 import { homedir, tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 
@@ -24,6 +24,9 @@ type DeepOptional<T> = {
 			? DeepOptional<T[P]>
 			: T[P] | undefined;
 };
+
+const isFileNotFoundError = (error: unknown): boolean =>
+	error instanceof Error && "code" in error && error.code === "ENOENT";
 
 /**
  * @returns {Promise<() => Promise<void>>} function to remove unnecessary granted scopes
@@ -194,7 +197,31 @@ const createGhrConfig = async (githubId: string): Promise<void> => {
 		throw new Error("Failed to get ghr home directory");
 	}
 	const ghrConfigPath = resolve(ghrHomeDir, "ghr.toml");
-	const ghrConfig = `defaults.owner = "${githubId}"`;
+	const ghrConfig = `defaults.owner = "${githubId}"\n`;
+
+	try {
+		const stats = await lstat(ghrConfigPath);
+		if (stats.isSymbolicLink()) {
+			let currentConfig = "";
+			try {
+				currentConfig = await Bun.file(ghrConfigPath).text();
+			} catch (error) {
+				if (!isFileNotFoundError(error)) {
+					throw error;
+				}
+			}
+
+			if (currentConfig.trim() === ghrConfig.trim()) {
+				return;
+			}
+			await unlink(ghrConfigPath);
+		}
+	} catch (error) {
+		if (!isFileNotFoundError(error)) {
+			throw error;
+		}
+	}
+
 	await write(ghrConfigPath, ghrConfig);
 };
 
