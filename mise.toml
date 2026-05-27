@@ -47,7 +47,11 @@ package_manager = "aube"
 auto = true
 sources = ["package.json", "aube-lock.yaml"]
 outputs = ["node_modules"]
-run = "aube install --frozen-lockfile"
+run = """
+if [ -f aube-lock.yaml ]; then
+  aube install --frozen-lockfile
+fi
+"""
 
 [deps.bun-worker]
 auto = true
