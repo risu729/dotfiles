@@ -1,4 +1,4 @@
-name: Test Installer on Linux
+name: CI
 
 on:
   push:
@@ -22,6 +22,42 @@ defaults:
     shell: bash
 
 jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    permissions:
+      contents: read # for checkout
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
+
+      - name: Install mise
+        uses: jdx/mise-action@1648a7812b9aeae629881980618f079932869151 # v4.0.1
+        with:
+          version: 2026.5.15
+          install_args: --locked
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+
+      - name: Cache lychee
+        if: ${{ github.event_name == 'schedule' }}
+        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
+        with:
+          path: .lycheecache
+          key: cache-lychee-${{ github.sha }}
+          restore-keys: cache-lychee-
+
+      - name: Run check
+        run: mise run check
+        env:
+          LINT: true
+          SCHEDULED_LINT: ${{ github.event_name == 'schedule' }}
+          GITHUB_TOKEN: ${{ github.token }}
+
   test-linux:
     name: Test Installer Scripts on WSL Ubuntu Image
     runs-on: ubuntu-24.04
@@ -67,10 +103,59 @@ jobs:
         if: ${{ always() }}
         run: docker compose --file compose.ci.yml down --volumes --remove-orphans
 
+  test-worker:
+    name: Cloudflare Workers Tests
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions:
+      contents: read # for checkout
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          sparse-checkout: |
+            mise.toml
+            mise.lock
+            tasks.toml
+            tasks/
+            worker/
+          persist-credentials: false
+
+      - name: Install mise
+        uses: jdx/mise-action@1648a7812b9aeae629881980618f079932869151 # v4.0.1
+        with:
+          version: 2026.5.15
+          install_args: --locked
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+
+      - name: Run tests
+        run: mise run worker:test
+        env:
+          CURRENT_BRANCH: ${{ case(github.event_name == 'pull_request', github.head_ref, github.ref_name) }}
+          GITHUB_TOKEN: ${{ github.token }}
+
+  ci-check:
+    name: CI Check
+    needs:
+      - lint
+      - test-linux
+      - test-worker
+    # ref: https://github.com/aquaproj/aqua-registry/pull/38449#issuecomment-3038859524
+    if: always()
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+
+    steps:
+      - name: Fail CI Check
+        if: contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled')
+        run: exit 1
+
   actions-timeline:
     name: Generate Actions Timeline
     needs:
-      - test-linux
+      - ci-check
     if: ${{ !cancelled() }}
 
     runs-on: ubuntu-24.04
