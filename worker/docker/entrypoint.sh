@@ -56,5 +56,7 @@ echo "==> Successfully sparse-cloned and checked out commit ${GIT_COMMIT_SHA}."
 sed --in-place '/^min_version/d' mise.toml
 echo "==> Removed min_version from mise.toml."
 
+# Worker preview should only install worker dependencies with Bun.
+export DOTFILES_SKIP_ROOT_AUBE_INSTALL=1
 # --host required to be accessible from other containers
 exec /bin/bash -c "mise run worker:preview --host"
