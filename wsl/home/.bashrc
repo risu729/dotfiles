@@ -95,6 +95,13 @@ if command -v yq &>/dev/null; then
 	eval "${yq_completion}"
 fi
 
+# Activate atuin
+if command -v atuin &>/dev/null; then
+	atuin_init="$(atuin init bash)"
+	eval "${atuin_init}"
+	unset atuin_init
+fi
+
 # Activate zoxide
 if command -v zoxide &>/dev/null; then
 	zoxide_init="$(zoxide init bash)"
