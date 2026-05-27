@@ -25,31 +25,31 @@ url = "https://github.com/rhysd/actionlint/releases/download/v1.7.12/actionlint_
 provenance = "github-attestations"
 
 [[tools.aube]]
-version = "1.9.1"
+version = "1.16.0"
 backend = "github:endevco/aube"
 
 [tools.aube."platforms.linux-x64"]
-checksum = "sha256:f921773be555e382ba4ed16ce5e38dbdb0dbb70861476b4235c2c4b3432d7f01"
-url = "https://github.com/endevco/aube/releases/download/v1.9.1/aube-v1.9.1-x86_64-unknown-linux-gnu.tar.gz"
-url_api = "https://api.github.com/repos/endevco/aube/releases/assets/413927617"
+checksum = "sha256:b1ce6830fc297dec707d33f928746ae235e79b0985e49a81f1cee6185822d6f5"
+url = "https://github.com/endevco/aube/releases/download/v1.16.0/aube-v1.16.0-x86_64-unknown-linux-gnu.tar.gz"
+url_api = "https://api.github.com/repos/endevco/aube/releases/assets/429767737"
 provenance = "github-attestations"
 
 [tools.aube."platforms.linux-x64-baseline"]
-checksum = "sha256:f921773be555e382ba4ed16ce5e38dbdb0dbb70861476b4235c2c4b3432d7f01"
-url = "https://github.com/endevco/aube/releases/download/v1.9.1/aube-v1.9.1-x86_64-unknown-linux-gnu.tar.gz"
-url_api = "https://api.github.com/repos/endevco/aube/releases/assets/413927617"
+checksum = "sha256:b1ce6830fc297dec707d33f928746ae235e79b0985e49a81f1cee6185822d6f5"
+url = "https://github.com/endevco/aube/releases/download/v1.16.0/aube-v1.16.0-x86_64-unknown-linux-gnu.tar.gz"
+url_api = "https://api.github.com/repos/endevco/aube/releases/assets/429767737"
 provenance = "github-attestations"
 
 [tools.aube."platforms.linux-x64-musl"]
-checksum = "sha256:354d60237715fb90ae9010759cc0942c0fdf6a2895b3b8d11133ebab6e6611c2"
-url = "https://github.com/endevco/aube/releases/download/v1.9.1/aube-v1.9.1-x86_64-unknown-linux-musl.tar.gz"
-url_api = "https://api.github.com/repos/endevco/aube/releases/assets/413927618"
+checksum = "sha256:4d191418785fdb3c0f1f3d726631fcf2121605e294a07352762e3b46d8028c79"
+url = "https://github.com/endevco/aube/releases/download/v1.16.0/aube-v1.16.0-x86_64-unknown-linux-musl.tar.gz"
+url_api = "https://api.github.com/repos/endevco/aube/releases/assets/429767359"
 provenance = "github-attestations"
 
 [tools.aube."platforms.linux-x64-musl-baseline"]
-checksum = "sha256:354d60237715fb90ae9010759cc0942c0fdf6a2895b3b8d11133ebab6e6611c2"
-url = "https://github.com/endevco/aube/releases/download/v1.9.1/aube-v1.9.1-x86_64-unknown-linux-musl.tar.gz"
-url_api = "https://api.github.com/repos/endevco/aube/releases/assets/413927618"
+checksum = "sha256:4d191418785fdb3c0f1f3d726631fcf2121605e294a07352762e3b46d8028c79"
+url = "https://github.com/endevco/aube/releases/download/v1.16.0/aube-v1.16.0-x86_64-unknown-linux-musl.tar.gz"
+url_api = "https://api.github.com/repos/endevco/aube/releases/assets/429767359"
 provenance = "github-attestations"
 
 [[tools.bitwarden]]
@@ -225,7 +225,7 @@ checksum = "sha256:9efc99332e1cf70eeb85618398467c9d339bc208be65115380c611dda4c28
 url = "https://unofficial-builds.nodejs.org/download/release/v26.2.0/node-v26.2.0-linux-x64-musl.tar.gz"
 
 [[tools."npm:@typescript/native-preview"]]
-version = "7.0.0-dev.20260521.1"
+version = "7.0.0-dev.20260524.1"
 backend = "npm:@typescript/native-preview"
 
 [[tools."npm:ignore-sync"]]
@@ -241,27 +241,27 @@ version = "1.62.0"
 backend = "npm:oxlint"
 
 [[tools.pinact]]
-version = "3.10.1"
+version = "4.0.0"
 backend = "aqua:suzuki-shunsuke/pinact"
 
 [tools.pinact."platforms.linux-x64"]
-checksum = "sha256:c5234ff3a636cda47719c73ca33a0183a5f441581455eda8a0726e5030942b69"
-url = "https://github.com/suzuki-shunsuke/pinact/releases/download/v3.10.1/pinact_linux_amd64.tar.gz"
+checksum = "sha256:cc220902615325b10bd3bc52ed3de27488f79adaec52adcd12bd2194c2d2c592"
+url = "https://github.com/suzuki-shunsuke/pinact/releases/download/v4.0.0/pinact_linux_amd64.tar.gz"
 provenance = "github-attestations"
 
 [tools.pinact."platforms.linux-x64-baseline"]
-checksum = "sha256:c5234ff3a636cda47719c73ca33a0183a5f441581455eda8a0726e5030942b69"
-url = "https://github.com/suzuki-shunsuke/pinact/releases/download/v3.10.1/pinact_linux_amd64.tar.gz"
+checksum = "sha256:cc220902615325b10bd3bc52ed3de27488f79adaec52adcd12bd2194c2d2c592"
+url = "https://github.com/suzuki-shunsuke/pinact/releases/download/v4.0.0/pinact_linux_amd64.tar.gz"
 provenance = "github-attestations"
 
 [tools.pinact."platforms.linux-x64-musl"]
-checksum = "sha256:c5234ff3a636cda47719c73ca33a0183a5f441581455eda8a0726e5030942b69"
-url = "https://github.com/suzuki-shunsuke/pinact/releases/download/v3.10.1/pinact_linux_amd64.tar.gz"
+checksum = "sha256:cc220902615325b10bd3bc52ed3de27488f79adaec52adcd12bd2194c2d2c592"
+url = "https://github.com/suzuki-shunsuke/pinact/releases/download/v4.0.0/pinact_linux_amd64.tar.gz"
 provenance = "github-attestations"
 
 [tools.pinact."platforms.linux-x64-musl-baseline"]
-checksum = "sha256:c5234ff3a636cda47719c73ca33a0183a5f441581455eda8a0726e5030942b69"
-url = "https://github.com/suzuki-shunsuke/pinact/releases/download/v3.10.1/pinact_linux_amd64.tar.gz"
+checksum = "sha256:cc220902615325b10bd3bc52ed3de27488f79adaec52adcd12bd2194c2d2c592"
+url = "https://github.com/suzuki-shunsuke/pinact/releases/download/v4.0.0/pinact_linux_amd64.tar.gz"
 provenance = "github-attestations"
 
 [[tools.powershell]]
@@ -285,27 +285,27 @@ checksum = "sha256:3981805857136556e32e496dd92c0cbd3d9571fb0d8ee203b97bd5d28419a
 url = "https://github.com/PowerShell/PowerShell/releases/download/v7.6.2/powershell-7.6.2-linux-musl-x64.tar.gz"
 
 [[tools.rumdl]]
-version = "0.2.0"
+version = "v0.2.2"
 backend = "aqua:rvben/rumdl"
 
 [tools.rumdl."platforms.linux-x64"]
-checksum = "sha256:00730abe083bf5164d02ce3387c5e95d6d9b12acf65412527ea18778c0725624"
-url = "https://github.com/rvben/rumdl/releases/download/v0.2.0/rumdl-v0.2.0-x86_64-unknown-linux-musl.tar.gz"
+checksum = "sha256:8bda8529b6970d967c3c0b363b3bed3a8c10b6d3723eaf7a74390dd92b6d6be1"
+url = "https://github.com/rvben/rumdl/releases/download/v0.2.2/rumdl-v0.2.2-x86_64-unknown-linux-musl.tar.gz"
 provenance = "github-attestations"
 
 [tools.rumdl."platforms.linux-x64-baseline"]
-checksum = "sha256:00730abe083bf5164d02ce3387c5e95d6d9b12acf65412527ea18778c0725624"
-url = "https://github.com/rvben/rumdl/releases/download/v0.2.0/rumdl-v0.2.0-x86_64-unknown-linux-musl.tar.gz"
+checksum = "sha256:8bda8529b6970d967c3c0b363b3bed3a8c10b6d3723eaf7a74390dd92b6d6be1"
+url = "https://github.com/rvben/rumdl/releases/download/v0.2.2/rumdl-v0.2.2-x86_64-unknown-linux-musl.tar.gz"
 provenance = "github-attestations"
 
 [tools.rumdl."platforms.linux-x64-musl"]
-checksum = "sha256:00730abe083bf5164d02ce3387c5e95d6d9b12acf65412527ea18778c0725624"
-url = "https://github.com/rvben/rumdl/releases/download/v0.2.0/rumdl-v0.2.0-x86_64-unknown-linux-musl.tar.gz"
+checksum = "sha256:8bda8529b6970d967c3c0b363b3bed3a8c10b6d3723eaf7a74390dd92b6d6be1"
+url = "https://github.com/rvben/rumdl/releases/download/v0.2.2/rumdl-v0.2.2-x86_64-unknown-linux-musl.tar.gz"
 provenance = "github-attestations"
 
 [tools.rumdl."platforms.linux-x64-musl-baseline"]
-checksum = "sha256:00730abe083bf5164d02ce3387c5e95d6d9b12acf65412527ea18778c0725624"
-url = "https://github.com/rvben/rumdl/releases/download/v0.2.0/rumdl-v0.2.0-x86_64-unknown-linux-musl.tar.gz"
+checksum = "sha256:8bda8529b6970d967c3c0b363b3bed3a8c10b6d3723eaf7a74390dd92b6d6be1"
+url = "https://github.com/rvben/rumdl/releases/download/v0.2.2/rumdl-v0.2.2-x86_64-unknown-linux-musl.tar.gz"
 provenance = "github-attestations"
 
 [[tools.shellcheck]]
@@ -349,24 +349,24 @@ checksum = "sha256:fb096c5d1ac6beabbdbaa2874d025badb03ee07929f0c9ff67563ce8c7539
 url = "https://github.com/mvdan/sh/releases/download/v3.13.1/shfmt_v3.13.1_linux_amd64"
 
 [[tools.tombi]]
-version = "0.11.7"
+version = "1.1.0"
 backend = "aqua:tombi-toml/tombi"
 
 [tools.tombi."platforms.linux-x64"]
-checksum = "sha256:a2a87ddf2aebc18c40f5b62f5954d62bfdf095b41b8acd22246c10ef6cc9e9cc"
-url = "https://github.com/tombi-toml/tombi/releases/download/v0.11.7/tombi-cli-0.11.7-x86_64-unknown-linux-musl.tar.gz"
+checksum = "sha256:cee1b8edf63d7d49a5b7ed626a84d0a7f7d8ea48f664212da3cad17afeb142aa"
+url = "https://github.com/tombi-toml/tombi/releases/download/v1.1.0/tombi-cli-1.1.0-x86_64-unknown-linux-musl.tar.gz"
 
 [tools.tombi."platforms.linux-x64-baseline"]
-checksum = "sha256:a2a87ddf2aebc18c40f5b62f5954d62bfdf095b41b8acd22246c10ef6cc9e9cc"
-url = "https://github.com/tombi-toml/tombi/releases/download/v0.11.7/tombi-cli-0.11.7-x86_64-unknown-linux-musl.tar.gz"
+checksum = "sha256:cee1b8edf63d7d49a5b7ed626a84d0a7f7d8ea48f664212da3cad17afeb142aa"
+url = "https://github.com/tombi-toml/tombi/releases/download/v1.1.0/tombi-cli-1.1.0-x86_64-unknown-linux-musl.tar.gz"
 
 [tools.tombi."platforms.linux-x64-musl"]
-checksum = "sha256:a2a87ddf2aebc18c40f5b62f5954d62bfdf095b41b8acd22246c10ef6cc9e9cc"
-url = "https://github.com/tombi-toml/tombi/releases/download/v0.11.7/tombi-cli-0.11.7-x86_64-unknown-linux-musl.tar.gz"
+checksum = "sha256:cee1b8edf63d7d49a5b7ed626a84d0a7f7d8ea48f664212da3cad17afeb142aa"
+url = "https://github.com/tombi-toml/tombi/releases/download/v1.1.0/tombi-cli-1.1.0-x86_64-unknown-linux-musl.tar.gz"
 
 [tools.tombi."platforms.linux-x64-musl-baseline"]
-checksum = "sha256:a2a87ddf2aebc18c40f5b62f5954d62bfdf095b41b8acd22246c10ef6cc9e9cc"
-url = "https://github.com/tombi-toml/tombi/releases/download/v0.11.7/tombi-cli-0.11.7-x86_64-unknown-linux-musl.tar.gz"
+checksum = "sha256:cee1b8edf63d7d49a5b7ed626a84d0a7f7d8ea48f664212da3cad17afeb142aa"
+url = "https://github.com/tombi-toml/tombi/releases/download/v1.1.0/tombi-cli-1.1.0-x86_64-unknown-linux-musl.tar.gz"
 
 [[tools.typos]]
 version = "1.46.3"
