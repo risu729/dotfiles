@@ -10,10 +10,13 @@ importers:
     devDependencies:
       '@risu729/tsconfigs':
         specifier: 3.0.0
-        version: 3.0.0
+        version: 3.0.0(typescript@6.0.3)
       '@types/bun':
         specifier: 1.3.14
         version: 1.3.14
+      typescript:
+        specifier: 6.0.3
+        version: 6.0.3
 
 packages:
 
@@ -40,7 +43,9 @@ packages:
 
 snapshots:
 
-  '@risu729/tsconfigs@3.0.0': {}
+  '@risu729/tsconfigs@3.0.0(typescript@6.0.3)':
+    dependencies:
+      typescript: 6.0.3
 
   '@types/bun@1.3.14':
     dependencies:
