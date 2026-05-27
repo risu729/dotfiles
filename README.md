@@ -8,6 +8,41 @@ These dotfiles are used to configure my environment, mainly Windows 11 and WSL2
 Since I use WSL2 as my main development environment, I only install GUI
 applications on Windows, such as browsers, IDEs, etc.
 
+## 🧭 Repository Structure
+
+This repository is organized around the two installer entry points:
+`win/install.ps1` for Windows and `wsl/install.sh` for WSL2.
+
+- `win/` contains the Windows setup script, `winget` package list, PowerToys
+  settings backup, and Windows application configuration files.
+
+- `wsl/` contains the WSL setup script and the files it installs into the WSL
+  environment.
+  - `wsl/home/` mirrors the target home directory. The installer links these
+    files into `$HOME`, except for Codex skills, which are copied because Codex
+    does not discover symlinked skill files.
+  - `wsl/etc/` mirrors root-owned system files. The installer links these files
+    into `/etc`.
+  - `wsl/setup-git.ts` performs interactive Git account setup after the base WSL
+    environment is ready.
+
+- `worker/` is a Cloudflare Worker for `dot.risunosu.com`. It redirects the root
+  route to this README and serves the `/win` and `/wsl` installer routes by
+  fetching the matching scripts from GitHub and injecting repository/ref
+  metadata.
+
+- `docker/` and `compose.ci.yml` define the Ubuntu WSL-like test environment
+  used by CI to exercise the WSL installer.
+
+- `.github/workflows/` contains linting, installer test, worker, autofix, and PR
+  maintenance workflows.
+
+- `github/` contains GitHub repository configuration, such as rulesets.
+
+- The root configuration files (`mise.toml`, `tasks.toml`, `hk.pkl`, and the
+  formatter/linter configs) define the development toolchain and checks for both
+  the root repository and the worker package.
+
 ## ⚙️ Installation
 
 ### 🪟 Windows 11
