@@ -97,7 +97,7 @@ fi
 
 # Activate zoxide
 if command -v zoxide &>/dev/null; then
-	zoxide_init="$(zoxide init bash)"
+	zoxide_init="$(zoxide init bash --cmd z)"
 	eval "${zoxide_init}"
 	unset zoxide_init
 fi
