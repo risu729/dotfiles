@@ -37,7 +37,8 @@ This repository is organized around the two installer entry points:
 - `.github/workflows/` contains linting, installer test, worker, autofix, and PR
   maintenance workflows.
 
-- `github/` contains GitHub repository configuration, such as rulesets.
+- `github/` contains GitHub repository configuration files managed outside
+  `.github/`, such as `rulesets.json`.
 
 - The root configuration files (`mise.toml`, `tasks.toml`, `hk.pkl`, and the
   formatter/linter configs) define the development toolchain and checks for both
