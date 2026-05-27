@@ -25,7 +25,10 @@ local const lintSteps = new Mapping<String, Step> {
     batch = false
     check = "actionlint -color {{ files }}"
   }
-  ["pinact"] = Builtins.pinact
+  ["pinact"] = (Builtins.pinact) {
+    check_diff = "pinact run --verify-comment --fix=false {{ files }}"
+    fix = "pinact run --verify-comment {{ files }}"
+  }
   ["ghalint"] = (Builtins.ghalint_workflow) {
     depends = "pinact"
   }
