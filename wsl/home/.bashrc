@@ -386,3 +386,10 @@ fi
 if declare -f _command_not_found_handle >/dev/null; then
 	unset -f _command_not_found_handle
 fi
+
+# Activate atuin
+if command -v atuin &>/dev/null; then
+	atuin_init="$(atuin init bash)"
+	eval "${atuin_init}"
+	unset atuin_init
+fi
