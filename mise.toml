@@ -43,11 +43,11 @@ experimental = true
 [settings.npm]
 package_manager = "aube"
 
-[deps.bun]
+[deps.aube]
 auto = true
-sources = ["package.json", "bun.lock"]
+sources = ["package.json", "aube-lock.yaml"]
 outputs = ["node_modules"]
-run = "bun install --frozen-lockfile"
+run = "aube install --frozen-lockfile"
 
 [deps.bun-worker]
 auto = true
