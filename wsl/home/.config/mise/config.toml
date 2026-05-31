@@ -66,7 +66,7 @@ glow = "latest"
 codex = "latest"
 "npm:ccusage" = "latest"
 claude = "latest"
-gemini-cli = { version = "latest", aube_args = "--allow-build=@github/keytar --allow-build=node-pty" }
+"npm:@google/gemini-cli" = { version = "0.43.0", aube_args = "--allow-build=@github/keytar --allow-build=node-pty" }
 copilot = "latest"
 
 # linter/formatter tools

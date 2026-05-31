@@ -384,13 +384,6 @@ url = "https://github.com/junegunn/fzf/releases/download/v0.73.1/fzf-0.73.1-linu
 checksum = "sha256:f3252c2c366bc1700d3c85781ec8c9695998927ac127870eb049ceea2d540f8a"
 url = "https://github.com/junegunn/fzf/releases/download/v0.73.1/fzf-0.73.1-linux_amd64.tar.gz"
 
-[[tools.gemini-cli]]
-version = "0.43.0"
-backend = "npm:@google/gemini-cli"
-
-[tools.gemini-cli.options]
-aube_args = "--allow-build=@github/keytar --allow-build=node-pty"
-
 [[tools.ghalint]]
 version = "1.5.6"
 backend = "aqua:suzuki-shunsuke/ghalint"
@@ -835,6 +828,13 @@ url = "https://registry.npmjs.org/npm/-/npm-11.15.0.tgz"
 
 [tools.npm."platforms.linux-x64-musl-baseline"]
 url = "https://registry.npmjs.org/npm/-/npm-11.15.0.tgz"
+
+[[tools."npm:@google/gemini-cli"]]
+version = "0.43.0"
+backend = "npm:@google/gemini-cli"
+
+[tools."npm:@google/gemini-cli".options]
+aube_args = "--allow-build=@github/keytar --allow-build=node-pty"
 
 [[tools."npm:ccusage"]]
 version = "20.0.5"
