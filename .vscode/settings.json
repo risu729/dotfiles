@@ -35,6 +35,7 @@
 	"files.readonlyInclude": {
 		// auto-generated
 		"**/.gitignore": true,
+		"**/aube-lock.yaml": true,
 		"**/bun.lock": true
 	},
 
