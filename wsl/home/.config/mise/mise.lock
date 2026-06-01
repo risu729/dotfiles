@@ -92,31 +92,13 @@ url = "https://github.com/atuinsh/atuin/releases/download/v18.16.1/atuin-x86_64-
 provenance = "github-attestations"
 
 [[tools.aube]]
-version = "1.16.0"
+version = "1.16.1"
 backend = "github:endevco/aube"
 
 [tools.aube."platforms.linux-x64"]
-checksum = "sha256:b1ce6830fc297dec707d33f928746ae235e79b0985e49a81f1cee6185822d6f5"
-url = "https://github.com/endevco/aube/releases/download/v1.16.0/aube-v1.16.0-x86_64-unknown-linux-gnu.tar.gz"
-url_api = "https://api.github.com/repos/endevco/aube/releases/assets/429767737"
-provenance = "github-attestations"
-
-[tools.aube."platforms.linux-x64-baseline"]
-checksum = "sha256:b1ce6830fc297dec707d33f928746ae235e79b0985e49a81f1cee6185822d6f5"
-url = "https://github.com/endevco/aube/releases/download/v1.16.0/aube-v1.16.0-x86_64-unknown-linux-gnu.tar.gz"
-url_api = "https://api.github.com/repos/endevco/aube/releases/assets/429767737"
-provenance = "github-attestations"
-
-[tools.aube."platforms.linux-x64-musl"]
-checksum = "sha256:4d191418785fdb3c0f1f3d726631fcf2121605e294a07352762e3b46d8028c79"
-url = "https://github.com/endevco/aube/releases/download/v1.16.0/aube-v1.16.0-x86_64-unknown-linux-musl.tar.gz"
-url_api = "https://api.github.com/repos/endevco/aube/releases/assets/429767359"
-provenance = "github-attestations"
-
-[tools.aube."platforms.linux-x64-musl-baseline"]
-checksum = "sha256:4d191418785fdb3c0f1f3d726631fcf2121605e294a07352762e3b46d8028c79"
-url = "https://github.com/endevco/aube/releases/download/v1.16.0/aube-v1.16.0-x86_64-unknown-linux-musl.tar.gz"
-url_api = "https://api.github.com/repos/endevco/aube/releases/assets/429767359"
+checksum = "sha256:3f3d183d6a9644391ffa3ac521c010c90cebc4fd6ab208aa9aa552c70986a357"
+url = "https://github.com/endevco/aube/releases/download/v1.16.1/aube-v1.16.1-x86_64-unknown-linux-gnu.tar.gz"
+url_api = "https://api.github.com/repos/endevco/aube/releases/assets/432797995"
 provenance = "github-attestations"
 
 [[tools.bat]]
@@ -389,7 +371,7 @@ version = "0.43.0"
 backend = "npm:@google/gemini-cli"
 
 [tools.gemini-cli.options]
-aube_args = "--allow-build=@github/keytar --allow-build=node-pty"
+allow_builds = '["@github/keytar", "node-pty"]'
 
 [[tools.ghalint]]
 version = "1.5.6"
