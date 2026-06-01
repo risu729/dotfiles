@@ -233,7 +233,7 @@ version = "8.0.0"
 backend = "npm:ignore-sync"
 
 [[tools.oxfmt]]
-version = "0.51.0"
+version = "0.52.0"
 backend = "npm:oxfmt"
 
 [[tools.oxlint]]
