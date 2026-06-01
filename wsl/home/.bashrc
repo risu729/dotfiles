@@ -389,7 +389,7 @@ fi
 
 # Activate atuin
 if command -v atuin &>/dev/null; then
-	atuin_init="$(atuin init bash)"
+	atuin_init="$(atuin init bash --disable-up-arrow)"
 	eval "${atuin_init}"
 	unset atuin_init
 fi
