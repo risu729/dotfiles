@@ -389,27 +389,27 @@ checksum = "sha256:6f8a935cea6c60b060082b862a7e777bfd92d939a4fd4194d8085b086dfe2
 url = "https://github.com/crate-ci/typos/releases/download/v1.47.0/typos-v1.47.0-x86_64-unknown-linux-musl.tar.gz"
 
 [[tools.uv]]
-version = "0.11.17"
+version = "0.11.18"
 backend = "aqua:astral-sh/uv"
 
 [tools.uv."platforms.linux-x64"]
-checksum = "sha256:4231a429d4e0f7c1937d8916658c08a7706cd7872afebeb87203a18c2e0dc28e"
-url = "https://github.com/astral-sh/uv/releases/download/0.11.17/uv-x86_64-unknown-linux-musl.tar.gz"
+checksum = "sha256:a095a969fc8357f42e35652e0554525a47a29010ddb814bd82650c2ffa7d6d62"
+url = "https://github.com/astral-sh/uv/releases/download/0.11.18/uv-x86_64-unknown-linux-musl.tar.gz"
 provenance = "github-attestations"
 
 [tools.uv."platforms.linux-x64-baseline"]
-checksum = "sha256:4231a429d4e0f7c1937d8916658c08a7706cd7872afebeb87203a18c2e0dc28e"
-url = "https://github.com/astral-sh/uv/releases/download/0.11.17/uv-x86_64-unknown-linux-musl.tar.gz"
+checksum = "sha256:a095a969fc8357f42e35652e0554525a47a29010ddb814bd82650c2ffa7d6d62"
+url = "https://github.com/astral-sh/uv/releases/download/0.11.18/uv-x86_64-unknown-linux-musl.tar.gz"
 provenance = "github-attestations"
 
 [tools.uv."platforms.linux-x64-musl"]
-checksum = "sha256:4231a429d4e0f7c1937d8916658c08a7706cd7872afebeb87203a18c2e0dc28e"
-url = "https://github.com/astral-sh/uv/releases/download/0.11.17/uv-x86_64-unknown-linux-musl.tar.gz"
+checksum = "sha256:a095a969fc8357f42e35652e0554525a47a29010ddb814bd82650c2ffa7d6d62"
+url = "https://github.com/astral-sh/uv/releases/download/0.11.18/uv-x86_64-unknown-linux-musl.tar.gz"
 provenance = "github-attestations"
 
 [tools.uv."platforms.linux-x64-musl-baseline"]
-checksum = "sha256:4231a429d4e0f7c1937d8916658c08a7706cd7872afebeb87203a18c2e0dc28e"
-url = "https://github.com/astral-sh/uv/releases/download/0.11.17/uv-x86_64-unknown-linux-musl.tar.gz"
+checksum = "sha256:a095a969fc8357f42e35652e0554525a47a29010ddb814bd82650c2ffa7d6d62"
+url = "https://github.com/astral-sh/uv/releases/download/0.11.18/uv-x86_64-unknown-linux-musl.tar.gz"
 provenance = "github-attestations"
 
 [[tools.yamlfmt]]
