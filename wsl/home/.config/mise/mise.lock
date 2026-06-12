@@ -92,31 +92,31 @@ url = "https://github.com/atuinsh/atuin/releases/download/v18.16.1/atuin-x86_64-
 provenance = "github-attestations"
 
 [[tools.aube]]
-version = "1.18.2"
+version = "1.19.0"
 backend = "github:endevco/aube"
 
 [tools.aube."platforms.linux-x64"]
-checksum = "sha256:2e0b27169c51c77498ccd470da1b59e4d34a4eba8c590fbdd4ba2cfe388a912d"
-url = "https://github.com/jdx/aube/releases/download/v1.18.2/aube-v1.18.2-x86_64-unknown-linux-gnu.tar.gz"
-url_api = "https://api.github.com/repos/jdx/aube/releases/assets/442312841"
+checksum = "sha256:2ed5bde0bad38d7b3c34195f7f51e5fd491843e1344f3ad35e386af201561fee"
+url = "https://github.com/jdx/aube/releases/download/v1.19.0/aube-v1.19.0-x86_64-unknown-linux-gnu.tar.gz"
+url_api = "https://api.github.com/repos/jdx/aube/releases/assets/445116084"
 provenance = "github-attestations"
 
 [tools.aube."platforms.linux-x64-baseline"]
-checksum = "sha256:2e0b27169c51c77498ccd470da1b59e4d34a4eba8c590fbdd4ba2cfe388a912d"
-url = "https://github.com/jdx/aube/releases/download/v1.18.2/aube-v1.18.2-x86_64-unknown-linux-gnu.tar.gz"
-url_api = "https://api.github.com/repos/jdx/aube/releases/assets/442312841"
+checksum = "sha256:2ed5bde0bad38d7b3c34195f7f51e5fd491843e1344f3ad35e386af201561fee"
+url = "https://github.com/jdx/aube/releases/download/v1.19.0/aube-v1.19.0-x86_64-unknown-linux-gnu.tar.gz"
+url_api = "https://api.github.com/repos/jdx/aube/releases/assets/445116084"
 provenance = "github-attestations"
 
 [tools.aube."platforms.linux-x64-musl"]
-checksum = "sha256:0a1e01d7cce84215b188494df38cd806f816557d573fb07f7644cc34aedab1cd"
-url = "https://github.com/jdx/aube/releases/download/v1.18.2/aube-v1.18.2-x86_64-unknown-linux-musl.tar.gz"
-url_api = "https://api.github.com/repos/jdx/aube/releases/assets/442314620"
+checksum = "sha256:f0e16a8d4e76feb21010257def908727cbc278d0361e7b3adfeb5d894e11767e"
+url = "https://github.com/jdx/aube/releases/download/v1.19.0/aube-v1.19.0-x86_64-unknown-linux-musl.tar.gz"
+url_api = "https://api.github.com/repos/jdx/aube/releases/assets/445114567"
 provenance = "github-attestations"
 
 [tools.aube."platforms.linux-x64-musl-baseline"]
-checksum = "sha256:0a1e01d7cce84215b188494df38cd806f816557d573fb07f7644cc34aedab1cd"
-url = "https://github.com/jdx/aube/releases/download/v1.18.2/aube-v1.18.2-x86_64-unknown-linux-musl.tar.gz"
-url_api = "https://api.github.com/repos/jdx/aube/releases/assets/442314620"
+checksum = "sha256:f0e16a8d4e76feb21010257def908727cbc278d0361e7b3adfeb5d894e11767e"
+url = "https://github.com/jdx/aube/releases/download/v1.19.0/aube-v1.19.0-x86_64-unknown-linux-musl.tar.gz"
+url_api = "https://api.github.com/repos/jdx/aube/releases/assets/445114567"
 provenance = "github-attestations"
 
 [[tools.bat]]
@@ -228,41 +228,41 @@ url = "https://github.com/cargo-bins/cargo-binstall/releases/download/v1.20.0/ca
 provenance = "github-attestations"
 
 [[tools.claude]]
-version = "2.1.173"
+version = "2.1.175"
 backend = "aqua:anthropics/claude-code"
 
 [tools.claude."platforms.linux-x64"]
-checksum = "blake3:c068393a1a94328e89de5a75e0e6d0c26d98a35ba20ba9a9fd0c0e7f9105e3a3"
-url = "https://storage.googleapis.com/claude-code-dist-86c565f3-f756-42ad-8dfa-d59b1c096819/claude-code-releases/2.1.173/linux-x64/claude"
+checksum = "blake3:6e7cd60bf231dda0b76f3c404872c2f9f9cb2e69bf196d98574a8fc4dfe79fbf"
+url = "https://storage.googleapis.com/claude-code-dist-86c565f3-f756-42ad-8dfa-d59b1c096819/claude-code-releases/2.1.175/linux-x64/claude"
 
 [tools.claude."platforms.linux-x64-baseline"]
-url = "https://storage.googleapis.com/claude-code-dist-86c565f3-f756-42ad-8dfa-d59b1c096819/claude-code-releases/2.1.173/linux-x64/claude"
+url = "https://storage.googleapis.com/claude-code-dist-86c565f3-f756-42ad-8dfa-d59b1c096819/claude-code-releases/2.1.175/linux-x64/claude"
 
 [tools.claude."platforms.linux-x64-musl"]
-url = "https://storage.googleapis.com/claude-code-dist-86c565f3-f756-42ad-8dfa-d59b1c096819/claude-code-releases/2.1.173/linux-x64-musl/claude"
+url = "https://storage.googleapis.com/claude-code-dist-86c565f3-f756-42ad-8dfa-d59b1c096819/claude-code-releases/2.1.175/linux-x64-musl/claude"
 
 [tools.claude."platforms.linux-x64-musl-baseline"]
-url = "https://storage.googleapis.com/claude-code-dist-86c565f3-f756-42ad-8dfa-d59b1c096819/claude-code-releases/2.1.173/linux-x64-musl/claude"
+url = "https://storage.googleapis.com/claude-code-dist-86c565f3-f756-42ad-8dfa-d59b1c096819/claude-code-releases/2.1.175/linux-x64-musl/claude"
 
 [[tools.codex]]
-version = "0.138.0"
+version = "0.139.0"
 backend = "aqua:openai/codex"
 
 [tools.codex."platforms.linux-x64"]
-checksum = "sha256:9ce1e5754e28daa7084fcbf3ffb805824c5d675826e7a399bfb9f808e3f107a2"
-url = "https://github.com/openai/codex/releases/download/rust-v0.138.0/codex-x86_64-unknown-linux-musl.zst"
+checksum = "sha256:f79ebac185b6dcc826401ef660516190a8db54c5c963f1717e40261a62be1c7c"
+url = "https://github.com/openai/codex/releases/download/rust-v0.139.0/codex-x86_64-unknown-linux-musl.zst"
 
 [tools.codex."platforms.linux-x64-baseline"]
-checksum = "sha256:9ce1e5754e28daa7084fcbf3ffb805824c5d675826e7a399bfb9f808e3f107a2"
-url = "https://github.com/openai/codex/releases/download/rust-v0.138.0/codex-x86_64-unknown-linux-musl.zst"
+checksum = "sha256:f79ebac185b6dcc826401ef660516190a8db54c5c963f1717e40261a62be1c7c"
+url = "https://github.com/openai/codex/releases/download/rust-v0.139.0/codex-x86_64-unknown-linux-musl.zst"
 
 [tools.codex."platforms.linux-x64-musl"]
-checksum = "sha256:9ce1e5754e28daa7084fcbf3ffb805824c5d675826e7a399bfb9f808e3f107a2"
-url = "https://github.com/openai/codex/releases/download/rust-v0.138.0/codex-x86_64-unknown-linux-musl.zst"
+checksum = "sha256:f79ebac185b6dcc826401ef660516190a8db54c5c963f1717e40261a62be1c7c"
+url = "https://github.com/openai/codex/releases/download/rust-v0.139.0/codex-x86_64-unknown-linux-musl.zst"
 
 [tools.codex."platforms.linux-x64-musl-baseline"]
-checksum = "sha256:9ce1e5754e28daa7084fcbf3ffb805824c5d675826e7a399bfb9f808e3f107a2"
-url = "https://github.com/openai/codex/releases/download/rust-v0.138.0/codex-x86_64-unknown-linux-musl.zst"
+checksum = "sha256:f79ebac185b6dcc826401ef660516190a8db54c5c963f1717e40261a62be1c7c"
+url = "https://github.com/openai/codex/releases/download/rust-v0.139.0/codex-x86_64-unknown-linux-musl.zst"
 
 [[tools.copilot]]
 version = "1.0.61"
@@ -599,11 +599,10 @@ url = "https://github.com/jdx/hk/releases/download/v1.47.0/hk-x86_64-unknown-lin
 version = "26.0.1"
 backend = "core:java"
 
-[tools.java."platforms.linux-x64"]
-checksum = "sha256:2f2802d57b5fc414f1ddf6648ba12cc9a6454cf67b32ac95407c018f2e6ab0b0"
-url = "https://download.java.net/java/GA/jdk26.0.1/458fda22e4c54d5ba572ab8d2b22eb83/8/GPL/openjdk-26.0.1_linux-x64_bin.tar.gz"
+[tools.java.options]
+shorthand_vendor = "openjdk"
 
-[tools.java."platforms.linux-x64-baseline"]
+[tools.java."platforms.linux-x64"]
 checksum = "sha256:2f2802d57b5fc414f1ddf6648ba12cc9a6454cf67b32ac95407c018f2e6ab0b0"
 url = "https://download.java.net/java/GA/jdk26.0.1/458fda22e4c54d5ba572ab8d2b22eb83/8/GPL/openjdk-26.0.1_linux-x64_bin.tar.gz"
 
@@ -968,7 +967,7 @@ version = "3.14.6"
 backend = "core:python"
 
 [tools.python."platforms.linux-x64"]
-checksum = "blake3:057134326c6a3f7d292a939d6992f58b530dc1a13b63ddbb948175ac58869987"
+checksum = "sha256:0881fbde2c78605720fb2e240d1a6df38652a896e40a5fce2e10908dbee5f5b7"
 url = "https://github.com/astral-sh/python-build-standalone/releases/download/20260610/cpython-3.14.6+20260610-x86_64-unknown-linux-gnu-install_only_stripped.tar.gz"
 provenance = "github-attestations"
 
@@ -1148,24 +1147,24 @@ checksum = "sha256:a6044cbad2a954deb921167e257e120ac0a16b20339ec01121194ff9d3949
 url = "https://github.com/typst/typst/releases/download/v0.14.2/typst-x86_64-unknown-linux-musl.tar.xz"
 
 [[tools.usage]]
-version = "3.4.0"
+version = "3.5.0"
 backend = "aqua:jdx/usage"
 
 [tools.usage."platforms.linux-x64"]
-checksum = "sha256:1a54260df50f1764bc8cbabf8763f2a6314c5025d3b06b512d02898eb28768b3"
-url = "https://github.com/jdx/usage/releases/download/v3.4.0/usage-x86_64-unknown-linux-musl.tar.gz"
+checksum = "sha256:d686d7acff1fc5ffd04be2fefccd342564648d353609fab81e22a3672446c4f0"
+url = "https://github.com/jdx/usage/releases/download/v3.5.0/usage-x86_64-unknown-linux-musl.tar.gz"
 
 [tools.usage."platforms.linux-x64-baseline"]
-checksum = "sha256:1a54260df50f1764bc8cbabf8763f2a6314c5025d3b06b512d02898eb28768b3"
-url = "https://github.com/jdx/usage/releases/download/v3.4.0/usage-x86_64-unknown-linux-musl.tar.gz"
+checksum = "sha256:d686d7acff1fc5ffd04be2fefccd342564648d353609fab81e22a3672446c4f0"
+url = "https://github.com/jdx/usage/releases/download/v3.5.0/usage-x86_64-unknown-linux-musl.tar.gz"
 
 [tools.usage."platforms.linux-x64-musl"]
-checksum = "sha256:1a54260df50f1764bc8cbabf8763f2a6314c5025d3b06b512d02898eb28768b3"
-url = "https://github.com/jdx/usage/releases/download/v3.4.0/usage-x86_64-unknown-linux-musl.tar.gz"
+checksum = "sha256:d686d7acff1fc5ffd04be2fefccd342564648d353609fab81e22a3672446c4f0"
+url = "https://github.com/jdx/usage/releases/download/v3.5.0/usage-x86_64-unknown-linux-musl.tar.gz"
 
 [tools.usage."platforms.linux-x64-musl-baseline"]
-checksum = "sha256:1a54260df50f1764bc8cbabf8763f2a6314c5025d3b06b512d02898eb28768b3"
-url = "https://github.com/jdx/usage/releases/download/v3.4.0/usage-x86_64-unknown-linux-musl.tar.gz"
+checksum = "sha256:d686d7acff1fc5ffd04be2fefccd342564648d353609fab81e22a3672446c4f0"
+url = "https://github.com/jdx/usage/releases/download/v3.5.0/usage-x86_64-unknown-linux-musl.tar.gz"
 
 [[tools.uv]]
 version = "0.11.20"
