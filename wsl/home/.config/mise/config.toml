@@ -98,8 +98,8 @@ pipx = "latest"
 sccache = "latest"
 
 [settings]
-pin = true
 experimental = true
+minimum_release_age = "3h"
 
 [settings.npm]
 package_manager = "aube"
