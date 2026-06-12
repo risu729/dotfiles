@@ -30,8 +30,8 @@ backend = "github:endevco/aube"
 
 [tools.aube."platforms.linux-x64"]
 checksum = "sha256:20b158c2439087267c95451dcc5feba13cfd1045b7a108e41a85c779bebbe1da"
-url = "https://github.com/endevco/aube/releases/download/v1.18.0/aube-v1.18.0-x86_64-unknown-linux-gnu.tar.gz"
-url_api = "https://api.github.com/repos/endevco/aube/releases/assets/438526121"
+url = "https://github.com/jdx/aube/releases/download/v1.18.0/aube-v1.18.0-x86_64-unknown-linux-gnu.tar.gz"
+url_api = "https://api.github.com/repos/jdx/aube/releases/assets/438526121"
 provenance = "github-attestations"
 
 [tools.aube."platforms.linux-x64-baseline"]
