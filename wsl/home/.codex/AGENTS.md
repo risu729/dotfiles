@@ -101,6 +101,12 @@ When settling a PR:
 
 - Use `mise` for temporary tool execution whenever possible.
   - Prefer: `mise x <tool> -- <bin> ...`
+  - If a required binary is not found on PATH, try running it through `mise x`
+    before considering installation or environment workarounds.
+  - If `mise run` or `mise x` is blocked because a repository `mise.toml` is not
+    trusted, run `mise trust` for that repository when the task requires the
+    repo's configured tool environment. This is allowed in normal repository
+    work; do not use blanket trust commands for unrelated directories.
   - Do not install tools into `/tmp` or ad-hoc locations unless `mise` cannot
     provide the tool.
 - Avoid global or system-level installs unless explicitly requested.
@@ -110,6 +116,10 @@ When settling a PR:
 ## Cargo and Local Machine Safety
 
 - Cargo execution may be wrapped to restrict parallel builds across sessions.
+- If `cargo check` cannot run because `cargo` or another required tool is not
+  available, use `mise x cargo -- cargo check`.
+- Do not clear or override wrappers such as `RUSTC_WRAPPER` to work around local
+  tool resolution; let `mise x` provide the configured tool environment.
 - Use `cargo` normally and let the wrapper enforce concurrency limits.
 - If Cargo is waiting on another build, lock, or wrapper-controlled slot, wait.
 - Do not bypass the Cargo wrapper.
