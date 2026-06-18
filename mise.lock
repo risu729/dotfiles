@@ -165,24 +165,24 @@ checksum = "sha256:bde5bcaab4035488520ab977f23bfe0b1b639152c6ed7200c9592724e2afe
 url = "https://github.com/jdx/hk/releases/download/v1.48.0/hk-x86_64-unknown-linux-musl.tar.gz"
 
 [[tools.jc]]
-version = "1.25.6"
+version = "1.25.7"
 backend = "aqua:kellyjonbrazil/jc"
 
 [tools.jc."platforms.linux-x64"]
-checksum = "sha256:cb7c58187cfde4dfcd2bf4368e5cb8b969b98cb7eeacfe46f6eb9e336c90ad40"
-url = "https://github.com/kellyjonbrazil/jc/releases/download/v1.25.6/jc-1.25.6-linux-x86_64.tar.gz"
+checksum = "sha256:e7b4bd9eca4164276b99b39cc56e2dbc9536ad7b997f80a70ea9b7778f5fded4"
+url = "https://github.com/kellyjonbrazil/jc/releases/download/v1.25.7/jc-1.25.7-linux-x86_64.tar.gz"
 
 [tools.jc."platforms.linux-x64-baseline"]
-checksum = "sha256:cb7c58187cfde4dfcd2bf4368e5cb8b969b98cb7eeacfe46f6eb9e336c90ad40"
-url = "https://github.com/kellyjonbrazil/jc/releases/download/v1.25.6/jc-1.25.6-linux-x86_64.tar.gz"
+checksum = "sha256:e7b4bd9eca4164276b99b39cc56e2dbc9536ad7b997f80a70ea9b7778f5fded4"
+url = "https://github.com/kellyjonbrazil/jc/releases/download/v1.25.7/jc-1.25.7-linux-x86_64.tar.gz"
 
 [tools.jc."platforms.linux-x64-musl"]
-checksum = "sha256:cb7c58187cfde4dfcd2bf4368e5cb8b969b98cb7eeacfe46f6eb9e336c90ad40"
-url = "https://github.com/kellyjonbrazil/jc/releases/download/v1.25.6/jc-1.25.6-linux-x86_64.tar.gz"
+checksum = "sha256:e7b4bd9eca4164276b99b39cc56e2dbc9536ad7b997f80a70ea9b7778f5fded4"
+url = "https://github.com/kellyjonbrazil/jc/releases/download/v1.25.7/jc-1.25.7-linux-x86_64.tar.gz"
 
 [tools.jc."platforms.linux-x64-musl-baseline"]
-checksum = "sha256:cb7c58187cfde4dfcd2bf4368e5cb8b969b98cb7eeacfe46f6eb9e336c90ad40"
-url = "https://github.com/kellyjonbrazil/jc/releases/download/v1.25.6/jc-1.25.6-linux-x86_64.tar.gz"
+checksum = "sha256:e7b4bd9eca4164276b99b39cc56e2dbc9536ad7b997f80a70ea9b7778f5fded4"
+url = "https://github.com/kellyjonbrazil/jc/releases/download/v1.25.7/jc-1.25.7-linux-x86_64.tar.gz"
 
 [[tools.lychee]]
 version = "0.24.2"
