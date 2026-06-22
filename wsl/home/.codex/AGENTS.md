@@ -115,19 +115,10 @@ When settling a PR:
 
 ## Cargo and Local Machine Safety
 
-- Cargo execution may be wrapped to restrict parallel builds across sessions.
 - If `cargo check` cannot run because `cargo` or another required tool is not
   available, use `mise x cargo -- cargo check`.
 - Do not clear or override wrappers such as `RUSTC_WRAPPER` to work around local
   tool resolution; let `mise x` provide the configured tool environment.
-- Use `cargo` normally and let the wrapper enforce concurrency limits.
-- If Cargo is waiting on another build, lock, or wrapper-controlled slot, wait.
-- Do not bypass the Cargo wrapper.
-- Do not remove Cargo locks or wrapper locks.
-- Do not change build directories to work around waiting.
-- Do not launch competing builds to work around waiting.
-- Do not attempt Cargo concurrency workarounds unless explicitly instructed;
-  doing so may overload or crash the laptop.
 
 ## General Behavior
 
