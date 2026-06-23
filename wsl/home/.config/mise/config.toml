@@ -21,6 +21,7 @@ gradle = "latest"
 rust = "latest"
 python = "latest"
 go = "latest"
+pkl = "latest"
 
 # mise requirements
 cargo-binstall = "latest"
