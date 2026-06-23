@@ -429,6 +429,14 @@ backend = "aqua:jdx/pitchfork"
 checksum = "sha256:eb43337f5710876a84b14d41225f443da30a50a9b54b14ed63668da9bb02e6d3"
 url = "https://github.com/jdx/pitchfork/releases/download/v2.14.0/pitchfork-x86_64-unknown-linux-gnu.tar.gz"
 
+[[tools.pkl]]
+version = "0.31.1"
+backend = "aqua:apple/pkl"
+
+[tools.pkl."platforms.linux-x64"]
+checksum = "sha256:618f13955d755cafbfe8c9cba1d27635848cd49dbc6abffd398d2751db1231bf"
+url = "https://github.com/apple/pkl/releases/download/0.31.1/pkl-linux-amd64"
+
 [[tools.pnpm]]
 version = "11.8.0"
 backend = "aqua:pnpm/pnpm"
