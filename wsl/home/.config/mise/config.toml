@@ -67,7 +67,6 @@ glow = "latest"
 codex = "latest"
 "npm:ccusage" = "latest"
 claude = "latest"
-gemini-cli = "latest"
 copilot = "latest"
 
 # linter/formatter tools
