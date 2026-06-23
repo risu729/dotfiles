@@ -155,194 +155,27 @@ current_account_name() {
 	esac
 }
 
-format_reset_at() {
-	local reset_at=${1:-}
-
-	if [[ -z ${reset_at} || ${reset_at} == "null" ]]; then
-		printf 'unknown'
-		return 0
-	fi
-
-	if [[ ${reset_at} =~ ^[0-9]+$ ]]; then
-		date -d "@${reset_at}" '+%Y-%m-%d %H:%M %Z' 2>/dev/null || printf '%s' "${reset_at}"
-		return 0
-	fi
-
-	date -d "${reset_at}" '+%Y-%m-%d %H:%M %Z' 2>/dev/null || printf '%s' "${reset_at}"
-}
-
-window_json() {
-	local usage_json=$1
-	local target_seconds=$2
-	local fallback_name=$3
-
-	# shellcheck disable=SC2016
-	jq -c --argjson target_seconds "${target_seconds}" --arg fallback_name "${fallback_name}" '
-		def windows:
-			[
-				.rate_limit.primary_window?,
-				.rate_limit.secondary_window?,
-				.rate_limit.primary?,
-				.rate_limit.secondary?,
-				.rate_limits.primary_window?,
-				.rate_limits.secondary_window?,
-				.rate_limits.primary?,
-				.rate_limits.secondary?
-			]
-			| map(select(type == "object"));
-		def window_seconds:
-			(
-				.limit_window_seconds
-				// .window_seconds
-				// ((.window_minutes // .windowDurationMins) | numbers * 60)
-				// 0
-			)
-			| tonumber;
-
-		(
-			windows
-			| map(select(window_seconds == $target_seconds))
-			| first
-		) // (
-			if $fallback_name == "primary" then
-				.rate_limit.primary_window? // .rate_limit.primary? // .rate_limits.primary_window? // .rate_limits.primary?
-			else
-				.rate_limit.secondary_window? // .rate_limit.secondary? // .rate_limits.secondary_window? // .rate_limits.secondary?
-			end
-		) // empty
-	' <<<"${usage_json}"
-}
-
-window_summary() {
-	local label=$1
-	local usage_json=$2
-	local target_seconds=$3
-	local fallback_name=$4
-	local raw_window
-	local used_percent
-	local reset_at
-	local reset_text
-	local window_values=()
-
-	raw_window=$(window_json "${usage_json}" "${target_seconds}" "${fallback_name}")
-	if [[ -z ${raw_window} ]]; then
-		printf '%s: unknown' "${label}"
-		return 0
-	fi
-
-	mapfile -t window_values < <(
-		jq -r '
-			def raw_percent:
-				.used_percent // .usedPercent // .usage_percent // .usagePercent // .percent_used // .percentUsed // null;
-			def percent:
-				if raw_percent == null then
-					""
-				else
-					raw_percent
-					| tonumber
-					| if . <= 1 then . * 100 else . end
-					| round
-					| tostring
-				end;
-			def reset:
-				.reset_at
-				// .resets_at
-				// .resetAt
-				// .resetsAt
-				// (
-					if (.reset_after_seconds // .resetAfterSeconds) then
-						(now + ((.reset_after_seconds // .resetAfterSeconds) | tonumber) | floor)
-					else
-						""
-					end
-				);
-			percent, reset
-		' <<<"${raw_window}" 2>/dev/null || true
-	)
-	used_percent=${window_values[0]:-}
-	reset_at=${window_values[1]:-}
-	reset_text=$(format_reset_at "${reset_at}")
-
-	if [[ -z ${used_percent} ]]; then
-		printf '%s: unknown, resets %s' "${label}" "${reset_text}"
-	else
-		printf '%s: %s%% used, resets %s' "${label}" "${used_percent}" "${reset_text}"
-	fi
-}
-
-rate_limit_summary() {
-	local source=$1
-	local token
-	local usage_json
-	local five_hour
-	local weekly
-
-	# shellcheck disable=SC2310
-	token=$(auth_access_token "${source}" || true)
-	if [[ -z ${token} ]]; then
-		printf 'rate limits unavailable: access token missing'
-		return 0
-	fi
-
-	# shellcheck disable=SC2310
-	if ! usage_json=$(chatgpt_backend_api "${token}" "/backend-api/wham/usage"); then
-		printf 'rate limits unavailable'
-		return 0
-	fi
-
-	five_hour=$(window_summary "5h" "${usage_json}" 18000 primary)
-	weekly=$(window_summary "week" "${usage_json}" 604800 secondary)
-	printf '%s | %s' "${five_hour}" "${weekly}"
-}
-
 account_rows() {
 	local current_name
 	local account_name
-	local index
-	local row_file
-	local rows_dir
-	local status=0
-	local pids=()
+	local email
+	local marker
+	local source
 
 	current_name=$(current_account_name)
-	rows_dir=$(mktemp -d "${TMPDIR:-/tmp}/codex-account.XXXXXX")
-	# shellcheck disable=SC2312
 	while IFS= read -r account_name; do
 		[[ -n ${account_name} ]] || continue
 
-		index=$(printf '%04d' "$((${#pids[@]} + 1))")
-		row_file="${rows_dir}/${index}.row"
+		marker=' '
+		if [[ ${account_name} == "${current_name}" ]]; then
+			marker='*'
+		fi
 
-		(
-			local email
-			local limits
-			local marker
-			local source
-
-			marker=' '
-			if [[ ${account_name} == "${current_name}" ]]; then
-				marker='*'
-			fi
-
-			source=$(account_file_path "${account_name}")
-			# shellcheck disable=SC2310
-			email=$(auth_email "${source}" 2>/dev/null || printf 'unknown')
-			limits=$(rate_limit_summary "${source}")
-			printf '%s\t%s\t%s\t%s\n' "${marker}" "${account_name}" "${email}" "${limits}"
-		) >"${row_file}" &
-		pids+=("$!")
+		source=$(account_file_path "${account_name}")
+		# shellcheck disable=SC2310
+		email=$(auth_email "${source}" 2>/dev/null || printf 'unknown')
+		printf '%s\t%s\t%s\n' "${marker}" "${account_name}" "${email}"
 	done < <(list_account_names)
-
-	for pid in "${pids[@]}"; do
-		wait "${pid}" || status=1
-	done
-
-	for row_file in "${rows_dir}"/*.row; do
-		[[ -f ${row_file} ]] || continue
-		cat -- "${row_file}"
-	done
-	rm -rf -- "${rows_dir}"
-	return "${status}"
 }
 
 print_accounts() {
@@ -356,7 +189,7 @@ print_accounts() {
 	fi
 
 	rows=$({
-		printf ' \tACCOUNT\tEMAIL\tLIMITS\n'
+		printf ' \tACCOUNT\tEMAIL\n'
 		account_rows
 	})
 	if command -v column >/dev/null 2>&1; then
@@ -381,7 +214,7 @@ select_account_name() {
 
 	if command -v fzf >/dev/null 2>&1; then
 		rows=$(account_rows)
-		selected=$(fzf --prompt='codex account> ' --height=80% --reverse --delimiter=$'\t' --with-nth=1,2,3,4 <<<"${rows}") || exit 130
+		selected=$(fzf --prompt='codex account> ' --height=80% --reverse --delimiter=$'\t' --with-nth=1,2,3 <<<"${rows}") || exit 130
 		cut -f2 <<<"${selected}"
 		return 0
 	fi
