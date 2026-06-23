@@ -7,8 +7,7 @@
 		"bluebrown.yamlfmt",
 		"github.vscode-github-actions",
 		"mrmlnc.vscode-json5",
-		// cspell:ignore tamasfe
-		"tamasfe.even-better-toml",
+		"tombi-toml.tombi",
 		"mkhl.shfmt",
 		"timonwong.shellcheck",
 		"vitest.explorer",
