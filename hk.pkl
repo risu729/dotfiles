@@ -145,13 +145,6 @@ local const lintSteps = new Mapping<String, Step | Group> {
   ["typos"] = (Builtins.typos) {
     batch = true
   }
-  ["ignore-sync"] {
-    glob = List(".gitignore-sync", "worker/.gitignore-sync")
-    check = "ignore-sync . && ignore-sync worker && git diff --exit-code -- .gitignore worker/.gitignore"
-    fix = "ignore-sync . && ignore-sync worker"
-    stage = List(".gitignore", "worker/.gitignore")
-    exclusive = true
-  }
   ["tsc:root"] = tsgo.root()
   ["worker"] = worker
 }

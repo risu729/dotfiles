@@ -26,7 +26,7 @@ provenance = "github-attestations"
 
 [[tools.aube]]
 version = "1.23.0"
-backend = "github:endevco/aube"
+backend = "aqua:jdx/aube"
 
 [tools.aube."platforms.linux-x64"]
 checksum = "sha256:6d20fa6f57ca29f44f3efd1bf8a6618db9ee7386be51f5e78a513ca815af8d0a"
@@ -227,10 +227,6 @@ url = "https://unofficial-builds.nodejs.org/download/release/v26.3.1/node-v26.3.
 [[tools."npm:@typescript/native-preview"]]
 version = "7.0.0-dev.20260601.1"
 backend = "npm:@typescript/native-preview"
-
-[[tools."npm:ignore-sync"]]
-version = "8.0.0"
-backend = "npm:ignore-sync"
 
 [[tools.oxfmt]]
 version = "0.52.0"

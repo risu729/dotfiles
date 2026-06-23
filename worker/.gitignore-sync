@@ -1,7 +1,0 @@
-# ref: https://github.com/foray1010/ignore-sync?tab=readme-ov-file#how-to-use
-
-[honojs/starter]
-templates/cloudflare-workers/.gitignore
-
-[inline]
-src/worker-configuration.d.ts
