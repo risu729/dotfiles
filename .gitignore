@@ -5,6 +5,8 @@
 # github/gitignore Global/VisualStudioCode.gitignore
 # inline: .lycheecache
 
+# oven-sh/bun src/cli/init/gitignore.default
+
 # dependencies (bun install)
 node_modules
 
@@ -40,7 +42,10 @@ report.[0-9]_.[0-9]_.[0-9]_.[0-9]_.json
 # Finder (MacOS) folder config
 .DS_Store
 
+# inline: .lycheecache
 .lycheecache
+
+# github/gitignore Global/Windows.gitignore
 
 # Windows thumbnail cache files
 Thumbs.db
@@ -67,13 +72,16 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
+# github/gitignore Global/macOS.gitignore
+
 # General
 .DS_Store
 .localized
 __MACOSX/
 .AppleDouble
 .LSOverride
-Icon[]
+Icon[
+]
 
 # Resource forks
 ._*
@@ -94,7 +102,8 @@ Icon[]
 .file
 .disk_label*
 lost+found
-.HFS+ Private Directory Data[]
+.HFS+ Private Directory Data[
+]
 
 # Directories potentially created on remote AFP share
 .AppleDB
@@ -125,6 +134,8 @@ Backups.backupdb
 MobileBackups.trash
 tmbootpicker.efi
 
+# github/gitignore Global/Linux.gitignore
+
 *~
 
 # temporary files which can be created if a process still has a handle open of a deleted file
@@ -141,6 +152,8 @@ tmbootpicker.efi
 
 # Log files created by default by the nohup command
 nohup.out
+
+# github/gitignore Global/VisualStudioCode.gitignore
 
 # Visual Studio Code
 .vscode/*

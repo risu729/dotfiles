@@ -213,17 +213,16 @@ create_home_symlinks() {
 		local target_name
 		local full_path
 		full_path=$(realpath "${path}")
-
-		if [[ ${full_path} == */.config/git/.gitignore ]]; then
-			target_name=".config/git/ignore"
-		else
-			target_name="$(realpath --relative-to="${wsl_home_config_dir}" "${full_path}")"
-		fi
+		target_name="$(realpath --relative-to="${wsl_home_config_dir}" "${full_path}")"
 		local target_path="${HOME}/${target_name}"
 
 		mkdir --parents "$(dirname "${target_path}")"
 		if [[ ${target_name} == .agents/skills/* ]]; then
 			# Codex skips symlinked skill files during skill discovery.
+			cp --preserve=mode --remove-destination "${full_path}" "${target_path}"
+			# shellcheck disable=SC2088 # intentionally print ~ instead of $HOME
+			log_info "Installed file: ~/${target_name}"
+		elif [[ ${target_name} == .config/git/ignore ]]; then
 			cp --preserve=mode --remove-destination "${full_path}" "${target_path}"
 			# shellcheck disable=SC2088 # intentionally print ~ instead of $HOME
 			log_info "Installed file: ~/${target_name}"
