@@ -222,10 +222,6 @@ create_home_symlinks() {
 			cp --preserve=mode --remove-destination "${full_path}" "${target_path}"
 			# shellcheck disable=SC2088 # intentionally print ~ instead of $HOME
 			log_info "Installed file: ~/${target_name}"
-		elif [[ ${target_name} == .config/git/ignore ]]; then
-			cp --preserve=mode --remove-destination "${full_path}" "${target_path}"
-			# shellcheck disable=SC2088 # intentionally print ~ instead of $HOME
-			log_info "Installed file: ~/${target_name}"
 		else
 			ln --symbolic --no-dereference --force "${full_path}" "${target_path}"
 			# shellcheck disable=SC2088 # intentionally print ~ instead of $HOME
