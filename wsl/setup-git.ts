@@ -4,7 +4,7 @@ import { mkdtemp, rmdir } from "node:fs/promises";
 import { homedir, tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 
-import { $, env, spawn, write } from "bun";
+import { $, env, spawn } from "bun";
 
 /* oxlint-disable eslint/complexity eslint/max-depth eslint/max-lines-per-function eslint/max-statements eslint/max-params eslint/no-await-in-loop */
 
@@ -94,12 +94,6 @@ const ensureGitHubTokenScopes = async (): Promise<() => Promise<void>> => {
 			// Required to list, add, and delete GPG keys
 			scope: "admin:gpg_key",
 		},
-		{
-			generalScope: "user",
-			removeAfterUse: true,
-			// Required to get user email
-			scope: "user:email",
-		},
 	];
 
 	const removeScopes = async (): Promise<void> => {
@@ -165,37 +159,19 @@ const ghApi = async <ReturnType>(
 		.env(envWithoutGitHubToken)
 		.json();
 
-// GitHub CLI does not support setting user.name and user.email automatically
-// Ref: https://github.com/cli/cli/issues/6096
-const setGitUserConfig = async (): Promise<{
+const getGitIdentity = async (): Promise<{
 	githubId: string;
 	email: string;
 }> => {
-	// User scope is not required to get name and email
-	const { name, login } = await ghApi<{
-		name: string | null;
-		login: string;
-	}>("/user");
-	await $`git config --file ${localGitConfigPath} user.name ${name ?? login}`.quiet();
-
-	const noReplyEmail = await ghApi<{ email: string }[]>("/user/emails").then((emails) =>
-		emails.map(({ email }) => email).find((email) => email.endsWith("@users.noreply.github.com")),
-	);
-	if (!noReplyEmail) {
-		throw new Error("Failed to get GitHub-provided no-reply email");
+	const email = (await $`git config user.email`.text()).trim();
+	if (!email) {
+		throw new Error("user.email is not set in git config");
 	}
-	await $`git config --file ${localGitConfigPath} user.email ${noReplyEmail}`.quiet();
-	return { email: noReplyEmail, githubId: login };
-};
-
-const createGhrConfig = async (githubId: string): Promise<void> => {
-	const ghrHomeDir = (await $`ghr path`.text()).trim();
-	if (!ghrHomeDir) {
-		throw new Error("Failed to get ghr home directory");
+	const githubId = email.match(/^[^+]*\+([^@]+)@users\.noreply\.github\.com$/)?.[1];
+	if (!githubId) {
+		throw new Error(`Could not parse GitHub login from user.email: ${email}`);
 	}
-	const ghrConfigPath = resolve(ghrHomeDir, "ghr.toml");
-	const ghrConfig = `defaults.owner = "${githubId}"`;
-	await write(ghrConfigPath, ghrConfig);
+	return { email, githubId };
 };
 
 // Ref: https://github.com/gpg/gnupg/blob/master/doc/DETAILS#format-of-the-colon-listings
@@ -1225,8 +1201,7 @@ const main = async (): Promise<void> => {
 	const removeScopes = await ensureGitHubTokenScopes();
 
 	try {
-		const { githubId, email } = await setGitUserConfig();
-		await createGhrConfig(githubId);
+		const { githubId, email } = await getGitIdentity();
 		await configureGitSign(githubId, email);
 	} finally {
 		await removeScopes();

@@ -1,6 +1,10 @@
 [init]
 	defaultBranch = main
 
+[user]
+	name = Taku Kodma
+	email = 79110363+risu729@users.noreply.github.com
+
 [fetch]
 	prune = true
 
