@@ -1,5 +1,0 @@
-# ref: https://bun.sh/docs/runtime/bunfig
-
-[install]
-exact = true
-auto = "disable"
