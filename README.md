@@ -24,8 +24,8 @@ This repository is organized around the two installer entry points:
   - `wsl/etc/` mirrors root-owned system files. The installer links these files
     into `/etc`.
   - `wsl/setup-git.ts` performs interactive GitHub auth and GPG signing setup
-    after the base WSL environment is ready. Git identity and `ghr` defaults live
-    in `wsl/home/.gitconfig` and `wsl/home/.ghr/ghr.toml`.
+    after the base WSL environment is ready. Git identity and `ghr` defaults
+    live in `wsl/home/.gitconfig` and `wsl/home/.ghr/ghr.toml`.
 
 - `worker/` is a Cloudflare Worker for `dot.risunosu.com`. It redirects the root
   route to this README and serves the `/win` and `/wsl` installer routes by
