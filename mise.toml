@@ -6,9 +6,6 @@ min_version = "2026.6.13"
 [vars]
 PS_SCRIPT_ANALYZER_VERSION = "1.25.0"
 
-[env]
-HK_PKL_BACKEND = "pklr"
-
 [tools]
 bun = "1.3.14"
 aube = "v1.24.0"
