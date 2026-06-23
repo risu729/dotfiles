@@ -172,13 +172,6 @@ backend = "aqua:junegunn/fzf"
 checksum = "sha256:f3252c2c366bc1700d3c85781ec8c9695998927ac127870eb049ceea2d540f8a"
 url = "https://github.com/junegunn/fzf/releases/download/v0.73.1/fzf-0.73.1-linux_amd64.tar.gz"
 
-[[tools.gemini-cli]]
-version = "0.47.0"
-backend = "npm:@google/gemini-cli"
-
-[tools.gemini-cli.options]
-allow_builds = '["@github/keytar", "node-pty"]'
-
 [[tools.ghalint]]
 version = "1.5.6"
 backend = "aqua:suzuki-shunsuke/ghalint"
