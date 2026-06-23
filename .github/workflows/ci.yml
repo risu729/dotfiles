@@ -66,6 +66,9 @@ jobs:
       contents: read # for checkout
     env:
       COMPOSE_PROJECT_NAME: dotfiles-ci-${{ github.run_id }}-${{ github.run_attempt }}
+      # Keep WSL image target stable because newest LTS metadata can
+      # appear before cdimages publishes the corresponding wsl artifact.
+      WSL_IMAGE_URL: https://cdimages.ubuntu.com/ubuntu-wsl/noble/daily-live/current/noble-wsl-amd64.wsl
 
     steps:
       - name: Checkout
@@ -82,12 +85,30 @@ jobs:
           fi
           echo "MISE_VERSION=${mise_version}" >> "${GITHUB_ENV}"
 
+      - name: Resolve Ubuntu WSL image version
+        id: wsl-image
+        run: |
+          etag=$(
+            curl --fail-with-body --silent --head --location "${WSL_IMAGE_URL}" |
+              awk -F': ' 'tolower($1) == "etag" { gsub(/\r/, "", $2); print $2; exit }'
+          )
+          etag="${etag//\"/}"
+          if [[ -z ${etag} ]]; then
+            echo "Failed to read WSL image ETag." >&2
+            exit 1
+          fi
+          echo "etag=${etag}" >> "${GITHUB_OUTPUT}"
+
+      - name: Cache Ubuntu WSL image
+        id: wsl-cache
+        uses: actions/cache@2c8a9bd7457de244a408f35966fab2fb45fda9c8 # v6.0.0
+        with:
+          path: wsl-amd64.wsl
+          key: ubuntu-wsl-noble-${{ steps.wsl-image.outputs.etag }}
+
       - name: Download Ubuntu WSL image
-        run: curl --fail-with-body --location --output wsl-amd64.wsl "${IMAGE_URL}"
-        env:
-          # Keep WSL image target stable because newest LTS metadata can
-          # appear before cdimages publishes the corresponding wsl artifact.
-          IMAGE_URL: https://cdimages.ubuntu.com/ubuntu-wsl/noble/daily-live/current/noble-wsl-amd64.wsl
+        if: steps.wsl-cache.outputs.cache-hit != 'true'
+        run: curl --fail-with-body --location --output wsl-amd64.wsl "${WSL_IMAGE_URL}"
 
       - name: Run installer
         run: docker compose --file compose.ci.yml up --build --abort-on-container-exit --exit-code-from test-linux
