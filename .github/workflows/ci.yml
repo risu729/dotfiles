@@ -89,8 +89,10 @@ jobs:
         id: wsl-image
         run: |
           etag=$(
-            curl --fail-with-body --silent --head --location "${WSL_IMAGE_URL}" |
-              awk -F': ' 'tolower($1) == "etag" { gsub(/\r/, "", $2); print $2; exit }'
+            curl --fail-with-body --silent --head --location \
+              --write-out '%header{etag}' \
+              --output /dev/null \
+              "${WSL_IMAGE_URL}"
           )
           etag="${etag//\"/}"
           if [[ -z ${etag} ]]; then
