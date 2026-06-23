@@ -285,27 +285,27 @@ checksum = "sha256:c2fdcdc95478f05ae9d62cf1c631451dcb98bb526d4ba0c0b675865a3d9b3
 url = "https://github.com/PowerShell/PowerShell/releases/download/v7.6.3/powershell-7.6.3-linux-musl-x64.tar.gz"
 
 [[tools.rumdl]]
-version = "v0.2.20"
+version = "v0.2.21"
 backend = "aqua:rvben/rumdl"
 
 [tools.rumdl."platforms.linux-x64"]
-checksum = "sha256:a5255b57958a493549dc33c73e86b9f9345a058a79d10e87d6086a74e45016d0"
-url = "https://github.com/rvben/rumdl/releases/download/v0.2.20/rumdl-v0.2.20-x86_64-unknown-linux-musl.tar.gz"
+checksum = "sha256:5b9b29fd8e8b8d8f46211044dac5933bb814b397938e5ed936f61d4df7220b24"
+url = "https://github.com/rvben/rumdl/releases/download/v0.2.21/rumdl-v0.2.21-x86_64-unknown-linux-musl.tar.gz"
 provenance = "github-attestations"
 
 [tools.rumdl."platforms.linux-x64-baseline"]
-checksum = "sha256:a5255b57958a493549dc33c73e86b9f9345a058a79d10e87d6086a74e45016d0"
-url = "https://github.com/rvben/rumdl/releases/download/v0.2.20/rumdl-v0.2.20-x86_64-unknown-linux-musl.tar.gz"
+checksum = "sha256:5b9b29fd8e8b8d8f46211044dac5933bb814b397938e5ed936f61d4df7220b24"
+url = "https://github.com/rvben/rumdl/releases/download/v0.2.21/rumdl-v0.2.21-x86_64-unknown-linux-musl.tar.gz"
 provenance = "github-attestations"
 
 [tools.rumdl."platforms.linux-x64-musl"]
-checksum = "sha256:a5255b57958a493549dc33c73e86b9f9345a058a79d10e87d6086a74e45016d0"
-url = "https://github.com/rvben/rumdl/releases/download/v0.2.20/rumdl-v0.2.20-x86_64-unknown-linux-musl.tar.gz"
+checksum = "sha256:5b9b29fd8e8b8d8f46211044dac5933bb814b397938e5ed936f61d4df7220b24"
+url = "https://github.com/rvben/rumdl/releases/download/v0.2.21/rumdl-v0.2.21-x86_64-unknown-linux-musl.tar.gz"
 provenance = "github-attestations"
 
 [tools.rumdl."platforms.linux-x64-musl-baseline"]
-checksum = "sha256:a5255b57958a493549dc33c73e86b9f9345a058a79d10e87d6086a74e45016d0"
-url = "https://github.com/rvben/rumdl/releases/download/v0.2.20/rumdl-v0.2.20-x86_64-unknown-linux-musl.tar.gz"
+checksum = "sha256:5b9b29fd8e8b8d8f46211044dac5933bb814b397938e5ed936f61d4df7220b24"
+url = "https://github.com/rvben/rumdl/releases/download/v0.2.21/rumdl-v0.2.21-x86_64-unknown-linux-musl.tar.gz"
 provenance = "github-attestations"
 
 [[tools.shellcheck]]
