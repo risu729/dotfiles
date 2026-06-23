@@ -45,10 +45,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ github.token }}
 
-      - name: Regenerate lockfiles
-        if: ${{ github.event_name == 'pull_request' && startsWith(github.head_ref, 'renovate/') }}
-        run: mise lock --platform linux-x64
-
       - name: autofix.ci
         uses: autofix-ci/action@c5b2d67aa2274e7b5a18224e8171550871fc7e4a # v1.3.4
         with:
