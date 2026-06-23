@@ -2,40 +2,82 @@ amends "package://github.com/jdx/hk/releases/download/v1.48.0/hk@1.48.0#/Config.
 import "package://github.com/jdx/hk/releases/download/v1.48.0/hk@1.48.0#/Builtins.pkl"
 
 local const jsTsTypes = List("javascript", "typescript")
-local const shellTypes = List("shell")
-local const bashrcGlobs = List("wsl/home/.bashrc")
+// shared by shfmt/shellcheck; cannot mix `types` with `glob` (AND), and extensionless `.bashrc` is not `types = shell`
+local const shellGlobs = List(
+  "**/*.sh",
+  "**/*.bash",
+  "**/*.bats",
+  "**/*.mksh",
+  "**/*.zsh",
+  "wsl/home/.bashrc",
+)
 local const shfmtCheck = "shfmt --diff --simplify {{ files }}"
 local const shfmtFix = "shfmt --write --simplify {{ files }}"
 local const shellcheckCheck = "shellcheck --external-sources {{ files }}"
 
-local const lintSteps = new Mapping<String, Step> {
+class Tsgo {
+  function root(): Step = new Step {
+    types = jsTsTypes
+    stomp = true
+    check = "tsgo"
+  }
+
+  function worker(project: String, deps: List<String>): Step = new Step {
+    types = jsTsTypes
+    depends = deps
+    stomp = true
+    check = "tsgo --project \(project)"
+  }
+}
+
+local tsgo = new Tsgo {}
+
+local github = new Group {
+  steps {
+    ["actionlint"] = (Builtins.actionlint) {
+      check = "actionlint -color {{ files }}"
+    }
+    ["pinact"] = (Builtins.pinact) {
+      batch = true
+      check_diff = "pinact run --verify --check {{ files }}"
+      fix = "pinact run --verify {{ files }}"
+    }
+    ["ghalint"] = (Builtins.ghalint_workflow) {
+      depends = "pinact"
+    }
+    ["zizmor"] = (Builtins.zizmor) {
+      batch = true
+      check_diff = "zizmor --no-progress --pedantic {{ files }}"
+      fix = "zizmor --no-progress --pedantic --fix {{ files }}"
+    }
+  }
+}
+
+local worker = new Group {
+  dir = "worker"
+  steps {
+    ["generate-types"] {
+      check = "bun run wrangler types src/worker-configuration.d.ts"
+      hide = true
+    }
+    ["tsc:base"] = tsgo.worker("tsconfig.base.json", List())
+    ["tsc:src"] = tsgo.worker("tsconfig.src.json", List("generate-types"))
+    ["tsc:test"] = tsgo.worker("tsconfig.test.json", List("generate-types"))
+  }
+}
+
+local const lintSteps = new Mapping<String, Step | Group> {
   ["oxlint"] = (Builtins.ox_lint) {
     types = jsTsTypes
+    batch = true
     check = "oxlint --no-error-on-unmatched-pattern --report-unused-disable-directives-severity error {{ files }}"
     fix = "oxlint --no-error-on-unmatched-pattern --report-unused-disable-directives-severity error --fix {{ files }}"
   }
-  ["oxfmt"] {
+  ["oxfmt"] = (Builtins.oxfmt) {
     types = List("javascript", "typescript", "json")
-    check = "oxfmt --check {{ files }}"
-    fix = "oxfmt {{ files }}"
+    batch = true
   }
-  ["actionlint"] = (Builtins.actionlint) {
-    // Builtins.actionlint's batch=true splits workflow files into parallel chunks.
-    // Keep one actionlint invocation with all files for concise local output.
-    batch = false
-    check = "actionlint -color {{ files }}"
-  }
-  ["pinact"] = (Builtins.pinact) {
-    check_diff = "pinact run --verify --check {{ files }}"
-    fix = "pinact run --verify {{ files }}"
-  }
-  ["ghalint"] = (Builtins.ghalint_workflow) {
-    depends = "pinact"
-  }
-  ["zizmor"] = (Builtins.zizmor) {
-    check_diff = "zizmor --no-progress --pedantic {{ files }}"
-    fix = "zizmor --no-progress --pedantic --fix {{ files }}"
-  }
+  ["github"] = github
   ["tombi"] {
     types = List("toml")
     batch = true
@@ -47,11 +89,9 @@ local const lintSteps = new Mapping<String, Step> {
     check_diff = "tombi format --check --diff {{ files }}"
     fix = "tombi format {{ files }}"
   }
-  ["rumdl"] {
+  ["rumdl"] = (Builtins.rumdl) {
     types = List("markdown")
     batch = true
-    check = "rumdl check {{ files }}"
-    fix = "rumdl check --fix {{ files }}"
   }
   ["rumdl-format"] {
     types = List("markdown")
@@ -59,49 +99,52 @@ local const lintSteps = new Mapping<String, Step> {
     check_diff = "rumdl fmt --check --diff {{ files }}"
     fix = "rumdl fmt {{ files }}"
   }
-  ["shfmt"] {
-    types = shellTypes
+  ["shfmt"] = (Builtins.shfmt) {
+    glob = shellGlobs
     check_diff = shfmtCheck
     fix = shfmtFix
   }
-  // hk narrows selection when both glob and types are set, so .bashrc needs
-  // separate steps because it has no shell extension or shebang.
-  ["shfmt:bashrc"] {
-    glob = bashrcGlobs
-    check_diff = shfmtCheck
-    fix = shfmtFix
-  }
-  ["shellcheck"] {
-    types = shellTypes
-    check = shellcheckCheck
-  }
-  ["shellcheck:bashrc"] {
-    glob = bashrcGlobs
+  ["shellcheck"] = (Builtins.shellcheck) {
+    glob = shellGlobs
     check = shellcheckCheck
   }
   ["pwsh"] {
+    // batch=false: ScriptAnalyzer scans `win/` recursively; command has no `{{ files }}`
+    batch = false
     glob = List("win/**/*.ps1", "win/**/*.psd1", "win/**/*.psm1")
     check = "pwsh -NoProfile -Command 'Invoke-ScriptAnalyzer -Path win -Recurse -EnableExit -Settings win/PSScriptAnalyzerSettings.psd1'"
   }
   ["yamlfmt"] = (Builtins.yamlfmt) {
     types = List("yaml")
+    batch = true
   }
   ["yamllint"] = (Builtins.yamllint) {
     types = List("yaml")
+    batch = true
   }
   ["hadolint"] = (Builtins.hadolint) {
+    batch = true
     check = "hadolint --failure-threshold none {{ files }}"
   }
-  ["mise"] {
-    glob = List("mise.toml", "tasks.toml", "tasks/**", "worker/tasks.toml", "worker/tasks/**")
-    check = "mise fmt --check && mise task validate"
-    fix = "mise fmt && mise task validate"
+  ["mise-fmt"] = (Builtins.mise) {
+    // batch=false: `mise fmt` has no file args; builtin `batch=true` repeats whole-project fmt per job
+    batch = false
+  }
+  ["mise-tasks"] {
+    // batch=false: `mise task validate` validates the full task graph; no `{{ files }}`
+    batch = false
+    glob = List("tasks.toml", "tasks/**", "worker/tasks.toml", "worker/tasks/**")
+    check = "mise task validate"
   }
   ["lychee"] = (Builtins.lychee) {
+    // batch=false: parallel runs race on `.lycheecache` when `cache=true` in lychee.toml
+    batch = false
     check = "lychee --no-progress --verbose {{ files }}"
     profiles = List("scheduled")
   }
-  ["typos"] = Builtins.typos
+  ["typos"] = (Builtins.typos) {
+    batch = true
+  }
   ["ignore-sync"] {
     glob = List(".gitignore-sync", "worker/.gitignore-sync")
     check = "ignore-sync . && ignore-sync worker && git diff --exit-code -- .gitignore worker/.gitignore"
@@ -109,64 +152,16 @@ local const lintSteps = new Mapping<String, Step> {
     stage = List(".gitignore", "worker/.gitignore")
     exclusive = true
   }
-  ["tsc:root"] {
-    types = jsTsTypes
-    check = "tsgo"
-    profiles = List("!ci")
-  }
-  ["tsc:root:ci"] {
-    types = jsTsTypes
-    check = "tsgo --incremental false"
-    profiles = List("ci")
-  }
-  ["worker:generate-types"] {
-    check = "bun run wrangler types src/worker-configuration.d.ts"
-    dir = "worker"
-    hide = true
-  }
-  ["worker:tsc:base"] {
-    types = jsTsTypes
-    check = "tsgo --project tsconfig.base.json"
-    dir = "worker"
-    profiles = List("!ci")
-  }
-  ["worker:tsc:base:ci"] {
-    types = jsTsTypes
-    check = "tsgo --project tsconfig.base.json --incremental false"
-    dir = "worker"
-    profiles = List("ci")
-  }
-  ["worker:tsc:src"] {
-    types = jsTsTypes
-    check = "tsgo --project tsconfig.src.json"
-    dir = "worker"
-    depends = "worker:generate-types"
-    profiles = List("!ci")
-  }
-  ["worker:tsc:src:ci"] {
-    types = jsTsTypes
-    check = "tsgo --project tsconfig.src.json --incremental false"
-    dir = "worker"
-    depends = "worker:generate-types"
-    profiles = List("ci")
-  }
-  ["worker:tsc:test"] {
-    types = jsTsTypes
-    check = "tsgo --project tsconfig.test.json"
-    dir = "worker"
-    depends = "worker:generate-types"
-    profiles = List("!ci")
-  }
-  ["worker:tsc:test:ci"] {
-    types = jsTsTypes
-    check = "tsgo --project tsconfig.test.json --incremental false"
-    dir = "worker"
-    depends = "worker:generate-types"
-    profiles = List("ci")
-  }
+  ["tsc:root"] = tsgo.root()
+  ["worker"] = worker
 }
 
 hooks {
+  ["pre-commit"] {
+    fix = true
+    stash = "git"
+    steps = lintSteps
+  }
   ["check"] {
     steps = lintSteps
   }

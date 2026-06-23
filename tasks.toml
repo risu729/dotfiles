@@ -2,7 +2,7 @@
 #:schema https://mise.jdx.dev/schema/mise-task.json
 
 [check]
-run = "hk {% if env.CI is defined %}--profile ci {% endif %}{% if env.SCHEDULED_LINT is defined and env.SCHEDULED_LINT == 'true' %}--profile scheduled {% endif %}{% if env.LINT is defined %}check{% else %}fix{% endif %} --all --no-progress --no-fail-fast"
+run = "hk {% if env.SCHEDULED_LINT is defined and env.SCHEDULED_LINT == 'true' %}--profile scheduled {% endif %}{% if env.LINT is defined %}check{% else %}fix{% endif %} --all --no-progress --no-fail-fast"
 env.GH_TOKEN = "{% if env.GITHUB_TOKEN is defined %}{{ env.GITHUB_TOKEN }}{% endif %}"
 description = "Run hk linters and formatters."
 
