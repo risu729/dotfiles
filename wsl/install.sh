@@ -200,9 +200,9 @@ create_home_symlinks() {
 	local wsl_home_config_dir="${wsl_config_dir}/home"
 
 	log_info "Creating symbolic links for home directory files from ${wsl_home_config_dir}..."
-	# Exclude .gitignore-sync and postpone .gitconfig
+	# Postpone .gitconfig
 	local home_paths
-	home_paths="$(find "${wsl_home_config_dir}" -type f ! -name ".gitignore-sync" ! -name ".gitconfig")"
+	home_paths="$(find "${wsl_home_config_dir}" -type f ! -name ".gitconfig")"
 
 	if [[ -z ${home_paths} ]]; then
 		log_error "No home directory files found to symlink."
@@ -213,13 +213,7 @@ create_home_symlinks() {
 		local target_name
 		local full_path
 		full_path=$(realpath "${path}")
-
-		if [[ ${full_path} == */.config/git/.gitignore ]]; then
-			# ignore-sync doesn't support filename `ignore-sync`, so rename generated .gitignore to ignore
-			target_name=".config/git/ignore"
-		else
-			target_name="$(realpath --relative-to="${wsl_home_config_dir}" "${full_path}")"
-		fi
+		target_name="$(realpath --relative-to="${wsl_home_config_dir}" "${full_path}")"
 		local target_path="${HOME}/${target_name}"
 
 		mkdir --parents "$(dirname "${target_path}")"

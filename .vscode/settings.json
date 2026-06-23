@@ -24,7 +24,6 @@
 		// match on the absolute path if / is contained
 		"**/tasks/**": "shellscript",
 		"**/wsl/etc/**": "plaintext",
-		"*ignore-sync": "ini",
 		"gpg-agent.conf": "plaintext",
 		"shellcheckrc": "ini",
 		"winget.json": "jsonc"
@@ -34,7 +33,6 @@
 
 	"files.readonlyInclude": {
 		// auto-generated
-		"**/.gitignore": true,
 		"**/bun.lock": true
 	},
 
