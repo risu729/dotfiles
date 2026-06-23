@@ -1,6 +1,0 @@
-// ref: https://github.com/mvo5/unattended-upgrades/blob/master/README.md
-
-Unattended-Upgrade::Origins-Pattern {
-	// auto upgrades all packages
-	"origin=*";
-};
