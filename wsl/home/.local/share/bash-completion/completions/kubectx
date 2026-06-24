@@ -1,4 +1,4 @@
-# From https://github.com/ahmetb/kubectx/blob/master/completion/kubectx.bash (see repository README “Shell completion scripts” → bash)
+# From https://github.com/ahmetb/kubectx/blob/master/completion/kubectx.bash (see repository README "Shell completion scripts" → bash)
 _kube_contexts()
 {
  local curr_arg;

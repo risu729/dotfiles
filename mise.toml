@@ -28,9 +28,10 @@ uv = "0.11.24"
 yamllint = "1.38.0"
 lychee = "0.24.2"
 typos = "1.47.2"
-"npm:@typescript/native-preview" = "7.0.0-dev.20260601.1"
+"npm:typescript" = "7.0.1-rc"
 jc = "1.25.7"
 hadolint = "2.14.0"
+betterleaks = "1.5.0"
 powershell = "7.6.3"
 
 [settings]

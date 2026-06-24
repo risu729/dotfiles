@@ -42,19 +42,16 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ github.token }}
 
-      - name: Cache lychee
-        if: ${{ github.event_name == 'schedule' }}
-        uses: actions/cache@2c8a9bd7457de244a408f35966fab2fb45fda9c8 # v6.0.0
-        with:
-          path: .lycheecache
-          key: cache-lychee-${{ github.sha }}
-          restore-keys: cache-lychee-
-
       - name: Run check
-        run: mise run check
+        if: github.event_name != 'schedule'
+        run: mise run check --lint
         env:
-          LINT: true
-          SCHEDULED_LINT: ${{ github.event_name == 'schedule' }}
+          GITHUB_TOKEN: ${{ github.token }}
+
+      - name: Run flaky check
+        if: github.event_name == 'schedule'
+        run: mise run check --lint --flaky
+        env:
           GITHUB_TOKEN: ${{ github.token }}
 
   test-linux:

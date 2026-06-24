@@ -1,165 +1,69 @@
-amends "package://github.com/jdx/hk/releases/download/v1.48.0/hk@1.48.0#/Config.pkl"
-import "package://github.com/jdx/hk/releases/download/v1.48.0/hk@1.48.0#/Builtins.pkl"
+amends "https://raw.githubusercontent.com/risu729/hk-config/v1.0.0/presets.pkl"
+import "https://raw.githubusercontent.com/risu729/hk-config/v1.0.0/helpers.pkl"
 
-local const jsTsTypes = List("javascript", "typescript")
-// shared by shfmt/shellcheck; cannot mix `types` with `glob` (AND), and extensionless `.bashrc` is not `types = shell`
-local const shellGlobs = List(
-  "**/*.sh",
-  "**/*.bash",
-  "**/*.bats",
-  "**/*.mksh",
-  "**/*.zsh",
-  "wsl/home/.bashrc",
-)
-local const shfmtCheck = "shfmt --diff --simplify {{ files }}"
-local const shfmtFix = "shfmt --write --simplify {{ files }}"
-local const shellcheckCheck = "shellcheck --external-sources {{ files }}"
+local const bashrcGlobs = List("wsl/home/.bashrc")
 
-class Tsgo {
-  function root(): Step = new Step {
-    types = jsTsTypes
-    stomp = true
-    check = "tsgo"
-  }
+local picked = helpers.pick(new Listing {
+  "oxlint"
+  "oxfmt"
+  "github-actions"
+  "tombi"
+  "rumdl"
+  "yaml"
+  "shfmt"
+  "shellcheck"
+  "hadolint"
+  "mise"
+  "lychee"
+  "typos"
+  "tsc"
+  "betterleaks"
+  "hygiene"
+})
 
-  function worker(project: String, deps: List<String>): Step = new Step {
-    types = jsTsTypes
-    depends = deps
-    stomp = true
-    check = "tsgo --project \(project)"
-  }
-}
-
-local tsgo = new Tsgo {}
-
-local github = new Group {
-  steps {
-    ["actionlint"] = (Builtins.actionlint) {
-      check = "actionlint -color {{ files }}"
-    }
-    ["pinact"] = (Builtins.pinact) {
-      batch = true
-      check_diff = "pinact run --verify --check {{ files }}"
-      fix = "pinact run --verify {{ files }}"
-    }
-    ["ghalint"] = (Builtins.ghalint_workflow) {
-      depends = "pinact"
-    }
-    ["zizmor"] = (Builtins.zizmor) {
-      batch = true
-      check_diff = "zizmor --no-progress --pedantic {{ files }}"
-      fix = "zizmor --no-progress --pedantic --fix {{ files }}"
-    }
-  }
-}
+local mise = picked["mise"] as Group
 
 local worker = new Group {
   dir = "worker"
   steps {
-    ["generate-types"] {
+    ["generate-types"] = new Step {
       check = "bun run wrangler types src/worker-configuration.d.ts"
       hide = true
     }
-    ["tsc:base"] = tsgo.worker("tsconfig.base.json", List())
-    ["tsc:src"] = tsgo.worker("tsconfig.src.json", List("generate-types"))
-    ["tsc:test"] = tsgo.worker("tsconfig.test.json", List("generate-types"))
+    ["tsc:base"] = (picked["tsc"]) {
+      workspace_indicator = "tsconfig.base.json"
+    }
+    ["tsc:src"] = (picked["tsc"]) {
+      workspace_indicator = "tsconfig.src.json"
+      depends = List("generate-types")
+    }
+    ["tsc:test"] = (picked["tsc"]) {
+      workspace_indicator = "tsconfig.test.json"
+      depends = List("generate-types")
+    }
   }
 }
 
-local const lintSteps = new Mapping<String, Step | Group> {
-  ["oxlint"] = (Builtins.ox_lint) {
-    types = jsTsTypes
-    batch = true
-    check = "oxlint --no-error-on-unmatched-pattern --report-unused-disable-directives-severity error {{ files }}"
-    fix = "oxlint --no-error-on-unmatched-pattern --report-unused-disable-directives-severity error --fix {{ files }}"
+hooks = helpers.standardHooks((picked) {
+  ["shfmt-bashrc"] = (picked["shfmt"]) {
+    glob = bashrcGlobs
   }
-  ["oxfmt"] = (Builtins.oxfmt) {
-    types = List("javascript", "typescript", "json")
-    batch = true
+  ["shellcheck-bashrc"] = (picked["shellcheck"]) {
+    glob = bashrcGlobs
   }
-  ["github"] = github
-  ["tombi"] {
-    types = List("toml")
-    batch = true
-    check = "tombi lint {{ files }}"
+  ["mise"] = (mise) {
+    steps {
+      ["mise-fmt"] = mise.steps["mise-fmt"]
+      ["mise-tasks"] = (mise.steps["mise-tasks"]) {
+        glob = List("tasks.toml", "tasks/**", "worker/tasks.toml", "worker/tasks/**", "mise.toml", "mise/**")
+      }
+    }
   }
-  ["tombi-format"] {
-    types = List("toml")
-    batch = true
-    check_diff = "tombi format --check --diff {{ files }}"
-    fix = "tombi format {{ files }}"
-  }
-  ["rumdl"] = (Builtins.rumdl) {
-    types = List("markdown")
-    batch = true
-  }
-  ["rumdl-format"] {
-    types = List("markdown")
-    batch = true
-    check_diff = "rumdl fmt --check --diff {{ files }}"
-    fix = "rumdl fmt {{ files }}"
-  }
-  ["shfmt"] = (Builtins.shfmt) {
-    glob = shellGlobs
-    check_diff = shfmtCheck
-    fix = shfmtFix
-  }
-  ["shellcheck"] = (Builtins.shellcheck) {
-    glob = shellGlobs
-    check = shellcheckCheck
-  }
-  ["pwsh"] {
+  ["pwsh"] = new Step {
     // batch=false: ScriptAnalyzer scans `win/` recursively; command has no `{{ files }}`
     batch = false
     glob = List("win/**/*.ps1", "win/**/*.psd1", "win/**/*.psm1")
     check = "pwsh -NoProfile -Command 'Invoke-ScriptAnalyzer -Path win -Recurse -EnableExit -Settings win/PSScriptAnalyzerSettings.psd1'"
   }
-  ["yamlfmt"] = (Builtins.yamlfmt) {
-    types = List("yaml")
-    batch = true
-  }
-  ["yamllint"] = (Builtins.yamllint) {
-    types = List("yaml")
-    batch = true
-  }
-  ["hadolint"] = (Builtins.hadolint) {
-    batch = true
-    check = "hadolint --failure-threshold none {{ files }}"
-  }
-  ["mise-fmt"] = (Builtins.mise) {
-    // batch=false: `mise fmt` has no file args; builtin `batch=true` repeats whole-project fmt per job
-    batch = false
-  }
-  ["mise-tasks"] {
-    // batch=false: `mise task validate` validates the full task graph; no `{{ files }}`
-    batch = false
-    glob = List("tasks.toml", "tasks/**", "worker/tasks.toml", "worker/tasks/**")
-    check = "mise task validate"
-  }
-  ["lychee"] = (Builtins.lychee) {
-    // batch=false: parallel runs race on `.lycheecache` when `cache=true` in lychee.toml
-    batch = false
-    check = "lychee --no-progress --verbose {{ files }}"
-    profiles = List("scheduled")
-  }
-  ["typos"] = (Builtins.typos) {
-    batch = true
-  }
-  ["tsc:root"] = tsgo.root()
   ["worker"] = worker
-}
-
-hooks {
-  ["pre-commit"] {
-    fix = true
-    stash = "git"
-    steps = lintSteps
-  }
-  ["check"] {
-    steps = lintSteps
-  }
-  ["fix"] {
-    fix = true
-    steps = lintSteps
-  }
-}
+})

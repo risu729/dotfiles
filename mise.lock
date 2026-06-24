@@ -48,6 +48,30 @@ checksum = "sha256:4077980962b590e35402c3a51b752cfc6d151ad3ae43f3d1759349b4857f0
 url = "https://github.com/jdx/aube/releases/download/v1.24.0/aube-v1.24.0-x86_64-unknown-linux-musl.tar.gz"
 provenance = "github-attestations"
 
+[[tools.betterleaks]]
+version = "1.5.0"
+backend = "aqua:betterleaks/betterleaks"
+
+[tools.betterleaks."platforms.linux-x64"]
+checksum = "sha256:b883e8c61a3a14c90ff46a08c203cf88fe340ed88251d4c049db5530ec0ac54b"
+url = "https://github.com/betterleaks/betterleaks/releases/download/v1.5.0/betterleaks_1.5.0_linux_x64.tar.gz"
+provenance = "cosign"
+
+[tools.betterleaks."platforms.linux-x64-baseline"]
+checksum = "sha256:b883e8c61a3a14c90ff46a08c203cf88fe340ed88251d4c049db5530ec0ac54b"
+url = "https://github.com/betterleaks/betterleaks/releases/download/v1.5.0/betterleaks_1.5.0_linux_x64.tar.gz"
+provenance = "cosign"
+
+[tools.betterleaks."platforms.linux-x64-musl"]
+checksum = "sha256:b883e8c61a3a14c90ff46a08c203cf88fe340ed88251d4c049db5530ec0ac54b"
+url = "https://github.com/betterleaks/betterleaks/releases/download/v1.5.0/betterleaks_1.5.0_linux_x64.tar.gz"
+provenance = "cosign"
+
+[tools.betterleaks."platforms.linux-x64-musl-baseline"]
+checksum = "sha256:b883e8c61a3a14c90ff46a08c203cf88fe340ed88251d4c049db5530ec0ac54b"
+url = "https://github.com/betterleaks/betterleaks/releases/download/v1.5.0/betterleaks_1.5.0_linux_x64.tar.gz"
+provenance = "cosign"
+
 [[tools.bitwarden]]
 version = "2026.4.1"
 backend = "aqua:bitwarden/clients"
@@ -220,9 +244,9 @@ url = "https://unofficial-builds.nodejs.org/download/release/v26.3.1/node-v26.3.
 checksum = "sha256:4d1a7bebcc0ee2534edc2d5f93cad34435ed4b601766d26b706c043727d4cca5"
 url = "https://unofficial-builds.nodejs.org/download/release/v26.3.1/node-v26.3.1-linux-x64-musl.tar.gz"
 
-[[tools."npm:@typescript/native-preview"]]
-version = "7.0.0-dev.20260601.1"
-backend = "npm:@typescript/native-preview"
+[[tools."npm:typescript"]]
+version = "7.0.1-rc"
+backend = "npm:typescript"
 
 [[tools.oxfmt]]
 version = "0.52.0"
