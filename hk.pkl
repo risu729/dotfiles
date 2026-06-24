@@ -1,5 +1,5 @@
-amends "https://raw.githubusercontent.com/risu729/hk-config/v1.0.3/presets.pkl"
-import "https://raw.githubusercontent.com/risu729/hk-config/v1.0.3/helpers.pkl"
+amends "https://raw.githubusercontent.com/risu729/hk-config/v1.0.4/presets.pkl"
+import "https://raw.githubusercontent.com/risu729/hk-config/v1.0.4/helpers.pkl"
 
 local const bashrcGlobs = List("wsl/home/.bashrc")
 
@@ -8,20 +8,20 @@ local picked = helpers.pick(new Listing {
   "oxfmt"
   "github-actions"
   "tombi"
-  "tombi-format"
   "rumdl"
-  "rumdl-format"
+  "yaml"
   "shfmt"
   "shellcheck"
-  "yamlfmt"
-  "yamllint"
   "hadolint"
-  "mise-fmt"
-  "mise-tasks"
+  "mise"
   "lychee"
   "typos"
   "tsc"
+  "betterleaks"
+  "hygiene"
 })
+
+local mise = picked["mise"] as Group
 
 local worker = new Group {
   dir = "worker"
@@ -51,8 +51,13 @@ hooks = helpers.standardHooks((picked) {
   ["shellcheck-bashrc"] = (picked["shellcheck"]) {
     glob = bashrcGlobs
   }
-  ["mise-tasks"] = ((helpers.lintSteps()["mise"] as Group).steps["mise-tasks"]) {
-    glob = List("tasks.toml", "tasks/**", "worker/tasks.toml", "worker/tasks/**", "mise.toml", "mise/**")
+  ["mise"] = (mise) {
+    steps {
+      ["mise-fmt"] = mise.steps["mise-fmt"]
+      ["mise-tasks"] = (mise.steps["mise-tasks"]) {
+        glob = List("tasks.toml", "tasks/**", "worker/tasks.toml", "worker/tasks/**", "mise.toml", "mise/**")
+      }
+    }
   }
   ["lychee"] = (picked["lychee"]) {
     profiles = List("scheduled")

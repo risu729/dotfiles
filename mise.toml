@@ -31,6 +31,7 @@ typos = "1.47.2"
 "npm:typescript" = "7.0.1-rc"
 jc = "1.25.7"
 hadolint = "2.14.0"
+betterleaks = "1.5.0"
 powershell = "7.6.3"
 
 [settings]
