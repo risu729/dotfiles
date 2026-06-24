@@ -1,4 +1,4 @@
-﻿# This script must be compatible with PowerShell 5.1 because it is installed by default.
+# This script must be compatible with PowerShell 5.1 because it is installed by default.
 # ref: https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_windows_powershell_5.1
 
 Set-StrictMode -Version Latest

@@ -1,4 +1,4 @@
-﻿@{
+@{
 	# ref: https://learn.microsoft.com/en-us/powershell/utility-modules/psscriptanalyzer/rules/readme
 	Rules = @{
 		PSAvoidExclaimOperator = @{

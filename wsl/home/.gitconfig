@@ -22,10 +22,10 @@
 [credential "https://github.com"]
 	# set helper to empty to avoid using the default helper
 	# ref: https://github.com/cli/cli/issues/3796#issuecomment-1065150465
-	helper = 
+	helper =
 	helper = !gh auth git-credential
 [credential "https://gist.github.com"]
-	helper = 
+	helper =
 	helper = !gh auth git-credential
 
 [include]

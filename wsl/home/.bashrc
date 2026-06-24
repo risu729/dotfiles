@@ -82,7 +82,7 @@ if command -v kubectl &>/dev/null; then
 	eval "${kubectl_completion}"
 fi
 
-# kubecolor and the mise `k` shell_alias share kubectl’s completion
+# kubecolor and the mise `k` shell_alias share kubectl's completion
 # ref: https://kubecolor.github.io/setup/shells/bash/
 if command -v kubectl &>/dev/null && command -v kubecolor &>/dev/null; then
 	complete -o default -F __start_kubectl kubecolor
