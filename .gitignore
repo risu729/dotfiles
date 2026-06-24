@@ -3,7 +3,6 @@
 # github/gitignore Global/macOS.gitignore
 # github/gitignore Global/Linux.gitignore
 # github/gitignore Global/VisualStudioCode.gitignore
-# inline: .lycheecache
 
 # oven-sh/bun src/cli/init/gitignore.default
 
@@ -42,9 +41,6 @@ report.[0-9]_.[0-9]_.[0-9]_.[0-9]_.json
 # Finder (MacOS) folder config
 .DS_Store
 
-# inline: .lycheecache
-.lycheecache
-
 # github/gitignore Global/Windows.gitignore
 
 # Windows thumbnail cache files
@@ -80,7 +76,8 @@ $RECYCLE.BIN/
 __MACOSX/
 .AppleDouble
 .LSOverride
-Icon[]
+Icon[
+]
 
 # Resource forks
 ._*
