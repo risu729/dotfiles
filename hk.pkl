@@ -59,9 +59,6 @@ hooks = helpers.standardHooks((picked) {
       }
     }
   }
-  ["lychee"] = (picked["lychee"]) {
-    profiles = List("scheduled")
-  }
   ["pwsh"] = new Step {
     // batch=false: ScriptAnalyzer scans `win/` recursively; command has no `{{ files }}`
     batch = false

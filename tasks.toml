@@ -2,7 +2,16 @@
 #:schema https://mise.jdx.dev/schema/mise-task.json
 
 [check]
-run = "hk {% if env.SCHEDULED_LINT is defined and env.SCHEDULED_LINT == 'true' %}--profile scheduled {% endif %}{% if env.LINT is defined %}check{% else %}fix{% endif %} --all --no-progress --no-fail-fast"
+usage = '''
+flag "--lint" help="Run hk check instead of fix"
+flag "--flaky" help="Also enable hk flaky profile (lychee)"
+'''
+run = """
+hk \
+  {% if usage.flaky %}--profile flaky {% endif %}\
+  {% if usage.lint %}check{% else %}fix{% endif %} \
+  --all --no-progress --no-fail-fast
+"""
 env.GH_TOKEN = "{% if env.GITHUB_TOKEN is defined %}{{ env.GITHUB_TOKEN }}{% endif %}"
 description = "Run hk linters and formatters."
 
