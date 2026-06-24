@@ -26,18 +26,5 @@
 			packageNameTemplate: "PowerShell/PSScriptAnalyzer",
 			matchStrings: ['{ "currentValue": vars.PS_SCRIPT_ANALYZER_VERSION }'],
 		},
-		{
-			customType: "regex",
-			description: "Updates hk-config version in hk.pkl",
-			managerFilePatterns: ["/(^|/)hk\\.pkl$/"],
-			datasourceTemplate: "github-releases",
-			depNameTemplate: "hk-config",
-			packageNameTemplate: "risu729/hk-config",
-			extractVersionTemplate: "^v(?<version>.+)$",
-			matchStrings: [
-				"https://raw\\.githubusercontent\\.com/risu729/hk-config/v(?<currentValue>[^/]+)/",
-			],
-			autoReplaceStringTemplate: "https://raw.githubusercontent.com/risu729/hk-config/v{{{newValue}}}/",
-		},
 	],
 }

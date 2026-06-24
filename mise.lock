@@ -220,9 +220,9 @@ url = "https://unofficial-builds.nodejs.org/download/release/v26.3.1/node-v26.3.
 checksum = "sha256:4d1a7bebcc0ee2534edc2d5f93cad34435ed4b601766d26b706c043727d4cca5"
 url = "https://unofficial-builds.nodejs.org/download/release/v26.3.1/node-v26.3.1-linux-x64-musl.tar.gz"
 
-[[tools."npm:@typescript/native-preview"]]
-version = "7.0.0-dev.20260601.1"
-backend = "npm:@typescript/native-preview"
+[[tools."npm:typescript"]]
+version = "7.0.1-rc"
+backend = "npm:typescript"
 
 [[tools.oxfmt]]
 version = "0.52.0"
