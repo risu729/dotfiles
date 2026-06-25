@@ -225,24 +225,24 @@ checksum = "sha256:73657a111819a30c47c08352896796f23d64e4eb2b3ed39b6d32149241566
 url = "https://github.com/lycheeverse/lychee/releases/download/lychee-v0.24.2/lychee-x86_64-unknown-linux-musl.tar.gz"
 
 [[tools.node]]
-version = "26.3.1"
+version = "26.4.0"
 backend = "core:node"
 
 [tools.node."platforms.linux-x64"]
-checksum = "sha256:e892cd615e637edebcf22f9653d80fba63167ad6754d20881fd52cc37be81441"
-url = "https://nodejs.org/dist/v26.3.1/node-v26.3.1-linux-x64.tar.gz"
+checksum = "sha256:f221dab30d0e9d544332f06fbee2c62186c97d864d5cac8482dba34f1e38b8dc"
+url = "https://nodejs.org/dist/v26.4.0/node-v26.4.0-linux-x64.tar.gz"
 
 [tools.node."platforms.linux-x64-baseline"]
-checksum = "sha256:e892cd615e637edebcf22f9653d80fba63167ad6754d20881fd52cc37be81441"
-url = "https://nodejs.org/dist/v26.3.1/node-v26.3.1-linux-x64.tar.gz"
+checksum = "sha256:f221dab30d0e9d544332f06fbee2c62186c97d864d5cac8482dba34f1e38b8dc"
+url = "https://nodejs.org/dist/v26.4.0/node-v26.4.0-linux-x64.tar.gz"
 
 [tools.node."platforms.linux-x64-musl"]
-checksum = "sha256:4d1a7bebcc0ee2534edc2d5f93cad34435ed4b601766d26b706c043727d4cca5"
-url = "https://unofficial-builds.nodejs.org/download/release/v26.3.1/node-v26.3.1-linux-x64-musl.tar.gz"
+checksum = "sha256:554e960f6570bd3d1987f5170d8f2a373a21818581a8d307b697e7839988314a"
+url = "https://unofficial-builds.nodejs.org/download/release/v26.4.0/node-v26.4.0-linux-x64-musl.tar.gz"
 
 [tools.node."platforms.linux-x64-musl-baseline"]
-checksum = "sha256:4d1a7bebcc0ee2534edc2d5f93cad34435ed4b601766d26b706c043727d4cca5"
-url = "https://unofficial-builds.nodejs.org/download/release/v26.3.1/node-v26.3.1-linux-x64-musl.tar.gz"
+checksum = "sha256:554e960f6570bd3d1987f5170d8f2a373a21818581a8d307b697e7839988314a"
+url = "https://unofficial-builds.nodejs.org/download/release/v26.4.0/node-v26.4.0-linux-x64-musl.tar.gz"
 
 [[tools."npm:typescript"]]
 version = "7.0.1-rc"
