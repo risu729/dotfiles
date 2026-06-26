@@ -25,27 +25,27 @@ url = "https://github.com/rhysd/actionlint/releases/download/v1.7.12/actionlint_
 provenance = "github-attestations"
 
 [[tools.aube]]
-version = "v1.25.0"
+version = "v1.25.1"
 backend = "aqua:jdx/aube"
 
 [tools.aube."platforms.linux-x64"]
-checksum = "sha256:533cc07db90c45b327c760ddb617119be025bd8b4a2100f258762d56ec7e9351"
-url = "https://github.com/jdx/aube/releases/download/v1.25.0/aube-v1.25.0-x86_64-unknown-linux-gnu.tar.gz"
+checksum = "sha256:a17b12e647cf2e60998c8f6eddfb1c0d0375196fcc7c2bf05d5fc5305744638f"
+url = "https://github.com/jdx/aube/releases/download/v1.25.1/aube-v1.25.1-x86_64-unknown-linux-gnu.tar.gz"
 provenance = "github-attestations"
 
 [tools.aube."platforms.linux-x64-baseline"]
-checksum = "sha256:533cc07db90c45b327c760ddb617119be025bd8b4a2100f258762d56ec7e9351"
-url = "https://github.com/jdx/aube/releases/download/v1.25.0/aube-v1.25.0-x86_64-unknown-linux-gnu.tar.gz"
+checksum = "sha256:a17b12e647cf2e60998c8f6eddfb1c0d0375196fcc7c2bf05d5fc5305744638f"
+url = "https://github.com/jdx/aube/releases/download/v1.25.1/aube-v1.25.1-x86_64-unknown-linux-gnu.tar.gz"
 provenance = "github-attestations"
 
 [tools.aube."platforms.linux-x64-musl"]
-checksum = "sha256:8804d5c60ff2d653d1766ae49a57b42b4cb91847f8a229d3a88fdfe06d278b03"
-url = "https://github.com/jdx/aube/releases/download/v1.25.0/aube-v1.25.0-x86_64-unknown-linux-musl.tar.gz"
+checksum = "sha256:7ee31f7a32dec01348e5a12e05d78f311c53ab7fb6667b19a41e182042d1c952"
+url = "https://github.com/jdx/aube/releases/download/v1.25.1/aube-v1.25.1-x86_64-unknown-linux-musl.tar.gz"
 provenance = "github-attestations"
 
 [tools.aube."platforms.linux-x64-musl-baseline"]
-checksum = "sha256:8804d5c60ff2d653d1766ae49a57b42b4cb91847f8a229d3a88fdfe06d278b03"
-url = "https://github.com/jdx/aube/releases/download/v1.25.0/aube-v1.25.0-x86_64-unknown-linux-musl.tar.gz"
+checksum = "sha256:7ee31f7a32dec01348e5a12e05d78f311c53ab7fb6667b19a41e182042d1c952"
+url = "https://github.com/jdx/aube/releases/download/v1.25.1/aube-v1.25.1-x86_64-unknown-linux-musl.tar.gz"
 provenance = "github-attestations"
 
 [[tools.betterleaks]]
