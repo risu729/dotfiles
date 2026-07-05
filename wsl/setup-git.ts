@@ -6,7 +6,7 @@ import { join, resolve } from "node:path";
 
 import { $, env, spawn } from "bun";
 
-/* oxlint-disable eslint/complexity eslint/max-depth eslint/max-lines-per-function eslint/max-statements eslint/max-params eslint/no-await-in-loop */
+/* oxlint-disable eslint/complexity eslint/max-depth eslint/max-lines eslint/max-lines-per-function eslint/max-statements eslint/max-params eslint/no-await-in-loop */
 
 // Remove GITHUB_TOKEN from env to avoid github cli using it
 const envWithoutGitHubToken = Object.fromEntries(
@@ -17,7 +17,6 @@ const localGitConfigPath: string = (await $`git config --global include.path`.te
 
 // Do not use Partial as it sets all properties to optional but doesn't allow undefined
 type DeepOptional<T> = {
-	// oxlint-disable-next-line eslint/id-length
 	[P in keyof T]: T[P] extends (infer U)[]
 		? DeepOptional<U>[] | undefined
 		: T[P] extends object
@@ -53,8 +52,8 @@ const ensureGitHubTokenScopes = async (): Promise<() => Promise<void>> => {
 			output += text;
 			const oneTimeCode = text.match(
 				// Ref: https://github.com/cli/cli/blob/14d339d9ba87e87f34b7a25f00200a2062f87039/internal/authflow/flow.go#L58
-				/First copy your one-time code: ([A-Z0-9-]+)/,
-			)?.[1];
+				/First copy your one-time code: (?<code>[A-Z0-9-]+)/u,
+			)?.groups?.["code"];
 			if (oneTimeCode) {
 				// Copy one-time code to clipboard of Windows
 				// Don't use piping because clip.exe appends a trailing newline
@@ -62,8 +61,8 @@ const ensureGitHubTokenScopes = async (): Promise<() => Promise<void>> => {
 			}
 			const url = text.match(
 				// Ref: https://github.com/cli/cli/blob/14d339d9ba87e87f34b7a25f00200a2062f87039/internal/authflow/flow.go#L71
-				/Open this URL to continue in your web browser: (.+)/,
-			)?.[1];
+				/Open this URL to continue in your web browser: (?<url>.+)/u,
+			)?.groups?.["url"];
 			if (url) {
 				// Open the url automatically in the Windows default browser
 				await $`xdg-open ${url}`.nothrow();
@@ -120,11 +119,10 @@ const ensureGitHubTokenScopes = async (): Promise<() => Promise<void>> => {
 	const scopes =
 		stdout
 			.toString()
-			.match(/Token scopes:(.*)/)
-			?.at(1)
-			?.trim()
+			.match(/Token scopes:(?<scopes>.*)/u)
+			?.groups?.["scopes"]?.trim()
 			.split(", ")
-			.map((scope) => scope.replaceAll(/'/g, "")) ?? [];
+			.map((scope) => scope.replaceAll(/'/gu, "")) ?? [];
 	const missingScopes = requiredScopes
 		.filter(({ scope }) => !scopes.includes(scope))
 		.map(({ scope }) => scope);
@@ -164,7 +162,8 @@ const getGitIdentity = async (): Promise<{
 	if (!email) {
 		throw new Error("user.email is not set in git config");
 	}
-	const githubId = email.match(/^[^+]*\+([^@]+)@users\.noreply\.github\.com$/)?.[1];
+	const githubId = email.match(/^[^+]*\+(?<githubId>[^@]+)@users\.noreply\.github\.com$/u)
+		?.groups?.["githubId"];
 	if (!githubId) {
 		throw new Error(`Could not parse GitHub login from user.email: ${email}`);
 	}
@@ -283,7 +282,7 @@ const getGpgKeyringSecretKeys = async (gpgHome?: string): Promise<KeyringSecretK
 				if (current.userIds === undefined) {
 					current.userIds = [];
 				}
-				const userId = key.user_id?.match(/(?<name>[^ ]+) (?:(?<comment>.+) )?<(?<email>.+)>/);
+				const userId = key.user_id?.match(/(?<name>[^ ]+) (?:(?<comment>.+) )?<(?<email>.+)>/u);
 				current.userIds.push({
 					comment: userId?.groups?.["comment"] ?? null,
 					email: userId?.groups?.["email"],
@@ -466,7 +465,6 @@ const importGpgSecretKey = async (
 		// Gpg --import requires the trailing newline
 		const armor = `${lines.join("\n")}\n`;
 
-		// oxlint-disable-next-line eslint/no-useless-assignment -- init-declarations requires `= undefined` here
 		let tempDir: string | undefined = undefined;
 		let fingerprint: string | undefined = undefined;
 		try {
