@@ -1,0 +1,226 @@
+#!/usr/bin/env bash
+#MISE description="List open Renovate pull requests."
+#USAGE about "List open Renovate pull requests"
+#USAGE flag "-i --include" help="Include a GitHub owner or owner/repo" default="@me" {
+#USAGE   arg <target> env="USAGE_INCLUDE"
+#USAGE }
+#USAGE flag "-e --exclude" help="Exclude a GitHub owner or owner/repo; can be passed more than once" {
+#USAGE   arg <target> env="USAGE_EXCLUDE"
+#USAGE }
+
+set -euo pipefail
+
+die() {
+	printf 'error: %s\n' "$*" >&2
+	exit 1
+}
+
+print_help() {
+	cat <<'HELP'
+List open Renovate pull requests.
+
+Usage: renovate-prs [--include <owner|owner/repo>] [--exclude <owner|owner/repo>]...
+
+Options:
+  -i, --include <target>    Include a GitHub owner or owner/repo. [default: @me]
+  -e, --exclude <target>    Exclude a GitHub owner or owner/repo.
+  -h, --help                Show this help.
+HELP
+}
+
+include=${USAGE_INCLUDE:-@me}
+excludes=()
+
+if [[ -n ${USAGE_EXCLUDE:-} ]]; then
+	excludes+=("${USAGE_EXCLUDE}")
+fi
+
+while (($# > 0)); do
+	case "$1" in
+	-i | --include)
+		(($# >= 2)) || die "$1 requires a target"
+		include=$2
+		shift 2
+		;;
+	--include=*)
+		include=${1#*=}
+		shift
+		;;
+	-e | --exclude)
+		(($# >= 2)) || die "$1 requires a target"
+		excludes+=("$2")
+		shift 2
+		;;
+	--exclude=*)
+		excludes+=("${1#*=}")
+		shift
+		;;
+	-h | --help)
+		print_help
+		exit 0
+		;;
+	*)
+		die "unknown argument: $1"
+		;;
+	esac
+done
+
+osc8_link() {
+	local text=$1
+	local url=$2
+
+	printf '\033]8;;%s\a%s\033]8;;\a' "${url}" "${text}"
+}
+
+github_login() {
+	gh api user --jq '.login'
+}
+
+search_qualifier() {
+	local value=$1
+
+	if [[ -z ${value} || ${value} == "@me" ]]; then
+		value=$(github_login)
+	fi
+
+	if [[ ${value} == */* ]]; then
+		printf 'repo:%s\n' "${value}"
+	else
+		printf 'user:%s\n' "${value}"
+	fi
+}
+
+exclusions_json() {
+	local exclude_args=()
+	local exclude
+
+	for exclude in "${excludes[@]}"; do
+		[[ -n ${exclude} ]] && exclude_args+=("${exclude}")
+	done
+
+	jq -cn '$ARGS.positional' --args "${exclude_args[@]}"
+}
+
+graphql_query() {
+	cat <<'GRAPHQL'
+query($searchQuery: String!) {
+  search(type: ISSUE, query: $searchQuery, first: 100) {
+    nodes {
+      ... on PullRequest {
+        number
+        title
+        url
+        updatedAt
+        repository {
+          nameWithOwner
+        }
+        commits(last: 1) {
+          nodes {
+            commit {
+              statusCheckRollup {
+                state
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+GRAPHQL
+}
+
+search_query() {
+	local include_qualifier
+
+	include_qualifier=$(search_qualifier "${include}")
+	printf 'author:app/renovate is:pr is:open archived:false %s' "${include_qualifier}"
+}
+
+fetch_prs() {
+	local query
+	local search
+
+	query=$(graphql_query)
+	search=$(search_query)
+	gh api graphql -f query="${query}" -f searchQuery="${search}"
+}
+
+pr_rows() {
+	local response=$1
+	local exclusions=$2
+
+	jq -r --argjson exclusions "${exclusions}" '
+  def dependency:
+    .title
+    | sub("^(fix|ci|chore)\\(deps\\): (update (dependency )?)?"; "");
+
+  def ci:
+    .commits.nodes[-1].commit.statusCheckRollup.state // "NONE"
+    | if . == "FAILURE" or . == "ERROR" then "❌"
+      elif . == "SUCCESS" then "✅"
+      elif . == "PENDING" or . == "EXPECTED" then "⏳"
+      elif . == "NONE" then "⚪"
+      else "❔"
+      end;
+
+  def excluded($repo):
+    any($exclusions[]; . as $target |
+      if ($target | contains("/")) then
+        $repo == $target
+      else
+        ($repo | startswith($target + "/"))
+      end
+    );
+
+  .data.search.nodes
+  | map(select(.repository.nameWithOwner as $repo | excluded($repo) | not))
+  | sort_by(.repository.nameWithOwner)
+  | group_by(.repository.nameWithOwner)
+  | map(sort_by(.updatedAt) | reverse)
+  | flatten
+  | if length == 0 then
+      empty
+    else
+      (.[] | [
+        .repository.nameWithOwner,
+        "(#" + (.number | tostring) + ")",
+        .url,
+        dependency,
+        (.updatedAt | sub("T.*$"; "")),
+        ci
+      ] | @tsv)
+    end
+' <<<"${response}"
+}
+
+print_rows() {
+	local rows_tsv=$1
+	local current_repo=''
+	local repo pr url dependency updated ci
+
+	while IFS=$'\t' read -r repo pr url dependency updated ci; do
+		[[ -n ${repo} ]] || continue
+		if [[ ${repo} != "${current_repo}" ]]; then
+			if [[ -n ${current_repo} ]]; then
+				printf '\n'
+			fi
+			printf '%s\n' "${repo}"
+			current_repo=${repo}
+		fi
+		printf '  %s  %s ' "${ci}" "${dependency}"
+		osc8_link "${pr}" "${url}"
+		printf '  %s\n' "${updated}"
+	done <<<"${rows_tsv}"
+}
+
+response=$(fetch_prs)
+exclusions=$(exclusions_json)
+rows_tsv=$(pr_rows "${response}" "${exclusions}")
+
+if [[ -z ${rows_tsv} ]]; then
+	printf 'No open Renovate pull requests found.\n'
+	exit 0
+fi
+
+print_rows "${rows_tsv}"
