@@ -49,27 +49,31 @@ url = "https://github.com/jdx/aube/releases/download/v1.25.1/aube-v1.25.1-x86_64
 provenance = "github-attestations"
 
 [[tools.betterleaks]]
-version = "v1.6.0"
+version = "v1.6.1"
 backend = "aqua:betterleaks/betterleaks"
 
 [tools.betterleaks."platforms.linux-x64"]
-checksum = "sha256:d47a318a2e47c2eaf5e76691894765fa477deb60918fbcd1a0f09a9f006fadbd"
-url = "https://github.com/betterleaks/betterleaks/releases/download/v1.6.0/betterleaks_1.6.0_linux_x64.tar.gz"
+checksum = "sha256:fbefc700a0bd4522cc952dd2a8f259cdb80526d7e60114aca19bb2d6fdc80f81"
+url = "https://github.com/betterleaks/betterleaks/releases/download/v1.6.1/betterleaks_1.6.1_linux_x64.tar.gz"
+url_api = "https://api.github.com/repos/betterleaks/betterleaks/releases/assets/462264876"
 provenance = "cosign"
 
 [tools.betterleaks."platforms.linux-x64-baseline"]
-checksum = "sha256:d47a318a2e47c2eaf5e76691894765fa477deb60918fbcd1a0f09a9f006fadbd"
-url = "https://github.com/betterleaks/betterleaks/releases/download/v1.6.0/betterleaks_1.6.0_linux_x64.tar.gz"
+checksum = "sha256:fbefc700a0bd4522cc952dd2a8f259cdb80526d7e60114aca19bb2d6fdc80f81"
+url = "https://github.com/betterleaks/betterleaks/releases/download/v1.6.1/betterleaks_1.6.1_linux_x64.tar.gz"
+url_api = "https://api.github.com/repos/betterleaks/betterleaks/releases/assets/462264876"
 provenance = "cosign"
 
 [tools.betterleaks."platforms.linux-x64-musl"]
-checksum = "sha256:d47a318a2e47c2eaf5e76691894765fa477deb60918fbcd1a0f09a9f006fadbd"
-url = "https://github.com/betterleaks/betterleaks/releases/download/v1.6.0/betterleaks_1.6.0_linux_x64.tar.gz"
+checksum = "sha256:fbefc700a0bd4522cc952dd2a8f259cdb80526d7e60114aca19bb2d6fdc80f81"
+url = "https://github.com/betterleaks/betterleaks/releases/download/v1.6.1/betterleaks_1.6.1_linux_x64.tar.gz"
+url_api = "https://api.github.com/repos/betterleaks/betterleaks/releases/assets/462264876"
 provenance = "cosign"
 
 [tools.betterleaks."platforms.linux-x64-musl-baseline"]
-checksum = "sha256:d47a318a2e47c2eaf5e76691894765fa477deb60918fbcd1a0f09a9f006fadbd"
-url = "https://github.com/betterleaks/betterleaks/releases/download/v1.6.0/betterleaks_1.6.0_linux_x64.tar.gz"
+checksum = "sha256:fbefc700a0bd4522cc952dd2a8f259cdb80526d7e60114aca19bb2d6fdc80f81"
+url = "https://github.com/betterleaks/betterleaks/releases/download/v1.6.1/betterleaks_1.6.1_linux_x64.tar.gz"
+url_api = "https://api.github.com/repos/betterleaks/betterleaks/releases/assets/462264876"
 provenance = "cosign"
 
 [[tools.bitwarden]]
