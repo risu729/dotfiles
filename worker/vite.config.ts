@@ -1,10 +1,13 @@
-import { execSync } from "node:child_process";
+import { exec } from "node:child_process";
 import process from "node:process";
+import { promisify } from "node:util";
 
 import { cloudflare } from "@cloudflare/vite-plugin";
 import { defineConfig } from "vite";
 
-const remoteInfo: string | undefined = execSync("git remote show origin").toString();
+const execAsync = promisify(exec);
+
+const { stdout: remoteInfo } = await execAsync("git remote show origin");
 // In cloudflare workers builds, the url is in the format `https://*****@github.com//owner/repo`
 // Not sure why there are two slashes, so use `+` to match one or more slashes
 const repoName: string | undefined = remoteInfo.match(
