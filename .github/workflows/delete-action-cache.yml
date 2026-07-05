@@ -1,17 +1,13 @@
 name: Delete Action Cache
-
 on:
   pull_request:
     types:
       - closed
   workflow_dispatch:
-
 concurrency:
   group: ${{ github.workflow }}-${{ case(github.event_name == 'pull_request', github.event.pull_request.number, github.ref) }}
   cancel-in-progress: true
-
 permissions: {}
-
 jobs:
   delete-cache:
     name: Delete Action Cache
@@ -19,24 +15,20 @@ jobs:
     timeout-minutes: 5
     permissions:
       actions: write # for delete cache
-
     steps:
       - name: Delete Action Cache
         uses: toshimaru/delete-action-cache@ab45c03c4f82162f880096a984a1fe1e7775a292 # v1.0.1
         with:
           limit: 1000
-
   actions-timeline:
     name: Generate Actions Timeline
     needs:
       - delete-cache
     if: ${{ !cancelled() }}
-
     runs-on: ubuntu-24.04
     timeout-minutes: 5
     permissions:
       actions: read # for actions-timeline
-
     steps:
       - name: actions-timeline
         uses: Kesin11/actions-timeline@7bf79990b7c09f5dfb570ac30b814ca597bd538e # v3.1.1

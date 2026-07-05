@@ -1,5 +1,4 @@
 name: CI
-
 on:
   push:
     branches:
@@ -10,17 +9,13 @@ on:
   workflow_dispatch:
   schedule:
     - cron: "0 0 * * SUN"
-
 concurrency:
   group: ${{ github.workflow }}-${{ case(github.event_name == 'pull_request', github.event.pull_request.number, github.ref) }}
   cancel-in-progress: true
-
 permissions: {}
-
 defaults:
   run:
     shell: bash
-
 jobs:
   lint:
     name: Lint
@@ -28,30 +23,25 @@ jobs:
     timeout-minutes: 20
     permissions:
       contents: read # for checkout
-
     steps:
       - name: Checkout
         uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         with:
           persist-credentials: false
-
       - name: Install mise
         uses: jdx/mise-action@e6a8b3978addb5a52f2b4cd9d91eafa7f0ab959d # v4.2.0
         with:
           version: 2026.7.0
-
       - name: Run check
         if: github.event_name != 'schedule'
         run: mise run check --lint
         env:
           GITHUB_TOKEN: ${{ github.token }}
-
       - name: Run flaky check
         if: github.event_name == 'schedule'
         run: mise run check --lint --flaky
         env:
           GITHUB_TOKEN: ${{ github.token }}
-
   test-linux:
     name: Test Installer Scripts on WSL Ubuntu Image
     runs-on: ubuntu-24.04
@@ -63,13 +53,11 @@ jobs:
       # Keep WSL image target stable because newest LTS metadata can
       # appear before cdimages publishes the corresponding wsl artifact.
       WSL_IMAGE_URL: https://cdimages.ubuntu.com/ubuntu-wsl/noble/daily-live/current/noble-wsl-amd64.wsl
-
     steps:
       - name: Checkout
         uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         with:
           persist-credentials: false
-
       - name: Prepare Docker Compose environment
         run: |
           mise_version=$(sed -n 's/^min_version = "\(.*\)"$/\1/p' mise.toml)
@@ -78,7 +66,6 @@ jobs:
             exit 1
           fi
           echo "MISE_VERSION=${mise_version}" >> "${GITHUB_ENV}"
-
       - name: Resolve Ubuntu WSL image version
         id: wsl-image
         run: |
@@ -94,18 +81,15 @@ jobs:
             exit 1
           fi
           echo "etag=${etag}" >> "${GITHUB_OUTPUT}"
-
       - name: Cache Ubuntu WSL image
         id: wsl-cache
         uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
           path: wsl-amd64.wsl
           key: ubuntu-wsl-noble-${{ steps.wsl-image.outputs.etag }}
-
       - name: Download Ubuntu WSL image
         if: steps.wsl-cache.outputs.cache-hit != 'true'
         run: curl --fail-with-body --location --output wsl-amd64.wsl "${WSL_IMAGE_URL}"
-
       - name: Run installer
         run: docker compose --file compose.ci.yml up --build --abort-on-container-exit --exit-code-from test-linux
         env:
@@ -115,18 +99,15 @@ jobs:
           # use head sha for pull requests because github.sha is set to the merge commit
           GIT_COMMIT_SHA: ${{ case(github.event_name == 'pull_request', github.event.pull_request.head.sha, github.sha) }}
           MISE_LOG_LEVEL: ${{ case(runner.debug == '1', 'debug', 'info') }}
-
       - name: Clean up Docker Compose
         if: ${{ always() }}
         run: docker compose --file compose.ci.yml down --volumes --remove-orphans
-
   test-worker:
     name: Cloudflare Workers Tests
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     permissions:
       contents: read # for checkout
-
     steps:
       - name: Checkout
         uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
@@ -138,17 +119,14 @@ jobs:
             tasks/
             worker/
           persist-credentials: false
-
       - name: Install mise
         uses: jdx/mise-action@e6a8b3978addb5a52f2b4cd9d91eafa7f0ab959d # v4.2.0
         with:
           version: 2026.7.0
-
       - name: Run tests
         run: mise run worker:test
         env:
           GITHUB_TOKEN: ${{ github.token }}
-
   ci-check:
     name: CI Check
     needs:
@@ -159,21 +137,17 @@ jobs:
     if: always() && (contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled'))
     runs-on: ubuntu-24.04
     timeout-minutes: 5
-
     steps:
       - run: exit 1
-
   actions-timeline:
     name: Generate Actions Timeline
     needs:
       - ci-check
     if: ${{ !cancelled() }}
-
     runs-on: ubuntu-24.04
     timeout-minutes: 5
     permissions:
       actions: read # for actions-timeline
-
     steps:
       - name: actions-timeline
         uses: Kesin11/actions-timeline@7bf79990b7c09f5dfb570ac30b814ca597bd538e # v3.1.1
