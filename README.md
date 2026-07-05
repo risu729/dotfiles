@@ -37,7 +37,7 @@ This repository is organized around the two installer entry points:
 - `docker/` and `compose.ci.yml` define the Ubuntu WSL-like test environment
   used by CI to exercise the WSL installer.
 
-- `.github/workflows/` contains linting, installer test, worker, autofix, and PR
+- `.github/workflows/` contains linting, installer test, worker, and PR
   maintenance workflows.
 
 - `github/` contains GitHub repository configuration files managed outside
