@@ -56,7 +56,7 @@ kubectx = "latest"
 kubeseal = "latest"
 mitmproxy = "latest"
 doggo = "latest"
-pitchfork = "latest"
+pitchfork = { version = "latest", postinstall = "pitchfork boot disable || true; pitchfork boot enable" }
 miller = "latest"
 glow = "latest"
 "github:garden-rs/garden" = "latest"
