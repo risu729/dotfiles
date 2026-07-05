@@ -195,6 +195,30 @@ url = "https://github.com/biomejs/biome/releases/download/%40biomejs/biome%402.5
 url_api = "https://api.github.com/repos/biomejs/biome/releases/assets/463101259"
 provenance = "github-attestations"
 
+[[tools.bitwarden]]
+version = "2026.4.1"
+backend = "aqua:bitwarden/clients"
+
+[tools.bitwarden."platforms.linux-x64"]
+checksum = "sha256:2172dc63f821fcbd4b4ce65e7106f1ebab26b6cb16c9c8a5b28230dcc6f8a774"
+url = "https://github.com/bitwarden/clients/releases/download/cli-v2026.4.1/bw-linux-2026.4.1.zip"
+url_api = "https://api.github.com/repos/bitwarden/clients/releases/assets/403504521"
+
+[tools.bitwarden."platforms.linux-x64-baseline"]
+checksum = "sha256:2172dc63f821fcbd4b4ce65e7106f1ebab26b6cb16c9c8a5b28230dcc6f8a774"
+url = "https://github.com/bitwarden/clients/releases/download/cli-v2026.4.1/bw-linux-2026.4.1.zip"
+url_api = "https://api.github.com/repos/bitwarden/clients/releases/assets/403504521"
+
+[tools.bitwarden."platforms.linux-x64-musl"]
+checksum = "sha256:2172dc63f821fcbd4b4ce65e7106f1ebab26b6cb16c9c8a5b28230dcc6f8a774"
+url = "https://github.com/bitwarden/clients/releases/download/cli-v2026.4.1/bw-linux-2026.4.1.zip"
+url_api = "https://api.github.com/repos/bitwarden/clients/releases/assets/403504521"
+
+[tools.bitwarden."platforms.linux-x64-musl-baseline"]
+checksum = "sha256:2172dc63f821fcbd4b4ce65e7106f1ebab26b6cb16c9c8a5b28230dcc6f8a774"
+url = "https://github.com/bitwarden/clients/releases/download/cli-v2026.4.1/bw-linux-2026.4.1.zip"
+url_api = "https://api.github.com/repos/bitwarden/clients/releases/assets/403504521"
+
 [[tools.btop]]
 version = "1.4.7"
 backend = "aqua:aristocratos/btop"

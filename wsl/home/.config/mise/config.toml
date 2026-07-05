@@ -38,6 +38,7 @@ github-cli = "latest"
 "aqua:siketyan/ghr" = { version = "latest", prerelease = true }
 fzf = "latest"
 worktrunk = "latest"
+bitwarden = "latest"
 jc = "latest"
 delta = "latest"
 ripgrep = "latest"
