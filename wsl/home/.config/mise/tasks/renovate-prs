@@ -107,6 +107,8 @@ query($searchQuery: String!) {
   search(type: ISSUE, query: $searchQuery, first: 100) {
     nodes {
       ... on PullRequest {
+        mergeable
+        mergeStateStatus
         number
         title
         url
@@ -164,6 +166,13 @@ pr_rows() {
       else "❔"
       end;
 
+  def merge_state:
+    if .mergeable == "CONFLICTING" or .mergeStateStatus == "DIRTY" then
+      "💥"
+    else
+      ""
+    end;
+
   def excluded($repo):
     any($exclusions[]; . as $target |
       if ($target | contains("/")) then
@@ -188,7 +197,8 @@ pr_rows() {
         .url,
         dependency,
         (.updatedAt | sub("T.*$"; "")),
-        ci
+        ci,
+        merge_state
       ] | @tsv)
     end
 ' <<<"${response}"
@@ -197,9 +207,9 @@ pr_rows() {
 print_rows() {
 	local rows_tsv=$1
 	local current_repo=''
-	local repo pr url dependency updated ci
+	local repo pr url dependency updated ci merge_state
 
-	while IFS=$'\t' read -r repo pr url dependency updated ci; do
+	while IFS=$'\t' read -r repo pr url dependency updated ci merge_state; do
 		[[ -n ${repo} ]] || continue
 		if [[ ${repo} != "${current_repo}" ]]; then
 			if [[ -n ${current_repo} ]]; then
@@ -208,7 +218,11 @@ print_rows() {
 			printf '%s\n' "${repo}"
 			current_repo=${repo}
 		fi
-		printf '  %s  %s ' "${ci}" "${dependency}"
+		printf '  %s  ' "${ci}"
+		if [[ -n ${merge_state} ]]; then
+			printf '%s  ' "${merge_state}"
+		fi
+		printf '%s ' "${dependency}"
 		osc8_link "${pr}" "${url}"
 		printf '  %s\n' "${updated}"
 	done <<<"${rows_tsv}"
