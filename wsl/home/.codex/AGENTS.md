@@ -1,5 +1,7 @@
 # Global Agent Instructions
 
+These instructions apply to agent work in this dotfiles repository.
+
 ## Repository and Branch Workflow
 
 - Prefer `gh pr checkout` when checking out an existing pull request.

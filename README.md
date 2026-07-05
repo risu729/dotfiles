@@ -1,5 +1,7 @@
 # 🐿 Risu's Dotfiles
 
+Personal configuration for my Windows and WSL development environments.
+
 ## ⭐ Description
 
 These dotfiles are used to configure my environment, mainly Windows 11 and WSL2
@@ -46,6 +48,8 @@ This repository is organized around the two installer entry points:
   the root repository and the worker package.
 
 ## ⚙️ Installation
+
+Use the installer for the operating system being configured.
 
 ### 🪟 Windows 11
 
@@ -118,6 +122,8 @@ bash -i <(curl -fsSL https://dot.risunosu.com/wsl)
 [powertoys-backup-restore]: https://learn.microsoft.com/windows/powertoys/general#backup--restore
 
 ## 🛠️ Development
+
+Development tasks are managed with `mise` from this repository.
 
 ### ⚙️ Setup
 
