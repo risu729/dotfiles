@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # shellcheck disable=SC2310 # fallback functions intentionally return status
-#MISE description "Launch Codex CLI in a tmux-backed Worktrunk worktree"
+#MISE description="Launch Codex CLI in a tmux-backed Worktrunk worktree"
 #MISE dir="{{cwd}}"
 #USAGE about "Launch Codex in a tmux-backed Worktrunk checkout"
 #USAGE arg "[repo]" help="ghr repo name, host:owner/repo, or owner/repo" required=#false
