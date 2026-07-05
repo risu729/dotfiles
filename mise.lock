@@ -217,24 +217,24 @@ version = "1.25.7"
 backend = "aqua:kellyjonbrazil/jc"
 
 [tools.jc."platforms.linux-x64"]
-checksum = "sha256:e7b4bd9eca4164276b99b39cc56e2dbc9536ad7b997f80a70ea9b7778f5fded4"
+checksum = "sha256:5b7ab595bfbaa70f07a15136bbc3c09d6dbf65891248bf1f060ec3da29608a2c"
 url = "https://github.com/kellyjonbrazil/jc/releases/download/v1.25.7/jc-1.25.7-linux-x86_64.tar.gz"
-url_api = "https://api.github.com/repos/kellyjonbrazil/jc/releases/assets/451606518"
+url_api = "https://api.github.com/repos/kellyjonbrazil/jc/releases/assets/460709238"
 
 [tools.jc."platforms.linux-x64-baseline"]
-checksum = "sha256:e7b4bd9eca4164276b99b39cc56e2dbc9536ad7b997f80a70ea9b7778f5fded4"
+checksum = "sha256:5b7ab595bfbaa70f07a15136bbc3c09d6dbf65891248bf1f060ec3da29608a2c"
 url = "https://github.com/kellyjonbrazil/jc/releases/download/v1.25.7/jc-1.25.7-linux-x86_64.tar.gz"
-url_api = "https://api.github.com/repos/kellyjonbrazil/jc/releases/assets/451606518"
+url_api = "https://api.github.com/repos/kellyjonbrazil/jc/releases/assets/460709238"
 
 [tools.jc."platforms.linux-x64-musl"]
-checksum = "sha256:e7b4bd9eca4164276b99b39cc56e2dbc9536ad7b997f80a70ea9b7778f5fded4"
+checksum = "sha256:5b7ab595bfbaa70f07a15136bbc3c09d6dbf65891248bf1f060ec3da29608a2c"
 url = "https://github.com/kellyjonbrazil/jc/releases/download/v1.25.7/jc-1.25.7-linux-x86_64.tar.gz"
-url_api = "https://api.github.com/repos/kellyjonbrazil/jc/releases/assets/451606518"
+url_api = "https://api.github.com/repos/kellyjonbrazil/jc/releases/assets/460709238"
 
 [tools.jc."platforms.linux-x64-musl-baseline"]
-checksum = "sha256:e7b4bd9eca4164276b99b39cc56e2dbc9536ad7b997f80a70ea9b7778f5fded4"
+checksum = "sha256:5b7ab595bfbaa70f07a15136bbc3c09d6dbf65891248bf1f060ec3da29608a2c"
 url = "https://github.com/kellyjonbrazil/jc/releases/download/v1.25.7/jc-1.25.7-linux-x86_64.tar.gz"
-url_api = "https://api.github.com/repos/kellyjonbrazil/jc/releases/assets/451606518"
+url_api = "https://api.github.com/repos/kellyjonbrazil/jc/releases/assets/460709238"
 
 [[tools.lychee]]
 version = "0.24.2"
