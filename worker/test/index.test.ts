@@ -37,7 +37,7 @@ describe("worker", () => {
 			async (path) => {
 				const response = await SELF.fetch(`https://dot.risunosu.com${path}`);
 				await expect(response.text()).resolves.toMatch(
-					/^.?repo(_n|N)ame *= *["']risu729\/dotfiles["']/gm,
+					/^.?repo(?:_n|N)ame *= *["']risu729\/dotfiles["']/gmu,
 				);
 			},
 		);
@@ -55,7 +55,7 @@ describe("worker", () => {
 					`https://dot.risunosu.com${path}?ref=${import.meta.env.LATEST_COMMIT_HASH}`,
 				);
 				await expect(response.text()).resolves.toMatch(
-					new RegExp(`^.?git(_r|R)ef *= *["']${import.meta.env.LATEST_COMMIT_HASH}["']`, "gm"),
+					new RegExp(`^.?git(?:_r|R)ef *= *["']${import.meta.env.LATEST_COMMIT_HASH}["']`, "gmu"),
 				);
 			},
 		);
@@ -71,7 +71,7 @@ describe("worker", () => {
 			async (path) => {
 				const response = await SELF.fetch(`https://dot.risunosu.com${path}`);
 				await expect(response.text()).resolves.toMatch(
-					/^.?script(_o|O)rigin *= *["']https:\/\/dot\.risunosu\.com["']/gm,
+					/^.?script(?:_o|O)rigin *= *["']https:\/\/dot\.risunosu\.com["']/gmu,
 				);
 			},
 		);
@@ -85,7 +85,7 @@ describe("worker", () => {
 			async (path) => {
 				const response = await SELF.fetch(`http://localhost:8080${path}`);
 				await expect(response.text()).resolves.toMatch(
-					/^.?script(_o|O)rigin *= *["']http:\/\/localhost:8080["']/gm,
+					/^.?script(?:_o|O)rigin *= *["']http:\/\/localhost:8080["']/gmu,
 				);
 			},
 		);
@@ -108,7 +108,7 @@ describe("worker", () => {
 		},
 		async () => {
 			const response = await SELF.fetch("https://dot.risunosu.com/wsl");
-			await expect(response.text()).resolves.toMatch(/^#!(?:\/\w+)+/);
+			await expect(response.text()).resolves.toMatch(/^#!(?:\/\w+)+/u);
 		},
 	);
 
@@ -116,7 +116,7 @@ describe("worker", () => {
 		it.each(["/win", "/wsl"])("return %s with default branch", async (path) => {
 			const response = await SELF.fetch(`https://dot.risunosu.com${path}`);
 			const script = await response.text();
-			const sourceUrl = [...script.matchAll(/# source: (?<url>.+)/g)].at(0)?.groups?.["url"];
+			const sourceUrl = [...script.matchAll(/# source: (?<url>.+)/gu)].at(0)?.groups?.["url"];
 			expect(sourceUrl).toBe(
 				`https://raw.githubusercontent.com/risu729/dotfiles/${import.meta.env.DEFAULT_BRANCH}${path}/install.${path === "/win" ? "ps1" : "sh"}`,
 			);
@@ -127,7 +127,7 @@ describe("worker", () => {
 				`https://dot.risunosu.com${path}?ref=${import.meta.env.LATEST_COMMIT_HASH}`,
 			);
 			const script = await response.text();
-			const sourceUrl = [...script.matchAll(/# source: (?<url>.+)/g)].at(0)?.groups?.["url"];
+			const sourceUrl = [...script.matchAll(/# source: (?<url>.+)/gu)].at(0)?.groups?.["url"];
 			expect(sourceUrl).toBe(
 				`https://raw.githubusercontent.com/risu729/dotfiles/${import.meta.env.LATEST_COMMIT_HASH}${path}/install.${
 					path === "/win" ? "ps1" : "sh"
@@ -139,7 +139,7 @@ describe("worker", () => {
 	describe("installer script is almost the same as the source", () => {
 		const getDiffLines = async (response: Response): Promise<ChangeObject<string>[]> => {
 			const script = await response.text();
-			const sourceUrl = [...script.matchAll(/# source: (?<url>.+)/g)].at(0)?.groups?.["url"];
+			const sourceUrl = [...script.matchAll(/# source: (?<url>.+)/gu)].at(0)?.groups?.["url"];
 			if (!sourceUrl) {
 				throw new Error("source URL not found (covered by the previous test)");
 			}

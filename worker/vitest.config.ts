@@ -1,10 +1,13 @@
-import { execSync } from "node:child_process";
+import { exec } from "node:child_process";
 import process from "node:process";
+import { promisify } from "node:util";
 
 import { cloudflareTest } from "@cloudflare/vitest-pool-workers";
 import { defineConfig } from "vitest/config";
 
-const latestCommitHash: string = execSync("git rev-parse HEAD").toString().trim();
+const execAsync = promisify(exec);
+
+const latestCommitHash: string = (await execAsync("git rev-parse HEAD")).stdout.trim();
 if (!latestCommitHash) {
 	throw new Error("Could not determine latest commit hash from git.");
 }

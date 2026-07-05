@@ -15,7 +15,7 @@ app.get("/", ({ redirect }) =>
 	redirect(`https://github.com/${import.meta.env.REPO_NAME}#readme`, 307),
 );
 
-const shebangRegex = /^#!.*\n+/;
+const shebangRegex = /^#!.*\n+/u;
 
 // Redirect to the installer script
 app.get("/:os{win|wsl}", async ({ req, text }) => {
@@ -76,8 +76,13 @@ app.get("/:os{win|wsl}", async ({ req, text }) => {
 		}
 		// Use camel case for Windows and snake case for WSL
 		const nameInOs =
-			os === "win" ? name.replace(/_([a-z])/g, (_, char) => char.toUpperCase()) : name;
-		const regex = new RegExp(`(?<=${nameInOs} *= *["'])(?=["'])`);
+			os === "win"
+				? name.replaceAll(/_(?<char>[a-z])/gu, (...args) => {
+						const groups = args.at(-1) as { char: string };
+						return groups.char.toUpperCase();
+					})
+				: name;
+		const regex = new RegExp(`(?<=${nameInOs} *= *["'])(?=["'])`, "u");
 		if (!regex.test(script)) {
 			throw new HTTPException(500, {
 				message: `installer script does not contain a ${nameInOs} variable`,
