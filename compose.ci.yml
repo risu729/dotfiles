@@ -1,5 +1,4 @@
 name: dotfiles-ci
-
 services:
   worker:
     build:
@@ -15,7 +14,6 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
-
   test-linux:
     build:
       context: .
