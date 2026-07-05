@@ -197,19 +197,33 @@ clone_or_update_dotfiles_repo() {
 
 create_home_symlinks() {
 	local wsl_config_dir="$1"
-	local wsl_home_config_dir="${wsl_config_dir}/home"
+	local repo_root
+	repo_root="$(realpath "${wsl_config_dir}/..")"
+	local wsl_home_config_dir
+	wsl_home_config_dir="$(realpath "${wsl_config_dir}/home")"
 
 	log_info "Creating symbolic links for home directory files from ${wsl_home_config_dir}..."
 	# Postpone .gitconfig
-	local home_paths
-	home_paths="$(find "${wsl_home_config_dir}" -type f ! -name ".gitconfig")"
+	local wsl_home_config_relative_dir
+	wsl_home_config_relative_dir="$(realpath --relative-to="${repo_root}" "${wsl_home_config_dir}")"
+	local home_paths_file
+	home_paths_file="$(mktemp)"
+	git -C "${repo_root}" ls-files -z -- "${wsl_home_config_relative_dir}" >"${home_paths_file}"
+	local home_paths=()
+	while IFS= read -r -d '' path; do
+		if [[ ${path} == "${wsl_home_config_relative_dir}/.gitconfig" ]]; then
+			continue
+		fi
+		home_paths+=("${repo_root}/${path}")
+	done <"${home_paths_file}"
+	rm -- "${home_paths_file}"
 
-	if [[ -z ${home_paths} ]]; then
+	if ((${#home_paths[@]} == 0)); then
 		log_error "No home directory files found to symlink."
 		exit 1
 	fi
 
-	for path in ${home_paths}; do
+	for path in "${home_paths[@]}"; do
 		local target_name
 		local full_path
 		full_path=$(realpath "${path}")
@@ -232,18 +246,29 @@ create_home_symlinks() {
 
 create_etc_symlinks() {
 	local wsl_config_dir="$1"
-	local wsl_etc_config_dir="${wsl_config_dir}/etc"
+	local repo_root
+	repo_root="$(realpath "${wsl_config_dir}/..")"
+	local wsl_etc_config_dir
+	wsl_etc_config_dir="$(realpath "${wsl_config_dir}/etc")"
 
 	log_info "Creating symbolic links for etc directory files from ${wsl_etc_config_dir}..."
-	local etc_paths
-	etc_paths="$(find "${wsl_etc_config_dir}" -type f)"
+	local wsl_etc_config_relative_dir
+	wsl_etc_config_relative_dir="$(realpath --relative-to="${repo_root}" "${wsl_etc_config_dir}")"
+	local etc_paths_file
+	etc_paths_file="$(mktemp)"
+	git -C "${repo_root}" ls-files -z -- "${wsl_etc_config_relative_dir}" >"${etc_paths_file}"
+	local etc_paths=()
+	while IFS= read -r -d '' path; do
+		etc_paths+=("${repo_root}/${path}")
+	done <"${etc_paths_file}"
+	rm -- "${etc_paths_file}"
 
-	if [[ -z ${etc_paths} ]]; then
+	if ((${#etc_paths[@]} == 0)); then
 		log_error "No etc directory files found to symlink."
 		exit 1
 	fi
 
-	for path in ${etc_paths}; do
+	for path in "${etc_paths[@]}"; do
 		local full_path
 		full_path=$(realpath "${path}")
 		local target_name
