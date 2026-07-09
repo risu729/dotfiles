@@ -65,7 +65,7 @@ glow = "latest"
 "npm:resend-cli" = "latest"
 
 # ai agents
-codex = "latest"
+codex = { version = "latest", minimum_release_age = "0s" }
 "npm:ccusage" = "latest"
 claude = "latest"
 copilot = "latest"
