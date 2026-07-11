@@ -14,6 +14,30 @@ hk \
 """
 description = "Run hk linters and formatters."
 
+[bootstrap]
+description = "Finish idempotent WSL user setup after packages, dotfiles, and tools are installed."
+run = '''
+mkdir --parents "${HOME}/.gnupg"
+chmod 700 "${HOME}/.gnupg"
+
+username=$(whoami)
+if ! groups "${username}" | grep --quiet --word-regexp docker; then
+  sudo usermod --append --groups docker "${username}"
+fi
+
+sudo update-desktop-database
+
+# Installing this before the tools phase makes Git use gh before gh is installed.
+ln --symbolic --no-dereference --force \
+  "${MISE_PROJECT_ROOT}/wsl/home/.gitconfig" "${HOME}/.gitconfig"
+
+if [[ -t 0 && -t 1 ]]; then
+  if ! bash --interactive -c "${MISE_PROJECT_ROOT}/wsl/setup-git.ts"; then
+    echo "Git setup failed; run wsl/setup-git.ts manually if needed." >&2
+  fi
+fi
+'''
+
 ["install:ps-script-analyzer"]
 shell = "pwsh -Command"
 # Force is required to bypass untrusted repository confirmation

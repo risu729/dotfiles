@@ -33,33 +33,8 @@ update_system_packages() {
 	log_info "System packages updated."
 }
 
-install_system_packages() {
-	log_info "Installing system packages..."
-	# not pre-installed in wsl ubuntu
-	# ref: https://cdimages.ubuntu.com/ubuntu-wsl/noble/daily-live/current/noble-wsl-amd64.manifest
-	sudo apt-get install --yes \
-		bubblewrap \
-		build-essential \
-		clang \
-		clangd \
-		clang-format \
-		cmake \
-		desktop-file-utils \
-		ffmpeg \
-		gdb \
-		graphviz \
-		libssl-dev \
-		llvm \
-		parallel \
-		pkg-config \
-		strace \
-		xdg-utils \
-		zip
-	log_info "Core packages installed."
-}
-
 install_custom_registry_packages() {
-	log_info "Setting up custom APT repositories and installing additional packages..."
+	log_info "Setting up custom APT repositories and installing mise..."
 
 	sudo install --directory --mode=0755 /etc/apt/keyrings
 
@@ -83,22 +58,10 @@ install_custom_registry_packages() {
 	echo "deb [arch=${arch} signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu ${codename} stable" |
 		sudo tee /etc/apt/sources.list.d/docker.list >/dev/null
 
-	log_info "All repositories set up. Installing packages..."
+	log_info "All repositories set up. Installing mise..."
 	sudo apt-get update
-	sudo apt-get install --yes containerd.io docker-buildx-plugin docker-ce docker-ce-cli docker-compose-plugin mise
-	log_info "Additional packages installed."
-}
-
-configure_docker_group() {
-	log_info "Configuring Docker group..."
-	local username
-	username=$(whoami)
-	if groups "${username}" | grep --quiet --word-regexp 'docker'; then
-		log_info "User ${username} is already in the docker group."
-	else
-		sudo usermod --append --groups docker "${username}"
-		log_info "User ${username} added to the docker group."
-	fi
+	sudo apt-get install --yes mise
+	log_info "mise installed."
 }
 
 checkout_default_git_branch() {
@@ -195,55 +158,6 @@ clone_or_update_dotfiles_repo() {
 	echo "${dotfiles_target_dir}"
 }
 
-create_home_symlinks() {
-	local wsl_config_dir="$1"
-	local repo_root
-	repo_root="$(realpath "${wsl_config_dir}/..")"
-	local wsl_home_config_dir
-	wsl_home_config_dir="$(realpath "${wsl_config_dir}/home")"
-
-	log_info "Creating symbolic links for home directory files from ${wsl_home_config_dir}..."
-	# Postpone .gitconfig
-	local wsl_home_config_relative_dir
-	wsl_home_config_relative_dir="$(realpath --relative-to="${repo_root}" "${wsl_home_config_dir}")"
-	local home_paths_file
-	home_paths_file="$(mktemp)"
-	git -C "${repo_root}" ls-files -z -- "${wsl_home_config_relative_dir}" >"${home_paths_file}"
-	local home_paths=()
-	while IFS= read -r -d '' path; do
-		if [[ ${path} == "${wsl_home_config_relative_dir}/.gitconfig" ]]; then
-			continue
-		fi
-		home_paths+=("${repo_root}/${path}")
-	done <"${home_paths_file}"
-	rm -- "${home_paths_file}"
-
-	if ((${#home_paths[@]} == 0)); then
-		log_error "No home directory files found to symlink."
-		exit 1
-	fi
-
-	for path in "${home_paths[@]}"; do
-		local target_name
-		local full_path
-		full_path=$(realpath "${path}")
-		target_name="$(realpath --relative-to="${wsl_home_config_dir}" "${full_path}")"
-		local target_path="${HOME}/${target_name}"
-
-		mkdir --parents "$(dirname "${target_path}")"
-		if [[ ${target_name} == .agents/skills/* ]]; then
-			# Codex skips symlinked skill files during skill discovery.
-			cp --preserve=mode --remove-destination "${full_path}" "${target_path}"
-			# shellcheck disable=SC2088 # intentionally print ~ instead of $HOME
-			log_info "Installed file: ~/${target_name}"
-		else
-			ln --symbolic --no-dereference --force "${full_path}" "${target_path}"
-			# shellcheck disable=SC2088 # intentionally print ~ instead of $HOME
-			log_info "Installed symlink: ~/${target_name}"
-		fi
-	done
-}
-
 create_etc_symlinks() {
 	local wsl_config_dir="$1"
 	local repo_root
@@ -282,93 +196,20 @@ create_etc_symlinks() {
 	done
 }
 
-install_mise_tools() {
-	log_info "Installing global mise tools..."
-
-	mise trust --all
-
-	log_info "Installing tools..."
-	mise install --yes --locked
-	log_info "mise tools installed from lockfile."
-}
-
-symlink_gitconfig() {
-	local wsl_config_dir="$1"
-	local gitconfig_source="${wsl_config_dir}/home/.gitconfig"
-	local gitconfig_target="${HOME}/.gitconfig"
-
-	log_info "Symlinking .gitconfig from ${gitconfig_source} to ${gitconfig_target}..."
-	ln --symbolic --no-dereference --force "${gitconfig_source}" "${gitconfig_target}"
-	# shellcheck disable=SC2088 # intentionally print ~ instead of $HOME
-	log_info "Installed symlink for ~/.gitconfig"
-}
-
-init_gnupg_dir() {
-	local gnupg_home
-	gnupg_home="${HOME}/.gnupg"
-
-	log_info "Initializing GnuPG directory: ${gnupg_home}"
-
-	mkdir -p "${gnupg_home}"
-	chmod 700 "${gnupg_home}"
-
-	log_info "GnuPG directory created."
-}
-
-update_desktop_database() {
-	log_info "Updating desktop database..."
-	sudo update-desktop-database
-	log_info "Desktop database updated."
-}
-
-run_git_setup_script() {
-	local dotfiles_repo_root_path="$1"
-	local setup_script_path="${dotfiles_repo_root_path}/wsl/setup-git.ts"
-
-	# Skip if running in non-interactive shell
-	if [[ ! $- =~ i ]]; then
-		log_info "Non-interactive shell detected. Skipping git setup script: ${setup_script_path}"
-		return
-	fi
-
-	log_info "Sourcing .bashrc to set up environment for git setup script..."
-
-	# Source the .bashrc to use mise tools and xdg-open
-	# shellcheck source=wsl/home/.bashrc
-	source "${HOME}/.bashrc"
-
-	log_info "Running git setup script: ${setup_script_path}"
-
-	if "${setup_script_path}"; then
-		log_info "Git setup script completed successfully."
-	else
-		log_error "Failed to run ${setup_script_path}. Please run it manually if needed."
-	fi
-}
-
 main() {
 	update_system_packages
-	install_system_packages
 	install_custom_registry_packages
-	configure_docker_group
 
 	local dotfiles_dir
 	dotfiles_dir=$(clone_or_update_dotfiles_repo "${repo_name}" "${git_ref}")
 
 	local wsl_config_dir="${dotfiles_dir}/wsl"
-	create_home_symlinks "${wsl_config_dir}"
 	create_etc_symlinks "${wsl_config_dir}"
 
-	install_mise_tools
-
-	# Postpone .gitconfig to avoid authentication errors in install_mise_tools
-	symlink_gitconfig "${wsl_config_dir}"
-
-	init_gnupg_dir
-
-	update_desktop_database
-
-	run_git_setup_script "${dotfiles_dir}"
+	log_info "Bootstrapping packages, dotfiles, and tools with mise..."
+	mise trust --yes "${dotfiles_dir}/mise.toml"
+	mise --cd "${dotfiles_dir}" bootstrap --yes --update --force-dotfiles --locked
+	log_info "mise bootstrap completed."
 
 	checkout_default_git_branch "${dotfiles_dir}"
 

@@ -35,6 +35,7 @@ powershell = "7.6.3"
 
 [settings]
 experimental = true
+dotfiles.default_mode = "symlink"
 
 [settings.npm]
 package_manager = "aube"
@@ -54,6 +55,41 @@ run = "bun install --frozen-lockfile"
 
 [task_config]
 includes = ["tasks.toml", "tasks", "worker/tasks.toml", "worker/tasks"]
+
+[bootstrap.packages]
+"apt:bubblewrap" = "latest"
+"apt:build-essential" = "latest"
+"apt:clang" = "latest"
+"apt:clangd" = "latest"
+"apt:clang-format" = "latest"
+"apt:cmake" = "latest"
+"apt:containerd.io" = "latest"
+"apt:desktop-file-utils" = "latest"
+"apt:docker-buildx-plugin" = "latest"
+"apt:docker-ce" = "latest"
+"apt:docker-ce-cli" = "latest"
+"apt:docker-compose-plugin" = "latest"
+"apt:ffmpeg" = "latest"
+"apt:gdb" = "latest"
+"apt:graphviz" = "latest"
+"apt:libssl-dev" = "latest"
+"apt:llvm" = "latest"
+"apt:parallel" = "latest"
+"apt:pkg-config" = "latest"
+"apt:strace" = "latest"
+"apt:xdg-utils" = "latest"
+"apt:zip" = "latest"
+
+[dotfiles]
+"~/.agents" = { source = "wsl/home/.agents", mode = "copy" }
+"~/.bashrc" = "wsl/home/.bashrc"
+"~/.codex" = { source = "wsl/home/.codex", mode = "symlink-each" }
+"~/.config" = { source = "wsl/home/.config", mode = "symlink-each" }
+"~/.ghr" = { source = "wsl/home/.ghr", mode = "symlink-each" }
+"~/.gnupg" = { source = "wsl/home/.gnupg", mode = "symlink-each" }
+"~/.hushlogin" = "wsl/home/.hushlogin"
+"~/.local" = { source = "wsl/home/.local", mode = "symlink-each" }
+"~/.selected_editor" = "wsl/home/.selected_editor"
 
 [hooks]
 postinstall = """
