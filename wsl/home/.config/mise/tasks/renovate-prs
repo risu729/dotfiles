@@ -103,8 +103,12 @@ exclusions_json() {
 
 graphql_query() {
 	cat <<'GRAPHQL'
-query($searchQuery: String!) {
-  search(type: ISSUE, query: $searchQuery, first: 100) {
+query($searchQuery: String!, $cursor: String) {
+  search(type: ISSUE, query: $searchQuery, first: 20, after: $cursor) {
+    pageInfo {
+      endCursor
+      hasNextPage
+    }
     nodes {
       ... on PullRequest {
         mergeable
@@ -140,12 +144,26 @@ search_query() {
 }
 
 fetch_prs() {
+	local all_nodes='[]'
+	local cursor
+	local has_next_page=true
+	local page
+	local page_count=0
 	local query
 	local search
 
 	query=$(graphql_query)
 	search=$(search_query)
-	gh api graphql -f query="${query}" -f searchQuery="${search}"
+
+	while [[ ${has_next_page} == true && ${page_count} -lt 5 ]]; do
+		page=$(gh api graphql -f query="${query}" -f searchQuery="${search}" -F cursor="${cursor:-}")
+		all_nodes=$(jq -c --argjson nodes "${all_nodes}" '$nodes + .data.search.nodes' <<<"${page}")
+		cursor=$(jq -r '.data.search.pageInfo.endCursor // empty' <<<"${page}")
+		has_next_page=$(jq -r '.data.search.pageInfo.hasNextPage' <<<"${page}")
+		((page_count += 1))
+	done
+
+	jq -cn --argjson nodes "${all_nodes}" '{data: {search: {nodes: $nodes}}}'
 }
 
 pr_rows() {
