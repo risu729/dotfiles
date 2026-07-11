@@ -1,25 +1,27 @@
 amends "https://raw.githubusercontent.com/risu729/hk-config/v1.0.0/presets.pkl"
+
 import "https://raw.githubusercontent.com/risu729/hk-config/v1.0.0/helpers.pkl"
 
 local const bashrcGlobs = List("wsl/home/.bashrc")
 
-local picked = helpers.pick(new Listing {
-  "oxlint"
-  "oxfmt"
-  "github-actions"
-  "tombi"
-  "rumdl"
-  "yaml"
-  "shfmt"
-  "shellcheck"
-  "hadolint"
-  "mise"
-  "lychee"
-  "typos"
-  "tsc"
-  "betterleaks"
-  "hygiene"
-})
+local picked =
+  helpers.pick(new Listing {
+    "oxlint"
+    "oxfmt"
+    "github-actions"
+    "tombi"
+    "rumdl"
+    "yaml"
+    "shfmt"
+    "shellcheck"
+    "hadolint"
+    "mise"
+    "lychee"
+    "typos"
+    "tsc"
+    "betterleaks"
+    "hygiene"
+  })
 
 local mise = picked["mise"] as Group
 
@@ -44,26 +46,36 @@ local worker = new Group {
   }
 }
 
-hooks = helpers.standardHooks((picked) {
-  ["shfmt-bashrc"] = (picked["shfmt"]) {
-    glob = bashrcGlobs
-  }
-  ["shellcheck-bashrc"] = (picked["shellcheck"]) {
-    glob = bashrcGlobs
-  }
-  ["mise"] = (mise) {
-    steps {
-      ["mise-fmt"] = mise.steps["mise-fmt"]
-      ["mise-tasks"] = (mise.steps["mise-tasks"]) {
-        glob = List("tasks.toml", "tasks/**", "worker/tasks.toml", "worker/tasks/**", "mise.toml", "mise/**")
+hooks =
+  helpers.standardHooks((picked) {
+    ["shfmt-bashrc"] = (picked["shfmt"]) {
+      glob = bashrcGlobs
+    }
+    ["shellcheck-bashrc"] = (picked["shellcheck"]) {
+      glob = bashrcGlobs
+    }
+    ["mise"] = (mise) {
+      steps {
+        ["mise-fmt"] = mise.steps["mise-fmt"]
+        ["mise-tasks"] = (mise.steps["mise-tasks"]) {
+          glob =
+            List(
+              "tasks.toml",
+              "tasks/**",
+              "worker/tasks.toml",
+              "worker/tasks/**",
+              "mise.toml",
+              "mise/**",
+            )
+        }
       }
     }
-  }
-  ["pwsh"] = new Step {
-    // batch=false: ScriptAnalyzer scans `win/` recursively; command has no `{{ files }}`
-    batch = false
-    glob = List("win/**/*.ps1", "win/**/*.psd1", "win/**/*.psm1")
-    check = "pwsh -NoProfile -Command 'Invoke-ScriptAnalyzer -Path win -Recurse -EnableExit -Settings win/PSScriptAnalyzerSettings.psd1'"
-  }
-  ["worker"] = worker
-})
+    ["pwsh"] = new Step {
+      // batch=false: ScriptAnalyzer scans `win/` recursively; command has no `{{ files }}`
+      batch = false
+      glob = List("win/**/*.ps1", "win/**/*.psd1", "win/**/*.psm1")
+      check =
+        "pwsh -NoProfile -Command 'Invoke-ScriptAnalyzer -Path win -Recurse -EnableExit -Settings win/PSScriptAnalyzerSettings.psd1'"
+    }
+    ["worker"] = worker
+  })
