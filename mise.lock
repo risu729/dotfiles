@@ -257,7 +257,7 @@ checksum = "sha256:00f1398411a4216c5a6ecaad3b825a0da5ec00e79ee8c173ab65a094d97b9
 url = "https://unofficial-builds.nodejs.org/download/release/v26.5.0/node-v26.5.0-linux-x64-musl.tar.gz"
 
 [[tools."npm:typescript"]]
-version = "7.0.1-rc"
+version = "7.0.2"
 backend = "npm:typescript"
 
 [[tools.oxfmt]]
