@@ -18,11 +18,11 @@ This repository is organized around the two installer entry points:
 - `win/` contains the Windows setup script, `winget` package list, PowerToys
   settings backup, and Windows application configuration files.
 
-- `wsl/` contains the WSL setup script and the files it installs into the WSL
-  environment.
-  - `wsl/home/` mirrors the target home directory. The installer links these
-    files into `$HOME`, except for Codex skills, which are copied because Codex
-    does not discover symlinked skill files.
+- `wsl/` contains the WSL launcher and the files installed into the WSL
+  environment by `mise bootstrap`.
+  - `wsl/home/` mirrors the target home directory. Mise links these files into
+    `$HOME`, except for Codex skills, which are copied because Codex does not
+    discover symlinked skill files.
   - `wsl/etc/` mirrors root-owned system files. The installer links these files
     into `/etc`.
   - `wsl/setup-git.ts` performs interactive GitHub auth and GPG signing setup
@@ -44,8 +44,8 @@ This repository is organized around the two installer entry points:
   `.github/`, such as `rulesets.json`.
 
 - The root configuration files (`mise.toml`, `tasks.toml`, `hk.pkl`, and the
-  formatter/linter configs) define the development toolchain and checks for both
-  the root repository and the worker package.
+  formatter/linter configs) define the machine bootstrap, development toolchain,
+  and checks for both the root repository and the worker package.
 
 ## ⚙️ Installation
 
