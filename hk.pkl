@@ -1,8 +1,16 @@
-amends "https://raw.githubusercontent.com/risu729/hk-config/v1.0.0/presets.pkl"
+amends
+  "https://raw.githubusercontent.com/risu729/hk-config/a34802b174b5a1f669dbd09fb6301f7eca7a5770/presets.pkl"
 
-import "https://raw.githubusercontent.com/risu729/hk-config/v1.0.0/helpers.pkl"
+import
+  "https://raw.githubusercontent.com/risu729/hk-config/a34802b174b5a1f669dbd09fb6301f7eca7a5770/helpers.pkl"
 
 local const bashrcGlobs = List("wsl/home/.bashrc")
+
+local function includeBashrc(step: Step): Step = (step) {
+  match_any =
+    step.match_any!!
+      + List(new FileSelector { glob = bashrcGlobs })
+}
 
 local picked =
   helpers.pick(new Listing {
@@ -48,12 +56,8 @@ local worker = new Group {
 
 hooks =
   helpers.standardHooks((picked) {
-    ["shfmt-bashrc"] = (picked["shfmt"]) {
-      glob = bashrcGlobs
-    }
-    ["shellcheck-bashrc"] = (picked["shellcheck"]) {
-      glob = bashrcGlobs
-    }
+    ["shfmt"] = includeBashrc(picked["shfmt"] as Step)
+    ["shellcheck"] = includeBashrc(picked["shellcheck"] as Step)
     ["mise"] = (mise) {
       steps {
         ["mise-fmt"] = mise.steps["mise-fmt"]
