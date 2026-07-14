@@ -101,6 +101,7 @@ sccache = "latest"
 [settings]
 experimental = true
 minimum_release_age = "3h"
+cargo.binstall_native = true
 
 [settings.npm]
 package_manager = "aube"
