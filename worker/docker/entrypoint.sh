@@ -52,9 +52,5 @@ echo "==> Checked out FETCH_HEAD (commit ${GIT_COMMIT_SHA})."
 
 echo "==> Successfully sparse-cloned and checked out commit ${GIT_COMMIT_SHA}."
 
-# remove min_version from mise.toml to ignore version check
-sed --in-place '/^min_version/d' mise.toml
-echo "==> Removed min_version from mise.toml."
-
 # --host required to be accessible from other containers
 exec /bin/bash -c "mise run worker:preview --host"
