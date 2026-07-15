@@ -35,4 +35,6 @@
 	sm = "!branch=$(git symbolic-ref --quiet --short refs/remotes/origin/HEAD 2>/dev/null); branch=${branch#origin/}; if [ -z \"$branch\" ]; then branch=$(git remote show origin | sed -n '/HEAD branch/s/.*: //p'); fi; [ -n \"$branch\" ] && git switch \"$branch\""
 	sync = "!curr=$(git rev-parse --abbrev-ref HEAD) && git fetch --all && git submodule update --init --recursive && if git remote get-url upstream >/dev/null 2>&1; then git pull --ff-only upstream \"$curr\" && git push origin \"$curr\"; else git pull --ff-only; fi"
 [gpg]
-	program = gpg
+	format = ssh
+[gpg "ssh"]
+	allowedSignersFile = ~/.ssh/allowed_signers

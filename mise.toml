@@ -30,7 +30,6 @@ yamllint = "1.38.0"
 lychee = "0.24.2"
 typos = "1.48.0"
 "npm:typescript" = "7.0.2"
-jc = "1.25.7"
 hadolint = "2.14.0"
 betterleaks = "v1.6.1"
 powershell = "7.6.3"
@@ -83,8 +82,6 @@ fi
 
 [bootstrap.hooks.post-dotfiles]
 run = '''
-mkdir --parents "${HOME}/.gnupg"
-chmod 700 "${HOME}/.gnupg"
 sudo update-desktop-database
 '''
 
@@ -150,7 +147,6 @@ login_shell = "/bin/bash"
 "~/.codex" = { source = "wsl/home/.codex", mode = "symlink-each" }
 "~/.config" = { source = "wsl/home/.config", mode = "symlink-each" }
 "~/.ghr" = { source = "wsl/home/.ghr", mode = "symlink-each" }
-"~/.gnupg" = { source = "wsl/home/.gnupg", mode = "symlink-each" }
 "~/.hushlogin" = "wsl/home/.hushlogin"
 "~/.local" = { source = "wsl/home/.local", mode = "symlink-each" }
 "~/.selected_editor" = "wsl/home/.selected_editor"
