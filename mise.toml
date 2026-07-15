@@ -1,7 +1,6 @@
 # ref: https://mise.jdx.dev/configuration.html
 #:schema https://mise.jdx.dev/schema/mise.json
-# TODO: Remove when the mise schema includes bootstrap hooks.
-#:tombi schema.strict = false
+#:tombi schema.strict = true
 
 min_version = "2026.7.6"
 
