@@ -64,7 +64,7 @@ sudo install --directory --mode=0755 /etc/apt/keyrings
 
 arch=$(dpkg --print-architecture)
 # shellcheck source=/dev/null
-codename=$(source /etc/os-release && echo "${UBUNTU_CODENAME:-${VERSION_CODENAME}}")
+codename=$(. /etc/os-release && echo "${UBUNTU_CODENAME:-${VERSION_CODENAME}}")
 
 # ref: https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository
 curl --fail-with-body --silent --show-error --location https://download.docker.com/linux/ubuntu/gpg |
