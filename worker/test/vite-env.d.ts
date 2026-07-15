@@ -2,7 +2,6 @@
 
 interface ImportMetaEnv {
 	readonly DEFAULT_BRANCH: string;
-	readonly LATEST_COMMIT_HASH: string;
 }
 
 interface ImportMeta {

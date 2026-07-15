@@ -30,10 +30,10 @@ describe("worker", () => {
 			},
 			async (path) => {
 				const response = await SELF.fetch(
-					`https://dot.risunosu.com${path}?ref=${import.meta.env.LATEST_COMMIT_HASH}`,
+					`https://dot.risunosu.com${path}?ref=${import.meta.env.DEFAULT_BRANCH}`,
 				);
 				await expect(response.text()).resolves.toMatch(
-					new RegExp(`^.?git(?:_r|R)ef *= *["']${import.meta.env.LATEST_COMMIT_HASH}["']`, "gmu"),
+					new RegExp(`^.?git(?:_r|R)ef *= *["']${import.meta.env.DEFAULT_BRANCH}["']`, "gmu"),
 				);
 			},
 		);
@@ -93,12 +93,12 @@ describe("worker", () => {
 
 		it.each(["/win", "/wsl"])("return %s with ref", async (path) => {
 			const response = await SELF.fetch(
-				`https://dot.risunosu.com${path}?ref=${import.meta.env.LATEST_COMMIT_HASH}`,
+				`https://dot.risunosu.com${path}?ref=${import.meta.env.DEFAULT_BRANCH}`,
 			);
 			const script = await response.text();
 			const sourceUrl = [...script.matchAll(/# source: (?<url>.+)/gu)].at(0)?.groups?.["url"];
 			expect(sourceUrl).toBe(
-				`https://raw.githubusercontent.com/risu729/dotfiles/${import.meta.env.LATEST_COMMIT_HASH}${path}/install.${
+				`https://raw.githubusercontent.com/risu729/dotfiles/${import.meta.env.DEFAULT_BRANCH}${path}/install.${
 					path === "/win" ? "ps1" : "sh"
 				}`,
 			);
@@ -129,7 +129,7 @@ describe("worker", () => {
 
 		it.each(["/win", "/wsl"])("return %s with ref", async (path) => {
 			const response = await SELF.fetch(
-				`https://dot.risunosu.com${path}?ref=${import.meta.env.LATEST_COMMIT_HASH}`,
+				`https://dot.risunosu.com${path}?ref=${import.meta.env.DEFAULT_BRANCH}`,
 			);
 			const diff = await getDiffLines(response);
 			// Source URL, git ref, and script origin must be different

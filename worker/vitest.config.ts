@@ -28,8 +28,6 @@ export default defineConfig({
 
 			// Define in vite.config.ts does not work in vitest, so define here
 			GITHUB_TOKEN: process.env["GITHUB_TOKEN"],
-
-			LATEST_COMMIT_HASH: latestCommitHash,
 		},
 	},
 });
