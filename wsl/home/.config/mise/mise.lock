@@ -116,6 +116,40 @@ url = "https://github.com/aquaproj/aqua/releases/download/v2.61.0/aqua_darwin_am
 url_api = "https://api.github.com/repos/aquaproj/aqua/releases/assets/474019615"
 provenance = "github-attestations"
 
+[[tools."aqua:mame/wsl2-ssh-agent"]]
+version = "0.9.7"
+backend = "aqua:mame/wsl2-ssh-agent"
+
+[tools."aqua:mame/wsl2-ssh-agent"."platforms.linux-arm64"]
+checksum = "sha256:e9cb0347a72ca68a511e48779080b80a22af1bf670e5a52c9f35f95951ce5221"
+url = "https://github.com/mame/wsl2-ssh-agent/releases/download/v0.9.7/wsl2-ssh-agent-arm64"
+url_api = "https://api.github.com/repos/mame/wsl2-ssh-agent/releases/assets/321133719"
+
+[tools."aqua:mame/wsl2-ssh-agent"."platforms.linux-arm64-musl"]
+checksum = "sha256:e9cb0347a72ca68a511e48779080b80a22af1bf670e5a52c9f35f95951ce5221"
+url = "https://github.com/mame/wsl2-ssh-agent/releases/download/v0.9.7/wsl2-ssh-agent-arm64"
+url_api = "https://api.github.com/repos/mame/wsl2-ssh-agent/releases/assets/321133719"
+
+[tools."aqua:mame/wsl2-ssh-agent"."platforms.linux-x64"]
+checksum = "sha256:281c64f6079598de1a455292d533f3ae21837980a3d3012074bc14ad695325d8"
+url = "https://github.com/mame/wsl2-ssh-agent/releases/download/v0.9.7/wsl2-ssh-agent"
+url_api = "https://api.github.com/repos/mame/wsl2-ssh-agent/releases/assets/321133717"
+
+[tools."aqua:mame/wsl2-ssh-agent"."platforms.linux-x64-baseline"]
+checksum = "sha256:281c64f6079598de1a455292d533f3ae21837980a3d3012074bc14ad695325d8"
+url = "https://github.com/mame/wsl2-ssh-agent/releases/download/v0.9.7/wsl2-ssh-agent"
+url_api = "https://api.github.com/repos/mame/wsl2-ssh-agent/releases/assets/321133717"
+
+[tools."aqua:mame/wsl2-ssh-agent"."platforms.linux-x64-musl"]
+checksum = "sha256:281c64f6079598de1a455292d533f3ae21837980a3d3012074bc14ad695325d8"
+url = "https://github.com/mame/wsl2-ssh-agent/releases/download/v0.9.7/wsl2-ssh-agent"
+url_api = "https://api.github.com/repos/mame/wsl2-ssh-agent/releases/assets/321133717"
+
+[tools."aqua:mame/wsl2-ssh-agent"."platforms.linux-x64-musl-baseline"]
+checksum = "sha256:281c64f6079598de1a455292d533f3ae21837980a3d3012074bc14ad695325d8"
+url = "https://github.com/mame/wsl2-ssh-agent/releases/download/v0.9.7/wsl2-ssh-agent"
+url_api = "https://api.github.com/repos/mame/wsl2-ssh-agent/releases/assets/321133717"
+
 [[tools."aqua:siketyan/ghr"]]
 version = "0.4.5"
 backend = "aqua:siketyan/ghr"

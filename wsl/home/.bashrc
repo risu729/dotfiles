@@ -9,6 +9,13 @@ if command -v mise &>/dev/null; then
 	eval "${mise_activate}"
 fi
 
+# Expose the Windows SSH agent to WSL
+if command -v wsl2-ssh-agent &>/dev/null; then
+	wsl2_ssh_agent="$(wsl2-ssh-agent -format bash)"
+	eval "${wsl2_ssh_agent}"
+	unset wsl2_ssh_agent
+fi
+
 # If not running interactively, skip other steps
 if [[ ! $- =~ i ]]; then
 	return
