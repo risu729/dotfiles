@@ -180,7 +180,9 @@ main() {
 	mise --cd "${dotfiles_dir}" bootstrap --yes --update --force-dotfiles --locked
 	log_info "mise bootstrap completed."
 
-	checkout_default_git_branch "${dotfiles_dir}"
+	if [[ -n ${git_ref} ]]; then
+		checkout_default_git_branch "${dotfiles_dir}"
+	fi
 
 	log_info "WSL setup script finished successfully!"
 	log_info "Reminder: you might need to start a new shell for all changes to take effect."
