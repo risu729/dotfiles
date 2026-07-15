@@ -128,6 +128,19 @@ fi
 "apt:xdg-utils" = "latest"
 "apt:zip" = "latest"
 
+[bootstrap.repos]
+"~/.ghr/github.com/risu729/aqua" = { url = "https://github.com/risu729/aqua.git" }
+"~/.ghr/github.com/risu729/aqua-registry" = { url = "https://github.com/risu729/aqua-registry.git" }
+"~/.ghr/github.com/risu729/biwa" = { url = "https://github.com/risu729/biwa.git" }
+"~/.ghr/github.com/risu729/hk" = { url = "https://github.com/risu729/hk.git" }
+"~/.ghr/github.com/risu729/hk-config" = { url = "https://github.com/risu729/hk-config.git" }
+"~/.ghr/github.com/risu729/kuebiko" = { url = "https://github.com/risu729/kuebiko.git" }
+"~/.ghr/github.com/risu729/mikoto" = { url = "https://github.com/risu729/mikoto.git" }
+"~/.ghr/github.com/risu729/mise" = { url = "https://github.com/risu729/mise.git" }
+"~/.ghr/github.com/risu729/mise-action" = { url = "https://github.com/risu729/mise-action.git" }
+"~/.ghr/github.com/risu729/renovate-config" = { url = "https://github.com/risu729/renovate-config.git" }
+"~/.ghr/github.com/risu729/tsconfigs" = { url = "https://github.com/risu729/tsconfigs.git" }
+
 [bootstrap.user]
 login_shell = "/bin/bash"
 
