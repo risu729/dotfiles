@@ -1,5 +1,7 @@
 # ref: https://mise.jdx.dev/configuration.html
 #:schema https://mise.jdx.dev/schema/mise.json
+# TODO: Remove when the mise schema includes bootstrap hooks.
+#:tombi schema.strict = false
 
 min_version = "2026.7.6"
 
@@ -79,6 +81,37 @@ includes = ["tasks.toml", "tasks", "worker/tasks.toml", "worker/tasks"]
 "apt:strace" = "latest"
 "apt:xdg-utils" = "latest"
 "apt:zip" = "latest"
+
+[bootstrap.hooks.post-packages]
+run = '''
+username=$(whoami)
+if ! groups "${username}" | grep --quiet --word-regexp docker; then
+  sudo usermod --append --groups docker "${username}"
+fi
+'''
+
+[bootstrap.hooks.post-dotfiles]
+run = '''
+mkdir --parents "${HOME}/.gnupg"
+chmod 700 "${HOME}/.gnupg"
+sudo update-desktop-database
+'''
+
+[bootstrap.hooks.post-tools]
+run = '''
+# Installing this before the tools phase makes Git use gh before gh is installed.
+ln --symbolic --no-dereference --force \
+  "${MISE_PROJECT_ROOT}/wsl/home/.gitconfig" "${HOME}/.gitconfig"
+'''
+
+[bootstrap.hooks.final]
+run = '''
+if [ -t 0 ] && [ -t 1 ]; then
+  if ! mise exec -- bash --interactive -c "${MISE_PROJECT_ROOT}/wsl/setup-git.ts"; then
+    echo "Git setup failed; run wsl/setup-git.ts manually if needed." >&2
+  fi
+fi
+'''
 
 [bootstrap.user]
 login_shell = "/bin/bash"
