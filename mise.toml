@@ -82,6 +82,8 @@ fi
 
 [bootstrap.hooks.post-dotfiles]
 run = '''
+mkdir --parents "${HOME}/.gnupg"
+chmod 700 "${HOME}/.gnupg"
 sudo update-desktop-database
 '''
 
@@ -147,6 +149,7 @@ login_shell = "/bin/bash"
 "~/.codex" = { source = "wsl/home/.codex", mode = "symlink-each" }
 "~/.config" = { source = "wsl/home/.config", mode = "symlink-each" }
 "~/.ghr" = { source = "wsl/home/.ghr", mode = "symlink-each" }
+"~/.gnupg" = { source = "wsl/home/.gnupg", mode = "symlink-each" }
 "~/.hushlogin" = "wsl/home/.hushlogin"
 "~/.local" = { source = "wsl/home/.local", mode = "symlink-each" }
 "~/.selected_editor" = "wsl/home/.selected_editor"
