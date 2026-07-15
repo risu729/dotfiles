@@ -31,8 +31,8 @@ This repository is organized around the two installer entry points:
 
 - `worker/` is a Cloudflare Worker for `dot.risunosu.com`. It redirects the root
   route to this README and serves the `/win` and `/wsl` installer routes by
-  fetching the matching scripts from GitHub and injecting repository/ref
-  metadata.
+  fetching the matching scripts from GitHub and injecting the requested Git ref
+  and script origin.
 
 - `docker/` and `compose.ci.yml` define the Ubuntu WSL-like test environment
   used by CI to exercise the WSL installer.

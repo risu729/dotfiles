@@ -49,11 +49,6 @@ app.get("/:os{win|wsl}", async ({ req, text }) => {
 
 	const variables = [
 		{
-			name: "repo_name",
-			os: ["win", "wsl"],
-			value: import.meta.env.REPO_NAME,
-		},
-		{
 			name: "git_ref",
 			os: ["win", "wsl"],
 			value: ref ?? "",

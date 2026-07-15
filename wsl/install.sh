@@ -2,8 +2,7 @@
 
 set -euo pipefail
 
-# must be edited by the worker to use the correct GitHub repository
-repo_name=""
+repo_name="risu729/dotfiles"
 # might be edited by the worker to checkout a specific ref
 git_ref=""
 

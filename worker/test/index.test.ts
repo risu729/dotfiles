@@ -3,7 +3,7 @@ import { diffLines } from "diff";
 import type { ChangeObject } from "diff";
 import { describe, expect, it } from "vitest";
 
-/* oxlint-disable eslint/max-lines-per-function eslint/max-statements jest/no-conditional-in-test jest/prefer-expect-assertions vitest/prefer-expect-assertions vitest/require-test-timeout */
+/* oxlint-disable eslint/max-lines-per-function jest/no-conditional-in-test jest/prefer-expect-assertions vitest/prefer-expect-assertions vitest/require-test-timeout */
 
 describe("worker", () => {
 	it("redirect / to repository readme", async () => {
@@ -25,22 +25,6 @@ describe("worker", () => {
 			const response = await SELF.fetch(`https://dot.risunosu.com${path}`);
 			expect(response.status).toBe(200);
 		});
-	});
-
-	describe("return the installer script with the specified repo name set", () => {
-		it.each(["/win", "/wsl"])(
-			"return %s with repo name",
-			{
-				// Regex matching takes time
-				timeout: 10_000,
-			},
-			async (path) => {
-				const response = await SELF.fetch(`https://dot.risunosu.com${path}`);
-				await expect(response.text()).resolves.toMatch(
-					/^.?repo(?:_n|N)ame *= *["']risu729\/dotfiles["']/gmu,
-				);
-			},
-		);
 	});
 
 	describe("return the installer script with the specified ref set", () => {
@@ -154,8 +138,8 @@ describe("worker", () => {
 		it.each(["/win", "/wsl"])("return %s with default branch", async (path) => {
 			const response = await SELF.fetch(`https://dot.risunosu.com${path}`);
 			const diff = await getDiffLines(response);
-			// Source URL and git ref must be different
-			expect(diff.filter((change) => change.added)).toHaveLength(path === "/win" ? 3 : 2);
+			// Source URL and script origin must be different
+			expect(diff.filter((change) => change.added)).toHaveLength(path === "/win" ? 2 : 1);
 		});
 
 		it.each(["/win", "/wsl"])("return %s with ref", async (path) => {
@@ -163,8 +147,8 @@ describe("worker", () => {
 				`https://dot.risunosu.com${path}?ref=${import.meta.env.LATEST_COMMIT_HASH}`,
 			);
 			const diff = await getDiffLines(response);
-			// Source URL, git ref, and repo name must be different
-			expect(diff.filter((change) => change.added)).toHaveLength(path === "/win" ? 4 : 3);
+			// Source URL, git ref, and script origin must be different
+			expect(diff.filter((change) => change.added)).toHaveLength(path === "/win" ? 3 : 2);
 		});
 	});
 
