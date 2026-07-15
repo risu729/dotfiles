@@ -35,12 +35,6 @@ install_custom_registry_packages() {
 	codename="$(source /etc/os-release && echo "${UBUNTU_CODENAME:-${VERSION_CODENAME}}")"
 
 	log_info "Adding mise PPA..."
-	# Remove the previous mise repository before adding the PPA. Its package
-	# versions sort after equivalent PPA builds and would otherwise stay preferred.
-	sudo rm --force \
-		/etc/apt/sources.list.d/mise.list \
-		/etc/apt/keyrings/mise-archive-keyring.gpg \
-		/etc/apt/keyrings/mise-archive-keyring.pub
 	# ref: https://mise.jdx.dev/installing-mise.html#apt
 	sudo add-apt-repository --yes --no-update ppa:jdxcode/mise
 
@@ -53,7 +47,7 @@ install_custom_registry_packages() {
 
 	log_info "All repositories set up. Installing mise..."
 	sudo apt-get update
-	sudo apt-get install --yes --allow-downgrades mise
+	sudo apt-get install --yes mise
 	log_info "mise installed."
 }
 
