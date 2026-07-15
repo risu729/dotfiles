@@ -127,14 +127,12 @@ create_etc_symlinks() {
 	log_info "Creating symbolic links for etc directory files from ${wsl_etc_config_dir}..."
 	local wsl_etc_config_relative_dir
 	wsl_etc_config_relative_dir="$(realpath --relative-to="${repo_root}" "${wsl_etc_config_dir}")"
-	local etc_paths_file
-	etc_paths_file="$(mktemp)"
-	git -C "${repo_root}" ls-files -z -- "${wsl_etc_config_relative_dir}" >"${etc_paths_file}"
 	local etc_paths=()
+	# A git failure leaves the array empty and is handled below.
+	# shellcheck disable=SC2312
 	while IFS= read -r -d '' path; do
 		etc_paths+=("${repo_root}/${path}")
-	done <"${etc_paths_file}"
-	rm -- "${etc_paths_file}"
+	done < <(git -C "${repo_root}" ls-files -z -- "${wsl_etc_config_relative_dir}")
 
 	if ((${#etc_paths[@]} == 0)); then
 		log_error "No etc directory files found to symlink."
