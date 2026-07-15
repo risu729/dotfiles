@@ -61,18 +61,12 @@ checkout_default_git_branch() {
 }
 
 clone_or_update_dotfiles_repo() {
-	local target_repo_name="$1"
-	local target_git_ref="$2"
+	local target_git_ref="$1"
 
-	if [[ -z ${target_repo_name} ]]; then
-		log_error "Repository name not provided to clone_or_update_dotfiles_repo function."
-		exit 1
-	fi
-
-	local repo_url="github.com/${target_repo_name}"
+	local repo_url="github.com/${repo_name}"
 	local dotfiles_target_dir="${HOME}/.ghr/${repo_url}"
 
-	log_info "Preparing dotfiles repository: ${target_repo_name} in ${dotfiles_target_dir}"
+	log_info "Preparing dotfiles repository: ${repo_name} in ${dotfiles_target_dir}"
 	mkdir --parents "${dotfiles_target_dir}"
 
 	local original_dir
@@ -170,7 +164,7 @@ main() {
 	install_mise
 
 	local dotfiles_dir
-	dotfiles_dir=$(clone_or_update_dotfiles_repo "${repo_name}" "${git_ref}")
+	dotfiles_dir=$(clone_or_update_dotfiles_repo "${git_ref}")
 
 	local wsl_config_dir="${dotfiles_dir}/wsl"
 	create_etc_symlinks "${wsl_config_dir}"
