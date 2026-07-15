@@ -12,14 +12,12 @@ RUN apt-get update && \
 
 # Configure mise environment variables
 # ref: https://mise.jdx.dev/mise-cookbook/docker.html
-ENV ROOT_DIR="/dotfiles"
 ENV MISE_DATA_DIR="/mise"
 ENV MISE_CACHE_DIR="/mise/cache"
 ENV MISE_INSTALL_PATH="/usr/local/bin/mise"
-ENV MISE_TRUSTED_CONFIG_PATHS=${ROOT_DIR}
+ENV MISE_TRUSTED_CONFIG_PATHS="/dotfiles"
 ENV MISE_ENABLE_TOOLS=bun,node
 ENV MISE_YES=1
-ENV MISE_VERSION=${MISE_VERSION}
 ENV PATH="${MISE_DATA_DIR}/shims:${MISE_INSTALL_PATH%/*}:$PATH"
 
 # Install mise with GPG verification and specific version
@@ -39,7 +37,8 @@ RUN set -eux && \
     git config --global init.defaultBranch main && \
     git config --global advice.detachedHead false
 
-COPY entrypoint.sh /usr/local/bin/entrypoint.sh
-RUN chmod +x /usr/local/bin/entrypoint.sh
+WORKDIR /dotfiles
+
+COPY --chmod=755 entrypoint.sh /usr/local/bin/entrypoint.sh
 
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]

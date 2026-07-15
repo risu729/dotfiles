@@ -2,14 +2,8 @@
 set -euo pipefail
 
 # Environment Variables:
-# ROOT_DIR: Directory to clone the repository into
 # GIT_REPO_URL: URL of the repository to clone
 # GIT_COMMIT_SHA: Exact commit SHA to checkout
-
-if [[ -z ${ROOT_DIR:-} ]]; then
-	echo "Error: ROOT_DIR environment variable is not set."
-	exit 1
-fi
 
 if [[ -z ${GIT_REPO_URL:-} ]]; then
 	echo "Error: GIT_REPO_URL environment variable is not set."
@@ -22,10 +16,6 @@ if [[ -z ${GIT_COMMIT_SHA:-} ]]; then
 fi
 
 echo "==> Preparing to clone repository ${GIT_REPO_URL} at commit ${GIT_COMMIT_SHA}"
-echo "==> Target directory for repository root: ${ROOT_DIR}"
-
-mkdir -p "${ROOT_DIR}"
-cd "${ROOT_DIR}"
 
 git init .
 echo "==> Initialized git repository."
@@ -53,4 +43,4 @@ echo "==> Checked out FETCH_HEAD (commit ${GIT_COMMIT_SHA})."
 echo "==> Successfully sparse-cloned and checked out commit ${GIT_COMMIT_SHA}."
 
 # --host required to be accessible from other containers
-exec /bin/bash -c "mise run worker:preview --host"
+exec mise run worker:preview --host
