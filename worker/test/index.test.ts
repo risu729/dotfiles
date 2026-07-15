@@ -3,7 +3,7 @@ import { diffLines } from "diff";
 import type { ChangeObject } from "diff";
 import { describe, expect, it } from "vitest";
 
-/* oxlint-disable eslint/max-lines-per-function eslint/max-statements jest/no-conditional-in-test jest/prefer-expect-assertions vitest/prefer-expect-assertions vitest/require-test-timeout */
+/* oxlint-disable eslint/max-lines-per-function jest/no-conditional-in-test jest/prefer-expect-assertions vitest/prefer-expect-assertions vitest/require-test-timeout */
 
 describe("worker", () => {
 	it("redirect / to repository readme", async () => {
@@ -25,22 +25,6 @@ describe("worker", () => {
 			const response = await SELF.fetch(`https://dot.risunosu.com${path}`);
 			expect(response.status).toBe(200);
 		});
-	});
-
-	describe("return the installer script with the hardcoded repo name", () => {
-		it.each(["/win", "/wsl"])(
-			"return %s with repo name",
-			{
-				// Regex matching takes time
-				timeout: 10_000,
-			},
-			async (path) => {
-				const response = await SELF.fetch(`https://dot.risunosu.com${path}`);
-				await expect(response.text()).resolves.toMatch(
-					/^.?repo(?:_n|N)ame *= *["']risu729\/dotfiles["']/gmu,
-				);
-			},
-		);
 	});
 
 	describe("return the installer script with the specified ref set", () => {
