@@ -535,8 +535,7 @@ function Invoke-GitSetupInWsl {
 
 # must be edited by the worker to use the same script as requested by the user
 $scriptOrigin = ''
-# must be edited by the worker to use the correct GitHub repository
-$repoName = ''
+$repoName = 'risu729/dotfiles'
 # might be edited by the worker to use a specific ref
 $gitRef = ''
 $wslDistribution = 'Ubuntu-26.04'

@@ -27,7 +27,7 @@ describe("worker", () => {
 		});
 	});
 
-	describe("return the installer script with the specified repo name set", () => {
+	describe("return the installer script with the hardcoded repo name", () => {
 		it.each(["/win", "/wsl"])(
 			"return %s with repo name",
 			{
@@ -154,8 +154,8 @@ describe("worker", () => {
 		it.each(["/win", "/wsl"])("return %s with default branch", async (path) => {
 			const response = await SELF.fetch(`https://dot.risunosu.com${path}`);
 			const diff = await getDiffLines(response);
-			// Source URL and git ref must be different
-			expect(diff.filter((change) => change.added)).toHaveLength(path === "/win" ? 3 : 2);
+			// Source URL and script origin must be different
+			expect(diff.filter((change) => change.added)).toHaveLength(path === "/win" ? 2 : 1);
 		});
 
 		it.each(["/win", "/wsl"])("return %s with ref", async (path) => {
@@ -163,8 +163,8 @@ describe("worker", () => {
 				`https://dot.risunosu.com${path}?ref=${import.meta.env.LATEST_COMMIT_HASH}`,
 			);
 			const diff = await getDiffLines(response);
-			// Source URL, git ref, and repo name must be different
-			expect(diff.filter((change) => change.added)).toHaveLength(path === "/win" ? 4 : 3);
+			// Source URL, git ref, and script origin must be different
+			expect(diff.filter((change) => change.added)).toHaveLength(path === "/win" ? 3 : 2);
 		});
 	});
 
