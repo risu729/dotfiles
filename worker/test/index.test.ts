@@ -46,28 +46,28 @@ describe("worker", () => {
 	});
 
 	describe("return the installer script with the script origin set", () => {
-		it.each(["/win"])(
-			"return %s with script origin",
+		it(
+			"return /win with script origin",
 			{
 				// Regex matching takes time
 				timeout: 10_000,
 			},
-			async (path) => {
-				const response = await SELF.fetch(`https://dot.risunosu.com${path}`);
+			async () => {
+				const response = await SELF.fetch("https://dot.risunosu.com/win");
 				await expect(response.text()).resolves.toMatch(
 					/^.?script(?:_o|O)rigin *= *["']https:\/\/dot\.risunosu\.com["']/gmu,
 				);
 			},
 		);
 
-		it.each(["/win"])(
-			"return %s with script origin with port",
+		it(
+			"return /win with script origin with port",
 			{
 				// Regex matching takes time
 				timeout: 10_000,
 			},
-			async (path) => {
-				const response = await SELF.fetch(`http://localhost:8080${path}`);
+			async () => {
+				const response = await SELF.fetch("http://localhost:8080/win");
 				await expect(response.text()).resolves.toMatch(
 					/^.?script(?:_o|O)rigin *= *["']http:\/\/localhost:8080["']/gmu,
 				);
