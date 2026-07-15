@@ -42,7 +42,6 @@ checkout_default_git_branch() {
 	git_remote=$(git remote show origin 2>/dev/null)
 	local default_branch
 	default_branch=$(echo "${git_remote}" | grep --only-matching --perl-regexp 'HEAD branch: \K.+')
-	default_branch=$(echo "${default_branch}" | tr --delete '\n')
 
 	if [[ -z ${default_branch} ]]; then
 		log_error "Could not determine the default branch for '${repo_path}'."
@@ -97,7 +96,7 @@ clone_or_update_dotfiles_repo() {
 		fi
 	else
 		log_info "Cloning repository https://${repo_url}.git into ${dotfiles_target_dir}..."
-		git clone --origin origin "https://${repo_url}.git" "${dotfiles_target_dir}" >&2
+		git clone "https://${repo_url}.git" "${dotfiles_target_dir}" >&2
 	fi
 
 	# Checkout a specific ref if specified
@@ -108,8 +107,7 @@ clone_or_update_dotfiles_repo() {
 	else
 		# If not checking out a specific ref, ensure we are on the default branch
 		# and that it's up-to-date (which pull/fetch should have handled).
-		# The checkout_default_git_branch might be redundant if pull/fetch worked,
-		# but it ensures the correct branch is checked out if it wasn't already.
+		# An existing repository may have had a different branch checked out.
 		checkout_default_git_branch "${dotfiles_target_dir}" >&2
 	fi
 
