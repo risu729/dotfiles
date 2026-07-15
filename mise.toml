@@ -140,7 +140,6 @@ fi
 "~/.ghr/github.com/risu729/mise-action" = { url = "https://github.com/risu729/mise-action.git" }
 "~/.ghr/github.com/risu729/renovate-config" = { url = "https://github.com/risu729/renovate-config.git" }
 "~/.ghr/github.com/risu729/tsconfigs" = { url = "https://github.com/risu729/tsconfigs.git" }
-"~/.ghr/github.com/risu729/unsw-cse" = { url = "https://github.com/risu729/unsw-cse.git" }
 
 [bootstrap.user]
 login_shell = "/bin/bash"
