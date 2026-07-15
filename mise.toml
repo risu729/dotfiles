@@ -58,6 +58,30 @@ run = "bun install --frozen-lockfile"
 [task_config]
 includes = ["tasks.toml", "tasks", "worker/tasks.toml", "worker/tasks"]
 
+[bootstrap.packages]
+"apt:bubblewrap" = "latest"
+"apt:build-essential" = "latest"
+"apt:clang" = "latest"
+"apt:clangd" = "latest"
+"apt:clang-format" = "latest"
+"apt:cmake" = "latest"
+"apt:containerd.io" = "latest"
+"apt:desktop-file-utils" = "latest"
+"apt:docker-buildx-plugin" = "latest"
+"apt:docker-ce" = "latest"
+"apt:docker-ce-cli" = "latest"
+"apt:docker-compose-plugin" = "latest"
+"apt:ffmpeg" = "latest"
+"apt:gdb" = "latest"
+"apt:graphviz" = "latest"
+"apt:libssl-dev" = "latest"
+"apt:llvm" = "latest"
+"apt:parallel" = "latest"
+"apt:pkg-config" = "latest"
+"apt:strace" = "latest"
+"apt:xdg-utils" = "latest"
+"apt:zip" = "latest"
+
 [bootstrap.hooks.post-packages]
 run = '''
 username=$(whoami)
@@ -88,30 +112,6 @@ if [ -t 0 ] && [ -t 1 ]; then
   fi
 fi
 '''
-
-[bootstrap.packages]
-"apt:bubblewrap" = "latest"
-"apt:build-essential" = "latest"
-"apt:clang" = "latest"
-"apt:clangd" = "latest"
-"apt:clang-format" = "latest"
-"apt:cmake" = "latest"
-"apt:containerd.io" = "latest"
-"apt:desktop-file-utils" = "latest"
-"apt:docker-buildx-plugin" = "latest"
-"apt:docker-ce" = "latest"
-"apt:docker-ce-cli" = "latest"
-"apt:docker-compose-plugin" = "latest"
-"apt:ffmpeg" = "latest"
-"apt:gdb" = "latest"
-"apt:graphviz" = "latest"
-"apt:libssl-dev" = "latest"
-"apt:llvm" = "latest"
-"apt:parallel" = "latest"
-"apt:pkg-config" = "latest"
-"apt:strace" = "latest"
-"apt:xdg-utils" = "latest"
-"apt:zip" = "latest"
 
 [bootstrap.user]
 login_shell = "/bin/bash"
