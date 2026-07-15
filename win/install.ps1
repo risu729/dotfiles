@@ -341,8 +341,7 @@ function New-WslUser {
 	)
 
 	# No need to check the duplicate username because useradd will fail if it exists
-	# The default shell is /bin/sh so override it with /bin/bash
-	Invoke-WSLCommand -Root -Command "useradd --create-home --shell /bin/bash $Username"
+	Invoke-WSLCommand -Root -Command "useradd --create-home $Username"
 	Invoke-WSLCommand -Root -Command "echo ${Username}:$Password | chpasswd"
 	Invoke-WSLCommand -Root -Command "usermod --append --groups sudo $Username"
 

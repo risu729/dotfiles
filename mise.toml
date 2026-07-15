@@ -80,6 +80,9 @@ includes = ["tasks.toml", "tasks", "worker/tasks.toml", "worker/tasks"]
 "apt:xdg-utils" = "latest"
 "apt:zip" = "latest"
 
+[bootstrap.user]
+login_shell = "/bin/bash"
+
 [dotfiles]
 "~/.agents" = { source = "wsl/home/.agents", mode = "copy" }
 "~/.bashrc" = "wsl/home/.bashrc"
