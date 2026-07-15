@@ -24,28 +24,12 @@ log_error() {
 	echo -e "${RED}ERROR: $1${RESET}" >&2
 }
 
-install_custom_registry_packages() {
-	log_info "Setting up custom APT repositories and installing mise..."
-
-	sudo install --directory --mode=0755 /etc/apt/keyrings
-
-	local arch codename
-	arch="$(dpkg --print-architecture)"
-	# shellcheck source=/dev/null
-	codename="$(source /etc/os-release && echo "${UBUNTU_CODENAME:-${VERSION_CODENAME}}")"
-
+install_mise() {
 	log_info "Adding mise PPA..."
 	# ref: https://mise.jdx.dev/installing-mise.html#apt
 	sudo add-apt-repository --yes --no-update ppa:jdxcode/mise
 
-	log_info "Adding Docker APT repository..."
-	# ref: https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository
-	curl --fail-with-body --silent --show-error --location https://download.docker.com/linux/ubuntu/gpg |
-		sudo tee /etc/apt/keyrings/docker.asc >/dev/null
-	echo "deb [arch=${arch} signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu ${codename} stable" |
-		sudo tee /etc/apt/sources.list.d/docker.list >/dev/null
-
-	log_info "All repositories set up. Installing mise..."
+	log_info "Installing mise..."
 	sudo apt-get update
 	sudo apt-get install --yes mise
 	log_info "mise installed."
@@ -184,7 +168,7 @@ create_etc_symlinks() {
 }
 
 main() {
-	install_custom_registry_packages
+	install_mise
 
 	local dotfiles_dir
 	dotfiles_dir=$(clone_or_update_dotfiles_repo "${repo_name}" "${git_ref}")
