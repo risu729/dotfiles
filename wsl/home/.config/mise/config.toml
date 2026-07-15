@@ -5,6 +5,10 @@
 RUSTC_WRAPPER = "sccache"
 # disable bat paging
 BAT_PAGING = "never"
+# use powershell instead of pwsh as pwsh is not in the PATH sometimes
+BROWSER = "powershell.exe -c Start-Process"
+# colored GCC warnings and errors
+GCC_COLORS = "error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01"
 _.path = ["~/.local/bin"]
 
 [tools]
