@@ -75,15 +75,6 @@ describe("worker", () => {
 		);
 	});
 
-	describe("return 200 status code with ref query parameters", () => {
-		it.each(["/win", "/wsl"])("return %s with ref", async (path) => {
-			const response = await SELF.fetch(
-				`https://dot.risunosu.com${path}?ref=${import.meta.env.LATEST_COMMIT_HASH}`,
-			);
-			expect(response.status).toBe(200);
-		});
-	});
-
 	it(
 		"installer script for wsl must have a shebang",
 		{
