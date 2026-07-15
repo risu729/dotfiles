@@ -100,9 +100,9 @@ if command -v zoxide &>/dev/null; then
 fi
 
 # Activate pitchfork
-if command -v mise &>/dev/null; then
-	mise_activate="$(pitchfork activate bash)"
-	eval "${mise_activate}"
+if command -v pitchfork &>/dev/null; then
+	pitchfork_activate="$(pitchfork activate bash)"
+	eval "${pitchfork_activate}"
 fi
 
 # Enable mise completion
