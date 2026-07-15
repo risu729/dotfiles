@@ -101,8 +101,8 @@ fi
 
 # Activate pitchfork
 if command -v pitchfork &>/dev/null; then
-	mise_activate="$(pitchfork activate bash)"
-	eval "${mise_activate}"
+	pitchfork_activate="$(pitchfork activate bash)"
+	eval "${pitchfork_activate}"
 fi
 
 # Enable mise completion
