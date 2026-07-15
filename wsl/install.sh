@@ -24,15 +24,6 @@ log_error() {
 	echo -e "${RED}ERROR: $1${RESET}" >&2
 }
 
-update_system_packages() {
-	log_info "Updating system packages..."
-	sudo apt-get update
-	sudo apt-get full-upgrade --yes
-	sudo apt-get autoremove --yes
-	sudo apt-get autoclean --yes
-	log_info "System packages updated."
-}
-
 install_custom_registry_packages() {
 	log_info "Setting up custom APT repositories and installing mise..."
 
@@ -197,7 +188,6 @@ create_etc_symlinks() {
 }
 
 main() {
-	update_system_packages
 	install_custom_registry_packages
 
 	local dotfiles_dir
