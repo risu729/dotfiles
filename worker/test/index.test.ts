@@ -6,17 +6,11 @@ import { describe, expect, it } from "vitest";
 /* oxlint-disable eslint/max-lines-per-function jest/no-conditional-in-test jest/prefer-expect-assertions vitest/prefer-expect-assertions vitest/require-test-timeout */
 
 describe("worker", () => {
-	it("redirect / to repository readme", async () => {
+	it("redirect / to repository readme with 307 status code", async () => {
 		const response = await SELF.fetch("https://dot.risunosu.com/", {
 			redirect: "manual",
 		});
 		expect(response.headers.get("location")).toBe("https://github.com/risu729/dotfiles#readme");
-	});
-
-	it("redirect / with 307 status code", async () => {
-		const response = await SELF.fetch("https://dot.risunosu.com/", {
-			redirect: "manual",
-		});
 		expect(response.status).toBe(307);
 	});
 
