@@ -65,9 +65,6 @@ if [[ -x /usr/bin/dircolors ]]; then
 	eval "${dircolors}"
 fi
 
-# Colored GCC warnings and errors
-export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
-
 # Enable programmable completion features
 if ! shopt -oq posix && [[ -f /usr/share/bash-completion/bash_completion ]]; then
 	# shellcheck source=/dev/null
@@ -363,12 +360,6 @@ if [[ -z ${__CI:-} ]] && command -v gh &>/dev/null; then
 	# Suppress error
 	GITHUB_TOKEN=$(gh auth token 2>/dev/null)
 	export GITHUB_TOKEN
-fi
-
-# xdg-open
-# use powershell instead of pwsh as pwsh is not in the PATH sometimes
-if command -v powershell.exe &>/dev/null; then
-	export BROWSER="powershell.exe -c Start-Process"
 fi
 
 # antigravity
