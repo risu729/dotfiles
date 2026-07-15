@@ -30,9 +30,6 @@ exclude = [
 	# .vscode/
 	# requests are forbidden
 	"https://code.visualstudio.com",
-	# wsl/install.sh
-	# can't be accessed
-	"https://mise.jdx.dev/deb",
 	# worker/tasks/worker/deploy
 	# an example of a url with authentication
 	"https://.+@github.com//owner/repo",

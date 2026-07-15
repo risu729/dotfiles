@@ -5,7 +5,7 @@ Personal configuration for my Windows and WSL development environments.
 ## ⭐ Description
 
 These dotfiles are used to configure my environment, mainly Windows 11 and WSL2
-(Ubuntu).
+(Ubuntu 26.04 LTS).
 
 Since I use WSL2 as my main development environment, I only install GUI
 applications on Windows, such as browsers, IDEs, etc.

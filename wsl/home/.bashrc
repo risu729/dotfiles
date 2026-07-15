@@ -107,9 +107,7 @@ fi
 
 # Enable mise completion
 if command -v mise &>/dev/null; then
-	# bash-completion 2.12 or later is required, but 2.11 is installed
-	# ref: https://cdimages.ubuntu.com/ubuntu-wsl/noble/daily-live/current/noble-wsl-amd64.manifest
-	mise_completion="$(mise completion bash --include-bash-completion-lib)"
+	mise_completion="$(mise completion bash)"
 	eval "${mise_completion}"
 fi
 

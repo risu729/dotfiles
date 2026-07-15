@@ -34,13 +34,15 @@ install_custom_registry_packages() {
 	# shellcheck source=/dev/null
 	codename="$(source /etc/os-release && echo "${UBUNTU_CODENAME:-${VERSION_CODENAME}}")"
 
-	log_info "Adding mise APT repository..."
-	# ref: https://mise.jdx.dev/getting-started.html#apt
-	curl --fail-with-body --silent --show-error --location https://mise.jdx.dev/gpg-key.pub |
-		gpg --dearmor |
-		sudo tee /etc/apt/keyrings/mise-archive-keyring.gpg >/dev/null
-	echo "deb [signed-by=/etc/apt/keyrings/mise-archive-keyring.gpg arch=amd64] https://mise.jdx.dev/deb stable main" |
-		sudo tee /etc/apt/sources.list.d/mise.list >/dev/null
+	log_info "Adding mise PPA..."
+	# Remove the previous mise repository before adding the PPA. Its package
+	# versions sort after equivalent PPA builds and would otherwise stay preferred.
+	sudo rm --force \
+		/etc/apt/sources.list.d/mise.list \
+		/etc/apt/keyrings/mise-archive-keyring.gpg \
+		/etc/apt/keyrings/mise-archive-keyring.pub
+	# ref: https://mise.jdx.dev/installing-mise.html#apt
+	sudo add-apt-repository --yes --no-update ppa:jdxcode/mise
 
 	log_info "Adding Docker APT repository..."
 	# ref: https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository
@@ -51,7 +53,7 @@ install_custom_registry_packages() {
 
 	log_info "All repositories set up. Installing mise..."
 	sudo apt-get update
-	sudo apt-get install --yes mise
+	sudo apt-get install --yes --allow-downgrades mise
 	log_info "mise installed."
 }
 
