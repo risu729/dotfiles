@@ -26,10 +26,9 @@ fi
 
 # tag length is limited to 25 characters
 short_sha=$(git rev-parse --short HEAD)
-message=$(git log --format=%B --max-count=1 "${short_sha}" | head --lines=1 | sed 's/"/\\"/g')
+message=$(git log -1 --format=%s HEAD)
 
 set -x
-# shellcheck disable=SC2086 # avoid quoting wrangler_cmd and vars
 bun run wrangler versions upload --tag "${short_sha}" --message "${message}"
 set +x
 
