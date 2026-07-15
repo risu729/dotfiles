@@ -1,7 +1,7 @@
 #!/bin/bash
 set -euo pipefail
 
-repo_url="https://github.com/risu729/dotfiles.git"
+readonly repo_url="https://github.com/risu729/dotfiles.git"
 
 # Environment Variables:
 # GIT_COMMIT_SHA: Exact commit SHA to checkout
