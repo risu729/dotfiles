@@ -7,13 +7,12 @@ import { poweredBy } from "hono/powered-by";
 type Os = "win" | "wsl";
 
 const app: Hono = new Hono();
+const repoName = "risu729/dotfiles";
 
 app.use(poweredBy());
 
 // Redirect to the readme
-app.get("/", ({ redirect }) =>
-	redirect(`https://github.com/${import.meta.env.REPO_NAME}#readme`, 307),
-);
+app.get("/", ({ redirect }) => redirect(`https://github.com/${repoName}#readme`, 307));
 
 const shebangRegex = /^#!.*\n+/u;
 
@@ -26,13 +25,13 @@ app.get("/:os{win|wsl}", async ({ req, text }) => {
 		throw new HTTPException(500, { message: "routing error" });
 	}
 
-	const scriptUrl = `https://raw.githubusercontent.com/${import.meta.env.REPO_NAME}/${
+	const scriptUrl = `https://raw.githubusercontent.com/${repoName}/${
 		ref ?? import.meta.env.DEFAULT_BRANCH
 	}/${os}/install.${os === "win" ? "ps1" : "sh"}`;
 	// Do not cache the installer script to always fetch the latest version
 	const githubResponse = await fetch(scriptUrl, {
 		headers: {
-			"User-Agent": `${import.meta.env.REPO_NAME} worker`,
+			"User-Agent": `${repoName} worker`,
 			// Authorize with the GITHUB_TOKEN if provided to avoid rate limiting
 			...(import.meta.env.GITHUB_TOKEN
 				? {

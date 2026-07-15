@@ -30,8 +30,6 @@ export default defineConfig({
 			GITHUB_TOKEN: process.env["GITHUB_TOKEN"],
 
 			LATEST_COMMIT_HASH: latestCommitHash,
-			// Fix constants in tests
-			REPO_NAME: "risu729/dotfiles",
 		},
 	},
 });
