@@ -4,6 +4,7 @@
 [user]
 	name = Taku Kodma
 	email = 79110363+risu729@users.noreply.github.com
+	signingKey = "key::ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMor6SlX/qQY6DlSPNshh+HuBxu2VqRrnF0goRw1p3u8"
 
 [fetch]
 	prune = true

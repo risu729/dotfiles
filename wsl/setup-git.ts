@@ -11,27 +11,7 @@ const envWithoutGitHubToken = Object.fromEntries(
 	Object.entries(env).filter(([key]) => key !== "GITHUB_TOKEN"),
 ) as Record<string, string>;
 
-const localGitConfigPath: string = (await $`git config --global include.path`.text()).trim();
-
-type SshPublicKey = {
-	algorithm: string;
-	blob: string;
-	comment: string;
-	fingerprint: string;
-	key: string;
-};
-
-type GitHubSshSigningKey = {
-	created_at: string;
-	id: number;
-	key: string;
-	title: string;
-};
-
-/**
- * @returns {Promise<() => Promise<void>>} function to remove unnecessary granted scopes
- */
-const ensureGitHubTokenScopes = async (): Promise<() => Promise<void>> => {
+const ensureGitHubTokenScopes = async (): Promise<void> => {
 	const authWithBrowser = async (subcommand: string): Promise<void> => {
 		// Bun shell doesn't support reading from stdout and stderr while running a command
 		// Ref: https://github.com/oven-sh/bun/issues/14693
@@ -81,43 +61,18 @@ const ensureGitHubTokenScopes = async (): Promise<() => Promise<void>> => {
 
 	// Ref: https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/scopes-for-oauth-apps
 	const requiredScopes = [
-		{
-			// Not included in the scopes granted by default in gh auth login
-			scope: "workflow",
-		},
+		// Not included in the scopes granted by default in gh auth login
+		"workflow",
 		// Allow read-only access
-		{
-			scope: "read:packages",
-		},
-		{
-			scope: "read:project",
-		},
-		{
-			removeAfterUse: true,
-			// Required to list and add SSH signing keys
-			scope: "write:ssh_signing_key",
-		},
+		"read:packages",
+		"read:project",
 	];
-
-	const removeScopes = async (): Promise<void> => {
-		// Reset github token scopes to default for security
-		console.info("Resetting GitHub token scopes...");
-		// Need to specify hostname in non-interactive mode
-		await authWithBrowser(
-			`refresh --hostname github.com --remove-scopes ${requiredScopes
-				.filter(({ removeAfterUse }) => removeAfterUse)
-				.map(({ scope }) => scope)
-				.join(",")}`,
-		);
-	};
 
 	// Login to GitHub if not authenticated
 	const { stdout, exitCode } = await $`gh auth status`.env(envWithoutGitHubToken).quiet().nothrow();
 	if (exitCode !== 0) {
-		await authWithBrowser(
-			`login --web --git-protocol https --scopes ${requiredScopes.map(({ scope }) => scope).join(",")}`,
-		);
-		return removeScopes;
+		await authWithBrowser(`login --web --git-protocol https --scopes ${requiredScopes.join(",")}`);
+		return;
 	}
 
 	const scopes =
@@ -127,9 +82,7 @@ const ensureGitHubTokenScopes = async (): Promise<() => Promise<void>> => {
 			?.groups?.["scopes"]?.trim()
 			.split(", ")
 			.map((scope) => scope.replaceAll(/'/gu, "")) ?? [];
-	const missingScopes = requiredScopes
-		.filter(({ scope }) => !scopes.includes(scope))
-		.map(({ scope }) => scope);
+	const missingScopes = requiredScopes.filter((scope) => !scopes.includes(scope));
 	if (missingScopes.length > 0) {
 		console.info(
 			`Missing GitHub token scopes: ${missingScopes.join(", ")}. Please authenticate with the required scopes.`,
@@ -137,156 +90,12 @@ const ensureGitHubTokenScopes = async (): Promise<() => Promise<void>> => {
 		// Need to specify hostname in non-interactive mode
 		await authWithBrowser(`refresh --hostname github.com --scopes ${missingScopes.join(",")}`);
 	}
-	return removeScopes;
-};
-
-const ghApi = async <ReturnType>(endpoint: `/${string}`): Promise<ReturnType> =>
-	await $`gh api ${endpoint} --header "Accept: application/vnd.github+json" --header "X-GitHub-Api-Version: 2022-11-28"`
-		.env(envWithoutGitHubToken)
-		.json();
-
-const parseSshPublicKey = async (line: string): Promise<SshPublicKey | undefined> => {
-	const match = line.trim().match(/^(?<algorithm>\S+)\s+(?<blob>\S+)(?:\s+(?<comment>.*))?$/u);
-	const algorithm = match?.groups?.["algorithm"];
-	const blob = match?.groups?.["blob"];
-	if (!algorithm || !blob) {
-		return;
-	}
-	const key = `${algorithm} ${blob}`;
-	const fingerprint = (await $`ssh-keygen -lf /dev/stdin < ${Buffer.from(`${key}\n`)}`.text())
-		.trim()
-		.split(/\s+/u)
-		.at(1);
-	if (!fingerprint) {
-		throw new Error(`Could not calculate fingerprint for SSH key: ${key}`);
-	}
-	return {
-		algorithm,
-		blob,
-		comment: match.groups?.["comment"] ?? "",
-		fingerprint,
-		key,
-	};
-};
-
-const getAgentKeys = async (): Promise<SshPublicKey[]> => {
-	const result = await $`ssh-add -L`.quiet().nothrow();
-	if (result.exitCode !== 0) {
-		throw new Error(
-			`Could not list SSH agent keys. Enable and unlock the Bitwarden SSH agent, then try again.\n${result.stderr.toString().trim()}`,
-		);
-	}
-	const keys = (
-		await Promise.all(
-			result.stdout
-				.toString()
-				.trim()
-				.split("\n")
-				.filter(Boolean)
-				.map(async (line) => await parseSshPublicKey(line)),
-		)
-	).filter((key): key is SshPublicKey => key !== undefined);
-	const uniqueKeys = [...new Map(keys.map((key) => [key.key, key])).values()];
-	if (uniqueKeys.length === 0) {
-		throw new Error(
-			"No SSH keys are available from the Bitwarden SSH agent. Add a signing key to Bitwarden, then try again.",
-		);
-	}
-	return uniqueKeys;
-};
-
-const selectFromList = async <T>(
-	prompt: string,
-	items: T[],
-	formatItem: (item: T) => string,
-): Promise<T> => {
-	if (items.length === 0) {
-		throw new Error("No items to select from");
-	}
-	console.info(`${prompt} Please select one by number:`);
-	console.info(
-		items
-			.map(formatItem)
-			.map((line, index) => `${index + 1}. ${line}`)
-			.join("\n"),
-	);
-	for await (const line of console) {
-		const index = Number.parseInt(line.trim(), 10);
-		if (Number.isNaN(index) || index < 1 || index > items.length) {
-			console.error("Invalid input. Please enter a number listed above.");
-			continue;
-		}
-		return items[index - 1]!;
-	}
-	throw new Error("Unexpected end of input");
-};
-
-const githubKeyMatches = (githubKey: string, agentKey: SshPublicKey): boolean => {
-	const components = githubKey.trim().split(/\s+/u);
-	return (
-		githubKey.trim() === agentKey.blob ||
-		(components.at(0) === agentKey.algorithm && components.at(1) === agentKey.blob)
-	);
-};
-
-const selectSigningKey = async (
-	agentKeys: SshPublicKey[],
-	githubKeys: GitHubSshSigningKey[],
-): Promise<SshPublicKey> => {
-	const configuredSigningKey = (
-		await $`git config --file ${localGitConfigPath} user.signingkey`.quiet().nothrow().text()
-	)
-		.trim()
-		.replace(/^key::/u, "");
-	const configuredAgentKey = agentKeys.find(({ key }) => configuredSigningKey.startsWith(key));
-	if (configuredAgentKey) {
-		return configuredAgentKey;
-	}
-	const registeredAgentKeys = agentKeys.filter((agentKey) =>
-		githubKeys.some(({ key }) => githubKeyMatches(key, agentKey)),
-	);
-	if (registeredAgentKeys.length === 1) {
-		return registeredAgentKeys[0]!;
-	}
-	return await selectFromList(
-		"Select the Bitwarden SSH key to use for Git signing.",
-		agentKeys,
-		({ algorithm, comment, fingerprint }) =>
-			`${fingerprint} (${algorithm})${comment ? ` ${comment}` : ""}`,
-	);
-};
-
-const addGitHubSigningKey = async (
-	key: SshPublicKey,
-	githubKeys: GitHubSshSigningKey[],
-): Promise<void> => {
-	if (githubKeys.some(({ key: githubKey }) => githubKeyMatches(githubKey, key))) {
-		return;
-	}
-	const username = (await $`whoami`.text()).trim();
-	const hostname = (await $`hostname`.text()).trim();
-	await $`gh api /user/ssh_signing_keys --method POST --raw-field key=${key.key} --raw-field title=${`${username}@${hostname}`}`
-		.env(envWithoutGitHubToken)
-		.quiet();
-	console.info("Added the SSH signing key to GitHub.");
-};
-
-const configureGitSigning = async (): Promise<void> => {
-	const agentKeys = await getAgentKeys();
-	const githubKeys = await ghApi<GitHubSshSigningKey[]>("/user/ssh_signing_keys");
-	const key = await selectSigningKey(agentKeys, githubKeys);
-	await addGitHubSigningKey(key, githubKeys);
-	await $`git config --file ${localGitConfigPath} user.signingkey ${`key::${key.key}`}`.quiet();
-	console.info(`Configured Git to sign with ${key.fingerprint}.`);
 };
 
 const main = async (): Promise<void> => {
-	const removeScopes = await ensureGitHubTokenScopes();
-
 	try {
-		await configureGitSigning();
+		await ensureGitHubTokenScopes();
 	} finally {
-		await removeScopes();
 		// Reset gh config because it is formatted differently by gh cli
 		const ghConfigPath = resolve(import.meta.dirname, "./home/.config/gh/config.yml");
 		await $`git checkout -- ${ghConfigPath}`.cwd(resolve(import.meta.dirname, "..")).quiet();
