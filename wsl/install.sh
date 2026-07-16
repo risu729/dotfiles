@@ -115,24 +115,8 @@ clone_or_update_dotfiles_repo() {
 	echo "${dotfiles_target_dir}"
 }
 
-migrate_legacy_sudoers_symlink() {
-	local sudoers_path=/etc/sudoers.d/01-users-nopasswd
-	if [[ ! -L ${sudoers_path} ]]; then
-		return
-	fi
-
-	log_info "Replacing legacy sudoers symlink with a root-owned file..."
-	local sudoers_temporary_path=/etc/sudoers.d/.01-users-nopasswd.tmp
-	printf '%s\n' 'ALL ALL=(ALL:ALL) NOPASSWD: ALL' |
-		sudo tee "${sudoers_temporary_path}" >/dev/null
-	sudo chmod 0440 "${sudoers_temporary_path}"
-	sudo mv --force "${sudoers_temporary_path}" "${sudoers_path}"
-	log_info "Legacy sudoers symlink replaced."
-}
-
 main() {
 	install_mise
-	migrate_legacy_sudoers_symlink
 
 	local dotfiles_dir
 	dotfiles_dir=$(clone_or_update_dotfiles_repo "${git_ref}")
