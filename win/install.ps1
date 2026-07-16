@@ -262,52 +262,7 @@ function Test-WslDistributionInstalled {
 
 <#
 	.SYNOPSIS
-	Prompts the user for a password and confirms it.
-
-	.OUTPUTS
-	Returns the confirmed password as a plain text string.
-#>
-function Read-Password {
-	[CmdletBinding()]
-	[Diagnostics.CodeAnalysis.SuppressMessageAttribute(
-		'PSAvoidUsingWriteHost',
-		'',
-		Justification = 'Required to prompt user'
-	)]
-	param()
-
-	while ($true) {
-		Write-Host 'Enter password:'
-		# Use -AsSecureString to mask input
-		$passwordSecure = Read-Host -AsSecureString
-		$password = [System.Runtime.InteropServices.Marshal]::PtrToStringAuto(
-			[System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($passwordSecure)
-		)
-
-		if ($null -eq $password -or [string]::IsNullOrEmpty($password)) {
-			Write-Warning 'Password cannot be empty. Try again.'
-			continue
-		}
-
-		Write-Host 'Re-enter password:'
-		$confirmPasswordSecure = Read-Host -AsSecureString
-		$confirmPassword = [System.Runtime.InteropServices.Marshal]::PtrToStringAuto(
-			[System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($confirmPasswordSecure)
-		)
-
-		# if doesn't match, prompt again
-		if ($password -ne $confirmPassword) {
-			Write-Warning 'Passwords do not match. Try again.'
-			continue
-		}
-
-		return $password
-	}
-}
-
-<#
-	.SYNOPSIS
-	Creates a new user in the WSL distribution.
+	Creates a new user with a locked password in the WSL distribution.
 #>
 function New-WslUser {
 	[Diagnostics.CodeAnalysis.SuppressMessageAttribute(
@@ -316,16 +271,6 @@ function New-WslUser {
 		Justification = 'No confirmation needed for this script'
 	)]
 	[CmdletBinding()]
-	[Diagnostics.CodeAnalysis.SuppressMessageAttribute(
-		'PSAvoidUsingPlainTextForPassword',
-		'',
-		Justification = 'chpasswd requires plain text password'
-	)]
-	[Diagnostics.CodeAnalysis.SuppressMessageAttribute(
-		'PSAvoidUsingUsernameAndPasswordParams',
-		'',
-		Justification = 'chpasswd requires plain text password'
-	)]
 	param(
 		[Parameter(Mandatory = $true)]
 		# The name of the WSL distribution to create the user in.
@@ -333,19 +278,25 @@ function New-WslUser {
 
 		[Parameter(Mandatory = $true)]
 		# The username for the new WSL user.
-		[string]$Username,
-
-		[Parameter(Mandatory = $true)]
-		# The plain text password for the new user.
-		[string]$Password
+		[string]$Username
 	)
 
 	# No need to check the duplicate username because useradd will fail if it exists
+	# Omitting --password leaves password authentication locked.
 	Invoke-WSLCommand -Root -Command "useradd --create-home $Username"
-	Invoke-WSLCommand -Root -Command "echo ${Username}:$Password | chpasswd"
 	Invoke-WSLCommand -Root -Command "usermod --append --groups sudo $Username"
 
-	Write-Information "User '$Username' created in WSL distribution '$Distribution'."
+	# The WSL setup script needs sudo before it can link the managed sudoers file.
+	$sudoersPath = '/etc/sudoers.d/01-users-nopasswd'
+	Invoke-WSLCommand -Root -Command 'install --directory --mode=0755 /etc/sudoers.d'
+	Invoke-WSLCommand -Root -Command (
+		"printf '%s\n' 'ALL ALL=(ALL:ALL) NOPASSWD: ALL' > $sudoersPath && " +
+		"chmod 0440 $sudoersPath"
+	)
+
+	Write-Information (
+		"User '$Username' created with a locked password in WSL distribution '$Distribution'."
+	)
 }
 
 <#
@@ -364,10 +315,6 @@ function Install-Wsl {
 <#
 	.SYNOPSIS
 	Sets up the WSL distribution.
-
-	.NOTES
-	Requires user interaction for password input.
-	Fails if the distribution is already installed.
 #>
 function Install-WslDistribution {
 	[CmdletBinding()]
@@ -396,8 +343,7 @@ function Install-WslDistribution {
 	if (-not $isDistributionInstalled) {
 		# no-launch skips user creation, so we need to create it manually
 		# ref: https://github.com/microsoft/WSL/issues/10386
-		$password = Read-Password
-		New-WslUser -Distribution $Distribution -Username $Username -Password $password
+		New-WslUser -Distribution $Distribution -Username $Username
 		# Set the default user to the created user
 		Invoke-ExternalCommand "wsl --manage `"$Distribution`" --set-default-user `"$Username`""
 	}
