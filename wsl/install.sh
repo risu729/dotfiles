@@ -115,50 +115,27 @@ clone_or_update_dotfiles_repo() {
 	echo "${dotfiles_target_dir}"
 }
 
-create_etc_symlinks() {
-	local wsl_config_dir="$1"
-	local repo_root
-	repo_root="$(realpath "${wsl_config_dir}/..")"
-	local wsl_etc_config_dir
-	wsl_etc_config_dir="$(realpath "${wsl_config_dir}/etc")"
-
-	log_info "Creating symbolic links for etc directory files from ${wsl_etc_config_dir}..."
-	local wsl_etc_config_relative_dir
-	wsl_etc_config_relative_dir="$(realpath --relative-to="${repo_root}" "${wsl_etc_config_dir}")"
-	local etc_paths=()
-	# A git failure leaves the array empty and is handled below.
-	# shellcheck disable=SC2312
-	while IFS= read -r -d '' path; do
-		etc_paths+=("${repo_root}/${path}")
-	done < <(git -C "${repo_root}" ls-files -z -- "${wsl_etc_config_relative_dir}")
-
-	if ((${#etc_paths[@]} == 0)); then
-		log_error "No etc directory files found to symlink."
-		exit 1
+migrate_legacy_sudoers_symlink() {
+	local sudoers_path=/etc/sudoers.d/01-users-nopasswd
+	if [[ ! -L ${sudoers_path} ]]; then
+		return
 	fi
 
-	for path in "${etc_paths[@]}"; do
-		local full_path
-		full_path=$(realpath "${path}")
-		local target_name
-		target_name="$(realpath --relative-to="${wsl_etc_config_dir}" "${full_path}")"
-		local target_path="/etc/${target_name}"
-
-		sudo mkdir --parents "$(dirname "${target_path}")"
-		sudo ln --symbolic --no-dereference --force "${full_path}" "${target_path}"
-		sudo chown root:root "${target_path}"
-		log_info "Installed symlink: ${target_path}"
-	done
+	log_info "Replacing legacy sudoers symlink with a root-owned file..."
+	local sudoers_temporary_path=/etc/sudoers.d/.01-users-nopasswd.tmp
+	printf '%s\n' 'ALL ALL=(ALL:ALL) NOPASSWD: ALL' |
+		sudo tee "${sudoers_temporary_path}" >/dev/null
+	sudo chmod 0440 "${sudoers_temporary_path}"
+	sudo mv --force "${sudoers_temporary_path}" "${sudoers_path}"
+	log_info "Legacy sudoers symlink replaced."
 }
 
 main() {
 	install_mise
+	migrate_legacy_sudoers_symlink
 
 	local dotfiles_dir
 	dotfiles_dir=$(clone_or_update_dotfiles_repo "${git_ref}")
-
-	local wsl_config_dir="${dotfiles_dir}/wsl"
-	create_etc_symlinks "${wsl_config_dir}"
 
 	log_info "Bootstrapping packages, dotfiles, and tools with mise..."
 	mise trust --yes "${dotfiles_dir}/mise.toml"

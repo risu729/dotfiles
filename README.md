@@ -23,8 +23,6 @@ This repository is organized around the two installer entry points:
   - `wsl/home/` mirrors the target home directory. Mise links these files into
     `$HOME`, except for Codex skills, which are copied because Codex does not
     discover symlinked skill files.
-  - `wsl/etc/` mirrors root-owned system files. The installer links these files
-    into `/etc`.
   - `wsl/setup-git.ts` performs interactive GitHub authentication after the
     base WSL environment is ready. Git identity, SSH signing, and `ghr`
     defaults live in `wsl/home/.gitconfig` and `wsl/home/.ghr/ghr.toml`.

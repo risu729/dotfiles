@@ -317,7 +317,7 @@ function New-WslUser {
 		-FilePath '/usr/sbin/usermod' `
 		-ArgumentList @('--append', '--groups', 'sudo', '--', $Username)
 
-	# The WSL setup script needs sudo before it can link the managed sudoers file.
+	# The WSL setup script needs sudo before mise can persist the sudoers policy.
 	$sudoersPath = '/etc/sudoers.d/01-users-nopasswd'
 	Invoke-WSLExecutable -Root -FilePath '/usr/bin/mkdir' -ArgumentList @('--parents', '/etc/sudoers.d')
 	Invoke-WSLCommand -Root -Command (
