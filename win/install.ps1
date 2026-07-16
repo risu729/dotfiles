@@ -162,6 +162,46 @@ function Invoke-ExternalCommand {
 
 <#
 	.SYNOPSIS
+	Runs an executable in WSL without shell parsing and returns the output.
+#>
+function Invoke-WSLExecutable {
+	[CmdletBinding()]
+	param (
+		[Parameter(Mandatory = $true)]
+		# The absolute path of the executable in WSL.
+		[string]$FilePath,
+
+		[Parameter(Mandatory = $false)]
+		# Arguments passed directly to the executable.
+		[string[]]$ArgumentList = @(),
+
+		[Parameter(Mandatory = $false)]
+		# If true, the executable is run as root. If false, it is run as the default user.
+		[switch]$Root
+	)
+
+	$wslArgs = @()
+
+	if ($Root) {
+		$wslArgs += '--user'
+		$wslArgs += 'root'
+	}
+
+	$wslArgs += '--exec'
+	$wslArgs += $FilePath
+	$wslArgs += $ArgumentList
+
+	& wsl $wslArgs
+
+	$exitCode = $LASTEXITCODE
+	if ($exitCode -ne 0) {
+		$displayCommand = (@($FilePath) + $ArgumentList) -join ' '
+		throw "WSL executable failed with exit code ${exitCode}: $displayCommand"
+	}
+}
+
+<#
+	.SYNOPSIS
 	Runs a command in WSL and returns the output.
 
 	.NOTES
@@ -183,31 +223,16 @@ function Invoke-WSLCommand {
 		[switch]$Interactive
 	)
 
-	$wslArgs = @()
-
-	if ($Root) {
-		$wslArgs += '--user'
-		$wslArgs += 'root'
-	}
-
-	$wslArgs += '--exec'
-	$wslArgs += '/usr/bin/env'
-	$wslArgs += 'bash'
+	$argumentList = @('bash')
 
 	if ($Interactive) {
-		$wslArgs += '-i'
+		$argumentList += '-i'
 	}
 
-	$wslArgs += '-c'
-	$wslArgs += $Command
+	$argumentList += '-c'
+	$argumentList += $Command
 
-	# Do not use Invoke-Expression to avoid re-interpretation of the command string
-	& wsl $wslArgs
-
-	$exitCode = $LASTEXITCODE
-	if ($exitCode -ne 0) {
-		throw "WSL command failed with exit code ${exitCode}: $Command"
-	}
+	Invoke-WSLExecutable -FilePath '/usr/bin/env' -ArgumentList $argumentList -Root:$Root
 }
 
 <#
@@ -283,12 +308,18 @@ function New-WslUser {
 
 	# No need to check the duplicate username because useradd will fail if it exists
 	# Omitting --password leaves password authentication locked.
-	Invoke-WSLCommand -Root -Command "useradd --create-home $Username"
-	Invoke-WSLCommand -Root -Command "usermod --append --groups sudo $Username"
+	Invoke-WSLExecutable `
+		-Root `
+		-FilePath '/usr/sbin/useradd' `
+		-ArgumentList @('--create-home', '--', $Username)
+	Invoke-WSLExecutable `
+		-Root `
+		-FilePath '/usr/sbin/usermod' `
+		-ArgumentList @('--append', '--groups', 'sudo', '--', $Username)
 
 	# The WSL setup script needs sudo before it can link the managed sudoers file.
 	$sudoersPath = '/etc/sudoers.d/01-users-nopasswd'
-	Invoke-WSLCommand -Root -Command 'install --directory --mode=0755 /etc/sudoers.d'
+	Invoke-WSLExecutable -Root -FilePath '/usr/bin/mkdir' -ArgumentList @('--parents', '/etc/sudoers.d')
 	Invoke-WSLCommand -Root -Command (
 		"printf '%s\n' 'ALL ALL=(ALL:ALL) NOPASSWD: ALL' > $sudoersPath && " +
 		"chmod 0440 $sudoersPath"
