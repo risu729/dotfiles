@@ -29,31 +29,31 @@ url_api = "https://api.github.com/repos/rhysd/actionlint/releases/assets/3849248
 provenance = "github-attestations"
 
 [[tools.aube]]
-version = "v1.28.0"
+version = "v1.29.0"
 backend = "aqua:jdx/aube"
 
 [tools.aube."platforms.linux-x64"]
-checksum = "sha256:dc2728d1120efe26dfdae001654334f7ed9bb13c4fc50568d150744d151c7edb"
-url = "https://github.com/jdx/aube/releases/download/v1.28.0/aube-v1.28.0-x86_64-unknown-linux-gnu.tar.gz"
-url_api = "https://api.github.com/repos/jdx/aube/releases/assets/478782399"
+checksum = "sha256:76bd72cc5ab1eb8ed237164cc8b610fbd59bf3540777906a1616c05a6c015783"
+url = "https://github.com/jdx/aube/releases/download/v1.29.0/aube-v1.29.0-x86_64-unknown-linux-gnu.tar.gz"
+url_api = "https://api.github.com/repos/jdx/aube/releases/assets/479603526"
 provenance = "github-attestations"
 
 [tools.aube."platforms.linux-x64-baseline"]
-checksum = "sha256:dc2728d1120efe26dfdae001654334f7ed9bb13c4fc50568d150744d151c7edb"
-url = "https://github.com/jdx/aube/releases/download/v1.28.0/aube-v1.28.0-x86_64-unknown-linux-gnu.tar.gz"
-url_api = "https://api.github.com/repos/jdx/aube/releases/assets/478782399"
+checksum = "sha256:76bd72cc5ab1eb8ed237164cc8b610fbd59bf3540777906a1616c05a6c015783"
+url = "https://github.com/jdx/aube/releases/download/v1.29.0/aube-v1.29.0-x86_64-unknown-linux-gnu.tar.gz"
+url_api = "https://api.github.com/repos/jdx/aube/releases/assets/479603526"
 provenance = "github-attestations"
 
 [tools.aube."platforms.linux-x64-musl"]
-checksum = "sha256:daa2c4d9fc6bf399f465f4ca9d6f5c8c62de17919987cd01541fd4ad1fc5ab46"
-url = "https://github.com/jdx/aube/releases/download/v1.28.0/aube-v1.28.0-x86_64-unknown-linux-musl.tar.gz"
-url_api = "https://api.github.com/repos/jdx/aube/releases/assets/478785398"
+checksum = "sha256:5dbff598c2dae70a395f6a669e9922e17d512883b329c33092806d97a895462b"
+url = "https://github.com/jdx/aube/releases/download/v1.29.0/aube-v1.29.0-x86_64-unknown-linux-musl.tar.gz"
+url_api = "https://api.github.com/repos/jdx/aube/releases/assets/479621223"
 provenance = "github-attestations"
 
 [tools.aube."platforms.linux-x64-musl-baseline"]
-checksum = "sha256:daa2c4d9fc6bf399f465f4ca9d6f5c8c62de17919987cd01541fd4ad1fc5ab46"
-url = "https://github.com/jdx/aube/releases/download/v1.28.0/aube-v1.28.0-x86_64-unknown-linux-musl.tar.gz"
-url_api = "https://api.github.com/repos/jdx/aube/releases/assets/478785398"
+checksum = "sha256:5dbff598c2dae70a395f6a669e9922e17d512883b329c33092806d97a895462b"
+url = "https://github.com/jdx/aube/releases/download/v1.29.0/aube-v1.29.0-x86_64-unknown-linux-musl.tar.gz"
+url_api = "https://api.github.com/repos/jdx/aube/releases/assets/479621223"
 provenance = "github-attestations"
 
 [[tools.betterleaks]]
