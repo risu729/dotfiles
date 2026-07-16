@@ -1,12 +1,10 @@
 #!/usr/bin/env bun
 
-import { chmod, mkdir, readFile, writeFile } from "node:fs/promises";
-import { homedir } from "node:os";
-import { dirname, join, resolve } from "node:path";
+import { resolve } from "node:path";
 
 import { $, env, spawn } from "bun";
 
-/* oxlint-disable eslint/max-lines eslint/max-lines-per-function eslint/max-statements eslint/no-await-in-loop */
+/* oxlint-disable eslint/max-lines-per-function eslint/max-statements eslint/no-await-in-loop */
 
 // Remove GITHUB_TOKEN from env to avoid github cli using it
 const envWithoutGitHubToken = Object.fromEntries(
@@ -14,7 +12,6 @@ const envWithoutGitHubToken = Object.fromEntries(
 ) as Record<string, string>;
 
 const localGitConfigPath: string = (await $`git config --global include.path`.text()).trim();
-const allowedSignersPath = join(homedir(), ".ssh", "allowed_signers");
 
 type SshPublicKey = {
 	algorithm: string;
@@ -192,7 +189,7 @@ const getAgentKeys = async (): Promise<SshPublicKey[]> => {
 	const uniqueKeys = [...new Map(keys.map((key) => [key.key, key])).values()];
 	if (uniqueKeys.length === 0) {
 		throw new Error(
-			"No SSH keys are available from the Bitwarden SSH agent. Create or import a signing key, then try again.",
+			"No SSH keys are available from the Bitwarden SSH agent. Add a signing key to Bitwarden, then try again.",
 		);
 	}
 	return uniqueKeys;
@@ -274,38 +271,12 @@ const addGitHubSigningKey = async (
 	console.info("Added the SSH signing key to GitHub.");
 };
 
-const updateAllowedSigners = async (email: string, key: SshPublicKey): Promise<void> => {
-	await mkdir(dirname(allowedSignersPath), { mode: 0o700, recursive: true });
-	const existing = await readFile(allowedSignersPath, "utf8").catch((error: unknown) => {
-		if (error instanceof Error && "code" in error && error.code === "ENOENT") {
-			return "";
-		}
-		throw error;
-	});
-	const entry = `${email} ${key.key}`;
-	const lines = existing
-		.split("\n")
-		.map((line) => line.trim())
-		.filter(Boolean);
-	if (!lines.includes(entry)) {
-		lines.push(entry);
-	}
-	await writeFile(allowedSignersPath, `${lines.join("\n")}\n`, { mode: 0o600 });
-	await chmod(allowedSignersPath, 0o600);
-};
-
 const configureGitSigning = async (): Promise<void> => {
-	const email = (await $`git config user.email`.text()).trim();
-	if (!email) {
-		throw new Error("user.email is not set in git config");
-	}
 	const agentKeys = await getAgentKeys();
 	const githubKeys = await ghApi<GitHubSshSigningKey[]>("/user/ssh_signing_keys");
 	const key = await selectSigningKey(agentKeys, githubKeys);
 	await addGitHubSigningKey(key, githubKeys);
-	await updateAllowedSigners(email, key);
 	await $`git config --file ${localGitConfigPath} user.signingkey ${`key::${key.key}`}`.quiet();
-	await $`git config --file ${localGitConfigPath} gpg.ssh.allowedSignersFile ${allowedSignersPath}`.quiet();
 	await $`git config --file ${localGitConfigPath} gpg.format ssh`.quiet();
 	console.info(`Configured Git to sign with ${key.fingerprint}.`);
 };
