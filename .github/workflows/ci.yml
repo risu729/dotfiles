@@ -131,8 +131,7 @@ jobs:
       - lint
       - test-linux
       - test-worker
-    # ref: https://github.com/aquaproj/aqua-registry/pull/38449#issuecomment-3038859524
-    if: always() && (contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled'))
+    if: ${{ !cancelled() && (contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled')) }}
     runs-on: ubuntu-24.04
     timeout-minutes: 5
     steps:
