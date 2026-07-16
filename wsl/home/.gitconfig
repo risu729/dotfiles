@@ -16,6 +16,9 @@
 [tag]
 	gpgSign = true
 
+[gpg]
+	format = ssh
+
 [submodule]
 	recurse = true
 

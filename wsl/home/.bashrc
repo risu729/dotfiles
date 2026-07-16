@@ -351,18 +351,6 @@ _c_codex_tmux_complete() {
 
 complete -o nospace -o bashdefault -F _c_codex_tmux_complete c
 
-# GPG requires a TTY until setup-git.ts switches the local signing format to SSH
-# GitHub Actions doesn't have a TTY
-# ref: https://github.com/actions/runner/issues/241
-if [[ -n ${PS1} ]]; then
-	git_signing_format=$(git config --global gpg.format) || :
-	if [[ ${git_signing_format} != ssh ]]; then
-		GPG_TTY=$(tty)
-		export GPG_TTY
-	fi
-	unset git_signing_format
-fi
-
 # Set GITHUB_TOKEN to avoid rate limit while using mise
 # Use __CI instead of CI to be able to test CI locally
 if [[ -z ${__CI:-} ]] && command -v gh &>/dev/null; then

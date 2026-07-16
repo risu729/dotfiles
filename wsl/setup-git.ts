@@ -277,7 +277,6 @@ const configureGitSigning = async (): Promise<void> => {
 	const key = await selectSigningKey(agentKeys, githubKeys);
 	await addGitHubSigningKey(key, githubKeys);
 	await $`git config --file ${localGitConfigPath} user.signingkey ${`key::${key.key}`}`.quiet();
-	await $`git config --file ${localGitConfigPath} gpg.format ssh`.quiet();
 	console.info(`Configured Git to sign with ${key.fingerprint}.`);
 };
 
