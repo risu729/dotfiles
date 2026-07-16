@@ -23,9 +23,10 @@ This repository is organized around the two installer entry points:
   - `wsl/home/` mirrors the target home directory. Mise links these files into
     `$HOME`, except for Codex skills, which are copied because Codex does not
     discover symlinked skill files.
-  - `wsl/setup-git.ts` performs interactive GitHub authentication after the
-    base WSL environment is ready. Git identity, SSH signing, and `ghr`
-    defaults live in `wsl/home/.gitconfig` and `wsl/home/.ghr/ghr.toml`.
+  - `wsl/setup-git.ts` performs interactive GitHub and UNSW CSE GitLab
+    authentication after the base WSL environment is ready. Git identity, SSH
+    signing, and `ghr` defaults live in `wsl/home/.gitconfig` and
+    `wsl/home/.ghr/ghr.toml`.
 
 - `worker/` is a Cloudflare Worker for `dot.risunosu.com`. It redirects the root
   route to this README and serves the `/win` and `/wsl` installer routes by

@@ -31,6 +31,13 @@
 [credential "https://gist.github.com"]
 	helper =
 	helper = !gh auth git-credential
+[credential "https://gitlab.cse.unsw.edu.au"]
+	username = z5642102
+	helper =
+	helper = !glab auth git-credential
+
+[includeIf "gitdir:~/.ghr/gitlab.cse.unsw.edu.au/"]
+	path = ~/.config/git/unsw.gitconfig
 
 [include]
 	path = ~/.gitconfig.local
