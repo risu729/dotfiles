@@ -1,6 +1,8 @@
 #!/usr/bin/env bun
 
-import { resolve } from "node:path";
+import { mkdtemp, rm } from "node:fs/promises";
+import { tmpdir } from "node:os";
+import { join, resolve } from "node:path";
 
 import { $, env, spawn } from "bun";
 
@@ -9,6 +11,16 @@ import { $, env, spawn } from "bun";
 // Remove GITHUB_TOKEN from env to avoid github cli using it
 const envWithoutGitHubToken = Object.fromEntries(
 	Object.entries(env).filter(([key]) => key !== "GITHUB_TOKEN"),
+) as Record<string, string>;
+
+const gitLabHost = "gitlab.cse.unsw.edu.au";
+const gitLabTokenEnvironmentVariables = new Set([
+	"GITLAB_TOKEN",
+	"GITLAB_ACCESS_TOKEN",
+	"OAUTH_TOKEN",
+]);
+const envWithoutGitLabTokens = Object.fromEntries(
+	Object.entries(env).filter(([key]) => !gitLabTokenEnvironmentVariables.has(key)),
 ) as Record<string, string>;
 
 const ensureGitHubTokenScopes = async (): Promise<void> => {
@@ -103,6 +115,47 @@ const ensureGitHubTokenScopes = async (): Promise<void> => {
 	}
 };
 
+const ensureGitLabAuthentication = async (): Promise<void> => {
+	const { exitCode } = await $`glab auth status --hostname ${gitLabHost}`
+		.env(envWithoutGitLabTokens)
+		.quiet()
+		.nothrow();
+	if (exitCode === 0) {
+		return;
+	}
+
+	console.info(`Authenticate with ${gitLabHost} using a fine-grained personal access token.
+Use all groups and projects with these permissions:
+- User: Read
+- Code: Download
+- Code: Push`);
+	await $`xdg-open ${`https://${gitLabHost}/-/user_settings/personal_access_tokens`}`.nothrow();
+
+	// Keep glab from editing the managed ~/.gitconfig during interactive login.
+	// The GitLab credential helper is already configured in wsl/home/.gitconfig.
+	const temporaryDirectory = await mkdtemp(join(tmpdir(), "dotfiles-glab-"));
+	try {
+		const process = spawn(
+			["glab", "auth", "login", "--hostname", gitLabHost, "--git-protocol", "https"],
+			{
+				env: {
+					...envWithoutGitLabTokens,
+					GIT_CONFIG_GLOBAL: join(temporaryDirectory, "gitconfig"),
+				},
+				stderr: "inherit",
+				stdin: "inherit",
+				stdout: "inherit",
+			},
+		);
+		const processExitCode = await process.exited;
+		if (processExitCode !== 0) {
+			throw new Error(`glab auth login exited with code ${processExitCode}.`);
+		}
+	} finally {
+		await rm(temporaryDirectory, { force: true, recursive: true });
+	}
+};
+
 const main = async (): Promise<void> => {
 	try {
 		await ensureGitHubTokenScopes();
@@ -111,5 +164,6 @@ const main = async (): Promise<void> => {
 		const ghConfigPath = resolve(import.meta.dirname, "./home/.config/gh/config.yml");
 		await $`git checkout -- ${ghConfigPath}`.cwd(resolve(import.meta.dirname, "..")).quiet();
 	}
+	await ensureGitLabAuthentication();
 };
 await main();

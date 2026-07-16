@@ -38,6 +38,7 @@ watchexec = "latest"
 jq = "latest"
 yq = "latest"
 github-cli = "latest"
+glab = "latest"
 "github:seachicken/gh-poi" = { version = "latest", bin = "gh-poi" }
 "aqua:siketyan/ghr" = { version = "latest", prerelease = true }
 fzf = "latest"
