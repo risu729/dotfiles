@@ -97,7 +97,7 @@ ln --symbolic --no-dereference --force \
 [bootstrap.hooks.final]
 run = '''
 if [ -t 0 ] && [ -t 1 ]; then
-  if ! mise exec -- bash --interactive -c "${MISE_PROJECT_ROOT}/wsl/setup-git.ts"; then
+  if ! mise exec -- bash -i -c "${MISE_PROJECT_ROOT}/wsl/setup-git.ts"; then
     echo "Git setup failed; run wsl/setup-git.ts manually if needed." >&2
   fi
 fi
