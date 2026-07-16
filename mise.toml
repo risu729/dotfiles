@@ -82,8 +82,6 @@ fi
 
 [bootstrap.hooks.post-dotfiles]
 run = '''
-mkdir --parents "${HOME}/.gnupg"
-chmod 700 "${HOME}/.gnupg"
 sudo update-desktop-database
 '''
 
