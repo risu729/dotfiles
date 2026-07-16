@@ -63,25 +63,36 @@ const ensureGitHubTokenScopes = async (): Promise<void> => {
 	const requiredScopes = [
 		// Not included in the scopes granted by default in gh auth login
 		"workflow",
-		// Allow read-only access
 		"read:packages",
-		"read:project",
+		"project",
 	];
 
 	// Login to GitHub if not authenticated
-	const { stdout, exitCode } = await $`gh auth status`.env(envWithoutGitHubToken).quiet().nothrow();
+	const { stdout, exitCode } = await $`gh auth status --active --hostname github.com --json hosts`
+		.env(envWithoutGitHubToken)
+		.quiet()
+		.nothrow();
 	if (exitCode !== 0) {
 		await authWithBrowser(`login --web --git-protocol https --scopes ${requiredScopes.join(",")}`);
 		return;
 	}
+	const authStatus = JSON.parse(stdout.toString()) as {
+		hosts?: Record<
+			string,
+			{
+				active: boolean;
+				scopes: string;
+				state: string;
+			}[]
+		>;
+	};
+	const activeAccount = authStatus.hosts?.["github.com"]?.find(({ active }) => active);
+	if (activeAccount?.state !== "success") {
+		await authWithBrowser(`login --web --git-protocol https --scopes ${requiredScopes.join(",")}`);
+		return;
+	}
 
-	const scopes =
-		stdout
-			.toString()
-			.match(/Token scopes:(?<scopes>.*)/u)
-			?.groups?.["scopes"]?.trim()
-			.split(", ")
-			.map((scope) => scope.replaceAll(/'/gu, "")) ?? [];
+	const scopes = activeAccount.scopes.split(", ");
 	const missingScopes = requiredScopes.filter((scope) => !scopes.includes(scope));
 	if (missingScopes.length > 0) {
 		console.info(
