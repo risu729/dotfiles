@@ -1,3 +1,0 @@
-# allow all users to run all commands without password
-# cspell:ignore nopasswd
-ALL ALL=(ALL:ALL) NOPASSWD: ALL
