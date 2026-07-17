@@ -14,6 +14,9 @@ GITHUB_URL_PREFIX = "https://github.com/"
 URL_RE = re.compile(re.escape(GITHUB_URL_PREFIX) + r"([^/\s]+)/([^/\s]+)/pull/(\d+)")
 OWNER_REPO_RE = re.compile(r"([A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+)#(\d+)")
 LOCAL_REF_RE = re.compile(r"(?<![A-Za-z0-9_/.-])#(\d+)")
+SPECIAL_NOTES = {
+    "jdx/mise#9924": "body says to come back after tool opts refactor and other fixes complete.",
+}
 
 
 def run(args, *, check=True):
@@ -103,7 +106,7 @@ def pr_view(repo, number):
             "--repo",
             repo,
             "--json",
-            "number,title,headRefName,isDraft,mergeStateStatus,statusCheckRollup,body",
+            "number,title,url,baseRefName,headRefName,isDraft,mergeStateStatus,statusCheckRollup,body,updatedAt",
         ]
     )
     pr["repo"] = repo
@@ -115,24 +118,45 @@ def tmux_wip_branches():
     panes = run(["tmux", "list-panes", "-a", "-F", "#{pane_current_path}"], check=False)
     branches = defaultdict(set)
     for path in panes.splitlines():
-        if run(["git", "-C", path, "rev-parse", "--is-inside-work-tree"], check=False) != "true":
+        if (
+            run(["git", "-C", path, "rev-parse", "--is-inside-work-tree"], check=False)
+            != "true"
+        ):
             continue
         branch = run(["git", "-C", path, "branch", "--show-current"], check=False)
         if not branch:
             continue
-        remote = normalize_remote(run(["git", "-C", path, "remote", "get-url", "origin"], check=False))
+        remote = normalize_remote(
+            run(["git", "-C", path, "remote", "get-url", "origin"], check=False)
+        )
         if remote:
             branches[remote].add(branch)
     return branches
 
 
-def check_names(pr, conclusion):
-    names = []
+def checks_for(pr):
+    checks = []
+    seen = set()
     for check in pr.get("statusCheckRollup") or []:
-        status = check.get("conclusion") or check.get("state") or ""
-        if status == conclusion:
-            names.append(check.get("name") or check.get("workflowName") or check.get("context") or "check")
-    return names
+        normalized = {
+            "name": check.get("name")
+            or check.get("workflowName")
+            or check.get("context")
+            or "check",
+            "status": check.get("conclusion")
+            or check.get("state")
+            or check.get("status")
+            or "UNKNOWN",
+        }
+        identity = (normalized["name"], normalized["status"])
+        if identity not in seen:
+            checks.append(normalized)
+            seen.add(identity)
+    return checks
+
+
+def check_names(pr, conclusion):
+    return [check["name"] for check in checks_for(pr) if check["status"] == conclusion]
 
 
 def pr_key(repo, number):
@@ -156,7 +180,7 @@ def dependency_refs(pr):
     return list(dict.fromkeys(refs))
 
 
-def labels_for(pr, key, wip_keys, wip_branches):
+def status_labels_for(pr, key, wip_keys, wip_branches):
     labels = []
     if pr.get("isDraft"):
         labels.append("DRAFT")
@@ -165,10 +189,17 @@ def labels_for(pr, key, wip_keys, wip_branches):
     merge_state = pr.get("mergeStateStatus") or ""
     if merge_state not in ("", "CLEAN", "UNKNOWN"):
         labels.append(merge_state)
+    return labels
+
+
+def labels_for(pr, key, wip_keys, wip_branches):
+    labels = status_labels_for(pr, key, wip_keys, wip_branches)
     return f" [{', '.join(labels)}]" if labels else ""
 
 
-def print_pr(pr, key, wip_keys, wip_branches, prefix="", detail_prefix=None):
+def print_pr(
+    pr, key, wip_keys, wip_branches, missing_dependencies, prefix="", detail_prefix=None
+):
     if detail_prefix is None:
         detail_prefix = prefix
     print(f"{prefix}{key} {pr['title']}{labels_for(pr, key, wip_keys, wip_branches)}")
@@ -178,11 +209,24 @@ def print_pr(pr, key, wip_keys, wip_branches, prefix="", detail_prefix=None):
         print(f"{detail_prefix}  failed: {', '.join(failures)}")
     if cancelled:
         print(f"{detail_prefix}  cancelled: {', '.join(cancelled)}")
-    if key == "jdx/mise#9924":
-        print(f"{detail_prefix}  note: body says to come back after tool opts refactor and other fixes complete.")
+    if missing_dependencies[key]:
+        print(f"{detail_prefix}  blocked on: {', '.join(missing_dependencies[key])}")
+    if note := SPECIAL_NOTES.get(key):
+        print(f"{detail_prefix}  note: {note}")
 
 
-def print_tree(root, children, prs, wip_keys, wip_branches, prefix="", is_root=True, is_last=True, seen=None):
+def print_tree(
+    root,
+    children,
+    prs,
+    wip_keys,
+    wip_branches,
+    missing_dependencies,
+    prefix="",
+    is_root=True,
+    is_last=True,
+    seen=None,
+):
     if seen is None:
         seen = set()
     if root in seen:
@@ -190,8 +234,18 @@ def print_tree(root, children, prs, wip_keys, wip_branches, prefix="", is_root=T
     seen.add(root)
     line_prefix = "" if is_root else prefix + ("└─ " if is_last else "├─ ")
     detail_prefix = "" if is_root else prefix + ("   " if is_last else "│  ")
-    print_pr(prs[root], root, wip_keys, wip_branches, line_prefix, detail_prefix)
-    child_keys = sorted(children[root], key=lambda key: (prs[key]["repo"], -int(prs[key]["number"])))
+    print_pr(
+        prs[root],
+        root,
+        wip_keys,
+        wip_branches,
+        missing_dependencies,
+        line_prefix,
+        detail_prefix,
+    )
+    child_keys = sorted(
+        children[root], key=lambda key: (prs[key]["repo"], -int(prs[key]["number"]))
+    )
     next_prefix = prefix if is_root else prefix + ("   " if is_last else "│  ")
     for index, child in enumerate(child_keys):
         print_tree(
@@ -200,6 +254,7 @@ def print_tree(root, children, prs, wip_keys, wip_branches, prefix="", is_root=T
             prs,
             wip_keys,
             wip_branches,
+            missing_dependencies,
             next_prefix,
             is_root=False,
             is_last=index == len(child_keys) - 1,
@@ -208,13 +263,185 @@ def print_tree(root, children, prs, wip_keys, wip_branches, prefix="", is_root=T
 
 
 def parse_args():
-    parser = argparse.ArgumentParser(description="Show open GitHub PRs as a dependency tree.")
-    parser.add_argument("--repo", action="append", help="Limit to a repository such as jdx/mise. May be repeated.")
-    parser.add_argument("--current-repo", action="store_true", help="Limit to the current git repository.")
-    parser.add_argument("--author", default="@me", help="PR author passed to gh. Defaults to @me.")
+    parser = argparse.ArgumentParser(
+        description="Inspect open GitHub PRs and their dependency relationships."
+    )
+    parser.add_argument(
+        "--repo",
+        action="append",
+        help="Limit to a repository such as jdx/mise. May be repeated.",
+    )
+    parser.add_argument(
+        "--current-repo",
+        action="store_true",
+        help="Limit to the current git repository.",
+    )
+    parser.add_argument(
+        "--author", default="@me", help="PR author passed to gh. Defaults to @me."
+    )
     parser.add_argument("--limit", type=int, default=200, help="Maximum PRs to fetch.")
-    parser.add_argument("--wip", action="append", default=[], help="Mark a PR as WIP. Accepts 123 or owner/repo#123.")
+    parser.add_argument(
+        "--wip",
+        action="append",
+        default=[],
+        help="Mark a PR as WIP. Accepts 123 or owner/repo#123.",
+    )
+    parser.add_argument(
+        "--format",
+        choices=("json", "text"),
+        default="json",
+        help="Output format. Defaults to agent-friendly JSON.",
+    )
     return parser.parse_args()
+
+
+def sorted_keys(keys, prs):
+    return sorted(keys, key=lambda key: (prs[key]["repo"], -int(prs[key]["number"])))
+
+
+def dependency_graph(prs):
+    dependencies = {}
+    parents = defaultdict(set)
+    children = defaultdict(set)
+    missing_dependencies = {}
+    for key, pr in prs.items():
+        declared = dependency_refs(pr)
+        dependencies[key] = declared
+        missing_dependencies[key] = sorted(
+            parent for parent in declared if parent not in prs
+        )
+        for parent in declared:
+            if parent in prs and parent != key:
+                parents[key].add(parent)
+                children[parent].add(key)
+    return dependencies, parents, children, missing_dependencies
+
+
+def build_snapshot(args, repos, prs, wip_keys, wip_branches):
+    dependencies, parents, children, missing_dependencies = dependency_graph(prs)
+    roots = sorted_keys(
+        [
+            key
+            for key in prs
+            if children[key] and not parents[key] and not missing_dependencies[key]
+        ],
+        prs,
+    )
+    blocked = sorted_keys([key for key in prs if missing_dependencies[key]], prs)
+    standalone = sorted_keys(
+        [
+            key
+            for key in prs
+            if not parents[key] and not children[key] and not missing_dependencies[key]
+        ],
+        prs,
+    )
+    items = []
+    for key in sorted_keys(prs, prs):
+        pr = prs[key]
+        labels = status_labels_for(pr, key, wip_keys, wip_branches)
+        items.append(
+            {
+                "key": key,
+                "repo": pr["repo"],
+                "number": int(pr["number"]),
+                "title": pr["title"],
+                "url": pr.get("url"),
+                "base_ref": pr.get("baseRefName"),
+                "head_ref": pr.get("headRefName"),
+                "updated_at": pr.get("updatedAt"),
+                "status": {
+                    "labels": labels,
+                    "is_draft": bool(pr.get("isDraft")),
+                    "is_wip": "WIP" in labels,
+                    "merge_state": pr.get("mergeStateStatus") or "UNKNOWN",
+                },
+                "checks": checks_for(pr),
+                "dependencies": dependencies[key],
+                "open_dependencies": sorted_keys(parents[key], prs),
+                "dependencies_outside_view": missing_dependencies[key],
+                "dependents": sorted_keys(children[key], prs),
+                "note": SPECIAL_NOTES.get(key),
+            }
+        )
+    return {
+        "schema_version": 1,
+        "scope": {
+            "author": args.author,
+            "repositories": sorted({pr["repo"] for pr in prs.values()}),
+            "repository_filters": sorted(set(repos)),
+        },
+        "summary": {
+            "total": len(prs),
+            "dependency_roots": roots,
+            "blocked_by_prs_outside_view": blocked,
+            "standalone": standalone,
+        },
+        "pull_requests": items,
+    }
+
+
+def print_text(prs, wip_keys, wip_branches):
+    _, parents, children, missing_dependencies = dependency_graph(prs)
+    printed = set()
+    roots = sorted_keys(
+        [
+            key
+            for key in prs
+            if children[key] and not parents[key] and not missing_dependencies[key]
+        ],
+        prs,
+    )
+    if roots:
+        print("dependency trees")
+        for root in roots:
+            print_tree(
+                root,
+                children,
+                prs,
+                wip_keys,
+                wip_branches,
+                missing_dependencies,
+                seen=printed,
+            )
+        print()
+
+    blocked = sorted_keys(
+        [key for key in prs if missing_dependencies[key] and key not in printed],
+        prs,
+    )
+    if blocked:
+        print("dependent PRs whose blockers are not open in this view")
+        for key in blocked:
+            print_tree(
+                key,
+                children,
+                prs,
+                wip_keys,
+                wip_branches,
+                missing_dependencies,
+                seen=printed,
+            )
+        print()
+
+    remaining = sorted_keys([key for key in prs if key not in printed], prs)
+    if remaining:
+        print("other open PRs")
+        multiple_repos = len({pr["repo"] for pr in prs.values()}) > 1
+        current_repo_name = None
+        for key in remaining:
+            repo = prs[key]["repo"]
+            if multiple_repos and repo != current_repo_name:
+                current_repo_name = repo
+                print(repo)
+            print_pr(
+                prs[key],
+                key,
+                wip_keys,
+                wip_branches,
+                missing_dependencies,
+                "  " if multiple_repos else "",
+            )
 
 
 def main():
@@ -248,49 +475,14 @@ def main():
                 if pr["number"] == value:
                     wip_keys.add(key)
 
-    parents = defaultdict(set)
-    children = defaultdict(set)
-    for key, pr in prs.items():
-        for parent in dependency_refs(pr):
-            if parent in prs and parent != key:
-                parents[key].add(parent)
-                children[parent].add(key)
-
-    printed = set()
-    roots = sorted(
-        [key for key in prs if children[key] and not parents[key]],
-        key=lambda key: (prs[key]["repo"], -int(prs[key]["number"])),
-    )
-    if roots:
-        print("dependency trees")
-        for root in roots:
-            print_tree(root, children, prs, wip_keys, wip_branches, seen=printed)
-        print()
-
-    blocked = sorted(
-        [key for key in prs if parents[key] and key not in printed],
-        key=lambda key: (prs[key]["repo"], -int(prs[key]["number"])),
-    )
-    if blocked:
-        print("dependent PRs whose blockers are not open in this view")
-        for key in blocked:
-            print_tree(key, children, prs, wip_keys, wip_branches, seen=printed)
-        print()
-
-    standalone = sorted(
-        [key for key in prs if key not in printed],
-        key=lambda key: (prs[key]["repo"], -int(prs[key]["number"])),
-    )
-    if standalone:
-        print("standalone open")
-        multiple_repos = len({pr["repo"] for pr in prs.values()}) > 1
-        current_repo_name = None
-        for key in standalone:
-            repo = prs[key]["repo"]
-            if multiple_repos and repo != current_repo_name:
-                current_repo_name = repo
-                print(repo)
-            print_pr(prs[key], key, wip_keys, wip_branches, "  " if multiple_repos else "")
+    if args.format == "json":
+        print(
+            json.dumps(
+                build_snapshot(args, repos, prs, wip_keys, wip_branches), indent=2
+            )
+        )
+    else:
+        print_text(prs, wip_keys, wip_branches)
 
 
 if __name__ == "__main__":
