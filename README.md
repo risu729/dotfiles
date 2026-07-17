@@ -103,34 +103,12 @@ bash -i <(curl -fsSL https://dot.risunosu.com/wsl)
 ### UNSW CSE GitLab
 
 Mise installs `glab`, but authentication with the CSE GitLab instance is
-manual. Create a personal access token at
-<https://gitlab.cse.unsw.edu.au/-/user_settings/personal_access_tokens> with
-these scopes:
-
-- `api`, which lets `glab` create and manage resources such as issues and merge
-  requests
-- `write_repository`, which grants both pull and push access over HTTPS
-
-Pass the token to `glab` over standard input to avoid configuring an OAuth
-client ID for this host. `glab` stores the token in
-`~/.config/glab-cli/config.yml`; keep this file readable only by the WSL user
-(`0600`).
+manual. Run:
 
 ```bash
-read -rsp "GitLab token: " gitlab_token
-printf '\n'
-printf '%s' "$gitlab_token" | glab auth login \
+glab auth login \
   --hostname gitlab.cse.unsw.edu.au \
-  --git-protocol https \
-  --stdin
-unset gitlab_token
-```
-
-Repositories cloned from this host with `ghr` automatically use the CSE private
-commit email and the `glab` HTTPS credential helper:
-
-```bash
-ghr clone https://gitlab.cse.unsw.edu.au/GROUP/PROJECT.git
+  --git-protocol https
 ```
 
 ## ➡️ What to Do Next
