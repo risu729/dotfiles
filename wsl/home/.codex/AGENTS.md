@@ -13,8 +13,8 @@ instructions take precedence.
 ## Commits and Pull Requests
 
 - Follow repository conventions for commits and PR titles.
-- For code changes in a GitHub repository, create a draft PR by default. Never
-  mark it ready for review unless explicitly asked.
+- When the target repository is not owned by the user, create a draft PR by
+  default. Never mark it ready for review unless explicitly asked.
 - Do not add AI-authorship notices or tool signatures unless required.
 - Use closing keywords only for fully resolved issues. Link the PR in materially
   addressed GitHub Discussions.
