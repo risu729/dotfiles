@@ -2,9 +2,6 @@
 	"$schema": "https://json.schemastore.org/package.json",
 	"name": "@risu729/dotfiles-worker",
 	"type": "module",
-	"scripts": {
-		"deploy": "./tasks/worker/deploy"
-	},
 	"dependencies": {
 		"hono": "4.12.31"
 	},

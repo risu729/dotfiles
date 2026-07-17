@@ -8,22 +8,6 @@
 
 set -euo pipefail
 
-# run dependency tasks if directly called in workers build environment
-if [[ -z ${MISE_TASK_NAME:-} ]]; then
-	script_dir=$(dirname "${BASH_SOURCE[0]}")
-	# shellcheck source=worker/tasks/worker/build
-	source "${script_dir}/build"
-fi
-
-# use $1 if usage_preview is not set to support direct call in workers build environment
-if [[ -z ${usage_preview:-} ]]; then
-	if [[ ${1:-} == '--preview' ]]; then
-		usage_preview=true
-	else
-		usage_preview=false
-	fi
-fi
-
 # tag length is limited to 25 characters
 short_sha=$(git rev-parse --short HEAD)
 message=$(git log -1 --format=%s HEAD)

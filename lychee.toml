@@ -30,9 +30,6 @@ exclude = [
 	# .vscode/
 	# requests are forbidden
 	"https://code.visualstudio.com",
-	# worker/tasks/worker/deploy
-	# an example of a url with authentication
-	"https://.+@github.com//owner/repo",
 	# .github/workflows/test.yml
 	"http://worker",
 ]
