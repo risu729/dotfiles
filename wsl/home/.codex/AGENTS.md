@@ -3,20 +3,9 @@
 These instructions apply to all agent work. More specific repository
 instructions take precedence.
 
-## General
-
-- Keep changes focused and preserve existing style.
-- Inspect repository instructions and nearby conventions before acting.
-- Preserve unrelated user changes; do not stage, overwrite, or reformat them.
-- Do not fix unrelated issues. Report noteworthy problems with their path and a
-  concise reason.
-
 ## Repository Workflow
 
-- Prefer `gh pr checkout` for existing pull requests.
 - Use `ghr clone` for temporary clones and `ghr list` to inspect them.
-- Before relying on remote state, rebasing, or resolving conflicts, run
-  `git fetch --all --prune` or an equivalent command that updates every remote.
 - Rebase conflicted PR branches onto the latest base and resolve conflicts
   without asking for approval. Avoid routine merge commits unless repository
   instructions require them.
