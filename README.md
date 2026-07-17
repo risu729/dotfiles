@@ -107,7 +107,8 @@ manual. Create a personal access token at
 <https://gitlab.cse.unsw.edu.au/-/user_settings/personal_access_tokens> with
 these scopes:
 
-- `read_user`, which lets `glab` validate the login through the `/user` API
+- `api`, which lets `glab` create and manage resources such as issues and merge
+  requests
 - `write_repository`, which grants both pull and push access over HTTPS
 
 Pass the token to `glab` over standard input to avoid the OAuth flow, which is
