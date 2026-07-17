@@ -2,6 +2,8 @@
 #:schema https://mise.jdx.dev/schema/mise.json
 
 [env]
+# Initialize mise in non-interactive Bash shells.
+BASH_ENV = "{{ xdg_config_home }}/bash/env"
 RUSTC_WRAPPER = "sccache"
 # disable bat paging
 BAT_PAGING = "never"

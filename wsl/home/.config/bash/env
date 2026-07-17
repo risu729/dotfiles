@@ -1,0 +1,6 @@
+# shellcheck shell=bash
+
+if command -v mise &>/dev/null; then
+	mise_activate="$(mise activate bash)"
+	eval "${mise_activate}"
+fi
