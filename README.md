@@ -103,13 +103,12 @@ bash -i <(curl -fsSL https://dot.risunosu.com/wsl)
 ### UNSW CSE GitLab
 
 Mise installs `glab`, but authentication with the CSE GitLab instance is
-manual. Create a fine-grained personal access token at
+manual. Create a personal access token at
 <https://gitlab.cse.unsw.edu.au/-/user_settings/personal_access_tokens> with
-access to all groups and projects and these permissions:
+these scopes:
 
-- `User: Read`
-- `Code: Download`
-- `Code: Push`
+- `read_user`, which lets `glab` validate the login through the `/user` API
+- `write_repository`, which grants both pull and push access over HTTPS
 
 Pass the token to `glab` over standard input to avoid the OAuth flow, which is
 not configured on the CSE GitLab instance. `glab` stores the token in
