@@ -21,11 +21,13 @@ instructions take precedence.
 
 ## Stacked Pull Requests
 
-When asked to stack work on another PR:
+Before creating a PR, check whether the work conflicts with or depends on one of
+the user's open PRs. If one is clearly relevant, create the new branch on top of
+that PR automatically. Ask only when multiple source PRs are plausible.
 
 - Mention the source PR in the stacked PR's description, not the reverse.
-- Rebase a stacked PR only while actively working on it. After the referenced PR
-  merges, rebase onto the latest default branch when resuming the stacked work.
+- Rebase a stacked PR only while actively working on it. After the source PR
+  merges, rebase onto the latest target branch when resuming the stacked work.
 
 ## Tooling
 
