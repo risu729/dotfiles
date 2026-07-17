@@ -111,8 +111,8 @@ these scopes:
   requests
 - `write_repository`, which grants both pull and push access over HTTPS
 
-Pass the token to `glab` over standard input to avoid the OAuth flow, which is
-not configured on the CSE GitLab instance. `glab` stores the token in
+Pass the token to `glab` over standard input to avoid configuring an OAuth
+client ID for this host. `glab` stores the token in
 `~/.config/glab-cli/config.yml`; keep this file readable only by the WSL user
 (`0600`).
 
