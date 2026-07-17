@@ -1,4 +1,4 @@
 interface:
-  display_name: "PR Tree"
+  display_name: "PR Context"
   short_description: "Resolve active PR dependencies and status"
   default_prompt: "Use $pr-tree to determine which open PRs and dependencies are relevant to this task."
