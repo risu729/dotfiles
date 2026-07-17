@@ -23,10 +23,9 @@ This repository is organized around the two installer entry points:
   - `wsl/home/` mirrors the target home directory. Mise links these files into
     `$HOME`, except for Codex skills, which are copied because Codex does not
     discover symlinked skill files.
-  - `wsl/setup-git.ts` performs interactive GitHub and UNSW CSE GitLab
-    authentication after the base WSL environment is ready. Git identity, SSH
-    signing, and `ghr` defaults live in `wsl/home/.gitconfig` and
-    `wsl/home/.ghr/ghr.toml`.
+  - `wsl/setup-git.ts` performs interactive GitHub authentication after the
+    base WSL environment is ready. Git identity, SSH signing, and `ghr`
+    defaults live in `wsl/home/.gitconfig` and `wsl/home/.ghr/ghr.toml`.
 
 - `worker/` is a Cloudflare Worker for `dot.risunosu.com`. It redirects the root
   route to this README and serves the `/win` and `/wsl` installer routes by
@@ -100,6 +99,39 @@ bash -i <(curl -fsSL https://dot.risunosu.com/wsl)
 >
 > Both installer scripts are idempotent, meaning you can run them multiple times
 > without issues.
+
+### UNSW CSE GitLab
+
+Mise installs `glab`, but authentication with the CSE GitLab instance is
+manual. Create a fine-grained personal access token at
+<https://gitlab.cse.unsw.edu.au/-/user_settings/personal_access_tokens> with
+access to all groups and projects and these permissions:
+
+- `User: Read`
+- `Code: Download`
+- `Code: Push`
+
+Pass the token to `glab` over standard input to avoid the OAuth flow, which is
+not configured on the CSE GitLab instance. `glab` stores the token in
+`~/.config/glab-cli/config.yml`; keep this file readable only by the WSL user
+(`0600`).
+
+```bash
+read -rsp "GitLab token: " gitlab_token
+printf '\n'
+printf '%s' "$gitlab_token" | glab auth login \
+  --hostname gitlab.cse.unsw.edu.au \
+  --git-protocol https \
+  --stdin
+unset gitlab_token
+```
+
+Repositories cloned from this host with `ghr` automatically use the CSE private
+commit email and the `glab` HTTPS credential helper:
+
+```bash
+ghr clone https://gitlab.cse.unsw.edu.au/GROUP/PROJECT.git
+```
 
 ## ➡️ What to Do Next
 
