@@ -112,7 +112,9 @@ access to all groups and projects and these permissions:
 - `Code: Push`
 
 Pass the token to `glab` over standard input to avoid the OAuth flow, which is
-not configured on the CSE GitLab instance:
+not configured on the CSE GitLab instance. `glab` stores the token in
+`~/.config/glab-cli/config.yml`; keep this file readable only by the WSL user
+(`0600`).
 
 ```bash
 read -rsp "GitLab token: " gitlab_token
