@@ -1,0 +1,70 @@
+name: Worker Deploy
+on:
+  push:
+    branches:
+      - main
+    paths: &worker-paths
+      - ".github/workflows/worker-deploy.yml"
+      - "worker/**"
+  pull_request:
+    branches:
+      - main
+    paths: *worker-paths
+  workflow_dispatch:
+concurrency:
+  group: ${{ github.workflow }}-${{ case(github.event_name == 'pull_request', github.event.pull_request.number, 'production') }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+permissions: {}
+defaults:
+  run:
+    shell: bash
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions:
+      contents: read # for checkout
+    steps:
+      - name: Checkout
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          sparse-checkout: |
+            mise.toml
+            mise.lock
+            tasks.toml
+            worker/
+          persist-credentials: false
+      - name: Install mise
+        uses: jdx/mise-action@dad1bfd3df957f44999b559dd69dc1671cb4e9ea # v4.2.1
+        with:
+          version: 2026.7.7
+      - name: Check Cloudflare config
+        id: cloudflare-config
+        if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
+        env:
+          CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: |
+          if [[ -n ${CLOUDFLARE_ACCOUNT_ID} && -n ${CLOUDFLARE_API_TOKEN} ]]; then
+            echo "available=true" >> "${GITHUB_OUTPUT}"
+          else
+            echo "available=false" >> "${GITHUB_OUTPUT}"
+          fi
+      - name: Require Cloudflare config for production deploy
+        if: github.event_name != 'pull_request' && steps.cloudflare-config.outputs.available != 'true'
+        run: |
+          echo "CLOUDFLARE_ACCOUNT_ID and CLOUDFLARE_API_TOKEN are required for production deployment." >&2
+          exit 1
+      - name: Upload preview
+        if: github.event_name == 'pull_request' && steps.cloudflare-config.outputs.available == 'true'
+        env:
+          CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: mise run worker:deploy --preview
+      - name: Deploy production
+        if: github.event_name != 'pull_request' && steps.cloudflare-config.outputs.available == 'true'
+        env:
+          CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: mise run worker:deploy
