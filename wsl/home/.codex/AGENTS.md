@@ -25,9 +25,9 @@ When asked to stack work on another PR:
 
 - Build the source branch on the referenced PR, but target the new PR at the
   repository's default branch.
-- Mention the dependency in the PR description. Rebase when the referenced PR
-  changes and resolve conflicts without asking.
-- Do not use GitHub's gh-stack preview flow unless explicitly requested.
+- Mention the dependency in the PR description.
+- Rebase a stacked PR only while actively working on it. After the referenced PR
+  merges, rebase onto the latest default branch when resuming the stacked work.
 
 ## Tooling
 
