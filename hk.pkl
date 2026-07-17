@@ -4,13 +4,12 @@ amends
 import
   "https://raw.githubusercontent.com/risu729/hk-config/a34802b174b5a1f669dbd09fb6301f7eca7a5770/helpers.pkl"
 
-local const bashConfigGlobs =
-  List("wsl/home/.bashrc", "wsl/home/.config/bash/env")
+local const bashrcGlobs = List("wsl/home/.bashrc")
 
-local function includeBashConfigs(step: Step): Step = (step) {
+local function includeBashrc(step: Step): Step = (step) {
   match_any =
     step.match_any!!
-      + List(new FileSelector { glob = bashConfigGlobs })
+      + List(new FileSelector { glob = bashrcGlobs })
 }
 
 local picked =
@@ -57,8 +56,8 @@ local worker = new Group {
 
 hooks =
   helpers.standardHooks((picked) {
-    ["shfmt"] = includeBashConfigs(picked["shfmt"] as Step)
-    ["shellcheck"] = includeBashConfigs(picked["shellcheck"] as Step)
+    ["shfmt"] = includeBashrc(picked["shfmt"] as Step)
+    ["shellcheck"] = includeBashrc(picked["shellcheck"] as Step)
     ["mise"] = (mise) {
       steps {
         ["mise-fmt"] = mise.steps["mise-fmt"]

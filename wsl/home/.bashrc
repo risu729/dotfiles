@@ -4,7 +4,10 @@
 # shellcheck disable=SC2148 # shebang is not required in .bashrc
 
 # Activate mise
-source "${XDG_CONFIG_HOME:-${HOME}/.config}/bash/env"
+if command -v mise &>/dev/null; then
+	mise_activate="$(mise activate bash)"
+	eval "${mise_activate}"
+fi
 
 # Expose the Windows SSH agent to WSL
 if command -v wsl2-ssh-agent &>/dev/null; then
