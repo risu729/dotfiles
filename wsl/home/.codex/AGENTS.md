@@ -23,9 +23,7 @@ instructions take precedence.
 
 When asked to stack work on another PR:
 
-- Build the source branch on the referenced PR, but target the new PR at the
-  repository's default branch.
-- Mention the dependency in the PR description.
+- Mention the source PR in the stacked PR's description, not the reverse.
 - Rebase a stacked PR only while actively working on it. After the referenced PR
   merges, rebase onto the latest default branch when resuming the stacked work.
 
