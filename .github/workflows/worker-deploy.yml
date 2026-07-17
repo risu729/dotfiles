@@ -23,6 +23,8 @@ jobs:
     name: Deploy
     runs-on: ubuntu-24.04
     timeout-minutes: 10
+    env:
+      CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
     permissions:
       contents: read # for checkout
     steps:
@@ -39,11 +41,12 @@ jobs:
         uses: jdx/mise-action@dad1bfd3df957f44999b559dd69dc1671cb4e9ea # v4.2.1
         with:
           version: 2026.7.7
+        env:
+          MISE_ENABLE_TOOLS: bun,node
       - name: Check Cloudflare config
         id: cloudflare-config
         if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
         env:
-          CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
         run: |
           if [[ -n ${CLOUDFLARE_ACCOUNT_ID} && -n ${CLOUDFLARE_API_TOKEN} ]]; then
@@ -57,14 +60,17 @@ jobs:
           echo "CLOUDFLARE_ACCOUNT_ID and CLOUDFLARE_API_TOKEN are required for production deployment." >&2
           exit 1
       - name: Upload preview
+        id: upload-preview
         if: github.event_name == 'pull_request' && steps.cloudflare-config.outputs.available == 'true'
         env:
-          CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          PREVIEW_ALIAS: pr-${{ github.event.pull_request.number }}
         run: mise run worker:deploy --preview
+      - name: Dry-run production deploy
+        if: github.event_name == 'pull_request' && steps.upload-preview.outcome == 'skipped'
+        run: mise run worker:deploy --dry-run
       - name: Deploy production
         if: github.event_name != 'pull_request' && steps.cloudflare-config.outputs.available == 'true'
         env:
-          CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
         run: mise run worker:deploy
