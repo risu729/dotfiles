@@ -59,10 +59,9 @@ includes = ["tasks.toml", "tasks", "worker/tasks.toml", "worker/tasks"]
 
 [bootstrap.hooks.pre-packages]
 run = '''
-# Persist passwordless sudo and replace the legacy repository symlink if present.
-sudo mkdir --parents /etc/sudoers.d
-sudoers_path=/etc/sudoers.d/01-users-nopasswd
-sudoers_temporary_path=/etc/sudoers.d/.01-users-nopasswd.tmp
+# Persist passwordless sudo in the main policy file.
+sudoers_path=/etc/sudoers
+sudoers_temporary_path=/etc/.sudoers.tmp
 printf '%s\n' 'ALL ALL=(ALL:ALL) NOPASSWD: ALL' |
   sudo tee "${sudoers_temporary_path}" >/dev/null
 sudo chmod 0440 "${sudoers_temporary_path}"

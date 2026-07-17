@@ -318,8 +318,7 @@ function New-WslUser {
 		-ArgumentList @('--append', '--groups', 'sudo', '--', $Username)
 
 	# The WSL setup script needs sudo before mise can persist the sudoers policy.
-	$sudoersPath = '/etc/sudoers.d/01-users-nopasswd'
-	Invoke-WSLExecutable -Root -FilePath '/usr/bin/mkdir' -ArgumentList @('--parents', '/etc/sudoers.d')
+	$sudoersPath = '/etc/sudoers'
 	Invoke-WSLCommand -Root -Command (
 		"printf '%s\n' 'ALL ALL=(ALL:ALL) NOPASSWD: ALL' > $sudoersPath && " +
 		"chmod 0440 $sudoersPath"
