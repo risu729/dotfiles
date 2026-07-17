@@ -186,23 +186,6 @@ const normalizeChecks = (pullRequest: PullRequest): { name: string; status: stri
 	return [...checks.values()];
 };
 
-const tmuxBranches = (): Map<string, Set<string>> => {
-	const branches = new Map<string, Set<string>>();
-	for (const path of run(["tmux", "list-panes", "-a", "-F", "#{pane_current_path}"], false)
-		.split("\n")
-		.filter(Boolean)) {
-		const branch = run(["git", "-C", path, "branch", "--show-current"], false);
-		const remote = run(["git", "-C", path, "remote", "get-url", "origin"], false);
-		if (branch && remote) {
-			const repo = normalizeRemote(remote);
-			const repoBranches = branches.get(repo) ?? new Set<string>();
-			repoBranches.add(branch);
-			branches.set(repo, repoBranches);
-		}
-	}
-	return branches;
-};
-
 const sortIds = (ids: Iterable<string>, pullRequests: Map<string, PullRequest>): string[] =>
 	[...ids].sort((left, right) => {
 		const leftPr = pullRequests.get(left);
@@ -213,10 +196,7 @@ const sortIds = (ids: Iterable<string>, pullRequests: Map<string, PullRequest>):
 		);
 	});
 
-const buildEntries = (
-	pullRequests: Map<string, PullRequest>,
-	wipBranches: Map<string, Set<string>>,
-): object[] => {
+const buildEntries = (pullRequests: Map<string, PullRequest>): object[] => {
 	const dependencies = new Map(
 		[...pullRequests].map(([id, pullRequest]) => [id, dependencyRefs(pullRequest)]),
 	);
@@ -255,7 +235,6 @@ const buildEntries = (
 			title: pullRequest.title,
 			updated_at: pullRequest.updatedAt,
 			url: pullRequest.url,
-			wip: wipBranches.get(pullRequest.repo)?.has(pullRequest.headRefName) ?? false,
 		};
 	});
 };
@@ -279,9 +258,7 @@ const main = (): void => {
 		const pullRequest = fetchPullRequest(target);
 		pullRequests.set(prId(pullRequest.repo, pullRequest.number), pullRequest);
 	}
-	console.info(
-		JSON.stringify({ pull_requests: buildEntries(pullRequests, tmuxBranches()) }, null, 2),
-	);
+	console.info(JSON.stringify({ pull_requests: buildEntries(pullRequests) }, null, 2));
 };
 
 if (import.meta.main) {
