@@ -12,6 +12,7 @@ PS_SCRIPT_ANALYZER_VERSION = "1.25.0"
 bun = "1.3.14"
 aube = "v1.29.1"
 node = "26.5.0"
+github-cli = "2.96.0"
 hk = "1.51.0"
 oxlint = "1.72.0"
 oxfmt = "0.59.0"
@@ -100,6 +101,9 @@ run = '''
 dotfiles_root=$(git rev-parse --show-toplevel)
 ln --symbolic --no-dereference --force \
   "${dotfiles_root}/wsl/home/.gitconfig" "${HOME}/.gitconfig"
+
+mise exec -- gh skill install mattpocock/skills skills/productivity/grilling \
+  --agent universal --scope user --pin main --force
 '''
 
 [bootstrap.hooks.final]
