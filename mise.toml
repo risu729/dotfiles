@@ -102,7 +102,7 @@ dotfiles_root=$(git rev-parse --show-toplevel)
 ln --symbolic --no-dereference --force \
   "${dotfiles_root}/wsl/home/.gitconfig" "${HOME}/.gitconfig"
 
-gh skill install mattpocock/skills skills/productivity/grilling \
+mise exec -- gh skill install mattpocock/skills skills/productivity/grilling \
   --agent universal --scope user --pin main --force
 '''
 
