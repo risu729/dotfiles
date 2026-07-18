@@ -32,5 +32,3 @@ that PR automatically. Ask only when multiple source PRs are plausible.
 ## Tooling
 
 - Use `mise x` for one-off tools that mise does not already resolve.
-- Trust only required repository `mise.toml` files. Avoid global, system, or ad
-  hoc installations unless requested or `mise` cannot provide the tool.
