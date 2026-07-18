@@ -102,8 +102,10 @@ dotfiles_root=$(git rev-parse --show-toplevel)
 ln --symbolic --no-dereference --force \
   "${dotfiles_root}/wsl/home/.gitconfig" "${HOME}/.gitconfig"
 
-mise exec -- gh skill install mattpocock/skills skills/productivity/grilling \
-  --agent universal --scope user --pin main --force
+for agent in universal claude-code; do
+  mise exec -- gh skill install mattpocock/skills skills/productivity/grilling \
+    --agent "${agent}" --scope user --pin main --force
+done
 '''
 
 [bootstrap.hooks.final]
@@ -159,8 +161,10 @@ login_shell = "/bin/bash"
 [dotfiles]
 "~/.agents" = { source = "wsl/home/.agents", mode = "copy" }
 "~/.bashrc" = "wsl/home/.bashrc"
+"~/.claude/CLAUDE.md" = "wsl/home/.codex/AGENTS.md"
 "~/.codex" = { source = "wsl/home/.codex", mode = "symlink-each" }
 "~/.config" = { source = "wsl/home/.config", mode = "symlink-each" }
+"~/.cursor/rules/global/RULE.md" = "wsl/home/.codex/AGENTS.md"
 "~/.ghr" = { source = "wsl/home/.ghr", mode = "symlink-each" }
 "~/.hushlogin" = "wsl/home/.hushlogin"
 "~/.local" = { source = "wsl/home/.local", mode = "symlink-each" }
