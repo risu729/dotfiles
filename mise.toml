@@ -97,11 +97,6 @@ sudo update-desktop-database
 
 [bootstrap.hooks.post-tools]
 run = '''
-# Installing this before the tools phase makes Git use gh before gh is installed.
-dotfiles_root=$(git rev-parse --show-toplevel)
-ln --symbolic --no-dereference --force \
-  "${dotfiles_root}/wsl/home/.gitconfig" "${HOME}/.gitconfig"
-
 for agent in universal claude-code; do
   mise exec -- gh skill install mattpocock/skills skills/productivity/grilling \
     --agent "${agent}" --scope user --pin main --force
