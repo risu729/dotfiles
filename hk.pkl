@@ -2,6 +2,8 @@ amends "https://raw.githubusercontent.com/risu729/hk-config/v1.1.0/presets.pkl"
 
 import "https://raw.githubusercontent.com/risu729/hk-config/v1.1.0/helpers.pkl"
 
+subprojects = List("worker")
+
 local const bashrcGlobs = List("wsl/home/.bashrc")
 
 local function includeBashrc(step: Step): Step = (step) {
@@ -31,27 +33,6 @@ local picked =
 
 local mise = picked["mise"] as Group
 
-local worker = new Group {
-  dir = "worker"
-  steps {
-    ["generate-types"] = new Step {
-      check = "bun run wrangler types src/worker-configuration.d.ts"
-      hide = true
-    }
-    ["tsc:base"] = (picked["tsc"]) {
-      workspace_indicator = "tsconfig.base.json"
-    }
-    ["tsc:src"] = (picked["tsc"]) {
-      workspace_indicator = "tsconfig.src.json"
-      depends = List("generate-types")
-    }
-    ["tsc:test"] = (picked["tsc"]) {
-      workspace_indicator = "tsconfig.test.json"
-      depends = List("generate-types")
-    }
-  }
-}
-
 hooks =
   helpers.standardHooks((picked) {
     ["shfmt"] = includeBashrc(picked["shfmt"] as Step)
@@ -79,5 +60,4 @@ hooks =
       check =
         "pwsh -NoProfile -Command 'Invoke-ScriptAnalyzer -Path win -Recurse -EnableExit -Settings win/PSScriptAnalyzerSettings.psd1'"
     }
-    ["worker"] = worker
   })

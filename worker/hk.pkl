@@ -1,0 +1,29 @@
+amends "https://raw.githubusercontent.com/risu729/hk-config/v1.1.0/presets.pkl"
+
+import "https://raw.githubusercontent.com/risu729/hk-config/v1.1.0/helpers.pkl"
+
+local tsc = helpers.pick(new Listing { "tsc" })["tsc"] as Step
+
+local steps = new Mapping<String, Step | Group> {
+  ["generate-types"] = new Step {
+    check = "bun run wrangler types src/worker-configuration.d.ts"
+    hide = true
+  }
+  ["tsc:base"] = (tsc) {
+    // The subproject fixes the working directory, so each check can target its config directly.
+    workspace_indicator = null
+    check = "tsc --noEmit -p tsconfig.base.json"
+  }
+  ["tsc:src"] = (tsc) {
+    workspace_indicator = null
+    depends = List("generate-types")
+    check = "tsc --noEmit -p tsconfig.src.json"
+  }
+  ["tsc:test"] = (tsc) {
+    workspace_indicator = null
+    depends = List("generate-types")
+    check = "tsc --noEmit -p tsconfig.test.json"
+  }
+}
+
+hooks = helpers.standardHooks(steps)
