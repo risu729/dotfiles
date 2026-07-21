@@ -4,4 +4,4 @@ rules:
   - ignore: true
     conditions:
       - expr: |
-          ActionName == "risu729/wrangler-deploy-action" && ActionVersion == "edbe0eef7cb8c5b5799e0053dd0b5735bf6336bd"
+          ActionName == "risu729/wrangler-deploy-action" && ActionVersion == "1931853e55842e31150badd8bf886fd08c134d57"
