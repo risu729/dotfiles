@@ -6,7 +6,6 @@ services:
       args:
         MISE_VERSION: ${MISE_VERSION:-}
     environment:
-      GIT_REPO_URL: ${GIT_REPO_URL:-}
       GIT_COMMIT_SHA: ${GIT_COMMIT_SHA:-}
       GITHUB_TOKEN: ${GITHUB_TOKEN:-}
     healthcheck:

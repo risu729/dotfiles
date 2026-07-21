@@ -23,11 +23,10 @@ This repository is organized around the two installer entry points:
   - `wsl/home/` mirrors the target home directory. Mise links these files into
     `$HOME`, except for Codex skills, which are copied because Codex does not
     discover symlinked skill files.
-  - `wsl/etc/` mirrors root-owned system files. The installer links these files
-    into `/etc`.
-  - `wsl/setup-git.ts` performs interactive GitHub auth and GPG signing setup
-    after the base WSL environment is ready. Git identity and `ghr` defaults
-    live in `wsl/home/.gitconfig` and `wsl/home/.ghr/ghr.toml`.
+  - `wsl/setup-git.ts` performs interactive GitHub authentication after the
+    base WSL environment is ready. Git identity, SSH signing, and `ghr`
+    defaults live in `wsl/home/.config/git/config` and
+    `wsl/home/.ghr/ghr.toml`.
 
 - `worker/` is a Cloudflare Worker for `dot.risunosu.com`. It redirects the root
   route to this README and serves the `/win` and `/wsl` installer routes by
@@ -101,6 +100,17 @@ bash -i <(curl -fsSL https://dot.risunosu.com/wsl)
 >
 > Both installer scripts are idempotent, meaning you can run them multiple times
 > without issues.
+
+### UNSW CSE GitLab
+
+Mise installs `glab`, but authentication with the CSE GitLab instance is
+manual. Run:
+
+```bash
+glab auth login \
+  --hostname gitlab.cse.unsw.edu.au \
+  --git-protocol https
+```
 
 ## ➡️ What to Do Next
 

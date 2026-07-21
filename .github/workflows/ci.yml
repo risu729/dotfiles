@@ -25,13 +25,13 @@ jobs:
       contents: read # for checkout
     steps:
       - name: Checkout
-        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
       - name: Install mise
-        uses: jdx/mise-action@e6a8b3978addb5a52f2b4cd9d91eafa7f0ab959d # v4.2.0
+        uses: jdx/mise-action@dad1bfd3df957f44999b559dd69dc1671cb4e9ea # v4.2.1
         with:
-          version: 2026.7.6
+          version: 2026.7.11
       - name: Run check
         if: github.event_name != 'schedule'
         run: mise run check --lint
@@ -54,7 +54,7 @@ jobs:
       WSL_IMAGE_URL: https://cdimages.ubuntu.com/ubuntu-wsl/resolute/daily-live/current/resolute-wsl-amd64.wsl
     steps:
       - name: Checkout
-        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
       - name: Prepare Docker Compose environment
@@ -94,7 +94,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ github.token }}
           __CI: true
-          GIT_REPO_URL: ${{ github.event.repository.clone_url }}
           # use head sha for pull requests because github.sha is set to the merge commit
           GIT_COMMIT_SHA: ${{ case(github.event_name == 'pull_request', github.event.pull_request.head.sha, github.sha) }}
           MISE_LOG_LEVEL: ${{ case(runner.debug == '1', 'debug', 'info') }}
@@ -109,7 +108,7 @@ jobs:
       contents: read # for checkout
     steps:
       - name: Checkout
-        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           sparse-checkout: |
             mise.toml
@@ -119,9 +118,9 @@ jobs:
             worker/
           persist-credentials: false
       - name: Install mise
-        uses: jdx/mise-action@e6a8b3978addb5a52f2b4cd9d91eafa7f0ab959d # v4.2.0
+        uses: jdx/mise-action@dad1bfd3df957f44999b559dd69dc1671cb4e9ea # v4.2.1
         with:
-          version: 2026.7.6
+          version: 2026.7.11
       - name: Run tests
         run: mise run worker:test
         env:
@@ -132,8 +131,7 @@ jobs:
       - lint
       - test-linux
       - test-worker
-    # ref: https://github.com/aquaproj/aqua-registry/pull/38449#issuecomment-3038859524
-    if: always() && (contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled'))
+    if: ${{ !cancelled() && (contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled')) }}
     runs-on: ubuntu-24.04
     timeout-minutes: 5
     steps:

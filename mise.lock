@@ -29,31 +29,31 @@ url_api = "https://api.github.com/repos/rhysd/actionlint/releases/assets/3849248
 provenance = "github-attestations"
 
 [[tools.aube]]
-version = "v1.27.0"
+version = "v1.31.0"
 backend = "aqua:jdx/aube"
 
 [tools.aube."platforms.linux-x64"]
-checksum = "sha256:756e3dd531bb46fc65744b43452c6f05cf7181316e12c3dad57006fc15b4e17e"
-url = "https://github.com/jdx/aube/releases/download/v1.27.0/aube-v1.27.0-x86_64-unknown-linux-gnu.tar.gz"
-url_api = "https://api.github.com/repos/jdx/aube/releases/assets/476817561"
+checksum = "sha256:90fc7d5a5b5b209ff81652854644d2fa62aaa9752256b8ecd01ae5e1cc11d314"
+url = "https://github.com/jdx/aube/releases/download/v1.31.0/aube-v1.31.0-x86_64-unknown-linux-gnu.tar.gz"
+url_api = "https://api.github.com/repos/jdx/aube/releases/assets/484123938"
 provenance = "github-attestations"
 
 [tools.aube."platforms.linux-x64-baseline"]
-checksum = "sha256:756e3dd531bb46fc65744b43452c6f05cf7181316e12c3dad57006fc15b4e17e"
-url = "https://github.com/jdx/aube/releases/download/v1.27.0/aube-v1.27.0-x86_64-unknown-linux-gnu.tar.gz"
-url_api = "https://api.github.com/repos/jdx/aube/releases/assets/476817561"
+checksum = "sha256:90fc7d5a5b5b209ff81652854644d2fa62aaa9752256b8ecd01ae5e1cc11d314"
+url = "https://github.com/jdx/aube/releases/download/v1.31.0/aube-v1.31.0-x86_64-unknown-linux-gnu.tar.gz"
+url_api = "https://api.github.com/repos/jdx/aube/releases/assets/484123938"
 provenance = "github-attestations"
 
 [tools.aube."platforms.linux-x64-musl"]
-checksum = "sha256:2c6f5490969d40319810d11255cfe0cd253ef77ca56fe7290504bb17629bc819"
-url = "https://github.com/jdx/aube/releases/download/v1.27.0/aube-v1.27.0-x86_64-unknown-linux-musl.tar.gz"
-url_api = "https://api.github.com/repos/jdx/aube/releases/assets/476814738"
+checksum = "sha256:4bf0068cd225ec98ee8307f5da24b523ee6c6115d52eef69add65f6aa47163d8"
+url = "https://github.com/jdx/aube/releases/download/v1.31.0/aube-v1.31.0-x86_64-unknown-linux-musl.tar.gz"
+url_api = "https://api.github.com/repos/jdx/aube/releases/assets/484121777"
 provenance = "github-attestations"
 
 [tools.aube."platforms.linux-x64-musl-baseline"]
-checksum = "sha256:2c6f5490969d40319810d11255cfe0cd253ef77ca56fe7290504bb17629bc819"
-url = "https://github.com/jdx/aube/releases/download/v1.27.0/aube-v1.27.0-x86_64-unknown-linux-musl.tar.gz"
-url_api = "https://api.github.com/repos/jdx/aube/releases/assets/476814738"
+checksum = "sha256:4bf0068cd225ec98ee8307f5da24b523ee6c6115d52eef69add65f6aa47163d8"
+url = "https://github.com/jdx/aube/releases/download/v1.31.0/aube-v1.31.0-x86_64-unknown-linux-musl.tar.gz"
+url_api = "https://api.github.com/repos/jdx/aube/releases/assets/484121777"
 provenance = "github-attestations"
 
 [[tools.betterleaks]]
@@ -140,6 +140,34 @@ url_api = "https://api.github.com/repos/suzuki-shunsuke/ghalint/releases/assets/
 [tools.ghalint."platforms.linux-x64-musl-baseline".provenance.slsa]
 url = "https://github.com/suzuki-shunsuke/ghalint/releases/download/v1.5.6/multiple.intoto.jsonl"
 
+[[tools.github-cli]]
+version = "2.96.0"
+backend = "aqua:cli/cli"
+
+[tools.github-cli."platforms.linux-x64"]
+checksum = "sha256:83d5c2ccad5498f58bf6368acb1ab32588cf43ab3a4b1c301bf36328b1c8bd60"
+url = "https://github.com/cli/cli/releases/download/v2.96.0/gh_2.96.0_linux_amd64.tar.gz"
+url_api = "https://api.github.com/repos/cli/cli/releases/assets/464728543"
+provenance = "github-attestations"
+
+[tools.github-cli."platforms.linux-x64-baseline"]
+checksum = "sha256:83d5c2ccad5498f58bf6368acb1ab32588cf43ab3a4b1c301bf36328b1c8bd60"
+url = "https://github.com/cli/cli/releases/download/v2.96.0/gh_2.96.0_linux_amd64.tar.gz"
+url_api = "https://api.github.com/repos/cli/cli/releases/assets/464728543"
+provenance = "github-attestations"
+
+[tools.github-cli."platforms.linux-x64-musl"]
+checksum = "sha256:83d5c2ccad5498f58bf6368acb1ab32588cf43ab3a4b1c301bf36328b1c8bd60"
+url = "https://github.com/cli/cli/releases/download/v2.96.0/gh_2.96.0_linux_amd64.tar.gz"
+url_api = "https://api.github.com/repos/cli/cli/releases/assets/464728543"
+provenance = "github-attestations"
+
+[tools.github-cli."platforms.linux-x64-musl-baseline"]
+checksum = "sha256:83d5c2ccad5498f58bf6368acb1ab32588cf43ab3a4b1c301bf36328b1c8bd60"
+url = "https://github.com/cli/cli/releases/download/v2.96.0/gh_2.96.0_linux_amd64.tar.gz"
+url_api = "https://api.github.com/repos/cli/cli/releases/assets/464728543"
+provenance = "github-attestations"
+
 [[tools.hadolint]]
 version = "2.14.0"
 backend = "aqua:hadolint/hadolint"
@@ -187,30 +215,6 @@ url_api = "https://api.github.com/repos/jdx/hk/releases/assets/476588095"
 checksum = "sha256:cced510878bc6b78107b438bbbeff1b4b451623ff965ba81d72345d229c1318f"
 url = "https://github.com/jdx/hk/releases/download/v1.51.0/hk-x86_64-unknown-linux-musl.tar.gz"
 url_api = "https://api.github.com/repos/jdx/hk/releases/assets/476588095"
-
-[[tools.jc]]
-version = "1.25.7"
-backend = "aqua:kellyjonbrazil/jc"
-
-[tools.jc."platforms.linux-x64"]
-checksum = "sha256:5b7ab595bfbaa70f07a15136bbc3c09d6dbf65891248bf1f060ec3da29608a2c"
-url = "https://github.com/kellyjonbrazil/jc/releases/download/v1.25.7/jc-1.25.7-linux-x86_64.tar.gz"
-url_api = "https://api.github.com/repos/kellyjonbrazil/jc/releases/assets/460709238"
-
-[tools.jc."platforms.linux-x64-baseline"]
-checksum = "sha256:5b7ab595bfbaa70f07a15136bbc3c09d6dbf65891248bf1f060ec3da29608a2c"
-url = "https://github.com/kellyjonbrazil/jc/releases/download/v1.25.7/jc-1.25.7-linux-x86_64.tar.gz"
-url_api = "https://api.github.com/repos/kellyjonbrazil/jc/releases/assets/460709238"
-
-[tools.jc."platforms.linux-x64-musl"]
-checksum = "sha256:5b7ab595bfbaa70f07a15136bbc3c09d6dbf65891248bf1f060ec3da29608a2c"
-url = "https://github.com/kellyjonbrazil/jc/releases/download/v1.25.7/jc-1.25.7-linux-x86_64.tar.gz"
-url_api = "https://api.github.com/repos/kellyjonbrazil/jc/releases/assets/460709238"
-
-[tools.jc."platforms.linux-x64-musl-baseline"]
-checksum = "sha256:5b7ab595bfbaa70f07a15136bbc3c09d6dbf65891248bf1f060ec3da29608a2c"
-url = "https://github.com/kellyjonbrazil/jc/releases/download/v1.25.7/jc-1.25.7-linux-x86_64.tar.gz"
-url_api = "https://api.github.com/repos/kellyjonbrazil/jc/releases/assets/460709238"
 
 [[tools.lychee]]
 version = "0.24.2"
@@ -261,7 +265,7 @@ version = "7.0.2"
 backend = "npm:typescript"
 
 [[tools.oxfmt]]
-version = "0.58.0"
+version = "0.59.0"
 backend = "npm:oxfmt"
 
 [[tools.oxlint]]
@@ -297,55 +301,55 @@ url_api = "https://api.github.com/repos/suzuki-shunsuke/pinact/releases/assets/4
 provenance = "github-attestations"
 
 [[tools.powershell]]
-version = "7.6.3"
+version = "7.6.4"
 backend = "aqua:PowerShell/PowerShell"
 
 [tools.powershell."platforms.linux-x64"]
-checksum = "sha256:856d0765d2332377f9d7a4aea76efdfde4de51446e7738dde2dfda41dba9e2a7"
-url = "https://github.com/PowerShell/PowerShell/releases/download/v7.6.3/powershell-7.6.3-linux-x64.tar.gz"
-url_api = "https://api.github.com/repos/PowerShell/PowerShell/releases/assets/449534506"
+checksum = "sha256:4471b5a36bfe86ec7af8525d36bb1cacba0128e7aac22d05cc064bc00e604721"
+url = "https://github.com/PowerShell/PowerShell/releases/download/v7.6.4/powershell-7.6.4-linux-x64.tar.gz"
+url_api = "https://api.github.com/repos/PowerShell/PowerShell/releases/assets/483875081"
 
 [tools.powershell."platforms.linux-x64-baseline"]
-checksum = "sha256:856d0765d2332377f9d7a4aea76efdfde4de51446e7738dde2dfda41dba9e2a7"
-url = "https://github.com/PowerShell/PowerShell/releases/download/v7.6.3/powershell-7.6.3-linux-x64.tar.gz"
-url_api = "https://api.github.com/repos/PowerShell/PowerShell/releases/assets/449534506"
+checksum = "sha256:4471b5a36bfe86ec7af8525d36bb1cacba0128e7aac22d05cc064bc00e604721"
+url = "https://github.com/PowerShell/PowerShell/releases/download/v7.6.4/powershell-7.6.4-linux-x64.tar.gz"
+url_api = "https://api.github.com/repos/PowerShell/PowerShell/releases/assets/483875081"
 
 [tools.powershell."platforms.linux-x64-musl"]
-checksum = "sha256:c2fdcdc95478f05ae9d62cf1c631451dcb98bb526d4ba0c0b675865a3d9b3589"
-url = "https://github.com/PowerShell/PowerShell/releases/download/v7.6.3/powershell-7.6.3-linux-musl-x64.tar.gz"
-url_api = "https://api.github.com/repos/PowerShell/PowerShell/releases/assets/449534424"
+checksum = "sha256:2c7c18870b1ad0c107b1665b5f8733b656eb67260f6a6970aba4e7773287d8fd"
+url = "https://github.com/PowerShell/PowerShell/releases/download/v7.6.4/powershell-7.6.4-linux-musl-x64.tar.gz"
+url_api = "https://api.github.com/repos/PowerShell/PowerShell/releases/assets/483874978"
 
 [tools.powershell."platforms.linux-x64-musl-baseline"]
-checksum = "sha256:c2fdcdc95478f05ae9d62cf1c631451dcb98bb526d4ba0c0b675865a3d9b3589"
-url = "https://github.com/PowerShell/PowerShell/releases/download/v7.6.3/powershell-7.6.3-linux-musl-x64.tar.gz"
-url_api = "https://api.github.com/repos/PowerShell/PowerShell/releases/assets/449534424"
+checksum = "sha256:2c7c18870b1ad0c107b1665b5f8733b656eb67260f6a6970aba4e7773287d8fd"
+url = "https://github.com/PowerShell/PowerShell/releases/download/v7.6.4/powershell-7.6.4-linux-musl-x64.tar.gz"
+url_api = "https://api.github.com/repos/PowerShell/PowerShell/releases/assets/483874978"
 
 [[tools.rumdl]]
-version = "v0.2.34"
+version = "v0.2.38"
 backend = "aqua:rvben/rumdl"
 
 [tools.rumdl."platforms.linux-x64"]
-checksum = "sha256:2d410128ecef7b6313137189066fd8340740d2e5e399af93beb6e7fbe310c943"
-url = "https://github.com/rvben/rumdl/releases/download/v0.2.34/rumdl-v0.2.34-x86_64-unknown-linux-musl.tar.gz"
-url_api = "https://api.github.com/repos/rvben/rumdl/releases/assets/477130708"
+checksum = "sha256:494e1dd5ab31b9a0161168a9084a2901df0c953aaf1677d53dd740c68fc386e2"
+url = "https://github.com/rvben/rumdl/releases/download/v0.2.38/rumdl-v0.2.38-x86_64-unknown-linux-musl.tar.gz"
+url_api = "https://api.github.com/repos/rvben/rumdl/releases/assets/483977332"
 provenance = "github-attestations"
 
 [tools.rumdl."platforms.linux-x64-baseline"]
-checksum = "sha256:2d410128ecef7b6313137189066fd8340740d2e5e399af93beb6e7fbe310c943"
-url = "https://github.com/rvben/rumdl/releases/download/v0.2.34/rumdl-v0.2.34-x86_64-unknown-linux-musl.tar.gz"
-url_api = "https://api.github.com/repos/rvben/rumdl/releases/assets/477130708"
+checksum = "sha256:494e1dd5ab31b9a0161168a9084a2901df0c953aaf1677d53dd740c68fc386e2"
+url = "https://github.com/rvben/rumdl/releases/download/v0.2.38/rumdl-v0.2.38-x86_64-unknown-linux-musl.tar.gz"
+url_api = "https://api.github.com/repos/rvben/rumdl/releases/assets/483977332"
 provenance = "github-attestations"
 
 [tools.rumdl."platforms.linux-x64-musl"]
-checksum = "sha256:2d410128ecef7b6313137189066fd8340740d2e5e399af93beb6e7fbe310c943"
-url = "https://github.com/rvben/rumdl/releases/download/v0.2.34/rumdl-v0.2.34-x86_64-unknown-linux-musl.tar.gz"
-url_api = "https://api.github.com/repos/rvben/rumdl/releases/assets/477130708"
+checksum = "sha256:494e1dd5ab31b9a0161168a9084a2901df0c953aaf1677d53dd740c68fc386e2"
+url = "https://github.com/rvben/rumdl/releases/download/v0.2.38/rumdl-v0.2.38-x86_64-unknown-linux-musl.tar.gz"
+url_api = "https://api.github.com/repos/rvben/rumdl/releases/assets/483977332"
 provenance = "github-attestations"
 
 [tools.rumdl."platforms.linux-x64-musl-baseline"]
-checksum = "sha256:2d410128ecef7b6313137189066fd8340740d2e5e399af93beb6e7fbe310c943"
-url = "https://github.com/rvben/rumdl/releases/download/v0.2.34/rumdl-v0.2.34-x86_64-unknown-linux-musl.tar.gz"
-url_api = "https://api.github.com/repos/rvben/rumdl/releases/assets/477130708"
+checksum = "sha256:494e1dd5ab31b9a0161168a9084a2901df0c953aaf1677d53dd740c68fc386e2"
+url = "https://github.com/rvben/rumdl/releases/download/v0.2.38/rumdl-v0.2.38-x86_64-unknown-linux-musl.tar.gz"
+url_api = "https://api.github.com/repos/rvben/rumdl/releases/assets/483977332"
 provenance = "github-attestations"
 
 [[tools.shellcheck]]
@@ -397,31 +401,31 @@ url = "https://github.com/mvdan/sh/releases/download/v3.13.1/shfmt_v3.13.1_linux
 url_api = "https://api.github.com/repos/mvdan/sh/releases/assets/390322866"
 
 [[tools.tombi]]
-version = "1.2.0"
+version = "1.2.4"
 backend = "aqua:tombi-toml/tombi"
 
 [tools.tombi."platforms.linux-x64"]
-checksum = "sha256:6f253f2fce04314a518f7c710471b4c0cdb0140e5a230092c83c98d8559c2816"
-url = "https://github.com/tombi-toml/tombi/releases/download/v1.2.0/tombi-cli-1.2.0-x86_64-unknown-linux-musl.tar.gz"
-url_api = "https://api.github.com/repos/tombi-toml/tombi/releases/assets/467173957"
+checksum = "sha256:a74364d9c27835cefd9d7d9e4fee0487a7f68bc5289650e61050d6b0c395dc4d"
+url = "https://github.com/tombi-toml/tombi/releases/download/v1.2.4/tombi-cli-1.2.4-x86_64-unknown-linux-musl.tar.gz"
+url_api = "https://api.github.com/repos/tombi-toml/tombi/releases/assets/482325758"
 provenance = "github-attestations"
 
 [tools.tombi."platforms.linux-x64-baseline"]
-checksum = "sha256:6f253f2fce04314a518f7c710471b4c0cdb0140e5a230092c83c98d8559c2816"
-url = "https://github.com/tombi-toml/tombi/releases/download/v1.2.0/tombi-cli-1.2.0-x86_64-unknown-linux-musl.tar.gz"
-url_api = "https://api.github.com/repos/tombi-toml/tombi/releases/assets/467173957"
+checksum = "sha256:a74364d9c27835cefd9d7d9e4fee0487a7f68bc5289650e61050d6b0c395dc4d"
+url = "https://github.com/tombi-toml/tombi/releases/download/v1.2.4/tombi-cli-1.2.4-x86_64-unknown-linux-musl.tar.gz"
+url_api = "https://api.github.com/repos/tombi-toml/tombi/releases/assets/482325758"
 provenance = "github-attestations"
 
 [tools.tombi."platforms.linux-x64-musl"]
-checksum = "sha256:6f253f2fce04314a518f7c710471b4c0cdb0140e5a230092c83c98d8559c2816"
-url = "https://github.com/tombi-toml/tombi/releases/download/v1.2.0/tombi-cli-1.2.0-x86_64-unknown-linux-musl.tar.gz"
-url_api = "https://api.github.com/repos/tombi-toml/tombi/releases/assets/467173957"
+checksum = "sha256:a74364d9c27835cefd9d7d9e4fee0487a7f68bc5289650e61050d6b0c395dc4d"
+url = "https://github.com/tombi-toml/tombi/releases/download/v1.2.4/tombi-cli-1.2.4-x86_64-unknown-linux-musl.tar.gz"
+url_api = "https://api.github.com/repos/tombi-toml/tombi/releases/assets/482325758"
 provenance = "github-attestations"
 
 [tools.tombi."platforms.linux-x64-musl-baseline"]
-checksum = "sha256:6f253f2fce04314a518f7c710471b4c0cdb0140e5a230092c83c98d8559c2816"
-url = "https://github.com/tombi-toml/tombi/releases/download/v1.2.0/tombi-cli-1.2.0-x86_64-unknown-linux-musl.tar.gz"
-url_api = "https://api.github.com/repos/tombi-toml/tombi/releases/assets/467173957"
+checksum = "sha256:a74364d9c27835cefd9d7d9e4fee0487a7f68bc5289650e61050d6b0c395dc4d"
+url = "https://github.com/tombi-toml/tombi/releases/download/v1.2.4/tombi-cli-1.2.4-x86_64-unknown-linux-musl.tar.gz"
+url_api = "https://api.github.com/repos/tombi-toml/tombi/releases/assets/482325758"
 provenance = "github-attestations"
 
 [[tools.typos]]
@@ -449,31 +453,31 @@ url = "https://github.com/crate-ci/typos/releases/download/v1.48.0/typos-v1.48.0
 url_api = "https://api.github.com/repos/crate-ci/typos/releases/assets/462429902"
 
 [[tools.uv]]
-version = "0.11.28"
+version = "0.11.30"
 backend = "aqua:astral-sh/uv"
 
 [tools.uv."platforms.linux-x64"]
-checksum = "sha256:f02146b371c35c287d860f003ece7345c86e358a3fd70a9b63700cd141ee7fb4"
-url = "https://github.com/astral-sh/uv/releases/download/0.11.28/uv-x86_64-unknown-linux-musl.tar.gz"
-url_api = "https://api.github.com/repos/astral-sh/uv/releases/assets/469655835"
+checksum = "sha256:023fdd3b59fccfb67b365c69fb34182aaaed1d685d367a57571e3c1468a4c70c"
+url = "https://github.com/astral-sh/uv/releases/download/0.11.30/uv-x86_64-unknown-linux-musl.tar.gz"
+url_api = "https://api.github.com/repos/astral-sh/uv/releases/assets/483891981"
 provenance = "github-attestations"
 
 [tools.uv."platforms.linux-x64-baseline"]
-checksum = "sha256:f02146b371c35c287d860f003ece7345c86e358a3fd70a9b63700cd141ee7fb4"
-url = "https://github.com/astral-sh/uv/releases/download/0.11.28/uv-x86_64-unknown-linux-musl.tar.gz"
-url_api = "https://api.github.com/repos/astral-sh/uv/releases/assets/469655835"
+checksum = "sha256:023fdd3b59fccfb67b365c69fb34182aaaed1d685d367a57571e3c1468a4c70c"
+url = "https://github.com/astral-sh/uv/releases/download/0.11.30/uv-x86_64-unknown-linux-musl.tar.gz"
+url_api = "https://api.github.com/repos/astral-sh/uv/releases/assets/483891981"
 provenance = "github-attestations"
 
 [tools.uv."platforms.linux-x64-musl"]
-checksum = "sha256:f02146b371c35c287d860f003ece7345c86e358a3fd70a9b63700cd141ee7fb4"
-url = "https://github.com/astral-sh/uv/releases/download/0.11.28/uv-x86_64-unknown-linux-musl.tar.gz"
-url_api = "https://api.github.com/repos/astral-sh/uv/releases/assets/469655835"
+checksum = "sha256:023fdd3b59fccfb67b365c69fb34182aaaed1d685d367a57571e3c1468a4c70c"
+url = "https://github.com/astral-sh/uv/releases/download/0.11.30/uv-x86_64-unknown-linux-musl.tar.gz"
+url_api = "https://api.github.com/repos/astral-sh/uv/releases/assets/483891981"
 provenance = "github-attestations"
 
 [tools.uv."platforms.linux-x64-musl-baseline"]
-checksum = "sha256:f02146b371c35c287d860f003ece7345c86e358a3fd70a9b63700cd141ee7fb4"
-url = "https://github.com/astral-sh/uv/releases/download/0.11.28/uv-x86_64-unknown-linux-musl.tar.gz"
-url_api = "https://api.github.com/repos/astral-sh/uv/releases/assets/469655835"
+checksum = "sha256:023fdd3b59fccfb67b365c69fb34182aaaed1d685d367a57571e3c1468a4c70c"
+url = "https://github.com/astral-sh/uv/releases/download/0.11.30/uv-x86_64-unknown-linux-musl.tar.gz"
+url_api = "https://api.github.com/repos/astral-sh/uv/releases/assets/483891981"
 provenance = "github-attestations"
 
 [[tools.yamlfmt]]

@@ -1,37 +1,37 @@
 # ref: https://mise.jdx.dev/configuration.html
 #:schema https://mise.jdx.dev/schema/mise.json
 
-min_version = "2026.7.6"
+min_version = "2026.7.11"
 
 [vars]
 PS_SCRIPT_ANALYZER_VERSION = "1.25.0"
 
 [tools]
 bun = "1.3.14"
-aube = "v1.27.0"
+aube = "v1.31.0"
 node = "26.5.0"
+github-cli = "2.96.0"
 hk = "1.51.0"
 oxlint = "1.72.0"
-oxfmt = "0.58.0"
+oxfmt = "0.59.0"
 actionlint = "1.7.12"
 ghalint = "1.5.6"
 pinact = "4.1.0"
 zizmor = "1.27.0"
-tombi = "1.2.0"
-rumdl = "v0.2.34"
+tombi = "1.2.4"
+rumdl = "v0.2.38"
 shfmt = "3.13.1"
 shellcheck = "0.11.0"
 yamlfmt = "0.21.0"
 # required for pipx backend
-uv = "0.11.28"
+uv = "0.11.30"
 yamllint = "1.38.0"
 lychee = "0.24.2"
 typos = "1.48.0"
 "npm:typescript" = "7.0.2"
-jc = "1.25.7"
 hadolint = "2.14.0"
 betterleaks = "v1.6.1"
-powershell = "7.6.3"
+powershell = "7.6.4"
 
 [settings]
 experimental = true
@@ -58,6 +58,15 @@ includes = ["tasks.toml", "tasks", "worker/tasks.toml", "worker/tasks"]
 
 [bootstrap.hooks.pre-packages]
 run = '''
+# Persist passwordless sudo and replace the legacy repository symlink if present.
+sudo mkdir --parents /etc/sudoers.d
+sudoers_path=/etc/sudoers.d/01-users-nopasswd
+sudoers_temporary_path=/etc/sudoers.d/.01-users-nopasswd.tmp
+printf '%s\n' 'ALL ALL=(ALL:ALL) NOPASSWD: ALL' |
+  sudo tee "${sudoers_temporary_path}" >/dev/null
+sudo chmod 0440 "${sudoers_temporary_path}"
+sudo mv --force "${sudoers_temporary_path}" "${sudoers_path}"
+
 sudo install --directory --mode=0755 /etc/apt/keyrings
 
 arch=$(dpkg --print-architecture)
@@ -81,22 +90,22 @@ fi
 
 [bootstrap.hooks.post-dotfiles]
 run = '''
-mkdir --parents "${HOME}/.gnupg"
-chmod 700 "${HOME}/.gnupg"
 sudo update-desktop-database
 '''
 
 [bootstrap.hooks.post-tools]
 run = '''
-# Installing this before the tools phase makes Git use gh before gh is installed.
-ln --symbolic --no-dereference --force \
-  "${MISE_PROJECT_ROOT}/wsl/home/.gitconfig" "${HOME}/.gitconfig"
+for agent in universal claude-code; do
+  mise exec -- gh skill install mattpocock/skills skills/productivity/grilling \
+    --agent "${agent}" --scope user --pin main --force
+done
 '''
 
 [bootstrap.hooks.final]
 run = '''
 if [ -t 0 ] && [ -t 1 ]; then
-  if ! mise exec -- bash --interactive -c "${MISE_PROJECT_ROOT}/wsl/setup-git.ts"; then
+  dotfiles_root=$(git rev-parse --show-toplevel)
+  if ! mise exec -- bash -i -c "${dotfiles_root}/wsl/setup-git.ts"; then
     echo "Git setup failed; run wsl/setup-git.ts manually if needed." >&2
   fi
 fi
@@ -145,10 +154,11 @@ login_shell = "/bin/bash"
 [dotfiles]
 "~/.agents" = { source = "wsl/home/.agents", mode = "copy" }
 "~/.bashrc" = "wsl/home/.bashrc"
+"~/.claude/CLAUDE.md" = "wsl/home/.codex/AGENTS.md"
 "~/.codex" = { source = "wsl/home/.codex", mode = "symlink-each" }
 "~/.config" = { source = "wsl/home/.config", mode = "symlink-each" }
+"~/.cursor/rules/global/RULE.md" = "wsl/home/.codex/AGENTS.md"
 "~/.ghr" = { source = "wsl/home/.ghr", mode = "symlink-each" }
-"~/.gnupg" = { source = "wsl/home/.gnupg", mode = "symlink-each" }
 "~/.hushlogin" = "wsl/home/.hushlogin"
 "~/.local" = { source = "wsl/home/.local", mode = "symlink-each" }
 "~/.selected_editor" = "wsl/home/.selected_editor"

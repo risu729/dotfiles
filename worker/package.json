@@ -6,17 +6,17 @@
 		"deploy": "./tasks/worker/deploy"
 	},
 	"dependencies": {
-		"hono": "4.12.29"
+		"hono": "4.12.30"
 	},
 	"devDependencies": {
-		"@cloudflare/vite-plugin": "1.44.0",
-		"@cloudflare/vitest-pool-workers": "0.18.4",
+		"@cloudflare/vite-plugin": "1.45.1",
+		"@cloudflare/vitest-pool-workers": "0.18.6",
 		"@risu729/tsconfigs": "3.0.0",
 		"@types/bun": "1.3.14",
 		"@vitest/ui": "4.1.10",
 		"diff": "9.0.0",
-		"vite": "8.1.4",
+		"vite": "8.1.5",
 		"vitest": "4.1.10",
-		"wrangler": "4.110.0"
+		"wrangler": "4.112.0"
 	}
 }

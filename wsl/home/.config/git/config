@@ -2,8 +2,9 @@
 	defaultBranch = main
 
 [user]
-	name = Taku Kodma
+	name = Taku Kodama
 	email = 79110363+risu729@users.noreply.github.com
+	signingKey = "key::ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMor6SlX/qQY6DlSPNshh+HuBxu2VqRrnF0goRw1p3u8"
 
 [fetch]
 	prune = true
@@ -16,6 +17,9 @@
 [tag]
 	gpgSign = true
 
+[gpg]
+	format = ssh
+
 [submodule]
 	recurse = true
 
@@ -27,12 +31,14 @@
 [credential "https://gist.github.com"]
 	helper =
 	helper = !gh auth git-credential
+[credential "https://gitlab.cse.unsw.edu.au"]
+	username = z5642102
+	helper =
+	helper = !glab auth git-credential
 
-[include]
-	path = ~/.gitconfig.local
+[includeIf "gitdir:~/.ghr/gitlab.cse.unsw.edu.au/"]
+	path = ~/.config/git/unsw.gitconfig
 
 [alias]
 	sm = "!branch=$(git symbolic-ref --quiet --short refs/remotes/origin/HEAD 2>/dev/null); branch=${branch#origin/}; if [ -z \"$branch\" ]; then branch=$(git remote show origin | sed -n '/HEAD branch/s/.*: //p'); fi; [ -n \"$branch\" ] && git switch \"$branch\""
 	sync = "!curr=$(git rev-parse --abbrev-ref HEAD) && git fetch --all && git submodule update --init --recursive && if git remote get-url upstream >/dev/null 2>&1; then git pull --ff-only upstream \"$curr\" && git push origin \"$curr\"; else git pull --ff-only; fi"
-[gpg]
-	program = gpg

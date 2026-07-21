@@ -351,14 +351,6 @@ _c_codex_tmux_complete() {
 
 complete -o nospace -o bashdefault -F _c_codex_tmux_complete c
 
-# gpg requires tty
-# GitHub Actions doesn't have tty
-# ref: https://github.com/actions/runner/issues/241
-if [[ -n ${PS1} ]]; then
-	GPG_TTY=$(tty)
-	export GPG_TTY
-fi
-
 # Set GITHUB_TOKEN to avoid rate limit while using mise
 # Use __CI instead of CI to be able to test CI locally
 if [[ -z ${__CI:-} ]] && command -v gh &>/dev/null; then

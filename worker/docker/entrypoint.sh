@@ -1,27 +1,23 @@
 #!/bin/bash
 set -euo pipefail
 
-# Environment Variables:
-# GIT_REPO_URL: URL of the repository to clone
-# GIT_COMMIT_SHA: Exact commit SHA to checkout
+readonly repo_url="https://github.com/risu729/dotfiles.git"
 
-if [[ -z ${GIT_REPO_URL:-} ]]; then
-	echo "Error: GIT_REPO_URL environment variable is not set."
-	exit 1
-fi
+# Environment Variables:
+# GIT_COMMIT_SHA: Exact commit SHA to checkout
 
 if [[ -z ${GIT_COMMIT_SHA:-} ]]; then
 	echo "Error: GIT_COMMIT_SHA environment variable is not set."
 	exit 1
 fi
 
-echo "==> Preparing to clone repository ${GIT_REPO_URL} at commit ${GIT_COMMIT_SHA}"
+echo "==> Preparing to clone repository ${repo_url} at commit ${GIT_COMMIT_SHA}"
 
 git init .
 echo "==> Initialized git repository."
 
-git remote add origin "${GIT_REPO_URL}"
-echo "==> Added remote 'origin' for ${GIT_REPO_URL}"
+git remote add origin "${repo_url}"
+echo "==> Added remote 'origin' for ${repo_url}"
 
 git sparse-checkout init
 echo "==> Initialized sparse-checkout."
