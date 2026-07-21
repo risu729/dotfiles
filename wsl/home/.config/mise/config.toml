@@ -73,7 +73,7 @@ glow = "latest"
 # ai agents
 codex = { version = "latest", minimum_release_age = "0s" }
 "npm:ccusage" = "latest"
-claude = "latest"
+claude = { version = "latest", minimum_release_age = "0s" }
 copilot = "latest"
 
 # linter/formatter tools
