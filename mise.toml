@@ -33,7 +33,7 @@ typos = "1.48.0"
 "npm:typescript" = "7.0.2"
 hadolint = "2.14.0"
 betterleaks = "v1.6.1"
-powershell = "7.6.3"
+powershell = "7.6.4"
 
 [settings]
 experimental = true
