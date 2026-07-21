@@ -480,13 +480,6 @@ url = "https://github.com/astral-sh/uv/releases/download/0.11.31/uv-x86_64-unkno
 url_api = "https://api.github.com/repos/astral-sh/uv/releases/assets/485371115"
 provenance = "github-attestations"
 
-[[tools.wrangler]]
-version = "4.112.0"
-backend = "npm:wrangler"
-
-[tools.wrangler.options]
-allow_builds = '["esbuild", "sharp", "workerd"]'
-
 [[tools.yamlfmt]]
 version = "0.21.0"
 backend = "aqua:google/yamlfmt"
