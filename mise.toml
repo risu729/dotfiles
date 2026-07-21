@@ -3,7 +3,7 @@
 # TODO: Remove when the mise schema includes bootstrap hooks.
 #:tombi schema.strict = false
 
-min_version = "2026.7.7"
+min_version = "2026.7.11"
 
 [vars]
 PS_SCRIPT_ANALYZER_VERSION = "1.25.0"
