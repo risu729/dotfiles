@@ -1390,6 +1390,40 @@ checksum = "sha256:2b69a853433f1eca522ffb921cd490bd1321424d03331fd8390f93b7fb4a0
 url = "https://github.com/hadolint/hadolint/releases/download/v2.14.0/hadolint-macos-x86_64"
 url_api = "https://api.github.com/repos/hadolint/hadolint/releases/assets/295944082"
 
+[[tools.herdr]]
+version = "0.7.4"
+backend = "aqua:ogulcancelik/herdr"
+
+[tools.herdr."platforms.linux-arm64"]
+checksum = "sha256:544e0002de42806d1ab64ccdef3a7e7414f24717b0b6b022bc9e57d2eefd26a2"
+url = "https://github.com/ogulcancelik/herdr/releases/download/v0.7.4/herdr-linux-aarch64"
+url_api = "https://api.github.com/repos/ogulcancelik/herdr/releases/assets/478145774"
+
+[tools.herdr."platforms.linux-arm64-musl"]
+checksum = "sha256:544e0002de42806d1ab64ccdef3a7e7414f24717b0b6b022bc9e57d2eefd26a2"
+url = "https://github.com/ogulcancelik/herdr/releases/download/v0.7.4/herdr-linux-aarch64"
+url_api = "https://api.github.com/repos/ogulcancelik/herdr/releases/assets/478145774"
+
+[tools.herdr."platforms.linux-x64"]
+checksum = "sha256:bc0fc02d4ba500f9cac2353a43e67fe036785ecca6eb55378e050fac3c103059"
+url = "https://github.com/ogulcancelik/herdr/releases/download/v0.7.4/herdr-linux-x86_64"
+url_api = "https://api.github.com/repos/ogulcancelik/herdr/releases/assets/478145777"
+
+[tools.herdr."platforms.linux-x64-baseline"]
+checksum = "sha256:bc0fc02d4ba500f9cac2353a43e67fe036785ecca6eb55378e050fac3c103059"
+url = "https://github.com/ogulcancelik/herdr/releases/download/v0.7.4/herdr-linux-x86_64"
+url_api = "https://api.github.com/repos/ogulcancelik/herdr/releases/assets/478145777"
+
+[tools.herdr."platforms.linux-x64-musl"]
+checksum = "sha256:bc0fc02d4ba500f9cac2353a43e67fe036785ecca6eb55378e050fac3c103059"
+url = "https://github.com/ogulcancelik/herdr/releases/download/v0.7.4/herdr-linux-x86_64"
+url_api = "https://api.github.com/repos/ogulcancelik/herdr/releases/assets/478145777"
+
+[tools.herdr."platforms.linux-x64-musl-baseline"]
+checksum = "sha256:bc0fc02d4ba500f9cac2353a43e67fe036785ecca6eb55378e050fac3c103059"
+url = "https://github.com/ogulcancelik/herdr/releases/download/v0.7.4/herdr-linux-x86_64"
+url_api = "https://api.github.com/repos/ogulcancelik/herdr/releases/assets/478145777"
+
 [[tools.hk]]
 version = "1.51.0"
 backend = "aqua:jdx/hk"
@@ -1428,6 +1462,40 @@ url_api = "https://api.github.com/repos/jdx/hk/releases/assets/476588095"
 checksum = "sha256:1f19137c63bc3be45c58badd4aa0e14b2718669df93c8f4c1d05b74e5ab6acef"
 url = "https://github.com/jdx/hk/releases/download/v1.51.0/hk-aarch64-apple-darwin.tar.gz"
 url_api = "https://api.github.com/repos/jdx/hk/releases/assets/476588079"
+
+[[tools.hunk]]
+version = "0.17.3"
+backend = "aqua:modem-dev/hunk"
+
+[tools.hunk."platforms.linux-arm64"]
+checksum = "sha256:b5bb4e219cbd5e13f34c34ef8ce06ce2467e2f9f3037e260f10ecb563a67ba6d"
+url = "https://github.com/modem-dev/hunk/releases/download/v0.17.3/hunkdiff-linux-arm64.tar.gz"
+url_api = "https://api.github.com/repos/modem-dev/hunk/releases/assets/482681570"
+
+[tools.hunk."platforms.linux-arm64-musl"]
+checksum = "sha256:b5bb4e219cbd5e13f34c34ef8ce06ce2467e2f9f3037e260f10ecb563a67ba6d"
+url = "https://github.com/modem-dev/hunk/releases/download/v0.17.3/hunkdiff-linux-arm64.tar.gz"
+url_api = "https://api.github.com/repos/modem-dev/hunk/releases/assets/482681570"
+
+[tools.hunk."platforms.linux-x64"]
+checksum = "sha256:6e192e42365a81f2083f16a1c176cd18e92a016f0d981b60637cd02b2cd0706d"
+url = "https://github.com/modem-dev/hunk/releases/download/v0.17.3/hunkdiff-linux-x64.tar.gz"
+url_api = "https://api.github.com/repos/modem-dev/hunk/releases/assets/482681571"
+
+[tools.hunk."platforms.linux-x64-baseline"]
+checksum = "sha256:6e192e42365a81f2083f16a1c176cd18e92a016f0d981b60637cd02b2cd0706d"
+url = "https://github.com/modem-dev/hunk/releases/download/v0.17.3/hunkdiff-linux-x64.tar.gz"
+url_api = "https://api.github.com/repos/modem-dev/hunk/releases/assets/482681571"
+
+[tools.hunk."platforms.linux-x64-musl"]
+checksum = "sha256:6e192e42365a81f2083f16a1c176cd18e92a016f0d981b60637cd02b2cd0706d"
+url = "https://github.com/modem-dev/hunk/releases/download/v0.17.3/hunkdiff-linux-x64.tar.gz"
+url_api = "https://api.github.com/repos/modem-dev/hunk/releases/assets/482681571"
+
+[tools.hunk."platforms.linux-x64-musl-baseline"]
+checksum = "sha256:6e192e42365a81f2083f16a1c176cd18e92a016f0d981b60637cd02b2cd0706d"
+url = "https://github.com/modem-dev/hunk/releases/download/v0.17.3/hunkdiff-linux-x64.tar.gz"
+url_api = "https://api.github.com/repos/modem-dev/hunk/releases/assets/482681571"
 
 [[tools.java]]
 version = "26.0.1"
