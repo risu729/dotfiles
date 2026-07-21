@@ -1,8 +1,6 @@
-amends
-  "https://raw.githubusercontent.com/risu729/hk-config/a34802b174b5a1f669dbd09fb6301f7eca7a5770/presets.pkl"
+amends "https://raw.githubusercontent.com/risu729/hk-config/v1.1.0/presets.pkl"
 
-import
-  "https://raw.githubusercontent.com/risu729/hk-config/a34802b174b5a1f669dbd09fb6301f7eca7a5770/helpers.pkl"
+import "https://raw.githubusercontent.com/risu729/hk-config/v1.1.0/helpers.pkl"
 
 local const bashrcGlobs = List("wsl/home/.bashrc")
 
