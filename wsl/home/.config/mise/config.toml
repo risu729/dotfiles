@@ -75,6 +75,8 @@ codex = { version = "latest", minimum_release_age = "0s" }
 "npm:ccusage" = "latest"
 claude = { version = "latest", minimum_release_age = "0s" }
 copilot = "latest"
+hunk = "latest"
+herdr = "latest"
 
 # linter/formatter tools
 hk = "latest"
