@@ -44,7 +44,7 @@ jobs:
       - name: Build Worker
         run: mise run worker:build
       - name: Deploy Worker
-        uses: risu729/wrangler-deploy-action@1931853e55842e31150badd8bf886fd08c134d57 # zizmor: ignore[stale-action-refs] action PR #5 is not tagged yet
+        uses: risu729/wrangler-deploy-action@a282705ddae16c69574bfe62cdda8cef47f963cb # v1.1.0
         with:
           mode: ${{ github.event_name == 'pull_request' && 'preview-or-dry-run' || 'production' }}
           working-directory: worker

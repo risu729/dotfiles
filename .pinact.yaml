@@ -1,7 +1,0 @@
-version: 3
-rules:
-  # wrangler-deploy-action#5 is intentionally pinned before its release tag exists.
-  - ignore: true
-    conditions:
-      - expr: |
-          ActionName == "risu729/wrangler-deploy-action" && ActionVersion == "1931853e55842e31150badd8bf886fd08c134d57"
