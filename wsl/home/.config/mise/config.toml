@@ -42,7 +42,6 @@ glab = "latest"
 "github:seachicken/gh-poi" = { version = "latest", bin = "gh-poi" }
 "aqua:siketyan/ghr" = { version = "latest", prerelease = true }
 fzf = "latest"
-worktrunk = "latest"
 bitwarden = "latest"
 "aqua:mame/wsl2-ssh-agent" = "latest"
 jc = "latest"
@@ -125,7 +124,6 @@ includes = [".config/mise/tasks"]
 clip = "clip.exe"
 m = "mise"
 mx = "mise x"
-c = "mise run codex-tmux"
 l = "eza --all --long --git"
 k = "kubecolor"
 aptup = "sudo apt update && sudo apt upgrade -y"
