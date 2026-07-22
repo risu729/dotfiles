@@ -68,7 +68,7 @@ miller = "latest"
 glow = "latest"
 "github:garden-rs/garden" = "latest"
 "pipx:markitdown" = { version = "latest", extras = "pdf,docx,pptx,xlsx" }
-"npm:resend-cli" = "latest"
+"npm:resend-cli" = { version = "latest", allow_builds = ["esbuild"] }
 
 # ai agents
 codex = { version = "latest", minimum_release_age = "0s" }
