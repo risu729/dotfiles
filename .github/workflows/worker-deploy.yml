@@ -3,17 +3,13 @@ on:
   push:
     branches:
       - main
-    paths: &worker-paths
+    paths:
       - ".github/workflows/worker-deploy.yml"
       - "worker/**"
-  pull_request:
-    branches:
-      - main
-    paths: *worker-paths
   workflow_dispatch:
 concurrency:
-  group: ${{ github.workflow }}-${{ case(github.event_name == 'pull_request', github.event.pull_request.number, 'production') }}
-  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+  group: worker-production
+  cancel-in-progress: false
 permissions: {}
 defaults:
   run:
@@ -46,9 +42,8 @@ jobs:
       - name: Deploy Worker
         uses: risu729/wrangler-deploy-action@a282705ddae16c69574bfe62cdda8cef47f963cb # v1.1.0
         with:
-          mode: ${{ github.event_name == 'pull_request' && 'preview-or-dry-run' || 'production' }}
+          mode: production
           working-directory: worker
           config: wrangler.jsonc
-          preview-alias: pr-${{ github.event.pull_request.number }}
           cloudflare-account-id: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
           cloudflare-api-token: ${{ secrets.CLOUDFLARE_API_TOKEN }}
