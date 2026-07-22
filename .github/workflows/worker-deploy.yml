@@ -1,0 +1,49 @@
+name: Worker Deploy
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - ".github/workflows/worker-deploy.yml"
+      - "worker/**"
+  workflow_dispatch:
+concurrency:
+  group: worker-production
+  cancel-in-progress: false
+permissions: {}
+defaults:
+  run:
+    shell: bash
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions:
+      contents: read # for checkout
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          sparse-checkout: |
+            mise.toml
+            mise.lock
+            tasks.toml
+            worker/
+          persist-credentials: false
+      - name: Install mise
+        uses: jdx/mise-action@dad1bfd3df957f44999b559dd69dc1671cb4e9ea # v4.2.1
+        with:
+          version: 2026.7.11
+        env:
+          MISE_ENABLE_TOOLS: bun,node
+      - name: Build Worker
+        run: mise run worker:build
+      - name: Deploy Worker
+        uses: risu729/wrangler-deploy-action@a282705ddae16c69574bfe62cdda8cef47f963cb # v1.1.0
+        with:
+          mode: production
+          working-directory: worker
+          config: wrangler.jsonc
+          cloudflare-account-id: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
+          cloudflare-api-token: ${{ secrets.CLOUDFLARE_API_TOKEN }}

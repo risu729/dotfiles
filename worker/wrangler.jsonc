@@ -15,6 +15,7 @@
 	"placement": {
 		"mode": "smart",
 	},
+	"preview_urls": true,
 	"route": {
 		"custom_domain": true,
 		"pattern": "dot.risunosu.com",

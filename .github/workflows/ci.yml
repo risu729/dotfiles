@@ -101,7 +101,7 @@ jobs:
         if: ${{ always() }}
         run: docker compose --file compose.ci.yml down --volumes --remove-orphans
   test-worker:
-    name: Cloudflare Workers Tests
+    name: Cloudflare Worker
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     permissions:
@@ -125,6 +125,17 @@ jobs:
         run: mise run worker:test
         env:
           GITHUB_TOKEN: ${{ github.token }}
+      - name: Build Worker
+        run: mise run worker:build
+      - name: Upload preview or validate deployment
+        uses: risu729/wrangler-deploy-action@a282705ddae16c69574bfe62cdda8cef47f963cb # v1.1.0
+        with:
+          mode: ${{ github.event_name == 'pull_request' && 'preview-or-dry-run' || 'dry-run' }}
+          working-directory: worker
+          config: wrangler.jsonc
+          preview-alias: pr-${{ github.event.pull_request.number }}
+          cloudflare-account-id: ${{ github.event_name == 'pull_request' && vars.CLOUDFLARE_ACCOUNT_ID || '' }}
+          cloudflare-api-token: ${{ github.event_name == 'pull_request' && secrets.CLOUDFLARE_API_TOKEN || '' }}
   ci-check:
     name: CI Check
     needs:
