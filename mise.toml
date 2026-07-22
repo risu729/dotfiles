@@ -99,6 +99,10 @@ for agent in universal claude-code; do
   mise exec -- gh skill install mattpocock/skills skills/productivity/grilling \
     --agent "${agent}" --scope user --pin main --force
 done
+
+for integration in claude codex; do
+  mise exec -- herdr integration install "${integration}"
+done
 '''
 
 [bootstrap.hooks.final]
