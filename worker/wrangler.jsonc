@@ -10,7 +10,12 @@
 	"main": "src/index.ts",
 	"name": "dotfiles-worker",
 	"observability": {
-		"enabled": true,
+		"logs": {
+			"enabled": true,
+		},
+		"traces": {
+			"enabled": true,
+		},
 	},
 	"placement": {
 		"mode": "smart",
@@ -20,7 +25,7 @@
 		"custom_domain": true,
 		"pattern": "dot.risunosu.com",
 	},
-	"send_metrics": true,
+	"upload_source_maps": true,
 	// disable *.worker.dev domain
 	"workers_dev": false,
 }
