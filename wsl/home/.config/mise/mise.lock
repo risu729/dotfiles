@@ -1105,6 +1105,89 @@ checksum = "sha256:1bb358eec9d34b068d0d4b79fdb7b8e261a59b55a56898da49bea9490c300
 url = "https://github.com/garden-rs/garden/releases/download/v2.6.1/garden-2.6.1-x86_64-apple-darwin.tar.gz"
 url_api = "https://api.github.com/repos/garden-rs/garden/releases/assets/474285071"
 
+[[tools."github:risu729/biwa"]]
+version = "1.0.0"
+backend = "github:risu729/biwa"
+
+[tools."github:risu729/biwa".options]
+matching_regex = '^biwa-(aarch64|x86_64)-(apple-darwin|unknown-linux-(gnu|musl))\.tar\.xz$'
+
+[tools."github:risu729/biwa"."platforms.linux-arm64"]
+checksum = "sha256:3b94bb3bd607448272fcfe62b785b3cabf567080edda52a532fa53e75001737a"
+url = "https://github.com/risu729/biwa/releases/download/v1.0.0/biwa-aarch64-unknown-linux-gnu.tar.xz"
+url_api = "https://api.github.com/repos/risu729/biwa/releases/assets/487502160"
+provenance = "github-attestations"
+
+[tools."github:risu729/biwa"."platforms.linux-arm64-musl"]
+checksum = "sha256:3b94bb3bd607448272fcfe62b785b3cabf567080edda52a532fa53e75001737a"
+url = "https://github.com/risu729/biwa/releases/download/v1.0.0/biwa-aarch64-unknown-linux-gnu.tar.xz"
+url_api = "https://api.github.com/repos/risu729/biwa/releases/assets/487502160"
+provenance = "github-attestations"
+
+[tools."github:risu729/biwa"."platforms.linux-x64"]
+checksum = "sha256:a9027c23858f9879868d43e9957ea70fb16c0dc7925ede5eeeadeafd6eea157b"
+url = "https://github.com/risu729/biwa/releases/download/v1.0.0/biwa-x86_64-unknown-linux-gnu.tar.xz"
+url_api = "https://api.github.com/repos/risu729/biwa/releases/assets/487502172"
+provenance = "github-attestations"
+
+[tools."github:risu729/biwa"."platforms.linux-x64-baseline"]
+checksum = "sha256:a9027c23858f9879868d43e9957ea70fb16c0dc7925ede5eeeadeafd6eea157b"
+url = "https://github.com/risu729/biwa/releases/download/v1.0.0/biwa-x86_64-unknown-linux-gnu.tar.xz"
+url_api = "https://api.github.com/repos/risu729/biwa/releases/assets/487502172"
+provenance = "github-attestations"
+
+[tools."github:risu729/biwa"."platforms.linux-x64-musl"]
+checksum = "sha256:a2d765b9610306e79896ebd14c0153b5cec52ce48982647896501495ab5888a4"
+url = "https://github.com/risu729/biwa/releases/download/v1.0.0/biwa-x86_64-unknown-linux-musl.tar.xz"
+url_api = "https://api.github.com/repos/risu729/biwa/releases/assets/487502174"
+provenance = "github-attestations"
+
+[tools."github:risu729/biwa"."platforms.linux-x64-musl-baseline"]
+checksum = "sha256:a2d765b9610306e79896ebd14c0153b5cec52ce48982647896501495ab5888a4"
+url = "https://github.com/risu729/biwa/releases/download/v1.0.0/biwa-x86_64-unknown-linux-musl.tar.xz"
+url_api = "https://api.github.com/repos/risu729/biwa/releases/assets/487502174"
+provenance = "github-attestations"
+
+[tools."github:risu729/biwa"."platforms.macos-arm64"]
+checksum = "sha256:dd6f2dd4e85c3035f541bc2cc3a4995d25b65f0fe883ee0d01db389019ab6248"
+url = "https://github.com/risu729/biwa/releases/download/v1.0.0/biwa-aarch64-apple-darwin.tar.xz"
+url_api = "https://api.github.com/repos/risu729/biwa/releases/assets/487502157"
+provenance = "github-attestations"
+
+[[tools."github:risu729/kuebiko"]]
+version = "1.0.0"
+backend = "github:risu729/kuebiko"
+
+[tools."github:risu729/kuebiko"."platforms.linux-x64"]
+checksum = "sha256:2938f40cddbaf5cbd88602c44a39bbf8be033d53d3e59003661950628ea83510"
+url = "https://github.com/risu729/kuebiko/releases/download/v1.0.0/kuebiko-v1.0.0-linux-x64.tar.gz"
+url_api = "https://api.github.com/repos/risu729/kuebiko/releases/assets/487485571"
+provenance = "github-attestations"
+
+[tools."github:risu729/kuebiko"."platforms.linux-x64-baseline"]
+checksum = "sha256:2938f40cddbaf5cbd88602c44a39bbf8be033d53d3e59003661950628ea83510"
+url = "https://github.com/risu729/kuebiko/releases/download/v1.0.0/kuebiko-v1.0.0-linux-x64.tar.gz"
+url_api = "https://api.github.com/repos/risu729/kuebiko/releases/assets/487485571"
+provenance = "github-attestations"
+
+[tools."github:risu729/kuebiko"."platforms.linux-x64-musl"]
+checksum = "sha256:2938f40cddbaf5cbd88602c44a39bbf8be033d53d3e59003661950628ea83510"
+url = "https://github.com/risu729/kuebiko/releases/download/v1.0.0/kuebiko-v1.0.0-linux-x64.tar.gz"
+url_api = "https://api.github.com/repos/risu729/kuebiko/releases/assets/487485571"
+provenance = "github-attestations"
+
+[tools."github:risu729/kuebiko"."platforms.linux-x64-musl-baseline"]
+checksum = "sha256:2938f40cddbaf5cbd88602c44a39bbf8be033d53d3e59003661950628ea83510"
+url = "https://github.com/risu729/kuebiko/releases/download/v1.0.0/kuebiko-v1.0.0-linux-x64.tar.gz"
+url_api = "https://api.github.com/repos/risu729/kuebiko/releases/assets/487485571"
+provenance = "github-attestations"
+
+[tools."github:risu729/kuebiko"."platforms.macos-arm64"]
+checksum = "sha256:c64a8a71f4b90fd11c39a9dc50be4fd41b348a98a18ff9013fe91644e0867997"
+url = "https://github.com/risu729/kuebiko/releases/download/v1.0.0/kuebiko-v1.0.0-macos-arm64.tar.gz"
+url_api = "https://api.github.com/repos/risu729/kuebiko/releases/assets/487485543"
+provenance = "github-attestations"
+
 [[tools."github:seachicken/gh-poi"]]
 version = "0.18.2"
 backend = "github:seachicken/gh-poi"
