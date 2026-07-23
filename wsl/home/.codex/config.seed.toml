@@ -1,0 +1,29 @@
+# Safe, durable preferences to merge into ~/.codex/config.toml.
+# Keep the live config untracked because Codex also writes generated state and secrets there.
+
+model_reasoning_effort = "high"
+plan_mode_reasoning_effort = "xhigh"
+
+sandbox_mode = "danger-full-access"
+approval_policy = "never"
+
+# Explicitly use standard speed instead of the Fast/priority service tier.
+service_tier = "default"
+
+[tui]
+status_line = [
+	"model-with-reasoning",
+	"context-remaining",
+	"pull-request-number",
+	"five-hour-limit",
+	"weekly-limit",
+]
+
+[features]
+prevent_idle_sleep = true
+
+[mcp_servers.cloudflare-docs]
+url = "https://docs.mcp.cloudflare.com/mcp"
+
+[mcp_servers.cloudflare-api]
+url = "https://mcp.cloudflare.com/mcp"
