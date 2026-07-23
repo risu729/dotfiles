@@ -193,28 +193,28 @@ url = "https://github.com/hadolint/hadolint/releases/download/v2.14.0/hadolint-l
 url_api = "https://api.github.com/repos/hadolint/hadolint/releases/assets/295944080"
 
 [[tools.hk]]
-version = "1.52.0"
+version = "1.53.0"
 backend = "aqua:jdx/hk"
 
 [tools.hk."platforms.linux-x64"]
-checksum = "sha256:d381ec061fda51d5765e7831757107e4c565f195b206feae6fdd298162ab8baa"
-url = "https://github.com/jdx/hk/releases/download/v1.52.0/hk-x86_64-unknown-linux-gnu.tar.gz"
-url_api = "https://api.github.com/repos/jdx/hk/releases/assets/484573049"
+checksum = "sha256:960c14b3bcd61e36dcb42c304e3cc23b22ef2e6f28ac6559e3856d27acf6b54a"
+url = "https://github.com/jdx/hk/releases/download/v1.53.0/hk-x86_64-unknown-linux-gnu.tar.gz"
+url_api = "https://api.github.com/repos/jdx/hk/releases/assets/487429267"
 
 [tools.hk."platforms.linux-x64-baseline"]
-checksum = "sha256:d381ec061fda51d5765e7831757107e4c565f195b206feae6fdd298162ab8baa"
-url = "https://github.com/jdx/hk/releases/download/v1.52.0/hk-x86_64-unknown-linux-gnu.tar.gz"
-url_api = "https://api.github.com/repos/jdx/hk/releases/assets/484573049"
+checksum = "sha256:960c14b3bcd61e36dcb42c304e3cc23b22ef2e6f28ac6559e3856d27acf6b54a"
+url = "https://github.com/jdx/hk/releases/download/v1.53.0/hk-x86_64-unknown-linux-gnu.tar.gz"
+url_api = "https://api.github.com/repos/jdx/hk/releases/assets/487429267"
 
 [tools.hk."platforms.linux-x64-musl"]
-checksum = "sha256:53b9cb859c950a1b6f26100de3335022b071b30205c73c8744762bc67764ab50"
-url = "https://github.com/jdx/hk/releases/download/v1.52.0/hk-x86_64-unknown-linux-musl.tar.gz"
-url_api = "https://api.github.com/repos/jdx/hk/releases/assets/484573053"
+checksum = "sha256:c2075be6f6d4b3606450bdcb58ce5d17d9668804e8ee4f9d93dda596cae2de55"
+url = "https://github.com/jdx/hk/releases/download/v1.53.0/hk-x86_64-unknown-linux-musl.tar.gz"
+url_api = "https://api.github.com/repos/jdx/hk/releases/assets/487429272"
 
 [tools.hk."platforms.linux-x64-musl-baseline"]
-checksum = "sha256:53b9cb859c950a1b6f26100de3335022b071b30205c73c8744762bc67764ab50"
-url = "https://github.com/jdx/hk/releases/download/v1.52.0/hk-x86_64-unknown-linux-musl.tar.gz"
-url_api = "https://api.github.com/repos/jdx/hk/releases/assets/484573053"
+checksum = "sha256:c2075be6f6d4b3606450bdcb58ce5d17d9668804e8ee4f9d93dda596cae2de55"
+url = "https://github.com/jdx/hk/releases/download/v1.53.0/hk-x86_64-unknown-linux-musl.tar.gz"
+url_api = "https://api.github.com/repos/jdx/hk/releases/assets/487429272"
 
 [[tools.lychee]]
 version = "0.24.2"
