@@ -111,7 +111,6 @@ sccache = "latest"
 [settings]
 experimental = true
 minimum_release_age = "3h"
-lockfile_platforms = ["linux-x64"]
 cargo.binstall_native = true
 
 [settings.npm]
