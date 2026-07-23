@@ -1110,7 +1110,7 @@ version = "1.0.0"
 backend = "github:risu729/biwa"
 
 [tools."github:risu729/biwa".options]
-matching_regex = '^biwa-(aarch64|x86_64)-(apple-darwin|unknown-linux-(gnu|musl))\.tar\.xz$'
+matching_regex = '^biwa-.*\.tar\.xz$'
 
 [tools."github:risu729/biwa"."platforms.linux-arm64"]
 checksum = "sha256:3b94bb3bd607448272fcfe62b785b3cabf567080edda52a532fa53e75001737a"

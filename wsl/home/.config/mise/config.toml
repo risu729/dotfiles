@@ -66,8 +66,8 @@ pitchfork = { version = "latest", postinstall = "pitchfork boot disable || true;
 miller = "latest"
 glow = "latest"
 "github:garden-rs/garden" = "latest"
-"github:risu729/kuebiko" = "latest"
-"github:risu729/biwa" = { version = "latest", matching_regex = "^biwa-(aarch64|x86_64)-(apple-darwin|unknown-linux-(gnu|musl))\\.tar\\.xz$" }
+"github:risu729/kuebiko" = { version = "latest", minimum_release_age = "0s" }
+"github:risu729/biwa" = { version = "latest", minimum_release_age = "0s", matching_regex = "^biwa-.*\\.tar\\.xz$" }
 "pipx:markitdown" = { version = "latest", extras = "pdf,docx,pptx,xlsx" }
 "npm:resend-cli" = { version = "latest", allow_builds = ["esbuild"] }
 
@@ -109,7 +109,7 @@ sccache = "latest"
 
 [settings]
 experimental = true
-minimum_release_age = "0s"
+minimum_release_age = "3h"
 cargo.binstall_native = true
 
 [settings.npm]
