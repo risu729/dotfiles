@@ -35,6 +35,7 @@ powershell = "7.6.4"
 
 [settings]
 experimental = true
+lockfile_platforms = ["linux-x64"]
 dotfiles.default_mode = "symlink"
 
 [settings.npm]
