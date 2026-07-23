@@ -1,0 +1,6 @@
+paths:
+  .github/workflows/ci.yml:
+    ignore:
+      # actionlint v1.7.12 does not support GitHub Actions parallel steps yet.
+      - 'step must run script with "run" section or run action with "uses" section'
+      - 'property "wsl-image" is not defined in object type \{\}'
