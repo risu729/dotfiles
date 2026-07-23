@@ -1188,6 +1188,40 @@ url = "https://github.com/risu729/kuebiko/releases/download/v1.0.0/kuebiko-v1.0.
 url_api = "https://api.github.com/repos/risu729/kuebiko/releases/assets/487485543"
 provenance = "github-attestations"
 
+[[tools."github:risu729/mikoto"]]
+version = "1.0.0"
+backend = "github:risu729/mikoto"
+
+[tools."github:risu729/mikoto"."platforms.linux-x64"]
+checksum = "sha256:cc0c61a99cfa30c79a54cc8eb33f35e31f10842ae6794df260905d490dac7356"
+url = "https://github.com/risu729/mikoto/releases/download/v1.0.0/mikoto-v1.0.0-linux-x64.tar.gz"
+url_api = "https://api.github.com/repos/risu729/mikoto/releases/assets/487557249"
+provenance = "github-attestations"
+
+[tools."github:risu729/mikoto"."platforms.linux-x64-baseline"]
+checksum = "sha256:cc0c61a99cfa30c79a54cc8eb33f35e31f10842ae6794df260905d490dac7356"
+url = "https://github.com/risu729/mikoto/releases/download/v1.0.0/mikoto-v1.0.0-linux-x64.tar.gz"
+url_api = "https://api.github.com/repos/risu729/mikoto/releases/assets/487557249"
+provenance = "github-attestations"
+
+[tools."github:risu729/mikoto"."platforms.linux-x64-musl"]
+checksum = "sha256:cc0c61a99cfa30c79a54cc8eb33f35e31f10842ae6794df260905d490dac7356"
+url = "https://github.com/risu729/mikoto/releases/download/v1.0.0/mikoto-v1.0.0-linux-x64.tar.gz"
+url_api = "https://api.github.com/repos/risu729/mikoto/releases/assets/487557249"
+provenance = "github-attestations"
+
+[tools."github:risu729/mikoto"."platforms.linux-x64-musl-baseline"]
+checksum = "sha256:cc0c61a99cfa30c79a54cc8eb33f35e31f10842ae6794df260905d490dac7356"
+url = "https://github.com/risu729/mikoto/releases/download/v1.0.0/mikoto-v1.0.0-linux-x64.tar.gz"
+url_api = "https://api.github.com/repos/risu729/mikoto/releases/assets/487557249"
+provenance = "github-attestations"
+
+[tools."github:risu729/mikoto"."platforms.macos-arm64"]
+checksum = "sha256:36e80a23ad16053fa860024b2e25eb401b4bf16ceb40fbc2a99db30b30a8cf2a"
+url = "https://github.com/risu729/mikoto/releases/download/v1.0.0/mikoto-v1.0.0-macos-arm64.tar.gz"
+url_api = "https://api.github.com/repos/risu729/mikoto/releases/assets/487557237"
+provenance = "github-attestations"
+
 [[tools."github:seachicken/gh-poi"]]
 version = "0.18.2"
 backend = "github:seachicken/gh-poi"
