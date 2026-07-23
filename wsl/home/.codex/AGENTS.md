@@ -12,6 +12,9 @@ instructions take precedence.
 
 ## Commits and Pull Requests
 
+- After making repository changes, always commit and push them. Update an
+  existing PR if one exists; otherwise open a PR. Only leave changes local when
+  explicitly requested.
 - Follow repository conventions for commits and PR titles.
 - When the target repository is not owned by the user, create a draft PR by
   default. Never mark it ready for review unless explicitly asked.
