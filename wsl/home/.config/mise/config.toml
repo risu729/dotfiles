@@ -66,6 +66,9 @@ pitchfork = { version = "latest", postinstall = "pitchfork boot disable || true;
 miller = "latest"
 glow = "latest"
 "github:garden-rs/garden" = "latest"
+"github:risu729/kuebiko" = { version = "latest", minimum_release_age = "0s" }
+"github:risu729/biwa" = { version = "latest", minimum_release_age = "0s" }
+"github:risu729/mikoto" = { version = "latest", minimum_release_age = "0s" }
 "pipx:markitdown" = { version = "latest", extras = "pdf,docx,pptx,xlsx" }
 "npm:resend-cli" = { version = "latest", allow_builds = ["esbuild"] }
 

@@ -1105,6 +1105,132 @@ checksum = "sha256:1bb358eec9d34b068d0d4b79fdb7b8e261a59b55a56898da49bea9490c300
 url = "https://github.com/garden-rs/garden/releases/download/v2.6.1/garden-2.6.1-x86_64-apple-darwin.tar.gz"
 url_api = "https://api.github.com/repos/garden-rs/garden/releases/assets/474285071"
 
+[[tools."github:risu729/biwa"]]
+version = "1.0.0"
+backend = "github:risu729/biwa"
+
+[tools."github:risu729/biwa"."platforms.linux-arm64"]
+checksum = "sha256:3b94bb3bd607448272fcfe62b785b3cabf567080edda52a532fa53e75001737a"
+url = "https://github.com/risu729/biwa/releases/download/v1.0.0/biwa-aarch64-unknown-linux-gnu.tar.xz"
+url_api = "https://api.github.com/repos/risu729/biwa/releases/assets/487502160"
+provenance = "github-attestations"
+
+[tools."github:risu729/biwa"."platforms.linux-arm64-musl"]
+checksum = "sha256:3b94bb3bd607448272fcfe62b785b3cabf567080edda52a532fa53e75001737a"
+url = "https://github.com/risu729/biwa/releases/download/v1.0.0/biwa-aarch64-unknown-linux-gnu.tar.xz"
+url_api = "https://api.github.com/repos/risu729/biwa/releases/assets/487502160"
+provenance = "github-attestations"
+
+[tools."github:risu729/biwa"."platforms.linux-x64"]
+checksum = "sha256:a9027c23858f9879868d43e9957ea70fb16c0dc7925ede5eeeadeafd6eea157b"
+url = "https://github.com/risu729/biwa/releases/download/v1.0.0/biwa-x86_64-unknown-linux-gnu.tar.xz"
+url_api = "https://api.github.com/repos/risu729/biwa/releases/assets/487502172"
+provenance = "github-attestations"
+
+[tools."github:risu729/biwa"."platforms.linux-x64-baseline"]
+checksum = "sha256:a9027c23858f9879868d43e9957ea70fb16c0dc7925ede5eeeadeafd6eea157b"
+url = "https://github.com/risu729/biwa/releases/download/v1.0.0/biwa-x86_64-unknown-linux-gnu.tar.xz"
+url_api = "https://api.github.com/repos/risu729/biwa/releases/assets/487502172"
+provenance = "github-attestations"
+
+[tools."github:risu729/biwa"."platforms.linux-x64-musl"]
+checksum = "sha256:a2d765b9610306e79896ebd14c0153b5cec52ce48982647896501495ab5888a4"
+url = "https://github.com/risu729/biwa/releases/download/v1.0.0/biwa-x86_64-unknown-linux-musl.tar.xz"
+url_api = "https://api.github.com/repos/risu729/biwa/releases/assets/487502174"
+provenance = "github-attestations"
+
+[tools."github:risu729/biwa"."platforms.linux-x64-musl-baseline"]
+checksum = "sha256:a2d765b9610306e79896ebd14c0153b5cec52ce48982647896501495ab5888a4"
+url = "https://github.com/risu729/biwa/releases/download/v1.0.0/biwa-x86_64-unknown-linux-musl.tar.xz"
+url_api = "https://api.github.com/repos/risu729/biwa/releases/assets/487502174"
+provenance = "github-attestations"
+
+[tools."github:risu729/biwa"."platforms.macos-arm64"]
+checksum = "sha256:dd6f2dd4e85c3035f541bc2cc3a4995d25b65f0fe883ee0d01db389019ab6248"
+url = "https://github.com/risu729/biwa/releases/download/v1.0.0/biwa-aarch64-apple-darwin.tar.xz"
+url_api = "https://api.github.com/repos/risu729/biwa/releases/assets/487502157"
+provenance = "github-attestations"
+
+[tools."github:risu729/biwa"."platforms.macos-x64"]
+checksum = "sha256:27b9a01b745064d5aca0a8f45eafa174b4be0291577249de66f88668fa7751e5"
+url = "https://github.com/risu729/biwa/releases/download/v1.0.0/source.tar.gz"
+url_api = "https://api.github.com/repos/risu729/biwa/releases/assets/487502183"
+provenance = "github-attestations"
+
+[tools."github:risu729/biwa"."platforms.macos-x64-baseline"]
+checksum = "sha256:27b9a01b745064d5aca0a8f45eafa174b4be0291577249de66f88668fa7751e5"
+url = "https://github.com/risu729/biwa/releases/download/v1.0.0/source.tar.gz"
+url_api = "https://api.github.com/repos/risu729/biwa/releases/assets/487502183"
+provenance = "github-attestations"
+
+[[tools."github:risu729/kuebiko"]]
+version = "1.0.0"
+backend = "github:risu729/kuebiko"
+
+[tools."github:risu729/kuebiko"."platforms.linux-x64"]
+checksum = "sha256:2938f40cddbaf5cbd88602c44a39bbf8be033d53d3e59003661950628ea83510"
+url = "https://github.com/risu729/kuebiko/releases/download/v1.0.0/kuebiko-v1.0.0-linux-x64.tar.gz"
+url_api = "https://api.github.com/repos/risu729/kuebiko/releases/assets/487485571"
+provenance = "github-attestations"
+
+[tools."github:risu729/kuebiko"."platforms.linux-x64-baseline"]
+checksum = "sha256:2938f40cddbaf5cbd88602c44a39bbf8be033d53d3e59003661950628ea83510"
+url = "https://github.com/risu729/kuebiko/releases/download/v1.0.0/kuebiko-v1.0.0-linux-x64.tar.gz"
+url_api = "https://api.github.com/repos/risu729/kuebiko/releases/assets/487485571"
+provenance = "github-attestations"
+
+[tools."github:risu729/kuebiko"."platforms.linux-x64-musl"]
+checksum = "sha256:2938f40cddbaf5cbd88602c44a39bbf8be033d53d3e59003661950628ea83510"
+url = "https://github.com/risu729/kuebiko/releases/download/v1.0.0/kuebiko-v1.0.0-linux-x64.tar.gz"
+url_api = "https://api.github.com/repos/risu729/kuebiko/releases/assets/487485571"
+provenance = "github-attestations"
+
+[tools."github:risu729/kuebiko"."platforms.linux-x64-musl-baseline"]
+checksum = "sha256:2938f40cddbaf5cbd88602c44a39bbf8be033d53d3e59003661950628ea83510"
+url = "https://github.com/risu729/kuebiko/releases/download/v1.0.0/kuebiko-v1.0.0-linux-x64.tar.gz"
+url_api = "https://api.github.com/repos/risu729/kuebiko/releases/assets/487485571"
+provenance = "github-attestations"
+
+[tools."github:risu729/kuebiko"."platforms.macos-arm64"]
+checksum = "sha256:c64a8a71f4b90fd11c39a9dc50be4fd41b348a98a18ff9013fe91644e0867997"
+url = "https://github.com/risu729/kuebiko/releases/download/v1.0.0/kuebiko-v1.0.0-macos-arm64.tar.gz"
+url_api = "https://api.github.com/repos/risu729/kuebiko/releases/assets/487485543"
+provenance = "github-attestations"
+
+[[tools."github:risu729/mikoto"]]
+version = "1.0.0"
+backend = "github:risu729/mikoto"
+
+[tools."github:risu729/mikoto"."platforms.linux-x64"]
+checksum = "sha256:cc0c61a99cfa30c79a54cc8eb33f35e31f10842ae6794df260905d490dac7356"
+url = "https://github.com/risu729/mikoto/releases/download/v1.0.0/mikoto-v1.0.0-linux-x64.tar.gz"
+url_api = "https://api.github.com/repos/risu729/mikoto/releases/assets/487557249"
+provenance = "github-attestations"
+
+[tools."github:risu729/mikoto"."platforms.linux-x64-baseline"]
+checksum = "sha256:cc0c61a99cfa30c79a54cc8eb33f35e31f10842ae6794df260905d490dac7356"
+url = "https://github.com/risu729/mikoto/releases/download/v1.0.0/mikoto-v1.0.0-linux-x64.tar.gz"
+url_api = "https://api.github.com/repos/risu729/mikoto/releases/assets/487557249"
+provenance = "github-attestations"
+
+[tools."github:risu729/mikoto"."platforms.linux-x64-musl"]
+checksum = "sha256:cc0c61a99cfa30c79a54cc8eb33f35e31f10842ae6794df260905d490dac7356"
+url = "https://github.com/risu729/mikoto/releases/download/v1.0.0/mikoto-v1.0.0-linux-x64.tar.gz"
+url_api = "https://api.github.com/repos/risu729/mikoto/releases/assets/487557249"
+provenance = "github-attestations"
+
+[tools."github:risu729/mikoto"."platforms.linux-x64-musl-baseline"]
+checksum = "sha256:cc0c61a99cfa30c79a54cc8eb33f35e31f10842ae6794df260905d490dac7356"
+url = "https://github.com/risu729/mikoto/releases/download/v1.0.0/mikoto-v1.0.0-linux-x64.tar.gz"
+url_api = "https://api.github.com/repos/risu729/mikoto/releases/assets/487557249"
+provenance = "github-attestations"
+
+[tools."github:risu729/mikoto"."platforms.macos-arm64"]
+checksum = "sha256:36e80a23ad16053fa860024b2e25eb401b4bf16ceb40fbc2a99db30b30a8cf2a"
+url = "https://github.com/risu729/mikoto/releases/download/v1.0.0/mikoto-v1.0.0-macos-arm64.tar.gz"
+url_api = "https://api.github.com/repos/risu729/mikoto/releases/assets/487557237"
+provenance = "github-attestations"
+
 [[tools."github:seachicken/gh-poi"]]
 version = "0.18.2"
 backend = "github:seachicken/gh-poi"
@@ -1211,46 +1337,55 @@ backend = "aqua:charmbracelet/glow"
 checksum = "sha256:cf63abebcb50b72909db965d78290e7cecbf17a900e84705dc84addbb6952099"
 url = "https://github.com/charmbracelet/glow/releases/download/v2.1.2/glow_2.1.2_Linux_arm64.tar.gz"
 url_api = "https://api.github.com/repos/charmbracelet/glow/releases/assets/392672283"
+provenance = "cosign"
 
 [tools.glow."platforms.linux-arm64-musl"]
 checksum = "sha256:cf63abebcb50b72909db965d78290e7cecbf17a900e84705dc84addbb6952099"
 url = "https://github.com/charmbracelet/glow/releases/download/v2.1.2/glow_2.1.2_Linux_arm64.tar.gz"
 url_api = "https://api.github.com/repos/charmbracelet/glow/releases/assets/392672283"
+provenance = "cosign"
 
 [tools.glow."platforms.linux-x64"]
 checksum = "sha256:6063d4f2af8a82a5f4bba0831e165de9381660aa8b41df4816d0106a265b07d5"
 url = "https://github.com/charmbracelet/glow/releases/download/v2.1.2/glow_2.1.2_Linux_x86_64.tar.gz"
 url_api = "https://api.github.com/repos/charmbracelet/glow/releases/assets/392672271"
+provenance = "cosign"
 
 [tools.glow."platforms.linux-x64-baseline"]
 checksum = "sha256:6063d4f2af8a82a5f4bba0831e165de9381660aa8b41df4816d0106a265b07d5"
 url = "https://github.com/charmbracelet/glow/releases/download/v2.1.2/glow_2.1.2_Linux_x86_64.tar.gz"
 url_api = "https://api.github.com/repos/charmbracelet/glow/releases/assets/392672271"
+provenance = "cosign"
 
 [tools.glow."platforms.linux-x64-musl"]
 checksum = "sha256:6063d4f2af8a82a5f4bba0831e165de9381660aa8b41df4816d0106a265b07d5"
 url = "https://github.com/charmbracelet/glow/releases/download/v2.1.2/glow_2.1.2_Linux_x86_64.tar.gz"
 url_api = "https://api.github.com/repos/charmbracelet/glow/releases/assets/392672271"
+provenance = "cosign"
 
 [tools.glow."platforms.linux-x64-musl-baseline"]
 checksum = "sha256:6063d4f2af8a82a5f4bba0831e165de9381660aa8b41df4816d0106a265b07d5"
 url = "https://github.com/charmbracelet/glow/releases/download/v2.1.2/glow_2.1.2_Linux_x86_64.tar.gz"
 url_api = "https://api.github.com/repos/charmbracelet/glow/releases/assets/392672271"
+provenance = "cosign"
 
 [tools.glow."platforms.macos-arm64"]
 checksum = "sha256:6f7abfb47de69fbf7b0e67d2fa019cc554916e8b6694f9877212be89fc7ebb8c"
 url = "https://github.com/charmbracelet/glow/releases/download/v2.1.2/glow_2.1.2_Darwin_arm64.tar.gz"
 url_api = "https://api.github.com/repos/charmbracelet/glow/releases/assets/392672279"
+provenance = "cosign"
 
 [tools.glow."platforms.macos-x64"]
 checksum = "sha256:8cbc78a4947c68e804edf34d36070153fcc5d424873152da83ad6be14fa88ed3"
 url = "https://github.com/charmbracelet/glow/releases/download/v2.1.2/glow_2.1.2_Darwin_x86_64.tar.gz"
 url_api = "https://api.github.com/repos/charmbracelet/glow/releases/assets/392672278"
+provenance = "cosign"
 
 [tools.glow."platforms.macos-x64-baseline"]
 checksum = "sha256:8cbc78a4947c68e804edf34d36070153fcc5d424873152da83ad6be14fa88ed3"
 url = "https://github.com/charmbracelet/glow/releases/download/v2.1.2/glow_2.1.2_Darwin_x86_64.tar.gz"
 url_api = "https://api.github.com/repos/charmbracelet/glow/releases/assets/392672278"
+provenance = "cosign"
 
 [[tools.go]]
 version = "1.26.5"
@@ -2384,48 +2519,48 @@ version = "3.14.6"
 backend = "core:python"
 
 [tools.python."platforms.linux-arm64"]
-checksum = "sha256:f177d40ca931df03f660fc006f86ad8cd2ac6e7d6b5d54edbc625103464fc4aa"
-url = "https://github.com/astral-sh/python-build-standalone/releases/download/20260623/cpython-3.14.6+20260623-aarch64-unknown-linux-gnu-install_only_stripped.tar.gz"
+checksum = "sha256:c2a2caa03aa9beb77a5bbb5a009c8fe77b96a56925da2dba18095237e30faf04"
+url = "https://github.com/astral-sh/python-build-standalone/releases/download/20260718/cpython-3.14.6+20260718-aarch64-unknown-linux-gnu-install_only_stripped.tar.gz"
 provenance = "github-attestations"
 
 [tools.python."platforms.linux-arm64-musl"]
-checksum = "sha256:11d463be3e2d34ea67722acfd8f3f2d6d6e5b6b4d4ab27240f220628134a0141"
-url = "https://github.com/astral-sh/python-build-standalone/releases/download/20260623/cpython-3.14.6+20260623-aarch64-unknown-linux-musl-install_only_stripped.tar.gz"
+checksum = "sha256:ff7da86be2a3d7fdf0124da7b408ad2de3c7ca8d6c19e6c449ec2cddedd01a8b"
+url = "https://github.com/astral-sh/python-build-standalone/releases/download/20260718/cpython-3.14.6+20260718-aarch64-unknown-linux-musl-install_only_stripped.tar.gz"
 provenance = "github-attestations"
 
 [tools.python."platforms.linux-x64"]
-checksum = "sha256:c172314f4a8ec137a8f605289010c3d19c8b56867d968f0095074cc68efa1d29"
-url = "https://github.com/astral-sh/python-build-standalone/releases/download/20260623/cpython-3.14.6+20260623-x86_64-unknown-linux-gnu-install_only_stripped.tar.gz"
+checksum = "sha256:86bf107f65fc30b56f2b263b26797fcbb1661f5315910cdbf27f733eb8738b74"
+url = "https://github.com/astral-sh/python-build-standalone/releases/download/20260718/cpython-3.14.6+20260718-x86_64-unknown-linux-gnu-install_only_stripped.tar.gz"
 provenance = "github-attestations"
 
 [tools.python."platforms.linux-x64-baseline"]
-checksum = "sha256:c172314f4a8ec137a8f605289010c3d19c8b56867d968f0095074cc68efa1d29"
-url = "https://github.com/astral-sh/python-build-standalone/releases/download/20260623/cpython-3.14.6+20260623-x86_64-unknown-linux-gnu-install_only_stripped.tar.gz"
+checksum = "sha256:86bf107f65fc30b56f2b263b26797fcbb1661f5315910cdbf27f733eb8738b74"
+url = "https://github.com/astral-sh/python-build-standalone/releases/download/20260718/cpython-3.14.6+20260718-x86_64-unknown-linux-gnu-install_only_stripped.tar.gz"
 provenance = "github-attestations"
 
 [tools.python."platforms.linux-x64-musl"]
-checksum = "sha256:f25064ecb3b07cfe2440b178e72001cf1e0d69a5e53625ca3a32b7ae4e2fdcc6"
-url = "https://github.com/astral-sh/python-build-standalone/releases/download/20260623/cpython-3.14.6+20260623-x86_64-unknown-linux-musl-install_only_stripped.tar.gz"
+checksum = "sha256:2c27fc15bde497fbd78a8d5d38559ee1a8c93110952d5c2b390bc6481e2be415"
+url = "https://github.com/astral-sh/python-build-standalone/releases/download/20260718/cpython-3.14.6+20260718-x86_64-unknown-linux-musl-install_only_stripped.tar.gz"
 provenance = "github-attestations"
 
 [tools.python."platforms.linux-x64-musl-baseline"]
-checksum = "sha256:f25064ecb3b07cfe2440b178e72001cf1e0d69a5e53625ca3a32b7ae4e2fdcc6"
-url = "https://github.com/astral-sh/python-build-standalone/releases/download/20260623/cpython-3.14.6+20260623-x86_64-unknown-linux-musl-install_only_stripped.tar.gz"
+checksum = "sha256:2c27fc15bde497fbd78a8d5d38559ee1a8c93110952d5c2b390bc6481e2be415"
+url = "https://github.com/astral-sh/python-build-standalone/releases/download/20260718/cpython-3.14.6+20260718-x86_64-unknown-linux-musl-install_only_stripped.tar.gz"
 provenance = "github-attestations"
 
 [tools.python."platforms.macos-arm64"]
-checksum = "sha256:35d774f61d63c1fd4f1bc9495a7ada92e500dc4382a0df8a9910eb87ea48e8cf"
-url = "https://github.com/astral-sh/python-build-standalone/releases/download/20260623/cpython-3.14.6+20260623-aarch64-apple-darwin-install_only_stripped.tar.gz"
+checksum = "sha256:5e8e0746cb0108d138f510cfbb28c4b031b9ed63bbbe3e43a34c77d4663c4fa1"
+url = "https://github.com/astral-sh/python-build-standalone/releases/download/20260718/cpython-3.14.6+20260718-aarch64-apple-darwin-install_only_stripped.tar.gz"
 provenance = "github-attestations"
 
 [tools.python."platforms.macos-x64"]
-checksum = "sha256:12fb3ea3d6a855fe6ca1c2241702b06cb7e5939fbef09a5f54bf326e480f66af"
-url = "https://github.com/astral-sh/python-build-standalone/releases/download/20260623/cpython-3.14.6+20260623-x86_64-apple-darwin-install_only_stripped.tar.gz"
+checksum = "sha256:2d03154bc83c6d2d048bba23bb808b020e352028f5bd541a740e54467fc9cc75"
+url = "https://github.com/astral-sh/python-build-standalone/releases/download/20260718/cpython-3.14.6+20260718-x86_64-apple-darwin-install_only_stripped.tar.gz"
 provenance = "github-attestations"
 
 [tools.python."platforms.macos-x64-baseline"]
-checksum = "sha256:12fb3ea3d6a855fe6ca1c2241702b06cb7e5939fbef09a5f54bf326e480f66af"
-url = "https://github.com/astral-sh/python-build-standalone/releases/download/20260623/cpython-3.14.6+20260623-x86_64-apple-darwin-install_only_stripped.tar.gz"
+checksum = "sha256:2d03154bc83c6d2d048bba23bb808b020e352028f5bd541a740e54467fc9cc75"
+url = "https://github.com/astral-sh/python-build-standalone/releases/download/20260718/cpython-3.14.6+20260718-x86_64-apple-darwin-install_only_stripped.tar.gz"
 provenance = "github-attestations"
 
 [[tools.ripgrep]]
@@ -3114,9 +3249,9 @@ url_api = "https://api.github.com/repos/mikefarah/yq/releases/assets/440146735"
 provenance = "cosign"
 
 [tools.yq."platforms.macos-arm64"]
-checksum = "sha256:b4ba1ecce3c47f00803f4f964de38394326c7a32eb6540616e04fb2935a0f08d"
-url = "https://github.com/mikefarah/yq/releases/download/v4.53.3/yq_darwin_amd64"
-url_api = "https://api.github.com/repos/mikefarah/yq/releases/assets/440146744"
+checksum = "sha256:877de31753a4dd2401aa048937aa9a7fc4d5f6ce858cf31508c5802954297213"
+url = "https://github.com/mikefarah/yq/releases/download/v4.53.3/yq_darwin_arm64"
+url_api = "https://api.github.com/repos/mikefarah/yq/releases/assets/440146762"
 provenance = "cosign"
 
 [tools.yq."platforms.macos-x64"]
