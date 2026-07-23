@@ -167,6 +167,7 @@ login_shell = "/bin/bash"
 "~/.hushlogin" = "wsl/home/.hushlogin"
 "~/.local" = { source = "wsl/home/.local", mode = "symlink-each" }
 "~/.selected_editor" = "wsl/home/.selected_editor"
+"~/.ssh/config" = "wsl/home/.ssh/config"
 
 [hooks]
 postinstall = """
