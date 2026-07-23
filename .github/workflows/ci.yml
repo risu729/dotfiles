@@ -132,7 +132,7 @@ jobs:
         with:
           mode: ${{ github.event_name == 'pull_request' && 'preview-or-dry-run' || 'dry-run' }}
           working-directory: worker
-          config: wrangler.jsonc
+          config: dist/dotfiles_worker/wrangler.json
           preview-alias: pr-${{ github.event.pull_request.number }}
           cloudflare-account-id: ${{ github.event_name == 'pull_request' && vars.CLOUDFLARE_ACCOUNT_ID || '' }}
           cloudflare-api-token: ${{ github.event_name == 'pull_request' && secrets.CLOUDFLARE_API_TOKEN || '' }}
