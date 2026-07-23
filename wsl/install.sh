@@ -19,9 +19,13 @@ log_error() {
 }
 
 install_mise() {
-	log_info "Adding mise PPA..."
+	log_info "Installing extrepo..."
 	# ref: https://mise.jdx.dev/installing-mise.html#apt
-	sudo add-apt-repository --yes --no-update ppa:jdxcode/mise
+	sudo apt-get update
+	sudo apt-get install --yes extrepo
+
+	log_info "Adding mise APT repository..."
+	sudo extrepo enable mise
 
 	log_info "Installing mise..."
 	sudo apt-get update
