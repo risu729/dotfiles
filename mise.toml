@@ -30,7 +30,7 @@ lychee = "0.24.2"
 typos = "1.48.0"
 "npm:typescript" = "7.0.2"
 hadolint = "2.14.0"
-betterleaks = "v1.6.1"
+betterleaks = "v1.7.0"
 powershell = "7.6.4"
 
 [settings]
