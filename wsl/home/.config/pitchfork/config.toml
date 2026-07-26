@@ -3,8 +3,6 @@
 [settings]
 general.mise = true
 web.auto_start = true
-# System-level boot (`sudo pitchfork boot enable`) runs the supervisor as root
-# so the reverse proxy can bind :443. Keep state, IPC, and daemons under this user.
 supervisor.user = "risu"
 
 [settings.proxy]
