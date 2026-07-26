@@ -1,4 +1,5 @@
 #:schema https://pitchfork.jdx.dev/schema.json
+#:tombi schema.strict = false
 
 [settings]
 general.mise = true
@@ -7,5 +8,11 @@ supervisor.user = "risu"
 
 [settings.proxy]
 enable = true
+
+[namespaces.biwa]
+dir = "/home/risu/.ghr/github.com/risu729/biwa"
+
+[slugs]
+biwa = { namespace = "biwa", daemon = "docs" }
 
 [daemons]
