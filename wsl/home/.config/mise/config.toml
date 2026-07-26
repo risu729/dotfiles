@@ -64,10 +64,9 @@ mitmproxy = "latest"
 doggo = "latest"
 pitchfork = { version = "latest", postinstall = """
 src="$(dirname "$(readlink -f ~/.config/mise/config.toml)")/../../../systemd/pitchfork-nonroot.conf"
+sudo install -D -m644 "$src" /etc/systemd/system/pitchfork.service.d/nonroot.conf
 sudo "$MISE_TOOL_INSTALL_PATH/pitchfork" boot disable
 sudo "$MISE_TOOL_INSTALL_PATH/pitchfork" boot enable
-sudo install -D -m644 "$src" /etc/systemd/system/pitchfork.service.d/nonroot.conf
-sudo systemctl daemon-reload
 sudo systemctl restart pitchfork.service
 """ }
 miller = "latest"
