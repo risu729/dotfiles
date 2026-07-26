@@ -1,0 +1,5 @@
+#:schema https://biwa.takuk.me/schema/config.json
+
+[ssh]
+host = "login.cse.unsw.edu.au"
+user = "z5642102"
