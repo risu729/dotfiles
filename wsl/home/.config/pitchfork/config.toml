@@ -3,5 +3,9 @@
 [settings]
 general.mise = true
 web.auto_start = true
+supervisor.user = "risu"
+
+[settings.proxy]
+enable = true
 
 [daemons]
