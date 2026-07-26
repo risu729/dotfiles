@@ -16,6 +16,9 @@ instructions take precedence.
   existing PR if one exists; otherwise open a PR. Only leave changes local when
   explicitly requested.
 - Follow repository conventions for commits and PR titles.
+- When the target repository is owned by the user, mark small, low-risk PRs
+  ready for review by default. Use a draft for larger, unfinished, or uncertain
+  changes.
 - When the target repository is not owned by the user, create a draft PR by
   default. Never mark it ready for review unless explicitly asked.
 - Do not add AI-authorship notices or tool signatures unless required.
