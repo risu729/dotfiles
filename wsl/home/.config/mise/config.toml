@@ -67,7 +67,9 @@ src="$(dirname "$(readlink -f ~/.config/mise/config.toml)")/../../../systemd/pit
 sudo install -D -m644 "$src" /etc/systemd/system/pitchfork.service.d/nonroot.conf
 sudo "$MISE_TOOL_INSTALL_PATH/pitchfork" boot disable
 sudo "$MISE_TOOL_INSTALL_PATH/pitchfork" boot enable
-sudo systemctl restart pitchfork.service
+if [ -d /run/systemd/system ]; then
+  sudo systemctl restart pitchfork.service
+fi
 """ }
 miller = "latest"
 glow = "latest"
