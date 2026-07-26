@@ -34,4 +34,6 @@ that PR automatically. Ask only when multiple source PRs are plausible.
 
 ## Tooling
 
+- Use `hk` when configured; never invoke linters directly, as `hk` may supply
+  custom defaults such as CLI arguments.
 - Use `mise x` for one-off tools that mise does not already resolve.
