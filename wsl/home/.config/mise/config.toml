@@ -65,8 +65,7 @@ doggo = "latest"
 pitchfork = { version = "latest", postinstall = """
 cfg=$(readlink -f ~/.config/mise/config.toml)
 root=$(git -C "$(dirname "$cfg")" rev-parse --show-toplevel)
-pf=$(mise which pitchfork)
-pitchfork boot disable >/dev/null 2>&1 || true
+pf="$MISE_TOOL_INSTALL_PATH/pitchfork"
 sudo "$pf" boot disable >/dev/null 2>&1 || true
 sudo "$pf" boot enable
 sudo rm -rf /etc/systemd/system/pitchfork.service.d
