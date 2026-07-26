@@ -62,7 +62,18 @@ kubectx = "latest"
 kubeseal = "latest"
 mitmproxy = "latest"
 doggo = "latest"
-pitchfork = { version = "latest", postinstall = "pitchfork boot disable || true; sudo \"$(mise which pitchfork)\" boot disable || true; sudo \"$(mise which pitchfork)\" boot enable" }
+pitchfork = { version = "latest", postinstall = """
+cfg=$(readlink -f ~/.config/mise/config.toml)
+root=$(git -C "$(dirname "$cfg")" rev-parse --show-toplevel)
+pf=$(mise which pitchfork)
+pitchfork boot disable >/dev/null 2>&1 || true
+sudo "$pf" boot disable >/dev/null 2>&1 || true
+sudo "$pf" boot enable
+sudo rm -rf /etc/systemd/system/pitchfork.service.d
+sudo install -D -m644 "$root/wsl/systemd/pitchfork-nonroot.conf" /etc/systemd/system/pitchfork.service.d/nonroot.conf
+sudo systemctl daemon-reload
+sudo systemctl restart pitchfork.service
+""" }
 miller = "latest"
 glow = "latest"
 "github:garden-rs/garden" = "latest"
