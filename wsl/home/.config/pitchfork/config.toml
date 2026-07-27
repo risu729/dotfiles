@@ -7,6 +7,8 @@ supervisor.user = "risu"
 
 [settings.proxy]
 enable = true
+# Windows resolves *.localhost natively and does not use WSL's /etc/hosts.
+sync_hosts = false
 
 [namespaces.biwa]
 dir = "/home/risu/.ghr/github.com/risu729/biwa"

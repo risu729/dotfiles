@@ -110,6 +110,24 @@ done
 
 [bootstrap.hooks.final]
 run = '''
+pitchfork_ca="${HOME}/.local/state/pitchfork/proxy/ca.pem"
+if [ -f "${pitchfork_ca}" ] && command -v powershell.exe >/dev/null 2>&1; then
+  pitchfork_ca_windows=$(wslpath -w "${pitchfork_ca}")
+  powershell.exe -NoProfile -Command \
+    '& {
+      param([string]$CertPath)
+      $ErrorActionPreference = "Stop"
+      $cert = [System.Security.Cryptography.X509Certificates.X509Certificate2]::new($CertPath)
+      if (-not (Test-Path "Cert:\CurrentUser\Root\$($cert.Thumbprint)")) {
+        & certutil.exe -user -f -addstore Root $CertPath
+        if ($LASTEXITCODE -ne 0) {
+          throw "certutil failed with exit code $LASTEXITCODE"
+        }
+      }
+    }' \
+    "${pitchfork_ca_windows}"
+fi
+
 if [ -t 0 ] && [ -t 1 ]; then
   dotfiles_root=$(git rev-parse --show-toplevel)
   if ! mise exec -- bash -i -c "${dotfiles_root}/wsl/setup-git.ts"; then
