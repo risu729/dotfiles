@@ -87,6 +87,8 @@ username=$(whoami)
 if ! groups "${username}" | grep --quiet --word-regexp docker; then
   sudo usermod --append --groups docker "${username}"
 fi
+
+sudo systemctl enable --now ssh.service
 '''
 
 [bootstrap.hooks.post-dotfiles]
@@ -134,6 +136,7 @@ fi
 "apt:graphviz" = "latest"
 "apt:libssl-dev" = "latest"
 "apt:llvm" = "latest"
+"apt:openssh-server" = "latest"
 "apt:parallel" = "latest"
 "apt:pkg-config" = "latest"
 "apt:strace" = "latest"
