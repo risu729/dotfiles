@@ -21,13 +21,13 @@ url_api = "https://api.github.com/repos/jdx/aube/releases/assets/490914739"
 provenance = "github-attestations"
 
 [[tools.betterleaks]]
-version = "v1.7.0"
+version = "v1.7.1"
 backend = "aqua:betterleaks/betterleaks"
 
 [tools.betterleaks."platforms.linux-x64"]
-checksum = "sha256:75f07552508d80d59537ca27c2cd6113f51a2ad55bc88a548f7c1156e4bb934e"
-url = "https://github.com/betterleaks/betterleaks/releases/download/v1.7.0/betterleaks_1.7.0_linux_x64.tar.gz"
-url_api = "https://api.github.com/repos/betterleaks/betterleaks/releases/assets/487433648"
+checksum = "sha256:48d9ae267b46677c9943cf9291bed682ed7b37b5b2c6ffbdea47a155495e5dcc"
+url = "https://github.com/betterleaks/betterleaks/releases/download/v1.7.1/betterleaks_1.7.1_linux_x64.tar.gz"
+url_api = "https://api.github.com/repos/betterleaks/betterleaks/releases/assets/491711509"
 provenance = "cosign"
 
 [[tools.bun]]
