@@ -79,6 +79,7 @@ checksum = "sha256:ddbbc4d737de5836467cf80eb316e3c468c74012c134fe2799ac37d95d3ca
 url = "https://github.com/aquaproj/aqua/releases/download/v2.62.1/aqua_linux_amd64.tar.gz"
 url_api = "https://api.github.com/repos/aquaproj/aqua/releases/assets/484796761"
 provenance = "github-attestations"
+provenance_verified = true
 
 [tools.aqua."platforms.linux-x64-baseline"]
 checksum = "sha256:ddbbc4d737de5836467cf80eb316e3c468c74012c134fe2799ac37d95d3ca7b8"
@@ -1126,6 +1127,7 @@ checksum = "sha256:a9027c23858f9879868d43e9957ea70fb16c0dc7925ede5eeeadeafd6eea1
 url = "https://github.com/risu729/biwa/releases/download/v1.0.0/biwa-x86_64-unknown-linux-gnu.tar.xz"
 url_api = "https://api.github.com/repos/risu729/biwa/releases/assets/487502172"
 provenance = "github-attestations"
+provenance_verified = true
 
 [tools."github:risu729/biwa"."platforms.linux-x64-baseline"]
 checksum = "sha256:a9027c23858f9879868d43e9957ea70fb16c0dc7925ede5eeeadeafd6eea157b"
@@ -1172,6 +1174,7 @@ checksum = "sha256:2938f40cddbaf5cbd88602c44a39bbf8be033d53d3e59003661950628ea83
 url = "https://github.com/risu729/kuebiko/releases/download/v1.0.0/kuebiko-v1.0.0-linux-x64.tar.gz"
 url_api = "https://api.github.com/repos/risu729/kuebiko/releases/assets/487485571"
 provenance = "github-attestations"
+provenance_verified = true
 
 [tools."github:risu729/kuebiko"."platforms.linux-x64-baseline"]
 checksum = "sha256:2938f40cddbaf5cbd88602c44a39bbf8be033d53d3e59003661950628ea83510"
