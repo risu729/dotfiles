@@ -1,0 +1,12 @@
+[Unit]
+Description=WSL Cloudflare private IP
+Before=ssh.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/sbin/ip address replace 10.1.0.20/32 dev lo
+ExecStop=-/usr/sbin/ip address del 10.1.0.20/32 dev lo
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target
