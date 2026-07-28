@@ -94,7 +94,16 @@ if ! groups "${username}" | grep --quiet --word-regexp docker; then
   sudo usermod --append --groups docker "${username}"
 fi
 
-sudo systemctl enable --now ssh.service
+dotfiles_root=$(git rev-parse --show-toplevel)
+sudo install --mode=0644 \
+  "${dotfiles_root}/wsl/systemd/wsl-cloudflare-ip.service" \
+  /etc/systemd/system/wsl-cloudflare-ip.service
+
+if [ -d /run/systemd/system ]; then
+  sudo systemctl daemon-reload
+  sudo systemctl enable --now wsl-cloudflare-ip.service
+  sudo systemctl enable --now ssh.service
+fi
 '''
 
 [bootstrap.hooks.post-dotfiles]
