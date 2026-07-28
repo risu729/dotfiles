@@ -94,6 +94,24 @@ if ! groups "${username}" | grep --quiet --word-regexp docker; then
   sudo usermod --append --groups docker "${username}"
 fi
 
+sudo install --mode=0644 /dev/stdin \
+  /etc/systemd/system/wsl-cloudflare-ip.service <<'EOF'
+[Unit]
+Description=WSL Cloudflare private IP
+Before=ssh.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/sbin/ip address replace 10.1.0.20/32 dev lo
+ExecStop=-/usr/sbin/ip address del 10.1.0.20/32 dev lo
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+sudo systemctl daemon-reload
+sudo systemctl enable --now wsl-cloudflare-ip.service
 sudo systemctl enable --now ssh.service
 '''
 
