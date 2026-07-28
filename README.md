@@ -11,8 +11,8 @@ Since I use WSL2 as my main development environment, I only install GUI
 applications on Windows, such as browsers, IDEs, etc.
 
 Cloudflare Tunnel is installed in WSL and configured as a systemd user
-service. The service waits until a remotely-managed tunnel token is stored at
-`~/.config/cloudflared/tunnel-token`, then connects automatically.
+service. The service retries until a remotely-managed tunnel token is stored
+at `~/.config/cloudflared/tunnel-token`, then connects automatically.
 
 ## 🧭 Repository Structure
 

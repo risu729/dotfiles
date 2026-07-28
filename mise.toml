@@ -128,7 +128,7 @@ fi
 description = "Cloudflare Tunnel client"
 after = ["network-online.target"]
 wants = ["network-online.target"]
-exec_start = "~/.local/bin/cloudflared-tunnel"
+exec_start = "/usr/bin/cloudflared tunnel --no-autoupdate run --token-file %h/.config/cloudflared/tunnel-token"
 restart = "on-failure"
 restart_sec = "5s"
 
