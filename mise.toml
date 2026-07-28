@@ -99,9 +99,11 @@ sudo install --mode=0644 \
   "${dotfiles_root}/wsl/systemd/wsl-cloudflare-ip.service" \
   /etc/systemd/system/wsl-cloudflare-ip.service
 
-sudo systemctl daemon-reload
-sudo systemctl enable --now wsl-cloudflare-ip.service
-sudo systemctl enable --now ssh.service
+if [ -d /run/systemd/system ]; then
+  sudo systemctl daemon-reload
+  sudo systemctl enable --now wsl-cloudflare-ip.service
+  sudo systemctl enable --now ssh.service
+fi
 '''
 
 [bootstrap.hooks.post-dotfiles]
