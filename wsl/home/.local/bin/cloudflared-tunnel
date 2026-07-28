@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+token_file="${XDG_CONFIG_HOME:-"${HOME}/.config"}/cloudflared/tunnel-token"
+
+if [[ ! -s ${token_file} ]]; then
+	echo "Cloudflare Tunnel token not found at ${token_file}; waiting for it." >&2
+	while [[ ! -s ${token_file} ]]; do
+		sleep 30
+	done
+fi
+
+exec /usr/bin/cloudflared tunnel --no-autoupdate run --token-file "${token_file}"

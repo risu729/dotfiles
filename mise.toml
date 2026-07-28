@@ -74,6 +74,12 @@ arch=$(dpkg --print-architecture)
 # shellcheck source=/dev/null
 codename=$(. /etc/os-release && echo "${UBUNTU_CODENAME:-${VERSION_CODENAME}}")
 
+# ref: https://pkg.cloudflare.com/
+curl --fail-with-body --silent --show-error --location https://pkg.cloudflare.com/cloudflare-main.gpg |
+  sudo tee /etc/apt/keyrings/cloudflare-main.gpg >/dev/null
+echo "deb [signed-by=/etc/apt/keyrings/cloudflare-main.gpg] https://pkg.cloudflare.com/cloudflared any main" |
+  sudo tee /etc/apt/sources.list.d/cloudflared.list >/dev/null
+
 # ref: https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository
 curl --fail-with-body --silent --show-error --location https://download.docker.com/linux/ubuntu/gpg |
   sudo tee /etc/apt/keyrings/docker.asc >/dev/null
@@ -118,12 +124,21 @@ if [ -t 0 ] && [ -t 1 ]; then
 fi
 '''
 
+[bootstrap.linux.systemd.units.cloudflared]
+description = "Cloudflare Tunnel client"
+after = ["network-online.target"]
+wants = ["network-online.target"]
+exec_start = "~/.local/bin/cloudflared-tunnel"
+restart = "on-failure"
+restart_sec = "5s"
+
 [bootstrap.packages]
 "apt:bubblewrap" = "latest"
 "apt:build-essential" = "latest"
 "apt:clang" = "latest"
 "apt:clangd" = "latest"
 "apt:clang-format" = "latest"
+"apt:cloudflared" = "latest"
 "apt:cmake" = "latest"
 "apt:containerd.io" = "latest"
 "apt:desktop-file-utils" = "latest"
