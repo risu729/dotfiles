@@ -11,13 +11,13 @@ url_api = "https://api.github.com/repos/rhysd/actionlint/releases/assets/3849248
 provenance = "github-attestations"
 
 [[tools.aube]]
-version = "v1.35.0"
+version = "v1.36.0"
 backend = "aqua:jdx/aube"
 
 [tools.aube."platforms.linux-x64"]
-checksum = "sha256:3af3cc076c8f69de59598fa3f632bdb0891d49df604b61229acbafefb502adf5"
-url = "https://github.com/jdx/aube/releases/download/v1.35.0/aube-v1.35.0-x86_64-unknown-linux-gnu.tar.gz"
-url_api = "https://api.github.com/repos/jdx/aube/releases/assets/493360953"
+checksum = "sha256:0eb721d9ff37e24bf035f9a7cb62107593f59bd740393b2eee5b36a50e7759fb"
+url = "https://github.com/jdx/aube/releases/download/v1.36.0/aube-v1.36.0-x86_64-unknown-linux-gnu.tar.gz"
+url_api = "https://api.github.com/repos/jdx/aube/releases/assets/494405804"
 provenance = "github-attestations"
 
 [[tools.betterleaks]]
