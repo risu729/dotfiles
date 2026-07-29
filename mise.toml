@@ -98,12 +98,21 @@ dotfiles_root=$(git rev-parse --show-toplevel)
 sudo install --mode=0644 \
   "${dotfiles_root}/wsl/systemd/wsl-cloudflare-ip.service" \
   /etc/systemd/system/wsl-cloudflare-ip.service
+sudo install --directory --mode=0755 /etc/ssh/sshd_config.d
+sudo install --mode=0644 \
+  "${dotfiles_root}/wsl/ssh/ca.pub" \
+  /etc/ssh/ca.pub
+sudo install --mode=0644 \
+  "${dotfiles_root}/wsl/ssh/10-cloudflare-access.conf" \
+  /etc/ssh/sshd_config.d/10-cloudflare-access.conf
 
 if [ -d /run/systemd/system ]; then
   sudo loginctl enable-linger "${username}"
   sudo systemctl daemon-reload
   sudo systemctl enable --now wsl-cloudflare-ip.service
+  sudo /usr/sbin/sshd -t
   sudo systemctl enable --now ssh.service
+  sudo systemctl reload ssh.service
 fi
 '''
 
