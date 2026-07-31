@@ -82,13 +82,13 @@ url = "https://github.com/hadolint/hadolint/releases/download/v2.14.0/hadolint-l
 url_api = "https://api.github.com/repos/hadolint/hadolint/releases/assets/295944080"
 
 [[tools.hk]]
-version = "1.53.0"
+version = "1.54.0"
 backend = "aqua:jdx/hk"
 
 [tools.hk."platforms.linux-x64"]
-checksum = "sha256:960c14b3bcd61e36dcb42c304e3cc23b22ef2e6f28ac6559e3856d27acf6b54a"
-url = "https://github.com/jdx/hk/releases/download/v1.53.0/hk-x86_64-unknown-linux-gnu.tar.gz"
-url_api = "https://api.github.com/repos/jdx/hk/releases/assets/487429267"
+checksum = "sha256:467f691713b1afbeada4df662bd44696405cd987a5c7f64fee0fe71399628d0c"
+url = "https://github.com/jdx/hk/releases/download/v1.54.0/hk-x86_64-unknown-linux-gnu.tar.gz"
+url_api = "https://api.github.com/repos/jdx/hk/releases/assets/496037136"
 
 [[tools.lychee]]
 version = "0.24.2"
