@@ -139,13 +139,13 @@ url = "https://github.com/PowerShell/PowerShell/releases/download/v7.6.4/powersh
 url_api = "https://api.github.com/repos/PowerShell/PowerShell/releases/assets/483875081"
 
 [[tools.rumdl]]
-version = "v0.2.46"
+version = "v0.2.47"
 backend = "aqua:rvben/rumdl"
 
 [tools.rumdl."platforms.linux-x64"]
-checksum = "sha256:8f85f7b5fa63412699d33bf7224e165d86916cac030d625e33cd52e033956b4c"
-url = "https://github.com/rvben/rumdl/releases/download/v0.2.46/rumdl-v0.2.46-x86_64-unknown-linux-musl.tar.gz"
-url_api = "https://api.github.com/repos/rvben/rumdl/releases/assets/494553004"
+checksum = "sha256:bd4049763e93d6c25420ec086dee6690af31efc85af463c3ecf5d686a5fcf762"
+url = "https://github.com/rvben/rumdl/releases/download/v0.2.47/rumdl-v0.2.47-x86_64-unknown-linux-musl.tar.gz"
+url_api = "https://api.github.com/repos/rvben/rumdl/releases/assets/496024316"
 provenance = "github-attestations"
 
 [[tools.shellcheck]]
