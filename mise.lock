@@ -73,13 +73,13 @@ url_api = "https://api.github.com/repos/cli/cli/releases/assets/464728543"
 provenance = "github-attestations"
 
 [[tools.hadolint]]
-version = "2.14.0"
+version = "2.15.0"
 backend = "aqua:hadolint/hadolint"
 
 [tools.hadolint."platforms.linux-x64"]
-checksum = "sha256:6bf226944684f56c84dd014e8b979d27425c0148f61b3bd99bcc6f39e9dc5a47"
-url = "https://github.com/hadolint/hadolint/releases/download/v2.14.0/hadolint-linux-x86_64"
-url_api = "https://api.github.com/repos/hadolint/hadolint/releases/assets/295944080"
+checksum = "sha256:eb8eb4dd06a068cce65cb84743fba69f09ed12a36ff13d58f9af090d6d696970"
+url = "https://github.com/hadolint/hadolint/releases/download/v2.15.0/hadolint-linux-x86_64"
+url_api = "https://api.github.com/repos/hadolint/hadolint/releases/assets/495394499"
 
 [[tools.hk]]
 version = "1.54.0"
