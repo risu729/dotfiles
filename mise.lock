@@ -101,12 +101,12 @@ url = "https://github.com/lycheeverse/lychee/releases/download/lychee-v0.24.2/ly
 url_api = "https://api.github.com/repos/lycheeverse/lychee/releases/assets/409959271"
 
 [[tools.node]]
-version = "26.5.1"
+version = "26.6.0"
 backend = "core:node"
 
 [tools.node."platforms.linux-x64"]
-checksum = "sha256:2b07f09c218d473a26442bff5a90151f53f7b7c0a23bad244eda2c26303a2ba7"
-url = "https://nodejs.org/dist/v26.5.1/node-v26.5.1-linux-x64.tar.gz"
+checksum = "sha256:714f352a7539c5ce09af15e440cbaadbe935bb23ba23fcee66b066d00a063822"
+url = "https://nodejs.org/dist/v26.6.0/node-v26.6.0-linux-x64.tar.gz"
 
 [[tools."npm:typescript"]]
 version = "7.0.2"
