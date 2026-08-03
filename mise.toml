@@ -1,36 +1,36 @@
 # ref: https://mise.jdx.dev/configuration.html
 #:schema https://mise.jdx.dev/schema/mise.json
 
-min_version = "2026.7.14"
+min_version = "2026.8.0"
 
 [vars]
 PS_SCRIPT_ANALYZER_VERSION = "1.25.0"
 
 [tools]
 bun = "1.3.14"
-aube = "v1.34.0"
-node = "26.5.0"
-github-cli = "2.96.0"
-hk = "1.53.0"
+aube = "v1.37.0"
+node = "26.5.1"
+github-cli = "2.97.0"
+hk = "1.54.0"
 oxlint = "1.72.0"
-oxfmt = "0.60.0"
+oxfmt = "0.61.0"
 actionlint = "1.7.12"
 ghalint = "1.5.6"
-pinact = "4.1.0"
-zizmor = "1.28.0"
-tombi = "1.2.4"
-rumdl = "v0.2.43"
+pinact = "4.1.1"
+zizmor = "1.29.0"
+tombi = "1.2.6"
+rumdl = "v0.2.49"
 shfmt = "3.13.1"
 shellcheck = "0.11.0"
 yamlfmt = "0.21.0"
 # required for pipx backend
-uv = "0.11.32"
+uv = "0.12.1"
 yamllint = "1.38.0"
 lychee = "0.24.2"
 typos = "1.48.0"
 "npm:typescript" = "7.0.2"
-hadolint = "2.14.0"
-betterleaks = "v1.7.1"
+hadolint = "2.15.1"
+betterleaks = "v1.7.3"
 powershell = "7.6.4"
 
 [settings]
@@ -74,6 +74,12 @@ arch=$(dpkg --print-architecture)
 # shellcheck source=/dev/null
 codename=$(. /etc/os-release && echo "${UBUNTU_CODENAME:-${VERSION_CODENAME}}")
 
+# ref: https://pkg.cloudflare.com/
+curl --fail-with-body --silent --show-error --location https://pkg.cloudflare.com/cloudflare-main.gpg |
+  sudo tee /etc/apt/keyrings/cloudflare-main.gpg >/dev/null
+echo "deb [signed-by=/etc/apt/keyrings/cloudflare-main.gpg] https://pkg.cloudflare.com/cloudflared any main" |
+  sudo tee /etc/apt/sources.list.d/cloudflared.list >/dev/null
+
 # ref: https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository
 curl --fail-with-body --silent --show-error --location https://download.docker.com/linux/ubuntu/gpg |
   sudo tee /etc/apt/keyrings/docker.asc >/dev/null
@@ -88,7 +94,26 @@ if ! groups "${username}" | grep --quiet --word-regexp docker; then
   sudo usermod --append --groups docker "${username}"
 fi
 
-sudo systemctl enable --now ssh.service
+dotfiles_root=$(git rev-parse --show-toplevel)
+sudo install --mode=0644 \
+  "${dotfiles_root}/wsl/systemd/wsl-cloudflare-ip.service" \
+  /etc/systemd/system/wsl-cloudflare-ip.service
+sudo install --directory --mode=0755 /etc/ssh/sshd_config.d
+sudo install --mode=0644 \
+  "${dotfiles_root}/wsl/ssh/ca.pub" \
+  /etc/ssh/ca.pub
+sudo install --mode=0644 \
+  "${dotfiles_root}/wsl/ssh/10-cloudflare-access.conf" \
+  /etc/ssh/sshd_config.d/10-cloudflare-access.conf
+
+if [ -d /run/systemd/system ]; then
+  sudo loginctl enable-linger "${username}"
+  sudo systemctl daemon-reload
+  sudo systemctl enable --now wsl-cloudflare-ip.service
+  sudo /usr/sbin/sshd -t
+  sudo systemctl enable --now ssh.service
+  sudo systemctl reload ssh.service
+fi
 '''
 
 [bootstrap.hooks.post-dotfiles]
@@ -136,12 +161,21 @@ if [ -t 0 ] && [ -t 1 ]; then
 fi
 '''
 
+[bootstrap.linux.systemd.units.cloudflared]
+description = "Cloudflare Tunnel client"
+after = ["network-online.target"]
+wants = ["network-online.target"]
+exec_start = "/usr/bin/cloudflared tunnel --no-autoupdate run --token-file %h/.config/cloudflared/tunnel-token"
+restart = "on-failure"
+restart_sec = "5s"
+
 [bootstrap.packages]
 "apt:bubblewrap" = "latest"
 "apt:build-essential" = "latest"
 "apt:clang" = "latest"
 "apt:clangd" = "latest"
 "apt:clang-format" = "latest"
+"apt:cloudflared" = "latest"
 "apt:cmake" = "latest"
 "apt:containerd.io" = "latest"
 "apt:desktop-file-utils" = "latest"

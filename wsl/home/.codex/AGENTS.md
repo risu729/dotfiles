@@ -16,6 +16,9 @@ instructions take precedence.
   existing PR if one exists; otherwise open a PR. Only leave changes local when
   explicitly requested.
 - Follow repository conventions for commits and PR titles.
+- Prefer normal commits and pushes when updating PRs. Do not rewrite history or
+  force-push merely to clean up a PR's commit log. Force-push only when
+  necessary, such as after a required rebase, and use `--force-with-lease`.
 - When the target repository is owned by the user, mark small, low-risk PRs
   ready for review by default. Use a draft for larger, unfinished, or uncertain
   changes.

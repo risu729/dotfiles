@@ -10,6 +10,12 @@ These dotfiles are used to configure my environment, mainly Windows 11 and WSL2
 Since I use WSL2 as my main development environment, I only install GUI
 applications on Windows, such as browsers, IDEs, etc.
 
+Cloudflare Tunnel is installed in WSL and configured as a systemd user
+service. The service retries until a remotely-managed tunnel token is stored
+at `~/.config/cloudflared/tunnel-token`, then connects automatically. Bootstrap
+also assigns `10.1.0.20/32` to the WSL loopback interface for a stable
+Cloudflare private-network route to SSH.
+
 ## 🧭 Repository Structure
 
 This repository is organized around the two installer entry points:
