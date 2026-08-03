@@ -1,5 +1,4 @@
 #:schema https://pitchfork.jdx.dev/schema.json
-#:tombi schema.strict = false
 
 [settings]
 general.mise = true
