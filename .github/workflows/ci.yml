@@ -128,7 +128,7 @@ jobs:
       - name: Build Worker
         run: mise run worker:build
       - name: Upload preview or validate deployment
-        uses: risu729/wrangler-deploy-action@a282705ddae16c69574bfe62cdda8cef47f963cb # v1.1.0
+        uses: risu729/wrangler-deploy-action@e943f9681fb250fa0d0a104bd95ea121c510d192 # v1.2.0
         with:
           mode: ${{ github.event_name == 'pull_request' && 'preview-or-dry-run' || 'dry-run' }}
           working-directory: worker
