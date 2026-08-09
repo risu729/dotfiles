@@ -168,13 +168,13 @@ url = "https://github.com/mvdan/sh/releases/download/v3.13.1/shfmt_v3.13.1_linux
 url_api = "https://api.github.com/repos/mvdan/sh/releases/assets/390322866"
 
 [[tools.tombi]]
-version = "1.2.7"
+version = "1.2.8"
 backend = "aqua:tombi-toml/tombi"
 
 [tools.tombi."platforms.linux-x64"]
-checksum = "sha256:f7353252b12d0132eaefcd234890d478580e60e13fd9b4a7a918995acfa2c139"
-url = "https://github.com/tombi-toml/tombi/releases/download/v1.2.7/tombi-cli-1.2.7-x86_64-unknown-linux-musl.tar.gz"
-url_api = "https://api.github.com/repos/tombi-toml/tombi/releases/assets/503838599"
+checksum = "sha256:be0f539e0474d250f77fa8fae845b4507036f5b95da782f9fc1d9f6a97c5bf30"
+url = "https://github.com/tombi-toml/tombi/releases/download/v1.2.8/tombi-cli-1.2.8-x86_64-unknown-linux-musl.tar.gz"
+url_api = "https://api.github.com/repos/tombi-toml/tombi/releases/assets/507611362"
 provenance = "github-attestations"
 
 [[tools.typos]]
