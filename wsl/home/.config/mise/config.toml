@@ -73,7 +73,6 @@ fi
 """ }
 miller = "latest"
 glow = "latest"
-"github:garden-rs/garden" = "latest"
 "github:risu729/kuebiko" = { version = "latest", minimum_release_age = "0s" }
 "github:risu729/biwa" = { version = "latest", minimum_release_age = "0s" }
 "github:risu729/mikoto" = { version = "latest", minimum_release_age = "0s" }
