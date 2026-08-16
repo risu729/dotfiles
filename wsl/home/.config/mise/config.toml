@@ -115,6 +115,7 @@ typst = "latest"
 aqua = "latest"
 pipx = "latest"
 sccache = "latest"
+gcloud = "latest"
 
 [settings]
 experimental = true
