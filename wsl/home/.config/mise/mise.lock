@@ -1106,55 +1106,6 @@ url = "https://github.com/cli/cli/releases/download/v2.97.0/gh_2.97.0_macOS_amd6
 url_api = "https://api.github.com/repos/cli/cli/releases/assets/496108300"
 provenance = "github-attestations"
 
-[[tools."github:garden-rs/garden"]]
-version = "2.6.2"
-backend = "github:garden-rs/garden"
-
-[tools."github:garden-rs/garden"."platforms.linux-arm64"]
-checksum = "sha256:d56bf8cbfe86079516f9c4c88c41b0436d32c1b142bdaad4e0d700251b397e98"
-url = "https://github.com/garden-rs/garden/releases/download/v2.6.2/garden-2.6.2-aarch64-unknown-linux-gnu.tar.gz"
-url_api = "https://api.github.com/repos/garden-rs/garden/releases/assets/509434896"
-
-[tools."github:garden-rs/garden"."platforms.linux-arm64-musl"]
-checksum = "sha256:d56bf8cbfe86079516f9c4c88c41b0436d32c1b142bdaad4e0d700251b397e98"
-url = "https://github.com/garden-rs/garden/releases/download/v2.6.2/garden-2.6.2-aarch64-unknown-linux-gnu.tar.gz"
-url_api = "https://api.github.com/repos/garden-rs/garden/releases/assets/509434896"
-
-[tools."github:garden-rs/garden"."platforms.linux-x64"]
-checksum = "sha256:00a101096ba720a2384ee44e633fc2bb512ba3fc7ff8269ab7a69e31a775a6e5"
-url = "https://github.com/garden-rs/garden/releases/download/v2.6.2/garden-2.6.2-x86_64-unknown-linux-gnu.tar.gz"
-url_api = "https://api.github.com/repos/garden-rs/garden/releases/assets/509436480"
-
-[tools."github:garden-rs/garden"."platforms.linux-x64-baseline"]
-checksum = "sha256:00a101096ba720a2384ee44e633fc2bb512ba3fc7ff8269ab7a69e31a775a6e5"
-url = "https://github.com/garden-rs/garden/releases/download/v2.6.2/garden-2.6.2-x86_64-unknown-linux-gnu.tar.gz"
-url_api = "https://api.github.com/repos/garden-rs/garden/releases/assets/509436480"
-
-[tools."github:garden-rs/garden"."platforms.linux-x64-musl"]
-checksum = "sha256:6a89e012e40ad680b4502710be47114bc6481aea291228ab63bd4e97484e4810"
-url = "https://github.com/garden-rs/garden/releases/download/v2.6.2/garden-2.6.2-x86_64-unknown-linux-musl.tar.gz"
-url_api = "https://api.github.com/repos/garden-rs/garden/releases/assets/509434839"
-
-[tools."github:garden-rs/garden"."platforms.linux-x64-musl-baseline"]
-checksum = "sha256:6a89e012e40ad680b4502710be47114bc6481aea291228ab63bd4e97484e4810"
-url = "https://github.com/garden-rs/garden/releases/download/v2.6.2/garden-2.6.2-x86_64-unknown-linux-musl.tar.gz"
-url_api = "https://api.github.com/repos/garden-rs/garden/releases/assets/509434839"
-
-[tools."github:garden-rs/garden"."platforms.macos-arm64"]
-checksum = "sha256:ad2d8b77d04e3061c1df1fa57c75cc645f76c557d2ef9c01bcf6f1e7fe66275f"
-url = "https://github.com/garden-rs/garden/releases/download/v2.6.2/garden-2.6.2-aarch64-apple-darwin.tar.gz"
-url_api = "https://api.github.com/repos/garden-rs/garden/releases/assets/509434427"
-
-[tools."github:garden-rs/garden"."platforms.macos-x64"]
-checksum = "sha256:ab7e41c60b6976bde175c9c748e6cea4d733efc3c08e22aa626759b66fe38711"
-url = "https://github.com/garden-rs/garden/releases/download/v2.6.2/garden-2.6.2-x86_64-apple-darwin.tar.gz"
-url_api = "https://api.github.com/repos/garden-rs/garden/releases/assets/509434631"
-
-[tools."github:garden-rs/garden"."platforms.macos-x64-baseline"]
-checksum = "sha256:ab7e41c60b6976bde175c9c748e6cea4d733efc3c08e22aa626759b66fe38711"
-url = "https://github.com/garden-rs/garden/releases/download/v2.6.2/garden-2.6.2-x86_64-apple-darwin.tar.gz"
-url_api = "https://api.github.com/repos/garden-rs/garden/releases/assets/509434631"
-
 [[tools."github:risu729/biwa"]]
 version = "1.0.0"
 backend = "github:risu729/biwa"
