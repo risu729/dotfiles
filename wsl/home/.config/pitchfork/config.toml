@@ -7,6 +7,7 @@ supervisor.user = "risu"
 
 [settings.proxy]
 enable = true
+sync_hosts = false
 
 [namespaces.biwa]
 dir = "/home/risu/.ghr/github.com/risu729/biwa"
