@@ -3,6 +3,8 @@
 
 [env]
 RUSTC_WRAPPER = "sccache"
+# mise manages the installed Copilot CLI version.
+COPILOT_AUTO_UPDATE = "false"
 # disable bat paging
 BAT_PAGING = "never"
 # use powershell instead of pwsh as pwsh is not in the PATH sometimes
