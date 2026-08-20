@@ -1,0 +1,2 @@
+# mise manages the installed Codex version.
+check_for_update_on_startup = false
