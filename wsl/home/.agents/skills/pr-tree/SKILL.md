@@ -1,5 +1,5 @@
 ---
-description: Query risu729's open GitHub pull requests as structured coordination context, including dependencies, draft and merge state, and checks. Use when Codex needs to identify which PR belongs to current work, resume concurrent or stacked PR work, resolve PR relationships or status, or answer a PR-tracking question.
+description: Query risu729's open GitHub pull requests as structured coordination context, including dependencies, draft and merge state, and checks. Use when identifying which PR belongs to current work, resuming concurrent or stacked PR work, resolving PR relationships or status, or answering a PR-tracking question.
 name: pr-tree
 ---
 
