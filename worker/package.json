@@ -3,7 +3,7 @@
 	"name": "@risu729/dotfiles-worker",
 	"type": "module",
 	"dependencies": {
-		"hono": "4.13.2"
+		"hono": "4.13.3"
 	},
 	"devDependencies": {
 		"@cloudflare/vite-plugin": "1.52.1",
