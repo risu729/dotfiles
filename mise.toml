@@ -201,7 +201,7 @@ login_shell = "/bin/bash"
 "~/.agents" = { source = "wsl/home/.agents", mode = "copy" }
 "~/.bashrc" = "wsl/home/.bashrc"
 "~/.claude/CLAUDE.md" = "wsl/home/.codex/AGENTS.md"
-"~/.claude/settings.json" = "wsl/home/.claude/settings.json"
+"~/.claude/settings.json" = { source = "wsl/home/.claude/settings.json", mode = "template" }
 "~/.codex" = { source = "wsl/home/.codex", mode = "symlink-each" }
 "~/.config" = { source = "wsl/home/.config", mode = "symlink-each" }
 "~/.cursor/rules/global/RULE.md" = "wsl/home/.codex/AGENTS.md"

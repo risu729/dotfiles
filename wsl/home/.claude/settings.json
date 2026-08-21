@@ -14,7 +14,7 @@
 				"hooks": [
 					{
 						"type": "command",
-						"command": "bash '/home/risu/.claude/hooks/herdr-agent-state.sh' session",
+						"command": "bash '{{ env.HOME }}/.claude/hooks/herdr-agent-state.sh' session",
 						"timeout": 10
 					}
 				]
