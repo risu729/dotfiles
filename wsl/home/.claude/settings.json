@@ -30,5 +30,6 @@
 		"type": "command",
 		"command": "claude-statusline"
 	},
-	"theme": "auto"
+	"theme": "auto",
+	"viewMode": "focus"
 }
