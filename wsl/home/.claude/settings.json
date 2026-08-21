@@ -28,7 +28,7 @@
 	"skipDangerousModePermissionPrompt": true,
 	"statusLine": {
 		"type": "command",
-		"command": "ccusage statusline"
+		"command": "claude-statusline"
 	},
 	"theme": "auto"
 }
