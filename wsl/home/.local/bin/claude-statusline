@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+
+# Claude Code status line, mirroring the Codex `[tui] status_line` segments:
+# model with reasoning effort, remaining context, pull request number,
+# five-hour limit, and weekly limit.
+# ref: https://code.claude.com/docs/en/statusline
+
+set -euo pipefail
+
+# Segments are omitted rather than shown empty when Claude Code leaves a field
+# out: `effort` is absent on models without the reasoning effort parameter,
+# `pr` outside a repository or before a pull request exists, and `rate_limits`
+# until the first API response of a Claude.ai subscriber session.
+exec jq --raw-output '
+	[
+		([.model.display_name, .effort.level] | map(select(. != null)) | join(" ")),
+		(.context_window.remaining_percentage | select(. != null) | "\(.)% context"),
+		(.pr.number | select(. != null) | "#\(.)"),
+		(.rate_limits.five_hour.used_percentage | select(. != null) | "5h \(round)%"),
+		(.rate_limits.seven_day.used_percentage | select(. != null) | "7d \(round)%")
+	]
+	| map(select(. != ""))
+	| join(" | ")
+'
