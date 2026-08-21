@@ -1,5 +1,6 @@
 {
 	"$schema": "https://json.schemastore.org/claude-code-settings.json",
+	"agentPushNotifEnabled": true,
 	"attribution": {
 		"commit": "",
 		"pr": "",
@@ -21,6 +22,7 @@
 			}
 		]
 	},
+	"inputNeededNotifEnabled": true,
 	"permissions": {
 		"defaultMode": "bypassPermissions"
 	},
