@@ -9,12 +9,14 @@ name: pr-tree
 
 # PR Tree
 
-The bundled script emits parseable data only. Build and render the tree
-yourself from it.
+The bundled script emits parseable data only. It resolves stacks from git
+ancestry, never from prose. Read the PR bodies yourself for declared stacks,
+then render the tree.
 
 ## Collecting the Data
 
-Run the bundled script from this skill directory:
+Run the bundled script with the tracked repository as the working directory,
+so git can resolve ancestry:
 
 ```bash
 scripts/pr-tree.ts --current-repo
@@ -24,34 +26,26 @@ scripts/pr-tree.ts --current-repo
 - Omit both to query every open PR authored by the active GitHub user.
 - `--no-agents` skips the local agent lookup.
 
-Agent data comes from `herdr`. When `herdr` is absent or fails, `agents` is
-empty and the PR half still works.
+Check `git.heads_resolved` against `git.heads_total`. When they differ, the
+local clone is missing head commits, so run `git fetch` and try again before
+trusting the edges. Agent data comes from `herdr`; when it is absent or fails,
+`agents` is empty and the PR half still works.
 
 ## What the Output Contains
 
-`pull_requests[]` — one entry per PR, with `id` as `owner/repo#number`:
+`pull_requests[]` — one entry per open PR, with `id` as `owner/repo#number`:
 
-- `state` (`OPEN`, `MERGED`, `CLOSED`), `draft`, `title`, `url`, `updated_at`.
-- `in_scope` — `false` for a PR pulled in only because another one referenced
-  it. These are context nodes: merged foundations, replaced predecessors. Their
-  relations are not parsed, but their `dependents` are populated.
-- `dependencies` / `dependents` / `open_dependencies` /
-  `dependencies_outside_view` — the stack edges.
-- `dependency_source` — `work_order` when the parent came from the PR body's
-  `## Work order` list, `keyword` when it came from prose such as
-  `Depends on #N` or `Builds on #N`, `none` when the PR declares no parent.
-- `work_order` — the full declared stack (`items` with `ref`, `independent`,
-  `this_pr`) and this PR's `position`. Use it to show stack members that have
-  no PR yet.
-- `related` — soft references (follow-ups, split boundaries). Not blocking.
-- `replaces` — PRs this one supersedes. Never render these as dependencies.
-- `conflict` — merge conflict against the base branch. `OPEN` PRs only.
+- `parent` — the nearest PR whose head commit this branch contains.
+- `children` — the PRs whose `parent` is this one.
+- `ancestors` — every PR head contained in this branch, not just the nearest.
+- `state`, `draft`, `title`, `url`, `updated_at`, `head_ref`, `head_repo`,
+  `head_sha`, `base_ref`.
+- `conflict` — merge conflict against the base branch. Open PRs only.
 - `ci` — `state` (`passing`, `failing`, `pending`, `none`) plus the `failing`
   and `pending` check names and a `passing` count.
 - `size` — `additions`, `deletions`, `changed_files`.
 - `latest_reviews` — `login`, `state`, `submitted_at` per reviewer, bots
   included.
-- `head_ref`, `head_repo`, `base_ref`, `merge_state`, `mergeable`, `checks`.
 
 `agents[]` — one entry per live agent:
 
@@ -69,14 +63,22 @@ out of the tree.
 
 ## Building the Tree
 
-Root every chain at a PR with no `open_dependencies`, then nest `dependents`
-under it. A merged or auto-closed PR that still has open `dependents` is a
-root — show it, because it explains why the children exist and whether they
-need a restack.
+`parent` and `ancestors` are facts about commits: the branch really does
+contain that PR's head. Nest `children` under each `parent` and root every
+chain at a PR with no `parent`.
 
-Trust `dependency_source: "work_order"` over `keyword`. When a PR reports
-`none` but its body clearly places it in a stack, say so rather than silently
-inventing an edge.
+A missing `parent` is not proof that a PR is independent. It also happens when
+a PR was stacked and its parent has since been rebased, squash-merged, or
+force-pushed. Read the PR bodies to recover the declared stack — a
+`## Work order` list, `Depends on #N`, `Builds on #N`, `Replaces #N` — and
+reconcile:
+
+- Declared and confirmed by git — draw the edge.
+- Declared but not confirmed — draw the edge and flag that the child needs a
+  restack onto its parent. This is the common case right after a parent lands.
+- Confirmed but not declared — draw the edge; the body is just out of date.
+
+Do not treat a `Replaces #N` or a follow-up reference as a dependency.
 
 ## Presenting the Tree
 
@@ -97,6 +99,7 @@ are different problems with different fixes, so never collapse them into one:
 - ⚠️ conflict, needing a rebase or restack
 - ❌ CI failing, followed by the failing check names
 - ⏳ CI pending, followed by the pending check names
+- 🔀 declared parent not confirmed by git, so the branch needs a restack
 
 Supplementary markers:
 
@@ -114,8 +117,8 @@ changes, not how it is implemented and not a restatement of the title. Write
 it in the language the user is using. Never drop the explanation to save
 space — a PR with no explanation is the one the user has to go look up.
 
-Close with anything the tree cannot show: agents with no PR, PRs whose parent
-merged and now need a restack, and what changed since the last time you
+Close with anything the tree cannot show: agents with no PR, merged parents
+whose children still need a restack, and what changed since the last time you
 rendered it.
 
 Do not print the raw JSON, and do not report checks or reviews as still

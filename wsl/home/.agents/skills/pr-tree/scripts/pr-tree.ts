@@ -3,18 +3,22 @@
 /* oxlint-disable eslint/max-statements import/no-named-export */
 
 import { collectAgents } from "./agents.ts";
-import { hasConflict, normalizeChecks, summarizeChecks } from "./checks.ts";
 import { mapPool, normalizeRemote, run } from "./exec.ts";
-import { FETCH_CONCURRENCY, fetchPullRequest, targetsFor } from "./github.ts";
-import { emptyRelations, headRepoOf, parseRelations, prId } from "./relations.ts";
-import type { PullRequest, Relations } from "./relations.ts";
+import {
+	FETCH_CONCURRENCY,
+	fetchPullRequest,
+	hasConflict,
+	headRepoOf,
+	normalizeChecks,
+	prId,
+	summarizeChecks,
+	targetsFor,
+} from "./github.ts";
+import type { PullRequest } from "./github.ts";
+import { resolveStacks } from "./stacks.ts";
+import type { Stack } from "./stacks.ts";
 
-type Filters = {
-	repos: string[];
-	currentRepo: boolean;
-	agents: boolean;
-	help: boolean;
-};
+type Filters = { repos: string[]; currentRepo: boolean; agents: boolean; help: boolean };
 
 const parseArgs = (args: string[]): Filters => {
 	const filters: Filters = { agents: true, currentRepo: false, help: false, repos: [] };
@@ -50,15 +54,6 @@ const sortIds = (ids: Iterable<string>, pullRequests: Map<string, PullRequest>):
 		);
 	});
 
-type EntryContext = {
-	id: string;
-	pullRequest: PullRequest;
-	relation: Relations;
-	dependents: Set<string>;
-	inScope: boolean;
-	pullRequests: Map<string, PullRequest>;
-};
-
 const reviewsOf = (pullRequest: PullRequest): Record<string, unknown>[] =>
 	(pullRequest.latestReviews ?? []).map((review) => ({
 		login: review.author?.login ?? "unknown",
@@ -72,122 +67,59 @@ const sizeOf = (pullRequest: PullRequest): Record<string, number> => ({
 	deletions: pullRequest.deletions ?? 0,
 });
 
-const entryFor = (context: EntryContext): Record<string, unknown> => {
-	const { id, pullRequest, relation, pullRequests } = context;
+const entryFor = (
+	id: string,
+	pullRequest: PullRequest,
+	stack: Stack & { children: string[] },
+): Record<string, unknown> => {
 	const checks = normalizeChecks(pullRequest);
 	return {
+		ancestors: stack.ancestors,
 		base_ref: pullRequest.baseRefName,
 		checks,
+		children: stack.children,
 		ci: summarizeChecks(checks),
 		conflict: hasConflict(pullRequest),
-		dependencies: relation.dependencies,
-		dependencies_outside_view: relation.dependencies.filter(
-			(dependency) => !pullRequests.has(dependency),
-		),
-		dependency_source: relation.source,
-		dependents: sortIds(context.dependents, pullRequests),
 		draft: pullRequest.isDraft,
 		head_ref: pullRequest.headRefName,
 		head_repo: headRepoOf(pullRequest),
+		head_sha: pullRequest.headRefOid,
 		id,
-		in_scope: context.inScope,
 		latest_reviews: reviewsOf(pullRequest),
 		merge_state: pullRequest.mergeStateStatus || "UNKNOWN",
 		mergeable: pullRequest.mergeable || "UNKNOWN",
 		number: pullRequest.number,
-		open_dependencies: sortIds(
-			relation.dependencies.filter((dependency) => pullRequests.has(dependency)),
-			pullRequests,
-		),
-		related: relation.related,
-		replaces: relation.replaces,
+		parent: stack.parent,
 		repo: pullRequest.repo,
 		size: sizeOf(pullRequest),
 		state: pullRequest.state || "UNKNOWN",
 		title: pullRequest.title,
 		updated_at: pullRequest.updatedAt,
 		url: pullRequest.url,
-		work_order: relation.work_order,
 	};
 };
 
-// Pull requests outside the requested scope are context only: their own bodies are
-// Not parsed, so a merged foundation never drags its whole history into the tree.
 const buildEntries = (
 	pullRequests: Map<string, PullRequest>,
-	inScope: Set<string> = new Set(pullRequests.keys()),
+	stacks: Map<string, Stack>,
 ): Record<string, unknown>[] => {
-	const relations = new Map(
-		[...pullRequests].map(([id, pullRequest]) => [
-			id,
-			inScope.has(id) ? parseRelations(pullRequest) : emptyRelations(),
-		]),
-	);
-	const dependents = new Map<string, Set<string>>();
-	for (const [id, relation] of relations) {
-		for (const dependency of relation.dependencies) {
-			if (pullRequests.has(dependency) && dependency !== id) {
-				const children = dependents.get(dependency) ?? new Set<string>();
-				children.add(id);
-				dependents.set(dependency, children);
-			}
+	const children = new Map<string, Set<string>>();
+	for (const [id, stack] of stacks) {
+		if (stack.parent) {
+			children.set(stack.parent, (children.get(stack.parent) ?? new Set()).add(id));
 		}
 	}
 	return sortIds(pullRequests.keys(), pullRequests).map((id) => {
 		const pullRequest = pullRequests.get(id);
-		const relation = relations.get(id);
-		if (!pullRequest || !relation) {
+		if (!pullRequest) {
 			throw new Error(`missing pull request: ${id}`);
 		}
-		return entryFor({
-			dependents: dependents.get(id) ?? new Set<string>(),
-			id,
-			inScope: inScope.has(id),
-			pullRequest,
-			pullRequests,
-			relation,
+		const stack = stacks.get(id) ?? { ancestors: [], parent: null };
+		return entryFor(id, pullRequest, {
+			...stack,
+			children: sortIds(children.get(id) ?? [], pullRequests),
 		});
 	});
-};
-
-const referencedIds = (pullRequests: Map<string, PullRequest>): string[] => {
-	const referenced = new Set<string>();
-	for (const pullRequest of pullRequests.values()) {
-		const relation = parseRelations(pullRequest);
-		for (const reference of [
-			...relation.dependencies,
-			...relation.related,
-			...relation.replaces,
-			...(relation.work_order?.items ?? []).flatMap((item) => (item.ref ? [item.ref] : [])),
-		]) {
-			if (!pullRequests.has(reference)) {
-				referenced.add(reference);
-			}
-		}
-	}
-	return [...referenced];
-};
-
-const addPullRequests = async (
-	pullRequests: Map<string, PullRequest>,
-	targets: { number: number; repo: string }[],
-	tolerant = false,
-): Promise<void> => {
-	const fetched = await mapPool(targets, FETCH_CONCURRENCY, async (target) => {
-		if (!tolerant) {
-			return await fetchPullRequest(target);
-		}
-		try {
-			return await fetchPullRequest(target);
-		} catch {
-			return null;
-		}
-	});
-	for (const pullRequest of fetched) {
-		if (pullRequest) {
-			pullRequests.set(prId(pullRequest.repo, pullRequest.number), pullRequest);
-		}
-	}
 };
 
 const main = async (): Promise<void> => {
@@ -196,6 +128,7 @@ const main = async (): Promise<void> => {
 		console.info("Usage: pr-tree.ts [--repo owner/name] [--current-repo] [--no-agents]");
 		return;
 	}
+	const cwd = process.cwd();
 	if (filters.currentRepo) {
 		const remote = run(["git", "remote", "get-url", "origin"], false);
 		if (!remote) {
@@ -205,22 +138,22 @@ const main = async (): Promise<void> => {
 	}
 
 	const pullRequests = new Map<string, PullRequest>();
-	await addPullRequests(pullRequests, targetsFor([...new Set(filters.repos)]));
-	const inScope = new Set(pullRequests.keys());
-	await addPullRequests(
-		pullRequests,
-		referencedIds(pullRequests).flatMap((id) => {
-			const [repo, number] = id.split("#");
-			return repo && number ? [{ number: Number(number), repo }] : [];
-		}),
-		true,
+	const fetched = await mapPool(
+		targetsFor([...new Set(filters.repos)]),
+		FETCH_CONCURRENCY,
+		fetchPullRequest,
 	);
+	for (const pullRequest of fetched) {
+		pullRequests.set(prId(pullRequest.repo, pullRequest.number), pullRequest);
+	}
+	const { stacks, found, total } = resolveStacks(pullRequests, cwd);
 
 	console.info(
 		JSON.stringify(
 			{
 				agents: filters.agents ? collectAgents(pullRequests) : [],
-				pull_requests: buildEntries(pullRequests, inScope),
+				git: { cwd, heads_resolved: found, heads_total: total },
+				pull_requests: buildEntries(pullRequests, stacks),
 			},
 			null,
 			2,
@@ -232,4 +165,4 @@ if (import.meta.main) {
 	await main();
 }
 
-export { buildEntries, parseArgs, referencedIds };
+export { buildEntries, parseArgs };

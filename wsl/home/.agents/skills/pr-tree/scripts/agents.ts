@@ -1,8 +1,8 @@
 /* oxlint-disable import/no-named-export */
 
 import { normalizeRemote, run } from "./exec.ts";
-import { headRepoOf } from "./relations.ts";
-import type { PullRequest } from "./relations.ts";
+import { headRepoOf } from "./github.ts";
+import type { PullRequest } from "./github.ts";
 
 type Agent = {
 	pane_id: string | null;
