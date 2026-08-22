@@ -38,14 +38,13 @@ trusting the edges. Agent data comes from `herdr`; when it is absent or fails,
 - `parent` — the nearest PR whose head commit this branch contains.
 - `children` — the PRs whose `parent` is this one.
 - `ancestors` — every PR head contained in this branch, not just the nearest.
-- `state`, `draft`, `title`, `url`, `updated_at`, `head_ref`, `head_repo`,
-  `head_sha`, `base_ref`.
+- `state`, `draft`, `title`, `url`, `number`, `updated_at`, `head_ref`,
+  `head_repo`, `head_sha`.
 - `conflict` — merge conflict against the base branch. Open PRs only.
 - `ci` — `state` (`passing`, `failing`, `pending`, `none`) plus the `failing`
   and `pending` check names and a `passing` count.
 - `size` — `additions`, `deletions`, `changed_files`.
-- `latest_reviews` — `login`, `state`, `submitted_at` per reviewer, bots
-  included.
+- `reviews` — `login` and `state` per reviewer, bots included.
 
 `agents[]` — one entry per live agent:
 

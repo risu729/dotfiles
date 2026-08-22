@@ -2,11 +2,15 @@
 
 import { describe, expect, test } from "bun:test";
 
-import { matchPullRequest } from "./agents.ts";
-import { hasConflict, normalizeChecks, summarizeChecks } from "./github.ts";
-import type { PullRequest } from "./github.ts";
-import { buildEntries } from "./pr-tree.ts";
-import { buildStacks, nearestParent } from "./stacks.ts";
+import {
+	hasConflict,
+	matchPullRequest,
+	nearestParent,
+	normalizeRemote,
+	summarizeChecks,
+} from "./data.ts";
+import type { PullRequest } from "./data.ts";
+import { buildEntries, sortIds } from "./pr-tree.ts";
 
 const makePullRequest = (number: number, overrides: Partial<PullRequest> = {}): PullRequest => ({
 	repo: "owner/repo",
@@ -14,7 +18,6 @@ const makePullRequest = (number: number, overrides: Partial<PullRequest> = {}): 
 	title: `PR ${number}`,
 	url: `https://github.com/owner/repo/pull/${number}`,
 	state: "OPEN",
-	baseRefName: "main",
 	headRefName: `branch-${number}`,
 	headRefOid: `sha-${number}`,
 	headRepository: { name: "repo" },
@@ -24,22 +27,26 @@ const makePullRequest = (number: number, overrides: Partial<PullRequest> = {}): 
 	mergeStateStatus: "CLEAN",
 	statusCheckRollup: [],
 	latestReviews: [],
-	additions: 0,
-	deletions: 0,
-	changedFiles: 0,
 	updatedAt: "2026-07-18T00:00:00Z",
 	...overrides,
 });
 
-// A linear stack: 1 <- 2 <- 3, where each head contains every head below it.
+// A linear stack 1 <- 2 <- 3, where each head contains every head below it.
 const chain = new Map([
 	["owner/repo#1", new Set<string>()],
 	["owner/repo#2", new Set(["owner/repo#1"])],
 	["owner/repo#3", new Set(["owner/repo#1", "owner/repo#2"])],
 ]);
+const stacksFrom = (ancestors: Map<string, Set<string>>) =>
+	new Map(
+		[...ancestors].map(([id, contained]) => [
+			id,
+			{ ancestors: [...contained].toSorted(), parent: nearestParent(id, ancestors) },
+		]),
+	);
 
 describe("nearestParent", () => {
-	test("picks the ancestor that carries every other ancestor", () => {
+	test("picks the ancestor carrying every other ancestor", () => {
 		expect(nearestParent("owner/repo#3", chain)).toBe("owner/repo#2");
 		expect(nearestParent("owner/repo#2", chain)).toBe("owner/repo#1");
 	});
@@ -61,32 +68,22 @@ describe("nearestParent", () => {
 	});
 });
 
-describe("buildStacks", () => {
-	test("reports sorted ancestors alongside the nearest parent", () => {
-		expect(buildStacks(chain).get("owner/repo#3")).toEqual({
-			ancestors: ["owner/repo#1", "owner/repo#2"],
-			parent: "owner/repo#2",
-		});
-	});
-});
-
 describe("buildEntries", () => {
-	test("links parents to children", () => {
-		const pullRequests = new Map([
-			["owner/repo#1", makePullRequest(1)],
-			["owner/repo#2", makePullRequest(2)],
-			["owner/repo#3", makePullRequest(3)],
-		]);
-		const entries = buildEntries(pullRequests, buildStacks(chain)) as {
+	test("links parents to children and keeps the full ancestor chain", () => {
+		const pullRequests = new Map(
+			[1, 2, 3].map((number) => [`owner/repo#${number}`, makePullRequest(number)]),
+		);
+		const entries = buildEntries(pullRequests, stacksFrom(chain)) as {
 			id: string;
 			parent: string | null;
 			children: string[];
+			ancestors: string[];
 		}[];
 		const byId = new Map(entries.map((entry) => [entry.id, entry]));
 
 		expect(byId.get("owner/repo#1")?.children).toEqual(["owner/repo#2"]);
 		expect(byId.get("owner/repo#2")?.parent).toBe("owner/repo#1");
-		expect(byId.get("owner/repo#3")?.children).toEqual([]);
+		expect(byId.get("owner/repo#3")?.ancestors).toEqual(["owner/repo#1", "owner/repo#2"]);
 	});
 
 	test("falls back to a root when git resolved no ancestry", () => {
@@ -108,7 +105,6 @@ describe("buildEntries status fields", () => {
 				"owner/repo#1",
 				makePullRequest(1, {
 					mergeable: "CONFLICTING",
-					mergeStateStatus: "DIRTY",
 					additions: 10,
 					deletions: 4,
 					changedFiles: 3,
@@ -139,50 +135,53 @@ describe("hasConflict", () => {
 });
 
 describe("summarizeChecks", () => {
-	test("splits failing, pending, and passing checks", () => {
-		expect(
-			summarizeChecks([
-				{ name: "lint", status: "FAILURE" },
-				{ name: "e2e", status: "IN_PROGRESS" },
-				{ name: "unit", status: "SUCCESS" },
-				{ name: "skipped", status: "SKIPPED" },
-			]),
-		).toEqual({ state: "failing", failing: ["lint"], pending: ["e2e"], passing: 2 });
+	test("splits failing, pending, and passing checks and deduplicates names", () => {
+		const rollup = [
+			{ name: "lint", conclusion: "FAILURE" },
+			{ name: "lint", conclusion: "FAILURE" },
+			{ workflowName: "e2e", status: "IN_PROGRESS" },
+			{ context: "unit", state: "SUCCESS" },
+			{ name: "skipped", conclusion: "SKIPPED" },
+		];
+
+		expect(summarizeChecks(makePullRequest(1, { statusCheckRollup: rollup }))).toEqual({
+			state: "failing",
+			failing: ["lint"],
+			pending: ["e2e"],
+			passing: 3,
+		});
 	});
 
-	test("reports pending only when nothing failed, and none without checks", () => {
-		expect(summarizeChecks([{ name: "e2e", status: "QUEUED" }]).state).toBe("pending");
-		expect(summarizeChecks([]).state).toBe("none");
+	test("reports pending when nothing failed, and none without a rollup", () => {
+		const pending = [{ name: "e2e", conclusion: "QUEUED" }];
+
+		expect(summarizeChecks(makePullRequest(1, { statusCheckRollup: pending })).state).toBe(
+			"pending",
+		);
+		expect(summarizeChecks(makePullRequest(1, { statusCheckRollup: null })).state).toBe("none");
 	});
 });
 
-describe("normalizeChecks", () => {
-	test("normalizes status fields, defaults unknown values, and deduplicates", () => {
-		const pullRequest = makePullRequest(4, {
-			statusCheckRollup: [
-				{ name: "success", conclusion: "SUCCESS" },
-				{ name: "failure", state: "FAILURE" },
-				{ name: "pending", status: "PENDING" },
-				{ name: "unknown" },
-				{ name: "failure", state: "FAILURE" },
-			],
-		});
-
-		expect(normalizeChecks(pullRequest)).toEqual([
-			{ name: "success", status: "SUCCESS" },
-			{ name: "failure", status: "FAILURE" },
-			{ name: "pending", status: "PENDING" },
-			{ name: "unknown", status: "UNKNOWN" },
-		]);
+describe("normalizeRemote", () => {
+	test("strips every supported remote prefix and the git suffix", () => {
+		expect(normalizeRemote("https://github.com/owner/repo.git")).toBe("owner/repo");
+		expect(normalizeRemote("git@github.com:owner/repo.git")).toBe("owner/repo");
+		expect(normalizeRemote("ssh://git@github.com/owner/repo")).toBe("owner/repo");
 	});
+});
 
-	test("tolerates a missing rollup", () => {
-		expect(normalizeChecks(makePullRequest(4, { statusCheckRollup: null }))).toEqual([]);
+describe("sortIds", () => {
+	test("orders by pull request number rather than lexically", () => {
+		expect(sortIds(["owner/repo#9", "owner/repo#12060", "owner/repo#120"])).toEqual([
+			"owner/repo#12060",
+			"owner/repo#120",
+			"owner/repo#9",
+		]);
 	});
 });
 
 describe("matchPullRequest", () => {
-	test("matches a worktree branch to the pull request head, preferring the head repository", () => {
+	test("matches a worktree branch to the head, preferring the head repository", () => {
 		const pullRequests = new Map([
 			["owner/repo#1", makePullRequest(1, { headRefName: "shared" })],
 			[
