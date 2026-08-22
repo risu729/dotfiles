@@ -2,7 +2,8 @@
 
 import { describe, expect, test } from "bun:test";
 
-import { hasConflict, matchPullRequest, normalizeRemote, summarizeChecks } from "./data.ts";
+import { matchPullRequest } from "./agents.ts";
+import { hasConflict, normalizeRemote, summarizeChecks } from "./data.ts";
 import type { PullRequest } from "./data.ts";
 
 const makePullRequest = (number: number, overrides: Partial<PullRequest> = {}): PullRequest => ({
@@ -19,7 +20,6 @@ const makePullRequest = (number: number, overrides: Partial<PullRequest> = {}): 
 	mergeable: "MERGEABLE",
 	mergeStateStatus: "CLEAN",
 	statusCheckRollup: [],
-	latestReviews: [],
 	updatedAt: "2026-07-18T00:00:00Z",
 	...overrides,
 });

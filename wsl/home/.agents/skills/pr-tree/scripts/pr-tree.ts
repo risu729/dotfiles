@@ -2,10 +2,11 @@
 
 /* oxlint-disable import/no-named-export */
 
+import { collectAgents } from "./agents.ts";
 import {
-	collectAgents,
 	hasConflict,
 	headRepoOf,
+	inChunks,
 	listPullRequests,
 	normalizeRemote,
 	prId,
@@ -13,12 +14,25 @@ import {
 	summarizeChecks,
 } from "./data.ts";
 import type { PullRequest, Stack } from "./data.ts";
+import { collectReviews } from "./reviews.ts";
+import type { BotReview } from "./reviews.ts";
 import { resolveStacks } from "./stacks.ts";
 
-const USAGE = "Usage: pr-tree.ts [--repo owner/name] [--current-repo] [--no-agents]";
+const USAGE =
+	"Usage: pr-tree.ts [--repo owner/name] [--current-repo] [--no-agents] [--agent-lines N]";
+const DEFAULT_AGENT_LINES = 30;
 
 const sortIds = (ids: Iterable<string>): string[] =>
 	[...ids].toSorted((left, right) => right.localeCompare(left, undefined, { numeric: true }));
+
+const agentLines = (args: string[]): number => {
+	const index = args.indexOf("--agent-lines");
+	const value = index === -1 ? DEFAULT_AGENT_LINES : Number(args[index + 1]);
+	if (!Number.isInteger(value) || value < 0) {
+		throw new Error("--agent-lines requires a non-negative integer");
+	}
+	return value;
+};
 
 const repoArg = (arg: string, previous: string | undefined): string[] => {
 	if (arg.startsWith("--repo=")) {
@@ -42,11 +56,14 @@ const reposFrom = (args: string[]): string[] => {
 	return [...repos, normalizeRemote(remote)];
 };
 
-const entryFor = (
-	id: string,
-	pullRequest: PullRequest,
-	stack: Stack & { children: string[] },
-): Record<string, unknown> => ({
+type Entry = {
+	id: string;
+	pullRequest: PullRequest;
+	stack: Stack & { children: string[] };
+	reviews: BotReview[];
+};
+
+const entryFor = ({ id, pullRequest, stack, reviews }: Entry): Record<string, unknown> => ({
 	ancestors: stack.ancestors,
 	children: stack.children,
 	ci: summarizeChecks(pullRequest),
@@ -59,10 +76,7 @@ const entryFor = (
 	id,
 	number: pullRequest.number,
 	parent: stack.parent,
-	reviews: (pullRequest.latestReviews ?? []).map((review) => ({
-		login: review.author?.login ?? "unknown",
-		state: review.state ?? "UNKNOWN",
-	})),
+	review_bots: reviews,
 	size: {
 		additions: pullRequest.additions ?? 0,
 		changed_files: pullRequest.changedFiles ?? 0,
@@ -74,9 +88,20 @@ const entryFor = (
 	url: pullRequest.url,
 });
 
+const collectAllReviews = async (
+	pullRequests: Map<string, PullRequest>,
+): Promise<Map<string, BotReview[]>> =>
+	new Map(
+		await inChunks(
+			[...pullRequests],
+			async ([id, pullRequest]) => [id, await collectReviews(pullRequest)] as const,
+		),
+	);
+
 const buildEntries = (
 	pullRequests: Map<string, PullRequest>,
 	stacks: Map<string, Stack>,
+	reviews: Map<string, BotReview[]>,
 ): Record<string, unknown>[] => {
 	const children = new Map<string, string[]>();
 	for (const [id, { parent }] of stacks) {
@@ -88,7 +113,14 @@ const buildEntries = (
 		const pullRequest = pullRequests.get(id);
 		const stack = stacks.get(id) ?? { ancestors: [], parent: null, resolved: false };
 		return pullRequest
-			? [entryFor(id, pullRequest, { ...stack, children: sortIds(children.get(id) ?? []) })]
+			? [
+					entryFor({
+						id,
+						pullRequest,
+						reviews: reviews.get(id) ?? [],
+						stack: { ...stack, children: sortIds(children.get(id) ?? []) },
+					}),
+				]
 			: [];
 	});
 };
@@ -99,21 +131,21 @@ const main = async (): Promise<void> => {
 		console.info(USAGE);
 		return;
 	}
-	const repos = reposFrom(args);
 	const cwd = process.cwd();
-	const { pullRequests: fetched, errors } = await listPullRequests([...new Set(repos)]);
+	const { pullRequests: fetched, errors } = await listPullRequests([...new Set(reposFrom(args))]);
 	const pullRequests = new Map(
 		fetched.map((pullRequest) => [prId(pullRequest.repo, pullRequest.number), pullRequest]),
 	);
 	const { stacks, found, total } = resolveStacks(pullRequests, cwd);
+	const reviews = await collectAllReviews(pullRequests);
 
 	console.info(
 		JSON.stringify(
 			{
-				agents: args.includes("--no-agents") ? [] : collectAgents(pullRequests),
+				agents: args.includes("--no-agents") ? [] : collectAgents(pullRequests, agentLines(args)),
 				errors,
 				git: { cwd, heads_resolved: found, heads_total: total },
-				pull_requests: buildEntries(pullRequests, stacks),
+				pull_requests: buildEntries(pullRequests, stacks, reviews),
 			},
 			null,
 			2,
