@@ -6,6 +6,7 @@
 		"pr": "",
 		"sessionUrl": false
 	},
+	"autoMemoryEnabled": false,
 	"effortLevel": "high",
 	"fastMode": false,
 	"hooks": {
