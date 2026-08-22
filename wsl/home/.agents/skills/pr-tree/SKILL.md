@@ -1,9 +1,9 @@
 ---
 description: Query the active GitHub user's open pull requests, their stack
-  relationships derived from git commit ancestry, and the live coding agents
-  working on them. Use when identifying which PR belongs to current work,
-  resuming concurrent or stacked PR work, resolving PR relationships or status,
-  or answering a PR-tracking question.
+  relationships derived from git commit ancestry, the review-bot state of each,
+  and the live coding agents working on them. Use when identifying which PR
+  belongs to current work, resuming concurrent or stacked PR work, resolving PR
+  relationships or status, or answering a PR-tracking question.
 name: pr-tree
 ---
 
@@ -32,6 +32,8 @@ output is the repository you meant.
   for several.
 - Omit both to query every open PR by the active GitHub user, across repos.
 - `--no-agents` skips the local agent lookup.
+- `--agent-lines N` sets how much of each agent's terminal to capture
+  (default 30, `0` to omit).
 
 `git.heads_resolved` vs `git.heads_total` says how many PR heads the local
 clone actually contains. In single-repository mode a shortfall means the
@@ -64,15 +66,41 @@ Their absence from `pull_requests[]` is not evidence they do not exist.
   `pending` check names, and `passing`. All three count *distinct check
   names*, so a matrix job reporting one name many times counts once.
 - `size` — `additions`, `deletions`, `changed_files`.
-- `reviews` — `login` and `state` per reviewer, bots included.
+- `review_bots` — see below.
 
-`agents[]` — one entry per live agent:
+### Reading Review_bots
+
+Presence of a bot in this list is not "it reviewed". Read `verdict`:
+
+- `not_run` — no check and no activity. The bot never looked at this PR.
+- `running` — its check on the current head is still in flight.
+- `clean` — it ran on this head and left nothing outstanding.
+- `findings` — `unresolved` threads are waiting on you. Always show the count.
+- `stale` — it commented before, but has no check on the *current* head, so
+  the latest push is unreviewed.
+
+`clean` and `not_run` look identical if you only check whether a review object
+exists — **they are not the same**, and confusing them is the most common way
+to render this wrong. A bot that finds nothing posts only a summary comment
+and never opens a formal review, so `reviews: 0` is normal for a clean pass.
+Findings that cannot be anchored to the diff are posted as ordinary PR
+comments rather than inline, so `unresolved` is the number to trust, not
+`reviews`.
+
+Supporting counts: `check` (the head-scoped check-run conclusion), `reviews`,
+`last_review_state`, `summaries`, `threads`, `unresolved`, `last_activity`.
+
+### Reading Agents
 
 - `agent` — the tool ("codex", "claude", …). `session_id` is that tool's own
-  session identifier; present it verbatim so the user can resume with whichever
-  tool it names. Never assume a specific resume command. It can be `null`.
+  session identifier. **Print it in full** — a truncated id cannot be used to
+  resume, which is the only reason it is there. Never assume a specific resume
+  command; the tool named in `agent` decides that. It can be `null`.
 - `status` — `working`, `idle`, `done`, `blocked`, and possibly others. Treat
   it as an open set and pass through anything you do not recognise.
+- `recent_output` — the tail of that agent's terminal. Summarise it into one
+  sentence saying what the agent is doing now, or what it finished last. This
+  is the field that answers "what is this agent up to".
 - `pull_request` — the matched PR, resolved from the agent's worktree branch
   within the agent's own repository. `null` means no PR yet, or a checkout the
   script could not read.
@@ -113,44 +141,63 @@ up yourself; otherwise just say the child needs a restack.
 
 ## Presenting the Tree
 
-Default to one tree grouped by stack, with a short section per root chain and
-nesting by depth. Add a legend for the emojis you use.
+Give each PR a block of its own, not a single dense line. Cramming status,
+size, reviews, and an agent onto one line is the main failure mode here — the
+user cannot scan it. Group by stack, one section per root chain, nesting by
+depth. Lead with a legend for the glyphs you use.
 
-Pick exactly one state emoji per PR, taking the first that applies in this
-order:
+Per PR, in this order:
 
-- 🔴 conflict, failing CI, or a parent that is itself 🔴
-- 🟡 draft, or CI still pending or absent
-- 🟢 ready for review, no conflict, CI passing
-- ✅ a merged parent you looked up to complete a chain
+1. A heading line: lifecycle glyph, `#number` as a link, and the title.
+2. Size as `+additions −deletions · N files`, then the blockers and the review
+   state, each on its own line rather than run together.
+3. One sentence naming the behavior the PR changes — not how it is
+   implemented, not a restatement of the title. Write it in the language the
+   user is using. Never drop it to save space; a PR with no explanation is the
+   one the user has to go look up.
+4. The agent line, when one is matched.
 
-Keep conflict and CI failure as separate markers after the state emoji — they
-are different problems with different fixes, so never collapse them into one:
+### Lifecycle
 
-- ⚠️ conflict, needing a rebase or restack
-- ❌ CI failing, followed by the failing check names
-- ⏳ CI pending, followed by the pending check names
-- 🔀 declared parent not confirmed by git, so the branch needs a restack
+One per PR, describing only where it sits in its life, never its health:
+
+- 🟢 open and ready for review
+- 📝 open draft
+- ✅ merged (only a parent you looked up to complete a chain)
+
+### Blockers
+
+Health is a separate axis, because a PR can have several problems at once and
+collapsing them into one colour hides all but the first. Show every one that
+applies, each with its own glyph:
+
+- 💥 merge conflict — needs a rebase onto the base branch
+- ❌ CI failing — list the failing check names
+- ⏳ CI running — list the pending check names
+- 🧪 no CI has reported yet
+- ♻️ needs a restack — its declared parent is not confirmed by git, usually
+  because that parent merged or was force-pushed
 - ❓ `head_resolved` is false, so the stack position is unverified
 
-Supplementary markers:
+When a PR has none of these, say so positively (CI green, no conflict) rather
+than leaving the line blank.
 
-- 🤖 a live agent, with its `status`, `agent`, and `session_id`. Place it on
-  the PR's own line, not in a separate table.
-- ✏️ uncommitted changes in that agent's worktree, with the file count.
-- 🐇 CodeRabbit, 🦎 Greptile, or another review bot, with its review state. A
-  ready PR with no bot review usually means the bot skipped a large diff; say
-  so rather than reporting it as pending.
+### Review Bots
 
-Per PR, show the number as a link, the title, the size as
-`+additions −deletions · N files`, the markers above, and one explanation
-line. Keep the explanation to a single sentence naming the behavior the PR
-changes, not how it is implemented and not a restatement of the title. Write
-it in the language the user is using. Never drop the explanation to save
-space — a PR with no explanation is the one the user has to go look up.
+Give each bot its own entry with a word, never a bare icon. A lone 🐇 tells
+the user nothing about whether there is anything to act on:
 
-Close with anything the tree cannot show: agents with no PR, children needing
-a restack, entries in `errors[]`, and what changed since you last rendered it.
+- 🐇 CodeRabbit and 🦎 Greptile, each followed by the verdict spelled out —
+  `3 unresolved`, `reviewed, nothing open`, `still running`, `not run`, or
+  `stale, has not seen the latest push`.
 
-Do not print the raw JSON, and do not report checks or reviews as still
-settling unless the user asked you to wait for them.
+### Agents
+
+- 🤖 the tool and status, the **full** `session_id`, and one sentence from
+  `recent_output` describing what it is doing or last did.
+- ✏️ append the `dirty_files` count when the worktree has uncommitted changes.
+
+Close with what the tree cannot show: agents with no PR, children needing a
+restack, entries in `errors[]`, and what changed since you last rendered it.
+
+Do not print the raw JSON.

@@ -20,7 +20,6 @@ const makePullRequest = (number: number, overrides: Partial<PullRequest> = {}): 
 	mergeable: "MERGEABLE",
 	mergeStateStatus: "CLEAN",
 	statusCheckRollup: [],
-	latestReviews: [],
 	updatedAt: "2026-07-18T00:00:00Z",
 	...overrides,
 });
@@ -112,7 +111,7 @@ describe("buildEntries", () => {
 		const pullRequests = new Map(
 			[1, 2, 3].map((number) => [`owner/repo#${number}`, makePullRequest(number)]),
 		);
-		const entries = buildEntries(pullRequests, stacksFrom(chain)) as {
+		const entries = buildEntries(pullRequests, stacksFrom(chain), new Map()) as {
 			id: string;
 			parent: string | null;
 			children: string[];
@@ -134,7 +133,7 @@ describe("buildEntries", () => {
 		const pullRequests = new Map(
 			[1, 2, 10].map((number) => [`owner/repo#${number}`, makePullRequest(number)]),
 		);
-		const entries = buildEntries(pullRequests, stacksFrom(fork)) as {
+		const entries = buildEntries(pullRequests, stacksFrom(fork), new Map()) as {
 			id: string;
 			children: string[];
 		}[];
@@ -151,7 +150,7 @@ describe("buildEntries", () => {
 describe("buildEntries fallbacks", () => {
 	test("falls back to an unresolved root when git returned no ancestry", () => {
 		const pullRequests = new Map([["owner/repo#1", makePullRequest(1)]]);
-		const entries = buildEntries(pullRequests, new Map()) as {
+		const entries = buildEntries(pullRequests, new Map(), new Map()) as {
 			parent: string | null;
 			ancestors: string[];
 			head_resolved: boolean;
@@ -163,7 +162,7 @@ describe("buildEntries fallbacks", () => {
 	});
 
 	test("returns an empty list when there are no open pull requests", () => {
-		expect(buildEntries(new Map(), new Map())).toEqual([]);
+		expect(buildEntries(new Map(), new Map(), new Map())).toEqual([]);
 	});
 });
 
@@ -181,7 +180,7 @@ describe("buildEntries field defaults", () => {
 				}),
 			],
 		]);
-		const entries = buildEntries(pullRequests, new Map()) as {
+		const entries = buildEntries(pullRequests, new Map(), new Map()) as {
 			conflict: boolean;
 			ci: { state: string };
 			size: { additions: number; deletions: number; changed_files: number };
@@ -193,20 +192,16 @@ describe("buildEntries field defaults", () => {
 	});
 
 	// Absent counts must serialize as zero; undefined disappears from JSON.stringify entirely.
-	test("defaults a missing size to zeros and a deleted review author to unknown", () => {
-		const pullRequests = new Map([
-			[
-				"owner/repo#1",
-				makePullRequest(1, { latestReviews: [{ author: null, state: "APPROVED" }] }),
-			],
-		]);
-		const entries = buildEntries(pullRequests, new Map()) as {
+	test("defaults a missing size to zeros and carries review bots through", () => {
+		const pullRequests = new Map([["owner/repo#1", makePullRequest(1)]]);
+		const bots = new Map([["owner/repo#1", [{ login: "coderabbitai", verdict: "clean" }]]]);
+		const entries = buildEntries(pullRequests, new Map(), bots as never) as {
 			size: { additions: number; deletions: number; changed_files: number };
-			reviews: { login: string; state: string }[];
+			review_bots: { login: string; verdict: string }[];
 		}[];
 
 		expect(entries[0]?.size).toEqual({ additions: 0, deletions: 0, changed_files: 0 });
-		expect(entries[0]?.reviews).toEqual([{ login: "unknown", state: "APPROVED" }]);
+		expect(entries[0]?.review_bots).toEqual([{ login: "coderabbitai", verdict: "clean" }]);
 	});
 });
 
