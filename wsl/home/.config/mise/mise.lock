@@ -231,9 +231,9 @@ url_api = "https://api.github.com/repos/atuinsh/atuin/releases/assets/500652043"
 provenance = "github-attestations"
 
 [tools.atuin."platforms.linux-x64"]
-checksum = "sha256:a2cd1f7bba0e45cf620683833a6414b9dd74a0c446e4d819258b6717109bc0fd"
-url = "https://github.com/atuinsh/atuin/releases/download/v18.19.0/atuin-x86_64-unknown-linux-musl.tar.gz"
-url_api = "https://api.github.com/repos/atuinsh/atuin/releases/assets/500652099"
+checksum = "sha256:4d7559ada42407ee8ddc62349acf134dd297568d032c45a746a7aef8a6860648"
+url = "https://github.com/atuinsh/atuin/releases/download/v18.19.0/atuin-x86_64-unknown-linux-gnu.tar.gz"
+url_api = "https://api.github.com/repos/atuinsh/atuin/releases/assets/500652097"
 provenance = "github-attestations"
 
 [tools.atuin."platforms.linux-x64-baseline"]
@@ -321,9 +321,9 @@ url = "https://github.com/sharkdp/bat/releases/download/v0.26.1/bat-v0.26.1-aarc
 url_api = "https://api.github.com/repos/sharkdp/bat/releases/assets/323548153"
 
 [tools.bat."platforms.linux-x64"]
-checksum = "sha256:0dcd8ac79732c0d5b136f11f4ee00e581440e16a44eab5b3105b611bbf2cf191"
-url = "https://github.com/sharkdp/bat/releases/download/v0.26.1/bat-v0.26.1-x86_64-unknown-linux-musl.tar.gz"
-url_api = "https://api.github.com/repos/sharkdp/bat/releases/assets/323549429"
+checksum = "sha256:726f04c8f576a7fd18b7634f1bbf2f915c43494c1c0f013baa3287edb0d5a2a3"
+url = "https://github.com/sharkdp/bat/releases/download/v0.26.1/bat-v0.26.1-x86_64-unknown-linux-gnu.tar.gz"
+url_api = "https://api.github.com/repos/sharkdp/bat/releases/assets/323549181"
 
 [tools.bat."platforms.linux-x64-baseline"]
 checksum = "sha256:0dcd8ac79732c0d5b136f11f4ee00e581440e16a44eab5b3105b611bbf2cf191"
@@ -553,9 +553,9 @@ url_api = "https://api.github.com/repos/cargo-bins/cargo-binstall/releases/asset
 provenance = "github-attestations"
 
 [tools.cargo-binstall."platforms.linux-x64"]
-checksum = "sha256:630c8f8803a686aa6779497f0f0fb51d49822fb5fc3c514d8ced33b34e338e6e"
-url = "https://github.com/cargo-bins/cargo-binstall/releases/download/v1.21.1/cargo-binstall-x86_64-unknown-linux-musl.tgz"
-url_api = "https://api.github.com/repos/cargo-bins/cargo-binstall/releases/assets/489425174"
+checksum = "sha256:d8ff7fd6567cf80d438c6c143484a81e84bd237e2507aa0f85b5707beced0bbc"
+url = "https://github.com/cargo-bins/cargo-binstall/releases/download/v1.21.1/cargo-binstall-x86_64-unknown-linux-gnu.tgz"
+url_api = "https://api.github.com/repos/cargo-bins/cargo-binstall/releases/assets/489425192"
 provenance = "github-attestations"
 
 [tools.cargo-binstall."platforms.linux-x64-baseline"]
@@ -751,9 +751,9 @@ url = "https://github.com/dandavison/delta/releases/download/0.19.2/delta-0.19.2
 url_api = "https://api.github.com/repos/dandavison/delta/releases/assets/383662337"
 
 [tools.delta."platforms.linux-x64"]
-checksum = "sha256:f1ea01ca7728ce3462debc359f39dfc7cbbc1a63224b71fefabf92042864aa1b"
-url = "https://github.com/dandavison/delta/releases/download/0.19.2/delta-0.19.2-x86_64-unknown-linux-musl.tar.gz"
-url_api = "https://api.github.com/repos/dandavison/delta/releases/assets/383662298"
+checksum = "sha256:8e695c5f586a8c53d6c3b01be0b4a422ed218bfed2a56191caebe373a1c18ab2"
+url = "https://github.com/dandavison/delta/releases/download/0.19.2/delta-0.19.2-x86_64-unknown-linux-gnu.tar.gz"
+url_api = "https://api.github.com/repos/dandavison/delta/releases/assets/383662069"
 
 [tools.delta."platforms.linux-x64-baseline"]
 checksum = "sha256:f1ea01ca7728ce3462debc359f39dfc7cbbc1a63224b71fefabf92042864aa1b"
@@ -834,9 +834,9 @@ url = "https://github.com/eza-community/eza/releases/download/v0.23.5/eza_aarch6
 url_api = "https://api.github.com/repos/eza-community/eza/releases/assets/471228867"
 
 [tools.eza."platforms.linux-x64"]
-checksum = "sha256:e06eebab74b73d6b7d51a796a353824b001bea82df077706382e100815d28904"
-url = "https://github.com/eza-community/eza/releases/download/v0.23.5/eza_x86_64-unknown-linux-musl.tar.gz"
-url_api = "https://api.github.com/repos/eza-community/eza/releases/assets/471228890"
+checksum = "sha256:35c70c5c43c29108075e58b893234c67ef585f0b53a7eaf8e9e7d4eec9f339b4"
+url = "https://github.com/eza-community/eza/releases/download/v0.23.5/eza_x86_64-unknown-linux-gnu.tar.gz"
+url_api = "https://api.github.com/repos/eza-community/eza/releases/assets/471228887"
 
 [tools.eza."platforms.linux-x64-baseline"]
 checksum = "sha256:e06eebab74b73d6b7d51a796a353824b001bea82df077706382e100815d28904"
@@ -868,9 +868,9 @@ url = "https://github.com/sharkdp/fd/releases/download/v10.4.2/fd-v10.4.2-aarch6
 url_api = "https://api.github.com/repos/sharkdp/fd/releases/assets/370662859"
 
 [tools.fd."platforms.linux-x64"]
-checksum = "sha256:e3257d48e29a6be965187dbd24ce9af564e0fe67b3e73c9bdcd180f4ec11bdde"
-url = "https://github.com/sharkdp/fd/releases/download/v10.4.2/fd-v10.4.2-x86_64-unknown-linux-musl.tar.gz"
-url_api = "https://api.github.com/repos/sharkdp/fd/releases/assets/370662855"
+checksum = "sha256:def59805cd14b5651b68990855f426ad087f3b96881296d963910431ba3143c8"
+url = "https://github.com/sharkdp/fd/releases/download/v10.4.2/fd-v10.4.2-x86_64-unknown-linux-gnu.tar.gz"
+url_api = "https://api.github.com/repos/sharkdp/fd/releases/assets/370662118"
 
 [tools.fd."platforms.linux-x64-baseline"]
 checksum = "sha256:e3257d48e29a6be965187dbd24ce9af564e0fe67b3e73c9bdcd180f4ec11bdde"
@@ -1201,39 +1201,15 @@ url_api = "https://api.github.com/repos/risu729/kuebiko/releases/assets/48748554
 provenance = "github-attestations"
 
 [[tools."github:risu729/mikoto"]]
-version = "1.0.22"
+version = "1.0.23"
 backend = "github:risu729/mikoto"
 
 [tools."github:risu729/mikoto"."platforms.linux-x64"]
-checksum = "sha256:21f8d36f4bc4bc6a1037f46f2b5c90654cabf52b021103e64bf6a807e947cb19"
-url = "https://github.com/risu729/mikoto/releases/download/v1.0.22/mikoto-v1.0.22-linux-x64.tar.gz"
-url_api = "https://api.github.com/repos/risu729/mikoto/releases/assets/524112449"
+checksum = "sha256:2168f06fdc7752856bfec31f8ffa9001ecc48239c5864df20e833b7a3111f9a3"
+url = "https://github.com/risu729/mikoto/releases/download/v1.0.23/mikoto-v1.0.23-linux-x64.tar.gz"
+url_api = "https://api.github.com/repos/risu729/mikoto/releases/assets/524385582"
 provenance = "github-attestations"
 provenance_verified = true
-
-[tools."github:risu729/mikoto"."platforms.linux-x64-baseline"]
-checksum = "sha256:21f8d36f4bc4bc6a1037f46f2b5c90654cabf52b021103e64bf6a807e947cb19"
-url = "https://github.com/risu729/mikoto/releases/download/v1.0.22/mikoto-v1.0.22-linux-x64.tar.gz"
-url_api = "https://api.github.com/repos/risu729/mikoto/releases/assets/524112449"
-provenance = "github-attestations"
-
-[tools."github:risu729/mikoto"."platforms.linux-x64-musl"]
-checksum = "sha256:21f8d36f4bc4bc6a1037f46f2b5c90654cabf52b021103e64bf6a807e947cb19"
-url = "https://github.com/risu729/mikoto/releases/download/v1.0.22/mikoto-v1.0.22-linux-x64.tar.gz"
-url_api = "https://api.github.com/repos/risu729/mikoto/releases/assets/524112449"
-provenance = "github-attestations"
-
-[tools."github:risu729/mikoto"."platforms.linux-x64-musl-baseline"]
-checksum = "sha256:21f8d36f4bc4bc6a1037f46f2b5c90654cabf52b021103e64bf6a807e947cb19"
-url = "https://github.com/risu729/mikoto/releases/download/v1.0.22/mikoto-v1.0.22-linux-x64.tar.gz"
-url_api = "https://api.github.com/repos/risu729/mikoto/releases/assets/524112449"
-provenance = "github-attestations"
-
-[tools."github:risu729/mikoto"."platforms.macos-arm64"]
-checksum = "sha256:1b2ddd43417387443383594debd2907ef48a1e4a5ba6d1c3c68110368007d1b7"
-url = "https://github.com/risu729/mikoto/releases/download/v1.0.22/mikoto-v1.0.22-macos-arm64.tar.gz"
-url_api = "https://api.github.com/repos/risu729/mikoto/releases/assets/524112441"
-provenance = "github-attestations"
 
 [[tools."github:seachicken/gh-poi"]]
 version = "0.18.3"
@@ -2055,9 +2031,9 @@ url = "https://github.com/lycheeverse/lychee/releases/download/lychee-v0.24.2/ly
 url_api = "https://api.github.com/repos/lycheeverse/lychee/releases/assets/409958602"
 
 [tools.lychee."platforms.linux-x64"]
-checksum = "sha256:73657a111819a30c47c08352896796f23d64e4eb2b3ed39b6d32149241566fc5"
-url = "https://github.com/lycheeverse/lychee/releases/download/lychee-v0.24.2/lychee-x86_64-unknown-linux-musl.tar.gz"
-url_api = "https://api.github.com/repos/lycheeverse/lychee/releases/assets/409959271"
+checksum = "sha256:1f4e0ef7f6554a6ed33dd7ac144fb2e1bbed98598e7af973042fc5cd43951c9a"
+url = "https://github.com/lycheeverse/lychee/releases/download/lychee-v0.24.2/lychee-x86_64-unknown-linux-gnu.tar.gz"
+url_api = "https://api.github.com/repos/lycheeverse/lychee/releases/assets/409959156"
 
 [tools.lychee."platforms.linux-x64-baseline"]
 checksum = "sha256:73657a111819a30c47c08352896796f23d64e4eb2b3ed39b6d32149241566fc5"
@@ -2219,7 +2195,7 @@ version = "20.0.20"
 backend = "npm:ccusage"
 
 [[tools."npm:resend-cli"]]
-version = "2.10.0"
+version = "2.15.0"
 backend = "npm:resend-cli"
 
 [tools."npm:resend-cli".options]
@@ -2241,9 +2217,9 @@ url = "https://github.com/sharkdp/numbat/releases/download/v1.23.0/numbat-v1.23.
 url_api = "https://api.github.com/repos/sharkdp/numbat/releases/assets/352726163"
 
 [tools.numbat."platforms.linux-x64"]
-checksum = "sha256:09efa9dfbff4d983fb0484e2bfc126df9d0cbedede627d22ac61141457b5daa1"
-url = "https://github.com/sharkdp/numbat/releases/download/v1.23.0/numbat-v1.23.0-x86_64-unknown-linux-musl.tar.gz"
-url_api = "https://api.github.com/repos/sharkdp/numbat/releases/assets/352726109"
+checksum = "sha256:e31ba03eefbb8232e15dc7c0204df5e2158021d70cc94e3bc1e429e0b7d4b15a"
+url = "https://github.com/sharkdp/numbat/releases/download/v1.23.0/numbat-v1.23.0-x86_64-unknown-linux-gnu.tar.gz"
+url_api = "https://api.github.com/repos/sharkdp/numbat/releases/assets/352725353"
 
 [tools.numbat."platforms.linux-x64-baseline"]
 checksum = "sha256:09efa9dfbff4d983fb0484e2bfc126df9d0cbedede627d22ac61141457b5daa1"
@@ -2535,8 +2511,8 @@ url = "https://github.com/astral-sh/python-build-standalone/releases/download/20
 provenance = "github-attestations"
 
 [tools.python."platforms.linux-x64"]
-checksum = "sha256:a2478d654ed51d443bae21ec20ad927f116b4f5aae4094ab74918a6aa38f0575"
-url = "https://github.com/astral-sh/python-build-standalone/releases/download/20260807/cpython-3.14.7+20260807-x86_64-unknown-linux-gnu-install_only_stripped.tar.gz"
+checksum = "sha256:cefba034445d2875408d1fd4d5700ae6731563aeb54dcb39fd8164ab5c457533"
+url = "https://github.com/astral-sh/python-build-standalone/releases/download/20260814/cpython-3.14.7+20260814-x86_64-unknown-linux-gnu-install_only_stripped.tar.gz"
 provenance = "github-attestations"
 
 [tools.python."platforms.linux-x64-baseline"]
@@ -2686,9 +2662,9 @@ url = "https://github.com/chmln/sd/releases/download/v1.1.0/sd-v1.1.0-aarch64-un
 url_api = "https://api.github.com/repos/chmln/sd/releases/assets/362325535"
 
 [tools.sd."platforms.linux-x64"]
-checksum = "sha256:02f00f4777d43e8e95b7b8d49e1a0d6e502fed4b8e79c1c8b8063857a30caa2e"
-url = "https://github.com/chmln/sd/releases/download/v1.1.0/sd-v1.1.0-x86_64-unknown-linux-musl.tar.gz"
-url_api = "https://api.github.com/repos/chmln/sd/releases/assets/362325321"
+checksum = "sha256:3613eca74cd686739bb5a6d68319aa56c747e7315274d02323a2ca2b1c5d82d2"
+url = "https://github.com/chmln/sd/releases/download/v1.1.0/sd-v1.1.0-x86_64-unknown-linux-gnu.tar.gz"
+url_api = "https://api.github.com/repos/chmln/sd/releases/assets/362325296"
 
 [tools.sd."platforms.linux-x64-baseline"]
 checksum = "sha256:02f00f4777d43e8e95b7b8d49e1a0d6e502fed4b8e79c1c8b8063857a30caa2e"
@@ -2957,53 +2933,13 @@ url = "https://github.com/typst/typst/releases/download/v0.15.1/typst-x86_64-app
 url_api = "https://api.github.com/repos/typst/typst/releases/assets/480300018"
 
 [[tools.usage]]
-version = "5.1.0"
+version = "6.0.0"
 backend = "aqua:jdx/usage"
 
-[tools.usage."platforms.linux-arm64"]
-checksum = "sha256:e2056b06c8d13f109389d53e758b4e79208f01360dec996751bc48ce658eb200"
-url = "https://github.com/jdx/usage/releases/download/v5.1.0/usage-aarch64-unknown-linux-musl.tar.gz"
-url_api = "https://api.github.com/repos/jdx/usage/releases/assets/507608014"
-
-[tools.usage."platforms.linux-arm64-musl"]
-checksum = "sha256:e2056b06c8d13f109389d53e758b4e79208f01360dec996751bc48ce658eb200"
-url = "https://github.com/jdx/usage/releases/download/v5.1.0/usage-aarch64-unknown-linux-musl.tar.gz"
-url_api = "https://api.github.com/repos/jdx/usage/releases/assets/507608014"
-
 [tools.usage."platforms.linux-x64"]
-checksum = "sha256:a702c639f8e25d1e10f42ab37e09b8f73634c09b23c7abe2ebd6ab6f9665e99c"
-url = "https://github.com/jdx/usage/releases/download/v5.1.0/usage-x86_64-unknown-linux-musl.tar.gz"
-url_api = "https://api.github.com/repos/jdx/usage/releases/assets/507608023"
-
-[tools.usage."platforms.linux-x64-baseline"]
-checksum = "sha256:a702c639f8e25d1e10f42ab37e09b8f73634c09b23c7abe2ebd6ab6f9665e99c"
-url = "https://github.com/jdx/usage/releases/download/v5.1.0/usage-x86_64-unknown-linux-musl.tar.gz"
-url_api = "https://api.github.com/repos/jdx/usage/releases/assets/507608023"
-
-[tools.usage."platforms.linux-x64-musl"]
-checksum = "sha256:a702c639f8e25d1e10f42ab37e09b8f73634c09b23c7abe2ebd6ab6f9665e99c"
-url = "https://github.com/jdx/usage/releases/download/v5.1.0/usage-x86_64-unknown-linux-musl.tar.gz"
-url_api = "https://api.github.com/repos/jdx/usage/releases/assets/507608023"
-
-[tools.usage."platforms.linux-x64-musl-baseline"]
-checksum = "sha256:a702c639f8e25d1e10f42ab37e09b8f73634c09b23c7abe2ebd6ab6f9665e99c"
-url = "https://github.com/jdx/usage/releases/download/v5.1.0/usage-x86_64-unknown-linux-musl.tar.gz"
-url_api = "https://api.github.com/repos/jdx/usage/releases/assets/507608023"
-
-[tools.usage."platforms.macos-arm64"]
-checksum = "sha256:ca35e60afd2895ec0b5be9162dbef155a76384ce43573b1ab8a04fbb46e70cd9"
-url = "https://github.com/jdx/usage/releases/download/v5.1.0/usage-universal-apple-darwin.tar.gz"
-url_api = "https://api.github.com/repos/jdx/usage/releases/assets/507609560"
-
-[tools.usage."platforms.macos-x64"]
-checksum = "sha256:ca35e60afd2895ec0b5be9162dbef155a76384ce43573b1ab8a04fbb46e70cd9"
-url = "https://github.com/jdx/usage/releases/download/v5.1.0/usage-universal-apple-darwin.tar.gz"
-url_api = "https://api.github.com/repos/jdx/usage/releases/assets/507609560"
-
-[tools.usage."platforms.macos-x64-baseline"]
-checksum = "sha256:ca35e60afd2895ec0b5be9162dbef155a76384ce43573b1ab8a04fbb46e70cd9"
-url = "https://github.com/jdx/usage/releases/download/v5.1.0/usage-universal-apple-darwin.tar.gz"
-url_api = "https://api.github.com/repos/jdx/usage/releases/assets/507609560"
+checksum = "sha256:b9090b15b7ea96885a89b9b54259fb2955fe163d0de7f28116960a54b98cb69d"
+url = "https://github.com/jdx/usage/releases/download/v6.0.0/usage-x86_64-unknown-linux-gnu.tar.gz"
+url_api = "https://api.github.com/repos/jdx/usage/releases/assets/524599434"
 
 [[tools.uv]]
 version = "0.12.5"
@@ -3022,9 +2958,9 @@ url_api = "https://api.github.com/repos/astral-sh/uv/releases/assets/514850993"
 provenance = "github-attestations"
 
 [tools.uv."platforms.linux-x64"]
-checksum = "sha256:a4742988791c9aeae68c78150d6cba762062ad2a47e53738c2779d2b596bfcdb"
-url = "https://github.com/astral-sh/uv/releases/download/0.12.5/uv-x86_64-unknown-linux-musl.tar.gz"
-url_api = "https://api.github.com/repos/astral-sh/uv/releases/assets/514851105"
+checksum = "sha256:68a509da24b06b4223a1c0175fb5eb5bc79342b76cbeff0cfe51ac3f5b17b6b2"
+url = "https://github.com/astral-sh/uv/releases/download/0.12.5/uv-x86_64-unknown-linux-gnu.tar.gz"
+url_api = "https://api.github.com/repos/astral-sh/uv/releases/assets/514851093"
 provenance = "github-attestations"
 
 [tools.uv."platforms.linux-x64-baseline"]
@@ -3064,53 +3000,13 @@ url_api = "https://api.github.com/repos/astral-sh/uv/releases/assets/514851078"
 provenance = "github-attestations"
 
 [[tools.watchexec]]
-version = "2.5.1"
+version = "2.6.1"
 backend = "aqua:watchexec/watchexec"
 
-[tools.watchexec."platforms.linux-arm64"]
-checksum = "sha256:c073887583d502fa0b393a8b847bb4460a111b3b0a199d1f70dafd5d89e71a2f"
-url = "https://github.com/watchexec/watchexec/releases/download/v2.5.1/watchexec-2.5.1-aarch64-unknown-linux-musl.tar.xz"
-url_api = "https://api.github.com/repos/watchexec/watchexec/releases/assets/384489962"
-
-[tools.watchexec."platforms.linux-arm64-musl"]
-checksum = "sha256:c073887583d502fa0b393a8b847bb4460a111b3b0a199d1f70dafd5d89e71a2f"
-url = "https://github.com/watchexec/watchexec/releases/download/v2.5.1/watchexec-2.5.1-aarch64-unknown-linux-musl.tar.xz"
-url_api = "https://api.github.com/repos/watchexec/watchexec/releases/assets/384489962"
-
 [tools.watchexec."platforms.linux-x64"]
-checksum = "sha256:9efabd08de720c1ee7e57b487fe11904f0966828e76146e2b5ea5deee90626be"
-url = "https://github.com/watchexec/watchexec/releases/download/v2.5.1/watchexec-2.5.1-x86_64-unknown-linux-musl.tar.xz"
-url_api = "https://api.github.com/repos/watchexec/watchexec/releases/assets/384489936"
-
-[tools.watchexec."platforms.linux-x64-baseline"]
-checksum = "sha256:9efabd08de720c1ee7e57b487fe11904f0966828e76146e2b5ea5deee90626be"
-url = "https://github.com/watchexec/watchexec/releases/download/v2.5.1/watchexec-2.5.1-x86_64-unknown-linux-musl.tar.xz"
-url_api = "https://api.github.com/repos/watchexec/watchexec/releases/assets/384489936"
-
-[tools.watchexec."platforms.linux-x64-musl"]
-checksum = "sha256:9efabd08de720c1ee7e57b487fe11904f0966828e76146e2b5ea5deee90626be"
-url = "https://github.com/watchexec/watchexec/releases/download/v2.5.1/watchexec-2.5.1-x86_64-unknown-linux-musl.tar.xz"
-url_api = "https://api.github.com/repos/watchexec/watchexec/releases/assets/384489936"
-
-[tools.watchexec."platforms.linux-x64-musl-baseline"]
-checksum = "sha256:9efabd08de720c1ee7e57b487fe11904f0966828e76146e2b5ea5deee90626be"
-url = "https://github.com/watchexec/watchexec/releases/download/v2.5.1/watchexec-2.5.1-x86_64-unknown-linux-musl.tar.xz"
-url_api = "https://api.github.com/repos/watchexec/watchexec/releases/assets/384489936"
-
-[tools.watchexec."platforms.macos-arm64"]
-checksum = "sha256:c5e405dd1109940b2510398d2182990c1be59063b94e11d7ace9c7b435cb1df1"
-url = "https://github.com/watchexec/watchexec/releases/download/v2.5.1/watchexec-2.5.1-aarch64-apple-darwin.tar.xz"
-url_api = "https://api.github.com/repos/watchexec/watchexec/releases/assets/384489930"
-
-[tools.watchexec."platforms.macos-x64"]
-checksum = "sha256:bb74bf33286ff7f31dd8e763e017fbc0418360d88baefd35bc57d662d28394e2"
-url = "https://github.com/watchexec/watchexec/releases/download/v2.5.1/watchexec-2.5.1-x86_64-apple-darwin.tar.xz"
-url_api = "https://api.github.com/repos/watchexec/watchexec/releases/assets/384489931"
-
-[tools.watchexec."platforms.macos-x64-baseline"]
-checksum = "sha256:bb74bf33286ff7f31dd8e763e017fbc0418360d88baefd35bc57d662d28394e2"
-url = "https://github.com/watchexec/watchexec/releases/download/v2.5.1/watchexec-2.5.1-x86_64-apple-darwin.tar.xz"
-url_api = "https://api.github.com/repos/watchexec/watchexec/releases/assets/384489931"
+checksum = "sha256:ee7f7fa19d697c21abdc7e4b0b02817c9f2c452d8edabd6d64811a2ea51ca5f8"
+url = "https://github.com/watchexec/watchexec/releases/download/v2.6.1/watchexec-2.6.1-x86_64-unknown-linux-gnu.tar.xz"
+url_api = "https://api.github.com/repos/watchexec/watchexec/releases/assets/524914823"
 
 [[tools.xh]]
 version = "0.26.2"
@@ -3231,7 +3127,7 @@ url_api = "https://api.github.com/repos/mikefarah/yq/releases/assets/522028007"
 provenance = "cosign"
 
 [tools.yq."platforms.linux-x64"]
-checksum = "sha512:508f4ee34c6d093d136ff3c1b36db4105e686c3d68d435c064448ba16e2616d528efafb2cb0a1890b7724890373a226a38b7da27e6796396ee759bed39a8c671"
+checksum = "sha256:c5f056448f973ae7d39b5401949648a78f2dc1947d6a8eb65be60d5c504b9385"
 url = "https://github.com/mikefarah/yq/releases/download/v4.53.6/yq_linux_amd64"
 url_api = "https://api.github.com/repos/mikefarah/yq/releases/assets/522028022"
 provenance = "cosign"
