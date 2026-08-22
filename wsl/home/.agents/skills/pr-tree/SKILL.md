@@ -159,11 +159,22 @@ Per PR, in this order:
 
 ### Lifecycle
 
-One per PR, describing only where it sits in its life, never its health:
+One per PR, describing only where it sits in its life, never its health. Take
+it from the `draft` field of that PR and nothing else:
 
-- 🟢 open and ready for review
-- 📝 open draft
-- ✅ merged (only a parent you looked up to complete a chain)
+- 🟢 `draft: false` — open and ready for review
+- 📝 `draft: true` — open draft
+- ✅ merged — only a parent you looked up to complete a chain
+
+Read `draft` for every PR individually. A tree where nearly every PR is a draft
+makes it easy to carry 📝 onto the one exception out of habit, and the ready PR
+is usually the one the user most wants to spot. If a qualifier you are about to
+write contradicts the glyph you just wrote, the glyph is wrong — change it
+rather than annotating it.
+
+State the ready and draft counts in the summary line, and derive them from the
+same `draft` field. If they disagree with the glyphs below them, the glyphs are
+wrong.
 
 ### Blockers
 
