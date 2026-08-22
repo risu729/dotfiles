@@ -1,269 +1,128 @@
 #!/usr/bin/env bun
 
-/* oxlint-disable eslint/max-statements import/no-named-export node/no-sync */
+/* oxlint-disable import/no-named-export */
 
-type RawCheck = {
-	name?: string;
-	workflowName?: string;
-	context?: string;
-	conclusion?: string;
-	state?: string;
-	status?: string;
-};
+import {
+	collectAgents,
+	hasConflict,
+	headRepoOf,
+	listPullRequests,
+	normalizeRemote,
+	prId,
+	run,
+	summarizeChecks,
+} from "./data.ts";
+import type { PullRequest, Stack } from "./data.ts";
+import { resolveStacks } from "./stacks.ts";
 
-type PullRequest = {
-	repo: string;
-	number: number;
-	title: string;
-	url: string;
-	baseRefName: string;
-	headRefName: string;
-	isDraft: boolean;
-	mergeStateStatus: string;
-	statusCheckRollup: RawCheck[];
-	body: string;
-	updatedAt: string;
-};
+const USAGE = "Usage: pr-tree.ts [--repo owner/name] [--current-repo] [--no-agents]";
 
-type Filters = {
-	repos: string[];
-	currentRepo: boolean;
-	help: boolean;
-};
+const sortIds = (ids: Iterable<string>): string[] =>
+	[...ids].toSorted((left, right) => right.localeCompare(left, undefined, { numeric: true }));
 
-const dependencyPattern = /(?<kind>depends?\s+on|requires?|stacked\s+on|based\s+on|blocked\s+on)/iu;
-const urlPattern =
-	/https:\/\/github\.com\/(?<owner>[^/\s]+)\/(?<repo>[^/\s]+)\/pull\/(?<number>\d+)/giu;
-const ownerRepoPattern = /(?<repo>[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+)#(?<number>\d+)/gu;
-const localRefPattern = /(?<![A-Za-z0-9_/.-])#(?<number>\d+)/gu;
-
-const run = (command: string[], check = true): string => {
-	try {
-		const result = Bun.spawnSync(command, { stderr: "ignore" });
-		if (check && result.exitCode !== 0) {
-			throw new Error(`${command.join(" ")} exited with ${result.exitCode}`);
-		}
-		return result.stdout.toString().trim();
-	} catch (error) {
-		if (check) {
-			throw error;
-		}
-		return "";
+const repoArg = (arg: string, previous: string | undefined): string[] => {
+	if (arg.startsWith("--repo=")) {
+		return [arg.slice("--repo=".length)];
 	}
+	return previous === "--repo" ? [arg] : [];
 };
 
-const runJson = <Result>(command: string[]): Result => JSON.parse(run(command)) as Result;
-
-const normalizeRemote = (url: string): string => {
-	let normalized = url
-		.trim()
-		.replace(/\/$/u, "")
-		.replace(/\.git$/u, "");
-	for (const prefix of ["https://github.com/", "git@github.com:", "ssh://git@github.com/"]) {
-		if (normalized.startsWith(prefix)) {
-			normalized = normalized.slice(prefix.length);
-			break;
-		}
+const reposFrom = (args: string[]): string[] => {
+	const repos = args.flatMap((arg, index) => repoArg(arg, args[index - 1]));
+	if (args.at(-1) === "--repo" || repos.some((repo) => !repo.includes("/"))) {
+		throw new Error("--repo requires owner/name");
 	}
-	return normalized;
-};
-
-const parseArgs = (args: string[]): Filters => {
-	const filters: Filters = { currentRepo: false, help: false, repos: [] };
-	for (let index = 0; index < args.length; index += 1) {
-		const option = args[index];
-		if (option === "--repo") {
-			const repo = args[index + 1];
-			if (!repo) {
-				throw new Error("--repo requires owner/name");
-			}
-			filters.repos.push(repo);
-			index += 1;
-		} else if (option === "--current-repo") {
-			filters.currentRepo = true;
-		} else if (option === "--help" || option === "-h") {
-			filters.help = true;
-		} else {
-			throw new Error(`unknown option: ${option}`);
-		}
+	if (!args.includes("--current-repo")) {
+		return repos;
 	}
-	return filters;
-};
-
-type Target = { number: number; repo: string };
-
-const targetsFor = (repos: string[]): Target[] => {
-	if (repos.length === 0) {
-		return runJson<{ number: number; repository?: { nameWithOwner: string } }[]>([
-			"gh",
-			"search",
-			"prs",
-			"--author",
-			"@me",
-			"--state",
-			"open",
-			"--limit",
-			"200",
-			"--json",
-			"number,repository",
-		]).flatMap(({ number, repository }) =>
-			repository ? [{ number, repo: repository.nameWithOwner }] : [],
-		);
+	const remote = run(["git", "remote", "get-url", "origin"]);
+	if (!remote) {
+		throw new Error("could not infer the current repository; run inside a git checkout");
 	}
-	return repos.flatMap((repo) =>
-		runJson<{ number: number }[]>([
-			"gh",
-			"pr",
-			"list",
-			"--repo",
-			repo,
-			"--author",
-			"@me",
-			"--state",
-			"open",
-			"--limit",
-			"200",
-			"--json",
-			"number",
-		]).map(({ number }) => ({ number, repo })),
-	);
+	return [...repos, normalizeRemote(remote)];
 };
 
-const fetchPullRequest = ({ number, repo }: Target): PullRequest => ({
-	...runJson<Omit<PullRequest, "repo">>([
-		"gh",
-		"pr",
-		"view",
-		String(number),
-		"--repo",
-		repo,
-		"--json",
-		"number,title,url,baseRefName,headRefName,isDraft,mergeStateStatus,statusCheckRollup,body,updatedAt",
-	]),
-	repo,
+const entryFor = (
+	id: string,
+	pullRequest: PullRequest,
+	stack: Stack & { children: string[] },
+): Record<string, unknown> => ({
+	ancestors: stack.ancestors,
+	children: stack.children,
+	ci: summarizeChecks(pullRequest),
+	conflict: hasConflict(pullRequest),
+	draft: pullRequest.isDraft,
+	head_ref: pullRequest.headRefName,
+	head_repo: headRepoOf(pullRequest),
+	head_resolved: stack.resolved,
+	head_sha: pullRequest.headRefOid,
+	id,
+	number: pullRequest.number,
+	parent: stack.parent,
+	reviews: (pullRequest.latestReviews ?? []).map((review) => ({
+		login: review.author?.login ?? "unknown",
+		state: review.state ?? "UNKNOWN",
+	})),
+	size: {
+		additions: pullRequest.additions ?? 0,
+		changed_files: pullRequest.changedFiles ?? 0,
+		deletions: pullRequest.deletions ?? 0,
+	},
+	state: pullRequest.state,
+	title: pullRequest.title,
+	updated_at: pullRequest.updatedAt,
+	url: pullRequest.url,
 });
 
-const prId = (repo: string, number: number | string): string => `${repo}#${number}`;
-
-const dependencyRefs = (pullRequest: PullRequest): string[] => {
-	const references: string[] = [];
-	for (const line of pullRequest.body.split("\n")) {
-		const dependency = dependencyPattern.exec(line);
-		if (dependency?.index === undefined) {
-			continue;
-		}
-		const segment = line.slice(dependency.index);
-		for (const match of segment.matchAll(urlPattern)) {
-			const { owner, repo, number } = match.groups ?? {};
-			if (owner && repo && number) {
-				references.push(prId(`${owner}/${repo}`, number));
-			}
-		}
-		for (const match of segment.matchAll(ownerRepoPattern)) {
-			const { repo, number } = match.groups ?? {};
-			if (repo && number) {
-				references.push(prId(repo, number));
-			}
-		}
-		const local = segment.replace(urlPattern, "").replace(ownerRepoPattern, "");
-		for (const match of local.matchAll(localRefPattern)) {
-			const number = match.groups?.["number"];
-			if (number) {
-				references.push(prId(pullRequest.repo, number));
-			}
+const buildEntries = (
+	pullRequests: Map<string, PullRequest>,
+	stacks: Map<string, Stack>,
+): Record<string, unknown>[] => {
+	const children = new Map<string, string[]>();
+	for (const [id, { parent }] of stacks) {
+		if (parent) {
+			children.set(parent, [...(children.get(parent) ?? []), id]);
 		}
 	}
-	return [...new Set(references)];
-};
-
-const normalizeChecks = (pullRequest: PullRequest): { name: string; status: string }[] => {
-	const checks = new Map<string, { name: string; status: string }>();
-	for (const check of pullRequest.statusCheckRollup) {
-		const name = check.name || check.workflowName || check.context || "check";
-		const status = check.conclusion || check.state || check.status || "UNKNOWN";
-		checks.set(`${name}\0${status}`, { name, status });
-	}
-	return [...checks.values()];
-};
-
-const sortIds = (ids: Iterable<string>, pullRequests: Map<string, PullRequest>): string[] =>
-	[...ids].sort((left, right) => {
-		const leftPr = pullRequests.get(left);
-		const rightPr = pullRequests.get(right);
-		return (
-			(leftPr?.repo ?? "").localeCompare(rightPr?.repo ?? "") ||
-			(rightPr?.number ?? 0) - (leftPr?.number ?? 0)
-		);
-	});
-
-const buildEntries = (pullRequests: Map<string, PullRequest>): object[] => {
-	const dependencies = new Map(
-		[...pullRequests].map(([id, pullRequest]) => [id, dependencyRefs(pullRequest)]),
-	);
-	const dependents = new Map<string, Set<string>>();
-	for (const [id, declared] of dependencies) {
-		for (const dependency of declared) {
-			if (pullRequests.has(dependency) && dependency !== id) {
-				const children = dependents.get(dependency) ?? new Set<string>();
-				children.add(id);
-				dependents.set(dependency, children);
-			}
-		}
-	}
-	return sortIds(pullRequests.keys(), pullRequests).map((id) => {
+	return sortIds(pullRequests.keys()).flatMap((id) => {
 		const pullRequest = pullRequests.get(id);
-		if (!pullRequest) {
-			throw new Error(`missing pull request: ${id}`);
-		}
-		const declared = dependencies.get(id) ?? [];
-		return {
-			base_ref: pullRequest.baseRefName,
-			checks: normalizeChecks(pullRequest),
-			dependencies: declared,
-			dependencies_outside_view: declared.filter((dependency) => !pullRequests.has(dependency)),
-			dependents: sortIds(dependents.get(id) ?? [], pullRequests),
-			draft: pullRequest.isDraft,
-			head_ref: pullRequest.headRefName,
-			id,
-			merge_state: pullRequest.mergeStateStatus || "UNKNOWN",
-			number: pullRequest.number,
-			open_dependencies: sortIds(
-				declared.filter((dependency) => pullRequests.has(dependency)),
-				pullRequests,
-			),
-			repo: pullRequest.repo,
-			title: pullRequest.title,
-			updated_at: pullRequest.updatedAt,
-			url: pullRequest.url,
-		};
+		const stack = stacks.get(id) ?? { ancestors: [], parent: null, resolved: false };
+		return pullRequest
+			? [entryFor(id, pullRequest, { ...stack, children: sortIds(children.get(id) ?? []) })]
+			: [];
 	});
 };
 
-const main = (): void => {
-	const filters = parseArgs(Bun.argv.slice(2));
-	if (filters.help) {
-		console.info("Usage: pr-tree.ts [--repo owner/name] [--current-repo]");
+const main = async (): Promise<void> => {
+	const args = Bun.argv.slice(2);
+	if (args.includes("--help") || args.includes("-h")) {
+		console.info(USAGE);
 		return;
 	}
-	if (filters.currentRepo) {
-		const remote = run(["git", "remote", "get-url", "origin"], false);
-		if (!remote) {
-			throw new Error("could not infer the current repository");
-		}
-		filters.repos.push(normalizeRemote(remote));
-	}
-	const repos = [...new Set(filters.repos)];
-	const pullRequests = new Map<string, PullRequest>();
-	for (const target of targetsFor(repos)) {
-		const pullRequest = fetchPullRequest(target);
-		pullRequests.set(prId(pullRequest.repo, pullRequest.number), pullRequest);
-	}
-	console.info(JSON.stringify({ pull_requests: buildEntries(pullRequests) }, null, 2));
+	const repos = reposFrom(args);
+	const cwd = process.cwd();
+	const { pullRequests: fetched, errors } = await listPullRequests([...new Set(repos)]);
+	const pullRequests = new Map(
+		fetched.map((pullRequest) => [prId(pullRequest.repo, pullRequest.number), pullRequest]),
+	);
+	const { stacks, found, total } = resolveStacks(pullRequests, cwd);
+
+	console.info(
+		JSON.stringify(
+			{
+				agents: args.includes("--no-agents") ? [] : collectAgents(pullRequests),
+				errors,
+				git: { cwd, heads_resolved: found, heads_total: total },
+				pull_requests: buildEntries(pullRequests, stacks),
+			},
+			null,
+			2,
+		),
+	);
 };
 
 if (import.meta.main) {
-	main();
+	await main();
 }
 
-export { buildEntries, dependencyRefs, normalizeChecks };
-export type { PullRequest };
+export { buildEntries, reposFrom, sortIds };

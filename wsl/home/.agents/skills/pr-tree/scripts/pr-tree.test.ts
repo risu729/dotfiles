@@ -2,96 +2,235 @@
 
 import { describe, expect, test } from "bun:test";
 
-import { buildEntries, dependencyRefs, normalizeChecks } from "./pr-tree.ts";
-import type { PullRequest } from "./pr-tree.ts";
+import type { PullRequest } from "./data.ts";
+import { buildEntries, reposFrom, sortIds } from "./pr-tree.ts";
+import { nearestParent } from "./stacks.ts";
 
 const makePullRequest = (number: number, overrides: Partial<PullRequest> = {}): PullRequest => ({
 	repo: "owner/repo",
 	number,
 	title: `PR ${number}`,
 	url: `https://github.com/owner/repo/pull/${number}`,
-	baseRefName: "main",
+	state: "OPEN",
 	headRefName: `branch-${number}`,
+	headRefOid: `sha-${number}`,
+	headRepository: { name: "repo" },
+	headRepositoryOwner: { login: "owner" },
 	isDraft: false,
+	mergeable: "MERGEABLE",
 	mergeStateStatus: "CLEAN",
 	statusCheckRollup: [],
-	body: "",
+	latestReviews: [],
 	updatedAt: "2026-07-18T00:00:00Z",
 	...overrides,
 });
 
-describe("dependencyRefs", () => {
-	test("finds local, cross-repository, and URL dependencies", () => {
-		const pullRequest = makePullRequest(4, {
-			body: `Unrelated #1
-Depends on #2 and owner/other#3.
-Stacked on https://github.com/another/project/pull/5`,
-		});
+const ancestorsOf = (chain: Record<string, string[]>): Map<string, Set<string>> =>
+	new Map(Object.entries(chain).map(([id, contained]) => [id, new Set(contained)]));
 
-		expect(dependencyRefs(pullRequest)).toEqual([
-			"owner/other#3",
-			"owner/repo#2",
-			"another/project#5",
-		]);
+const stacksFrom = (ancestors: Map<string, Set<string>>) =>
+	new Map(
+		[...ancestors].map(([id, contained]) => [
+			id,
+			{
+				ancestors: [...contained].toSorted(),
+				parent: nearestParent(id, ancestors),
+				resolved: true,
+			},
+		]),
+	);
+
+// A linear stack 1 <- 2 <- 3, where each head contains every head below it.
+const chain = ancestorsOf({
+	"owner/repo#1": [],
+	"owner/repo#2": ["owner/repo#1"],
+	"owner/repo#3": ["owner/repo#1", "owner/repo#2"],
+});
+
+describe("nearestParent", () => {
+	test("picks the candidate containing every other candidate", () => {
+		expect(nearestParent("owner/repo#3", chain)).toBe("owner/repo#2");
+		expect(nearestParent("owner/repo#2", chain)).toBe("owner/repo#1");
 	});
 
-	test("ignores unrelated references and deduplicates equivalent dependencies", () => {
-		expect(dependencyRefs(makePullRequest(4, { body: "Mentions #2" }))).toEqual([]);
-		expect(
-			dependencyRefs(
-				makePullRequest(4, {
-					body: "Depends on #2, owner/repo#2, and https://github.com/owner/repo/pull/2",
-				}),
-			),
-		).toEqual(["owner/repo#2"]);
+	// Numbers chosen so the true parent sorts first, killing a "last sorted candidate" heuristic.
+	test("does not fall back to a positional pick when ids sort against depth", () => {
+		const sorts = ancestorsOf({
+			"owner/repo#9": [],
+			"owner/repo#10": ["owner/repo#9"],
+			"owner/repo#11": ["owner/repo#9", "owner/repo#10"],
+		});
+
+		expect(nearestParent("owner/repo#11", sorts)).toBe("owner/repo#10");
+	});
+});
+
+describe("nearestParent edge shapes", () => {
+	test("returns null for a root and for an unknown id", () => {
+		expect(nearestParent("owner/repo#1", chain)).toBeNull();
+		expect(nearestParent("owner/repo#9", chain)).toBeNull();
+	});
+
+	test("does not pick a sibling when two branches share one ancestor", () => {
+		const fork = ancestorsOf({
+			"owner/repo#1": [],
+			"owner/repo#2": ["owner/repo#1"],
+			"owner/repo#3": ["owner/repo#1"],
+		});
+
+		expect(nearestParent("owner/repo#2", fork)).toBe("owner/repo#1");
+		expect(nearestParent("owner/repo#3", fork)).toBe("owner/repo#1");
+	});
+
+	// A merge, or a head git could not walk, leaves two candidates that contain neither the other.
+	test("reports null rather than guessing when candidates are incomparable", () => {
+		const merged = ancestorsOf({
+			"owner/repo#20": [],
+			"owner/repo#30": [],
+			"owner/repo#40": ["owner/repo#20", "owner/repo#30"],
+		});
+
+		expect(nearestParent("owner/repo#40", merged)).toBeNull();
+	});
+
+	// Truncation can leave a nearer parent with the smaller ancestor set; containment still wins.
+	test("prefers containment over ancestor count", () => {
+		const truncated = ancestorsOf({
+			"owner/repo#1": ["owner/repo#7", "owner/repo#8"],
+			"owner/repo#2": ["owner/repo#1"],
+			"owner/repo#3": ["owner/repo#1", "owner/repo#2"],
+			"owner/repo#7": [],
+			"owner/repo#8": [],
+		});
+
+		expect(nearestParent("owner/repo#3", truncated)).toBe("owner/repo#2");
 	});
 });
 
 describe("buildEntries", () => {
-	test("preserves dependencies outside the current view", () => {
-		const id = "owner/repo#4";
-		const pullRequests = new Map([[id, makePullRequest(4, { body: "Depends on #2" })]]);
-		const entries = buildEntries(pullRequests) as {
-			dependencies_outside_view: string[];
-		}[];
-
-		expect(entries[0]?.dependencies_outside_view).toEqual(["owner/repo#2"]);
-	});
-
-	test("links open dependencies and dependents", () => {
-		const pullRequests = new Map([
-			["owner/repo#1", makePullRequest(1)],
-			["owner/repo#2", makePullRequest(2, { body: "Depends on #1" })],
-		]);
-		const entries = buildEntries(pullRequests) as {
+	test("links parents to children and keeps the full ancestor chain", () => {
+		const pullRequests = new Map(
+			[1, 2, 3].map((number) => [`owner/repo#${number}`, makePullRequest(number)]),
+		);
+		const entries = buildEntries(pullRequests, stacksFrom(chain)) as {
 			id: string;
-			dependents: string[];
-			open_dependencies: string[];
+			parent: string | null;
+			children: string[];
+			ancestors: string[];
 		}[];
 		const byId = new Map(entries.map((entry) => [entry.id, entry]));
 
-		expect(byId.get("owner/repo#1")?.dependents).toEqual(["owner/repo#2"]);
-		expect(byId.get("owner/repo#2")?.open_dependencies).toEqual(["owner/repo#1"]);
+		expect(byId.get("owner/repo#1")?.children).toEqual(["owner/repo#2"]);
+		expect(byId.get("owner/repo#2")?.parent).toBe("owner/repo#1");
+		expect(byId.get("owner/repo#3")?.ancestors).toEqual(["owner/repo#1", "owner/repo#2"]);
+	});
+
+	test("orders entries and children numerically, not lexically", () => {
+		const fork = ancestorsOf({
+			"owner/repo#1": [],
+			"owner/repo#2": ["owner/repo#1"],
+			"owner/repo#10": ["owner/repo#1"],
+		});
+		const pullRequests = new Map(
+			[1, 2, 10].map((number) => [`owner/repo#${number}`, makePullRequest(number)]),
+		);
+		const entries = buildEntries(pullRequests, stacksFrom(fork)) as {
+			id: string;
+			children: string[];
+		}[];
+
+		expect(entries.map((entry) => entry.id)).toEqual([
+			"owner/repo#10",
+			"owner/repo#2",
+			"owner/repo#1",
+		]);
+		expect(entries.at(-1)?.children).toEqual(["owner/repo#10", "owner/repo#2"]);
 	});
 });
 
-describe("normalizeChecks", () => {
-	test("normalizes status fields, defaults unknown values, and deduplicates", () => {
-		const pullRequest = makePullRequest(4, {
-			statusCheckRollup: [
-				{ name: "success", conclusion: "SUCCESS" },
-				{ name: "failure", state: "FAILURE" },
-				{ name: "pending", status: "PENDING" },
-				{ name: "unknown" },
-				{ name: "failure", state: "FAILURE" },
-			],
-		});
+describe("buildEntries fallbacks", () => {
+	test("falls back to an unresolved root when git returned no ancestry", () => {
+		const pullRequests = new Map([["owner/repo#1", makePullRequest(1)]]);
+		const entries = buildEntries(pullRequests, new Map()) as {
+			parent: string | null;
+			ancestors: string[];
+			head_resolved: boolean;
+		}[];
 
-		expect(normalizeChecks(pullRequest)).toEqual([
-			{ name: "success", status: "SUCCESS" },
-			{ name: "failure", status: "FAILURE" },
-			{ name: "pending", status: "PENDING" },
-			{ name: "unknown", status: "UNKNOWN" },
+		expect(entries[0]?.parent).toBeNull();
+		expect(entries[0]?.ancestors).toEqual([]);
+		expect(entries[0]?.head_resolved).toBe(false);
+	});
+
+	test("returns an empty list when there are no open pull requests", () => {
+		expect(buildEntries(new Map(), new Map())).toEqual([]);
+	});
+});
+
+describe("buildEntries field defaults", () => {
+	test("reports conflict and size separately from checks", () => {
+		const pullRequests = new Map([
+			[
+				"owner/repo#1",
+				makePullRequest(1, {
+					mergeable: "CONFLICTING",
+					additions: 10,
+					deletions: 4,
+					changedFiles: 3,
+					statusCheckRollup: [{ name: "e2e", conclusion: "SUCCESS" }],
+				}),
+			],
 		]);
+		const entries = buildEntries(pullRequests, new Map()) as {
+			conflict: boolean;
+			ci: { state: string };
+			size: { additions: number; deletions: number; changed_files: number };
+		}[];
+
+		expect(entries[0]?.conflict).toBe(true);
+		expect(entries[0]?.ci.state).toBe("passing");
+		expect(entries[0]?.size).toEqual({ additions: 10, deletions: 4, changed_files: 3 });
+	});
+
+	// Absent counts must serialize as zero; undefined disappears from JSON.stringify entirely.
+	test("defaults a missing size to zeros and a deleted review author to unknown", () => {
+		const pullRequests = new Map([
+			[
+				"owner/repo#1",
+				makePullRequest(1, { latestReviews: [{ author: null, state: "APPROVED" }] }),
+			],
+		]);
+		const entries = buildEntries(pullRequests, new Map()) as {
+			size: { additions: number; deletions: number; changed_files: number };
+			reviews: { login: string; state: string }[];
+		}[];
+
+		expect(entries[0]?.size).toEqual({ additions: 0, deletions: 0, changed_files: 0 });
+		expect(entries[0]?.reviews).toEqual([{ login: "unknown", state: "APPROVED" }]);
+	});
+});
+
+describe("sortIds", () => {
+	test("orders by pull request number rather than lexically", () => {
+		expect(sortIds(["owner/repo#9", "owner/repo#12060", "owner/repo#120"])).toEqual([
+			"owner/repo#12060",
+			"owner/repo#120",
+			"owner/repo#9",
+		]);
+	});
+});
+
+describe("reposFrom", () => {
+	test("accepts both --repo forms and returns nothing when unscoped", () => {
+		expect(reposFrom(["--repo", "owner/repo"])).toEqual(["owner/repo"]);
+		expect(reposFrom(["--repo=owner/repo"])).toEqual(["owner/repo"]);
+		expect(reposFrom(["--no-agents"])).toEqual([]);
+	});
+
+	// A silently dropped value would widen the query to every open PR the user has anywhere.
+	test("refuses a --repo without a usable value instead of falling back to every repo", () => {
+		expect(() => reposFrom(["--repo"])).toThrow("--repo requires owner/name");
+		expect(() => reposFrom(["--repo", "--no-agents"])).toThrow("--repo requires owner/name");
+		expect(() => reposFrom(["--repo=owner"])).toThrow("--repo requires owner/name");
 	});
 });
