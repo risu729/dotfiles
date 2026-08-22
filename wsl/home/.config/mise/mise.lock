@@ -2224,6 +2224,7 @@ backend = "npm:resend-cli"
 
 [tools."npm:resend-cli".options]
 allow_builds = '["esbuild"]'
+trust_policy_excludes = '["resend@>=6.18.1"]'
 
 [[tools.numbat]]
 version = "1.23.0"

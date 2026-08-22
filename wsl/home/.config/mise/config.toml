@@ -79,7 +79,12 @@ glow = "latest"
 "github:risu729/biwa" = { version = "latest", minimum_release_age = "0s" }
 "github:risu729/mikoto" = { version = "latest", minimum_release_age = "0s" }
 "pipx:markitdown" = { version = "latest", extras = "pdf,docx,pptx,xlsx" }
-"npm:resend-cli" = { version = "latest", allow_builds = ["esbuild"] }
+# resend dropped npm provenance from 6.18.1 onward while its release automation is
+# reworked, which trips aube's no-downgrade trust policy.
+# ref: https://github.com/resend/resend-node/issues/1061
+"npm:resend-cli" = { version = "latest", allow_builds = ["esbuild"], trust_policy_excludes = [
+	"resend@>=6.18.1",
+] }
 
 # ai agents
 codex = { version = "latest", minimum_release_age = "0s" }
