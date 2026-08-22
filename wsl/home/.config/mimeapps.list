@@ -4,3 +4,4 @@ inode/directory=code.desktop
 text/html=browser.desktop
 x-scheme-handler/http=browser.desktop
 x-scheme-handler/https=browser.desktop
+x-scheme-handler/claude-cli=claude-code-url-handler.desktop
