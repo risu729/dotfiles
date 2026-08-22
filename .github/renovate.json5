@@ -14,6 +14,19 @@
 			matchFileNames: ["worker/**"],
 			addLabels: ["worker"],
 		},
+		// refresh the global mise lockfile daily in its own PR, instead of the
+		// weekly run shared with every other lockfile.
+		// the schedule and group name must be nested under lockFileMaintenance
+		// because its defaults are re-merged over packageRules afterwards.
+		{
+			matchFileNames: ["wsl/home/.config/mise/config.toml"],
+			matchUpdateTypes: ["lockFileMaintenance"],
+			lockFileMaintenance: {
+				schedule: ["before 4am"],
+				groupName: "global mise lockfile",
+			},
+			groupSingleUpdates: true,
+		},
 	],
 	// ref: https://docs.renovatebot.com/modules/manager/regex/#advanced-capture
 	customManagers: [
