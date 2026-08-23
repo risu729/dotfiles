@@ -211,6 +211,7 @@ login_shell = "/bin/bash"
 "~/.local" = { source = "wsl/home/.local", mode = "symlink-each" }
 "~/.selected_editor" = "wsl/home/.selected_editor"
 "~/.ssh/config" = "wsl/home/.ssh/config"
+"~/.ssh/unsw-z5642102.pub" = "wsl/home/.ssh/unsw-z5642102.pub"
 
 [hooks]
 postinstall = """
