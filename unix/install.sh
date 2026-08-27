@@ -80,12 +80,13 @@ install_mise() {
 	log_info "mise installed."
 }
 
-# Trust the platform and profile configs next to mise.toml as well. `--all` is
-# avoided because it also trusts configs in every parent directory.
+# Trust repository-local platform/profile configs and bootstrap fragments.
+# Avoid `--all`: it also trusts configs in every parent directory.
 trust_configs() {
 	local repo_path="$1"
 	local config
-	for config in "${repo_path}"/mise.toml "${repo_path}"/mise.*.toml; do
+	for config in "${repo_path}"/mise.toml "${repo_path}"/mise.*.toml \
+		"${repo_path}"/.config/mise/conf.d/*.toml; do
 		# The glob stays literal when nothing matches
 		[[ -e ${config} ]] || continue
 		mise trust --yes "${config}" || return
