@@ -43,3 +43,7 @@ that PR automatically. Ask only when multiple source PRs are plausible.
 - Use `hk` when configured; never invoke linters directly, as `hk` may supply
   custom defaults such as CLI arguments.
 - Use `mise x` for one-off tools that mise does not already resolve.
+- In Rust projects, prefix Cargo commands with `mbx` (`mbx build`, `mbx test`,
+  `mbx clippy`) to use the shared build cache. Plain `cargo` still works and is
+  cached by a fallback wrapper, but `mbx` reports cache statistics and manages
+  `target/` directories.

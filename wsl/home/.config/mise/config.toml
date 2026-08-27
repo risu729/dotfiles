@@ -120,7 +120,8 @@ typst = "latest"
 aqua = "latest"
 pipx = "latest"
 # Global RUSTC_WRAPPER must stay unset; mbx defers to an existing wrapper and skips caching.
-mr-boxington = "latest"
+# setup installs a persistent rustc wrapper so plain cargo commands also hit the cache.
+mr-boxington = { version = "latest", postinstall = '"$MISE_TOOL_INSTALL_PATH/mbx" setup' }
 gcloud = "latest"
 
 [settings]
