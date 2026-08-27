@@ -7,6 +7,7 @@
 		"sessionUrl": false
 	},
 	"autoMemoryEnabled": false,
+	"disableDeepLinkRegistration": "disable",
 	"effortLevel": "high",
 	"fastMode": false,
 	"hooks": {
