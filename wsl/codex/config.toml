@@ -1,5 +1,5 @@
-# Safe, durable preferences to merge into ~/.codex/config.toml.
-# Keep the live config untracked because Codex also writes generated state and secrets there.
+# Safe, shared defaults loaded below the mutable user config at ~/.codex/config.toml.
+# Keep generated state and credentials out of this system-level configuration.
 
 model_reasoning_effort = "high"
 plan_mode_reasoning_effort = "xhigh"
