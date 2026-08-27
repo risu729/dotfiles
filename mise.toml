@@ -1,5 +1,7 @@
 # ref: https://mise.jdx.dev/configuration.html
 #:schema https://mise.jdx.dev/schema/mise.json
+#:tombi schema.strict = false
+# mise 2026.8.14 supports bootstrap files, but its published schema omits them.
 
 min_version = "2026.8.14"
 
@@ -55,6 +57,17 @@ run = "bun install --frozen-lockfile"
 
 [task_config]
 includes = ["tasks.toml", "tasks", "worker/tasks.toml", "worker/tasks"]
+
+[bootstrap.directories."/etc/codex"]
+owner = "root"
+group = "root"
+mode = "0755"
+
+[bootstrap.files."/etc/codex/config.toml"]
+source = "./wsl/codex/config.toml"
+owner = "root"
+group = "root"
+mode = "0644"
 
 [bootstrap.hooks.pre-packages]
 run = '''

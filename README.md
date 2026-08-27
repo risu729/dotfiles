@@ -29,6 +29,9 @@ This repository is organized around the two installer entry points:
   - `wsl/home/` mirrors the target home directory. Mise links these files into
     `$HOME`, except for Codex skills, which are copied because Codex does not
     discover symlinked skill files.
+  - Mise declaratively installs `wsl/codex/config.toml` as system-level Codex
+    defaults at `/etc/codex/config.toml`, leaving the mutable user configuration
+    untracked.
   - `wsl/setup-git.ts` performs interactive GitHub authentication after the
     base WSL environment is ready. Git identity, SSH signing, and `ghr`
     defaults live in `wsl/home/.config/git/config` and
