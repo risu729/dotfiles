@@ -2,7 +2,6 @@
 #:schema https://mise.jdx.dev/schema/mise.json
 
 [env]
-RUSTC_WRAPPER = "sccache"
 # mise manages the installed Copilot CLI version.
 COPILOT_AUTO_UPDATE = "false"
 # disable bat paging
@@ -120,7 +119,8 @@ typst = "latest"
 # mise development
 aqua = "latest"
 pipx = "latest"
-sccache = "latest"
+# Global RUSTC_WRAPPER must stay unset; mbx defers to an existing wrapper and skips caching.
+mr-boxington = "latest"
 gcloud = "latest"
 
 [settings]
