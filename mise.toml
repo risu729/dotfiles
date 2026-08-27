@@ -184,6 +184,10 @@ restart_sec = "5s"
 "~/.ghr/github.com/risu729/aqua" = { url = "https://github.com/risu729/aqua.git" }
 "~/.ghr/github.com/risu729/aqua-registry" = { url = "https://github.com/risu729/aqua-registry.git" }
 "~/.ghr/github.com/risu729/biwa" = { url = "https://github.com/risu729/biwa.git" }
+# The installer clones this repo when it is missing, then delegates updates to
+# mise, which refuses to touch a dirty worktree, a mismatched origin, or a
+# detached HEAD.
+"~/.ghr/github.com/risu729/dotfiles" = { url = "https://github.com/risu729/dotfiles.git" }
 "~/.ghr/github.com/risu729/hk" = { url = "https://github.com/risu729/hk.git" }
 "~/.ghr/github.com/risu729/hk-config" = { url = "https://github.com/risu729/hk-config.git" }
 "~/.ghr/github.com/risu729/kuebiko" = { url = "https://github.com/risu729/kuebiko.git" }

@@ -37,13 +37,8 @@ checkout_default_git_branch() {
 	local repo_path="$1"
 	log_info "Checking out default branch..."
 
-	local original_dir
-	original_dir=$(pwd)
-
-	cd "${repo_path}"
-
 	local git_remote
-	git_remote=$(git remote show origin 2>/dev/null)
+	git_remote=$(git -C "${repo_path}" remote show origin 2>/dev/null)
 	local default_branch
 	default_branch=$(echo "${git_remote}" | grep --only-matching --perl-regexp 'HEAD branch: \K.+')
 
@@ -52,10 +47,8 @@ checkout_default_git_branch() {
 		exit 1
 	fi
 
-	git checkout "${default_branch}"
+	git -C "${repo_path}" checkout "${default_branch}"
 	log_info "Successfully checked out ${default_branch}."
-
-	cd "${original_dir}"
 }
 
 clone_or_update_dotfiles_repo() {
@@ -67,37 +60,13 @@ clone_or_update_dotfiles_repo() {
 	log_info "Preparing dotfiles repository: ${repo_name} in ${dotfiles_target_dir}"
 	mkdir --parents "${dotfiles_target_dir}"
 
-	local original_dir
-	original_dir=$(pwd)
-	cd "${dotfiles_target_dir}"
-
-	if git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
-		log_info "Existing repository found."
-
-		local has_changes
-		has_changes=false
-		if ! git diff --quiet HEAD || ! git diff --cached --quiet HEAD; then
-			has_changes=true
-		else
-			local untracked_files
-			untracked_files=$(git ls-files --others --exclude-standard)
-			if [[ -n ${untracked_files} ]]; then
-				has_changes=true
-			fi
-		fi
-		if [[ ${has_changes} == true ]]; then
-			log_info "Local changes detected. Stashing..."
-			git stash push --include-untracked --message "Auto-stashed by dotfiles installer script" >&2
-			log_info "Changes stashed."
-		fi
-
-		log_info "Pulling updates..."
-		# Do not pull if on a detached HEAD.
-		if git symbolic-ref --quiet HEAD >/dev/null; then
-			git pull --all --prune >&2
-		else
-			git fetch --all --prune >&2
-		fi
+	if git -C "${dotfiles_target_dir}" rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+		log_info "Existing repository found. Updating with mise..."
+		# mise refuses to update a dirty worktree, a mismatched origin, or a
+		# detached HEAD, so the installer does not stash or branch-check itself.
+		mise trust --yes "${dotfiles_target_dir}/mise.toml" >&2
+		mise --cd "${dotfiles_target_dir}" bootstrap repos update \
+			"${dotfiles_target_dir}" --yes --skip-dirty >&2
 	else
 		log_info "Cloning repository https://${repo_url}.git into ${dotfiles_target_dir}..."
 		git clone "https://${repo_url}.git" "${dotfiles_target_dir}" >&2
@@ -106,16 +75,14 @@ clone_or_update_dotfiles_repo() {
 	# Checkout a specific ref if specified
 	if [[ -n ${target_git_ref} ]]; then
 		log_info "Checking out specified git ref for setup: ${target_git_ref}..."
-		git checkout "${target_git_ref}" >&2
+		git -C "${dotfiles_target_dir}" checkout "${target_git_ref}" >&2
 		log_info "Successfully checked out ${target_git_ref}."
 	else
-		# If not checking out a specific ref, ensure we are on the default branch
-		# and that it's up-to-date (which pull/fetch should have handled).
+		# If not checking out a specific ref, ensure we are on the default branch.
 		# An existing repository may have had a different branch checked out.
 		checkout_default_git_branch "${dotfiles_target_dir}" >&2
 	fi
 
-	cd "${original_dir}"
 	echo "${dotfiles_target_dir}"
 }
 
@@ -127,7 +94,7 @@ main() {
 
 	log_info "Bootstrapping packages, dotfiles, and tools with mise..."
 	mise trust --yes "${dotfiles_dir}/mise.toml"
-	mise --cd "${dotfiles_dir}" bootstrap --yes --update --force-dotfiles --locked
+	mise --cd "${dotfiles_dir}" bootstrap --yes --update --force-dotfiles --locked --skip-dirty
 	log_info "mise bootstrap completed."
 
 	if [[ -n ${git_ref} ]]; then
