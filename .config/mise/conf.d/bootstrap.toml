@@ -1,0 +1,56 @@
+# ref: https://mise.jdx.dev/bootstrap.html
+#:schema https://mise.jdx.dev/schema/mise.json
+
+[bootstrap.linux.systemd.units.cloudflared]
+description = "Cloudflare Tunnel client"
+after = ["network-online.target"]
+wants = ["network-online.target"]
+exec_start = "/usr/bin/cloudflared tunnel --no-autoupdate run --token-file %h/.config/cloudflared/tunnel-token"
+restart = "on-failure"
+restart_sec = "5s"
+
+[bootstrap.packages]
+"apt:bubblewrap" = "latest"
+"apt:build-essential" = "latest"
+"apt:clang" = "latest"
+"apt:clangd" = "latest"
+"apt:clang-format" = "latest"
+"apt:cloudflared" = "latest"
+"apt:cmake" = "latest"
+"apt:containerd.io" = "latest"
+"apt:desktop-file-utils" = "latest"
+"apt:docker-buildx-plugin" = "latest"
+"apt:docker-ce" = "latest"
+"apt:docker-ce-cli" = "latest"
+"apt:docker-compose-plugin" = "latest"
+"apt:ffmpeg" = "latest"
+"apt:gdb" = "latest"
+"apt:graphviz" = "latest"
+"apt:libssl-dev" = "latest"
+"apt:llvm" = "latest"
+"apt:openssh-server" = "latest"
+"apt:parallel" = "latest"
+"apt:pkg-config" = "latest"
+"apt:strace" = "latest"
+"apt:xdg-utils" = "latest"
+"apt:zip" = "latest"
+
+[bootstrap.repos]
+"~/.ghr/github.com/risu729/aqua" = { url = "https://github.com/risu729/aqua.git" }
+"~/.ghr/github.com/risu729/aqua-registry" = { url = "https://github.com/risu729/aqua-registry.git" }
+"~/.ghr/github.com/risu729/biwa" = { url = "https://github.com/risu729/biwa.git" }
+# The installer clones this repo when it is missing, then delegates updates to
+# mise, which refuses to touch a dirty worktree, a mismatched origin, or a
+# detached HEAD.
+"~/.ghr/github.com/risu729/dotfiles" = { url = "https://github.com/risu729/dotfiles.git" }
+"~/.ghr/github.com/risu729/hk" = { url = "https://github.com/risu729/hk.git" }
+"~/.ghr/github.com/risu729/hk-config" = { url = "https://github.com/risu729/hk-config.git" }
+"~/.ghr/github.com/risu729/kuebiko" = { url = "https://github.com/risu729/kuebiko.git" }
+"~/.ghr/github.com/risu729/mikoto" = { url = "https://github.com/risu729/mikoto.git" }
+"~/.ghr/github.com/risu729/mise" = { url = "https://github.com/risu729/mise.git" }
+"~/.ghr/github.com/risu729/mise-action" = { url = "https://github.com/risu729/mise-action.git" }
+"~/.ghr/github.com/risu729/renovate-config" = { url = "https://github.com/risu729/renovate-config.git" }
+"~/.ghr/github.com/risu729/tsconfigs" = { url = "https://github.com/risu729/tsconfigs.git" }
+
+[bootstrap.user]
+login_shell = "/bin/bash"
