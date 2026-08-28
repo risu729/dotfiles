@@ -22,7 +22,7 @@ pinact = "4.1.1"
 zizmor = "1.29.0"
 tombi = "1.2.8"
 rumdl = "v0.2.62"
-shfmt = "3.13.1"
+shfmt = "3.14.0"
 shellcheck = "0.11.0"
 yamlfmt = "0.21.0"
 # required for pipx backend
