@@ -433,28 +433,28 @@ url_api = "https://api.github.com/repos/tombi-toml/tombi/releases/assets/5076113
 provenance = "github-attestations"
 
 [[tools.typos]]
-version = "1.49.1"
+version = "1.50.0"
 backend = "aqua:crate-ci/typos"
 
 [tools.typos."platforms.linux-x64"]
-checksum = "sha256:467c88326d29b225263a64efcc47729bfea2b5b9b5e787de0002b8ddb9f2efc9"
-url = "https://github.com/crate-ci/typos/releases/download/v1.49.1/typos-v1.49.1-x86_64-unknown-linux-musl.tar.gz"
-url_api = "https://api.github.com/repos/crate-ci/typos/releases/assets/532765595"
+checksum = "sha256:a1497c9626ba0bab731b3e37c12ac9051bbfa2a253463d4d574c28f190b5497b"
+url = "https://github.com/crate-ci/typos/releases/download/v1.50.0/typos-v1.50.0-x86_64-unknown-linux-musl.tar.gz"
+url_api = "https://api.github.com/repos/crate-ci/typos/releases/assets/534125001"
 
 [tools.typos."platforms.linux-x64-baseline"]
-checksum = "sha256:467c88326d29b225263a64efcc47729bfea2b5b9b5e787de0002b8ddb9f2efc9"
-url = "https://github.com/crate-ci/typos/releases/download/v1.49.1/typos-v1.49.1-x86_64-unknown-linux-musl.tar.gz"
-url_api = "https://api.github.com/repos/crate-ci/typos/releases/assets/532765595"
+checksum = "sha256:a1497c9626ba0bab731b3e37c12ac9051bbfa2a253463d4d574c28f190b5497b"
+url = "https://github.com/crate-ci/typos/releases/download/v1.50.0/typos-v1.50.0-x86_64-unknown-linux-musl.tar.gz"
+url_api = "https://api.github.com/repos/crate-ci/typos/releases/assets/534125001"
 
 [tools.typos."platforms.linux-x64-musl"]
-checksum = "sha256:467c88326d29b225263a64efcc47729bfea2b5b9b5e787de0002b8ddb9f2efc9"
-url = "https://github.com/crate-ci/typos/releases/download/v1.49.1/typos-v1.49.1-x86_64-unknown-linux-musl.tar.gz"
-url_api = "https://api.github.com/repos/crate-ci/typos/releases/assets/532765595"
+checksum = "sha256:a1497c9626ba0bab731b3e37c12ac9051bbfa2a253463d4d574c28f190b5497b"
+url = "https://github.com/crate-ci/typos/releases/download/v1.50.0/typos-v1.50.0-x86_64-unknown-linux-musl.tar.gz"
+url_api = "https://api.github.com/repos/crate-ci/typos/releases/assets/534125001"
 
 [tools.typos."platforms.linux-x64-musl-baseline"]
-checksum = "sha256:467c88326d29b225263a64efcc47729bfea2b5b9b5e787de0002b8ddb9f2efc9"
-url = "https://github.com/crate-ci/typos/releases/download/v1.49.1/typos-v1.49.1-x86_64-unknown-linux-musl.tar.gz"
-url_api = "https://api.github.com/repos/crate-ci/typos/releases/assets/532765595"
+checksum = "sha256:a1497c9626ba0bab731b3e37c12ac9051bbfa2a253463d4d574c28f190b5497b"
+url = "https://github.com/crate-ci/typos/releases/download/v1.50.0/typos-v1.50.0-x86_64-unknown-linux-musl.tar.gz"
+url_api = "https://api.github.com/repos/crate-ci/typos/releases/assets/534125001"
 
 [[tools.uv]]
 version = "0.12.7"
