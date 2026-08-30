@@ -1,0 +1,61 @@
+#!/bin/sh
+
+set -eu
+
+if [ "$#" -eq 0 ]; then
+	printf 'usage: wsl-open TARGET...\n' >&2
+	exit 2
+fi
+
+file_uri_to_path() {
+	uri_path=${1#*://}
+	case "$uri_path" in
+	/*) ;;
+	[Ll][Oo][Cc][Aa][Ll][Hh][Oo][Ss][Tt]/*)
+		uri_path=/${uri_path#*/}
+		;;
+	[Ll][Oo][Cc][Aa][Ll][Hh][Oo][Ss][Tt]) uri_path=/ ;;
+	*)
+		printf 'wsl-open: unsupported file URI authority: %s\n' "$1" >&2
+		return 2
+		;;
+	esac
+	uri_path=${uri_path%%#*}
+	uri_path=${uri_path%%\?*}
+	escaped_path=$(printf '%s' "$uri_path" | sed \
+		-e 's/\\/\\\\/g' \
+		-e 's/%\([[:xdigit:]][[:xdigit:]]\)/\\x\1/g')
+	/usr/bin/printf '%b' "$escaped_path"
+}
+
+open_target() {
+	target=$1
+
+	case "$target" in
+	[Ff][Ii][Ll][Ee]://*)
+		target=$(file_uri_to_path "$target")
+		target=$(wslpath -w "$target")
+		;;
+	[A-Za-z]:[\\/]* | \\\\*)
+		# Windows drive and UNC paths are already usable by Start-Process.
+		;;
+	[A-Za-z][A-Za-z0-9+.-]*:*)
+		# Web and application URLs do not need path translation.
+		;;
+	*)
+		case "$target" in
+		/*) ;;
+		*) target=$(realpath -m -- "$target") ;;
+		esac
+		target=$(wslpath -w "$target")
+		;;
+	esac
+
+	powershell.exe -NoProfile -Command \
+		'& { param($target) Start-Process -FilePath $target }' \
+		"$target"
+}
+
+for target do
+	open_target "$target"
+done
