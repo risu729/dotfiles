@@ -693,53 +693,53 @@ url = "https://github.com/openai/codex/releases/download/rust-v0.151.0/codex-pac
 url_api = "https://api.github.com/repos/openai/codex/releases/assets/535048259"
 
 [[tools.copilot]]
-version = "1.0.81"
+version = "1.0.82"
 backend = "aqua:github/copilot-cli"
 
 [tools.copilot."platforms.linux-arm64"]
-checksum = "sha256:f0e621e6793b14e04c0f651cd46d818a5bf0bf54d74c9566c9424744b41a279c"
-url = "https://github.com/github/copilot-cli/releases/download/v1.0.81/copilot-linux-arm64.tar.gz"
-url_api = "https://api.github.com/repos/github/copilot-cli/releases/assets/532619535"
+checksum = "sha256:86c4c77a91b1ff5dd7313cbea9f861699a2cdceb4696f3864f3f0584e9684e0f"
+url = "https://github.com/github/copilot-cli/releases/download/v1.0.82/copilot-linux-arm64.tar.gz"
+url_api = "https://api.github.com/repos/github/copilot-cli/releases/assets/535878784"
 
 [tools.copilot."platforms.linux-arm64-musl"]
-checksum = "sha256:f0e621e6793b14e04c0f651cd46d818a5bf0bf54d74c9566c9424744b41a279c"
-url = "https://github.com/github/copilot-cli/releases/download/v1.0.81/copilot-linux-arm64.tar.gz"
-url_api = "https://api.github.com/repos/github/copilot-cli/releases/assets/532619535"
+checksum = "sha256:86c4c77a91b1ff5dd7313cbea9f861699a2cdceb4696f3864f3f0584e9684e0f"
+url = "https://github.com/github/copilot-cli/releases/download/v1.0.82/copilot-linux-arm64.tar.gz"
+url_api = "https://api.github.com/repos/github/copilot-cli/releases/assets/535878784"
 
 [tools.copilot."platforms.linux-x64"]
-checksum = "sha256:3082c4a27aa683def52e48397c02606dc7f8267dcef1c93949f3f58de4a5cde3"
-url = "https://github.com/github/copilot-cli/releases/download/v1.0.81/copilot-linux-x64.tar.gz"
-url_api = "https://api.github.com/repos/github/copilot-cli/releases/assets/532619693"
+checksum = "sha256:37fa67686a9e4ed8d46dcd6a9c80ab524dea840ecaa0a3f7edf8d09f961b97a9"
+url = "https://github.com/github/copilot-cli/releases/download/v1.0.82/copilot-linux-x64.tar.gz"
+url_api = "https://api.github.com/repos/github/copilot-cli/releases/assets/535878879"
 
 [tools.copilot."platforms.linux-x64-baseline"]
-checksum = "sha256:3082c4a27aa683def52e48397c02606dc7f8267dcef1c93949f3f58de4a5cde3"
-url = "https://github.com/github/copilot-cli/releases/download/v1.0.81/copilot-linux-x64.tar.gz"
-url_api = "https://api.github.com/repos/github/copilot-cli/releases/assets/532619693"
+checksum = "sha256:37fa67686a9e4ed8d46dcd6a9c80ab524dea840ecaa0a3f7edf8d09f961b97a9"
+url = "https://github.com/github/copilot-cli/releases/download/v1.0.82/copilot-linux-x64.tar.gz"
+url_api = "https://api.github.com/repos/github/copilot-cli/releases/assets/535878879"
 
 [tools.copilot."platforms.linux-x64-musl"]
-checksum = "sha256:3082c4a27aa683def52e48397c02606dc7f8267dcef1c93949f3f58de4a5cde3"
-url = "https://github.com/github/copilot-cli/releases/download/v1.0.81/copilot-linux-x64.tar.gz"
-url_api = "https://api.github.com/repos/github/copilot-cli/releases/assets/532619693"
+checksum = "sha256:37fa67686a9e4ed8d46dcd6a9c80ab524dea840ecaa0a3f7edf8d09f961b97a9"
+url = "https://github.com/github/copilot-cli/releases/download/v1.0.82/copilot-linux-x64.tar.gz"
+url_api = "https://api.github.com/repos/github/copilot-cli/releases/assets/535878879"
 
 [tools.copilot."platforms.linux-x64-musl-baseline"]
-checksum = "sha256:3082c4a27aa683def52e48397c02606dc7f8267dcef1c93949f3f58de4a5cde3"
-url = "https://github.com/github/copilot-cli/releases/download/v1.0.81/copilot-linux-x64.tar.gz"
-url_api = "https://api.github.com/repos/github/copilot-cli/releases/assets/532619693"
+checksum = "sha256:37fa67686a9e4ed8d46dcd6a9c80ab524dea840ecaa0a3f7edf8d09f961b97a9"
+url = "https://github.com/github/copilot-cli/releases/download/v1.0.82/copilot-linux-x64.tar.gz"
+url_api = "https://api.github.com/repos/github/copilot-cli/releases/assets/535878879"
 
 [tools.copilot."platforms.macos-arm64"]
-checksum = "sha256:568b0d6fe88d573c171ab95887d33276802dda2c5ca3cee7d0fe438df2343be4"
-url = "https://github.com/github/copilot-cli/releases/download/v1.0.81/copilot-darwin-arm64.tar.gz"
-url_api = "https://api.github.com/repos/github/copilot-cli/releases/assets/532619533"
+checksum = "sha256:c03bfc58c4402ec31d09ca11c379e1c17e95c3441f48009d721bf556fcc2c42e"
+url = "https://github.com/github/copilot-cli/releases/download/v1.0.82/copilot-darwin-arm64.tar.gz"
+url_api = "https://api.github.com/repos/github/copilot-cli/releases/assets/535878783"
 
 [tools.copilot."platforms.macos-x64"]
-checksum = "sha256:269b2b42a4c3059c260063ca4ded9920132f5b9ad270a531ab80e569917c46a5"
-url = "https://github.com/github/copilot-cli/releases/download/v1.0.81/copilot-darwin-x64.tar.gz"
-url_api = "https://api.github.com/repos/github/copilot-cli/releases/assets/532619532"
+checksum = "sha256:512cbd527e510664be8854ddfee3f3215f890a2f548b0477e9dd544b54abbd8c"
+url = "https://github.com/github/copilot-cli/releases/download/v1.0.82/copilot-darwin-x64.tar.gz"
+url_api = "https://api.github.com/repos/github/copilot-cli/releases/assets/535878782"
 
 [tools.copilot."platforms.macos-x64-baseline"]
-checksum = "sha256:269b2b42a4c3059c260063ca4ded9920132f5b9ad270a531ab80e569917c46a5"
-url = "https://github.com/github/copilot-cli/releases/download/v1.0.81/copilot-darwin-x64.tar.gz"
-url_api = "https://api.github.com/repos/github/copilot-cli/releases/assets/532619532"
+checksum = "sha256:512cbd527e510664be8854ddfee3f3215f890a2f548b0477e9dd544b54abbd8c"
+url = "https://github.com/github/copilot-cli/releases/download/v1.0.82/copilot-darwin-x64.tar.gz"
+url_api = "https://api.github.com/repos/github/copilot-cli/releases/assets/535878782"
 
 [[tools.delta]]
 version = "0.19.2"
@@ -1201,88 +1201,88 @@ url_api = "https://api.github.com/repos/risu729/kuebiko/releases/assets/52941434
 provenance = "github-attestations"
 
 [[tools."github:risu729/mikoto"]]
-version = "1.0.30"
+version = "1.0.31"
 backend = "github:risu729/mikoto"
 
 [tools."github:risu729/mikoto"."platforms.linux-x64"]
-checksum = "sha256:21b689c3253d15e020d9bf52feee05fa9ae692b38d69442c897cced0a351791e"
-url = "https://github.com/risu729/mikoto/releases/download/v1.0.30/mikoto-v1.0.30-linux-x64.tar.gz"
-url_api = "https://api.github.com/repos/risu729/mikoto/releases/assets/535267380"
+checksum = "sha256:4fe164850cc2aa69a6040070c4d4c87186b6eab987f82a2fe4b4848fc19502e9"
+url = "https://github.com/risu729/mikoto/releases/download/v1.0.31/mikoto-v1.0.31-linux-x64.tar.gz"
+url_api = "https://api.github.com/repos/risu729/mikoto/releases/assets/535747991"
 provenance = "github-attestations"
 provenance_verified = true
 
 [tools."github:risu729/mikoto"."platforms.linux-x64-baseline"]
-checksum = "sha256:21b689c3253d15e020d9bf52feee05fa9ae692b38d69442c897cced0a351791e"
-url = "https://github.com/risu729/mikoto/releases/download/v1.0.30/mikoto-v1.0.30-linux-x64.tar.gz"
-url_api = "https://api.github.com/repos/risu729/mikoto/releases/assets/535267380"
+checksum = "sha256:4fe164850cc2aa69a6040070c4d4c87186b6eab987f82a2fe4b4848fc19502e9"
+url = "https://github.com/risu729/mikoto/releases/download/v1.0.31/mikoto-v1.0.31-linux-x64.tar.gz"
+url_api = "https://api.github.com/repos/risu729/mikoto/releases/assets/535747991"
 provenance = "github-attestations"
 
 [tools."github:risu729/mikoto"."platforms.linux-x64-musl"]
-checksum = "sha256:21b689c3253d15e020d9bf52feee05fa9ae692b38d69442c897cced0a351791e"
-url = "https://github.com/risu729/mikoto/releases/download/v1.0.30/mikoto-v1.0.30-linux-x64.tar.gz"
-url_api = "https://api.github.com/repos/risu729/mikoto/releases/assets/535267380"
+checksum = "sha256:4fe164850cc2aa69a6040070c4d4c87186b6eab987f82a2fe4b4848fc19502e9"
+url = "https://github.com/risu729/mikoto/releases/download/v1.0.31/mikoto-v1.0.31-linux-x64.tar.gz"
+url_api = "https://api.github.com/repos/risu729/mikoto/releases/assets/535747991"
 provenance = "github-attestations"
 
 [tools."github:risu729/mikoto"."platforms.linux-x64-musl-baseline"]
-checksum = "sha256:21b689c3253d15e020d9bf52feee05fa9ae692b38d69442c897cced0a351791e"
-url = "https://github.com/risu729/mikoto/releases/download/v1.0.30/mikoto-v1.0.30-linux-x64.tar.gz"
-url_api = "https://api.github.com/repos/risu729/mikoto/releases/assets/535267380"
+checksum = "sha256:4fe164850cc2aa69a6040070c4d4c87186b6eab987f82a2fe4b4848fc19502e9"
+url = "https://github.com/risu729/mikoto/releases/download/v1.0.31/mikoto-v1.0.31-linux-x64.tar.gz"
+url_api = "https://api.github.com/repos/risu729/mikoto/releases/assets/535747991"
 provenance = "github-attestations"
 
 [tools."github:risu729/mikoto"."platforms.macos-arm64"]
-checksum = "sha256:a9942c2438191eaf157b232dcd73277f456d533f516213d0fc4db9fa4fa63628"
-url = "https://github.com/risu729/mikoto/releases/download/v1.0.30/mikoto-v1.0.30-macos-arm64.tar.gz"
-url_api = "https://api.github.com/repos/risu729/mikoto/releases/assets/535267371"
+checksum = "sha256:ee710cc66d441f0e41f5c76433516bac0167ba440c8c6857ce6a3a62e039dcdb"
+url = "https://github.com/risu729/mikoto/releases/download/v1.0.31/mikoto-v1.0.31-macos-arm64.tar.gz"
+url_api = "https://api.github.com/repos/risu729/mikoto/releases/assets/535747983"
 provenance = "github-attestations"
 
 [[tools."github:seachicken/gh-poi"]]
-version = "0.18.3"
+version = "0.18.4"
 backend = "github:seachicken/gh-poi"
 
 [tools."github:seachicken/gh-poi"."platforms.linux-arm64"]
-checksum = "sha256:8a5ffcbc41060b86a80334676b205af2d52ab40b529e171d62cc41b4db86edea"
-url = "https://github.com/seachicken/gh-poi/releases/download/v0.18.3/linux-arm64"
-url_api = "https://api.github.com/repos/seachicken/gh-poi/releases/assets/490095553"
+checksum = "sha256:7d5984c23394ac4ec8553ea47e6eae4a863b7bf1a76e4bb20808aad5ee4856bc"
+url = "https://github.com/seachicken/gh-poi/releases/download/v0.18.4/linux-arm64"
+url_api = "https://api.github.com/repos/seachicken/gh-poi/releases/assets/536208774"
 
 [tools."github:seachicken/gh-poi"."platforms.linux-arm64-musl"]
-checksum = "sha256:8a5ffcbc41060b86a80334676b205af2d52ab40b529e171d62cc41b4db86edea"
-url = "https://github.com/seachicken/gh-poi/releases/download/v0.18.3/linux-arm64"
-url_api = "https://api.github.com/repos/seachicken/gh-poi/releases/assets/490095553"
+checksum = "sha256:7d5984c23394ac4ec8553ea47e6eae4a863b7bf1a76e4bb20808aad5ee4856bc"
+url = "https://github.com/seachicken/gh-poi/releases/download/v0.18.4/linux-arm64"
+url_api = "https://api.github.com/repos/seachicken/gh-poi/releases/assets/536208774"
 
 [tools."github:seachicken/gh-poi"."platforms.linux-x64"]
-checksum = "sha256:3cbf8b374befc7712173c6bf4bc0f55f2d5d086f239086702df932470d68b982"
-url = "https://github.com/seachicken/gh-poi/releases/download/v0.18.3/linux-amd64"
-url_api = "https://api.github.com/repos/seachicken/gh-poi/releases/assets/490095556"
+checksum = "sha256:63bc1afe9feff0383ead063e709be7e8d7e1dab8cc620a0d0cf856ef8ab222ba"
+url = "https://github.com/seachicken/gh-poi/releases/download/v0.18.4/linux-amd64"
+url_api = "https://api.github.com/repos/seachicken/gh-poi/releases/assets/536208769"
 
 [tools."github:seachicken/gh-poi"."platforms.linux-x64-baseline"]
-checksum = "sha256:3cbf8b374befc7712173c6bf4bc0f55f2d5d086f239086702df932470d68b982"
-url = "https://github.com/seachicken/gh-poi/releases/download/v0.18.3/linux-amd64"
-url_api = "https://api.github.com/repos/seachicken/gh-poi/releases/assets/490095556"
+checksum = "sha256:63bc1afe9feff0383ead063e709be7e8d7e1dab8cc620a0d0cf856ef8ab222ba"
+url = "https://github.com/seachicken/gh-poi/releases/download/v0.18.4/linux-amd64"
+url_api = "https://api.github.com/repos/seachicken/gh-poi/releases/assets/536208769"
 
 [tools."github:seachicken/gh-poi"."platforms.linux-x64-musl"]
-checksum = "sha256:3cbf8b374befc7712173c6bf4bc0f55f2d5d086f239086702df932470d68b982"
-url = "https://github.com/seachicken/gh-poi/releases/download/v0.18.3/linux-amd64"
-url_api = "https://api.github.com/repos/seachicken/gh-poi/releases/assets/490095556"
+checksum = "sha256:63bc1afe9feff0383ead063e709be7e8d7e1dab8cc620a0d0cf856ef8ab222ba"
+url = "https://github.com/seachicken/gh-poi/releases/download/v0.18.4/linux-amd64"
+url_api = "https://api.github.com/repos/seachicken/gh-poi/releases/assets/536208769"
 
 [tools."github:seachicken/gh-poi"."platforms.linux-x64-musl-baseline"]
-checksum = "sha256:3cbf8b374befc7712173c6bf4bc0f55f2d5d086f239086702df932470d68b982"
-url = "https://github.com/seachicken/gh-poi/releases/download/v0.18.3/linux-amd64"
-url_api = "https://api.github.com/repos/seachicken/gh-poi/releases/assets/490095556"
+checksum = "sha256:63bc1afe9feff0383ead063e709be7e8d7e1dab8cc620a0d0cf856ef8ab222ba"
+url = "https://github.com/seachicken/gh-poi/releases/download/v0.18.4/linux-amd64"
+url_api = "https://api.github.com/repos/seachicken/gh-poi/releases/assets/536208769"
 
 [tools."github:seachicken/gh-poi"."platforms.macos-arm64"]
-checksum = "sha256:f0e05131ffca6e21827233c736ddfb1dbfc287f2f071df98dc7f90b73376dc6f"
-url = "https://github.com/seachicken/gh-poi/releases/download/v0.18.3/darwin-arm64"
-url_api = "https://api.github.com/repos/seachicken/gh-poi/releases/assets/490095555"
+checksum = "sha256:0e66db364daf243825f61c3a5b53c948b897bbfc78a70196397ddd58025118f7"
+url = "https://github.com/seachicken/gh-poi/releases/download/v0.18.4/darwin-arm64"
+url_api = "https://api.github.com/repos/seachicken/gh-poi/releases/assets/536208782"
 
 [tools."github:seachicken/gh-poi"."platforms.macos-x64"]
-checksum = "sha256:5b55daf0906a272f099442631c619a6ff44d9f77be36954ccfb344bfadf5b480"
-url = "https://github.com/seachicken/gh-poi/releases/download/v0.18.3/darwin-amd64"
-url_api = "https://api.github.com/repos/seachicken/gh-poi/releases/assets/490095564"
+checksum = "sha256:255f6a7d0e92f5f3cc8a20fb5e3005aad88782a1c5805a20c455de933c4313bd"
+url = "https://github.com/seachicken/gh-poi/releases/download/v0.18.4/darwin-amd64"
+url_api = "https://api.github.com/repos/seachicken/gh-poi/releases/assets/536208760"
 
 [tools."github:seachicken/gh-poi"."platforms.macos-x64-baseline"]
-checksum = "sha256:5b55daf0906a272f099442631c619a6ff44d9f77be36954ccfb344bfadf5b480"
-url = "https://github.com/seachicken/gh-poi/releases/download/v0.18.3/darwin-amd64"
-url_api = "https://api.github.com/repos/seachicken/gh-poi/releases/assets/490095564"
+checksum = "sha256:255f6a7d0e92f5f3cc8a20fb5e3005aad88782a1c5805a20c455de933c4313bd"
+url = "https://github.com/seachicken/gh-poi/releases/download/v0.18.4/darwin-amd64"
+url_api = "https://api.github.com/repos/seachicken/gh-poi/releases/assets/536208760"
 
 [[tools.glab]]
 version = "1.115.0"
@@ -2143,50 +2143,50 @@ version = "12.2.3"
 backend = "pipx:mitmproxy"
 
 [[tools.mr-boxington]]
-version = "0.7.2"
+version = "1.0.1"
 backend = "github:jdx/mr-boxington"
 
 [tools.mr-boxington."platforms.linux-arm64"]
-checksum = "sha256:bbfc51886e5216e0dc81f7cdb3bce1527913698b5ea2de914494fffb97c259df"
-url = "https://github.com/jdx/mr-boxington/releases/download/v0.7.2/mbx-aarch64-unknown-linux-gnu.tar.gz"
-url_api = "https://api.github.com/repos/jdx/mr-boxington/releases/assets/535229218"
+checksum = "sha256:203a915cace2ca0afbd90ecb36a0ebb31f99159d13acd5a6d3cd98d84daa899b"
+url = "https://github.com/jdx/mr-boxington/releases/download/v1.0.1/mbx-aarch64-unknown-linux-gnu.tar.gz"
+url_api = "https://api.github.com/repos/jdx/mr-boxington/releases/assets/535844924"
 provenance = "github-attestations"
 
 [tools.mr-boxington."platforms.linux-arm64-musl"]
-checksum = "sha256:0b5c67643a6b3a7d0691bcdb08a15d247d9161ffb2fffcc46be9b4d333b3ae2b"
-url = "https://github.com/jdx/mr-boxington/releases/download/v0.7.2/mbx-aarch64-unknown-linux-musl.tar.gz"
-url_api = "https://api.github.com/repos/jdx/mr-boxington/releases/assets/535229220"
+checksum = "sha256:d2532ae7d83ef0c30e7ad0c1840a41788d0cc93d5971383d959630bfd6800fe2"
+url = "https://github.com/jdx/mr-boxington/releases/download/v1.0.1/mbx-aarch64-unknown-linux-musl.tar.gz"
+url_api = "https://api.github.com/repos/jdx/mr-boxington/releases/assets/535844928"
 provenance = "github-attestations"
 
 [tools.mr-boxington."platforms.linux-x64"]
-checksum = "sha256:e43872dbd4cb78334e6838242617088d30e2f20af9be0c002b4ab5bdcf2bd179"
-url = "https://github.com/jdx/mr-boxington/releases/download/v0.7.2/mbx-x86_64-unknown-linux-gnu.tar.gz"
-url_api = "https://api.github.com/repos/jdx/mr-boxington/releases/assets/535229229"
+checksum = "sha256:032d302c68a0a2273fdf9dc1a597aef8bb1647f5446616fdb036a03222ae3300"
+url = "https://github.com/jdx/mr-boxington/releases/download/v1.0.1/mbx-x86_64-unknown-linux-gnu.tar.gz"
+url_api = "https://api.github.com/repos/jdx/mr-boxington/releases/assets/535844934"
 provenance = "github-attestations"
 provenance_verified = true
 
 [tools.mr-boxington."platforms.linux-x64-baseline"]
-checksum = "sha256:e43872dbd4cb78334e6838242617088d30e2f20af9be0c002b4ab5bdcf2bd179"
-url = "https://github.com/jdx/mr-boxington/releases/download/v0.7.2/mbx-x86_64-unknown-linux-gnu.tar.gz"
-url_api = "https://api.github.com/repos/jdx/mr-boxington/releases/assets/535229229"
+checksum = "sha256:032d302c68a0a2273fdf9dc1a597aef8bb1647f5446616fdb036a03222ae3300"
+url = "https://github.com/jdx/mr-boxington/releases/download/v1.0.1/mbx-x86_64-unknown-linux-gnu.tar.gz"
+url_api = "https://api.github.com/repos/jdx/mr-boxington/releases/assets/535844934"
 provenance = "github-attestations"
 
 [tools.mr-boxington."platforms.linux-x64-musl"]
-checksum = "sha256:4edf6e914e24b03f2d17e01cf3530a06d697e38d04910d9b898583fecdaf4fb3"
-url = "https://github.com/jdx/mr-boxington/releases/download/v0.7.2/mbx-x86_64-unknown-linux-musl.tar.gz"
-url_api = "https://api.github.com/repos/jdx/mr-boxington/releases/assets/535229230"
+checksum = "sha256:2392e9946aadbc97d27fd0852ff242d1c0b4421950ac1bd3c9401116cc4af9f7"
+url = "https://github.com/jdx/mr-boxington/releases/download/v1.0.1/mbx-x86_64-unknown-linux-musl.tar.gz"
+url_api = "https://api.github.com/repos/jdx/mr-boxington/releases/assets/535844936"
 provenance = "github-attestations"
 
 [tools.mr-boxington."platforms.linux-x64-musl-baseline"]
-checksum = "sha256:4edf6e914e24b03f2d17e01cf3530a06d697e38d04910d9b898583fecdaf4fb3"
-url = "https://github.com/jdx/mr-boxington/releases/download/v0.7.2/mbx-x86_64-unknown-linux-musl.tar.gz"
-url_api = "https://api.github.com/repos/jdx/mr-boxington/releases/assets/535229230"
+checksum = "sha256:2392e9946aadbc97d27fd0852ff242d1c0b4421950ac1bd3c9401116cc4af9f7"
+url = "https://github.com/jdx/mr-boxington/releases/download/v1.0.1/mbx-x86_64-unknown-linux-musl.tar.gz"
+url_api = "https://api.github.com/repos/jdx/mr-boxington/releases/assets/535844936"
 provenance = "github-attestations"
 
 [tools.mr-boxington."platforms.macos-arm64"]
-checksum = "sha256:1fe8de8619aed28d4eb6dd652cd134293f3204afdf7e5bf90b9e8168ac594077"
-url = "https://github.com/jdx/mr-boxington/releases/download/v0.7.2/mbx-aarch64-apple-darwin.tar.gz"
-url_api = "https://api.github.com/repos/jdx/mr-boxington/releases/assets/535229217"
+checksum = "sha256:d5210df76f9364341d3d6c1c5004e7a7321db45352a34d1d92f9831ee3df4b1c"
+url = "https://github.com/jdx/mr-boxington/releases/download/v1.0.1/mbx-aarch64-apple-darwin.tar.gz"
+url_api = "https://api.github.com/repos/jdx/mr-boxington/releases/assets/535844925"
 provenance = "github-attestations"
 
 [[tools.node]]
