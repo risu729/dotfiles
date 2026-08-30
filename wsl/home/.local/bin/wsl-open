@@ -7,14 +7,33 @@ if [ "$#" -eq 0 ]; then
 	exit 2
 fi
 
+file_uri_to_path() {
+	uri_path=${1#*://}
+	case "$uri_path" in
+	/*) ;;
+	[Ll][Oo][Cc][Aa][Ll][Hh][Oo][Ss][Tt]/*)
+		uri_path=/${uri_path#*/}
+		;;
+	[Ll][Oo][Cc][Aa][Ll][Hh][Oo][Ss][Tt]) uri_path=/ ;;
+	*)
+		printf 'wsl-open: unsupported file URI authority: %s\n' "$1" >&2
+		return 2
+		;;
+	esac
+	uri_path=${uri_path%%#*}
+	uri_path=${uri_path%%\?*}
+	escaped_path=$(printf '%s' "$uri_path" | sed \
+		-e 's/\\/\\\\/g' \
+		-e 's/%\([[:xdigit:]][[:xdigit:]]\)/\\x\1/g')
+	/usr/bin/printf '%b' "$escaped_path"
+}
+
 open_target() {
 	target=$1
 
 	case "$target" in
-	file:///*)
-		# xdg-open normally resolves file URIs before invoking $BROWSER, but
-		# handle direct wsl-open calls too.
-		target=${target#file://}
+	[Ff][Ii][Ll][Ee]://*)
+		target=$(file_uri_to_path "$target")
 		target=$(wslpath -w "$target")
 		;;
 	[A-Za-z]:[\\/]* | \\\\*)
