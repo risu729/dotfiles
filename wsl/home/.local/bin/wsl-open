@@ -1,0 +1,42 @@
+#!/bin/sh
+
+set -eu
+
+if [ "$#" -eq 0 ]; then
+	printf 'usage: wsl-open TARGET...\n' >&2
+	exit 2
+fi
+
+open_target() {
+	target=$1
+
+	case "$target" in
+	file:///*)
+		# xdg-open normally resolves file URIs before invoking $BROWSER, but
+		# handle direct wsl-open calls too.
+		target=${target#file://}
+		target=$(wslpath -w "$target")
+		;;
+	[A-Za-z]:[\\/]* | \\\\*)
+		# Windows drive and UNC paths are already usable by Start-Process.
+		;;
+	[A-Za-z][A-Za-z0-9+.-]*:*)
+		# Web and application URLs do not need path translation.
+		;;
+	*)
+		case "$target" in
+		/*) ;;
+		*) target=$(realpath -m -- "$target") ;;
+		esac
+		target=$(wslpath -w "$target")
+		;;
+	esac
+
+	powershell.exe -NoProfile -Command \
+		'& { param($target) Start-Process -FilePath $target }' \
+		"$target"
+}
+
+for target do
+	open_target "$target"
+done
