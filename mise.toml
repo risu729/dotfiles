@@ -3,7 +3,7 @@
 #:tombi schema.strict = false
 # mise 2026.8.14 supports bootstrap files, but its published schema omits them.
 
-min_version = "2026.8.14"
+min_version = "2026.8.15"
 
 [vars]
 PS_SCRIPT_ANALYZER_VERSION = "1.25.0"
