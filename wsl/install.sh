@@ -64,7 +64,7 @@ clone_or_update_dotfiles_repo() {
 		log_info "Existing repository found. Updating with mise..."
 		# mise refuses to update a dirty worktree, a mismatched origin, or a
 		# detached HEAD, so the installer does not stash or branch-check itself.
-		mise trust --yes "${dotfiles_target_dir}/mise.toml" >&2
+		mise --cd "${dotfiles_target_dir}" trust --yes --all >&2
 		mise --cd "${dotfiles_target_dir}" bootstrap repos update \
 			"${dotfiles_target_dir}" --yes --skip-dirty >&2
 	else
@@ -93,7 +93,8 @@ main() {
 	dotfiles_dir=$(clone_or_update_dotfiles_repo "${git_ref}")
 
 	log_info "Bootstrapping packages, dotfiles, and tools with mise..."
-	mise trust --yes "${dotfiles_dir}/mise.toml"
+	# --all covers mise.toml and the .config/mise/conf.d fragments.
+	mise --cd "${dotfiles_dir}" trust --yes --all
 	mise --cd "${dotfiles_dir}" bootstrap --yes --update --force-dotfiles --locked --skip-dirty
 	log_info "mise bootstrap completed."
 
