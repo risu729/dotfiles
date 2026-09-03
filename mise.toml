@@ -148,8 +148,9 @@ mise exec -- npx --yes skills add https://github.com/stablyai/orca \
   --skill orca-cli \
   --skill computer-use \
   --skill orchestration \
-  --agent universal \
   --agent claude-code \
+  --agent codex \
+  --agent universal \
   --global \
   -y
 
