@@ -14,17 +14,16 @@
 			matchFileNames: ["worker/**"],
 			addLabels: ["worker"],
 		},
-		// refresh the global mise lockfile daily in its own PR, instead of the
-		// weekly run shared with every other lockfile.
-		// the schedule, timezone, and group name must be nested under
+		// refresh the global mise lockfile on every Renovate run so frequently
+		// released tools such as Codex and Claude are picked up promptly.
+		// the schedule and group name must be nested under
 		// lockFileMaintenance because its defaults are re-merged over packageRules
 		// afterwards.
 		{
 			matchFileNames: ["wsl/home/.config/mise/config.toml"],
 			matchUpdateTypes: ["lockFileMaintenance"],
 			lockFileMaintenance: {
-				schedule: ["before 6am"],
-				timezone: "Australia/Sydney",
+				schedule: ["* * * * *"],
 				groupName: "global mise lockfile",
 			},
 			groupSingleUpdates: true,
