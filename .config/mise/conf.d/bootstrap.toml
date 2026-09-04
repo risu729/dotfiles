@@ -9,6 +9,16 @@ exec_start = "/usr/bin/cloudflared tunnel --no-autoupdate run --token-file %h/.c
 restart = "on-failure"
 restart_sec = "5s"
 
+[bootstrap.linux.systemd.units.orca-revive]
+description = "Revive Orca agent sessions after a WSL restart"
+exec_start = "%h/.local/bin/orca-revive --wait"
+restart = "on-failure"
+restart_sec = "30s"
+environment = { PATH = "%h/.local/bin:%h/.local/share/mise/shims:/usr/local/bin:/usr/bin:/bin" }
+# The unit is only useful right after a WSL boot; applying bootstrap should
+# enable it for the next boot without starting it mid-session.
+start = false
+
 [bootstrap.packages]
 "apt:bubblewrap" = "latest"
 "apt:build-essential" = "latest"

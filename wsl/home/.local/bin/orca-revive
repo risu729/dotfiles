@@ -1,0 +1,131 @@
+#!/usr/bin/env bash
+
+# Revive Claude Code / Codex sessions in Orca worktrees after a WSL restart.
+#
+# Orca warm-reattaches terminals when only the app restarts, but a WSL VM
+# death (crash, Windows reboot) kills every PTY and Orca's cold restore does
+# not yet cover the WSL runtime (stablyai/orca#9827). This relaunches each
+# agent with its resume flag once the Orca runtime is reachable again.
+#
+# usage: orca-revive [--wait] [--dry-run]
+#   --wait     block until the Orca runtime is reachable before reviving
+#              (used by the dev.mise.orca-revive systemd user unit)
+#   --dry-run  print what would be revived without creating terminals
+
+set -euo pipefail
+
+orca_cli="${ORCA_CLI_COMMAND:-orca-ide}"
+
+# Only revive worktrees whose newest agent session was active within this
+# window before the current boot; older ones were left dormant on purpose.
+recent_window_seconds=$((24 * 60 * 60))
+
+# Give Orca time to finish restoring its own worktree/terminal topology
+# before inspecting live terminal counts.
+settle_seconds=20
+
+wait_for_runtime=false
+dry_run=false
+for argument in "$@"; do
+	case "${argument}" in
+	--wait) wait_for_runtime=true ;;
+	--dry-run) dry_run=true ;;
+	*)
+		echo "orca-revive: unknown argument: ${argument}" >&2
+		exit 2
+		;;
+	esac
+done
+
+if ! command -v "${orca_cli}" >/dev/null 2>&1; then
+	echo "orca-revive: ${orca_cli} not found; skipping" >&2
+	exit 0
+fi
+
+runtime_reachable() {
+	local status_json
+	status_json=$(timeout 15 "${orca_cli}" status --json 2>/dev/null) || return 1
+	jq --exit-status '.result.runtime.reachable == true' >/dev/null 2>&1 \
+		<<<"${status_json}"
+}
+
+# shellcheck disable=SC2310
+if [[ ${wait_for_runtime} == true ]]; then
+	until runtime_reachable; do
+		sleep 15
+	done
+	sleep "${settle_seconds}"
+elif ! runtime_reachable; then
+	echo "orca-revive: Orca runtime is not reachable" >&2
+	exit 1
+fi
+
+boot_epoch=$(awk '/^btime/ { print $2 }' /proc/stat)
+revive_cutoff=$((boot_epoch - recent_window_seconds))
+
+# Newest Claude Code transcript mtime for a working directory, if any.
+newest_claude_mtime() {
+	local encoded_path
+	encoded_path=${1//[^A-Za-z0-9]/-}
+	find "${HOME}/.claude/projects/${encoded_path}" -maxdepth 1 -name '*.jsonl' \
+		-printf '%T@\n' 2>/dev/null | sort --reverse --numeric-sort | head --lines=1
+}
+
+# Newest Codex session mtime recorded for a working directory, if any.
+newest_codex_mtime() {
+	grep --recursive --files-with-matches --include='*.jsonl' \
+		"\"cwd\":\"$1\"" "${HOME}/.codex/sessions" 2>/dev/null |
+		xargs --no-run-if-empty stat --format=%Y 2>/dev/null |
+		sort --reverse --numeric-sort | head --lines=1
+}
+
+worktrees=$("${orca_cli}" worktree ps --json | jq --raw-output '
+	.result.worktrees[]
+	| select(.liveTerminalCount == 0
+		and .isArchived == false
+		and .terminalPlatform == "linux")
+	| [.worktreeId, .path] | join("\t")')
+
+while IFS=$'\t' read -r worktree_id unc_path; do
+	if [[ -z ${worktree_id} ]]; then
+		continue
+	fi
+	# \\wsl.localhost\<distro>\home\... -> /home/...
+	linux_path=$(sed --regexp-extended \
+		's#^\\\\wsl\.localhost\\[^\\]+##; s#\\#/#g' <<<"${unc_path}")
+
+	# herdr manages resume for its own worktrees.
+	if [[ ${linux_path} == "${HOME}/.herdr/"* ]]; then
+		continue
+	fi
+
+	# shellcheck disable=SC2310
+	claude_mtime=$(newest_claude_mtime "${linux_path}") || claude_mtime=""
+	# shellcheck disable=SC2310
+	codex_mtime=$(newest_codex_mtime "${linux_path}") || codex_mtime=""
+	claude_epoch=${claude_mtime%.*}
+	codex_epoch=${codex_mtime%.*}
+
+	if [[ -z ${claude_epoch} && -z ${codex_epoch} ]]; then
+		continue
+	fi
+
+	if [[ ${claude_epoch:-0} -ge ${codex_epoch:-0} ]]; then
+		newest_epoch=${claude_epoch}
+		resume_command="claude --continue"
+	else
+		newest_epoch=${codex_epoch}
+		resume_command="codex resume --last"
+	fi
+
+	if [[ ${newest_epoch} -lt ${revive_cutoff} ]]; then
+		echo "skip ${linux_path} (last session predates boot by >24h)"
+		continue
+	fi
+
+	echo "revive ${linux_path} -> ${resume_command}"
+	if [[ ${dry_run} == false ]]; then
+		"${orca_cli}" terminal create --worktree "id:${worktree_id}" \
+			--title "revived" --command "${resume_command}" --json >/dev/null
+	fi
+done <<<"${worktrees}"
