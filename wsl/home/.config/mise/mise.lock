@@ -1249,38 +1249,38 @@ url_api = "https://api.github.com/repos/risu729/kuebiko/releases/assets/53997644
 provenance = "github-attestations"
 
 [[tools."github:risu729/mikoto"]]
-version = "1.0.37"
+version = "1.0.38"
 backend = "github:risu729/mikoto"
 
 [tools."github:risu729/mikoto"."platforms.linux-x64"]
-checksum = "sha256:1c691bde8dd01e50947f6ddcc4ca1b1a8032632d57e6344c19356ef28d3d0b05"
-url = "https://github.com/risu729/mikoto/releases/download/v1.0.37/mikoto-v1.0.37-linux-x64.tar.gz"
-url_api = "https://api.github.com/repos/risu729/mikoto/releases/assets/543725632"
+checksum = "sha256:b6a1e3ecf7131bc92770e9e2cbb92e037ddd5ee935c8a03cb9ff29b7cc8f51b5"
+url = "https://github.com/risu729/mikoto/releases/download/v1.0.38/mikoto-v1.0.38-linux-x64.tar.gz"
+url_api = "https://api.github.com/repos/risu729/mikoto/releases/assets/544790588"
 provenance = "github-attestations"
 provenance_verified = true
 
 [tools."github:risu729/mikoto"."platforms.linux-x64-baseline"]
-checksum = "sha256:1c691bde8dd01e50947f6ddcc4ca1b1a8032632d57e6344c19356ef28d3d0b05"
-url = "https://github.com/risu729/mikoto/releases/download/v1.0.37/mikoto-v1.0.37-linux-x64.tar.gz"
-url_api = "https://api.github.com/repos/risu729/mikoto/releases/assets/543725632"
+checksum = "sha256:b6a1e3ecf7131bc92770e9e2cbb92e037ddd5ee935c8a03cb9ff29b7cc8f51b5"
+url = "https://github.com/risu729/mikoto/releases/download/v1.0.38/mikoto-v1.0.38-linux-x64.tar.gz"
+url_api = "https://api.github.com/repos/risu729/mikoto/releases/assets/544790588"
 provenance = "github-attestations"
 
 [tools."github:risu729/mikoto"."platforms.linux-x64-musl"]
-checksum = "sha256:1c691bde8dd01e50947f6ddcc4ca1b1a8032632d57e6344c19356ef28d3d0b05"
-url = "https://github.com/risu729/mikoto/releases/download/v1.0.37/mikoto-v1.0.37-linux-x64.tar.gz"
-url_api = "https://api.github.com/repos/risu729/mikoto/releases/assets/543725632"
+checksum = "sha256:b6a1e3ecf7131bc92770e9e2cbb92e037ddd5ee935c8a03cb9ff29b7cc8f51b5"
+url = "https://github.com/risu729/mikoto/releases/download/v1.0.38/mikoto-v1.0.38-linux-x64.tar.gz"
+url_api = "https://api.github.com/repos/risu729/mikoto/releases/assets/544790588"
 provenance = "github-attestations"
 
 [tools."github:risu729/mikoto"."platforms.linux-x64-musl-baseline"]
-checksum = "sha256:1c691bde8dd01e50947f6ddcc4ca1b1a8032632d57e6344c19356ef28d3d0b05"
-url = "https://github.com/risu729/mikoto/releases/download/v1.0.37/mikoto-v1.0.37-linux-x64.tar.gz"
-url_api = "https://api.github.com/repos/risu729/mikoto/releases/assets/543725632"
+checksum = "sha256:b6a1e3ecf7131bc92770e9e2cbb92e037ddd5ee935c8a03cb9ff29b7cc8f51b5"
+url = "https://github.com/risu729/mikoto/releases/download/v1.0.38/mikoto-v1.0.38-linux-x64.tar.gz"
+url_api = "https://api.github.com/repos/risu729/mikoto/releases/assets/544790588"
 provenance = "github-attestations"
 
 [tools."github:risu729/mikoto"."platforms.macos-arm64"]
-checksum = "sha256:3fef4ea6750fd58ca2c6f6c06de4234aa0c4b6e8cc5262a672a87a5865f0f3fb"
-url = "https://github.com/risu729/mikoto/releases/download/v1.0.37/mikoto-v1.0.37-macos-arm64.tar.gz"
-url_api = "https://api.github.com/repos/risu729/mikoto/releases/assets/543725617"
+checksum = "sha256:76ed399ac919e724fc27ebc685738d6d08eab3730d61040b9dfd9077c7cf1a86"
+url = "https://github.com/risu729/mikoto/releases/download/v1.0.38/mikoto-v1.0.38-macos-arm64.tar.gz"
+url_api = "https://api.github.com/repos/risu729/mikoto/releases/assets/544790577"
 provenance = "github-attestations"
 
 [[tools."github:seachicken/gh-poi"]]
