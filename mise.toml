@@ -144,6 +144,16 @@ for agent in universal claude-code; do
     --agent "${agent}" --scope user --force
 done
 
+mise exec -- npx --yes skills add https://github.com/stablyai/orca \
+  --skill orca-cli \
+  --skill computer-use \
+  --skill orchestration \
+  --agent claude-code \
+  --agent codex \
+  --agent universal \
+  --global \
+  -y
+
 for integration in claude codex; do
   mise exec -- herdr integration install "${integration}"
 done
