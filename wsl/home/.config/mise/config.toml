@@ -86,6 +86,7 @@ glow = "latest"
 ] }
 
 # ai agents
+entire = "latest"
 codex = { version = "latest", minimum_release_age = "0s" }
 "npm:ccusage" = "latest"
 claude = { version = "latest", minimum_release_age = "0s" }
