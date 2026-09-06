@@ -261,48 +261,48 @@ url_api = "https://api.github.com/repos/atuinsh/atuin/releases/assets/538647916"
 provenance = "github-attestations"
 
 [[tools.aube]]
-version = "2.2.10"
+version = "2.2.12"
 backend = "aqua:jdx/aube"
 
 [tools.aube."platforms.linux-arm64"]
-checksum = "sha256:22be8854cb6c2170ecdac6bd32f90656c99ff264fe65ae32b5feefa904a62cfa"
-url = "https://github.com/aubepkg/aube/releases/download/v2.2.10/aube-v2.2.10-aarch64-unknown-linux-gnu.tar.gz"
-url_api = "https://api.github.com/repos/aubepkg/aube/releases/assets/546283467"
+checksum = "sha256:831f212a8b3f2f7a2de891eed7c95856bffadb9e3ec5981377a157f32bcff730"
+url = "https://github.com/aubepkg/aube/releases/download/v2.2.12/aube-v2.2.12-aarch64-unknown-linux-gnu.tar.gz"
+url_api = "https://api.github.com/repos/aubepkg/aube/releases/assets/546510161"
 provenance = "github-attestations"
 
 [tools.aube."platforms.linux-arm64-musl"]
-checksum = "sha256:145f718ac9687b51a851beea18b364f55e6c486ea34f005a5375ec68f329a790"
-url = "https://github.com/aubepkg/aube/releases/download/v2.2.10/aube-v2.2.10-aarch64-unknown-linux-musl.tar.gz"
-url_api = "https://api.github.com/repos/aubepkg/aube/releases/assets/546277101"
+checksum = "sha256:b6df7f02c0e58257843c071efd14d65665cebb03fb3462633643c9aeaa36a61f"
+url = "https://github.com/aubepkg/aube/releases/download/v2.2.12/aube-v2.2.12-aarch64-unknown-linux-musl.tar.gz"
+url_api = "https://api.github.com/repos/aubepkg/aube/releases/assets/546500061"
 provenance = "github-attestations"
 
 [tools.aube."platforms.linux-x64"]
-checksum = "sha256:3048f4f0648e4d5d313c1aca0eb13bd0cbee30bae1e97754651e5c307f1521c7"
-url = "https://github.com/aubepkg/aube/releases/download/v2.2.10/aube-v2.2.10-x86_64-unknown-linux-gnu.tar.gz"
-url_api = "https://api.github.com/repos/aubepkg/aube/releases/assets/546271661"
+checksum = "sha256:ad906bced7d1bf014a2dd8cfa1b03ad0e38a5764f92fe4b30e9e27e303bb7a03"
+url = "https://github.com/aubepkg/aube/releases/download/v2.2.12/aube-v2.2.12-x86_64-unknown-linux-gnu.tar.gz"
+url_api = "https://api.github.com/repos/aubepkg/aube/releases/assets/546498432"
 
 [tools.aube."platforms.linux-x64-baseline"]
-checksum = "sha256:3048f4f0648e4d5d313c1aca0eb13bd0cbee30bae1e97754651e5c307f1521c7"
-url = "https://github.com/aubepkg/aube/releases/download/v2.2.10/aube-v2.2.10-x86_64-unknown-linux-gnu.tar.gz"
-url_api = "https://api.github.com/repos/aubepkg/aube/releases/assets/546271661"
+checksum = "sha256:ad906bced7d1bf014a2dd8cfa1b03ad0e38a5764f92fe4b30e9e27e303bb7a03"
+url = "https://github.com/aubepkg/aube/releases/download/v2.2.12/aube-v2.2.12-x86_64-unknown-linux-gnu.tar.gz"
+url_api = "https://api.github.com/repos/aubepkg/aube/releases/assets/546498432"
 provenance = "github-attestations"
 
 [tools.aube."platforms.linux-x64-musl"]
-checksum = "sha256:4fecef50ebf456563a40d22bbe71d4f3a3ad2ea57d1474869191f45cb426de3c"
-url = "https://github.com/aubepkg/aube/releases/download/v2.2.10/aube-v2.2.10-x86_64-unknown-linux-musl.tar.gz"
-url_api = "https://api.github.com/repos/aubepkg/aube/releases/assets/546268444"
+checksum = "sha256:81a1e1c3d041ce0db51483ad3b892e66dec1e63fff6489ae847880fbd081b92d"
+url = "https://github.com/aubepkg/aube/releases/download/v2.2.12/aube-v2.2.12-x86_64-unknown-linux-musl.tar.gz"
+url_api = "https://api.github.com/repos/aubepkg/aube/releases/assets/546495491"
 provenance = "github-attestations"
 
 [tools.aube."platforms.linux-x64-musl-baseline"]
-checksum = "sha256:4fecef50ebf456563a40d22bbe71d4f3a3ad2ea57d1474869191f45cb426de3c"
-url = "https://github.com/aubepkg/aube/releases/download/v2.2.10/aube-v2.2.10-x86_64-unknown-linux-musl.tar.gz"
-url_api = "https://api.github.com/repos/aubepkg/aube/releases/assets/546268444"
+checksum = "sha256:81a1e1c3d041ce0db51483ad3b892e66dec1e63fff6489ae847880fbd081b92d"
+url = "https://github.com/aubepkg/aube/releases/download/v2.2.12/aube-v2.2.12-x86_64-unknown-linux-musl.tar.gz"
+url_api = "https://api.github.com/repos/aubepkg/aube/releases/assets/546495491"
 provenance = "github-attestations"
 
 [tools.aube."platforms.macos-arm64"]
-checksum = "sha256:2ffc9daed202a3bee420e7b16bdc5724de567786785fcbc591ff83de549a388f"
-url = "https://github.com/aubepkg/aube/releases/download/v2.2.10/aube-v2.2.10-aarch64-apple-darwin.tar.gz"
-url_api = "https://api.github.com/repos/aubepkg/aube/releases/assets/546287179"
+checksum = "sha256:30235658a0f328f095ff7f178f352a6bfef753a8fe505d991bd9f5db3825f2f6"
+url = "https://github.com/aubepkg/aube/releases/download/v2.2.12/aube-v2.2.12-aarch64-apple-darwin.tar.gz"
+url_api = "https://api.github.com/repos/aubepkg/aube/releases/assets/546517467"
 provenance = "github-attestations"
 
 [[tools.bat]]
@@ -594,53 +594,53 @@ url_api = "https://api.github.com/repos/cargo-bins/cargo-binstall/releases/asset
 provenance = "github-attestations"
 
 [[tools.claude]]
-version = "2.1.261"
+version = "2.1.263"
 backend = "aqua:anthropics/claude-code"
 
 [tools.claude."platforms.linux-arm64"]
-checksum = "sha256:40772aed92ae8dafc719c23b58c595e50b5c2dfd006840fa1ba5cd0a21eea107"
-url = "https://github.com/anthropics/claude-code/releases/download/v2.1.261/claude-linux-arm64.tar.gz"
-url_api = "https://api.github.com/repos/anthropics/claude-code/releases/assets/544686530"
+checksum = "sha256:cba2e616346c4f45f7fe468297bcc186d84ee6c292b2b1814b9be190b1da49be"
+url = "https://github.com/anthropics/claude-code/releases/download/v2.1.263/claude-linux-arm64.tar.gz"
+url_api = "https://api.github.com/repos/anthropics/claude-code/releases/assets/546595138"
 
 [tools.claude."platforms.linux-arm64-musl"]
-checksum = "sha256:05ad4dd2c9d0c03b9bcdee371bd93aa27b2cc64028de4310b0ee35318196dddf"
-url = "https://github.com/anthropics/claude-code/releases/download/v2.1.261/claude-linux-arm64-musl.tar.gz"
-url_api = "https://api.github.com/repos/anthropics/claude-code/releases/assets/544686525"
+checksum = "sha256:7d49674fd10bbf7d0e5989bd300aaa8dce4c2ecfec66d2c19a82fe4ec84bfeb8"
+url = "https://github.com/anthropics/claude-code/releases/download/v2.1.263/claude-linux-arm64-musl.tar.gz"
+url_api = "https://api.github.com/repos/anthropics/claude-code/releases/assets/546595140"
 
 [tools.claude."platforms.linux-x64"]
-checksum = "sha256:9c798b18618cb6c0ec6e6e7ab56eb338fd6f0f679f372a4d6ed76e1ab95c14a0"
-url = "https://github.com/anthropics/claude-code/releases/download/v2.1.261/claude-linux-x64.tar.gz"
-url_api = "https://api.github.com/repos/anthropics/claude-code/releases/assets/544686589"
+checksum = "sha256:7f1444a22ba7c0949b728a19511ed8e47d218ab23b32dbb0a557fe9798ad7ce6"
+url = "https://github.com/anthropics/claude-code/releases/download/v2.1.263/claude-linux-x64.tar.gz"
+url_api = "https://api.github.com/repos/anthropics/claude-code/releases/assets/546595199"
 
 [tools.claude."platforms.linux-x64-baseline"]
-checksum = "sha256:9c798b18618cb6c0ec6e6e7ab56eb338fd6f0f679f372a4d6ed76e1ab95c14a0"
-url = "https://github.com/anthropics/claude-code/releases/download/v2.1.261/claude-linux-x64.tar.gz"
-url_api = "https://api.github.com/repos/anthropics/claude-code/releases/assets/544686589"
+checksum = "sha256:7f1444a22ba7c0949b728a19511ed8e47d218ab23b32dbb0a557fe9798ad7ce6"
+url = "https://github.com/anthropics/claude-code/releases/download/v2.1.263/claude-linux-x64.tar.gz"
+url_api = "https://api.github.com/repos/anthropics/claude-code/releases/assets/546595199"
 
 [tools.claude."platforms.linux-x64-musl"]
-checksum = "sha256:df90a93dea42e87129d16563bdf71e647b26c2142513570688a2e9c8ed106ebf"
-url = "https://github.com/anthropics/claude-code/releases/download/v2.1.261/claude-linux-x64-musl.tar.gz"
-url_api = "https://api.github.com/repos/anthropics/claude-code/releases/assets/544686528"
+checksum = "sha256:9a96f0e03cea5ebbb3af9b70cde7dc145ed33c7912735cbeee1f923f55de0585"
+url = "https://github.com/anthropics/claude-code/releases/download/v2.1.263/claude-linux-x64-musl.tar.gz"
+url_api = "https://api.github.com/repos/anthropics/claude-code/releases/assets/546595141"
 
 [tools.claude."platforms.linux-x64-musl-baseline"]
-checksum = "sha256:df90a93dea42e87129d16563bdf71e647b26c2142513570688a2e9c8ed106ebf"
-url = "https://github.com/anthropics/claude-code/releases/download/v2.1.261/claude-linux-x64-musl.tar.gz"
-url_api = "https://api.github.com/repos/anthropics/claude-code/releases/assets/544686528"
+checksum = "sha256:9a96f0e03cea5ebbb3af9b70cde7dc145ed33c7912735cbeee1f923f55de0585"
+url = "https://github.com/anthropics/claude-code/releases/download/v2.1.263/claude-linux-x64-musl.tar.gz"
+url_api = "https://api.github.com/repos/anthropics/claude-code/releases/assets/546595141"
 
 [tools.claude."platforms.macos-arm64"]
-checksum = "sha256:041fe31aabf7cd5111bc916e5dc0b5b3a2e8d456a0e007b364beaf602f68c265"
-url = "https://github.com/anthropics/claude-code/releases/download/v2.1.261/claude-darwin-arm64.tar.gz"
-url_api = "https://api.github.com/repos/anthropics/claude-code/releases/assets/544686529"
+checksum = "sha256:c41b084242538dc94adb60b9cc74dab7571e1eb1d51ac7fb6c60fa9f16531765"
+url = "https://github.com/anthropics/claude-code/releases/download/v2.1.263/claude-darwin-arm64.tar.gz"
+url_api = "https://api.github.com/repos/anthropics/claude-code/releases/assets/546595143"
 
 [tools.claude."platforms.macos-x64"]
-checksum = "sha256:bc036516e430232cdfe29174bdade8f7f459cffdfc50e0c8db8f9ac8b3d6cdc8"
-url = "https://github.com/anthropics/claude-code/releases/download/v2.1.261/claude-darwin-x64.tar.gz"
-url_api = "https://api.github.com/repos/anthropics/claude-code/releases/assets/544686526"
+checksum = "sha256:459314a8bd2116f69cbd78caaa7c2d03f966a3aeaa7ffb6327f1f5f9e7d3b83a"
+url = "https://github.com/anthropics/claude-code/releases/download/v2.1.263/claude-darwin-x64.tar.gz"
+url_api = "https://api.github.com/repos/anthropics/claude-code/releases/assets/546595142"
 
 [tools.claude."platforms.macos-x64-baseline"]
-checksum = "sha256:bc036516e430232cdfe29174bdade8f7f459cffdfc50e0c8db8f9ac8b3d6cdc8"
-url = "https://github.com/anthropics/claude-code/releases/download/v2.1.261/claude-darwin-x64.tar.gz"
-url_api = "https://api.github.com/repos/anthropics/claude-code/releases/assets/544686526"
+checksum = "sha256:459314a8bd2116f69cbd78caaa7c2d03f966a3aeaa7ffb6327f1f5f9e7d3b83a"
+url = "https://github.com/anthropics/claude-code/releases/download/v2.1.263/claude-darwin-x64.tar.gz"
+url_api = "https://api.github.com/repos/anthropics/claude-code/releases/assets/546595142"
 
 [[tools.codex]]
 version = "0.153.4"
