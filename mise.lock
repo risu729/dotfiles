@@ -328,31 +328,31 @@ url = "https://github.com/PowerShell/PowerShell/releases/download/v7.6.5/powersh
 url_api = "https://api.github.com/repos/PowerShell/PowerShell/releases/assets/514627339"
 
 [[tools.rumdl]]
-version = "v0.2.66"
+version = "v0.2.67"
 backend = "aqua:rvben/rumdl"
 
 [tools.rumdl."platforms.linux-x64"]
-checksum = "sha256:2ca8703a66b17a73f6f85435d06f8d62484c1361d6b015f82bc46f9f642959a4"
-url = "https://github.com/rvben/rumdl/releases/download/v0.2.66/rumdl-v0.2.66-x86_64-unknown-linux-gnu.tar.gz"
-url_api = "https://api.github.com/repos/rvben/rumdl/releases/assets/545898809"
+checksum = "sha256:6c496e22b078de6357b8acf5fff3e53f9e3ac684372792a71c6a805f1d561b05"
+url = "https://github.com/rvben/rumdl/releases/download/v0.2.67/rumdl-v0.2.67-x86_64-unknown-linux-gnu.tar.gz"
+url_api = "https://api.github.com/repos/rvben/rumdl/releases/assets/547491371"
 provenance = "github-attestations"
 
 [tools.rumdl."platforms.linux-x64-baseline"]
-checksum = "sha256:2ca8703a66b17a73f6f85435d06f8d62484c1361d6b015f82bc46f9f642959a4"
-url = "https://github.com/rvben/rumdl/releases/download/v0.2.66/rumdl-v0.2.66-x86_64-unknown-linux-gnu.tar.gz"
-url_api = "https://api.github.com/repos/rvben/rumdl/releases/assets/545898809"
+checksum = "sha256:6c496e22b078de6357b8acf5fff3e53f9e3ac684372792a71c6a805f1d561b05"
+url = "https://github.com/rvben/rumdl/releases/download/v0.2.67/rumdl-v0.2.67-x86_64-unknown-linux-gnu.tar.gz"
+url_api = "https://api.github.com/repos/rvben/rumdl/releases/assets/547491371"
 provenance = "github-attestations"
 
 [tools.rumdl."platforms.linux-x64-musl"]
-checksum = "sha256:3fe5ade8f712253c22773d838f82b04bb1d8e5cac9ad144c3726dd542c344a3c"
-url = "https://github.com/rvben/rumdl/releases/download/v0.2.66/rumdl-v0.2.66-x86_64-unknown-linux-musl.tar.gz"
-url_api = "https://api.github.com/repos/rvben/rumdl/releases/assets/545898814"
+checksum = "sha256:725ae25d11ffe40ecac70aeacd28ba593ba4760132c6465ec5e3cd6f0ec1c8aa"
+url = "https://github.com/rvben/rumdl/releases/download/v0.2.67/rumdl-v0.2.67-x86_64-unknown-linux-musl.tar.gz"
+url_api = "https://api.github.com/repos/rvben/rumdl/releases/assets/547491370"
 provenance = "github-attestations"
 
 [tools.rumdl."platforms.linux-x64-musl-baseline"]
-checksum = "sha256:3fe5ade8f712253c22773d838f82b04bb1d8e5cac9ad144c3726dd542c344a3c"
-url = "https://github.com/rvben/rumdl/releases/download/v0.2.66/rumdl-v0.2.66-x86_64-unknown-linux-musl.tar.gz"
-url_api = "https://api.github.com/repos/rvben/rumdl/releases/assets/545898814"
+checksum = "sha256:725ae25d11ffe40ecac70aeacd28ba593ba4760132c6465ec5e3cd6f0ec1c8aa"
+url = "https://github.com/rvben/rumdl/releases/download/v0.2.67/rumdl-v0.2.67-x86_64-unknown-linux-musl.tar.gz"
+url_api = "https://api.github.com/repos/rvben/rumdl/releases/assets/547491370"
 provenance = "github-attestations"
 
 [[tools.shellcheck]]
