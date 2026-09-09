@@ -740,6 +740,40 @@ checksum = "sha256:7e4f7236b0cd5ee474e6ab6d35ea67b8c33d5ec6483498e0fdd0218f458b2
 url = "https://github.com/github/copilot-cli/releases/download/v1.0.83/copilot-darwin-x64.tar.gz"
 url_api = "https://api.github.com/repos/github/copilot-cli/releases/assets/544538798"
 
+[[tools.cursor-agent]]
+version = "2026.09.08-6caf4ff"
+backend = "http:cursor-agent"
+
+[tools.cursor-agent.options]
+strip_components = "0"
+
+[tools.cursor-agent."platforms.linux-arm64"]
+url = "https://downloads.cursor.com/lab/2026.09.08-6caf4ff/linux/arm64/agent-cli-package.tar.gz"
+
+[tools.cursor-agent."platforms.linux-arm64-musl"]
+url = "https://downloads.cursor.com/lab/2026.09.08-6caf4ff/linux/arm64/agent-cli-package.tar.gz"
+
+[tools.cursor-agent."platforms.linux-x64"]
+url = "https://downloads.cursor.com/lab/2026.09.08-6caf4ff/linux/x64/agent-cli-package.tar.gz"
+
+[tools.cursor-agent."platforms.linux-x64-baseline"]
+url = "https://downloads.cursor.com/lab/2026.09.08-6caf4ff/linux/x64/agent-cli-package.tar.gz"
+
+[tools.cursor-agent."platforms.linux-x64-musl"]
+url = "https://downloads.cursor.com/lab/2026.09.08-6caf4ff/linux/x64/agent-cli-package.tar.gz"
+
+[tools.cursor-agent."platforms.linux-x64-musl-baseline"]
+url = "https://downloads.cursor.com/lab/2026.09.08-6caf4ff/linux/x64/agent-cli-package.tar.gz"
+
+[tools.cursor-agent."platforms.macos-arm64"]
+url = "https://downloads.cursor.com/lab/2026.09.08-6caf4ff/darwin/arm64/agent-cli-package.tar.gz"
+
+[tools.cursor-agent."platforms.macos-x64"]
+url = "https://downloads.cursor.com/lab/2026.09.08-6caf4ff/darwin/x64/agent-cli-package.tar.gz"
+
+[tools.cursor-agent."platforms.macos-x64-baseline"]
+url = "https://downloads.cursor.com/lab/2026.09.08-6caf4ff/darwin/x64/agent-cli-package.tar.gz"
+
 [[tools.delta]]
 version = "0.19.2"
 backend = "aqua:dandavison/delta"

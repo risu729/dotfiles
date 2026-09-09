@@ -90,6 +90,7 @@ entire = "latest"
 codex = { version = "latest", minimum_release_age = "0s" }
 "npm:ccusage" = "latest"
 claude = { version = "latest", minimum_release_age = "0s" }
+cursor-agent = { version = "latest", minimum_release_age = "0s" }
 copilot = "latest"
 hunk = "latest"
 herdr = "latest"
@@ -139,6 +140,15 @@ compile = false
 
 [task_config]
 includes = [".config/mise/tasks"]
+
+# Cursor Agent self-updates into ~/.local/share/cursor-agent and relinks
+# ~/.local/bin/{agent,cursor-agent}, which would shadow the mise-managed install.
+# --disable-auto-update is a hidden global flag. `agent` mirrors the official
+# installer's short name; a wrapper cannot delegate to itself, so bare
+# `cursor-agent` still self-updates.
+[wrappers.agent]
+command = "cursor-agent"
+args = ["--disable-auto-update"]
 
 [shell_alias]
 clip = "clip.exe"
