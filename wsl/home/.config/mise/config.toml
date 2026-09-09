@@ -122,8 +122,7 @@ typst = "latest"
 aqua = "latest"
 pipx = "latest"
 # Global RUSTC_WRAPPER must stay unset; mbx defers to an existing wrapper and skips caching.
-# setup installs a persistent rustc wrapper so plain cargo commands also hit the cache.
-mr-boxington = { version = "latest", postinstall = "mbx setup" }
+mr-boxington = "latest"
 gcloud = "latest"
 
 [settings]
@@ -149,6 +148,14 @@ includes = [".config/mise/tasks"]
 [wrappers.agent]
 command = "cursor-agent"
 args = ["--disable-auto-update"]
+
+# Route plain `cargo` through the mbx build cache everywhere. This is what
+# `mbx setup --global` writes. The `mr_boxington` Rust tool option is not used
+# because a project's own `rust` entry replaces the global one, dropping the
+# option, whereas `[wrappers]` merge across configs.
+[wrappers.cargo]
+command = "mbx"
+env = { MBX_CARGO_SHIM_MODE = "1" }
 
 [shell_alias]
 clip = "clip.exe"
