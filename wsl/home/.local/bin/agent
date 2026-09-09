@@ -1,0 +1,6 @@
+#!/bin/sh
+
+# Cursor's installer links both `agent` and `cursor-agent`; mise only ships
+# `cursor-agent`. `--disable-auto-update` is a hidden global flag that stops the
+# CLI from replacing the mise-managed install.
+exec cursor-agent --disable-auto-update "$@"

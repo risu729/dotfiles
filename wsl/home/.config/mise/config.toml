@@ -90,6 +90,10 @@ entire = "latest"
 codex = { version = "latest", minimum_release_age = "0s" }
 "npm:ccusage" = "latest"
 claude = { version = "latest", minimum_release_age = "0s" }
+# Cursor Agent self-updates into ~/.local/share/cursor-agent and relinks
+# ~/.local/bin/{agent,cursor-agent}; the `agent` wrapper in ~/.local/bin passes
+# --disable-auto-update so mise stays the single owner of the installed version.
+cursor-agent = { version = "latest", minimum_release_age = "0s" }
 copilot = "latest"
 hunk = "latest"
 herdr = "latest"
