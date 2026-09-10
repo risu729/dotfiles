@@ -456,31 +456,31 @@ url = "https://github.com/crate-ci/typos/releases/download/v1.50.1/typos-v1.50.1
 url_api = "https://api.github.com/repos/crate-ci/typos/releases/assets/539858793"
 
 [[tools.uv]]
-version = "0.12.11"
+version = "0.12.12"
 backend = "aqua:astral-sh/uv"
 
 [tools.uv."platforms.linux-x64"]
-checksum = "sha256:4ae93e0f148a18434cc094072547cec88912fc4a72b984183c7d0d0e9586cb5e"
-url = "https://github.com/astral-sh/uv/releases/download/0.12.11/uv-x86_64-unknown-linux-gnu.tar.gz"
-url_api = "https://api.github.com/repos/astral-sh/uv/releases/assets/551278642"
+checksum = "sha256:ab9b309d4586403f024e100abaceb396616e178a553e2500c36087d180f09509"
+url = "https://github.com/astral-sh/uv/releases/download/0.12.12/uv-x86_64-unknown-linux-gnu.tar.gz"
+url_api = "https://api.github.com/repos/astral-sh/uv/releases/assets/553169491"
 provenance = "github-attestations"
 
 [tools.uv."platforms.linux-x64-baseline"]
-checksum = "sha256:4ae93e0f148a18434cc094072547cec88912fc4a72b984183c7d0d0e9586cb5e"
-url = "https://github.com/astral-sh/uv/releases/download/0.12.11/uv-x86_64-unknown-linux-gnu.tar.gz"
-url_api = "https://api.github.com/repos/astral-sh/uv/releases/assets/551278642"
+checksum = "sha256:ab9b309d4586403f024e100abaceb396616e178a553e2500c36087d180f09509"
+url = "https://github.com/astral-sh/uv/releases/download/0.12.12/uv-x86_64-unknown-linux-gnu.tar.gz"
+url_api = "https://api.github.com/repos/astral-sh/uv/releases/assets/553169491"
 provenance = "github-attestations"
 
 [tools.uv."platforms.linux-x64-musl"]
-checksum = "sha256:3343303ad6b4f9537ae0abfb36f1926a90c0445ba8f23d0e0a840a66a124cffd"
-url = "https://github.com/astral-sh/uv/releases/download/0.12.11/uv-x86_64-unknown-linux-musl.tar.gz"
-url_api = "https://api.github.com/repos/astral-sh/uv/releases/assets/551278646"
+checksum = "sha256:0b0bbd7144f91d9b694e29c920fca3a060322bd134e8507e5eb92049a3e2edf0"
+url = "https://github.com/astral-sh/uv/releases/download/0.12.12/uv-x86_64-unknown-linux-musl.tar.gz"
+url_api = "https://api.github.com/repos/astral-sh/uv/releases/assets/553169515"
 provenance = "github-attestations"
 
 [tools.uv."platforms.linux-x64-musl-baseline"]
-checksum = "sha256:3343303ad6b4f9537ae0abfb36f1926a90c0445ba8f23d0e0a840a66a124cffd"
-url = "https://github.com/astral-sh/uv/releases/download/0.12.11/uv-x86_64-unknown-linux-musl.tar.gz"
-url_api = "https://api.github.com/repos/astral-sh/uv/releases/assets/551278646"
+checksum = "sha256:0b0bbd7144f91d9b694e29c920fca3a060322bd134e8507e5eb92049a3e2edf0"
+url = "https://github.com/astral-sh/uv/releases/download/0.12.12/uv-x86_64-unknown-linux-musl.tar.gz"
+url_api = "https://api.github.com/repos/astral-sh/uv/releases/assets/553169515"
 provenance = "github-attestations"
 
 [[tools.yamlfmt]]
