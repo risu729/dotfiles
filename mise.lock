@@ -29,31 +29,28 @@ url_api = "https://api.github.com/repos/rhysd/actionlint/releases/assets/3849248
 provenance = "github-attestations"
 
 [[tools.aube]]
-version = "v2.2.12"
-backend = "aqua:jdx/aube"
+version = "2.2.13"
+backend = "packslip:github.com/aubepkg/aube"
 
 [tools.aube."platforms.linux-x64"]
-checksum = "sha256:ad906bced7d1bf014a2dd8cfa1b03ad0e38a5764f92fe4b30e9e27e303bb7a03"
-url = "https://github.com/aubepkg/aube/releases/download/v2.2.12/aube-v2.2.12-x86_64-unknown-linux-gnu.tar.gz"
-url_api = "https://api.github.com/repos/aubepkg/aube/releases/assets/546498432"
+checksum = "sha256:0b0e734d5fe6e90a286229136d1e97e217b1836e297408cbf9d07cd020cfb4c2"
+url = "https://github.com/aubepkg/aube/releases/download/v2.2.13/aube-v2.2.13-x86_64-unknown-linux-gnu.tar.gz"
+signer = "sigstore-oidc:https://github.com/aubepkg/aube/.github/workflows/release-plz.yml"
 
 [tools.aube."platforms.linux-x64-baseline"]
-checksum = "sha256:ad906bced7d1bf014a2dd8cfa1b03ad0e38a5764f92fe4b30e9e27e303bb7a03"
-url = "https://github.com/aubepkg/aube/releases/download/v2.2.12/aube-v2.2.12-x86_64-unknown-linux-gnu.tar.gz"
-url_api = "https://api.github.com/repos/aubepkg/aube/releases/assets/546498432"
-provenance = "github-attestations"
+checksum = "sha256:0b0e734d5fe6e90a286229136d1e97e217b1836e297408cbf9d07cd020cfb4c2"
+url = "https://github.com/aubepkg/aube/releases/download/v2.2.13/aube-v2.2.13-x86_64-unknown-linux-gnu.tar.gz"
+signer = "sigstore-oidc:https://github.com/aubepkg/aube/.github/workflows/release-plz.yml"
 
 [tools.aube."platforms.linux-x64-musl"]
-checksum = "sha256:81a1e1c3d041ce0db51483ad3b892e66dec1e63fff6489ae847880fbd081b92d"
-url = "https://github.com/aubepkg/aube/releases/download/v2.2.12/aube-v2.2.12-x86_64-unknown-linux-musl.tar.gz"
-url_api = "https://api.github.com/repos/aubepkg/aube/releases/assets/546495491"
-provenance = "github-attestations"
+checksum = "sha256:894bb4991b2cb8054b562dd85682d7e7f21e4479ace26c8f13d4aa362dec0b63"
+url = "https://github.com/aubepkg/aube/releases/download/v2.2.13/aube-v2.2.13-x86_64-unknown-linux-musl.tar.gz"
+signer = "sigstore-oidc:https://github.com/aubepkg/aube/.github/workflows/release-plz.yml"
 
 [tools.aube."platforms.linux-x64-musl-baseline"]
-checksum = "sha256:81a1e1c3d041ce0db51483ad3b892e66dec1e63fff6489ae847880fbd081b92d"
-url = "https://github.com/aubepkg/aube/releases/download/v2.2.12/aube-v2.2.12-x86_64-unknown-linux-musl.tar.gz"
-url_api = "https://api.github.com/repos/aubepkg/aube/releases/assets/546495491"
-provenance = "github-attestations"
+checksum = "sha256:894bb4991b2cb8054b562dd85682d7e7f21e4479ace26c8f13d4aa362dec0b63"
+url = "https://github.com/aubepkg/aube/releases/download/v2.2.13/aube-v2.2.13-x86_64-unknown-linux-musl.tar.gz"
+signer = "sigstore-oidc:https://github.com/aubepkg/aube/.github/workflows/release-plz.yml"
 
 [[tools.betterleaks]]
 version = "v1.8.1"
