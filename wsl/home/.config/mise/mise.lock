@@ -349,61 +349,61 @@ url = "https://github.com/sharkdp/bat/releases/download/v0.26.1/bat-v0.26.1-x86_
 url_api = "https://api.github.com/repos/sharkdp/bat/releases/assets/323549786"
 
 [[tools.biome]]
-version = "2.5.12"
+version = "2.5.13"
 backend = "aqua:biomejs/biome"
 
 [tools.biome."platforms.linux-arm64"]
-checksum = "sha256:4c1c9908e5cfd5d327e4ac3205baa13b1d3dfd24f184ed289a0c0ef1b2e0274f"
-url = "https://github.com/biomejs/biome/releases/download/%40biomejs/biome%402.5.12/biome-linux-arm64"
-url_api = "https://api.github.com/repos/biomejs/biome/releases/assets/542381059"
+checksum = "sha256:c5f0cf249b1ef1d730376ef61390341e4fdcdb2f79a7fe94a2dacd6af6241958"
+url = "https://github.com/biomejs/biome/releases/download/%40biomejs/biome%402.5.13/biome-linux-arm64"
+url_api = "https://api.github.com/repos/biomejs/biome/releases/assets/554847321"
 provenance = "github-attestations"
 
 [tools.biome."platforms.linux-arm64-musl"]
-checksum = "sha256:8de4de4b3225f89d5596ccb85a071aac2173d8af2a5f21f2fbc3837e9765d455"
-url = "https://github.com/biomejs/biome/releases/download/%40biomejs/biome%402.5.12/biome-linux-arm64-musl"
-url_api = "https://api.github.com/repos/biomejs/biome/releases/assets/542381053"
+checksum = "sha256:41ea15898cb3da3fcc90388671ac88c197f80c4ff681cff56a1cdd5433266524"
+url = "https://github.com/biomejs/biome/releases/download/%40biomejs/biome%402.5.13/biome-linux-arm64-musl"
+url_api = "https://api.github.com/repos/biomejs/biome/releases/assets/554847322"
 provenance = "github-attestations"
 
 [tools.biome."platforms.linux-x64"]
-checksum = "sha256:e2475688799c9e78dd25ba5cf676676ffe74caf182a35082b1d22039151fdf63"
-url = "https://github.com/biomejs/biome/releases/download/%40biomejs/biome%402.5.12/biome-linux-x64"
-url_api = "https://api.github.com/repos/biomejs/biome/releases/assets/542381054"
+checksum = "sha256:2037af3d666febdb6e1a2f549938d6f0fe961bad0ac1a34c5fee3dec2db0b43e"
+url = "https://github.com/biomejs/biome/releases/download/%40biomejs/biome%402.5.13/biome-linux-x64"
+url_api = "https://api.github.com/repos/biomejs/biome/releases/assets/554847323"
 provenance = "github-attestations"
 
 [tools.biome."platforms.linux-x64-baseline"]
-checksum = "sha256:e2475688799c9e78dd25ba5cf676676ffe74caf182a35082b1d22039151fdf63"
-url = "https://github.com/biomejs/biome/releases/download/%40biomejs/biome%402.5.12/biome-linux-x64"
-url_api = "https://api.github.com/repos/biomejs/biome/releases/assets/542381054"
+checksum = "sha256:2037af3d666febdb6e1a2f549938d6f0fe961bad0ac1a34c5fee3dec2db0b43e"
+url = "https://github.com/biomejs/biome/releases/download/%40biomejs/biome%402.5.13/biome-linux-x64"
+url_api = "https://api.github.com/repos/biomejs/biome/releases/assets/554847323"
 provenance = "github-attestations"
 
 [tools.biome."platforms.linux-x64-musl"]
-checksum = "sha256:0c4da931bcfd70be34e49aba3296ab0c51d177ae55da67190a4371bd1c89d0ad"
-url = "https://github.com/biomejs/biome/releases/download/%40biomejs/biome%402.5.12/biome-linux-x64-musl"
-url_api = "https://api.github.com/repos/biomejs/biome/releases/assets/542381061"
+checksum = "sha256:bcf687baae8fcb2e15e1dff8dc2557a98295d26debfb1e353a2cdb01f63a9e62"
+url = "https://github.com/biomejs/biome/releases/download/%40biomejs/biome%402.5.13/biome-linux-x64-musl"
+url_api = "https://api.github.com/repos/biomejs/biome/releases/assets/554847316"
 provenance = "github-attestations"
 
 [tools.biome."platforms.linux-x64-musl-baseline"]
-checksum = "sha256:0c4da931bcfd70be34e49aba3296ab0c51d177ae55da67190a4371bd1c89d0ad"
-url = "https://github.com/biomejs/biome/releases/download/%40biomejs/biome%402.5.12/biome-linux-x64-musl"
-url_api = "https://api.github.com/repos/biomejs/biome/releases/assets/542381061"
+checksum = "sha256:bcf687baae8fcb2e15e1dff8dc2557a98295d26debfb1e353a2cdb01f63a9e62"
+url = "https://github.com/biomejs/biome/releases/download/%40biomejs/biome%402.5.13/biome-linux-x64-musl"
+url_api = "https://api.github.com/repos/biomejs/biome/releases/assets/554847316"
 provenance = "github-attestations"
 
 [tools.biome."platforms.macos-arm64"]
-checksum = "sha256:0e8d513eb6c612236b47ccf0e218ac3917d863d41f853c65c38410774daa26ed"
-url = "https://github.com/biomejs/biome/releases/download/%40biomejs/biome%402.5.12/biome-darwin-arm64"
-url_api = "https://api.github.com/repos/biomejs/biome/releases/assets/542381062"
+checksum = "sha256:3d0cff7e4cd35a1709c1f4f9568380e08b3551ecf6e7356b3a49a40e3611894b"
+url = "https://github.com/biomejs/biome/releases/download/%40biomejs/biome%402.5.13/biome-darwin-arm64"
+url_api = "https://api.github.com/repos/biomejs/biome/releases/assets/554847319"
 provenance = "github-attestations"
 
 [tools.biome."platforms.macos-x64"]
-checksum = "sha256:0680097ec839fadc82451634680e39b9b7e48cc4334ef920525850b4d8f54a8b"
-url = "https://github.com/biomejs/biome/releases/download/%40biomejs/biome%402.5.12/biome-darwin-x64"
-url_api = "https://api.github.com/repos/biomejs/biome/releases/assets/542381057"
+checksum = "sha256:16f162b37f5bfca9d203dd8a05b20a3aaa6fee806f6ae0e1f8792331a6072238"
+url = "https://github.com/biomejs/biome/releases/download/%40biomejs/biome%402.5.13/biome-darwin-x64"
+url_api = "https://api.github.com/repos/biomejs/biome/releases/assets/554847324"
 provenance = "github-attestations"
 
 [tools.biome."platforms.macos-x64-baseline"]
-checksum = "sha256:0680097ec839fadc82451634680e39b9b7e48cc4334ef920525850b4d8f54a8b"
-url = "https://github.com/biomejs/biome/releases/download/%40biomejs/biome%402.5.12/biome-darwin-x64"
-url_api = "https://api.github.com/repos/biomejs/biome/releases/assets/542381057"
+checksum = "sha256:16f162b37f5bfca9d203dd8a05b20a3aaa6fee806f6ae0e1f8792331a6072238"
+url = "https://github.com/biomejs/biome/releases/download/%40biomejs/biome%402.5.13/biome-darwin-x64"
+url_api = "https://api.github.com/repos/biomejs/biome/releases/assets/554847324"
 provenance = "github-attestations"
 
 [[tools.bitwarden]]
@@ -588,53 +588,53 @@ url_api = "https://api.github.com/repos/cargo-bins/cargo-binstall/releases/asset
 provenance = "github-attestations"
 
 [[tools.claude]]
-version = "2.1.267"
+version = "2.1.268"
 backend = "aqua:anthropics/claude-code"
 
 [tools.claude."platforms.linux-arm64"]
-checksum = "sha256:a8d72d6586f7858210c1fcd538c4a517d9cd44268d92edbc71380f56afab372f"
-url = "https://github.com/anthropics/claude-code/releases/download/v2.1.267/claude-linux-arm64.tar.gz"
-url_api = "https://api.github.com/repos/anthropics/claude-code/releases/assets/553320291"
+checksum = "sha256:e9047c49d31f358af005198d77225b32468785ab28cacee815c42be314d335a8"
+url = "https://github.com/anthropics/claude-code/releases/download/v2.1.268/claude-linux-arm64.tar.gz"
+url_api = "https://api.github.com/repos/anthropics/claude-code/releases/assets/555585278"
 
 [tools.claude."platforms.linux-arm64-musl"]
-checksum = "sha256:f7d3ede71c34e5a3250191730f493c48c915c3cf620f2b1ee1e3c7115ba0338f"
-url = "https://github.com/anthropics/claude-code/releases/download/v2.1.267/claude-linux-arm64-musl.tar.gz"
-url_api = "https://api.github.com/repos/anthropics/claude-code/releases/assets/553320294"
+checksum = "sha256:e1e183604e0623ed2fcc1bf325ea495b1534b8065668977e13b08a8ff08f6e95"
+url = "https://github.com/anthropics/claude-code/releases/download/v2.1.268/claude-linux-arm64-musl.tar.gz"
+url_api = "https://api.github.com/repos/anthropics/claude-code/releases/assets/555585281"
 
 [tools.claude."platforms.linux-x64"]
-checksum = "sha256:449bc65dc82d68694103a801c8ac54b6549f9e12f469217c9e0d5560c1085023"
-url = "https://github.com/anthropics/claude-code/releases/download/v2.1.267/claude-linux-x64.tar.gz"
-url_api = "https://api.github.com/repos/anthropics/claude-code/releases/assets/553320444"
+checksum = "sha256:dfd082062904f36e695cafa16835e3214e93b7ed272c858069d2367d68dc3b02"
+url = "https://github.com/anthropics/claude-code/releases/download/v2.1.268/claude-linux-x64.tar.gz"
+url_api = "https://api.github.com/repos/anthropics/claude-code/releases/assets/555585369"
 
 [tools.claude."platforms.linux-x64-baseline"]
-checksum = "sha256:449bc65dc82d68694103a801c8ac54b6549f9e12f469217c9e0d5560c1085023"
-url = "https://github.com/anthropics/claude-code/releases/download/v2.1.267/claude-linux-x64.tar.gz"
-url_api = "https://api.github.com/repos/anthropics/claude-code/releases/assets/553320444"
+checksum = "sha256:dfd082062904f36e695cafa16835e3214e93b7ed272c858069d2367d68dc3b02"
+url = "https://github.com/anthropics/claude-code/releases/download/v2.1.268/claude-linux-x64.tar.gz"
+url_api = "https://api.github.com/repos/anthropics/claude-code/releases/assets/555585369"
 
 [tools.claude."platforms.linux-x64-musl"]
-checksum = "sha256:866c9778a3fce3cd2005fa8cf8d276962ed57c049ef77d356ce2b3bdb4512c49"
-url = "https://github.com/anthropics/claude-code/releases/download/v2.1.267/claude-linux-x64-musl.tar.gz"
-url_api = "https://api.github.com/repos/anthropics/claude-code/releases/assets/553320292"
+checksum = "sha256:b156d554575bf2f3d53fd8241304e0f8d125812d84b05bea54122dc86ac2c24f"
+url = "https://github.com/anthropics/claude-code/releases/download/v2.1.268/claude-linux-x64-musl.tar.gz"
+url_api = "https://api.github.com/repos/anthropics/claude-code/releases/assets/555585279"
 
 [tools.claude."platforms.linux-x64-musl-baseline"]
-checksum = "sha256:866c9778a3fce3cd2005fa8cf8d276962ed57c049ef77d356ce2b3bdb4512c49"
-url = "https://github.com/anthropics/claude-code/releases/download/v2.1.267/claude-linux-x64-musl.tar.gz"
-url_api = "https://api.github.com/repos/anthropics/claude-code/releases/assets/553320292"
+checksum = "sha256:b156d554575bf2f3d53fd8241304e0f8d125812d84b05bea54122dc86ac2c24f"
+url = "https://github.com/anthropics/claude-code/releases/download/v2.1.268/claude-linux-x64-musl.tar.gz"
+url_api = "https://api.github.com/repos/anthropics/claude-code/releases/assets/555585279"
 
 [tools.claude."platforms.macos-arm64"]
-checksum = "sha256:eef3ff022932943bffca2439f8ca4a28381b2adc1cf46c76177879e233c1b290"
-url = "https://github.com/anthropics/claude-code/releases/download/v2.1.267/claude-darwin-arm64.tar.gz"
-url_api = "https://api.github.com/repos/anthropics/claude-code/releases/assets/553320289"
+checksum = "sha256:20e6377cdcd310abcd2f1fb567ccebee08edc40b2aae92c587ba212a940152a3"
+url = "https://github.com/anthropics/claude-code/releases/download/v2.1.268/claude-darwin-arm64.tar.gz"
+url_api = "https://api.github.com/repos/anthropics/claude-code/releases/assets/555585282"
 
 [tools.claude."platforms.macos-x64"]
-checksum = "sha256:2b1d62b17ac11bedc9b70dfdbdaa36b9bcb979be93a64a9fb6c8b9d11b6ffa63"
-url = "https://github.com/anthropics/claude-code/releases/download/v2.1.267/claude-darwin-x64.tar.gz"
-url_api = "https://api.github.com/repos/anthropics/claude-code/releases/assets/553320293"
+checksum = "sha256:5cd2caca8c62956e07fd75794b5ed03a5639c51f0f1b2f7b955d9ca6798f839c"
+url = "https://github.com/anthropics/claude-code/releases/download/v2.1.268/claude-darwin-x64.tar.gz"
+url_api = "https://api.github.com/repos/anthropics/claude-code/releases/assets/555585280"
 
 [tools.claude."platforms.macos-x64-baseline"]
-checksum = "sha256:2b1d62b17ac11bedc9b70dfdbdaa36b9bcb979be93a64a9fb6c8b9d11b6ffa63"
-url = "https://github.com/anthropics/claude-code/releases/download/v2.1.267/claude-darwin-x64.tar.gz"
-url_api = "https://api.github.com/repos/anthropics/claude-code/releases/assets/553320293"
+checksum = "sha256:5cd2caca8c62956e07fd75794b5ed03a5639c51f0f1b2f7b955d9ca6798f839c"
+url = "https://github.com/anthropics/claude-code/releases/download/v2.1.268/claude-darwin-x64.tar.gz"
+url_api = "https://api.github.com/repos/anthropics/claude-code/releases/assets/555585280"
 
 [[tools.codex]]
 version = "0.154.0"
@@ -1720,53 +1720,53 @@ url_api = "https://api.github.com/repos/jdx/hk/releases/assets/546232326"
 signer = "sigstore-oidc:https://github.com/jdx/hk/.github/workflows/release.yml"
 
 [[tools.hunk]]
-version = "0.21.1"
+version = "0.22.0"
 backend = "aqua:modem-dev/hunk"
 
 [tools.hunk."platforms.linux-arm64"]
-checksum = "sha256:1d31dfc382b9a4df9c045eb239ec248f61c4161dd32ec7caaab8593d55a9eca6"
-url = "https://github.com/modem-dev/hunk/releases/download/v0.21.1/hunkdiff-linux-arm64.tar.gz"
-url_api = "https://api.github.com/repos/modem-dev/hunk/releases/assets/545159499"
+checksum = "sha256:da9f156427bce9a08609de66b310ba58f111ea31d6638ca7cdb08cf4a69d9e16"
+url = "https://github.com/modem-dev/hunk/releases/download/v0.22.0/hunkdiff-linux-arm64.tar.gz"
+url_api = "https://api.github.com/repos/modem-dev/hunk/releases/assets/554957249"
 
 [tools.hunk."platforms.linux-arm64-musl"]
-checksum = "sha256:1d31dfc382b9a4df9c045eb239ec248f61c4161dd32ec7caaab8593d55a9eca6"
-url = "https://github.com/modem-dev/hunk/releases/download/v0.21.1/hunkdiff-linux-arm64.tar.gz"
-url_api = "https://api.github.com/repos/modem-dev/hunk/releases/assets/545159499"
+checksum = "sha256:da9f156427bce9a08609de66b310ba58f111ea31d6638ca7cdb08cf4a69d9e16"
+url = "https://github.com/modem-dev/hunk/releases/download/v0.22.0/hunkdiff-linux-arm64.tar.gz"
+url_api = "https://api.github.com/repos/modem-dev/hunk/releases/assets/554957249"
 
 [tools.hunk."platforms.linux-x64"]
-checksum = "sha256:c7d1e23ba4ffb6ca3330797e9f0c82dbada50e3cfe1b719f4194747f2cbca122"
-url = "https://github.com/modem-dev/hunk/releases/download/v0.21.1/hunkdiff-linux-x64.tar.gz"
-url_api = "https://api.github.com/repos/modem-dev/hunk/releases/assets/545159494"
+checksum = "sha256:5f280374f2ab0fc4c48266a9909ee1b0e0c59d77dd99a340f1c26f2125d2229b"
+url = "https://github.com/modem-dev/hunk/releases/download/v0.22.0/hunkdiff-linux-x64.tar.gz"
+url_api = "https://api.github.com/repos/modem-dev/hunk/releases/assets/554957247"
 
 [tools.hunk."platforms.linux-x64-baseline"]
-checksum = "sha256:c7d1e23ba4ffb6ca3330797e9f0c82dbada50e3cfe1b719f4194747f2cbca122"
-url = "https://github.com/modem-dev/hunk/releases/download/v0.21.1/hunkdiff-linux-x64.tar.gz"
-url_api = "https://api.github.com/repos/modem-dev/hunk/releases/assets/545159494"
+checksum = "sha256:5f280374f2ab0fc4c48266a9909ee1b0e0c59d77dd99a340f1c26f2125d2229b"
+url = "https://github.com/modem-dev/hunk/releases/download/v0.22.0/hunkdiff-linux-x64.tar.gz"
+url_api = "https://api.github.com/repos/modem-dev/hunk/releases/assets/554957247"
 
 [tools.hunk."platforms.linux-x64-musl"]
-checksum = "sha256:c7d1e23ba4ffb6ca3330797e9f0c82dbada50e3cfe1b719f4194747f2cbca122"
-url = "https://github.com/modem-dev/hunk/releases/download/v0.21.1/hunkdiff-linux-x64.tar.gz"
-url_api = "https://api.github.com/repos/modem-dev/hunk/releases/assets/545159494"
+checksum = "sha256:5f280374f2ab0fc4c48266a9909ee1b0e0c59d77dd99a340f1c26f2125d2229b"
+url = "https://github.com/modem-dev/hunk/releases/download/v0.22.0/hunkdiff-linux-x64.tar.gz"
+url_api = "https://api.github.com/repos/modem-dev/hunk/releases/assets/554957247"
 
 [tools.hunk."platforms.linux-x64-musl-baseline"]
-checksum = "sha256:c7d1e23ba4ffb6ca3330797e9f0c82dbada50e3cfe1b719f4194747f2cbca122"
-url = "https://github.com/modem-dev/hunk/releases/download/v0.21.1/hunkdiff-linux-x64.tar.gz"
-url_api = "https://api.github.com/repos/modem-dev/hunk/releases/assets/545159494"
+checksum = "sha256:5f280374f2ab0fc4c48266a9909ee1b0e0c59d77dd99a340f1c26f2125d2229b"
+url = "https://github.com/modem-dev/hunk/releases/download/v0.22.0/hunkdiff-linux-x64.tar.gz"
+url_api = "https://api.github.com/repos/modem-dev/hunk/releases/assets/554957247"
 
 [tools.hunk."platforms.macos-arm64"]
-checksum = "sha256:c78d881ff3e68258ca6be7da20d786edc05993a535cc5bba2e4a298ddc1801ba"
-url = "https://github.com/modem-dev/hunk/releases/download/v0.21.1/hunkdiff-darwin-arm64.tar.gz"
-url_api = "https://api.github.com/repos/modem-dev/hunk/releases/assets/545159496"
+checksum = "sha256:0f562fdd6ab346c7d91c4755e3d9409fce1d2f72da81efd52bdb7e4431c4b05e"
+url = "https://github.com/modem-dev/hunk/releases/download/v0.22.0/hunkdiff-darwin-arm64.tar.gz"
+url_api = "https://api.github.com/repos/modem-dev/hunk/releases/assets/554957248"
 
 [tools.hunk."platforms.macos-x64"]
-checksum = "sha256:90c2dc7ed887908bb5586dc9ec906a0e15b0e53a43c595968e86863b62ad496c"
-url = "https://github.com/modem-dev/hunk/releases/download/v0.21.1/hunkdiff-darwin-x64.tar.gz"
-url_api = "https://api.github.com/repos/modem-dev/hunk/releases/assets/545159492"
+checksum = "sha256:8af26780898744e1a00f46b75974b9a093f6aff550b7ad206d5587c497f4a174"
+url = "https://github.com/modem-dev/hunk/releases/download/v0.22.0/hunkdiff-darwin-x64.tar.gz"
+url_api = "https://api.github.com/repos/modem-dev/hunk/releases/assets/554957246"
 
 [tools.hunk."platforms.macos-x64-baseline"]
-checksum = "sha256:90c2dc7ed887908bb5586dc9ec906a0e15b0e53a43c595968e86863b62ad496c"
-url = "https://github.com/modem-dev/hunk/releases/download/v0.21.1/hunkdiff-darwin-x64.tar.gz"
-url_api = "https://api.github.com/repos/modem-dev/hunk/releases/assets/545159492"
+checksum = "sha256:8af26780898744e1a00f46b75974b9a093f6aff550b7ad206d5587c497f4a174"
+url = "https://github.com/modem-dev/hunk/releases/download/v0.22.0/hunkdiff-darwin-x64.tar.gz"
+url_api = "https://api.github.com/repos/modem-dev/hunk/releases/assets/554957246"
 
 [[tools.java]]
 version = "27.0.0"
@@ -2085,53 +2085,53 @@ url = "https://github.com/ahmetb/kubectx/releases/download/v0.11.0/kubectx_v0.11
 url_api = "https://api.github.com/repos/ahmetb/kubectx/releases/assets/382590964"
 
 [[tools.kubeseal]]
-version = "0.39.1"
+version = "0.40.0"
 backend = "aqua:bitnami-labs/sealed-secrets"
 
 [tools.kubeseal."platforms.linux-arm64"]
-checksum = "sha256:e90e86c6319ff92410856a339f0dfeb88d0d5e351e144e0ed34c28e1d7ce477f"
-url = "https://github.com/bitnami/sealed-secrets/releases/download/v0.39.1/kubeseal-0.39.1-linux-arm64.tar.gz"
-url_api = "https://api.github.com/repos/bitnami/sealed-secrets/releases/assets/521998649"
+checksum = "sha256:d82f01e9226d194ca7ebc13e3619edefd596b5b433582bcec3d5a8e8b1a03123"
+url = "https://github.com/bitnami/sealed-secrets/releases/download/v0.40.0/kubeseal-0.40.0-linux-arm64.tar.gz"
+url_api = "https://api.github.com/repos/bitnami/sealed-secrets/releases/assets/555346329"
 
 [tools.kubeseal."platforms.linux-arm64-musl"]
-checksum = "sha256:e90e86c6319ff92410856a339f0dfeb88d0d5e351e144e0ed34c28e1d7ce477f"
-url = "https://github.com/bitnami/sealed-secrets/releases/download/v0.39.1/kubeseal-0.39.1-linux-arm64.tar.gz"
-url_api = "https://api.github.com/repos/bitnami/sealed-secrets/releases/assets/521998649"
+checksum = "sha256:d82f01e9226d194ca7ebc13e3619edefd596b5b433582bcec3d5a8e8b1a03123"
+url = "https://github.com/bitnami/sealed-secrets/releases/download/v0.40.0/kubeseal-0.40.0-linux-arm64.tar.gz"
+url_api = "https://api.github.com/repos/bitnami/sealed-secrets/releases/assets/555346329"
 
 [tools.kubeseal."platforms.linux-x64"]
-checksum = "sha256:785c8316370073426d6ce0b7e9e949bd7ba3709ef7f9e45a900aa07e5596db9c"
-url = "https://github.com/bitnami/sealed-secrets/releases/download/v0.39.1/kubeseal-0.39.1-linux-amd64.tar.gz"
-url_api = "https://api.github.com/repos/bitnami/sealed-secrets/releases/assets/521998648"
+checksum = "sha256:9314c35916646e9d59c8f06b1314574b4e79c4d76f079433607ed7b697bb5eb7"
+url = "https://github.com/bitnami/sealed-secrets/releases/download/v0.40.0/kubeseal-0.40.0-linux-amd64.tar.gz"
+url_api = "https://api.github.com/repos/bitnami/sealed-secrets/releases/assets/555346331"
 
 [tools.kubeseal."platforms.linux-x64-baseline"]
-checksum = "sha256:785c8316370073426d6ce0b7e9e949bd7ba3709ef7f9e45a900aa07e5596db9c"
-url = "https://github.com/bitnami/sealed-secrets/releases/download/v0.39.1/kubeseal-0.39.1-linux-amd64.tar.gz"
-url_api = "https://api.github.com/repos/bitnami/sealed-secrets/releases/assets/521998648"
+checksum = "sha256:9314c35916646e9d59c8f06b1314574b4e79c4d76f079433607ed7b697bb5eb7"
+url = "https://github.com/bitnami/sealed-secrets/releases/download/v0.40.0/kubeseal-0.40.0-linux-amd64.tar.gz"
+url_api = "https://api.github.com/repos/bitnami/sealed-secrets/releases/assets/555346331"
 
 [tools.kubeseal."platforms.linux-x64-musl"]
-checksum = "sha256:785c8316370073426d6ce0b7e9e949bd7ba3709ef7f9e45a900aa07e5596db9c"
-url = "https://github.com/bitnami/sealed-secrets/releases/download/v0.39.1/kubeseal-0.39.1-linux-amd64.tar.gz"
-url_api = "https://api.github.com/repos/bitnami/sealed-secrets/releases/assets/521998648"
+checksum = "sha256:9314c35916646e9d59c8f06b1314574b4e79c4d76f079433607ed7b697bb5eb7"
+url = "https://github.com/bitnami/sealed-secrets/releases/download/v0.40.0/kubeseal-0.40.0-linux-amd64.tar.gz"
+url_api = "https://api.github.com/repos/bitnami/sealed-secrets/releases/assets/555346331"
 
 [tools.kubeseal."platforms.linux-x64-musl-baseline"]
-checksum = "sha256:785c8316370073426d6ce0b7e9e949bd7ba3709ef7f9e45a900aa07e5596db9c"
-url = "https://github.com/bitnami/sealed-secrets/releases/download/v0.39.1/kubeseal-0.39.1-linux-amd64.tar.gz"
-url_api = "https://api.github.com/repos/bitnami/sealed-secrets/releases/assets/521998648"
+checksum = "sha256:9314c35916646e9d59c8f06b1314574b4e79c4d76f079433607ed7b697bb5eb7"
+url = "https://github.com/bitnami/sealed-secrets/releases/download/v0.40.0/kubeseal-0.40.0-linux-amd64.tar.gz"
+url_api = "https://api.github.com/repos/bitnami/sealed-secrets/releases/assets/555346331"
 
 [tools.kubeseal."platforms.macos-arm64"]
-checksum = "sha256:b338e7efcc2b4ec54f4aa94ad80f508a1c76b4d722bde4d0d92d4b2c88bbe2df"
-url = "https://github.com/bitnami/sealed-secrets/releases/download/v0.39.1/kubeseal-0.39.1-darwin-arm64.tar.gz"
-url_api = "https://api.github.com/repos/bitnami/sealed-secrets/releases/assets/521998647"
+checksum = "sha256:ec8a34b19ff8f1c1dee6fa09e13111b3007aa9ad08de1da28bd65cdc1eaecf93"
+url = "https://github.com/bitnami/sealed-secrets/releases/download/v0.40.0/kubeseal-0.40.0-darwin-arm64.tar.gz"
+url_api = "https://api.github.com/repos/bitnami/sealed-secrets/releases/assets/555346330"
 
 [tools.kubeseal."platforms.macos-x64"]
-checksum = "sha256:ece1e36b371c5e236feccd69ff8b055ec9ae9e3647f72d632dbd5e51a252b437"
-url = "https://github.com/bitnami/sealed-secrets/releases/download/v0.39.1/kubeseal-0.39.1-darwin-amd64.tar.gz"
-url_api = "https://api.github.com/repos/bitnami/sealed-secrets/releases/assets/521998680"
+checksum = "sha256:e165574e647029a562de2471caff444e06b33119f9546679e69492cdc3c6137f"
+url = "https://github.com/bitnami/sealed-secrets/releases/download/v0.40.0/kubeseal-0.40.0-darwin-amd64.tar.gz"
+url_api = "https://api.github.com/repos/bitnami/sealed-secrets/releases/assets/555346387"
 
 [tools.kubeseal."platforms.macos-x64-baseline"]
-checksum = "sha256:ece1e36b371c5e236feccd69ff8b055ec9ae9e3647f72d632dbd5e51a252b437"
-url = "https://github.com/bitnami/sealed-secrets/releases/download/v0.39.1/kubeseal-0.39.1-darwin-amd64.tar.gz"
-url_api = "https://api.github.com/repos/bitnami/sealed-secrets/releases/assets/521998680"
+checksum = "sha256:e165574e647029a562de2471caff444e06b33119f9546679e69492cdc3c6137f"
+url = "https://github.com/bitnami/sealed-secrets/releases/download/v0.40.0/kubeseal-0.40.0-darwin-amd64.tar.gz"
+url_api = "https://api.github.com/repos/bitnami/sealed-secrets/releases/assets/555346387"
 
 [[tools.lychee]]
 version = "0.24.2"
