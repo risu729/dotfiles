@@ -735,38 +735,38 @@ url = "https://github.com/github/copilot-cli/releases/download/v1.0.83/copilot-d
 url_api = "https://api.github.com/repos/github/copilot-cli/releases/assets/544538798"
 
 [[tools.cursor-agent]]
-version = "2026.09.08-6caf4ff"
+version = "2026.09.10-fd3934a"
 backend = "http:cursor-agent"
 
 [tools.cursor-agent.options]
 strip_components = "0"
 
 [tools.cursor-agent."platforms.linux-arm64"]
-url = "https://downloads.cursor.com/lab/2026.09.08-6caf4ff/linux/arm64/agent-cli-package.tar.gz"
+url = "https://downloads.cursor.com/lab/2026.09.10-fd3934a/linux/arm64/agent-cli-package.tar.gz"
 
 [tools.cursor-agent."platforms.linux-arm64-musl"]
-url = "https://downloads.cursor.com/lab/2026.09.08-6caf4ff/linux/arm64/agent-cli-package.tar.gz"
+url = "https://downloads.cursor.com/lab/2026.09.10-fd3934a/linux/arm64/agent-cli-package.tar.gz"
 
 [tools.cursor-agent."platforms.linux-x64"]
-url = "https://downloads.cursor.com/lab/2026.09.08-6caf4ff/linux/x64/agent-cli-package.tar.gz"
+url = "https://downloads.cursor.com/lab/2026.09.10-fd3934a/linux/x64/agent-cli-package.tar.gz"
 
 [tools.cursor-agent."platforms.linux-x64-baseline"]
-url = "https://downloads.cursor.com/lab/2026.09.08-6caf4ff/linux/x64/agent-cli-package.tar.gz"
+url = "https://downloads.cursor.com/lab/2026.09.10-fd3934a/linux/x64/agent-cli-package.tar.gz"
 
 [tools.cursor-agent."platforms.linux-x64-musl"]
-url = "https://downloads.cursor.com/lab/2026.09.08-6caf4ff/linux/x64/agent-cli-package.tar.gz"
+url = "https://downloads.cursor.com/lab/2026.09.10-fd3934a/linux/x64/agent-cli-package.tar.gz"
 
 [tools.cursor-agent."platforms.linux-x64-musl-baseline"]
-url = "https://downloads.cursor.com/lab/2026.09.08-6caf4ff/linux/x64/agent-cli-package.tar.gz"
+url = "https://downloads.cursor.com/lab/2026.09.10-fd3934a/linux/x64/agent-cli-package.tar.gz"
 
 [tools.cursor-agent."platforms.macos-arm64"]
-url = "https://downloads.cursor.com/lab/2026.09.08-6caf4ff/darwin/arm64/agent-cli-package.tar.gz"
+url = "https://downloads.cursor.com/lab/2026.09.10-fd3934a/darwin/arm64/agent-cli-package.tar.gz"
 
 [tools.cursor-agent."platforms.macos-x64"]
-url = "https://downloads.cursor.com/lab/2026.09.08-6caf4ff/darwin/x64/agent-cli-package.tar.gz"
+url = "https://downloads.cursor.com/lab/2026.09.10-fd3934a/darwin/x64/agent-cli-package.tar.gz"
 
 [tools.cursor-agent."platforms.macos-x64-baseline"]
-url = "https://downloads.cursor.com/lab/2026.09.08-6caf4ff/darwin/x64/agent-cli-package.tar.gz"
+url = "https://downloads.cursor.com/lab/2026.09.10-fd3934a/darwin/x64/agent-cli-package.tar.gz"
 
 [[tools.delta]]
 version = "0.19.2"
@@ -2236,42 +2236,42 @@ version = "12.2.3"
 backend = "pipx:mitmproxy"
 
 [[tools.mr-boxington]]
-version = "1.10.0"
+version = "1.10.1"
 backend = "packslip:github.com/jdx/mr-boxington"
 
 [tools.mr-boxington."platforms.linux-arm64"]
-checksum = "sha256:03f40995a0dc71c33a15450e298043979451300ff09be8d964004b2180dce751"
-url = "https://github.com/jdx/mr-boxington/releases/download/v1.10.0/mbx-aarch64-unknown-linux-gnu.tar.gz"
+checksum = "sha256:e42ec50bea3b0e43e6b11e401c6bb7629221b43010e0ba3af842a326d843b3a3"
+url = "https://github.com/jdx/mr-boxington/releases/download/v1.10.1/mbx-aarch64-unknown-linux-gnu.tar.gz"
 signer = "sigstore-oidc:https://github.com/jdx/mr-boxington/.github/workflows/release.yml"
 
 [tools.mr-boxington."platforms.linux-arm64-musl"]
-checksum = "sha256:dbfeb2d8b9fe13f69bc3553b8d7a81af309f9c2be5197ae8387aa3bc0a14e78a"
-url = "https://github.com/jdx/mr-boxington/releases/download/v1.10.0/mbx-aarch64-unknown-linux-musl.tar.gz"
+checksum = "sha256:4d8fcc48ac315793ffc0629c1a147e2542e7e65b26a3a29d9e24831d2f0581fa"
+url = "https://github.com/jdx/mr-boxington/releases/download/v1.10.1/mbx-aarch64-unknown-linux-musl.tar.gz"
 signer = "sigstore-oidc:https://github.com/jdx/mr-boxington/.github/workflows/release.yml"
 
 [tools.mr-boxington."platforms.linux-x64"]
-checksum = "sha256:9c00780f6db91b766b5ebe3f8cd0e309a2bd1dbdeac98123e2d929d30265ce2b"
-url = "https://github.com/jdx/mr-boxington/releases/download/v1.10.0/mbx-x86_64-unknown-linux-gnu.tar.gz"
+checksum = "sha256:3aac91bf8784ac5937543eec9d33fad3ce848b7a20c5da669faddc9ce8822776"
+url = "https://github.com/jdx/mr-boxington/releases/download/v1.10.1/mbx-x86_64-unknown-linux-gnu.tar.gz"
 signer = "sigstore-oidc:https://github.com/jdx/mr-boxington/.github/workflows/release.yml"
 
 [tools.mr-boxington."platforms.linux-x64-baseline"]
-checksum = "sha256:9c00780f6db91b766b5ebe3f8cd0e309a2bd1dbdeac98123e2d929d30265ce2b"
-url = "https://github.com/jdx/mr-boxington/releases/download/v1.10.0/mbx-x86_64-unknown-linux-gnu.tar.gz"
+checksum = "sha256:3aac91bf8784ac5937543eec9d33fad3ce848b7a20c5da669faddc9ce8822776"
+url = "https://github.com/jdx/mr-boxington/releases/download/v1.10.1/mbx-x86_64-unknown-linux-gnu.tar.gz"
 signer = "sigstore-oidc:https://github.com/jdx/mr-boxington/.github/workflows/release.yml"
 
 [tools.mr-boxington."platforms.linux-x64-musl"]
-checksum = "sha256:d7694d03c3ed978964302b71ab3e7ee2be76f479f414e90bdfe139dda24c07d8"
-url = "https://github.com/jdx/mr-boxington/releases/download/v1.10.0/mbx-x86_64-unknown-linux-musl.tar.gz"
+checksum = "sha256:7a4ce2e1ee2d980b25a481b06b611da9b6953db1a9aaf0807ee4f1d1a96e2775"
+url = "https://github.com/jdx/mr-boxington/releases/download/v1.10.1/mbx-x86_64-unknown-linux-musl.tar.gz"
 signer = "sigstore-oidc:https://github.com/jdx/mr-boxington/.github/workflows/release.yml"
 
 [tools.mr-boxington."platforms.linux-x64-musl-baseline"]
-checksum = "sha256:d7694d03c3ed978964302b71ab3e7ee2be76f479f414e90bdfe139dda24c07d8"
-url = "https://github.com/jdx/mr-boxington/releases/download/v1.10.0/mbx-x86_64-unknown-linux-musl.tar.gz"
+checksum = "sha256:7a4ce2e1ee2d980b25a481b06b611da9b6953db1a9aaf0807ee4f1d1a96e2775"
+url = "https://github.com/jdx/mr-boxington/releases/download/v1.10.1/mbx-x86_64-unknown-linux-musl.tar.gz"
 signer = "sigstore-oidc:https://github.com/jdx/mr-boxington/.github/workflows/release.yml"
 
 [tools.mr-boxington."platforms.macos-arm64"]
-checksum = "sha256:585b9b91ac5fd123de46aaaafc12bdf180daea956c72e72fdcf3a551a35e1c1b"
-url = "https://github.com/jdx/mr-boxington/releases/download/v1.10.0/mbx-aarch64-apple-darwin.tar.gz"
+checksum = "sha256:c7811332e774adc014fec1bbda6e8389f936123c91c5badcc149d64689c1eeb5"
+url = "https://github.com/jdx/mr-boxington/releases/download/v1.10.1/mbx-aarch64-apple-darwin.tar.gz"
 signer = "sigstore-oidc:https://github.com/jdx/mr-boxington/.github/workflows/release.yml"
 
 [[tools.node]]
@@ -2351,7 +2351,7 @@ version = "20.0.20"
 backend = "npm:ccusage"
 
 [[tools."npm:resend-cli"]]
-version = "2.19.1"
+version = "2.20.0"
 backend = "npm:resend-cli"
 
 [tools."npm:resend-cli".options]
@@ -2650,6 +2650,18 @@ provenance = "github-attestations"
 checksum = "sha256:9560243d4e92780c4466bac2ee6aac4166c8bb601ad3c63f070cdd701b28f360"
 url = "https://github.com/pnpm/pnpm/releases/download/v12.3.4/pnpm-darwin-arm64.tar.gz"
 url_api = "https://api.github.com/repos/pnpm/pnpm/releases/assets/544431956"
+provenance = "github-attestations"
+
+[tools.pnpm."platforms.macos-x64"]
+checksum = "sha256:b1d4e02cd2f9a37c42dbb82d2f93e80675f417bd4d5f3be8b999a84db673040e"
+url = "https://github.com/pnpm/pnpm/releases/download/v12.3.4/pnpm-darwin-x64.tar.gz"
+url_api = "https://api.github.com/repos/pnpm/pnpm/releases/assets/544431958"
+provenance = "github-attestations"
+
+[tools.pnpm."platforms.macos-x64-baseline"]
+checksum = "sha256:b1d4e02cd2f9a37c42dbb82d2f93e80675f417bd4d5f3be8b999a84db673040e"
+url = "https://github.com/pnpm/pnpm/releases/download/v12.3.4/pnpm-darwin-x64.tar.gz"
+url_api = "https://api.github.com/repos/pnpm/pnpm/releases/assets/544431958"
 provenance = "github-attestations"
 
 [[tools.prettier]]
@@ -3102,61 +3114,61 @@ url_api = "https://api.github.com/repos/jdx/usage/releases/assets/547480261"
 signer = "sigstore-oidc:https://github.com/jdx/usage/.github/workflows/publish-cli.yml"
 
 [[tools.uv]]
-version = "0.12.12"
+version = "0.12.13"
 backend = "aqua:astral-sh/uv"
 
 [tools.uv."platforms.linux-arm64"]
-checksum = "sha256:fe08db50cc1b56cd1da7801065ed1103d27ed3f9571cd122386cfc7faf1b8df5"
-url = "https://github.com/astral-sh/uv/releases/download/0.12.12/uv-aarch64-unknown-linux-gnu.tar.gz"
-url_api = "https://api.github.com/repos/astral-sh/uv/releases/assets/553169214"
+checksum = "sha256:2eaa5d94f5db7b3a1a092156b9420459e42ab0217d917fe74a876309cef9b5e9"
+url = "https://github.com/astral-sh/uv/releases/download/0.12.13/uv-aarch64-unknown-linux-gnu.tar.gz"
+url_api = "https://api.github.com/repos/astral-sh/uv/releases/assets/555670186"
 provenance = "github-attestations"
 
 [tools.uv."platforms.linux-arm64-musl"]
-checksum = "sha256:82e59fff633cbd96fb675f37c7a748c056d909a59ecf476f8ff0e5bee76b9b23"
-url = "https://github.com/astral-sh/uv/releases/download/0.12.12/uv-aarch64-unknown-linux-musl.tar.gz"
-url_api = "https://api.github.com/repos/astral-sh/uv/releases/assets/553169225"
+checksum = "sha256:f44bc1037a17889fe562fffd2002d4ed108e499fbe68b4f022af244dc7b8244f"
+url = "https://github.com/astral-sh/uv/releases/download/0.12.13/uv-aarch64-unknown-linux-musl.tar.gz"
+url_api = "https://api.github.com/repos/astral-sh/uv/releases/assets/555670202"
 provenance = "github-attestations"
 
 [tools.uv."platforms.linux-x64"]
-checksum = "sha256:ab9b309d4586403f024e100abaceb396616e178a553e2500c36087d180f09509"
-url = "https://github.com/astral-sh/uv/releases/download/0.12.12/uv-x86_64-unknown-linux-gnu.tar.gz"
-url_api = "https://api.github.com/repos/astral-sh/uv/releases/assets/553169491"
+checksum = "sha256:745765a3b6e360ad76743599ae5c42e9278c7edf8bbff9fc76d05bf2623a04dd"
+url = "https://github.com/astral-sh/uv/releases/download/0.12.13/uv-x86_64-unknown-linux-gnu.tar.gz"
+url_api = "https://api.github.com/repos/astral-sh/uv/releases/assets/555670375"
 provenance = "github-attestations"
 
 [tools.uv."platforms.linux-x64-baseline"]
-checksum = "sha256:ab9b309d4586403f024e100abaceb396616e178a553e2500c36087d180f09509"
-url = "https://github.com/astral-sh/uv/releases/download/0.12.12/uv-x86_64-unknown-linux-gnu.tar.gz"
-url_api = "https://api.github.com/repos/astral-sh/uv/releases/assets/553169491"
+checksum = "sha256:745765a3b6e360ad76743599ae5c42e9278c7edf8bbff9fc76d05bf2623a04dd"
+url = "https://github.com/astral-sh/uv/releases/download/0.12.13/uv-x86_64-unknown-linux-gnu.tar.gz"
+url_api = "https://api.github.com/repos/astral-sh/uv/releases/assets/555670375"
 provenance = "github-attestations"
 
 [tools.uv."platforms.linux-x64-musl"]
-checksum = "sha256:0b0bbd7144f91d9b694e29c920fca3a060322bd134e8507e5eb92049a3e2edf0"
-url = "https://github.com/astral-sh/uv/releases/download/0.12.12/uv-x86_64-unknown-linux-musl.tar.gz"
-url_api = "https://api.github.com/repos/astral-sh/uv/releases/assets/553169515"
+checksum = "sha256:4e2bfd0c9007b1032a50e539e965fd0a6037d87ad93ae1580d220a92d4c94098"
+url = "https://github.com/astral-sh/uv/releases/download/0.12.13/uv-x86_64-unknown-linux-musl.tar.gz"
+url_api = "https://api.github.com/repos/astral-sh/uv/releases/assets/555670382"
 provenance = "github-attestations"
 
 [tools.uv."platforms.linux-x64-musl-baseline"]
-checksum = "sha256:0b0bbd7144f91d9b694e29c920fca3a060322bd134e8507e5eb92049a3e2edf0"
-url = "https://github.com/astral-sh/uv/releases/download/0.12.12/uv-x86_64-unknown-linux-musl.tar.gz"
-url_api = "https://api.github.com/repos/astral-sh/uv/releases/assets/553169515"
+checksum = "sha256:4e2bfd0c9007b1032a50e539e965fd0a6037d87ad93ae1580d220a92d4c94098"
+url = "https://github.com/astral-sh/uv/releases/download/0.12.13/uv-x86_64-unknown-linux-musl.tar.gz"
+url_api = "https://api.github.com/repos/astral-sh/uv/releases/assets/555670382"
 provenance = "github-attestations"
 
 [tools.uv."platforms.macos-arm64"]
-checksum = "sha256:46740540b63fdee9a6cb2e19baf3f1f475b850c440a33e63455087a6871263f1"
-url = "https://github.com/astral-sh/uv/releases/download/0.12.12/uv-aarch64-apple-darwin.tar.gz"
-url_api = "https://api.github.com/repos/astral-sh/uv/releases/assets/553169165"
+checksum = "sha256:7e6ddb9316acc00f2296c82ff4d99977870ee34b2f0ddcae9444d714db9364ed"
+url = "https://github.com/astral-sh/uv/releases/download/0.12.13/uv-aarch64-apple-darwin.tar.gz"
+url_api = "https://api.github.com/repos/astral-sh/uv/releases/assets/555670160"
 provenance = "github-attestations"
 
 [tools.uv."platforms.macos-x64"]
-checksum = "sha256:0dc8cd6c961582b0d140b5398f96b23502885277fb3464241456a2435e460dfa"
-url = "https://github.com/astral-sh/uv/releases/download/0.12.12/uv-x86_64-apple-darwin.tar.gz"
-url_api = "https://api.github.com/repos/astral-sh/uv/releases/assets/553169443"
+checksum = "sha256:5e287ef61cb6a9b61b3a83fef124fd143e400468a7dac794230147a810e17119"
+url = "https://github.com/astral-sh/uv/releases/download/0.12.13/uv-x86_64-apple-darwin.tar.gz"
+url_api = "https://api.github.com/repos/astral-sh/uv/releases/assets/555670348"
 provenance = "github-attestations"
 
 [tools.uv."platforms.macos-x64-baseline"]
-checksum = "sha256:0dc8cd6c961582b0d140b5398f96b23502885277fb3464241456a2435e460dfa"
-url = "https://github.com/astral-sh/uv/releases/download/0.12.12/uv-x86_64-apple-darwin.tar.gz"
-url_api = "https://api.github.com/repos/astral-sh/uv/releases/assets/553169443"
+checksum = "sha256:5e287ef61cb6a9b61b3a83fef124fd143e400468a7dac794230147a810e17119"
+url = "https://github.com/astral-sh/uv/releases/download/0.12.13/uv-x86_64-apple-darwin.tar.gz"
+url_api = "https://api.github.com/repos/astral-sh/uv/releases/assets/555670348"
 provenance = "github-attestations"
 
 [[tools.watchexec]]
