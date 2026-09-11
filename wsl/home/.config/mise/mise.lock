@@ -261,42 +261,42 @@ url_api = "https://api.github.com/repos/atuinsh/atuin/releases/assets/553690857"
 provenance = "github-attestations"
 
 [[tools.aube]]
-version = "2.2.13"
+version = "2.2.14"
 backend = "packslip:github.com/aubepkg/aube"
 
 [tools.aube."platforms.linux-arm64"]
-checksum = "sha256:561a16c933188ef14955989cf99bb368748df5a3903c4cf12d2b05c31d8f4ec8"
-url = "https://github.com/aubepkg/aube/releases/download/v2.2.13/aube-v2.2.13-aarch64-unknown-linux-gnu.tar.gz"
+checksum = "sha256:5d9f70b243156d73f649fb670ab956d0ae090b0dc006467da36d5a4c223d7dfa"
+url = "https://github.com/aubepkg/aube/releases/download/v2.2.14/aube-v2.2.14-aarch64-unknown-linux-gnu.tar.gz"
 signer = "sigstore-oidc:https://github.com/aubepkg/aube/.github/workflows/release-plz.yml"
 
 [tools.aube."platforms.linux-arm64-musl"]
-checksum = "sha256:ad9fb86ad219ada9abc1c7907952505c540c41b5c8e0ffca828e8a2cd2017b11"
-url = "https://github.com/aubepkg/aube/releases/download/v2.2.13/aube-v2.2.13-aarch64-unknown-linux-musl.tar.gz"
+checksum = "sha256:95e2bc01f7df981516ed177e4fe9692356d0aac76fc5a4793f78f28cb14af8ec"
+url = "https://github.com/aubepkg/aube/releases/download/v2.2.14/aube-v2.2.14-aarch64-unknown-linux-musl.tar.gz"
 signer = "sigstore-oidc:https://github.com/aubepkg/aube/.github/workflows/release-plz.yml"
 
 [tools.aube."platforms.linux-x64"]
-checksum = "sha256:0b0e734d5fe6e90a286229136d1e97e217b1836e297408cbf9d07cd020cfb4c2"
-url = "https://github.com/aubepkg/aube/releases/download/v2.2.13/aube-v2.2.13-x86_64-unknown-linux-gnu.tar.gz"
+checksum = "sha256:9f91fc9f2879e07fbc94ff840837d827203fca39a07d3d2452033686ad3ef86c"
+url = "https://github.com/aubepkg/aube/releases/download/v2.2.14/aube-v2.2.14-x86_64-unknown-linux-gnu.tar.gz"
 signer = "sigstore-oidc:https://github.com/aubepkg/aube/.github/workflows/release-plz.yml"
 
 [tools.aube."platforms.linux-x64-baseline"]
-checksum = "sha256:0b0e734d5fe6e90a286229136d1e97e217b1836e297408cbf9d07cd020cfb4c2"
-url = "https://github.com/aubepkg/aube/releases/download/v2.2.13/aube-v2.2.13-x86_64-unknown-linux-gnu.tar.gz"
+checksum = "sha256:9f91fc9f2879e07fbc94ff840837d827203fca39a07d3d2452033686ad3ef86c"
+url = "https://github.com/aubepkg/aube/releases/download/v2.2.14/aube-v2.2.14-x86_64-unknown-linux-gnu.tar.gz"
 signer = "sigstore-oidc:https://github.com/aubepkg/aube/.github/workflows/release-plz.yml"
 
 [tools.aube."platforms.linux-x64-musl"]
-checksum = "sha256:894bb4991b2cb8054b562dd85682d7e7f21e4479ace26c8f13d4aa362dec0b63"
-url = "https://github.com/aubepkg/aube/releases/download/v2.2.13/aube-v2.2.13-x86_64-unknown-linux-musl.tar.gz"
+checksum = "sha256:b59d5679eb14c7d6ab5c963c5e371783979b3cf46d9cb3680995b5a60016ee17"
+url = "https://github.com/aubepkg/aube/releases/download/v2.2.14/aube-v2.2.14-x86_64-unknown-linux-musl.tar.gz"
 signer = "sigstore-oidc:https://github.com/aubepkg/aube/.github/workflows/release-plz.yml"
 
 [tools.aube."platforms.linux-x64-musl-baseline"]
-checksum = "sha256:894bb4991b2cb8054b562dd85682d7e7f21e4479ace26c8f13d4aa362dec0b63"
-url = "https://github.com/aubepkg/aube/releases/download/v2.2.13/aube-v2.2.13-x86_64-unknown-linux-musl.tar.gz"
+checksum = "sha256:b59d5679eb14c7d6ab5c963c5e371783979b3cf46d9cb3680995b5a60016ee17"
+url = "https://github.com/aubepkg/aube/releases/download/v2.2.14/aube-v2.2.14-x86_64-unknown-linux-musl.tar.gz"
 signer = "sigstore-oidc:https://github.com/aubepkg/aube/.github/workflows/release-plz.yml"
 
 [tools.aube."platforms.macos-arm64"]
-checksum = "sha256:f999226cddee14afc8d0d2d461191888b65064262e66e83ce1fc8e9069792c1e"
-url = "https://github.com/aubepkg/aube/releases/download/v2.2.13/aube-v2.2.13-aarch64-apple-darwin.tar.gz"
+checksum = "sha256:0c00e7893042fe14cf4debeb6c4de13fe5316e2128ca0a995c3198c3179e1d7f"
+url = "https://github.com/aubepkg/aube/releases/download/v2.2.14/aube-v2.2.14-aarch64-apple-darwin.tar.gz"
 signer = "sigstore-oidc:https://github.com/aubepkg/aube/.github/workflows/release-plz.yml"
 
 [[tools.bat]]
@@ -588,53 +588,53 @@ url_api = "https://api.github.com/repos/cargo-bins/cargo-binstall/releases/asset
 provenance = "github-attestations"
 
 [[tools.claude]]
-version = "2.1.268"
+version = "2.1.269"
 backend = "aqua:anthropics/claude-code"
 
 [tools.claude."platforms.linux-arm64"]
-checksum = "sha256:e9047c49d31f358af005198d77225b32468785ab28cacee815c42be314d335a8"
-url = "https://github.com/anthropics/claude-code/releases/download/v2.1.268/claude-linux-arm64.tar.gz"
-url_api = "https://api.github.com/repos/anthropics/claude-code/releases/assets/555585278"
+checksum = "sha256:b6834b006482a17618ee41d790dd39eaed9aac10ea6efef190252bd029c84d2b"
+url = "https://github.com/anthropics/claude-code/releases/download/v2.1.269/claude-linux-arm64.tar.gz"
+url_api = "https://api.github.com/repos/anthropics/claude-code/releases/assets/557750831"
 
 [tools.claude."platforms.linux-arm64-musl"]
-checksum = "sha256:e1e183604e0623ed2fcc1bf325ea495b1534b8065668977e13b08a8ff08f6e95"
-url = "https://github.com/anthropics/claude-code/releases/download/v2.1.268/claude-linux-arm64-musl.tar.gz"
-url_api = "https://api.github.com/repos/anthropics/claude-code/releases/assets/555585281"
+checksum = "sha256:9c928645fda21bc795cb7e0a4f58cdec0d1fae69f8f8ac8e496662d8075a004e"
+url = "https://github.com/anthropics/claude-code/releases/download/v2.1.269/claude-linux-arm64-musl.tar.gz"
+url_api = "https://api.github.com/repos/anthropics/claude-code/releases/assets/557750828"
 
 [tools.claude."platforms.linux-x64"]
-checksum = "sha256:dfd082062904f36e695cafa16835e3214e93b7ed272c858069d2367d68dc3b02"
-url = "https://github.com/anthropics/claude-code/releases/download/v2.1.268/claude-linux-x64.tar.gz"
-url_api = "https://api.github.com/repos/anthropics/claude-code/releases/assets/555585369"
+checksum = "sha256:2749b0fc61cb5ff9a998431d30e9e447a2214b4c5393708db0800245dd3733eb"
+url = "https://github.com/anthropics/claude-code/releases/download/v2.1.269/claude-linux-x64.tar.gz"
+url_api = "https://api.github.com/repos/anthropics/claude-code/releases/assets/557750940"
 
 [tools.claude."platforms.linux-x64-baseline"]
-checksum = "sha256:dfd082062904f36e695cafa16835e3214e93b7ed272c858069d2367d68dc3b02"
-url = "https://github.com/anthropics/claude-code/releases/download/v2.1.268/claude-linux-x64.tar.gz"
-url_api = "https://api.github.com/repos/anthropics/claude-code/releases/assets/555585369"
+checksum = "sha256:2749b0fc61cb5ff9a998431d30e9e447a2214b4c5393708db0800245dd3733eb"
+url = "https://github.com/anthropics/claude-code/releases/download/v2.1.269/claude-linux-x64.tar.gz"
+url_api = "https://api.github.com/repos/anthropics/claude-code/releases/assets/557750940"
 
 [tools.claude."platforms.linux-x64-musl"]
-checksum = "sha256:b156d554575bf2f3d53fd8241304e0f8d125812d84b05bea54122dc86ac2c24f"
-url = "https://github.com/anthropics/claude-code/releases/download/v2.1.268/claude-linux-x64-musl.tar.gz"
-url_api = "https://api.github.com/repos/anthropics/claude-code/releases/assets/555585279"
+checksum = "sha256:32fe4d52bfa69b6ded66a7b5d852745681497dbaf39f38b3e4cc3b755d3aec47"
+url = "https://github.com/anthropics/claude-code/releases/download/v2.1.269/claude-linux-x64-musl.tar.gz"
+url_api = "https://api.github.com/repos/anthropics/claude-code/releases/assets/557750830"
 
 [tools.claude."platforms.linux-x64-musl-baseline"]
-checksum = "sha256:b156d554575bf2f3d53fd8241304e0f8d125812d84b05bea54122dc86ac2c24f"
-url = "https://github.com/anthropics/claude-code/releases/download/v2.1.268/claude-linux-x64-musl.tar.gz"
-url_api = "https://api.github.com/repos/anthropics/claude-code/releases/assets/555585279"
+checksum = "sha256:32fe4d52bfa69b6ded66a7b5d852745681497dbaf39f38b3e4cc3b755d3aec47"
+url = "https://github.com/anthropics/claude-code/releases/download/v2.1.269/claude-linux-x64-musl.tar.gz"
+url_api = "https://api.github.com/repos/anthropics/claude-code/releases/assets/557750830"
 
 [tools.claude."platforms.macos-arm64"]
-checksum = "sha256:20e6377cdcd310abcd2f1fb567ccebee08edc40b2aae92c587ba212a940152a3"
-url = "https://github.com/anthropics/claude-code/releases/download/v2.1.268/claude-darwin-arm64.tar.gz"
-url_api = "https://api.github.com/repos/anthropics/claude-code/releases/assets/555585282"
+checksum = "sha256:c1649ec5235ac893c2055badc28347d28b9399ca641ad3c485b1c2432c2d6ccd"
+url = "https://github.com/anthropics/claude-code/releases/download/v2.1.269/claude-darwin-arm64.tar.gz"
+url_api = "https://api.github.com/repos/anthropics/claude-code/releases/assets/557750835"
 
 [tools.claude."platforms.macos-x64"]
-checksum = "sha256:5cd2caca8c62956e07fd75794b5ed03a5639c51f0f1b2f7b955d9ca6798f839c"
-url = "https://github.com/anthropics/claude-code/releases/download/v2.1.268/claude-darwin-x64.tar.gz"
-url_api = "https://api.github.com/repos/anthropics/claude-code/releases/assets/555585280"
+checksum = "sha256:c62ad73f946dec1001312e024b3a6cd46831356cae81f2a12a817df911fc844f"
+url = "https://github.com/anthropics/claude-code/releases/download/v2.1.269/claude-darwin-x64.tar.gz"
+url_api = "https://api.github.com/repos/anthropics/claude-code/releases/assets/557750824"
 
 [tools.claude."platforms.macos-x64-baseline"]
-checksum = "sha256:5cd2caca8c62956e07fd75794b5ed03a5639c51f0f1b2f7b955d9ca6798f839c"
-url = "https://github.com/anthropics/claude-code/releases/download/v2.1.268/claude-darwin-x64.tar.gz"
-url_api = "https://api.github.com/repos/anthropics/claude-code/releases/assets/555585280"
+checksum = "sha256:c62ad73f946dec1001312e024b3a6cd46831356cae81f2a12a817df911fc844f"
+url = "https://github.com/anthropics/claude-code/releases/download/v2.1.269/claude-darwin-x64.tar.gz"
+url_api = "https://api.github.com/repos/anthropics/claude-code/releases/assets/557750824"
 
 [[tools.codex]]
 version = "0.154.0"
@@ -1287,38 +1287,37 @@ url_api = "https://api.github.com/repos/risu729/kuebiko/releases/assets/53997644
 provenance = "github-attestations"
 
 [[tools."github:risu729/mikoto"]]
-version = "1.0.41"
+version = "1.0.42"
 backend = "github:risu729/mikoto"
 
 [tools."github:risu729/mikoto"."platforms.linux-x64"]
-checksum = "sha256:4a393c45c89cf7463a6d8494ed15323dc498b25e75943eb6b50eb42eb8b10db6"
-url = "https://github.com/risu729/mikoto/releases/download/v1.0.41/mikoto-v1.0.41-linux-x64.tar.gz"
-url_api = "https://api.github.com/repos/risu729/mikoto/releases/assets/549632656"
+checksum = "sha256:dab8ead48a26a9688eb4c40e5241d422316baf1dd8555abd2a974e3c1424fef9"
+url = "https://github.com/risu729/mikoto/releases/download/v1.0.42/mikoto-v1.0.42-linux-x64.tar.gz"
+url_api = "https://api.github.com/repos/risu729/mikoto/releases/assets/557965739"
 provenance = "github-attestations"
-provenance_verified = true
 
 [tools."github:risu729/mikoto"."platforms.linux-x64-baseline"]
-checksum = "sha256:4a393c45c89cf7463a6d8494ed15323dc498b25e75943eb6b50eb42eb8b10db6"
-url = "https://github.com/risu729/mikoto/releases/download/v1.0.41/mikoto-v1.0.41-linux-x64.tar.gz"
-url_api = "https://api.github.com/repos/risu729/mikoto/releases/assets/549632656"
+checksum = "sha256:dab8ead48a26a9688eb4c40e5241d422316baf1dd8555abd2a974e3c1424fef9"
+url = "https://github.com/risu729/mikoto/releases/download/v1.0.42/mikoto-v1.0.42-linux-x64.tar.gz"
+url_api = "https://api.github.com/repos/risu729/mikoto/releases/assets/557965739"
 provenance = "github-attestations"
 
 [tools."github:risu729/mikoto"."platforms.linux-x64-musl"]
-checksum = "sha256:4a393c45c89cf7463a6d8494ed15323dc498b25e75943eb6b50eb42eb8b10db6"
-url = "https://github.com/risu729/mikoto/releases/download/v1.0.41/mikoto-v1.0.41-linux-x64.tar.gz"
-url_api = "https://api.github.com/repos/risu729/mikoto/releases/assets/549632656"
+checksum = "sha256:dab8ead48a26a9688eb4c40e5241d422316baf1dd8555abd2a974e3c1424fef9"
+url = "https://github.com/risu729/mikoto/releases/download/v1.0.42/mikoto-v1.0.42-linux-x64.tar.gz"
+url_api = "https://api.github.com/repos/risu729/mikoto/releases/assets/557965739"
 provenance = "github-attestations"
 
 [tools."github:risu729/mikoto"."platforms.linux-x64-musl-baseline"]
-checksum = "sha256:4a393c45c89cf7463a6d8494ed15323dc498b25e75943eb6b50eb42eb8b10db6"
-url = "https://github.com/risu729/mikoto/releases/download/v1.0.41/mikoto-v1.0.41-linux-x64.tar.gz"
-url_api = "https://api.github.com/repos/risu729/mikoto/releases/assets/549632656"
+checksum = "sha256:dab8ead48a26a9688eb4c40e5241d422316baf1dd8555abd2a974e3c1424fef9"
+url = "https://github.com/risu729/mikoto/releases/download/v1.0.42/mikoto-v1.0.42-linux-x64.tar.gz"
+url_api = "https://api.github.com/repos/risu729/mikoto/releases/assets/557965739"
 provenance = "github-attestations"
 
 [tools."github:risu729/mikoto"."platforms.macos-arm64"]
-checksum = "sha256:dc542e34f762e2c2cb9d3bd1c8ca4fc9a935e9268762671bc604df05e2f02364"
-url = "https://github.com/risu729/mikoto/releases/download/v1.0.41/mikoto-v1.0.41-macos-arm64.tar.gz"
-url_api = "https://api.github.com/repos/risu729/mikoto/releases/assets/549632647"
+checksum = "sha256:c772da25fb9544eb3382f82519f8707c28af742ff2351edb20163c5a7d7b2ab0"
+url = "https://github.com/risu729/mikoto/releases/download/v1.0.42/mikoto-v1.0.42-macos-arm64.tar.gz"
+url_api = "https://api.github.com/repos/risu729/mikoto/releases/assets/557965728"
 provenance = "github-attestations"
 
 [[tools."github:seachicken/gh-poi"]]
@@ -2351,7 +2350,7 @@ version = "20.0.20"
 backend = "npm:ccusage"
 
 [[tools."npm:resend-cli"]]
-version = "2.20.0"
+version = "2.20.1"
 backend = "npm:resend-cli"
 
 [tools."npm:resend-cli".options]
@@ -2530,31 +2529,27 @@ backend = "pipx:markitdown"
 extras = "pdf,docx,pptx,xlsx"
 
 [[tools.pitchfork]]
-version = "2.24.2"
-backend = "aqua:jdx/pitchfork"
+version = "2.25.0"
+backend = "packslip:github.com/jdx/pitchfork"
 
 [tools.pitchfork."platforms.linux-arm64"]
-checksum = "sha256:3b95c60978d404f7b92a8ac9610f2266fca07a8db4941c1d8f0fca8a6e9fb963"
-url = "https://github.com/jdx/pitchfork/releases/download/v2.24.2/pitchfork-aarch64-unknown-linux-gnu.tar.gz"
-url_api = "https://api.github.com/repos/jdx/pitchfork/releases/assets/546295885"
+checksum = "sha256:92b55dbe45ec30e6f24b7517e25801f2a1ddfc1b6050326390da303f971b68a1"
+url = "https://github.com/jdx/pitchfork/releases/download/v2.25.0/pitchfork-aarch64-unknown-linux-gnu.tar.gz"
 signer = "sigstore-oidc:https://github.com/jdx/pitchfork/.github/workflows/release.yml"
 
 [tools.pitchfork."platforms.linux-x64"]
-checksum = "sha256:e1196b2d347299651b53cafb45f30d8fa62ba3fee680e8c954b9cd578f461177"
-url = "https://github.com/jdx/pitchfork/releases/download/v2.24.2/pitchfork-x86_64-unknown-linux-gnu.tar.gz"
-url_api = "https://api.github.com/repos/jdx/pitchfork/releases/assets/546296761"
+checksum = "sha256:7ce68158201430d3f5bb5b6c96778e3f638abfa209147713b0392f54bfadef4a"
+url = "https://github.com/jdx/pitchfork/releases/download/v2.25.0/pitchfork-x86_64-unknown-linux-gnu.tar.gz"
 signer = "sigstore-oidc:https://github.com/jdx/pitchfork/.github/workflows/release.yml"
 
 [tools.pitchfork."platforms.linux-x64-baseline"]
-checksum = "sha256:e1196b2d347299651b53cafb45f30d8fa62ba3fee680e8c954b9cd578f461177"
-url = "https://github.com/jdx/pitchfork/releases/download/v2.24.2/pitchfork-x86_64-unknown-linux-gnu.tar.gz"
-url_api = "https://api.github.com/repos/jdx/pitchfork/releases/assets/546296761"
+checksum = "sha256:7ce68158201430d3f5bb5b6c96778e3f638abfa209147713b0392f54bfadef4a"
+url = "https://github.com/jdx/pitchfork/releases/download/v2.25.0/pitchfork-x86_64-unknown-linux-gnu.tar.gz"
 signer = "sigstore-oidc:https://github.com/jdx/pitchfork/.github/workflows/release.yml"
 
 [tools.pitchfork."platforms.macos-arm64"]
-checksum = "sha256:6659397ed9c94b8ebecc3458431500e94efd3463cba29ef28372f13ddd5b7789"
-url = "https://github.com/jdx/pitchfork/releases/download/v2.24.2/pitchfork-aarch64-apple-darwin.tar.gz"
-url_api = "https://api.github.com/repos/jdx/pitchfork/releases/assets/546306059"
+checksum = "sha256:c244393367ac84814f7a4e44b6a4cdf82d55d8fb6494d18d5c7cbcbf368c6a79"
+url = "https://github.com/jdx/pitchfork/releases/download/v2.25.0/pitchfork-aarch64-apple-darwin.tar.gz"
 signer = "sigstore-oidc:https://github.com/jdx/pitchfork/.github/workflows/release.yml"
 
 [[tools.pkl]]
@@ -2607,61 +2602,61 @@ url = "https://github.com/apple/pkl/releases/download/0.32.1/pkl-macos-amd64"
 url_api = "https://api.github.com/repos/apple/pkl/releases/assets/487426599"
 
 [[tools.pnpm]]
-version = "12.3.4"
+version = "12.4.1"
 backend = "aqua:pnpm/pnpm"
 
 [tools.pnpm."platforms.linux-arm64"]
-checksum = "sha256:95e71a2a30bbc0b77511f95cf096779068dcad6ffcbbfdf0cd4dde9de2b2b97c"
-url = "https://github.com/pnpm/pnpm/releases/download/v12.3.4/pnpm-linux-arm64.tar.gz"
-url_api = "https://api.github.com/repos/pnpm/pnpm/releases/assets/544431953"
+checksum = "sha256:14f7a3e67d658d4ca8002c2aa0567f27dc5fe056a9f29f98ba7d2bfd6c81591b"
+url = "https://github.com/pnpm/pnpm/releases/download/v12.4.1/pnpm-linux-arm64.tar.gz"
+url_api = "https://api.github.com/repos/pnpm/pnpm/releases/assets/555427209"
 provenance = "github-attestations"
 
 [tools.pnpm."platforms.linux-arm64-musl"]
-checksum = "sha256:75c0b268cedbf9b57b69dcef576b9b307dd5b7650c1f967ac1b8f8d6afc1ca25"
-url = "https://github.com/pnpm/pnpm/releases/download/v12.3.4/pnpm-linux-arm64-musl.tar.gz"
-url_api = "https://api.github.com/repos/pnpm/pnpm/releases/assets/544431955"
+checksum = "sha256:26eba6156b6b47d8c589e2ed76af9b3d3a001d9d87dd4769754a1d09f07505bb"
+url = "https://github.com/pnpm/pnpm/releases/download/v12.4.1/pnpm-linux-arm64-musl.tar.gz"
+url_api = "https://api.github.com/repos/pnpm/pnpm/releases/assets/555427211"
 provenance = "github-attestations"
 
 [tools.pnpm."platforms.linux-x64"]
-checksum = "sha256:9705e5704b4679fb503c963a18d1ac4f105e39aafafca8a2ed346facdf820cd0"
-url = "https://github.com/pnpm/pnpm/releases/download/v12.3.4/pnpm-linux-x64.tar.gz"
-url_api = "https://api.github.com/repos/pnpm/pnpm/releases/assets/544431952"
+checksum = "sha256:66e9886299085dade56e203ae0e3586f35787f8801a68d33ec07ac17b0de2001"
+url = "https://github.com/pnpm/pnpm/releases/download/v12.4.1/pnpm-linux-x64.tar.gz"
+url_api = "https://api.github.com/repos/pnpm/pnpm/releases/assets/555427214"
 provenance = "github-attestations"
 
 [tools.pnpm."platforms.linux-x64-baseline"]
-checksum = "sha256:9705e5704b4679fb503c963a18d1ac4f105e39aafafca8a2ed346facdf820cd0"
-url = "https://github.com/pnpm/pnpm/releases/download/v12.3.4/pnpm-linux-x64.tar.gz"
-url_api = "https://api.github.com/repos/pnpm/pnpm/releases/assets/544431952"
+checksum = "sha256:66e9886299085dade56e203ae0e3586f35787f8801a68d33ec07ac17b0de2001"
+url = "https://github.com/pnpm/pnpm/releases/download/v12.4.1/pnpm-linux-x64.tar.gz"
+url_api = "https://api.github.com/repos/pnpm/pnpm/releases/assets/555427214"
 provenance = "github-attestations"
 
 [tools.pnpm."platforms.linux-x64-musl"]
-checksum = "sha256:e4c4f54599627cc0646fbb2ea8103bd6c88634533fbd6c6f5ca0f6fe7d6f5d9c"
-url = "https://github.com/pnpm/pnpm/releases/download/v12.3.4/pnpm-linux-x64-musl.tar.gz"
-url_api = "https://api.github.com/repos/pnpm/pnpm/releases/assets/544431957"
+checksum = "sha256:b72cfc2140e2f3380e26555a474f8e091a4431374face630a50b00e4db992ddb"
+url = "https://github.com/pnpm/pnpm/releases/download/v12.4.1/pnpm-linux-x64-musl.tar.gz"
+url_api = "https://api.github.com/repos/pnpm/pnpm/releases/assets/555427217"
 provenance = "github-attestations"
 
 [tools.pnpm."platforms.linux-x64-musl-baseline"]
-checksum = "sha256:e4c4f54599627cc0646fbb2ea8103bd6c88634533fbd6c6f5ca0f6fe7d6f5d9c"
-url = "https://github.com/pnpm/pnpm/releases/download/v12.3.4/pnpm-linux-x64-musl.tar.gz"
-url_api = "https://api.github.com/repos/pnpm/pnpm/releases/assets/544431957"
+checksum = "sha256:b72cfc2140e2f3380e26555a474f8e091a4431374face630a50b00e4db992ddb"
+url = "https://github.com/pnpm/pnpm/releases/download/v12.4.1/pnpm-linux-x64-musl.tar.gz"
+url_api = "https://api.github.com/repos/pnpm/pnpm/releases/assets/555427217"
 provenance = "github-attestations"
 
 [tools.pnpm."platforms.macos-arm64"]
-checksum = "sha256:9560243d4e92780c4466bac2ee6aac4166c8bb601ad3c63f070cdd701b28f360"
-url = "https://github.com/pnpm/pnpm/releases/download/v12.3.4/pnpm-darwin-arm64.tar.gz"
-url_api = "https://api.github.com/repos/pnpm/pnpm/releases/assets/544431956"
+checksum = "sha256:432fd151c10477630cf5c9f41209c2a7b75ac6dce7b2533a459519daf8954c52"
+url = "https://github.com/pnpm/pnpm/releases/download/v12.4.1/pnpm-darwin-arm64.tar.gz"
+url_api = "https://api.github.com/repos/pnpm/pnpm/releases/assets/555427216"
 provenance = "github-attestations"
 
 [tools.pnpm."platforms.macos-x64"]
-checksum = "sha256:b1d4e02cd2f9a37c42dbb82d2f93e80675f417bd4d5f3be8b999a84db673040e"
-url = "https://github.com/pnpm/pnpm/releases/download/v12.3.4/pnpm-darwin-x64.tar.gz"
-url_api = "https://api.github.com/repos/pnpm/pnpm/releases/assets/544431958"
+checksum = "sha256:98921409db2f510ccc4eb521f9bfec51e3f1e809fd66717a062962f3b2a4cdea"
+url = "https://github.com/pnpm/pnpm/releases/download/v12.4.1/pnpm-darwin-x64.tar.gz"
+url_api = "https://api.github.com/repos/pnpm/pnpm/releases/assets/555427210"
 provenance = "github-attestations"
 
 [tools.pnpm."platforms.macos-x64-baseline"]
-checksum = "sha256:b1d4e02cd2f9a37c42dbb82d2f93e80675f417bd4d5f3be8b999a84db673040e"
-url = "https://github.com/pnpm/pnpm/releases/download/v12.3.4/pnpm-darwin-x64.tar.gz"
-url_api = "https://api.github.com/repos/pnpm/pnpm/releases/assets/544431958"
+checksum = "sha256:98921409db2f510ccc4eb521f9bfec51e3f1e809fd66717a062962f3b2a4cdea"
+url = "https://github.com/pnpm/pnpm/releases/download/v12.4.1/pnpm-darwin-x64.tar.gz"
+url_api = "https://api.github.com/repos/pnpm/pnpm/releases/assets/555427210"
 provenance = "github-attestations"
 
 [[tools.prettier]]
