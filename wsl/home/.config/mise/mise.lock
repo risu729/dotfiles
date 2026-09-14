@@ -2342,7 +2342,7 @@ version = "20.0.20"
 backend = "npm:ccusage"
 
 [[tools."npm:resend-cli"]]
-version = "2.20.1"
+version = "2.21.0"
 backend = "npm:resend-cli"
 
 [tools."npm:resend-cli".options]
