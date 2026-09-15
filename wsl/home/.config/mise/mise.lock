@@ -59,62 +59,61 @@ url_api = "https://api.github.com/repos/rhysd/actionlint/releases/assets/3849248
 provenance = "github-attestations"
 
 [[tools.aqua]]
-version = "2.62.3"
+version = "2.63.0"
 backend = "github:aquaproj/aqua"
 
 [tools.aqua."platforms.linux-arm64"]
-checksum = "sha256:a6b485fc465cd9317a2d8421bd145d4364606690fa49840347eca9ec84223fa9"
-url = "https://github.com/aquaproj/aqua/releases/download/v2.62.3/aqua_linux_arm64.tar.gz"
-url_api = "https://api.github.com/repos/aquaproj/aqua/releases/assets/498541918"
+checksum = "sha256:3dd441af09e988c63d2d6a36f391a0609fd35ca95f548038f02471de6a0bdef1"
+url = "https://github.com/aquaproj/aqua/releases/download/v2.63.0/aqua_linux_arm64.tar.gz"
+url_api = "https://api.github.com/repos/aquaproj/aqua/releases/assets/565570050"
 provenance = "github-attestations"
 
 [tools.aqua."platforms.linux-arm64-musl"]
-checksum = "sha256:a6b485fc465cd9317a2d8421bd145d4364606690fa49840347eca9ec84223fa9"
-url = "https://github.com/aquaproj/aqua/releases/download/v2.62.3/aqua_linux_arm64.tar.gz"
-url_api = "https://api.github.com/repos/aquaproj/aqua/releases/assets/498541918"
+checksum = "sha256:3dd441af09e988c63d2d6a36f391a0609fd35ca95f548038f02471de6a0bdef1"
+url = "https://github.com/aquaproj/aqua/releases/download/v2.63.0/aqua_linux_arm64.tar.gz"
+url_api = "https://api.github.com/repos/aquaproj/aqua/releases/assets/565570050"
 provenance = "github-attestations"
 
 [tools.aqua."platforms.linux-x64"]
-checksum = "sha256:89cb081adb19e425b1dca6b16d912c349a43535ce88d8713050738c9263618d0"
-url = "https://github.com/aquaproj/aqua/releases/download/v2.62.3/aqua_linux_amd64.tar.gz"
-url_api = "https://api.github.com/repos/aquaproj/aqua/releases/assets/498541913"
+checksum = "sha256:5d2ea870fb45847e67128af128f8a2f974c7f3a0e7bf9f880015562b9064bb9b"
+url = "https://github.com/aquaproj/aqua/releases/download/v2.63.0/aqua_linux_amd64.tar.gz"
+url_api = "https://api.github.com/repos/aquaproj/aqua/releases/assets/565570042"
 provenance = "github-attestations"
-provenance_verified = true
 
 [tools.aqua."platforms.linux-x64-baseline"]
-checksum = "sha256:89cb081adb19e425b1dca6b16d912c349a43535ce88d8713050738c9263618d0"
-url = "https://github.com/aquaproj/aqua/releases/download/v2.62.3/aqua_linux_amd64.tar.gz"
-url_api = "https://api.github.com/repos/aquaproj/aqua/releases/assets/498541913"
+checksum = "sha256:5d2ea870fb45847e67128af128f8a2f974c7f3a0e7bf9f880015562b9064bb9b"
+url = "https://github.com/aquaproj/aqua/releases/download/v2.63.0/aqua_linux_amd64.tar.gz"
+url_api = "https://api.github.com/repos/aquaproj/aqua/releases/assets/565570042"
 provenance = "github-attestations"
 
 [tools.aqua."platforms.linux-x64-musl"]
-checksum = "sha256:89cb081adb19e425b1dca6b16d912c349a43535ce88d8713050738c9263618d0"
-url = "https://github.com/aquaproj/aqua/releases/download/v2.62.3/aqua_linux_amd64.tar.gz"
-url_api = "https://api.github.com/repos/aquaproj/aqua/releases/assets/498541913"
+checksum = "sha256:5d2ea870fb45847e67128af128f8a2f974c7f3a0e7bf9f880015562b9064bb9b"
+url = "https://github.com/aquaproj/aqua/releases/download/v2.63.0/aqua_linux_amd64.tar.gz"
+url_api = "https://api.github.com/repos/aquaproj/aqua/releases/assets/565570042"
 provenance = "github-attestations"
 
 [tools.aqua."platforms.linux-x64-musl-baseline"]
-checksum = "sha256:89cb081adb19e425b1dca6b16d912c349a43535ce88d8713050738c9263618d0"
-url = "https://github.com/aquaproj/aqua/releases/download/v2.62.3/aqua_linux_amd64.tar.gz"
-url_api = "https://api.github.com/repos/aquaproj/aqua/releases/assets/498541913"
+checksum = "sha256:5d2ea870fb45847e67128af128f8a2f974c7f3a0e7bf9f880015562b9064bb9b"
+url = "https://github.com/aquaproj/aqua/releases/download/v2.63.0/aqua_linux_amd64.tar.gz"
+url_api = "https://api.github.com/repos/aquaproj/aqua/releases/assets/565570042"
 provenance = "github-attestations"
 
 [tools.aqua."platforms.macos-arm64"]
-checksum = "sha256:e6a5831dd12b5d571716aa8b81d799abb09278a9b83b751ed93e74c687b9c9df"
-url = "https://github.com/aquaproj/aqua/releases/download/v2.62.3/aqua_darwin_arm64.tar.gz"
-url_api = "https://api.github.com/repos/aquaproj/aqua/releases/assets/498541903"
+checksum = "sha256:c1f2454a193d0234d0b40b326c98db4909572ff34429ee2078fae5681d90737e"
+url = "https://github.com/aquaproj/aqua/releases/download/v2.63.0/aqua_darwin_arm64.tar.gz"
+url_api = "https://api.github.com/repos/aquaproj/aqua/releases/assets/565570015"
 provenance = "github-attestations"
 
 [tools.aqua."platforms.macos-x64"]
-checksum = "sha256:b9144f0387538e8a08cf7c2325ec3b5263b73fbba1c50da933cd36ffc534d280"
-url = "https://github.com/aquaproj/aqua/releases/download/v2.62.3/aqua_darwin_amd64.tar.gz"
-url_api = "https://api.github.com/repos/aquaproj/aqua/releases/assets/498541902"
+checksum = "sha256:87c5cc2fb7d37f3c8471bc597484b38e9977c873cc3a020389ff018e864c8747"
+url = "https://github.com/aquaproj/aqua/releases/download/v2.63.0/aqua_darwin_amd64.tar.gz"
+url_api = "https://api.github.com/repos/aquaproj/aqua/releases/assets/565570016"
 provenance = "github-attestations"
 
 [tools.aqua."platforms.macos-x64-baseline"]
-checksum = "sha256:b9144f0387538e8a08cf7c2325ec3b5263b73fbba1c50da933cd36ffc534d280"
-url = "https://github.com/aquaproj/aqua/releases/download/v2.62.3/aqua_darwin_amd64.tar.gz"
-url_api = "https://api.github.com/repos/aquaproj/aqua/releases/assets/498541902"
+checksum = "sha256:87c5cc2fb7d37f3c8471bc597484b38e9977c873cc3a020389ff018e864c8747"
+url = "https://github.com/aquaproj/aqua/releases/download/v2.63.0/aqua_darwin_amd64.tar.gz"
+url_api = "https://api.github.com/repos/aquaproj/aqua/releases/assets/565570016"
 provenance = "github-attestations"
 
 [[tools."aqua:mame/wsl2-ssh-agent"]]
