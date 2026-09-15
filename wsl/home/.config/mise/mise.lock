@@ -588,53 +588,53 @@ url_api = "https://api.github.com/repos/cargo-bins/cargo-binstall/releases/asset
 provenance = "github-attestations"
 
 [[tools.claude]]
-version = "2.1.270"
+version = "2.1.272"
 backend = "aqua:anthropics/claude-code"
 
 [tools.claude."platforms.linux-arm64"]
-checksum = "sha256:005d990a52bc16a5dd9ac51f2cc959f686a2c502b343b2eab92351ababf50f7f"
-url = "https://github.com/anthropics/claude-code/releases/download/v2.1.270/claude-linux-arm64.tar.gz"
-url_api = "https://api.github.com/repos/anthropics/claude-code/releases/assets/559771865"
+checksum = "sha256:e9c157be5f0855a895a7f0fd56f81b27c1c21a005bbb6174ccbb00cca0503a06"
+url = "https://github.com/anthropics/claude-code/releases/download/v2.1.272/claude-linux-arm64.tar.gz"
+url_api = "https://api.github.com/repos/anthropics/claude-code/releases/assets/564448713"
 
 [tools.claude."platforms.linux-arm64-musl"]
-checksum = "sha256:5fb26398e8aa2ca2423fcdacd1ab3b6c335545b0b3feaa13e1f8fb184a1f0a76"
-url = "https://github.com/anthropics/claude-code/releases/download/v2.1.270/claude-linux-arm64-musl.tar.gz"
-url_api = "https://api.github.com/repos/anthropics/claude-code/releases/assets/559771868"
+checksum = "sha256:7542300b91def98be1bf9d0be989e859cf6f18ecee51c2b71e050ab097bacfcd"
+url = "https://github.com/anthropics/claude-code/releases/download/v2.1.272/claude-linux-arm64-musl.tar.gz"
+url_api = "https://api.github.com/repos/anthropics/claude-code/releases/assets/564448711"
 
 [tools.claude."platforms.linux-x64"]
-checksum = "sha256:b069b327de3ad6c8cda70886675da46fb213797ac99a367df384e2202b37e0b7"
-url = "https://github.com/anthropics/claude-code/releases/download/v2.1.270/claude-linux-x64.tar.gz"
-url_api = "https://api.github.com/repos/anthropics/claude-code/releases/assets/559771973"
+checksum = "sha256:acc3cefd4db54379e309568c122a6a99a10f4662187bbc3698d3d00bc599ad2e"
+url = "https://github.com/anthropics/claude-code/releases/download/v2.1.272/claude-linux-x64.tar.gz"
+url_api = "https://api.github.com/repos/anthropics/claude-code/releases/assets/564448861"
 
 [tools.claude."platforms.linux-x64-baseline"]
-checksum = "sha256:b069b327de3ad6c8cda70886675da46fb213797ac99a367df384e2202b37e0b7"
-url = "https://github.com/anthropics/claude-code/releases/download/v2.1.270/claude-linux-x64.tar.gz"
-url_api = "https://api.github.com/repos/anthropics/claude-code/releases/assets/559771973"
+checksum = "sha256:acc3cefd4db54379e309568c122a6a99a10f4662187bbc3698d3d00bc599ad2e"
+url = "https://github.com/anthropics/claude-code/releases/download/v2.1.272/claude-linux-x64.tar.gz"
+url_api = "https://api.github.com/repos/anthropics/claude-code/releases/assets/564448861"
 
 [tools.claude."platforms.linux-x64-musl"]
-checksum = "sha256:6677556de94f08a350307989d28285a927b9fa9cac1f188ba587c71d1e49b13f"
-url = "https://github.com/anthropics/claude-code/releases/download/v2.1.270/claude-linux-x64-musl.tar.gz"
-url_api = "https://api.github.com/repos/anthropics/claude-code/releases/assets/559771864"
+checksum = "sha256:28a78bc6e3a70717fea0459faab46a9a28e3f7738c9e2e2c6f9316b2dc3b90ca"
+url = "https://github.com/anthropics/claude-code/releases/download/v2.1.272/claude-linux-x64-musl.tar.gz"
+url_api = "https://api.github.com/repos/anthropics/claude-code/releases/assets/564448712"
 
 [tools.claude."platforms.linux-x64-musl-baseline"]
-checksum = "sha256:6677556de94f08a350307989d28285a927b9fa9cac1f188ba587c71d1e49b13f"
-url = "https://github.com/anthropics/claude-code/releases/download/v2.1.270/claude-linux-x64-musl.tar.gz"
-url_api = "https://api.github.com/repos/anthropics/claude-code/releases/assets/559771864"
+checksum = "sha256:28a78bc6e3a70717fea0459faab46a9a28e3f7738c9e2e2c6f9316b2dc3b90ca"
+url = "https://github.com/anthropics/claude-code/releases/download/v2.1.272/claude-linux-x64-musl.tar.gz"
+url_api = "https://api.github.com/repos/anthropics/claude-code/releases/assets/564448712"
 
 [tools.claude."platforms.macos-arm64"]
-checksum = "sha256:844b574a4f66103138a0d3090e7ef6117f83790b4d637c25a798057a735e68e9"
-url = "https://github.com/anthropics/claude-code/releases/download/v2.1.270/claude-darwin-arm64.tar.gz"
-url_api = "https://api.github.com/repos/anthropics/claude-code/releases/assets/559771867"
+checksum = "sha256:3254b8926b112e5af92dbb9c3840fb33187678c9638807e31f7f9b100bc8c6d5"
+url = "https://github.com/anthropics/claude-code/releases/download/v2.1.272/claude-darwin-arm64.tar.gz"
+url_api = "https://api.github.com/repos/anthropics/claude-code/releases/assets/564448719"
 
 [tools.claude."platforms.macos-x64"]
-checksum = "sha256:bfc4a3bb1f785e389035b7b49ac752e0fd92d908efdc6d1b4ec590e545c54730"
-url = "https://github.com/anthropics/claude-code/releases/download/v2.1.270/claude-darwin-x64.tar.gz"
-url_api = "https://api.github.com/repos/anthropics/claude-code/releases/assets/559771863"
+checksum = "sha256:f37f6b1550eae8a26754df6250d4e57c3edd382bb726c865d04564d18ce8d984"
+url = "https://github.com/anthropics/claude-code/releases/download/v2.1.272/claude-darwin-x64.tar.gz"
+url_api = "https://api.github.com/repos/anthropics/claude-code/releases/assets/564448715"
 
 [tools.claude."platforms.macos-x64-baseline"]
-checksum = "sha256:bfc4a3bb1f785e389035b7b49ac752e0fd92d908efdc6d1b4ec590e545c54730"
-url = "https://github.com/anthropics/claude-code/releases/download/v2.1.270/claude-darwin-x64.tar.gz"
-url_api = "https://api.github.com/repos/anthropics/claude-code/releases/assets/559771863"
+checksum = "sha256:f37f6b1550eae8a26754df6250d4e57c3edd382bb726c865d04564d18ce8d984"
+url = "https://github.com/anthropics/claude-code/releases/download/v2.1.272/claude-darwin-x64.tar.gz"
+url_api = "https://api.github.com/repos/anthropics/claude-code/releases/assets/564448715"
 
 [[tools.codex]]
 version = "0.154.0"
@@ -2227,42 +2227,42 @@ version = "12.2.3"
 backend = "pipx:mitmproxy"
 
 [[tools.mr-boxington]]
-version = "1.11.0"
+version = "1.11.1"
 backend = "packslip:github.com/jdx/mr-boxington"
 
 [tools.mr-boxington."platforms.linux-arm64"]
-checksum = "sha256:feaf1ea4ec59aef4559d8fcafc49586e60ff718f0e4eb9ee40ac788536cce5a3"
-url = "https://github.com/jdx/mr-boxington/releases/download/v1.11.0/mbx-aarch64-unknown-linux-gnu.tar.gz"
+checksum = "sha256:a05f13ee92e1100306ff707592d33195cadf9b61209921662915bd71643d63f9"
+url = "https://github.com/jdx/mr-boxington/releases/download/v1.11.1/mbx-aarch64-unknown-linux-gnu.tar.gz"
 signer = "sigstore-oidc:https://github.com/jdx/mr-boxington/.github/workflows/release.yml"
 
 [tools.mr-boxington."platforms.linux-arm64-musl"]
-checksum = "sha256:1e33c4998187a992ad24eaaeb7b6d6393a875094d32f1589a0239b34e611fbd0"
-url = "https://github.com/jdx/mr-boxington/releases/download/v1.11.0/mbx-aarch64-unknown-linux-musl.tar.gz"
+checksum = "sha256:0540e5a9c7c5b3910a3c9d5cd300c8cd1395d80d17e15825b0e0eaee966c5847"
+url = "https://github.com/jdx/mr-boxington/releases/download/v1.11.1/mbx-aarch64-unknown-linux-musl.tar.gz"
 signer = "sigstore-oidc:https://github.com/jdx/mr-boxington/.github/workflows/release.yml"
 
 [tools.mr-boxington."platforms.linux-x64"]
-checksum = "sha256:86562cc73c316638843e4854c115df38a6d84860ba17b0af2e140c5e9f3c9e94"
-url = "https://github.com/jdx/mr-boxington/releases/download/v1.11.0/mbx-x86_64-unknown-linux-gnu.tar.gz"
+checksum = "sha256:b854c43bd335b1e450138b06fab82512cf550300ee224fe5d17e2cb673986079"
+url = "https://github.com/jdx/mr-boxington/releases/download/v1.11.1/mbx-x86_64-unknown-linux-gnu.tar.gz"
 signer = "sigstore-oidc:https://github.com/jdx/mr-boxington/.github/workflows/release.yml"
 
 [tools.mr-boxington."platforms.linux-x64-baseline"]
-checksum = "sha256:86562cc73c316638843e4854c115df38a6d84860ba17b0af2e140c5e9f3c9e94"
-url = "https://github.com/jdx/mr-boxington/releases/download/v1.11.0/mbx-x86_64-unknown-linux-gnu.tar.gz"
+checksum = "sha256:b854c43bd335b1e450138b06fab82512cf550300ee224fe5d17e2cb673986079"
+url = "https://github.com/jdx/mr-boxington/releases/download/v1.11.1/mbx-x86_64-unknown-linux-gnu.tar.gz"
 signer = "sigstore-oidc:https://github.com/jdx/mr-boxington/.github/workflows/release.yml"
 
 [tools.mr-boxington."platforms.linux-x64-musl"]
-checksum = "sha256:f3d59e84b57cb2c890ae921f64eae8aead8aec23bc8e8384d59c01875365f535"
-url = "https://github.com/jdx/mr-boxington/releases/download/v1.11.0/mbx-x86_64-unknown-linux-musl.tar.gz"
+checksum = "sha256:3075b697c4475ee8ddc24c97a58342252f166f293d57c7546d274021b29af14f"
+url = "https://github.com/jdx/mr-boxington/releases/download/v1.11.1/mbx-x86_64-unknown-linux-musl.tar.gz"
 signer = "sigstore-oidc:https://github.com/jdx/mr-boxington/.github/workflows/release.yml"
 
 [tools.mr-boxington."platforms.linux-x64-musl-baseline"]
-checksum = "sha256:f3d59e84b57cb2c890ae921f64eae8aead8aec23bc8e8384d59c01875365f535"
-url = "https://github.com/jdx/mr-boxington/releases/download/v1.11.0/mbx-x86_64-unknown-linux-musl.tar.gz"
+checksum = "sha256:3075b697c4475ee8ddc24c97a58342252f166f293d57c7546d274021b29af14f"
+url = "https://github.com/jdx/mr-boxington/releases/download/v1.11.1/mbx-x86_64-unknown-linux-musl.tar.gz"
 signer = "sigstore-oidc:https://github.com/jdx/mr-boxington/.github/workflows/release.yml"
 
 [tools.mr-boxington."platforms.macos-arm64"]
-checksum = "sha256:0e6b84b549421eb065872914045925aafe13098b56d302e94aa836e6121b6e87"
-url = "https://github.com/jdx/mr-boxington/releases/download/v1.11.0/mbx-aarch64-apple-darwin.tar.gz"
+checksum = "sha256:5801558a4e81545eb5abbb6ac0cca27ddf95a25e0aa9f41e7c5b63e01d1b75ce"
+url = "https://github.com/jdx/mr-boxington/releases/download/v1.11.1/mbx-aarch64-apple-darwin.tar.gz"
 signer = "sigstore-oidc:https://github.com/jdx/mr-boxington/.github/workflows/release.yml"
 
 [[tools.node]]
