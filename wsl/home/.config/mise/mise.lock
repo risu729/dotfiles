@@ -1251,37 +1251,37 @@ url_api = "https://api.github.com/repos/risu729/biwa/releases/assets/487502183"
 provenance = "github-attestations"
 
 [[tools."github:risu729/kuebiko"]]
-version = "1.3.6"
+version = "1.3.7"
 backend = "github:risu729/kuebiko"
 
 [tools."github:risu729/kuebiko"."platforms.linux-x64"]
-checksum = "sha256:df3661331af17916862a8c65c131b2320826c444ae0c7c59e0dae22309abef1e"
-url = "https://github.com/risu729/kuebiko/releases/download/v1.3.6/kuebiko-v1.3.6-linux-x64.tar.gz"
-url_api = "https://api.github.com/repos/risu729/kuebiko/releases/assets/562017249"
+checksum = "sha256:88d41df48347af3a6abed202e0e9aa73b52dd455126de6db86d9b2125ead1dfd"
+url = "https://github.com/risu729/kuebiko/releases/download/v1.3.7/kuebiko-v1.3.7-linux-x64.tar.gz"
+url_api = "https://api.github.com/repos/risu729/kuebiko/releases/assets/566912928"
 provenance = "github-attestations"
 
 [tools."github:risu729/kuebiko"."platforms.linux-x64-baseline"]
-checksum = "sha256:df3661331af17916862a8c65c131b2320826c444ae0c7c59e0dae22309abef1e"
-url = "https://github.com/risu729/kuebiko/releases/download/v1.3.6/kuebiko-v1.3.6-linux-x64.tar.gz"
-url_api = "https://api.github.com/repos/risu729/kuebiko/releases/assets/562017249"
+checksum = "sha256:88d41df48347af3a6abed202e0e9aa73b52dd455126de6db86d9b2125ead1dfd"
+url = "https://github.com/risu729/kuebiko/releases/download/v1.3.7/kuebiko-v1.3.7-linux-x64.tar.gz"
+url_api = "https://api.github.com/repos/risu729/kuebiko/releases/assets/566912928"
 provenance = "github-attestations"
 
 [tools."github:risu729/kuebiko"."platforms.linux-x64-musl"]
-checksum = "sha256:df3661331af17916862a8c65c131b2320826c444ae0c7c59e0dae22309abef1e"
-url = "https://github.com/risu729/kuebiko/releases/download/v1.3.6/kuebiko-v1.3.6-linux-x64.tar.gz"
-url_api = "https://api.github.com/repos/risu729/kuebiko/releases/assets/562017249"
+checksum = "sha256:88d41df48347af3a6abed202e0e9aa73b52dd455126de6db86d9b2125ead1dfd"
+url = "https://github.com/risu729/kuebiko/releases/download/v1.3.7/kuebiko-v1.3.7-linux-x64.tar.gz"
+url_api = "https://api.github.com/repos/risu729/kuebiko/releases/assets/566912928"
 provenance = "github-attestations"
 
 [tools."github:risu729/kuebiko"."platforms.linux-x64-musl-baseline"]
-checksum = "sha256:df3661331af17916862a8c65c131b2320826c444ae0c7c59e0dae22309abef1e"
-url = "https://github.com/risu729/kuebiko/releases/download/v1.3.6/kuebiko-v1.3.6-linux-x64.tar.gz"
-url_api = "https://api.github.com/repos/risu729/kuebiko/releases/assets/562017249"
+checksum = "sha256:88d41df48347af3a6abed202e0e9aa73b52dd455126de6db86d9b2125ead1dfd"
+url = "https://github.com/risu729/kuebiko/releases/download/v1.3.7/kuebiko-v1.3.7-linux-x64.tar.gz"
+url_api = "https://api.github.com/repos/risu729/kuebiko/releases/assets/566912928"
 provenance = "github-attestations"
 
 [tools."github:risu729/kuebiko"."platforms.macos-arm64"]
-checksum = "sha256:57f5c7c78103098b864a6389c3895786638b9c8b50f9a9f718486bbc098dd885"
-url = "https://github.com/risu729/kuebiko/releases/download/v1.3.6/kuebiko-v1.3.6-macos-arm64.tar.gz"
-url_api = "https://api.github.com/repos/risu729/kuebiko/releases/assets/562017231"
+checksum = "sha256:9d4a9836c785c7f1c5f22f6d6bca540e3629c6f07159075eae66243d326490a6"
+url = "https://github.com/risu729/kuebiko/releases/download/v1.3.7/kuebiko-v1.3.7-macos-arm64.tar.gz"
+url_api = "https://api.github.com/repos/risu729/kuebiko/releases/assets/566912916"
 provenance = "github-attestations"
 
 [[tools."github:risu729/mikoto"]]
