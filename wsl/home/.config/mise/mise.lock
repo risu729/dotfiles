@@ -1251,37 +1251,37 @@ url_api = "https://api.github.com/repos/risu729/biwa/releases/assets/487502183"
 provenance = "github-attestations"
 
 [[tools."github:risu729/kuebiko"]]
-version = "1.3.6"
+version = "1.3.7"
 backend = "github:risu729/kuebiko"
 
 [tools."github:risu729/kuebiko"."platforms.linux-x64"]
-checksum = "sha256:df3661331af17916862a8c65c131b2320826c444ae0c7c59e0dae22309abef1e"
-url = "https://github.com/risu729/kuebiko/releases/download/v1.3.6/kuebiko-v1.3.6-linux-x64.tar.gz"
-url_api = "https://api.github.com/repos/risu729/kuebiko/releases/assets/562017249"
+checksum = "sha256:88d41df48347af3a6abed202e0e9aa73b52dd455126de6db86d9b2125ead1dfd"
+url = "https://github.com/risu729/kuebiko/releases/download/v1.3.7/kuebiko-v1.3.7-linux-x64.tar.gz"
+url_api = "https://api.github.com/repos/risu729/kuebiko/releases/assets/566912928"
 provenance = "github-attestations"
 
 [tools."github:risu729/kuebiko"."platforms.linux-x64-baseline"]
-checksum = "sha256:df3661331af17916862a8c65c131b2320826c444ae0c7c59e0dae22309abef1e"
-url = "https://github.com/risu729/kuebiko/releases/download/v1.3.6/kuebiko-v1.3.6-linux-x64.tar.gz"
-url_api = "https://api.github.com/repos/risu729/kuebiko/releases/assets/562017249"
+checksum = "sha256:88d41df48347af3a6abed202e0e9aa73b52dd455126de6db86d9b2125ead1dfd"
+url = "https://github.com/risu729/kuebiko/releases/download/v1.3.7/kuebiko-v1.3.7-linux-x64.tar.gz"
+url_api = "https://api.github.com/repos/risu729/kuebiko/releases/assets/566912928"
 provenance = "github-attestations"
 
 [tools."github:risu729/kuebiko"."platforms.linux-x64-musl"]
-checksum = "sha256:df3661331af17916862a8c65c131b2320826c444ae0c7c59e0dae22309abef1e"
-url = "https://github.com/risu729/kuebiko/releases/download/v1.3.6/kuebiko-v1.3.6-linux-x64.tar.gz"
-url_api = "https://api.github.com/repos/risu729/kuebiko/releases/assets/562017249"
+checksum = "sha256:88d41df48347af3a6abed202e0e9aa73b52dd455126de6db86d9b2125ead1dfd"
+url = "https://github.com/risu729/kuebiko/releases/download/v1.3.7/kuebiko-v1.3.7-linux-x64.tar.gz"
+url_api = "https://api.github.com/repos/risu729/kuebiko/releases/assets/566912928"
 provenance = "github-attestations"
 
 [tools."github:risu729/kuebiko"."platforms.linux-x64-musl-baseline"]
-checksum = "sha256:df3661331af17916862a8c65c131b2320826c444ae0c7c59e0dae22309abef1e"
-url = "https://github.com/risu729/kuebiko/releases/download/v1.3.6/kuebiko-v1.3.6-linux-x64.tar.gz"
-url_api = "https://api.github.com/repos/risu729/kuebiko/releases/assets/562017249"
+checksum = "sha256:88d41df48347af3a6abed202e0e9aa73b52dd455126de6db86d9b2125ead1dfd"
+url = "https://github.com/risu729/kuebiko/releases/download/v1.3.7/kuebiko-v1.3.7-linux-x64.tar.gz"
+url_api = "https://api.github.com/repos/risu729/kuebiko/releases/assets/566912928"
 provenance = "github-attestations"
 
 [tools."github:risu729/kuebiko"."platforms.macos-arm64"]
-checksum = "sha256:57f5c7c78103098b864a6389c3895786638b9c8b50f9a9f718486bbc098dd885"
-url = "https://github.com/risu729/kuebiko/releases/download/v1.3.6/kuebiko-v1.3.6-macos-arm64.tar.gz"
-url_api = "https://api.github.com/repos/risu729/kuebiko/releases/assets/562017231"
+checksum = "sha256:9d4a9836c785c7f1c5f22f6d6bca540e3629c6f07159075eae66243d326490a6"
+url = "https://github.com/risu729/kuebiko/releases/download/v1.3.7/kuebiko-v1.3.7-macos-arm64.tar.gz"
+url_api = "https://api.github.com/repos/risu729/kuebiko/releases/assets/566912916"
 provenance = "github-attestations"
 
 [[tools."github:risu729/mikoto"]]
@@ -1675,38 +1675,38 @@ version = "2.0.1"
 backend = "packslip:github.com/jdx/hk"
 
 [tools.hk."platforms.linux-arm64"]
-checksum = "sha256:1034ac9e07d7ffc18b58c72c6fe1013bd1e6ab1d8fa421bc4f4ac68ee08cb011"
-url = "https://github.com/jdx/hk/releases/download/v2.0.0/hk-aarch64-unknown-linux-gnu.tar.gz"
+checksum = "sha256:8a28f2737914bbffa8dd16f39a2fc65d85e9a52261789cf6a1affd6c6762fbc1"
+url = "https://github.com/jdx/hk/releases/download/v2.0.1/hk-aarch64-unknown-linux-gnu.tar.gz"
 signer = "sigstore-oidc:https://github.com/jdx/hk/.github/workflows/release.yml"
 
 [tools.hk."platforms.linux-arm64-musl"]
-checksum = "sha256:494b4e1c6be73b44cffcead07a97681ec3f1ea72df05a6fbba5a2bfae3648604"
-url = "https://github.com/jdx/hk/releases/download/v2.0.0/hk-aarch64-unknown-linux-musl.tar.gz"
+checksum = "sha256:b75f54bf8a3679a13a01d250959ae77fab033ca5025eb557b76442c59efa8eb8"
+url = "https://github.com/jdx/hk/releases/download/v2.0.1/hk-aarch64-unknown-linux-musl.tar.gz"
 signer = "sigstore-oidc:https://github.com/jdx/hk/.github/workflows/release.yml"
 
 [tools.hk."platforms.linux-x64"]
-checksum = "sha256:d2cdde7a68dba648b2d25605ceab364074a057fb93618b46ce7ac3e298bfba2c"
-url = "https://github.com/jdx/hk/releases/download/v2.0.0/hk-x86_64-unknown-linux-gnu.tar.gz"
+checksum = "sha256:f14d0290a07f82911f32ea5e4a91dd80d90abb852488912b1ade9b240f70d615"
+url = "https://github.com/jdx/hk/releases/download/v2.0.1/hk-x86_64-unknown-linux-gnu.tar.gz"
 signer = "sigstore-oidc:https://github.com/jdx/hk/.github/workflows/release.yml"
 
 [tools.hk."platforms.linux-x64-baseline"]
-checksum = "sha256:d2cdde7a68dba648b2d25605ceab364074a057fb93618b46ce7ac3e298bfba2c"
-url = "https://github.com/jdx/hk/releases/download/v2.0.0/hk-x86_64-unknown-linux-gnu.tar.gz"
+checksum = "sha256:f14d0290a07f82911f32ea5e4a91dd80d90abb852488912b1ade9b240f70d615"
+url = "https://github.com/jdx/hk/releases/download/v2.0.1/hk-x86_64-unknown-linux-gnu.tar.gz"
 signer = "sigstore-oidc:https://github.com/jdx/hk/.github/workflows/release.yml"
 
 [tools.hk."platforms.linux-x64-musl"]
-checksum = "sha256:8faf654847d8cc7432012d4b1277ae91b4bca78275f87776f0381aee26d7920d"
-url = "https://github.com/jdx/hk/releases/download/v2.0.0/hk-x86_64-unknown-linux-musl.tar.gz"
+checksum = "sha256:76269248e27114f361d533551ffca757e58a1d4abe880fd008df16d19128ea97"
+url = "https://github.com/jdx/hk/releases/download/v2.0.1/hk-x86_64-unknown-linux-musl.tar.gz"
 signer = "sigstore-oidc:https://github.com/jdx/hk/.github/workflows/release.yml"
 
 [tools.hk."platforms.linux-x64-musl-baseline"]
-checksum = "sha256:8faf654847d8cc7432012d4b1277ae91b4bca78275f87776f0381aee26d7920d"
-url = "https://github.com/jdx/hk/releases/download/v2.0.0/hk-x86_64-unknown-linux-musl.tar.gz"
+checksum = "sha256:76269248e27114f361d533551ffca757e58a1d4abe880fd008df16d19128ea97"
+url = "https://github.com/jdx/hk/releases/download/v2.0.1/hk-x86_64-unknown-linux-musl.tar.gz"
 signer = "sigstore-oidc:https://github.com/jdx/hk/.github/workflows/release.yml"
 
 [tools.hk."platforms.macos-arm64"]
-checksum = "sha256:9ee3f4350b321677e5ce291882c6441b153773b32705734d2208f93ac71ce12f"
-url = "https://github.com/jdx/hk/releases/download/v2.0.0/hk-aarch64-apple-darwin.tar.gz"
+checksum = "sha256:6ec393f898f562f76c4839a910356b4afec6740eff23f18ebdf8cf41c793a461"
+url = "https://github.com/jdx/hk/releases/download/v2.0.1/hk-aarch64-apple-darwin.tar.gz"
 signer = "sigstore-oidc:https://github.com/jdx/hk/.github/workflows/release.yml"
 
 [[tools.hunk]]
@@ -2226,42 +2226,42 @@ version = "12.2.3"
 backend = "pipx:mitmproxy"
 
 [[tools.mr-boxington]]
-version = "1.11.1"
+version = "1.12.0"
 backend = "packslip:github.com/jdx/mr-boxington"
 
 [tools.mr-boxington."platforms.linux-arm64"]
-checksum = "sha256:a05f13ee92e1100306ff707592d33195cadf9b61209921662915bd71643d63f9"
-url = "https://github.com/jdx/mr-boxington/releases/download/v1.11.1/mbx-aarch64-unknown-linux-gnu.tar.gz"
+checksum = "sha256:34b684000c245894e37729794b3cfbddd981a3693c9e3c5ebff256db25dcc91a"
+url = "https://github.com/jdx/mr-boxington/releases/download/v1.12.0/mbx-aarch64-unknown-linux-gnu.tar.gz"
 signer = "sigstore-oidc:https://github.com/jdx/mr-boxington/.github/workflows/release.yml"
 
 [tools.mr-boxington."platforms.linux-arm64-musl"]
-checksum = "sha256:0540e5a9c7c5b3910a3c9d5cd300c8cd1395d80d17e15825b0e0eaee966c5847"
-url = "https://github.com/jdx/mr-boxington/releases/download/v1.11.1/mbx-aarch64-unknown-linux-musl.tar.gz"
+checksum = "sha256:738b97bf260137aed70cd3cf849925d1f1bec5f1ba446f5e61ed851ae649bc7b"
+url = "https://github.com/jdx/mr-boxington/releases/download/v1.12.0/mbx-aarch64-unknown-linux-musl.tar.gz"
 signer = "sigstore-oidc:https://github.com/jdx/mr-boxington/.github/workflows/release.yml"
 
 [tools.mr-boxington."platforms.linux-x64"]
-checksum = "sha256:b854c43bd335b1e450138b06fab82512cf550300ee224fe5d17e2cb673986079"
-url = "https://github.com/jdx/mr-boxington/releases/download/v1.11.1/mbx-x86_64-unknown-linux-gnu.tar.gz"
+checksum = "sha256:d577a724dff2e6564329a049627f446e0a1d9a4cc0c9884c44e7487ea6253f33"
+url = "https://github.com/jdx/mr-boxington/releases/download/v1.12.0/mbx-x86_64-unknown-linux-gnu.tar.gz"
 signer = "sigstore-oidc:https://github.com/jdx/mr-boxington/.github/workflows/release.yml"
 
 [tools.mr-boxington."platforms.linux-x64-baseline"]
-checksum = "sha256:b854c43bd335b1e450138b06fab82512cf550300ee224fe5d17e2cb673986079"
-url = "https://github.com/jdx/mr-boxington/releases/download/v1.11.1/mbx-x86_64-unknown-linux-gnu.tar.gz"
+checksum = "sha256:d577a724dff2e6564329a049627f446e0a1d9a4cc0c9884c44e7487ea6253f33"
+url = "https://github.com/jdx/mr-boxington/releases/download/v1.12.0/mbx-x86_64-unknown-linux-gnu.tar.gz"
 signer = "sigstore-oidc:https://github.com/jdx/mr-boxington/.github/workflows/release.yml"
 
 [tools.mr-boxington."platforms.linux-x64-musl"]
-checksum = "sha256:3075b697c4475ee8ddc24c97a58342252f166f293d57c7546d274021b29af14f"
-url = "https://github.com/jdx/mr-boxington/releases/download/v1.11.1/mbx-x86_64-unknown-linux-musl.tar.gz"
+checksum = "sha256:b0d90013e5e4e55419b75db897a6b9eed0f0e3b7bc49edf355e0e6490fda6de2"
+url = "https://github.com/jdx/mr-boxington/releases/download/v1.12.0/mbx-x86_64-unknown-linux-musl.tar.gz"
 signer = "sigstore-oidc:https://github.com/jdx/mr-boxington/.github/workflows/release.yml"
 
 [tools.mr-boxington."platforms.linux-x64-musl-baseline"]
-checksum = "sha256:3075b697c4475ee8ddc24c97a58342252f166f293d57c7546d274021b29af14f"
-url = "https://github.com/jdx/mr-boxington/releases/download/v1.11.1/mbx-x86_64-unknown-linux-musl.tar.gz"
+checksum = "sha256:b0d90013e5e4e55419b75db897a6b9eed0f0e3b7bc49edf355e0e6490fda6de2"
+url = "https://github.com/jdx/mr-boxington/releases/download/v1.12.0/mbx-x86_64-unknown-linux-musl.tar.gz"
 signer = "sigstore-oidc:https://github.com/jdx/mr-boxington/.github/workflows/release.yml"
 
 [tools.mr-boxington."platforms.macos-arm64"]
-checksum = "sha256:5801558a4e81545eb5abbb6ac0cca27ddf95a25e0aa9f41e7c5b63e01d1b75ce"
-url = "https://github.com/jdx/mr-boxington/releases/download/v1.11.1/mbx-aarch64-apple-darwin.tar.gz"
+checksum = "sha256:5457c4d06e547035f0c6521a1f94e67c0400751730feb88f89c1095ac1ddc2bd"
+url = "https://github.com/jdx/mr-boxington/releases/download/v1.12.0/mbx-aarch64-apple-darwin.tar.gz"
 signer = "sigstore-oidc:https://github.com/jdx/mr-boxington/.github/workflows/release.yml"
 
 [[tools.node]]
