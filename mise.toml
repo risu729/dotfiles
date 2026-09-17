@@ -299,9 +299,9 @@ automatic_spelling_correction = false
 "apt:zip" = "latest"
 # macOS desktop apps. Install them alone with
 # `mise bootstrap packages apply --manager brew-cask`; Homebrew is not required.
-# Tools without a macOS release that `[tools]` in the global config skips there.
+# btop has no macOS release in any mise backend, so `[tools]` in the global
+# config skips it there.
 "brew:btop" = { os = "macos" }
-"brew:eza" = { os = "macos" }
 # `adopt` takes over a copy that was already installed by hand.
 "brew-cask:claude" = { os = "macos", adopt = true }
 # The ChatGPT app replaced the discontinued Codex desktop app (`codex-app`).

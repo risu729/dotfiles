@@ -43,8 +43,10 @@ fzf = "latest"
 jc = "latest"
 delta = "latest"
 ripgrep = "latest"
-# No macOS release; installed there as `brew:eza` by the dotfiles bootstrap.
+# The lockfile pins one backend per tool and aqua has no macOS asset for eza, so
+# macOS uses the vfox backend, which installs a prebuilt binary there.
 eza = { version = "latest", os = ["linux"] }
+"vfox:jdx/vfox-eza" = { version = "latest", os = ["macos"] }
 bat = "latest"
 fd = "latest"
 atuin = "latest"
@@ -54,6 +56,11 @@ btop = { version = "latest", os = ["linux"] }
 xh = "latest"
 jd = "latest"
 sd = "latest"
+kubecolor = "latest"
+kubectl = "latest"
+kubectx = "latest"
+kubeseal = "latest"
+mitmproxy = "latest"
 doggo = "latest"
 pitchfork = { version = "latest", postinstall = """
 # The boot service below is systemd-only.
@@ -133,4 +140,5 @@ env = { MBX_CARGO_SHIM_MODE = "1" }
 m = "mise"
 mx = "mise x"
 l = "eza --all --long --git"
+k = "kubecolor"
 cux = "ccusage codex"

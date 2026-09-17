@@ -29,4 +29,4 @@ services:
       - /bin/bash
       - -lc
       - |
-        curl -fsSL "http://worker:4173/wsl?ref=$${SHA}" | bash
+        curl -fsSL "http://worker:4173/wsl?ref=$${SHA}&profile=personal" | bash

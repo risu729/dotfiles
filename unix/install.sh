@@ -5,9 +5,11 @@ set -euo pipefail
 repo_name="risu729/dotfiles"
 # might be edited by the worker to checkout a specific ref
 git_ref=""
-# WSL only runs on my own machines, so the personal profile is the default.
-# Set DOTFILES_PROFILE to an empty string to install the shared part only.
-profile="${DOTFILES_PROFILE-personal}"
+# might be edited by the worker to select a profile
+profile=""
+# DOTFILES_PROFILE takes precedence. Without a profile only the shared part is
+# installed, which is safe on a work machine; `personal` adds the rest.
+profile="${DOTFILES_PROFILE-${profile}}"
 
 RESET='\033[0m'
 CYAN='\033[0;36m'
@@ -21,7 +23,10 @@ log_error() {
 	echo -e "${RED}ERROR: $1${RESET}" >&2
 }
 
-install_mise() {
+# macOS ships BSD userland, so only flags common to GNU and BSD are used below.
+os="$(uname -s)"
+
+install_mise_linux() {
 	log_info "Installing extrepo..."
 	# ref: https://mise.jdx.dev/installing-mise.html#apt
 	sudo apt-get update
@@ -33,6 +38,38 @@ install_mise() {
 	log_info "Installing mise..."
 	sudo apt-get update
 	sudo apt-get install --yes mise
+}
+
+install_mise_macos() {
+	# git is provided by the Xcode Command Line Tools
+	if ! xcode-select -p >/dev/null 2>&1; then
+		log_info "Installing Xcode Command Line Tools..."
+		xcode-select --install
+		log_error "Finish the installation dialog, then run this script again."
+		exit 1
+	fi
+
+	# The installer puts mise here, which is not on the default macOS PATH.
+	export PATH="${HOME}/.local/bin:${PATH}"
+	if command -v mise >/dev/null 2>&1; then
+		log_info "mise is already installed."
+		return
+	fi
+
+	log_info "Installing mise..."
+	# ref: https://mise.jdx.dev/installing-mise.html
+	curl --fail --silent --show-error --location https://mise.run | sh
+}
+
+install_mise() {
+	case "${os}" in
+	Linux) install_mise_linux ;;
+	Darwin) install_mise_macos ;;
+	*)
+		log_error "Unsupported operating system: ${os}"
+		exit 1
+		;;
+	esac
 	log_info "mise installed."
 }
 
@@ -43,7 +80,7 @@ checkout_default_git_branch() {
 	local git_remote
 	git_remote=$(git -C "${repo_path}" remote show origin 2>/dev/null)
 	local default_branch
-	default_branch=$(echo "${git_remote}" | grep --only-matching --perl-regexp 'HEAD branch: \K.+')
+	default_branch=$(echo "${git_remote}" | sed -n 's/^ *HEAD branch: //p')
 
 	if [[ -z ${default_branch} ]]; then
 		log_error "Could not determine the default branch for '${repo_path}'."
@@ -61,7 +98,7 @@ clone_or_update_dotfiles_repo() {
 	local dotfiles_target_dir="${HOME}/.ghr/${repo_url}"
 
 	log_info "Preparing dotfiles repository: ${repo_name} in ${dotfiles_target_dir}"
-	mkdir --parents "${dotfiles_target_dir}"
+	mkdir -p "${dotfiles_target_dir}"
 
 	if git -C "${dotfiles_target_dir}" rev-parse --is-inside-work-tree >/dev/null 2>&1; then
 		log_info "Existing repository found. Updating with mise..."
@@ -94,8 +131,10 @@ main() {
 	install_mise
 
 	# mise reads the profile as its environment, which selects `mise.personal.toml`
-	# and the `profile = "personal"` dotfile variants.
+	# and the `profile = "personal"` dotfile variants. The bootstrap renders it into
+	# `~/.config/mise/miserc.toml`, so later runs keep the profile without this.
 	if [[ -n ${profile} ]]; then
+		log_info "Using the ${profile} profile."
 		export MISE_ENV="${profile}"
 	fi
 
@@ -111,7 +150,7 @@ main() {
 		checkout_default_git_branch "${dotfiles_dir}"
 	fi
 
-	log_info "WSL setup script finished successfully!"
+	log_info "Setup script finished successfully!"
 	log_info "Reminder: you might need to start a new shell for all changes to take effect."
 }
 

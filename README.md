@@ -36,13 +36,17 @@ Cloudflare private-network route to SSH.
 ## 🧭 Repository Structure
 
 This repository is organized around the two installer entry points:
-`win/install.ps1` for Windows, `wsl/install.sh` for WSL2, and `mac/install.sh`
-for macOS.
+`win/install.ps1` for Windows and `unix/install.sh`, which WSL2 and macOS
+share.
 
 - `win/` contains the Windows setup script, `winget` package list, PowerToys
   settings backup, and Windows application configuration files.
 
-- `wsl/` contains the WSL launcher and the files installed by `mise bootstrap`.
+- `unix/` contains the installer for WSL2 and macOS. It installs mise for the
+  operating system it runs on, clones this repository, and runs
+  `mise bootstrap`.
+
+- `wsl/` contains the files installed by `mise bootstrap`.
   - `wsl/home/` mirrors the target home directory and is shared with macOS.
     Mise links these files into `$HOME`, except for Codex skills, which are
     copied because Codex does not discover symlinked skill files.
@@ -54,12 +58,10 @@ for macOS.
     defaults live in `wsl/home/.config/git/config` and
     `wsl/home/.ghr/ghr.toml`.
 
-- `mac/` contains the macOS launcher.
-
 - `worker/` is a Cloudflare Worker for `dot.risunosu.com`. It redirects the root
-  route to this README and serves the `/win` and `/wsl` installer routes by
-  fetching the matching scripts from GitHub and injecting the requested Git ref
-  and script origin.
+  route to this README and serves the `/win`, `/wsl`, and `/mac` installer
+  routes by fetching the matching scripts from GitHub and injecting the
+  requested Git ref, profile, and script origin.
 
 - `docker/` and `compose.ci.yml` define the Ubuntu WSL-like test environment
   used by CI to exercise the WSL installer.
@@ -114,7 +116,7 @@ However, if you want to install dotfiles to WSL2 only—such as when you reset
 WSL2—you can run the following command in bash:
 
 ```bash
-bash -i <(curl -fsSL https://dot.risunosu.com/wsl)
+bash -i <(curl -fsSL "https://dot.risunosu.com/wsl?profile=personal")
 ```
 
 > \[!IMPORTANT]
@@ -131,21 +133,23 @@ bash -i <(curl -fsSL https://dot.risunosu.com/wsl)
 
 ### 🍎 macOS
 
-Run the following command in a terminal. It installs the Xcode Command Line
-Tools and mise when they are missing, clones this repository, and runs
-`mise bootstrap`:
+Run the following command in a terminal. It installs mise when it is missing,
+clones this repository, and runs `mise bootstrap`:
 
 ```bash
-url=https://raw.githubusercontent.com/risu729/dotfiles/main/mac/install.sh
-bash <(curl -fsSL "${url}")
+bash <(curl -fsSL https://dot.risunosu.com/mac)
 ```
 
 This installs the shared profile, which is safe on a work machine. On my own
 Mac, add the personal profile:
 
 ```bash
-DOTFILES_PROFILE=personal bash <(curl -fsSL "${url}")
+bash <(curl -fsSL "https://dot.risunosu.com/mac?profile=personal")
 ```
+
+The profile is stored in `~/.config/mise/miserc.toml`, so it only has to be
+given once. `/wsl` takes the same query, and the Windows installer always
+passes `profile=personal` to it.
 
 > \[!WARNING]
 >

@@ -100,6 +100,41 @@ jobs:
       - name: Clean up Docker Compose
         if: ${{ always() }}
         run: docker compose --file compose.ci.yml down --volumes --remove-orphans
+  test-macos:
+    name: Test Installer Script on macOS
+    runs-on: macos-15
+    timeout-minutes: 60
+    permissions:
+      contents: read # for checkout
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      # The worker is covered by the WSL job, so set the ref the way it does.
+      # The personal profile is a superset of the shared one.
+      - name: Run installer
+        run: |
+          sed "s/^git_ref=\"\"$/git_ref=\"${GIT_COMMIT_SHA}\"/" unix/install.sh > "${RUNNER_TEMP}/install.sh"
+          grep --quiet "^git_ref=\"${GIT_COMMIT_SHA}\"$" "${RUNNER_TEMP}/install.sh"
+          bash "${RUNNER_TEMP}/install.sh"
+        env:
+          DOTFILES_PROFILE: personal
+          GITHUB_TOKEN: ${{ github.token }}
+          __CI: true
+          # use head sha for pull requests because github.sha is set to the merge commit
+          GIT_COMMIT_SHA: ${{ case(github.event_name == 'pull_request', github.event.pull_request.head.sha, github.sha) }}
+          MISE_LOG_LEVEL: ${{ case(runner.debug == '1', 'debug', 'info') }}
+      - name: Verify the result
+        run: |
+          export PATH="${HOME}/.local/bin:${PATH}"
+          cd "${HOME}/.ghr/github.com/risu729/dotfiles"
+          mise bootstrap macos defaults status --missing
+          mise dot status --missing
+          grep --quiet '^env = \["personal"\]$' "${HOME}/.config/mise/miserc.toml"
+          grep --quiet 'mise activate zsh' "${HOME}/.zshrc"
+          test -L "${HOME}/.ssh/config"
+          test ! -e "${HOME}/.bashrc"
   test-worker:
     name: Cloudflare Worker
     runs-on: ubuntu-24.04
@@ -141,6 +176,7 @@ jobs:
     needs:
       - lint
       - test-linux
+      - test-macos
       - test-worker
     if: ${{ !cancelled() && (contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled')) }}
     runs-on: ubuntu-24.04

@@ -12,11 +12,6 @@ COPILOT_AUTO_UPDATE = "false"
 bitwarden = "latest"
 glab = "latest"
 "aqua:mame/wsl2-ssh-agent" = { version = "latest", os = ["linux"] }
-kubecolor = "latest"
-kubectl = "latest"
-kubectx = "latest"
-kubeseal = "latest"
-mitmproxy = "latest"
 "github:risu729/kuebiko" = { version = "latest", minimum_release_age = "0s" }
 "github:risu729/biwa" = { version = "latest", minimum_release_age = "0s" }
 "github:risu729/mikoto" = { version = "latest", minimum_release_age = "0s" }
@@ -45,6 +40,3 @@ gcloud = "latest"
 [wrappers.agent]
 command = "cursor-agent"
 args = ["--disable-auto-update"]
-
-[shell_alias]
-k = "kubecolor"
