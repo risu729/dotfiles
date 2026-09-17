@@ -194,22 +194,19 @@ AppleShowAllExtensions = true
 NSAutomaticDashSubstitutionEnabled = false
 NSAutomaticPeriodSubstitutionEnabled = false
 NSAutomaticQuoteSubstitutionEnabled = false
-# Full keyboard access: move focus between all controls with Tab.
+# Keyboard navigation: move focus between all controls with Tab.
 AppleKeyboardUIMode = 2
-# Expand save and print dialogs by default.
+# Expand save dialogs by default.
 NSNavPanelExpandedStateForSaveMode = true
 NSNavPanelExpandedStateForSaveMode2 = true
-PMPrintingExpandedStateForPrint = true
-PMPrintingExpandedStateForPrint2 = true
 
 [bootstrap.macos.defaults."com.apple.WindowManager"]
 # Tile windows without margins.
 EnableTiledWindowMargins = false
 
 [bootstrap.macos.defaults."com.apple.desktopservices"]
-# Do not write .DS_Store files to network and USB volumes.
+# Do not write .DS_Store files to network volumes.
 DSDontWriteNetworkStores = true
-DSDontWriteUSBStores = true
 
 [bootstrap.macos.defaults."com.apple.finder"]
 # Search the current folder instead of the whole Mac.
@@ -306,8 +303,9 @@ automatic_spelling_correction = false
 "apt:zip" = "latest"
 # macOS desktop apps. Install them alone with
 # `mise bootstrap packages apply --manager brew-cask`; Homebrew is not required.
-"brew-cask:claude" = { os = "macos" }
-"brew-cask:codex-app" = { os = "macos" }
+# `adopt` takes over a copy that was already installed by hand.
+"brew-cask:claude" = { os = "macos", adopt = true }
+"brew-cask:codex-app" = { os = "macos", adopt = true }
 
 [bootstrap.repos]
 "~/.ghr/github.com/risu729/aqua" = { url = "https://github.com/risu729/aqua.git" }
