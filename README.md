@@ -112,9 +112,10 @@ bash -i <(curl -fsSL https://dot.risunosu.com/wsl)
 
 ### 🍎 macOS
 
-Only system preferences are managed on macOS, through the
-`[bootstrap.macos.*]` sections of `mise.toml`. With
-[mise](https://mise.jdx.dev/) installed, clone this repository and run:
+Only system preferences and a few desktop apps are managed on macOS, through
+the `[bootstrap.macos.*]` sections and the `brew-cask:` packages of
+`mise.toml`. With [mise](https://mise.jdx.dev/) installed, clone this repository
+and run:
 
 ```bash
 mise trust
@@ -123,13 +124,16 @@ mkdir -p ~/Pictures/Screenshots
 mise bootstrap macos defaults status
 mise bootstrap macos defaults apply
 killall Finder Dock SystemUIServer
+# Mise installs casks itself, so Homebrew is not required. The first run asks
+# for sudo to create `/opt/homebrew`.
+mise bootstrap packages apply --manager brew-cask
 ```
 
 > \[!WARNING]
 >
-> Do **not** run a full `mise bootstrap` on macOS. Everything outside
-> `[bootstrap.macos.*]` targets WSL, including hooks that edit `/etc/sudoers.d`
-> and dotfiles that link `wsl/home/` into `$HOME`.
+> Do **not** run a full `mise bootstrap` on macOS. Everything else targets WSL,
+> including hooks that edit `/etc/sudoers.d` and dotfiles that link `wsl/home/`
+> into `$HOME`.
 
 Log out and back in for the modifier key mapping and key repeat rate to take
 effect.

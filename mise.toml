@@ -304,6 +304,10 @@ automatic_spelling_correction = false
 "apt:strace" = "latest"
 "apt:xdg-utils" = "latest"
 "apt:zip" = "latest"
+# macOS desktop apps. Install them alone with
+# `mise bootstrap packages apply --manager brew-cask`; Homebrew is not required.
+"brew-cask:claude" = { os = "macos" }
+"brew-cask:codex-app" = { os = "macos" }
 
 [bootstrap.repos]
 "~/.ghr/github.com/risu729/aqua" = { url = "https://github.com/risu729/aqua.git" }
