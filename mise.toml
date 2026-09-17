@@ -58,10 +58,11 @@ run = "bun install --frozen-lockfile"
 [task_config]
 includes = ["tasks.toml", "tasks", "worker/tasks.toml", "worker/tasks"]
 
-# Hooks are Tera templates, so Linux-only steps are skipped on other platforms.
+# Hooks are Tera templates, so Linux-only steps are skipped on other platforms
+# and my own infrastructure is only set up with the personal profile.
 [bootstrap.hooks.pre-packages]
 run = '''
-{% if os() == "linux" %}
+{% if os() == "linux" and mise_env is defined and "personal" in mise_env %}
 # Persist passwordless sudo and replace the legacy repository symlink if present.
 sudo mkdir --parents /etc/sudoers.d
 sudoers_path=/etc/sudoers.d/01-users-nopasswd
@@ -73,15 +74,18 @@ sudo mv --force "${sudoers_temporary_path}" "${sudoers_path}"
 
 sudo install --directory --mode=0755 /etc/apt/keyrings
 
-arch=$(dpkg --print-architecture)
-# shellcheck source=/dev/null
-codename=$(. /etc/os-release && echo "${UBUNTU_CODENAME:-${VERSION_CODENAME}}")
-
 # ref: https://pkg.cloudflare.com/
 curl --fail-with-body --silent --show-error --location https://pkg.cloudflare.com/cloudflare-main.gpg |
   sudo tee /etc/apt/keyrings/cloudflare-main.gpg >/dev/null
 echo "deb [signed-by=/etc/apt/keyrings/cloudflare-main.gpg] https://pkg.cloudflare.com/cloudflared any main" |
   sudo tee /etc/apt/sources.list.d/cloudflared.list >/dev/null
+{% endif %}
+{% if os() == "linux" %}
+sudo install --directory --mode=0755 /etc/apt/keyrings
+
+arch=$(dpkg --print-architecture)
+# shellcheck source=/dev/null
+codename=$(. /etc/os-release && echo "${UBUNTU_CODENAME:-${VERSION_CODENAME}}")
 
 # ref: https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository
 curl --fail-with-body --silent --show-error --location https://download.docker.com/linux/ubuntu/gpg |
@@ -99,6 +103,9 @@ if ! groups "${username}" | grep --quiet --word-regexp docker; then
   sudo usermod --append --groups docker "${username}"
 fi
 
+{% endif %}
+{% if os() == "linux" and mise_env is defined and "personal" in mise_env %}
+username=$(whoami)
 dotfiles_root=$(git rev-parse --show-toplevel)
 sudo install --mode=0644 \
   "${dotfiles_root}/wsl/systemd/wsl-cloudflare-ip.service" \
@@ -164,14 +171,6 @@ if [ -t 0 ] && [ -t 1 ]; then
   fi
 fi
 '''
-
-[bootstrap.linux.systemd.units.cloudflared]
-description = "Cloudflare Tunnel client"
-after = ["network-online.target"]
-wants = ["network-online.target"]
-exec_start = "/usr/bin/cloudflared tunnel --no-autoupdate run --token-file %h/.config/cloudflared/tunnel-token"
-restart = "on-failure"
-restart_sec = "5s"
 
 # macOS preferences are inert on Linux. The rest of this bootstrap is WSL-only,
 # so on a Mac apply them alone with `mise bootstrap macos defaults apply`.
@@ -278,7 +277,6 @@ automatic_spelling_correction = false
 "apt:clang" = "latest"
 "apt:clangd" = "latest"
 "apt:clang-format" = "latest"
-"apt:cloudflared" = "latest"
 "apt:cmake" = "latest"
 "apt:containerd.io" = "latest"
 "apt:desktop-file-utils" = "latest"
@@ -328,6 +326,7 @@ automatic_spelling_correction = false
 "~/.hushlogin" = "wsl/home/.hushlogin"
 
 # Paths excluded here are linked by the entries below under narrower variants.
+# A pattern without `/` matches that name at any depth, so keep the names unique.
 [dotfiles."~/.config"]
 source = "wsl/home/.config"
 mode = "symlink-each"

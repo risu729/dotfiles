@@ -25,7 +25,7 @@ Everything is split along two axes:
   `profile = "personal"`: SSH hosts, the Git identity and commit signing, and
   personal repositories and tools. The rendered `~/.config/mise/miserc.toml`
   remembers the profile for later runs. To drop back, delete the `env` line
-  there and bootstrap again; this does not remove what `personal` linked.
+  there and bootstrap again; links that `personal` created may remain.
 
 Cloudflare Tunnel is installed in WSL and configured as a systemd user
 service. The service retries until a remotely-managed tunnel token is stored

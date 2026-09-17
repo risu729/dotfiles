@@ -4,6 +4,18 @@
 # Loaded with `-E personal` only. mise merges configuration additively, so the
 # base `mise.toml` holds what is safe on any machine and this file adds the rest.
 
+[bootstrap.linux.systemd.units.cloudflared]
+description = "Cloudflare Tunnel client"
+after = ["network-online.target"]
+wants = ["network-online.target"]
+exec_start = "/usr/bin/cloudflared tunnel --no-autoupdate run --token-file %h/.config/cloudflared/tunnel-token"
+restart = "on-failure"
+restart_sec = "5s"
+
+[bootstrap.packages]
+# The APT repository is added by the personal part of the pre-packages hook.
+"apt:cloudflared" = "latest"
+
 [bootstrap.repos]
 "~/.ghr/github.com/risu729/aqua" = { url = "https://github.com/risu729/aqua.git" }
 "~/.ghr/github.com/risu729/aqua-registry" = { url = "https://github.com/risu729/aqua-registry.git" }

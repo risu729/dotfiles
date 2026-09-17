@@ -143,6 +143,11 @@ clone_or_update_dotfiles_repo() {
 main() {
 	install_mise
 
+	# `.miserc.toml` is discovered from the working directory, not from `--cd`, and
+	# `~/.config/mise/miserc.toml` does not exist on the first run, so enable the
+	# platform configs (`mise.linux.toml`, `mise.macos.toml`) explicitly.
+	export MISE_AUTO_ENV=true
+
 	# mise reads the profile as its environment, which selects `mise.personal.toml`
 	# and the `profile = "personal"` dotfile variants. The bootstrap renders it into
 	# `~/.config/mise/miserc.toml`, so later runs keep the profile without this.
@@ -157,6 +162,9 @@ main() {
 	log_info "Bootstrapping packages, dotfiles, and tools with mise..."
 	trust_configs "${dotfiles_dir}"
 	mise --cd "${dotfiles_dir}" bootstrap --yes --update --force-dotfiles --locked --skip-dirty
+	# A path that moved from a directory entry to a narrower one is unlinked by the
+	# directory entry's cleanup and only comes back on the next apply.
+	mise --cd "${dotfiles_dir}" bootstrap --only dotfiles --yes --force-dotfiles
 	log_info "mise bootstrap completed."
 
 	if [[ -n ${git_ref} ]]; then

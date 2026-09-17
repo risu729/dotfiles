@@ -117,6 +117,9 @@ jobs:
         run: |
           sed "s/^git_ref=\"\"$/git_ref=\"${GIT_COMMIT_SHA}\"/" unix/install.sh > "${RUNNER_TEMP}/install.sh"
           grep --quiet "^git_ref=\"${GIT_COMMIT_SHA}\"$" "${RUNNER_TEMP}/install.sh"
+          # Users run the installer from their home directory, where this
+          # repository's `.miserc.toml` is not discovered.
+          cd "${HOME}"
           bash "${RUNNER_TEMP}/install.sh"
         env:
           DOTFILES_PROFILE: personal

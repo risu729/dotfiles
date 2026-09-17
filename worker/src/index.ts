@@ -13,8 +13,9 @@ const scriptPaths = {
 	wsl: "unix/install.sh",
 } as const satisfies Record<Os, string>;
 
-// The ref and the profile are substituted into the script, so their values are
-// restricted: branch names, tags, and commit hashes, and the known profiles
+// Both values are substituted into the script and must not break out of it.
+// Refs are limited to branch names, tags, and commit hashes.
+// Profiles are limited to the known ones.
 const refRegex = /^[\w./-]+$/u;
 const profiles = ["personal"];
 

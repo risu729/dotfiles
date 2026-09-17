@@ -30,3 +30,5 @@ services:
       - -lc
       - |
         curl -fsSL "http://worker:4173/wsl?ref=$${SHA}&profile=personal" | bash
+        # `mise.linux.toml` is only loaded when the platform configs are enabled
+        test -f /etc/codex/config.toml

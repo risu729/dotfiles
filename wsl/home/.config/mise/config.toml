@@ -63,8 +63,9 @@ kubeseal = "latest"
 mitmproxy = "latest"
 doggo = "latest"
 pitchfork = { version = "latest", postinstall = """
-# The boot service below is systemd-only.
+# The boot service below is systemd-only and runs as my user.
 [ "$(uname -s)" = Linux ] || exit 0
+case ",${MISE_ENV:-}," in *,personal,*) ;; *) exit 0 ;; esac
 src="$(dirname "$(readlink -f ~/.config/mise/config.toml)")/../../../systemd/pitchfork-nonroot.conf"
 sudo install -D -m644 "$src" /etc/systemd/system/pitchfork.service.d/nonroot.conf
 sudo "$MISE_TOOL_INSTALL_PATH/pitchfork" boot disable
