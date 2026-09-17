@@ -1,0 +1,50 @@
+# ref: https://mise.jdx.dev/configuration/environments.html
+#:schema https://mise.jdx.dev/schema/mise.json
+# Loaded with `MISE_ENV=personal` only, which `miserc.toml` sets on machines
+# bootstrapped with `-E personal`. Locked by `mise.personal.lock`.
+
+[env]
+# mise manages the installed Copilot CLI version.
+COPILOT_AUTO_UPDATE = "false"
+
+[tools]
+# cli tools
+bitwarden = "latest"
+glab = "latest"
+"aqua:mame/wsl2-ssh-agent" = { version = "latest", os = ["linux"] }
+kubecolor = "latest"
+kubectl = "latest"
+kubectx = "latest"
+kubeseal = "latest"
+mitmproxy = "latest"
+"github:risu729/kuebiko" = { version = "latest", minimum_release_age = "0s" }
+"github:risu729/biwa" = { version = "latest", minimum_release_age = "0s" }
+"github:risu729/mikoto" = { version = "latest", minimum_release_age = "0s" }
+# resend dropped npm provenance from 6.18.1 onward while its release automation is
+# reworked, which trips aube's no-downgrade trust policy.
+# ref: https://github.com/resend/resend-node/issues/1061
+"npm:resend-cli" = { version = "latest", allow_builds = ["esbuild"], trust_policy_excludes = [
+	"resend@>=6.18.1",
+] }
+
+# ai agents
+cursor-agent = { version = "latest", minimum_release_age = "0s" }
+copilot = "latest"
+
+# uni tools
+typst = "latest"
+
+# mise development
+gcloud = "latest"
+
+# Cursor Agent self-updates into ~/.local/share/cursor-agent and relinks
+# ~/.local/bin/{agent,cursor-agent}, which would shadow the mise-managed install.
+# --disable-auto-update is a hidden global flag. `agent` mirrors the official
+# installer's short name; a wrapper cannot delegate to itself, so bare
+# `cursor-agent` still self-updates.
+[wrappers.agent]
+command = "cursor-agent"
+args = ["--disable-auto-update"]
+
+[shell_alias]
+k = "kubecolor"

@@ -20,7 +20,10 @@
 		// lockFileMaintenance because its defaults are re-merged over packageRules
 		// afterwards.
 		{
-			matchFileNames: ["wsl/home/.config/mise/config.toml"],
+			matchFileNames: [
+				"wsl/home/.config/mise/config.toml",
+				"wsl/home/.config/mise/config.personal.toml",
+			],
 			matchUpdateTypes: ["lockFileMaintenance"],
 			lockFileMaintenance: {
 				schedule: ["* * * * *"],

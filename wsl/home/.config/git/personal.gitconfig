@@ -1,0 +1,20 @@
+[user]
+	name = Taku Kodama
+	email = 79110363+risu729@users.noreply.github.com
+	signingKey = "key::ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMor6SlX/qQY6DlSPNshh+HuBxu2VqRrnF0goRw1p3u8"
+
+[commit]
+	gpgSign = true
+[tag]
+	gpgSign = true
+
+[gpg]
+	format = ssh
+
+[credential "https://gitlab.cse.unsw.edu.au"]
+	username = z5642102
+	helper =
+	helper = !glab auth git-credential
+
+[includeIf "gitdir:~/.ghr/gitlab.cse.unsw.edu.au/"]
+	path = ~/.config/git/unsw.gitconfig

@@ -5,6 +5,9 @@ set -euo pipefail
 repo_name="risu729/dotfiles"
 # might be edited by the worker to checkout a specific ref
 git_ref=""
+# WSL only runs on my own machines, so the personal profile is the default.
+# Set DOTFILES_PROFILE to an empty string to install the shared part only.
+profile="${DOTFILES_PROFILE-personal}"
 
 RESET='\033[0m'
 CYAN='\033[0;36m'
@@ -64,7 +67,8 @@ clone_or_update_dotfiles_repo() {
 		log_info "Existing repository found. Updating with mise..."
 		# mise refuses to update a dirty worktree, a mismatched origin, or a
 		# detached HEAD, so the installer does not stash or branch-check itself.
-		mise trust --yes "${dotfiles_target_dir}/mise.toml" >&2
+		# --all also trusts the platform and profile configs next to mise.toml
+		mise trust --yes --all --cd "${dotfiles_target_dir}" >&2
 		mise --cd "${dotfiles_target_dir}" bootstrap repos update \
 			"${dotfiles_target_dir}" --yes --skip-dirty >&2
 	else
@@ -89,11 +93,17 @@ clone_or_update_dotfiles_repo() {
 main() {
 	install_mise
 
+	# mise reads the profile as its environment, which selects `mise.personal.toml`
+	# and the `profile = "personal"` dotfile variants.
+	if [[ -n ${profile} ]]; then
+		export MISE_ENV="${profile}"
+	fi
+
 	local dotfiles_dir
 	dotfiles_dir=$(clone_or_update_dotfiles_repo "${git_ref}")
 
 	log_info "Bootstrapping packages, dotfiles, and tools with mise..."
-	mise trust --yes "${dotfiles_dir}/mise.toml"
+	mise trust --yes --all --cd "${dotfiles_dir}"
 	mise --cd "${dotfiles_dir}" bootstrap --yes --update --force-dotfiles --locked --skip-dirty
 	log_info "mise bootstrap completed."
 

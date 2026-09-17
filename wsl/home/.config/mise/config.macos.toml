@@ -1,0 +1,7 @@
+# ref: https://mise.jdx.dev/configuration/environments.html#platform-environments
+#:schema https://mise.jdx.dev/schema/mise.json
+# Loaded on macOS only, through `auto_env` in `miserc.toml`.
+
+[env]
+# `brew:` packages installed by the dotfiles bootstrap are linked here.
+_.path = ["/opt/homebrew/bin"]

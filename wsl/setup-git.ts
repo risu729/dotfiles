@@ -1,6 +1,7 @@
 #!/usr/bin/env bun
 
 import { resolve } from "node:path";
+import { platform } from "node:process";
 
 import { $, env, spawn } from "bun";
 
@@ -39,17 +40,19 @@ const ensureGitHubTokenScopes = async (): Promise<void> => {
 				/First copy your one-time code: (?<code>[A-Z0-9-]+)/u,
 			)?.groups?.["code"];
 			if (oneTimeCode) {
-				// Copy one-time code to clipboard of Windows
+				// Copy the one-time code to the clipboard: of Windows from WSL, or of macOS
 				// Don't use piping because clip.exe appends a trailing newline
-				await $`clip.exe < ${Buffer.from(oneTimeCode)}`;
+				const clipboard = platform === "darwin" ? "pbcopy" : "clip.exe";
+				await $`${clipboard} < ${Buffer.from(oneTimeCode)}`.nothrow();
 			}
 			const url = text.match(
 				// Ref: https://github.com/cli/cli/blob/14d339d9ba87e87f34b7a25f00200a2062f87039/internal/authflow/flow.go#L71
 				/Open this URL to continue in your web browser: (?<url>.+)/u,
 			)?.groups?.["url"];
 			if (url) {
-				// Open the url automatically in the Windows default browser
-				await $`xdg-open ${url}`.nothrow();
+				// Open the url automatically in the default browser: of Windows from WSL, or of macOS
+				const opener = platform === "darwin" ? "open" : "xdg-open";
+				await $`${opener} ${url}`.nothrow();
 			}
 		}
 
