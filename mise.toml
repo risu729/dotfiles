@@ -194,6 +194,13 @@ AppleShowAllExtensions = true
 NSAutomaticDashSubstitutionEnabled = false
 NSAutomaticPeriodSubstitutionEnabled = false
 NSAutomaticQuoteSubstitutionEnabled = false
+# Full keyboard access: move focus between all controls with Tab.
+AppleKeyboardUIMode = 2
+# Expand save and print dialogs by default.
+NSNavPanelExpandedStateForSaveMode = true
+NSNavPanelExpandedStateForSaveMode2 = true
+PMPrintingExpandedStateForPrint = true
+PMPrintingExpandedStateForPrint2 = true
 
 [bootstrap.macos.defaults."com.apple.WindowManager"]
 # Tile windows without margins.
@@ -207,6 +214,8 @@ DSDontWriteUSBStores = true
 [bootstrap.macos.defaults."com.apple.finder"]
 # Search the current folder instead of the whole Mac.
 FXDefaultSearchScope = "SCcf"
+# Show the full POSIX path in the window title.
+_FXShowPosixPathInTitle = true
 
 [bootstrap.macos.defaults."com.apple.screencapture"]
 # macOS falls back to the Desktop when the directory is missing.
@@ -246,6 +255,11 @@ HIDKeyboardModifierMappingDst = 1095216660483
 HIDKeyboardModifierMappingSrc = 30064771129
 HIDKeyboardModifierMappingDst = 1095216660483
 
+[bootstrap.macos.dock]
+show_recents = false
+# Do not rearrange Spaces based on most recent use.
+mru_spaces = false
+
 [bootstrap.macos.finder]
 show_all_files = true
 show_pathbar = true
@@ -260,6 +274,8 @@ fn_state = true
 # Fastest repeat rate and shortest delay offered by System Settings.
 key_repeat = 2
 initial_key_repeat = 15
+# Repeat held keys instead of showing the accent menu.
+press_and_hold = false
 automatic_capitalization = false
 automatic_spelling_correction = false
 
