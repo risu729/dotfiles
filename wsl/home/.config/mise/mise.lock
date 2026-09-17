@@ -406,53 +406,53 @@ url_api = "https://api.github.com/repos/biomejs/biome/releases/assets/567471271"
 provenance = "github-attestations"
 
 [[tools.bitwarden]]
-version = "2026.8.0"
+version = "2026.9.0"
 backend = "aqua:bitwarden/clients"
 
 [tools.bitwarden."platforms.linux-arm64"]
-checksum = "sha256:74d822a5dceda5896ed8fc07bc61925b29afd98d96a6a3e9e525ae556c3083a8"
-url = "https://github.com/bitwarden/clients/releases/download/cli-v2026.8.0/bw-linux-arm64-2026.8.0.zip"
-url_api = "https://api.github.com/repos/bitwarden/clients/releases/assets/522478224"
+checksum = "sha256:3f474cc34b701a1cebdd486009870038b034343afb83095607422cdad4c3653a"
+url = "https://github.com/bitwarden/clients/releases/download/cli-v2026.9.0/bw-linux-arm64-2026.9.0.zip"
+url_api = "https://api.github.com/repos/bitwarden/clients/releases/assets/570320369"
 
 [tools.bitwarden."platforms.linux-arm64-musl"]
-checksum = "sha256:74d822a5dceda5896ed8fc07bc61925b29afd98d96a6a3e9e525ae556c3083a8"
-url = "https://github.com/bitwarden/clients/releases/download/cli-v2026.8.0/bw-linux-arm64-2026.8.0.zip"
-url_api = "https://api.github.com/repos/bitwarden/clients/releases/assets/522478224"
+checksum = "sha256:3f474cc34b701a1cebdd486009870038b034343afb83095607422cdad4c3653a"
+url = "https://github.com/bitwarden/clients/releases/download/cli-v2026.9.0/bw-linux-arm64-2026.9.0.zip"
+url_api = "https://api.github.com/repos/bitwarden/clients/releases/assets/570320369"
 
 [tools.bitwarden."platforms.linux-x64"]
-checksum = "sha256:367f618e9fcccaac4980ec12c7bafd01df739b5f3cb1af31bc9045cf75eea1d6"
-url = "https://github.com/bitwarden/clients/releases/download/cli-v2026.8.0/bw-linux-2026.8.0.zip"
-url_api = "https://api.github.com/repos/bitwarden/clients/releases/assets/522478170"
+checksum = "sha256:580c1deec8345b19dbac7f8b02babb6cc4fe250c69c567e29061f727f1e40768"
+url = "https://github.com/bitwarden/clients/releases/download/cli-v2026.9.0/bw-linux-2026.9.0.zip"
+url_api = "https://api.github.com/repos/bitwarden/clients/releases/assets/570320307"
 
 [tools.bitwarden."platforms.linux-x64-baseline"]
-checksum = "sha256:367f618e9fcccaac4980ec12c7bafd01df739b5f3cb1af31bc9045cf75eea1d6"
-url = "https://github.com/bitwarden/clients/releases/download/cli-v2026.8.0/bw-linux-2026.8.0.zip"
-url_api = "https://api.github.com/repos/bitwarden/clients/releases/assets/522478170"
+checksum = "sha256:580c1deec8345b19dbac7f8b02babb6cc4fe250c69c567e29061f727f1e40768"
+url = "https://github.com/bitwarden/clients/releases/download/cli-v2026.9.0/bw-linux-2026.9.0.zip"
+url_api = "https://api.github.com/repos/bitwarden/clients/releases/assets/570320307"
 
 [tools.bitwarden."platforms.linux-x64-musl"]
-checksum = "sha256:367f618e9fcccaac4980ec12c7bafd01df739b5f3cb1af31bc9045cf75eea1d6"
-url = "https://github.com/bitwarden/clients/releases/download/cli-v2026.8.0/bw-linux-2026.8.0.zip"
-url_api = "https://api.github.com/repos/bitwarden/clients/releases/assets/522478170"
+checksum = "sha256:580c1deec8345b19dbac7f8b02babb6cc4fe250c69c567e29061f727f1e40768"
+url = "https://github.com/bitwarden/clients/releases/download/cli-v2026.9.0/bw-linux-2026.9.0.zip"
+url_api = "https://api.github.com/repos/bitwarden/clients/releases/assets/570320307"
 
 [tools.bitwarden."platforms.linux-x64-musl-baseline"]
-checksum = "sha256:367f618e9fcccaac4980ec12c7bafd01df739b5f3cb1af31bc9045cf75eea1d6"
-url = "https://github.com/bitwarden/clients/releases/download/cli-v2026.8.0/bw-linux-2026.8.0.zip"
-url_api = "https://api.github.com/repos/bitwarden/clients/releases/assets/522478170"
+checksum = "sha256:580c1deec8345b19dbac7f8b02babb6cc4fe250c69c567e29061f727f1e40768"
+url = "https://github.com/bitwarden/clients/releases/download/cli-v2026.9.0/bw-linux-2026.9.0.zip"
+url_api = "https://api.github.com/repos/bitwarden/clients/releases/assets/570320307"
 
 [tools.bitwarden."platforms.macos-arm64"]
-checksum = "sha256:73414942357644605eefd3f4afaf0b41b71772ad6574e8e3c72e0b6d237104c8"
-url = "https://github.com/bitwarden/clients/releases/download/cli-v2026.8.0/bw-macos-arm64-2026.8.0.zip"
-url_api = "https://api.github.com/repos/bitwarden/clients/releases/assets/522478010"
+checksum = "sha256:014bc4c093e586197013fac79b9d0f1df1da6004003293c8930406bf1ffde45b"
+url = "https://github.com/bitwarden/clients/releases/download/cli-v2026.9.0/bw-macos-arm64-2026.9.0.zip"
+url_api = "https://api.github.com/repos/bitwarden/clients/releases/assets/570320204"
 
 [tools.bitwarden."platforms.macos-x64"]
-checksum = "sha256:c5d57f70d5394f8c348f6c3bf53683ad6d15e6acfe55e7c1e0a8f376482d8e71"
-url = "https://github.com/bitwarden/clients/releases/download/cli-v2026.8.0/bw-macos-2026.8.0.zip"
-url_api = "https://api.github.com/repos/bitwarden/clients/releases/assets/522477971"
+checksum = "sha256:d2a1865c2c1f49c34e6f1b38a42c5b95dcf22e34f81121c4962ebda32f708a3e"
+url = "https://github.com/bitwarden/clients/releases/download/cli-v2026.9.0/bw-macos-2026.9.0.zip"
+url_api = "https://api.github.com/repos/bitwarden/clients/releases/assets/570320154"
 
 [tools.bitwarden."platforms.macos-x64-baseline"]
-checksum = "sha256:c5d57f70d5394f8c348f6c3bf53683ad6d15e6acfe55e7c1e0a8f376482d8e71"
-url = "https://github.com/bitwarden/clients/releases/download/cli-v2026.8.0/bw-macos-2026.8.0.zip"
-url_api = "https://api.github.com/repos/bitwarden/clients/releases/assets/522477971"
+checksum = "sha256:d2a1865c2c1f49c34e6f1b38a42c5b95dcf22e34f81121c4962ebda32f708a3e"
+url = "https://github.com/bitwarden/clients/releases/download/cli-v2026.9.0/bw-macos-2026.9.0.zip"
+url_api = "https://api.github.com/repos/bitwarden/clients/releases/assets/570320154"
 
 [[tools.btop]]
 version = "1.4.7"
@@ -2226,42 +2226,42 @@ version = "12.2.3"
 backend = "pipx:mitmproxy"
 
 [[tools.mr-boxington]]
-version = "1.12.0"
+version = "1.13.0"
 backend = "packslip:github.com/jdx/mr-boxington"
 
 [tools.mr-boxington."platforms.linux-arm64"]
-checksum = "sha256:34b684000c245894e37729794b3cfbddd981a3693c9e3c5ebff256db25dcc91a"
-url = "https://github.com/jdx/mr-boxington/releases/download/v1.12.0/mbx-aarch64-unknown-linux-gnu.tar.gz"
+checksum = "sha256:6c4bee161029996b55d9f99fc7136729e6e7c8834ff0c79060c30945c7f8e472"
+url = "https://github.com/jdx/mr-boxington/releases/download/v1.13.0/mbx-aarch64-unknown-linux-gnu.tar.gz"
 signer = "sigstore-oidc:https://github.com/jdx/mr-boxington/.github/workflows/release.yml"
 
 [tools.mr-boxington."platforms.linux-arm64-musl"]
-checksum = "sha256:738b97bf260137aed70cd3cf849925d1f1bec5f1ba446f5e61ed851ae649bc7b"
-url = "https://github.com/jdx/mr-boxington/releases/download/v1.12.0/mbx-aarch64-unknown-linux-musl.tar.gz"
+checksum = "sha256:5dbb951a995a5e1c796a283f047871ad747efa4220ff82138adb3e27561044d9"
+url = "https://github.com/jdx/mr-boxington/releases/download/v1.13.0/mbx-aarch64-unknown-linux-musl.tar.gz"
 signer = "sigstore-oidc:https://github.com/jdx/mr-boxington/.github/workflows/release.yml"
 
 [tools.mr-boxington."platforms.linux-x64"]
-checksum = "sha256:d577a724dff2e6564329a049627f446e0a1d9a4cc0c9884c44e7487ea6253f33"
-url = "https://github.com/jdx/mr-boxington/releases/download/v1.12.0/mbx-x86_64-unknown-linux-gnu.tar.gz"
+checksum = "sha256:51469ae93c9b6a01b2458188d798f9a2103e619145396bfe348834b2ae6ee672"
+url = "https://github.com/jdx/mr-boxington/releases/download/v1.13.0/mbx-x86_64-unknown-linux-gnu.tar.gz"
 signer = "sigstore-oidc:https://github.com/jdx/mr-boxington/.github/workflows/release.yml"
 
 [tools.mr-boxington."platforms.linux-x64-baseline"]
-checksum = "sha256:d577a724dff2e6564329a049627f446e0a1d9a4cc0c9884c44e7487ea6253f33"
-url = "https://github.com/jdx/mr-boxington/releases/download/v1.12.0/mbx-x86_64-unknown-linux-gnu.tar.gz"
+checksum = "sha256:51469ae93c9b6a01b2458188d798f9a2103e619145396bfe348834b2ae6ee672"
+url = "https://github.com/jdx/mr-boxington/releases/download/v1.13.0/mbx-x86_64-unknown-linux-gnu.tar.gz"
 signer = "sigstore-oidc:https://github.com/jdx/mr-boxington/.github/workflows/release.yml"
 
 [tools.mr-boxington."platforms.linux-x64-musl"]
-checksum = "sha256:b0d90013e5e4e55419b75db897a6b9eed0f0e3b7bc49edf355e0e6490fda6de2"
-url = "https://github.com/jdx/mr-boxington/releases/download/v1.12.0/mbx-x86_64-unknown-linux-musl.tar.gz"
+checksum = "sha256:e35165b4acf19e953f61dbd5f3df5e7d111d1920a4b2da6177f79a9437e24b8a"
+url = "https://github.com/jdx/mr-boxington/releases/download/v1.13.0/mbx-x86_64-unknown-linux-musl.tar.gz"
 signer = "sigstore-oidc:https://github.com/jdx/mr-boxington/.github/workflows/release.yml"
 
 [tools.mr-boxington."platforms.linux-x64-musl-baseline"]
-checksum = "sha256:b0d90013e5e4e55419b75db897a6b9eed0f0e3b7bc49edf355e0e6490fda6de2"
-url = "https://github.com/jdx/mr-boxington/releases/download/v1.12.0/mbx-x86_64-unknown-linux-musl.tar.gz"
+checksum = "sha256:e35165b4acf19e953f61dbd5f3df5e7d111d1920a4b2da6177f79a9437e24b8a"
+url = "https://github.com/jdx/mr-boxington/releases/download/v1.13.0/mbx-x86_64-unknown-linux-musl.tar.gz"
 signer = "sigstore-oidc:https://github.com/jdx/mr-boxington/.github/workflows/release.yml"
 
 [tools.mr-boxington."platforms.macos-arm64"]
-checksum = "sha256:5457c4d06e547035f0c6521a1f94e67c0400751730feb88f89c1095ac1ddc2bd"
-url = "https://github.com/jdx/mr-boxington/releases/download/v1.12.0/mbx-aarch64-apple-darwin.tar.gz"
+checksum = "sha256:690fe9a52398eb816c416c7573c9f847cdfcab5aacf03bc60f6c00f1ef596d2f"
+url = "https://github.com/jdx/mr-boxington/releases/download/v1.13.0/mbx-aarch64-apple-darwin.tar.gz"
 signer = "sigstore-oidc:https://github.com/jdx/mr-boxington/.github/workflows/release.yml"
 
 [[tools.node]]
@@ -2337,7 +2337,7 @@ url = "https://registry.npmjs.org/npm/-/npm-12.0.2.tgz"
 url = "https://registry.npmjs.org/npm/-/npm-12.0.2.tgz"
 
 [[tools."npm:ccusage"]]
-version = "20.0.20"
+version = "20.0.21"
 backend = "npm:ccusage"
 
 [[tools."npm:resend-cli"]]
