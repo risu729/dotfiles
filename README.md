@@ -24,8 +24,8 @@ Everything is split along two axes:
   `config.personal.toml`, and the dotfile entries marked
   `profile = "personal"`: SSH hosts, the Git identity and commit signing, and
   personal repositories and tools. The rendered `~/.config/mise/miserc.toml`
-  remembers the profile for later runs. Dropping back to the plain profile does
-  not remove what `personal` linked.
+  remembers the profile for later runs. To drop back, delete the `env` line
+  there and bootstrap again; this does not remove what `personal` linked.
 
 Cloudflare Tunnel is installed in WSL and configured as a systemd user
 service. The service retries until a remotely-managed tunnel token is stored
@@ -50,13 +50,14 @@ share.
   - `wsl/home/` mirrors the target home directory and is shared with macOS.
     Mise links these files into `$HOME`, except for Codex skills, which are
     copied because Codex does not discover symlinked skill files.
-  - Mise declaratively installs `wsl/codex/config.toml` as system-level Codex
-    defaults at `/etc/codex/config.toml`, leaving the mutable user configuration
-    untracked.
+  - On Linux, mise declaratively installs `wsl/codex/config.toml` as
+    system-level Codex defaults at `/etc/codex/config.toml`, leaving the mutable
+    user configuration untracked.
   - `wsl/setup-git.ts` performs interactive GitHub authentication after the
-    base WSL environment is ready. Git identity, SSH signing, and `ghr`
-    defaults live in `wsl/home/.config/git/config` and
-    `wsl/home/.ghr/ghr.toml`.
+    bootstrap, on WSL and macOS. Shared Git settings live in
+    `wsl/home/.config/git/config`. The identity and SSH signing are in
+    `personal.gitconfig` next to it, which is linked for the personal profile
+    only. `ghr` defaults live in `wsl/home/.ghr/ghr.toml`.
 
 - `worker/` is a Cloudflare Worker for `dot.risunosu.com`. It redirects the root
   route to this README and serves the `/win`, `/wsl`, and `/mac` installer
@@ -148,8 +149,9 @@ bash <(curl -fsSL "https://dot.risunosu.com/mac?profile=personal")
 ```
 
 The profile is stored in `~/.config/mise/miserc.toml`, so it only has to be
-given once. `/wsl` takes the same query, and the Windows installer always
-passes `profile=personal` to it.
+given once. Running `unix/install.sh` from a clone takes it from
+`DOTFILES_PROFILE` instead. `/wsl` takes the same query, and the Windows
+installer always passes `profile=personal` to it.
 
 > \[!WARNING]
 >
@@ -172,8 +174,8 @@ the managed `~/.claude/settings.json`.
 
 ### UNSW CSE GitLab
 
-Mise installs `glab`, but authentication with the CSE GitLab instance is
-manual. Run:
+The personal profile installs `glab`, but authentication with the CSE GitLab
+instance is manual. Run:
 
 ```bash
 glab auth login \

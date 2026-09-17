@@ -13,7 +13,9 @@ const scriptPaths = {
 	wsl: "unix/install.sh",
 } as const satisfies Record<Os, string>;
 
-// The profile is substituted into the script, so only known values are accepted
+// The ref and the profile are substituted into the script, so their values are
+// restricted: branch names, tags, and commit hashes, and the known profiles
+const refRegex = /^[\w./-]+$/u;
 const profiles = ["personal"];
 
 const app: Hono = new Hono();
@@ -34,6 +36,9 @@ app.get("/:os{mac|win|wsl}", async ({ req, text }) => {
 	if (os !== "mac" && os !== "win" && os !== "wsl") {
 		// Other paths must not be reached
 		throw new HTTPException(500, { message: "routing error" });
+	}
+	if (ref !== undefined && !refRegex.test(ref)) {
+		throw new HTTPException(400, { message: "invalid ref" });
 	}
 	if (profile !== undefined && !profiles.includes(profile)) {
 		throw new HTTPException(400, { message: `unknown profile: ${profile}` });
@@ -102,7 +107,8 @@ app.get("/:os{mac|win|wsl}", async ({ req, text }) => {
 				message: `installer script does not contain a ${nameInOs} variable`,
 			});
 		}
-		script = script.replace(regex, value);
+		// Use a function so that `$` patterns in the value are not interpreted
+		script = script.replace(regex, () => value);
 	}
 
 	const shebang = script.match(shebangRegex)?.[0] ?? "";

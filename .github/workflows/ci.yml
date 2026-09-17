@@ -131,22 +131,32 @@ jobs:
         run: |
           export PATH="${HOME}/.local/bin:${PATH}"
           cd "${HOME}/.ghr/github.com/risu729/dotfiles"
+          # The installer returns to the default branch, and the dotfiles are
+          # symlinks into this worktree, so check out the tested commit again.
+          git checkout --quiet --detach "${GIT_COMMIT_SHA}"
           mise bootstrap macos defaults status --missing
           # shared
-          test -L "${HOME}/.config/mise/config.toml"
-          test -L "${HOME}/.config/git/config"
+          test -L "${HOME}/.config/mise/config.toml" -a -e "${HOME}/.config/mise/config.toml"
+          test -L "${HOME}/.config/git/config" -a -e "${HOME}/.config/git/config"
           grep --quiet 'mise activate zsh' "${HOME}/.zshrc"
           # personal
           grep --quiet '^env = \["personal"\]$' "${HOME}/.config/mise/miserc.toml"
-          test -L "${HOME}/.ssh/config"
-          test -L "${HOME}/.config/git/personal.gitconfig"
+          test -L "${HOME}/.ssh/config" -a -e "${HOME}/.ssh/config"
+          test -L "${HOME}/.config/git/personal.gitconfig" -a -e "${HOME}/.config/git/personal.gitconfig"
           # Linux-only
           test ! -L "${HOME}/.bashrc"
           test ! -e "${HOME}/.config/mimeapps.list"
           test ! -e "${HOME}/.config/pitchfork"
           test ! -e "${HOME}/.local/bin/wsl-open"
-          # tools resolve in a fresh interactive shell, including the macOS-specific ones
-          zsh -ic 'eza --version && btop --version && kubectl version --client && glab --version'
+          # mise-managed tools resolve, including the macOS-specific eza backend and a
+          # personal tool, and a fresh interactive shell finds them and brew's btop
+          mise which eza
+          mise which kubectl
+          mise which glab
+          zsh -ic 'eza --version && btop --version && glab --version'
+        env:
+          # use head sha for pull requests because github.sha is set to the merge commit
+          GIT_COMMIT_SHA: ${{ case(github.event_name == 'pull_request', github.event.pull_request.head.sha, github.sha) }}
   test-worker:
     name: Cloudflare Worker
     runs-on: ubuntu-24.04

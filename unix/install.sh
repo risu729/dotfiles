@@ -44,7 +44,8 @@ install_mise_macos() {
 	# git is provided by the Xcode Command Line Tools
 	if ! xcode-select -p >/dev/null 2>&1; then
 		log_info "Installing Xcode Command Line Tools..."
-		xcode-select --install
+		# Fails when the installation dialog is already open
+		xcode-select --install || true
 		log_error "Finish the installation dialog, then run this script again."
 		exit 1
 	fi
@@ -73,12 +74,25 @@ install_mise() {
 	log_info "mise installed."
 }
 
+# Trust the platform and profile configs next to mise.toml as well. `--all` is
+# avoided because it also trusts configs in every parent directory.
+trust_configs() {
+	local repo_path="$1"
+	local config
+	for config in "${repo_path}"/mise.toml "${repo_path}"/mise.*.toml; do
+		# The glob stays literal when nothing matches
+		[[ -e ${config} ]] || continue
+		mise trust --yes "${config}"
+	done
+}
+
 checkout_default_git_branch() {
 	local repo_path="$1"
 	log_info "Checking out default branch..."
 
 	local git_remote
-	git_remote=$(git -C "${repo_path}" remote show origin 2>/dev/null)
+	# The label parsed below is translated in other locales
+	git_remote=$(LC_ALL=C git -C "${repo_path}" remote show origin 2>/dev/null)
 	local default_branch
 	default_branch=$(echo "${git_remote}" | sed -n 's/^ *HEAD branch: //p')
 
@@ -104,8 +118,7 @@ clone_or_update_dotfiles_repo() {
 		log_info "Existing repository found. Updating with mise..."
 		# mise refuses to update a dirty worktree, a mismatched origin, or a
 		# detached HEAD, so the installer does not stash or branch-check itself.
-		# --all also trusts the platform and profile configs next to mise.toml
-		mise trust --yes --all --cd "${dotfiles_target_dir}" >&2
+		trust_configs "${dotfiles_target_dir}" >&2
 		mise --cd "${dotfiles_target_dir}" bootstrap repos update \
 			"${dotfiles_target_dir}" --yes --skip-dirty >&2
 	else
@@ -142,7 +155,7 @@ main() {
 	dotfiles_dir=$(clone_or_update_dotfiles_repo "${git_ref}")
 
 	log_info "Bootstrapping packages, dotfiles, and tools with mise..."
-	mise trust --yes --all --cd "${dotfiles_dir}"
+	trust_configs "${dotfiles_dir}"
 	mise --cd "${dotfiles_dir}" bootstrap --yes --update --force-dotfiles --locked --skip-dirty
 	log_info "mise bootstrap completed."
 

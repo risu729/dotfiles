@@ -136,6 +136,7 @@ url = "https://github.com/siketyan/ghr/releases/download/v0.4.5/ghr-x86_64-unkno
 url_api = "https://api.github.com/repos/siketyan/ghr/releases/assets/235741426"
 
 [tools."aqua:siketyan/ghr"."platforms.macos-arm64"]
+checksum = "blake3:4d42f9c1344f5a45d896d7a7c6a573e77b2367983bb53cb9292e32873d07bdd8"
 url = "https://github.com/siketyan/ghr/releases/download/v0.4.5/ghr-aarch64-apple-darwin.tar.gz"
 url_api = "https://api.github.com/repos/siketyan/ghr/releases/assets/235741440"
 
@@ -171,6 +172,7 @@ url = "https://repo.yarnpkg.com/4.18.0/packages/yarnpkg-cli/bin/yarn.js"
 url = "https://repo.yarnpkg.com/4.18.0/packages/yarnpkg-cli/bin/yarn.js"
 
 [tools."aqua:yarn"."platforms.macos-arm64"]
+checksum = "blake3:6b5fe0bc6105452f663d5a15ee03574caab7ac642f0400266273d0b9562c9dc4"
 url = "https://repo.yarnpkg.com/4.18.0/packages/yarnpkg-cli/bin/yarn.js"
 
 [tools."aqua:yarn"."platforms.macos-x64"]
@@ -1955,6 +1957,7 @@ url = "https://registry.npmjs.org/npm/-/npm-12.0.2.tgz"
 url = "https://registry.npmjs.org/npm/-/npm-12.0.2.tgz"
 
 [tools.npm."platforms.macos-arm64"]
+checksum = "blake3:51efd656e0cba1ef84a25625482fc9c4621ca423f9580565acd200e8f4542416"
 url = "https://registry.npmjs.org/npm/-/npm-12.0.2.tgz"
 
 [tools.npm."platforms.macos-x64"]
@@ -2551,6 +2554,7 @@ url = "https://github.com/tamasfe/taplo/releases/download/0.10.0/taplo-linux-x86
 url_api = "https://api.github.com/repos/tamasfe/taplo/releases/assets/257322600"
 
 [tools.taplo."platforms.macos-arm64"]
+checksum = "blake3:353ecb1ed7d279dec5e2fd388d292ef97db08a651405fa664ffec1b2896c05f0"
 url = "https://github.com/tamasfe/taplo/releases/download/0.10.0/taplo-darwin-aarch64.gz"
 url_api = "https://api.github.com/repos/tamasfe/taplo/releases/assets/257323110"
 
@@ -2722,10 +2726,31 @@ provenance = "github-attestations"
 version = "0.23.5"
 backend = "vfox:jdx/vfox-eza"
 
+[tools."vfox:jdx/vfox-eza"."platforms.linux-arm64"]
+url = "https://github.com/eza-community/eza/releases/download/v0.23.5/eza_aarch64-unknown-linux-gnu.tar.gz"
+
+[tools."vfox:jdx/vfox-eza"."platforms.linux-arm64-musl"]
+url = "https://github.com/eza-community/eza/releases/download/v0.23.5/eza_aarch64-unknown-linux-gnu.tar.gz"
+
+[tools."vfox:jdx/vfox-eza"."platforms.linux-x64"]
+url = "https://github.com/eza-community/eza/releases/download/v0.23.5/eza_x86_64-unknown-linux-gnu.tar.gz"
+
+[tools."vfox:jdx/vfox-eza"."platforms.linux-x64-baseline"]
+url = "https://github.com/eza-community/eza/releases/download/v0.23.5/eza_x86_64-unknown-linux-gnu.tar.gz"
+
+[tools."vfox:jdx/vfox-eza"."platforms.linux-x64-musl"]
+url = "https://github.com/eza-community/eza/releases/download/v0.23.5/eza_x86_64-unknown-linux-gnu.tar.gz"
+
+[tools."vfox:jdx/vfox-eza"."platforms.linux-x64-musl-baseline"]
+url = "https://github.com/eza-community/eza/releases/download/v0.23.5/eza_x86_64-unknown-linux-gnu.tar.gz"
+
 [tools."vfox:jdx/vfox-eza"."platforms.macos-arm64"]
 url = "https://github.com/cargo-bins/cargo-quickinstall/releases/download/eza-0.23.5/eza-0.23.5-aarch64-apple-darwin.tar.gz"
 
 [tools."vfox:jdx/vfox-eza"."platforms.macos-x64"]
+url = "https://github.com/cargo-bins/cargo-quickinstall/releases/download/eza-0.23.5/eza-0.23.5-x86_64-apple-darwin.tar.gz"
+
+[tools."vfox:jdx/vfox-eza"."platforms.macos-x64-baseline"]
 url = "https://github.com/cargo-bins/cargo-quickinstall/releases/download/eza-0.23.5/eza-0.23.5-x86_64-apple-darwin.tar.gz"
 
 [[tools.watchexec]]
