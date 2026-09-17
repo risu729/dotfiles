@@ -46,7 +46,7 @@ const ensureGitHubTokenScopes = async (): Promise<void> => {
 				const { exitCode: clipboardExitCode } =
 					await $`${clipboard} < ${Buffer.from(oneTimeCode)}`.nothrow();
 				if (clipboardExitCode !== 0) {
-					// gh's stderr is piped, so the code is not shown anywhere else
+					// The stderr of gh is piped, so the code is not shown anywhere else
 					console.error(`Failed to copy the one-time code. Enter it manually: ${oneTimeCode}`);
 				}
 			}
