@@ -110,6 +110,30 @@ bash -i <(curl -fsSL https://dot.risunosu.com/wsl)
 > Both installer scripts are idempotent, meaning you can run them multiple times
 > without issues.
 
+### 🍎 macOS
+
+Only system preferences are managed on macOS, through the
+`[bootstrap.macos.*]` sections of `mise.toml`. With
+[mise](https://mise.jdx.dev/) installed, clone this repository and run:
+
+```bash
+mise trust
+# Screenshots fall back to the Desktop unless the configured directory exists.
+mkdir -p ~/Pictures/Screenshots
+mise bootstrap macos defaults status
+mise bootstrap macos defaults apply
+killall Finder Dock SystemUIServer
+```
+
+> \[!WARNING]
+>
+> Do **not** run a full `mise bootstrap` on macOS. Everything outside
+> `[bootstrap.macos.*]` targets WSL, including hooks that edit `/etc/sudoers.d`
+> and dotfiles that link `wsl/home/` into `$HOME`.
+
+Log out and back in for the modifier key mapping and key repeat rate to take
+effect.
+
 ### UNSW CSE GitLab
 
 Mise installs `glab`, but authentication with the CSE GitLab instance is
