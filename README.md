@@ -1,6 +1,7 @@
 # 🐿 Risu's Dotfiles
 
-Personal configuration for my Windows and WSL development environments.
+Personal configuration for my Windows and WSL development environments, plus
+macOS preferences.
 
 ## ⭐ Description
 
@@ -9,6 +10,8 @@ These dotfiles are used to configure my environment, mainly Windows 11 and WSL2
 
 Since I use WSL2 as my main development environment, I only install GUI
 applications on Windows, such as browsers, IDEs, etc.
+
+On macOS, only system preferences and a few desktop apps are managed.
 
 Cloudflare Tunnel is installed in WSL and configured as a systemd user
 service. The service retries until a remotely-managed tunnel token is stored
@@ -19,7 +22,8 @@ Cloudflare private-network route to SSH.
 ## 🧭 Repository Structure
 
 This repository is organized around the two installer entry points:
-`win/install.ps1` for Windows and `wsl/install.sh` for WSL2.
+`win/install.ps1` for Windows and `wsl/install.sh` for WSL2. macOS has no
+installer; its configuration lives in the root `mise.toml`.
 
 - `win/` contains the Windows setup script, `winget` package list, PowerToys
   settings backup, and Windows application configuration files.
@@ -109,6 +113,34 @@ bash -i <(curl -fsSL https://dot.risunosu.com/wsl)
 >
 > Both installer scripts are idempotent, meaning you can run them multiple times
 > without issues.
+
+### 🍎 macOS
+
+Only system preferences and a few desktop apps are managed on macOS, through
+the `[bootstrap.macos.*]` sections and the `brew-cask:` packages of
+`mise.toml`. With [mise](https://mise.jdx.dev/) installed, clone this repository
+and run:
+
+```bash
+mise trust
+# Screenshots fall back to the Desktop unless the configured directory exists.
+mkdir -p ~/Pictures/Screenshots
+mise bootstrap macos defaults status
+mise bootstrap macos defaults apply
+killall Finder Dock SystemUIServer
+# Mise installs casks itself, so Homebrew is not required. The first run asks
+# for sudo to create `/opt/homebrew`.
+mise bootstrap packages apply --manager brew-cask
+```
+
+> \[!WARNING]
+>
+> Do **not** run a full `mise bootstrap` on macOS. Everything else targets WSL,
+> such as hooks that edit `/etc/sudoers.d` and dotfiles that link `wsl/home/`
+> into `$HOME`, and it is not written to run on a Mac.
+
+Log out and back in for the keyboard, mouse, and scrolling preferences to take
+effect, and relaunch applications to pick up the text input ones.
 
 ### UNSW CSE GitLab
 
