@@ -305,7 +305,8 @@ automatic_spelling_correction = false
 # `mise bootstrap packages apply --manager brew-cask`; Homebrew is not required.
 # `adopt` takes over a copy that was already installed by hand.
 "brew-cask:claude" = { os = "macos", adopt = true }
-"brew-cask:codex-app" = { os = "macos", adopt = true }
+# The ChatGPT app replaced the discontinued Codex desktop app (`codex-app`).
+"brew-cask:chatgpt" = { os = "macos", adopt = true }
 
 [bootstrap.repos]
 "~/.ghr/github.com/risu729/aqua" = { url = "https://github.com/risu729/aqua.git" }
