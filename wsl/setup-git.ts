@@ -43,7 +43,12 @@ const ensureGitHubTokenScopes = async (): Promise<void> => {
 				// Copy the one-time code to the clipboard: of Windows from WSL, or of macOS
 				// Don't use piping because clip.exe appends a trailing newline
 				const clipboard = platform === "darwin" ? "pbcopy" : "clip.exe";
-				await $`${clipboard} < ${Buffer.from(oneTimeCode)}`.nothrow();
+				const { exitCode: clipboardExitCode } =
+					await $`${clipboard} < ${Buffer.from(oneTimeCode)}`.nothrow();
+				if (clipboardExitCode !== 0) {
+					// gh's stderr is piped, so the code is not shown anywhere else
+					console.error(`Failed to copy the one-time code. Enter it manually: ${oneTimeCode}`);
+				}
 			}
 			const url = text.match(
 				// Ref: https://github.com/cli/cli/blob/14d339d9ba87e87f34b7a25f00200a2062f87039/internal/authflow/flow.go#L71
