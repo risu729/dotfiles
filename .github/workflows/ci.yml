@@ -125,16 +125,28 @@ jobs:
           # use head sha for pull requests because github.sha is set to the merge commit
           GIT_COMMIT_SHA: ${{ case(github.event_name == 'pull_request', github.event.pull_request.head.sha, github.sha) }}
           MISE_LOG_LEVEL: ${{ case(runner.debug == '1', 'debug', 'info') }}
+      # `mise dot status` counts excluded files and other platforms' entries as
+      # missing, so assert the expected paths directly.
       - name: Verify the result
         run: |
           export PATH="${HOME}/.local/bin:${PATH}"
           cd "${HOME}/.ghr/github.com/risu729/dotfiles"
           mise bootstrap macos defaults status --missing
-          mise dot status --missing
-          grep --quiet '^env = \["personal"\]$' "${HOME}/.config/mise/miserc.toml"
+          # shared
+          test -L "${HOME}/.config/mise/config.toml"
+          test -L "${HOME}/.config/git/config"
           grep --quiet 'mise activate zsh' "${HOME}/.zshrc"
+          # personal
+          grep --quiet '^env = \["personal"\]$' "${HOME}/.config/mise/miserc.toml"
           test -L "${HOME}/.ssh/config"
-          test ! -e "${HOME}/.bashrc"
+          test -L "${HOME}/.config/git/personal.gitconfig"
+          # Linux-only
+          test ! -L "${HOME}/.bashrc"
+          test ! -e "${HOME}/.config/mimeapps.list"
+          test ! -e "${HOME}/.config/pitchfork"
+          test ! -e "${HOME}/.local/bin/wsl-open"
+          # tools resolve in a fresh interactive shell, including the macOS-specific ones
+          zsh -ic 'eza --version && btop --version && kubectl version --client && glab --version'
   test-worker:
     name: Cloudflare Worker
     runs-on: ubuntu-24.04
