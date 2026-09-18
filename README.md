@@ -159,7 +159,10 @@ installer always passes `profile=personal` to it.
 >
 > `--force-dotfiles` replaces existing files such as `~/.claude/settings.json`,
 > `~/.config/mise/config.toml`, and `~/.config/gh/config.yml`. Back them up
-> first, or preview the run from a clone with `mise bootstrap --dry-run`.
+> first, or preview the run from a clone with `mise bootstrap --dry-run`. A dry
+> run does not execute hooks, so on a Mac without Ruby 3 or newer, run
+> `mise bootstrap packages apply brew:ruby` and put `/opt/homebrew/bin` on
+> `PATH` before it; the real run does this itself.
 
 The first run asks for sudo to create `/opt/homebrew`; mise installs Homebrew
 packages itself, so Homebrew is not required. Screenshots fall back to the

@@ -50,8 +50,10 @@ install_mise_macos() {
 		exit 1
 	fi
 
-	# The installer puts mise here, which is not on the default macOS PATH.
-	export PATH="${HOME}/.local/bin:${PATH}"
+	# The installer puts mise here, which is not on the default macOS PATH. mise
+	# also needs the Ruby 3 or newer it pours into the Homebrew prefix to
+	# evaluate casks from third-party taps.
+	export PATH="${HOME}/.local/bin:/opt/homebrew/bin:${PATH}"
 
 	# The installer also upgrades an existing mise, like apt does on Linux, so
 	# that `min_version` in mise.toml is met.
