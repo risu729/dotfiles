@@ -505,6 +505,10 @@ url = "https://github.com/cargo-bins/cargo-binstall/releases/download/v1.23.0/ca
 url_api = "https://api.github.com/repos/cargo-bins/cargo-binstall/releases/assets/546062270"
 provenance = "github-attestations"
 
+[[tools."cargo:eza"]]
+version = "0.23.5"
+backend = "cargo:eza"
+
 [[tools.claude]]
 version = "2.1.274"
 backend = "aqua:anthropics/claude-code"
@@ -2721,37 +2725,6 @@ checksum = "sha256:e9ca61775532368fe518ab03e7a354c7ecab8ccb3c7d941c775fcc4a362b8
 url = "https://github.com/astral-sh/uv/releases/download/0.12.15/uv-x86_64-apple-darwin.tar.gz"
 url_api = "https://api.github.com/repos/astral-sh/uv/releases/assets/565630871"
 provenance = "github-attestations"
-
-[[tools."vfox:jdx/vfox-eza"]]
-version = "0.23.5"
-backend = "vfox:jdx/vfox-eza"
-
-[tools."vfox:jdx/vfox-eza"."platforms.linux-arm64"]
-url = "https://github.com/eza-community/eza/releases/download/v0.23.5/eza_aarch64-unknown-linux-gnu.tar.gz"
-
-[tools."vfox:jdx/vfox-eza"."platforms.linux-arm64-musl"]
-url = "https://github.com/eza-community/eza/releases/download/v0.23.5/eza_aarch64-unknown-linux-gnu.tar.gz"
-
-[tools."vfox:jdx/vfox-eza"."platforms.linux-x64"]
-url = "https://github.com/eza-community/eza/releases/download/v0.23.5/eza_x86_64-unknown-linux-gnu.tar.gz"
-
-[tools."vfox:jdx/vfox-eza"."platforms.linux-x64-baseline"]
-url = "https://github.com/eza-community/eza/releases/download/v0.23.5/eza_x86_64-unknown-linux-gnu.tar.gz"
-
-[tools."vfox:jdx/vfox-eza"."platforms.linux-x64-musl"]
-url = "https://github.com/eza-community/eza/releases/download/v0.23.5/eza_x86_64-unknown-linux-gnu.tar.gz"
-
-[tools."vfox:jdx/vfox-eza"."platforms.linux-x64-musl-baseline"]
-url = "https://github.com/eza-community/eza/releases/download/v0.23.5/eza_x86_64-unknown-linux-gnu.tar.gz"
-
-[tools."vfox:jdx/vfox-eza"."platforms.macos-arm64"]
-url = "https://github.com/cargo-bins/cargo-quickinstall/releases/download/eza-0.23.5/eza-0.23.5-aarch64-apple-darwin.tar.gz"
-
-[tools."vfox:jdx/vfox-eza"."platforms.macos-x64"]
-url = "https://github.com/cargo-bins/cargo-quickinstall/releases/download/eza-0.23.5/eza-0.23.5-x86_64-apple-darwin.tar.gz"
-
-[tools."vfox:jdx/vfox-eza"."platforms.macos-x64-baseline"]
-url = "https://github.com/cargo-bins/cargo-quickinstall/releases/download/eza-0.23.5/eza-0.23.5-x86_64-apple-darwin.tar.gz"
 
 [[tools.watchexec]]
 version = "2.7.3"

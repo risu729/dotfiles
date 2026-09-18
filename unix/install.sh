@@ -162,9 +162,6 @@ main() {
 	log_info "Bootstrapping packages, dotfiles, and tools with mise..."
 	trust_configs "${dotfiles_dir}"
 	mise --cd "${dotfiles_dir}" bootstrap --yes --update --force-dotfiles --locked --skip-dirty
-	# A path that moved from a directory entry to a narrower one is unlinked by the
-	# directory entry's cleanup and only comes back on the next apply.
-	mise --cd "${dotfiles_dir}" bootstrap --only dotfiles --yes --force-dotfiles
 	log_info "mise bootstrap completed."
 
 	if [[ -n ${git_ref} ]]; then

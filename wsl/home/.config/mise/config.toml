@@ -44,9 +44,9 @@ jc = "latest"
 delta = "latest"
 ripgrep = "latest"
 # The lockfile pins one backend per tool and aqua has no macOS asset for eza, so
-# macOS uses the vfox backend, which installs a prebuilt binary there.
+# macOS builds it with cargo instead.
 eza = { version = "latest", os = ["linux"] }
-"vfox:jdx/vfox-eza" = { version = "latest", os = ["macos"] }
+"cargo:eza" = { version = "latest", os = ["macos"] }
 bat = "latest"
 fd = "latest"
 atuin = "latest"
