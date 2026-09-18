@@ -102,7 +102,7 @@ jobs:
         run: docker compose --file compose.ci.yml down --volumes --remove-orphans
   test-macos:
     name: Test Installer Script on macOS
-    runs-on: macos-15
+    runs-on: macos-26
     timeout-minutes: 60
     permissions:
       contents: read # for checkout
