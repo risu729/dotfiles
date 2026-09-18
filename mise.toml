@@ -93,7 +93,7 @@ echo "deb [signed-by=/etc/apt/keyrings/cloudflare-main.gpg] https://pkg.cloudfla
 {% endif %}
 {% if os() == "macos" %}
 # The package plan evaluates every cask, and a cask from a third-party tap
-# needs a Ruby 3 on PATH, so pour Ruby before the plan that includes Orca.
+# needs Ruby 3 or newer on PATH, so pour Ruby before the plan that includes Orca.
 mise bootstrap packages apply brew:ruby --yes
 {% endif %}
 '''
@@ -305,7 +305,7 @@ automatic_spelling_correction = false
 # A current git instead of the one bundled with the Xcode Command Line Tools.
 "brew:git" = { os = "macos" }
 # mise evaluates the Ruby definition of a cask from a third-party tap, such as
-# Orca below, with a Ruby 3 on PATH; macOS ships Ruby 2.6.
+# Orca below, with Ruby 3 or newer on PATH; macOS ships Ruby 2.6.
 "brew:ruby" = { os = "macos" }
 # `adopt` takes over a copy that was already installed by hand.
 "brew-cask:claude" = { os = "macos", adopt = true }
