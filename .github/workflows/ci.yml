@@ -141,7 +141,8 @@ jobs:
           # shared
           test -L "${HOME}/.config/mise/config.toml" -a -e "${HOME}/.config/mise/config.toml"
           test -L "${HOME}/.config/git/config" -a -e "${HOME}/.config/git/config"
-          grep --quiet 'mise activate zsh' "${HOME}/.zshrc"
+          grep --quiet '^source .*/\.config/zsh/zshrc"$' "${HOME}/.zshrc"
+          test -L "${HOME}/.config/zsh/zshrc" -a -e "${HOME}/.config/zsh/zshrc"
           # personal
           grep --quiet '^env = \["personal"\]$' "${HOME}/.config/mise/miserc.toml"
           test -L "${HOME}/.ssh/config" -a -e "${HOME}/.ssh/config"
@@ -160,6 +161,8 @@ jobs:
           mise which kubectl
           mise which glab
           zsh -ic 'eza --version && btop --version && glab --version'
+          # completion is initialized and tool completions are registered
+          zsh -ic 'whence -w compdef | grep --quiet function && [[ -n ${_comps[gh]} && -n ${_comps[mise]} && -n ${_comps[ghr]} ]]'
         env:
           # use head sha for pull requests because github.sha is set to the merge commit
           GIT_COMMIT_SHA: ${{ case(github.event_name == 'pull_request', github.event.pull_request.head.sha, github.sha) }}

@@ -1,14 +1,9 @@
 # ref: https://mise.jdx.dev/configuration/environments.html#platform-environments
 #:schema https://mise.jdx.dev/schema/mise.json
 #:tombi schema.strict = false
-# Loaded on macOS only. macOS keeps zsh as the login shell, so mise is activated
-# through a managed block in `~/.zshrc` instead of a linked rc file.
+# Loaded on macOS only. macOS keeps zsh as the login shell. `~/.zshrc` may hold
+# machine-local lines, so it only gets a managed block that sources the zsh
+# configuration linked into `~/.config/zsh`, which also activates mise.
 
-[bootstrap.mise_shell_activate]
-zshrc = "activate"
-
-# The mise installer puts the binary in `~/.local/bin`, which is not on the
-# default macOS `PATH`. Dotfiles apply before shell activation, so this block
-# lands above the activation block that needs it.
 [dotfiles]
-"~/.zshrc/local-bin" = { block = 'export PATH="${HOME}/.local/bin:${PATH}"' }
+"~/.zshrc/config" = { block = 'source "${HOME}/.config/zsh/zshrc"' }
