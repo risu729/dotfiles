@@ -41,13 +41,17 @@ install_mise_linux() {
 }
 
 install_mise_macos() {
-	# git is provided by the Xcode Command Line Tools
+	# git and the C toolchain are provided by the Xcode Command Line Tools
 	if ! xcode-select -p >/dev/null 2>&1; then
 		log_info "Installing Xcode Command Line Tools..."
 		# Fails when the installation dialog is already open
 		xcode-select --install || true
-		log_error "Finish the installation dialog, then run this script again."
-		exit 1
+		log_info "Accept the installation dialog. Waiting for it to finish..."
+		log_info "Without a dialog, install the Command Line Tools entry of \`softwareupdate --list\` in another terminal."
+		until xcode-select -p >/dev/null 2>&1; do
+			sleep 5
+		done
+		log_info "Xcode Command Line Tools installed."
 	fi
 
 	# The installer puts mise here, which is not on the default macOS PATH. mise
