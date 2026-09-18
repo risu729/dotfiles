@@ -1,0 +1,30 @@
+# ref: https://mise.jdx.dev/configuration/environments.html
+#:schema https://mise.jdx.dev/schema/mise.json
+#:tombi schema.strict = false
+# Loaded with `-E personal` only. mise merges configuration additively, so the
+# base `mise.toml` holds what is safe on any machine and this file adds the rest.
+
+[bootstrap.linux.systemd.units.cloudflared]
+description = "Cloudflare Tunnel client"
+after = ["network-online.target"]
+wants = ["network-online.target"]
+exec_start = "/usr/bin/cloudflared tunnel --no-autoupdate run --token-file %h/.config/cloudflared/tunnel-token"
+restart = "on-failure"
+restart_sec = "5s"
+
+[bootstrap.packages]
+# The APT repository is added by the personal part of the pre-packages hook.
+"apt:cloudflared" = "latest"
+
+[bootstrap.repos]
+"~/.ghr/github.com/risu729/aqua" = { url = "https://github.com/risu729/aqua.git" }
+"~/.ghr/github.com/risu729/aqua-registry" = { url = "https://github.com/risu729/aqua-registry.git" }
+"~/.ghr/github.com/risu729/biwa" = { url = "https://github.com/risu729/biwa.git" }
+"~/.ghr/github.com/risu729/hk" = { url = "https://github.com/risu729/hk.git" }
+"~/.ghr/github.com/risu729/hk-config" = { url = "https://github.com/risu729/hk-config.git" }
+"~/.ghr/github.com/risu729/kuebiko" = { url = "https://github.com/risu729/kuebiko.git" }
+"~/.ghr/github.com/risu729/mikoto" = { url = "https://github.com/risu729/mikoto.git" }
+"~/.ghr/github.com/risu729/mise" = { url = "https://github.com/risu729/mise.git" }
+"~/.ghr/github.com/risu729/mise-action" = { url = "https://github.com/risu729/mise-action.git" }
+"~/.ghr/github.com/risu729/renovate-config" = { url = "https://github.com/risu729/renovate-config.git" }
+"~/.ghr/github.com/risu729/tsconfigs" = { url = "https://github.com/risu729/tsconfigs.git" }

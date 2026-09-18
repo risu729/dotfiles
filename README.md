@@ -1,7 +1,6 @@
 # 🐿 Risu's Dotfiles
 
-Personal configuration for my Windows and WSL development environments, plus
-macOS preferences.
+Personal configuration for my Windows, WSL, and macOS development environments.
 
 ## ⭐ Description
 
@@ -11,7 +10,24 @@ These dotfiles are used to configure my environment, mainly Windows 11 and WSL2
 Since I use WSL2 as my main development environment, I only install GUI
 applications on Windows, such as browsers, IDEs, etc.
 
-On macOS, only system preferences and a few desktop apps are managed.
+On macOS, the same `mise bootstrap` applies the shared dotfiles and tools,
+system preferences, and a few desktop apps, and keeps zsh as the login shell.
+
+Everything is split along two axes:
+
+- **Platform.** Linux-only and macOS-only configuration lives in
+  `mise.linux.toml` and `mise.macos.toml`, which `auto_env` in `.miserc.toml`
+  loads automatically. `.miserc.toml` is only found from inside the repository,
+  so the installer sets `MISE_AUTO_ENV=true` as well. Bootstrap hooks are
+  templates that skip Linux-only steps elsewhere, and dotfile entries carry `os`
+  variants.
+- **Profile.** A plain bootstrap installs only what is safe on any machine,
+  including a work one. `-E personal` adds `mise.personal.toml`, the global
+  `config.personal.toml`, and the dotfile entries marked
+  `profile = "personal"`: SSH hosts, the Git identity and commit signing, and
+  personal repositories and tools. The rendered `~/.config/mise/miserc.toml`
+  remembers the profile for later runs. To drop back, delete the `env` line
+  there and bootstrap again; links that `personal` created may remain.
 
 Cloudflare Tunnel is installed in WSL and configured as a systemd user
 service. The service retries until a remotely-managed tunnel token is stored
@@ -22,29 +38,33 @@ Cloudflare private-network route to SSH.
 ## 🧭 Repository Structure
 
 This repository is organized around the two installer entry points:
-`win/install.ps1` for Windows and `wsl/install.sh` for WSL2. macOS has no
-installer; its configuration lives in the root `mise.toml`.
+`win/install.ps1` for Windows and `unix/install.sh`, which WSL2 and macOS
+share.
 
 - `win/` contains the Windows setup script, `winget` package list, PowerToys
   settings backup, and Windows application configuration files.
 
-- `wsl/` contains the WSL launcher and the files installed into the WSL
-  environment by `mise bootstrap`.
-  - `wsl/home/` mirrors the target home directory. Mise links these files into
-    `$HOME`, except for Codex skills, which are copied because Codex does not
-    discover symlinked skill files.
-  - Mise declaratively installs `wsl/codex/config.toml` as system-level Codex
-    defaults at `/etc/codex/config.toml`, leaving the mutable user configuration
-    untracked.
+- `unix/` contains the installer for WSL2 and macOS. It installs mise for the
+  operating system it runs on, clones this repository, and runs
+  `mise bootstrap`.
+
+- `wsl/` contains the files installed by `mise bootstrap`.
+  - `wsl/home/` mirrors the target home directory and is shared with macOS.
+    Mise links these files into `$HOME`, except for Codex skills, which are
+    copied because Codex does not discover symlinked skill files.
+  - On Linux, mise declaratively installs `wsl/codex/config.toml` as
+    system-level Codex defaults at `/etc/codex/config.toml`, leaving the mutable
+    user configuration untracked.
   - `wsl/setup-git.ts` performs interactive GitHub authentication after the
-    base WSL environment is ready. Git identity, SSH signing, and `ghr`
-    defaults live in `wsl/home/.config/git/config` and
-    `wsl/home/.ghr/ghr.toml`.
+    bootstrap, on WSL and macOS. Shared Git settings live in
+    `wsl/home/.config/git/config`. The identity and SSH signing are in
+    `personal.gitconfig` next to it, which is linked for the personal profile
+    only. `ghr` defaults live in `wsl/home/.ghr/ghr.toml`.
 
 - `worker/` is a Cloudflare Worker for `dot.risunosu.com`. It redirects the root
-  route to this README and serves the `/win` and `/wsl` installer routes by
-  fetching the matching scripts from GitHub and injecting the requested Git ref
-  and script origin.
+  route to this README and serves the `/win`, `/wsl`, and `/mac` installer
+  routes by fetching the matching scripts from GitHub and injecting the
+  requested Git ref, profile, and script origin.
 
 - `docker/` and `compose.ci.yml` define the Ubuntu WSL-like test environment
   used by CI to exercise the WSL installer.
@@ -99,7 +119,7 @@ However, if you want to install dotfiles to WSL2 only—such as when you reset
 WSL2—you can run the following command in bash:
 
 ```bash
-bash -i <(curl -fsSL https://dot.risunosu.com/wsl)
+bash -i <(curl -fsSL "https://dot.risunosu.com/wsl?profile=personal")
 ```
 
 > \[!IMPORTANT]
@@ -116,36 +136,48 @@ bash -i <(curl -fsSL https://dot.risunosu.com/wsl)
 
 ### 🍎 macOS
 
-Only system preferences and a few desktop apps are managed on macOS, through
-the `[bootstrap.macos.*]` sections and the `brew-cask:` packages of
-`mise.toml`. With [mise](https://mise.jdx.dev/) installed, clone this repository
-and run:
+Run the following command in a terminal. It installs mise when it is missing,
+clones this repository, and runs `mise bootstrap`:
 
 ```bash
-mise trust
-# Screenshots fall back to the Desktop unless the configured directory exists.
-mkdir -p ~/Pictures/Screenshots
-mise bootstrap macos defaults status
-mise bootstrap macos defaults apply
-killall Finder Dock SystemUIServer
-# Mise installs casks itself, so Homebrew is not required. The first run asks
-# for sudo to create `/opt/homebrew`.
-mise bootstrap packages apply --manager brew-cask
+bash <(curl -fsSL https://dot.risunosu.com/mac)
 ```
+
+This installs the shared profile, which is safe on a work machine. On my own
+Mac, add the personal profile:
+
+```bash
+bash <(curl -fsSL "https://dot.risunosu.com/mac?profile=personal")
+```
+
+The profile is stored in `~/.config/mise/miserc.toml`, so it only has to be
+given once. Running `unix/install.sh` from a clone takes it from
+`DOTFILES_PROFILE` instead. `/wsl` takes the same query, and the Windows
+installer always passes `profile=personal` to it.
 
 > \[!WARNING]
 >
-> Do **not** run a full `mise bootstrap` on macOS. Everything else targets WSL,
-> such as hooks that edit `/etc/sudoers.d` and dotfiles that link `wsl/home/`
-> into `$HOME`, and it is not written to run on a Mac.
+> `--force-dotfiles` replaces existing files such as `~/.claude/settings.json`,
+> `~/.config/mise/config.toml`, and `~/.config/gh/config.yml`. Back them up
+> first, or preview the run from a clone with `mise bootstrap --dry-run`.
+
+The first run asks for sudo to create `/opt/homebrew`; mise installs Homebrew
+packages itself, so Homebrew is not required. Screenshots fall back to the
+Desktop unless `~/Pictures/Screenshots` exists.
 
 Log out and back in for the keyboard, mouse, and scrolling preferences to take
 effect, and relaunch applications to pick up the text input ones.
 
+Machine-local secrets, such as telemetry credentials for Claude Code on a work
+machine, do not belong in this repository. Claude Code merges `env` per variable
+across its settings layers, so put them in
+`/Library/Application Support/ClaudeCode/managed-settings.d/*.json` instead of
+the managed `~/.claude/settings.json`.
+
 ### UNSW CSE GitLab
 
-Mise installs `glab`, but authentication with the CSE GitLab instance is
-manual. Run:
+The personal profile installs `glab`, but authentication with the CSE GitLab
+instance is manual. Run:
 
 ```bash
 glab auth login \

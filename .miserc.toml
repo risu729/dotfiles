@@ -1,0 +1,4 @@
+# ref: https://mise.jdx.dev/configuration/environments.html#platform-environments
+# Load `mise.linux.toml` and `mise.macos.toml` automatically. This is an
+# early-init setting, so it cannot be set in `mise.toml`.
+auto_env = true

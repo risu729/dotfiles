@@ -1,0 +1,11 @@
+# ref: https://mise.jdx.dev/configuration/environments.html#platform-environments
+#:schema https://mise.jdx.dev/schema/mise.json
+# Loaded on Linux only, through `auto_env` in `miserc.toml`.
+
+[env]
+# Translate WSL file paths before opening them with the Windows default app.
+BROWSER = "wsl-open"
+
+[shell_alias]
+clip = "clip.exe"
+aptup = "sudo apt update && sudo apt upgrade -y"

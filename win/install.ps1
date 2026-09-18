@@ -399,10 +399,14 @@ function Invoke-WslSetupScript {
 
 	$wslScriptUrl = [System.UriBuilder]::new($ScriptOrigin)
 	$wslScriptUrl.Path = '/wsl'
+	# Windows is only set up on my own machines, so WSL gets the personal profile.
+	$query = 'profile=personal'
 	if ($GitRef -ne '') {
-		$wslScriptUrl.Query = "ref=$GitRef"
+		$query += "&ref=$([uri]::EscapeDataString($GitRef))"
 	}
-	Invoke-WSLCommand -Command "bash <(curl -fsSL $($wslScriptUrl.ToString()))"
+	$wslScriptUrl.Query = $query
+	# Quote the URL because an unquoted `&` would end the curl command in bash.
+	Invoke-WSLCommand -Command "bash <(curl -fsSL '$($wslScriptUrl.ToString())')"
 }
 
 <#

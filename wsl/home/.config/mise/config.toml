@@ -1,13 +1,11 @@
 # ref: https://mise.jdx.dev/configuration.html#global-config-config-mise-config-toml
 #:schema https://mise.jdx.dev/schema/mise.json
+# Tools and settings that are safe on any machine. `config.personal.toml` adds
+# the personal ones under `-E personal`, and `config.linux.toml` the Linux ones.
 
 [env]
-# mise manages the installed Copilot CLI version.
-COPILOT_AUTO_UPDATE = "false"
 # disable bat paging
 BAT_PAGING = "never"
-# Translate WSL file paths before opening them with the Windows default app.
-BROWSER = "wsl-open"
 # colored GCC warnings and errors
 GCC_COLORS = "error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01"
 _.path = ["~/.local/bin"]
@@ -39,21 +37,22 @@ watchexec = "latest"
 jq = "latest"
 yq = "latest"
 github-cli = "latest"
-glab = "latest"
 "github:seachicken/gh-poi" = { version = "latest", bin = "gh-poi" }
 "aqua:siketyan/ghr" = { version = "latest", prerelease = true }
 fzf = "latest"
-bitwarden = "latest"
-"aqua:mame/wsl2-ssh-agent" = "latest"
 jc = "latest"
 delta = "latest"
 ripgrep = "latest"
-eza = "latest"
+# The lockfile pins one backend per tool and aqua has no macOS asset for eza, so
+# macOS builds it with cargo instead.
+eza = { version = "latest", os = ["linux"] }
+"cargo:eza" = { version = "latest", os = ["macos"] }
 bat = "latest"
 fd = "latest"
 atuin = "latest"
 zoxide = "latest"
-btop = "latest"
+# No macOS release; installed there as `brew:btop` by the dotfiles bootstrap.
+btop = { version = "latest", os = ["linux"] }
 xh = "latest"
 jd = "latest"
 sd = "latest"
@@ -63,7 +62,11 @@ kubectx = "latest"
 kubeseal = "latest"
 mitmproxy = "latest"
 doggo = "latest"
+# The boot service below is systemd-only and runs as my user. The script is a
+# template, and MISE_ENV is not exported to it, so the profile is checked here.
 pitchfork = { version = "latest", postinstall = """
+[ "$(uname -s)" = Linux ] || exit 0
+{% if mise_env is defined and "personal" in mise_env %}
 src="$(dirname "$(readlink -f ~/.config/mise/config.toml)")/../../../systemd/pitchfork-nonroot.conf"
 sudo install -D -m644 "$src" /etc/systemd/system/pitchfork.service.d/nonroot.conf
 sudo "$MISE_TOOL_INSTALL_PATH/pitchfork" boot disable
@@ -71,27 +74,17 @@ sudo "$MISE_TOOL_INSTALL_PATH/pitchfork" boot enable
 if [ -d /run/systemd/system ]; then
   sudo systemctl restart pitchfork.service
 fi
+{% endif %}
 """ }
 miller = "latest"
 glow = "latest"
-"github:risu729/kuebiko" = { version = "latest", minimum_release_age = "0s" }
-"github:risu729/biwa" = { version = "latest", minimum_release_age = "0s" }
-"github:risu729/mikoto" = { version = "latest", minimum_release_age = "0s" }
 "pipx:markitdown" = { version = "latest", extras = "pdf,docx,pptx,xlsx" }
-# resend dropped npm provenance from 6.18.1 onward while its release automation is
-# reworked, which trips aube's no-downgrade trust policy.
-# ref: https://github.com/resend/resend-node/issues/1061
-"npm:resend-cli" = { version = "latest", allow_builds = ["esbuild"], trust_policy_excludes = [
-	"resend@>=6.18.1",
-] }
 
 # ai agents
 entire = "latest"
 codex = { version = "latest", minimum_release_age = "0s" }
 "npm:ccusage" = "latest"
 claude = { version = "latest", minimum_release_age = "0s" }
-cursor-agent = { version = "latest", minimum_release_age = "0s" }
-copilot = "latest"
 hunk = "latest"
 herdr = "latest"
 
@@ -114,16 +107,14 @@ lychee = "latest"
 typos = "latest"
 hadolint = "latest"
 
-# uni tools
+# calculator
 numbat = "latest"
-typst = "latest"
 
 # mise development
 aqua = "latest"
 pipx = "latest"
 # Global RUSTC_WRAPPER must stay unset; mbx defers to an existing wrapper and skips caching.
 mr-boxington = "latest"
-gcloud = "latest"
 
 [settings]
 experimental = true
@@ -140,15 +131,6 @@ compile = false
 [task_config]
 includes = [".config/mise/tasks"]
 
-# Cursor Agent self-updates into ~/.local/share/cursor-agent and relinks
-# ~/.local/bin/{agent,cursor-agent}, which would shadow the mise-managed install.
-# --disable-auto-update is a hidden global flag. `agent` mirrors the official
-# installer's short name; a wrapper cannot delegate to itself, so bare
-# `cursor-agent` still self-updates.
-[wrappers.agent]
-command = "cursor-agent"
-args = ["--disable-auto-update"]
-
 # Route plain `cargo` through the mbx build cache everywhere. This is what
 # `mbx setup --global` writes. The `mr_boxington` Rust tool option is not used
 # because a project's own `rust` entry replaces the global one, dropping the
@@ -158,10 +140,8 @@ command = "mbx"
 env = { MBX_CARGO_SHIM_MODE = "1" }
 
 [shell_alias]
-clip = "clip.exe"
 m = "mise"
 mx = "mise x"
 l = "eza --all --long --git"
 k = "kubecolor"
-aptup = "sudo apt update && sudo apt upgrade -y"
 cux = "ccusage codex"

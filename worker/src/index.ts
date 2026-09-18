@@ -4,7 +4,21 @@ import { poweredBy } from "hono/powered-by";
 
 /* oxlint-disable eslint/max-lines-per-function eslint/max-statements jest/require-hook */
 
-type Os = "win" | "wsl";
+type Os = "mac" | "win" | "wsl";
+
+// WSL and macOS share one installer, which branches on the operating system
+const scriptPaths = {
+	mac: "unix/install.sh",
+	win: "win/install.ps1",
+	wsl: "unix/install.sh",
+} as const satisfies Record<Os, string>;
+
+// Both values are substituted into the script and must not break out of it.
+// Refs are limited to branch names, tags, and commit hashes.
+// Git forbids empty, `.`, and `..` path components.
+// A `..` would also escape the repository path in the raw GitHub URL.
+const refRegex = /^(?!.*(?:^|\/)\.\.?(?:\/|$))[\w./-]+$/u;
+const profiles = ["personal"];
 
 const app: Hono = new Hono();
 const repoName = "risu729/dotfiles";
@@ -17,17 +31,24 @@ app.get("/", ({ redirect }) => redirect(`https://github.com/${repoName}#readme`,
 const shebangRegex = /^#!.*\n+/u;
 
 // Redirect to the installer script
-app.get("/:os{win|wsl}", async ({ req, text }) => {
+app.get("/:os{mac|win|wsl}", async ({ req, text }) => {
 	const os = req.param("os");
 	const ref = req.query("ref");
-	if (os !== "win" && os !== "wsl") {
+	const profile = req.query("profile");
+	if (os !== "mac" && os !== "win" && os !== "wsl") {
 		// Other paths must not be reached
 		throw new HTTPException(500, { message: "routing error" });
+	}
+	if (ref !== undefined && !refRegex.test(ref)) {
+		throw new HTTPException(400, { message: "invalid ref" });
+	}
+	if (profile !== undefined && !profiles.includes(profile)) {
+		throw new HTTPException(400, { message: `unknown profile: ${profile}` });
 	}
 
 	const scriptUrl = `https://raw.githubusercontent.com/${repoName}/${
 		ref ?? import.meta.env.DEFAULT_BRANCH
-	}/${os}/install.${os === "win" ? "ps1" : "sh"}`;
+	}/${scriptPaths[os]}`;
 	// Do not cache the installer script to always fetch the latest version
 	const githubResponse = await fetch(scriptUrl, {
 		headers: {
@@ -49,8 +70,14 @@ app.get("/:os{win|wsl}", async ({ req, text }) => {
 	const variables = [
 		{
 			name: "git_ref",
-			os: ["win", "wsl"],
+			os: ["mac", "win", "wsl"],
 			value: ref ?? "",
+		},
+		{
+			name: "profile",
+			// The Windows installer always requests the personal profile for WSL itself
+			os: ["mac", "wsl"],
+			value: profile ?? "",
 		},
 		{
 			name: "script_origin",
@@ -68,7 +95,7 @@ app.get("/:os{win|wsl}", async ({ req, text }) => {
 		if (!osList.includes(os)) {
 			continue;
 		}
-		// Use camel case for Windows and snake case for WSL
+		// Use camel case for Windows and snake case for the shell script
 		const nameInOs =
 			os === "win"
 				? name.replaceAll(/_(?<char>[a-z])/gu, (...args) => {
@@ -82,7 +109,8 @@ app.get("/:os{win|wsl}", async ({ req, text }) => {
 				message: `installer script does not contain a ${nameInOs} variable`,
 			});
 		}
-		script = script.replace(regex, value);
+		// Use a function so that `$` patterns in the value are not interpreted
+		script = script.replace(regex, () => value);
 	}
 
 	const shebang = script.match(shebangRegex)?.[0] ?? "";

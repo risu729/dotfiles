@@ -1,0 +1,8 @@
+# ref: https://mise.jdx.dev/configuration/environments.html
+# Rendered by `mise bootstrap` into `~/.config/mise/miserc.toml`.
+# Load `config.linux.toml` and `config.macos.toml` automatically.
+auto_env = true
+{%- if mise_env is defined and "personal" in mise_env %}
+# Keep the profile this machine was bootstrapped with.
+env = ["personal"]
+{%- endif %}

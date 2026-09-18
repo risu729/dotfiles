@@ -100,6 +100,66 @@ jobs:
       - name: Clean up Docker Compose
         if: ${{ always() }}
         run: docker compose --file compose.ci.yml down --volumes --remove-orphans
+  test-macos:
+    name: Test Installer Script on macOS
+    runs-on: macos-15
+    timeout-minutes: 60
+    permissions:
+      contents: read # for checkout
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      # The worker is covered by the WSL job, so set the ref the way it does.
+      # The personal profile is a superset of the shared one.
+      - name: Run installer
+        run: |
+          sed "s/^git_ref=\"\"$/git_ref=\"${GIT_COMMIT_SHA}\"/" unix/install.sh > "${RUNNER_TEMP}/install.sh"
+          grep --quiet "^git_ref=\"${GIT_COMMIT_SHA}\"$" "${RUNNER_TEMP}/install.sh"
+          # Users run the installer from their home directory, where this
+          # repository's `.miserc.toml` is not discovered.
+          cd "${HOME}"
+          bash "${RUNNER_TEMP}/install.sh"
+        env:
+          DOTFILES_PROFILE: personal
+          GITHUB_TOKEN: ${{ github.token }}
+          __CI: true
+          # use head sha for pull requests because github.sha is set to the merge commit
+          GIT_COMMIT_SHA: ${{ case(github.event_name == 'pull_request', github.event.pull_request.head.sha, github.sha) }}
+          MISE_LOG_LEVEL: ${{ case(runner.debug == '1', 'debug', 'info') }}
+      # `mise dot status` counts excluded files and other platforms' entries as
+      # missing, so assert the expected paths directly.
+      - name: Verify the result
+        run: |
+          export PATH="${HOME}/.local/bin:${PATH}"
+          cd "${HOME}/.ghr/github.com/risu729/dotfiles"
+          # The installer returns to the default branch, and the dotfiles are
+          # symlinks into this worktree, so check out the tested commit again.
+          git checkout --quiet --detach "${GIT_COMMIT_SHA}"
+          mise bootstrap macos defaults status --missing
+          # shared
+          test -L "${HOME}/.config/mise/config.toml" -a -e "${HOME}/.config/mise/config.toml"
+          test -L "${HOME}/.config/git/config" -a -e "${HOME}/.config/git/config"
+          grep --quiet 'mise activate zsh' "${HOME}/.zshrc"
+          # personal
+          grep --quiet '^env = \["personal"\]$' "${HOME}/.config/mise/miserc.toml"
+          test -L "${HOME}/.ssh/config" -a -e "${HOME}/.ssh/config"
+          test -L "${HOME}/.config/git/personal.gitconfig" -a -e "${HOME}/.config/git/personal.gitconfig"
+          # Linux-only
+          test ! -L "${HOME}/.bashrc"
+          test ! -e "${HOME}/.config/mimeapps.list"
+          test ! -e "${HOME}/.config/pitchfork"
+          test ! -e "${HOME}/.local/bin/wsl-open"
+          # mise-managed tools resolve, including the macOS-specific eza backend and a
+          # personal tool, and a fresh interactive shell finds them and brew's btop
+          mise which eza
+          mise which kubectl
+          mise which glab
+          zsh -ic 'eza --version && btop --version && glab --version'
+        env:
+          # use head sha for pull requests because github.sha is set to the merge commit
+          GIT_COMMIT_SHA: ${{ case(github.event_name == 'pull_request', github.event.pull_request.head.sha, github.sha) }}
   test-worker:
     name: Cloudflare Worker
     runs-on: ubuntu-24.04
@@ -141,6 +201,7 @@ jobs:
     needs:
       - lint
       - test-linux
+      - test-macos
       - test-worker
     if: ${{ !cancelled() && (contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled')) }}
     runs-on: ubuntu-24.04
