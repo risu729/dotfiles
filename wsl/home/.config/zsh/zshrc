@@ -2,9 +2,26 @@
 # a single block so that machine-local lines there survive. The zsh counterpart
 # of ~/.bashrc, for macOS.
 
+# Keep PATH and fpath free of duplicates when this file is sourced again
+typeset -U path fpath
+
 # The mise installer puts mise in ~/.local/bin, and mise pours Homebrew formulae
 # into /opt/homebrew; neither is on the default macOS PATH.
 export PATH="${HOME}/.local/bin:/opt/homebrew/bin:${PATH}"
+
+# Completion. mise links the completions of poured formulae and installed casks
+# into the Homebrew prefix, like Homebrew itself. This runs before mise is
+# activated because activation runs compinit itself when compdef is missing,
+# with the default dump file instead of the one below.
+if [[ -o interactive ]]; then
+	fpath=(/opt/homebrew/share/zsh/site-functions "${fpath[@]}")
+	autoload -Uz compinit bashcompinit
+	mkdir -p "${XDG_CACHE_HOME:-${HOME}/.cache}/zsh"
+	compinit -d "${XDG_CACHE_HOME:-${HOME}/.cache}/zsh/zcompdump"
+	bashcompinit
+	zstyle ':completion:*' menu select
+	zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
+fi
 
 # Activate mise. This also defines the shell aliases from the global config.
 if command -v mise >/dev/null 2>&1; then
@@ -12,23 +29,19 @@ if command -v mise >/dev/null 2>&1; then
 fi
 
 # If not running interactively, skip other steps
-[[ -o interactive ]] || return
+[[ -o interactive ]] || return 0
+
+# VS Code resolves the shell environment with an interactive shell
+# ref: https://code.visualstudio.com/docs/editor/command-line#_how-do-i-detect-when-a-shell-was-launched-by-vs-code
+if [[ ${VSCODE_RESOLVING_ENVIRONMENT:-} == 1 ]]; then
+	return 0
+fi
 
 # History
 HISTFILE="${HOME}/.zsh_history"
 HISTSIZE=10000
 SAVEHIST=10000
 setopt HIST_IGNORE_ALL_DUPS HIST_IGNORE_SPACE HIST_REDUCE_BLANKS SHARE_HISTORY
-
-# Completion. mise links the completions of poured formulae and installed casks
-# into the Homebrew prefix, like Homebrew itself.
-fpath=(/opt/homebrew/share/zsh/site-functions "${fpath[@]}")
-autoload -Uz compinit bashcompinit
-mkdir -p "${XDG_CACHE_HOME:-${HOME}/.cache}/zsh"
-compinit -d "${XDG_CACHE_HOME:-${HOME}/.cache}/zsh/zcompdump"
-bashcompinit
-zstyle ':completion:*' menu select
-zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
 
 # Tools that generate their own zsh completion. Each script registers itself
 # with compdef, so they run after compinit.
@@ -67,6 +80,11 @@ fi
 # Set GITHUB_TOKEN to avoid rate limit while using mise
 # Use __CI instead of CI to be able to test CI locally
 if [[ -z ${__CI:-} ]] && command -v gh >/dev/null 2>&1; then
-	GITHUB_TOKEN=$(gh auth token 2>/dev/null)
-	export GITHUB_TOKEN
+	github_token=$(gh auth token 2>/dev/null)
+	# An empty GITHUB_TOKEN in the environment would still make gh ignore its
+	# keyring accounts
+	if [[ -n ${github_token} ]]; then
+		export GITHUB_TOKEN="${github_token}"
+	fi
+	unset github_token
 fi
