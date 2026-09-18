@@ -1,0 +1,72 @@
+# ~/.config/zsh/zshrc: sourced from ~/.zshrc, which mise bootstrap manages with
+# a single block so that machine-local lines there survive. The zsh counterpart
+# of ~/.bashrc, for macOS.
+
+# The mise installer puts mise in ~/.local/bin, and mise pours Homebrew formulae
+# into /opt/homebrew; neither is on the default macOS PATH.
+export PATH="${HOME}/.local/bin:/opt/homebrew/bin:${PATH}"
+
+# Activate mise. This also defines the shell aliases from the global config.
+if command -v mise >/dev/null 2>&1; then
+	eval "$(mise activate zsh)"
+fi
+
+# If not running interactively, skip other steps
+[[ -o interactive ]] || return
+
+# History
+HISTFILE="${HOME}/.zsh_history"
+HISTSIZE=10000
+SAVEHIST=10000
+setopt HIST_IGNORE_ALL_DUPS HIST_IGNORE_SPACE HIST_REDUCE_BLANKS SHARE_HISTORY
+
+# Completion. mise links the completions of poured formulae and installed casks
+# into the Homebrew prefix, like Homebrew itself.
+fpath=(/opt/homebrew/share/zsh/site-functions "${fpath[@]}")
+autoload -Uz compinit bashcompinit
+mkdir -p "${XDG_CACHE_HOME:-${HOME}/.cache}/zsh"
+compinit -d "${XDG_CACHE_HOME:-${HOME}/.cache}/zsh/zcompdump"
+bashcompinit
+zstyle ':completion:*' menu select
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
+
+# Tools that generate their own zsh completion. Each script registers itself
+# with compdef, so they run after compinit.
+if command -v mise >/dev/null 2>&1; then
+	eval "$(mise completion zsh)"
+fi
+if command -v gh >/dev/null 2>&1; then
+	eval "$(gh completion --shell zsh)"
+fi
+# ref: https://kubernetes.io/docs/reference/kubectl/generated/kubectl_completion/
+if command -v kubectl >/dev/null 2>&1; then
+	eval "$(kubectl completion zsh)"
+fi
+# kubecolor shares kubectl's completion. The `k` alias expands to kubecolor
+# before completion.
+# ref: https://kubecolor.github.io/setup/shells/zsh/
+if command -v kubectl >/dev/null 2>&1 && command -v kubecolor >/dev/null 2>&1; then
+	compdef kubecolor=kubectl
+fi
+# ref: https://mikefarah.gitbook.io/yq/v/v4.x/commands/shell-completion
+if command -v yq >/dev/null 2>&1; then
+	eval "$(yq shell-completion zsh)"
+fi
+# ref: https://hk.jdx.dev/cli/completion.html
+if command -v hk >/dev/null 2>&1; then
+	eval "$(hk completion zsh)"
+fi
+if command -v pitchfork >/dev/null 2>&1; then
+	eval "$(pitchfork completion zsh)"
+fi
+# ghr only generates bash completion, which zsh loads through bashcompinit.
+if command -v ghr >/dev/null 2>&1; then
+	eval "$(ghr shell bash --completion)"
+fi
+
+# Set GITHUB_TOKEN to avoid rate limit while using mise
+# Use __CI instead of CI to be able to test CI locally
+if [[ -z ${__CI:-} ]] && command -v gh >/dev/null 2>&1; then
+	GITHUB_TOKEN=$(gh auth token 2>/dev/null)
+	export GITHUB_TOKEN
+fi

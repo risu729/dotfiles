@@ -12,6 +12,8 @@ applications on Windows, such as browsers, IDEs, etc.
 
 On macOS, the same `mise bootstrap` applies the shared dotfiles and tools,
 system preferences, and a few desktop apps, and keeps zsh as the login shell.
+`~/.zshrc` only gets a managed block that sources `~/.config/zsh/zshrc`, the zsh
+counterpart of `.bashrc`, so machine-local lines in `~/.zshrc` survive.
 
 Everything is split along two axes:
 
