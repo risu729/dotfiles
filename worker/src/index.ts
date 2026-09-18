@@ -14,9 +14,10 @@ const scriptPaths = {
 } as const satisfies Record<Os, string>;
 
 // Both values are substituted into the script and must not break out of it.
-// Refs are limited to branch names, tags, and commit hashes.
-// Profiles are limited to the known ones.
-const refRegex = /^[\w./-]+$/u;
+// Refs are limited to branch names, tags, and commit hashes. Git forbids empty,
+// `.`, and `..` path components, and `..` would also escape the repository in
+// the raw GitHub URL.
+const refRegex = /^(?!.*(?:^|\/)\.\.?(?:\/|$))[\w./-]+$/u;
 const profiles = ["personal"];
 
 const app: Hono = new Hono();

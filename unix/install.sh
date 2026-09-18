@@ -52,11 +52,9 @@ install_mise_macos() {
 
 	# The installer puts mise here, which is not on the default macOS PATH.
 	export PATH="${HOME}/.local/bin:${PATH}"
-	if command -v mise >/dev/null 2>&1; then
-		log_info "mise is already installed."
-		return
-	fi
 
+	# The installer also upgrades an existing mise, like apt does on Linux, so
+	# that `min_version` in mise.toml is met.
 	log_info "Installing mise..."
 	# ref: https://mise.jdx.dev/installing-mise.html
 	curl --fail --silent --show-error --location https://mise.run | sh

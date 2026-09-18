@@ -112,6 +112,13 @@ describe("worker", () => {
 			expect(response.status).toBe(400);
 		});
 
+		it.each(["/mac", "/win", "/wsl"])("return 400 for a traversing ref on %s", async (path) => {
+			const response = await SELF.fetch(
+				`https://dot.risunosu.com${path}?ref=..%2F..%2Fjdx%2Fmise%2Fmain`,
+			);
+			expect(response.status).toBe(400);
+		});
+
 		it.each(["/mac", "/win", "/wsl"])("return 400 for an unknown profile on %s", async (path) => {
 			const response = await SELF.fetch(`https://dot.risunosu.com${path}?profile=%22%3Bid%3B%22`);
 			expect(response.status).toBe(400);

@@ -17,7 +17,8 @@ Everything is split along two axes:
 
 - **Platform.** Linux-only and macOS-only configuration lives in
   `mise.linux.toml` and `mise.macos.toml`, which `auto_env` in `.miserc.toml`
-  loads automatically. Bootstrap hooks are templates that skip Linux-only steps
+  loads automatically. `.miserc.toml` is only found from inside the repository,
+  so the installer sets `MISE_AUTO_ENV=true` as well. Bootstrap hooks are templates that skip Linux-only steps
   elsewhere, and dotfile entries carry `os` variants.
 - **Profile.** A plain bootstrap installs only what is safe on any machine,
   including a work one. `-E personal` adds `mise.personal.toml`, the global
