@@ -170,8 +170,8 @@ if [ -t 0 ] && [ -t 1 ]; then
 fi
 '''
 
-# macOS preferences are inert on Linux. The rest of this bootstrap is WSL-only,
-# so on a Mac apply them alone with `mise bootstrap macos defaults apply`.
+# macOS preferences. They are inert on Linux and can be applied alone with
+# `mise bootstrap macos defaults apply`.
 [bootstrap.macos.defaults.NSGlobalDomain]
 # Disable natural scrolling.
 "com.apple.swipescrolldirection" = false
@@ -293,8 +293,7 @@ automatic_spelling_correction = false
 "apt:strace" = "latest"
 "apt:xdg-utils" = "latest"
 "apt:zip" = "latest"
-# macOS desktop apps. Install them alone with
-# `mise bootstrap packages apply --manager brew-cask`; Homebrew is not required.
+# macOS packages. mise installs them itself, so Homebrew is not required.
 # btop has no macOS release in any mise backend, so `[tools]` in the global
 # config skips it there.
 "brew:btop" = { os = "macos" }
