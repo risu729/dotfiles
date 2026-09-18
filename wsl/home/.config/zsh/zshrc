@@ -2,8 +2,9 @@
 # a single block so that machine-local lines there survive. The zsh counterpart
 # of ~/.bashrc, for macOS.
 
-# Keep PATH and fpath free of duplicates when this file is sourced again
-typeset -U path fpath
+# Keep PATH, fpath, and the hook arrays free of duplicates when this file is
+# sourced again; pitchfork's activation appends to chpwd_functions blindly.
+typeset -U path fpath chpwd_functions precmd_functions
 
 # The mise installer puts mise in ~/.local/bin, and mise pours Homebrew formulae
 # into /opt/homebrew; neither is on the default macOS PATH.
