@@ -6,6 +6,9 @@
 [env]
 # disable bat paging
 BAT_PAGING = "never"
+# uv trusts only its bundled roots by default, which fails behind a TLS
+# inspecting proxy with a private CA; the system store has that CA.
+UV_SYSTEM_CERTS = "1"
 # colored GCC warnings and errors
 GCC_COLORS = "error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01"
 _.path = ["~/.local/bin"]
@@ -120,6 +123,9 @@ mr-boxington = "latest"
 experimental = true
 minimum_release_age = "3h"
 cargo.binstall_native = true
+# Prebuilt binaries from cargo-quickinstall instead of compiling, which also
+# needs no working C toolchain (a too-new Command Line Tools SDK broke linking).
+cargo.binstall_quickinstall = true
 
 [settings.npm]
 package_manager = "aube"
