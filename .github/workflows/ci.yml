@@ -151,6 +151,9 @@ jobs:
           test ! -e "${HOME}/.config/mimeapps.list"
           test ! -e "${HOME}/.config/pitchfork"
           test ! -e "${HOME}/.local/bin/wsl-open"
+          # macOS apps, including one from a third-party tap
+          test -d /Applications/Orca.app
+          test -d /Applications/Ghostty.app
           # mise-managed tools resolve, including the macOS-specific eza backend and a
           # personal tool, and a fresh interactive shell finds them and brew's btop
           mise which eza
