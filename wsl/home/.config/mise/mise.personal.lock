@@ -133,38 +133,38 @@ url = "https://github.com/github/copilot-cli/releases/download/v1.0.86/copilot-d
 url_api = "https://api.github.com/repos/github/copilot-cli/releases/assets/571325926"
 
 [[tools.cursor-agent]]
-version = "2026.09.15-d2fe57e"
+version = "2026.09.18-9a7762b"
 backend = "http:cursor-agent"
 
 [tools.cursor-agent.options]
 strip_components = "0"
 
 [tools.cursor-agent."platforms.linux-arm64"]
-url = "https://downloads.cursor.com/lab/2026.09.15-d2fe57e/linux/arm64/agent-cli-package.tar.gz"
+url = "https://downloads.cursor.com/lab/2026.09.18-9a7762b/linux/arm64/agent-cli-package.tar.gz"
 
 [tools.cursor-agent."platforms.linux-arm64-musl"]
-url = "https://downloads.cursor.com/lab/2026.09.15-d2fe57e/linux/arm64/agent-cli-package.tar.gz"
+url = "https://downloads.cursor.com/lab/2026.09.18-9a7762b/linux/arm64/agent-cli-package.tar.gz"
 
 [tools.cursor-agent."platforms.linux-x64"]
-url = "https://downloads.cursor.com/lab/2026.09.15-d2fe57e/linux/x64/agent-cli-package.tar.gz"
+url = "https://downloads.cursor.com/lab/2026.09.18-9a7762b/linux/x64/agent-cli-package.tar.gz"
 
 [tools.cursor-agent."platforms.linux-x64-baseline"]
-url = "https://downloads.cursor.com/lab/2026.09.15-d2fe57e/linux/x64/agent-cli-package.tar.gz"
+url = "https://downloads.cursor.com/lab/2026.09.18-9a7762b/linux/x64/agent-cli-package.tar.gz"
 
 [tools.cursor-agent."platforms.linux-x64-musl"]
-url = "https://downloads.cursor.com/lab/2026.09.15-d2fe57e/linux/x64/agent-cli-package.tar.gz"
+url = "https://downloads.cursor.com/lab/2026.09.18-9a7762b/linux/x64/agent-cli-package.tar.gz"
 
 [tools.cursor-agent."platforms.linux-x64-musl-baseline"]
-url = "https://downloads.cursor.com/lab/2026.09.15-d2fe57e/linux/x64/agent-cli-package.tar.gz"
+url = "https://downloads.cursor.com/lab/2026.09.18-9a7762b/linux/x64/agent-cli-package.tar.gz"
 
 [tools.cursor-agent."platforms.macos-arm64"]
-url = "https://downloads.cursor.com/lab/2026.09.15-d2fe57e/darwin/arm64/agent-cli-package.tar.gz"
+url = "https://downloads.cursor.com/lab/2026.09.18-9a7762b/darwin/arm64/agent-cli-package.tar.gz"
 
 [tools.cursor-agent."platforms.macos-x64"]
-url = "https://downloads.cursor.com/lab/2026.09.15-d2fe57e/darwin/x64/agent-cli-package.tar.gz"
+url = "https://downloads.cursor.com/lab/2026.09.18-9a7762b/darwin/x64/agent-cli-package.tar.gz"
 
 [tools.cursor-agent."platforms.macos-x64-baseline"]
-url = "https://downloads.cursor.com/lab/2026.09.15-d2fe57e/darwin/x64/agent-cli-package.tar.gz"
+url = "https://downloads.cursor.com/lab/2026.09.18-9a7762b/darwin/x64/agent-cli-package.tar.gz"
 
 [[tools.gcloud]]
 version = "585.0.0"
@@ -361,7 +361,7 @@ url = "https://gitlab.com/gitlab-org/cli/-/releases/v1.118.0/downloads/glab_1.11
 url_api = "https://gitlab.com/api/v4/projects/gitlab-org%2Fcli/packages/generic/glab/1%2E118%2E0/glab_1%2E118%2E0_darwin_amd64%2Etar%2Egz"
 
 [[tools."npm:resend-cli"]]
-version = "2.21.0"
+version = "2.21.1"
 backend = "npm:resend-cli"
 
 [tools."npm:resend-cli".options]
