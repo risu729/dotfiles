@@ -19,7 +19,7 @@ defaults:
 jobs:
   lint:
     name: Lint
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     timeout-minutes: 20
     permissions:
       contents: read # for checkout
@@ -44,7 +44,7 @@ jobs:
           GITHUB_TOKEN: ${{ github.token }}
   test-linux:
     name: Test Installer Scripts on WSL Ubuntu Image
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     timeout-minutes: 30
     permissions:
       contents: read # for checkout
@@ -168,7 +168,7 @@ jobs:
           GIT_COMMIT_SHA: ${{ case(github.event_name == 'pull_request', github.event.pull_request.head.sha, github.sha) }}
   test-worker:
     name: Cloudflare Worker
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     timeout-minutes: 10
     permissions:
       contents: read # for checkout
@@ -210,7 +210,7 @@ jobs:
       - test-macos
       - test-worker
     if: ${{ !cancelled() && (contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled')) }}
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     timeout-minutes: 5
     steps:
       - run: exit 1
@@ -219,7 +219,7 @@ jobs:
     needs:
       - ci-check
     if: ${{ !cancelled() }}
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     timeout-minutes: 5
     permissions:
       actions: read # for actions-timeline
