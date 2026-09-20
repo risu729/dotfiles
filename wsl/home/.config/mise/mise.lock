@@ -1413,43 +1413,43 @@ checksum = "sha256:ff42134c1bc5ac81c5a91a95fd4df87479db5d0499ba875d6adb5bda5626c
 url = "https://download.java.net/java/GA/jdk27/55ce5470a6294008af0057ff4626d0e5/35/GPL/openjdk-27_macos-aarch64_bin.tar.gz"
 
 [[tools.jc]]
-version = "1.25.7"
+version = "1.26.0"
 backend = "aqua:kellyjonbrazil/jc"
 
 [tools.jc."platforms.linux-arm64"]
-checksum = "sha256:f1f15f9204c19ae70d50ca9b047de86bc00a1c9941b486a15f8586790d0ea323"
-url = "https://github.com/kellyjonbrazil/jc/releases/download/v1.25.7/jc-1.25.7-linux-aarch64.tar.gz"
-url_api = "https://api.github.com/repos/kellyjonbrazil/jc/releases/assets/451430060"
+checksum = "sha256:5383ecbd3bd77aa26ceef108b1b72f9a1e3bd35484c1e653afa5424e4968ea8c"
+url = "https://github.com/kellyjonbrazil/jc/releases/download/v1.26.0/jc-1.26.0-linux-aarch64.tar.gz"
+url_api = "https://api.github.com/repos/kellyjonbrazil/jc/releases/assets/575687522"
 
 [tools.jc."platforms.linux-arm64-musl"]
-checksum = "sha256:f1f15f9204c19ae70d50ca9b047de86bc00a1c9941b486a15f8586790d0ea323"
-url = "https://github.com/kellyjonbrazil/jc/releases/download/v1.25.7/jc-1.25.7-linux-aarch64.tar.gz"
-url_api = "https://api.github.com/repos/kellyjonbrazil/jc/releases/assets/451430060"
+checksum = "sha256:5383ecbd3bd77aa26ceef108b1b72f9a1e3bd35484c1e653afa5424e4968ea8c"
+url = "https://github.com/kellyjonbrazil/jc/releases/download/v1.26.0/jc-1.26.0-linux-aarch64.tar.gz"
+url_api = "https://api.github.com/repos/kellyjonbrazil/jc/releases/assets/575687522"
 
 [tools.jc."platforms.linux-x64"]
-checksum = "sha256:5b7ab595bfbaa70f07a15136bbc3c09d6dbf65891248bf1f060ec3da29608a2c"
-url = "https://github.com/kellyjonbrazil/jc/releases/download/v1.25.7/jc-1.25.7-linux-x86_64.tar.gz"
-url_api = "https://api.github.com/repos/kellyjonbrazil/jc/releases/assets/460709238"
+checksum = "sha256:1edfbd7df40b17e12cb784373463dbfa9737a688b5392cc18592188a008af88a"
+url = "https://github.com/kellyjonbrazil/jc/releases/download/v1.26.0/jc-1.26.0-linux-x86_64.tar.gz"
+url_api = "https://api.github.com/repos/kellyjonbrazil/jc/releases/assets/575687937"
 
 [tools.jc."platforms.linux-x64-baseline"]
-checksum = "sha256:5b7ab595bfbaa70f07a15136bbc3c09d6dbf65891248bf1f060ec3da29608a2c"
-url = "https://github.com/kellyjonbrazil/jc/releases/download/v1.25.7/jc-1.25.7-linux-x86_64.tar.gz"
-url_api = "https://api.github.com/repos/kellyjonbrazil/jc/releases/assets/460709238"
+checksum = "sha256:1edfbd7df40b17e12cb784373463dbfa9737a688b5392cc18592188a008af88a"
+url = "https://github.com/kellyjonbrazil/jc/releases/download/v1.26.0/jc-1.26.0-linux-x86_64.tar.gz"
+url_api = "https://api.github.com/repos/kellyjonbrazil/jc/releases/assets/575687937"
 
 [tools.jc."platforms.linux-x64-musl"]
-checksum = "sha256:5b7ab595bfbaa70f07a15136bbc3c09d6dbf65891248bf1f060ec3da29608a2c"
-url = "https://github.com/kellyjonbrazil/jc/releases/download/v1.25.7/jc-1.25.7-linux-x86_64.tar.gz"
-url_api = "https://api.github.com/repos/kellyjonbrazil/jc/releases/assets/460709238"
+checksum = "sha256:1edfbd7df40b17e12cb784373463dbfa9737a688b5392cc18592188a008af88a"
+url = "https://github.com/kellyjonbrazil/jc/releases/download/v1.26.0/jc-1.26.0-linux-x86_64.tar.gz"
+url_api = "https://api.github.com/repos/kellyjonbrazil/jc/releases/assets/575687937"
 
 [tools.jc."platforms.linux-x64-musl-baseline"]
-checksum = "sha256:5b7ab595bfbaa70f07a15136bbc3c09d6dbf65891248bf1f060ec3da29608a2c"
-url = "https://github.com/kellyjonbrazil/jc/releases/download/v1.25.7/jc-1.25.7-linux-x86_64.tar.gz"
-url_api = "https://api.github.com/repos/kellyjonbrazil/jc/releases/assets/460709238"
+checksum = "sha256:1edfbd7df40b17e12cb784373463dbfa9737a688b5392cc18592188a008af88a"
+url = "https://github.com/kellyjonbrazil/jc/releases/download/v1.26.0/jc-1.26.0-linux-x86_64.tar.gz"
+url_api = "https://api.github.com/repos/kellyjonbrazil/jc/releases/assets/575687937"
 
 [tools.jc."platforms.macos-arm64"]
-checksum = "sha256:21d1775a186ddcd8b84e18d7d1774cd5c68f6056e5c770f80918fd2dbe293747"
-url = "https://github.com/kellyjonbrazil/jc/releases/download/v1.25.7/jc-1.25.7-darwin-aarch64.tar.gz"
-url_api = "https://api.github.com/repos/kellyjonbrazil/jc/releases/assets/451423532"
+checksum = "sha256:984aa55f6985e550f07974ba1a2c2439b757dfc3623cb8dde16aa6a37d30dbf6"
+url = "https://github.com/kellyjonbrazil/jc/releases/download/v1.26.0/jc-1.26.0-darwin-aarch64.tar.gz"
+url_api = "https://api.github.com/repos/kellyjonbrazil/jc/releases/assets/575657969"
 
 [[tools.jd]]
 version = "2.5.0"
