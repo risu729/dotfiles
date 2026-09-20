@@ -2143,27 +2143,27 @@ backend = "pipx:markitdown"
 extras = "pdf,docx,pptx,xlsx"
 
 [[tools.pitchfork]]
-version = "2.26.0"
+version = "2.27.0"
 backend = "packslip:github.com/jdx/pitchfork"
 
 [tools.pitchfork."platforms.linux-arm64"]
-checksum = "sha256:c8db374b01f30c86758df559ceeee65584f6118786acdc35aaa05ef638f90caa"
-url = "https://github.com/jdx/pitchfork/releases/download/v2.26.0/pitchfork-aarch64-unknown-linux-gnu.tar.gz"
+checksum = "sha256:14f7a5e758407e8306234cabb2dd3768670453d9078bcdec6cc4089dfd72d8ed"
+url = "https://github.com/jdx/pitchfork/releases/download/v2.27.0/pitchfork-aarch64-unknown-linux-gnu.tar.gz"
 signer = "sigstore-oidc:https://github.com/jdx/pitchfork/.github/workflows/release.yml"
 
 [tools.pitchfork."platforms.linux-x64"]
-checksum = "sha256:c9b56360f991a430610c6bb71adc9493c95d1b822cdf0b5dba42562f88c40f1a"
-url = "https://github.com/jdx/pitchfork/releases/download/v2.26.0/pitchfork-x86_64-unknown-linux-gnu.tar.gz"
+checksum = "sha256:20d7f851e3baec00fd97d53b2f95a986287b959957f56195c6f7f8d504bbea6e"
+url = "https://github.com/jdx/pitchfork/releases/download/v2.27.0/pitchfork-x86_64-unknown-linux-gnu.tar.gz"
 signer = "sigstore-oidc:https://github.com/jdx/pitchfork/.github/workflows/release.yml"
 
 [tools.pitchfork."platforms.linux-x64-baseline"]
-checksum = "sha256:c9b56360f991a430610c6bb71adc9493c95d1b822cdf0b5dba42562f88c40f1a"
-url = "https://github.com/jdx/pitchfork/releases/download/v2.26.0/pitchfork-x86_64-unknown-linux-gnu.tar.gz"
+checksum = "sha256:20d7f851e3baec00fd97d53b2f95a986287b959957f56195c6f7f8d504bbea6e"
+url = "https://github.com/jdx/pitchfork/releases/download/v2.27.0/pitchfork-x86_64-unknown-linux-gnu.tar.gz"
 signer = "sigstore-oidc:https://github.com/jdx/pitchfork/.github/workflows/release.yml"
 
 [tools.pitchfork."platforms.macos-arm64"]
-checksum = "sha256:5657a6d636aa903f6f47c7612b4252cb86c7cdde7daff754910d43a68f55584a"
-url = "https://github.com/jdx/pitchfork/releases/download/v2.26.0/pitchfork-aarch64-apple-darwin.tar.gz"
+checksum = "sha256:77491f4d803039ae4cf346c292db62b9b5aad971cc0850413917ef92cf335901"
+url = "https://github.com/jdx/pitchfork/releases/download/v2.27.0/pitchfork-aarch64-apple-darwin.tar.gz"
 signer = "sigstore-oidc:https://github.com/jdx/pitchfork/.github/workflows/release.yml"
 
 [[tools.pkl]]
