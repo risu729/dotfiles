@@ -49,7 +49,7 @@ install_mise_macos() {
 		# Fails when the installation dialog is already open
 		xcode-select --install || true
 		log_info "Accept the installation dialog. Waiting for it to finish..."
-		log_info "Without a dialog, install the Command Line Tools entry of \`softwareupdate --list\` in another terminal."
+		log_info 'Without a dialog, install the Command Line Tools entry of `softwareupdate --list` in another terminal.'
 		until xcode-select -p >/dev/null 2>&1; do
 			sleep 5
 		done
@@ -88,7 +88,7 @@ trust_configs() {
 	for config in "${repo_path}"/mise.toml "${repo_path}"/mise.*.toml; do
 		# The glob stays literal when nothing matches
 		[[ -e ${config} ]] || continue
-		mise trust --yes "${config}"
+		mise trust --yes "${config}" || return
 	done
 }
 
@@ -116,12 +116,15 @@ select_dotfiles_revision() {
 	local target_git_ref="$2"
 	local expected_origin="$3"
 
-	if [[ $(git -C "${repo_path}" remote get-url origin) != "${expected_origin}" ]]; then
+	local actual_origin worktree_status
+	actual_origin=$(git -C "${repo_path}" remote get-url origin) || return
+	worktree_status=$(git -C "${repo_path}" status --porcelain) || return
+	if [[ ${actual_origin} != "${expected_origin}" ]]; then
 		log_error "Refusing to update a repository with a different origin: ${repo_path}"
 		return 1
 	fi
 
-	if [[ -n $(git -C "${repo_path}" status --porcelain) ]]; then
+	if [[ -n ${worktree_status} ]]; then
 		log_error "Refusing to switch revisions in a dirty repository: ${repo_path}"
 		return 1
 	fi
@@ -134,7 +137,9 @@ select_dotfiles_revision() {
 	else
 		# A previous explicit-ref install may have left HEAD detached. Return to
 		# the default branch before asking mise to update the repository.
+		# shellcheck disable=SC2310 # Helpers explicitly propagate command failures.
 		checkout_default_git_branch "${repo_path}" || return
+		# shellcheck disable=SC2310 # Helpers explicitly propagate command failures.
 		trust_configs "${repo_path}" || return
 		mise --cd "${repo_path}" bootstrap repos update \
 			"${repo_path}" --yes --skip-dirty
@@ -152,6 +157,7 @@ clone_or_update_dotfiles_repo() {
 		git clone "${repo_url}" "${dotfiles_target_dir}" >&2 || return
 	fi
 
+	# shellcheck disable=SC2310 # Helpers explicitly propagate command failures.
 	select_dotfiles_revision "${dotfiles_target_dir}" "${target_git_ref}" "${repo_url}" >&2 || return
 	echo "${dotfiles_target_dir}"
 }
