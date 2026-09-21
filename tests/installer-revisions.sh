@@ -76,3 +76,14 @@ if select_dotfiles_revision "${checkout}" requested "${remote}"; then
 fi
 test "$(cat "${fixture}/installed")" = 'local changes'
 echo 'Installer revision regressions passed.'
+
+# The public curl | bash entry point has no BASH_SOURCE[0]. Stub the main
+# function body, but execute the real script and its entry-point guard on stdin.
+piped_result=$(
+	awk '
+		/^main\(\) \{/ { skip = 1; print "main() { echo stdin-entry-point; }"; next }
+		skip && /^}/ { skip = 0; next }
+		!skip { print }
+	' "${root}/unix/install.sh" | bash
+)
+test "${piped_result}" = stdin-entry-point
