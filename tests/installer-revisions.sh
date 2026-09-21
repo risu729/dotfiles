@@ -37,7 +37,7 @@ mise() {
 }
 install_mise() { :; }
 clone_or_update_dotfiles_repo() {
-	select_dotfiles_revision "${checkout}" "$1" "${remote}" >&2
+	select_dotfiles_revision "${checkout}" "$1" "${remote}" >&2 || return
 	printf '%s\n' "${checkout}"
 }
 
@@ -62,6 +62,13 @@ if select_dotfiles_revision "${checkout}" requested "${fixture}/wrong-origin"; t
 	echo 'Unexpected origin was accepted' >&2
 	exit 1
 fi
+# A failed fetch must not silently reuse the previous FETCH_HEAD.
+if select_dotfiles_revision "${checkout}" nonexistent-ref "${remote}"; then
+	echo 'Missing revision was accepted' >&2
+	exit 1
+fi
+test "$(git -C "${checkout}" branch --show-current)" = main
+
 printf 'local changes\n' > "${checkout}/managed"
 if select_dotfiles_revision "${checkout}" requested "${remote}"; then
 	echo 'Dirty checkout was accepted' >&2

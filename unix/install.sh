@@ -107,7 +107,7 @@ checkout_default_git_branch() {
 		exit 1
 	fi
 
-	git -C "${repo_path}" checkout "${default_branch}"
+	git -C "${repo_path}" checkout "${default_branch}" || return
 	log_info "Successfully checked out ${default_branch}."
 }
 
@@ -129,13 +129,13 @@ select_dotfiles_revision() {
 	if [[ -n ${target_git_ref} ]]; then
 		# Fetch before checkout so an existing clone can install a new branch or
 		# commit. Detaching keeps bootstrap's repository updates off this revision.
-		git -C "${repo_path}" fetch origin -- "${target_git_ref}"
-		git -C "${repo_path}" checkout --detach FETCH_HEAD
+		git -C "${repo_path}" fetch origin -- "${target_git_ref}" || return
+		git -C "${repo_path}" checkout --detach FETCH_HEAD || return
 	else
 		# A previous explicit-ref install may have left HEAD detached. Return to
 		# the default branch before asking mise to update the repository.
-		checkout_default_git_branch "${repo_path}"
-		trust_configs "${repo_path}"
+		checkout_default_git_branch "${repo_path}" || return
+		trust_configs "${repo_path}" || return
 		mise --cd "${repo_path}" bootstrap repos update \
 			"${repo_path}" --yes --skip-dirty
 	fi
@@ -148,11 +148,11 @@ clone_or_update_dotfiles_repo() {
 
 	log_info "Preparing dotfiles repository: ${repo_name} in ${dotfiles_target_dir}"
 	if ! git -C "${dotfiles_target_dir}" rev-parse --is-inside-work-tree >/dev/null 2>&1; then
-		mkdir -p "${dotfiles_target_dir}"
-		git clone "${repo_url}" "${dotfiles_target_dir}" >&2
+		mkdir -p "${dotfiles_target_dir}" || return
+		git clone "${repo_url}" "${dotfiles_target_dir}" >&2 || return
 	fi
 
-	select_dotfiles_revision "${dotfiles_target_dir}" "${target_git_ref}" "${repo_url}" >&2
+	select_dotfiles_revision "${dotfiles_target_dir}" "${target_git_ref}" "${repo_url}" >&2 || return
 	echo "${dotfiles_target_dir}"
 }
 
