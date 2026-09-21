@@ -5,6 +5,8 @@ set -euo pipefail
 repo_name="risu729/dotfiles"
 # might be edited by the worker to checkout a specific ref
 git_ref=""
+# Direct invocations can select the same revision as the Worker ref parameter.
+git_ref="${DOTFILES_REF-${git_ref}}"
 # might be edited by the worker to select a profile
 profile=""
 # DOTFILES_PROFILE takes precedence. Without a profile only the shared part is
@@ -109,38 +111,48 @@ checkout_default_git_branch() {
 	log_info "Successfully checked out ${default_branch}."
 }
 
+select_dotfiles_revision() {
+	local repo_path="$1"
+	local target_git_ref="$2"
+	local expected_origin="$3"
+
+	if [[ $(git -C "${repo_path}" remote get-url origin) != "${expected_origin}" ]]; then
+		log_error "Refusing to update a repository with a different origin: ${repo_path}"
+		return 1
+	fi
+
+	if [[ -n $(git -C "${repo_path}" status --porcelain) ]]; then
+		log_error "Refusing to switch revisions in a dirty repository: ${repo_path}"
+		return 1
+	fi
+
+	if [[ -n ${target_git_ref} ]]; then
+		# Fetch before checkout so an existing clone can install a new branch or
+		# commit. Detaching keeps bootstrap's repository updates off this revision.
+		git -C "${repo_path}" fetch origin -- "${target_git_ref}"
+		git -C "${repo_path}" checkout --detach FETCH_HEAD
+	else
+		# A previous explicit-ref install may have left HEAD detached. Return to
+		# the default branch before asking mise to update the repository.
+		checkout_default_git_branch "${repo_path}"
+		trust_configs "${repo_path}"
+		mise --cd "${repo_path}" bootstrap repos update \
+			"${repo_path}" --yes --skip-dirty
+	fi
+}
+
 clone_or_update_dotfiles_repo() {
 	local target_git_ref="$1"
-
-	local repo_url="github.com/${repo_name}"
-	local dotfiles_target_dir="${HOME}/.ghr/${repo_url}"
+	local repo_url="https://github.com/${repo_name}.git"
+	local dotfiles_target_dir="${HOME}/.ghr/github.com/${repo_name}"
 
 	log_info "Preparing dotfiles repository: ${repo_name} in ${dotfiles_target_dir}"
-	mkdir -p "${dotfiles_target_dir}"
-
-	if git -C "${dotfiles_target_dir}" rev-parse --is-inside-work-tree >/dev/null 2>&1; then
-		log_info "Existing repository found. Updating with mise..."
-		# mise refuses to update a dirty worktree, a mismatched origin, or a
-		# detached HEAD, so the installer does not stash or branch-check itself.
-		trust_configs "${dotfiles_target_dir}" >&2
-		mise --cd "${dotfiles_target_dir}" bootstrap repos update \
-			"${dotfiles_target_dir}" --yes --skip-dirty >&2
-	else
-		log_info "Cloning repository https://${repo_url}.git into ${dotfiles_target_dir}..."
-		git clone "https://${repo_url}.git" "${dotfiles_target_dir}" >&2
+	if ! git -C "${dotfiles_target_dir}" rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+		mkdir -p "${dotfiles_target_dir}"
+		git clone "${repo_url}" "${dotfiles_target_dir}" >&2
 	fi
 
-	# Checkout a specific ref if specified
-	if [[ -n ${target_git_ref} ]]; then
-		log_info "Checking out specified git ref for setup: ${target_git_ref}..."
-		git -C "${dotfiles_target_dir}" checkout "${target_git_ref}" >&2
-		log_info "Successfully checked out ${target_git_ref}."
-	else
-		# If not checking out a specific ref, ensure we are on the default branch.
-		# An existing repository may have had a different branch checked out.
-		checkout_default_git_branch "${dotfiles_target_dir}" >&2
-	fi
-
+	select_dotfiles_revision "${dotfiles_target_dir}" "${target_git_ref}" "${repo_url}" >&2
 	echo "${dotfiles_target_dir}"
 }
 
@@ -168,12 +180,11 @@ main() {
 	mise --cd "${dotfiles_dir}" bootstrap --yes --update --force-dotfiles --locked --skip-dirty
 	log_info "mise bootstrap completed."
 
-	if [[ -n ${git_ref} ]]; then
-		checkout_default_git_branch "${dotfiles_dir}"
-	fi
-
 	log_info "Setup script finished successfully!"
 	log_info "Reminder: you might need to start a new shell for all changes to take effect."
 }
 
-main "$@"
+# Sourcing exposes the revision helpers to isolated regression tests.
+if [[ ${BASH_SOURCE[0]} == "$0" ]]; then
+	main "$@"
+fi

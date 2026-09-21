@@ -68,6 +68,11 @@ hooks =
         }
       }
     }
+    ["installer-revisions"] = new Step {
+      glob = List("unix/install.sh", "tests/installer-revisions.sh")
+      batch = false
+      check = "bash tests/installer-revisions.sh"
+    }
     ["pwsh"] = new Step {
       // batch=false: ScriptAnalyzer scans `win/` recursively; command has no `{{ files }}`
       batch = false

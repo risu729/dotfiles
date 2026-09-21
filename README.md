@@ -152,6 +152,12 @@ Mac, add the personal profile:
 bash <(curl -fsSL "https://dot.risunosu.com/mac?profile=personal")
 ```
 
+An explicit `?ref=<branch-tag-or-commit>` installs that revision and keeps the
+checkout detached at it, so symlinked dotfiles continue using the requested
+version. A later install without a ref returns to the default branch and
+updates it. Direct invocations accept `DOTFILES_REF` for the same purpose.
+Revision changes refuse a dirty checkout or an unexpected repository origin.
+
 The profile is stored in `~/.config/mise/miserc.toml`, so it only has to be
 given once. Running `unix/install.sh` from a clone takes it from
 `DOTFILES_PROFILE` instead. `/wsl` takes the same query, and the Windows
