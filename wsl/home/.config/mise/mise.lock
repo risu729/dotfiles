@@ -739,32 +739,22 @@ url_api = "https://api.github.com/repos/entireio/cli/releases/assets/549215104"
 
 [[tools.eza]]
 version = "0.23.5"
-backend = "aqua:eza-community/eza"
+backend = "vfox:jdx/vfox-eza"
 
 [tools.eza."platforms.linux-arm64"]
-checksum = "sha256:40b87ae8628aa2ff0f0d2dc24ab52f689631366385c3da630bae745671fd71ec"
 url = "https://github.com/eza-community/eza/releases/download/v0.23.5/eza_aarch64-unknown-linux-gnu.tar.gz"
-url_api = "https://api.github.com/repos/eza-community/eza/releases/assets/471228867"
 
 [tools.eza."platforms.linux-x64"]
-checksum = "sha256:35c70c5c43c29108075e58b893234c67ef585f0b53a7eaf8e9e7d4eec9f339b4"
 url = "https://github.com/eza-community/eza/releases/download/v0.23.5/eza_x86_64-unknown-linux-gnu.tar.gz"
-url_api = "https://api.github.com/repos/eza-community/eza/releases/assets/471228887"
 
 [tools.eza."platforms.linux-x64-baseline"]
-checksum = "sha256:35c70c5c43c29108075e58b893234c67ef585f0b53a7eaf8e9e7d4eec9f339b4"
 url = "https://github.com/eza-community/eza/releases/download/v0.23.5/eza_x86_64-unknown-linux-gnu.tar.gz"
-url_api = "https://api.github.com/repos/eza-community/eza/releases/assets/471228887"
 
 [tools.eza."platforms.linux-x64-musl"]
-checksum = "sha256:e06eebab74b73d6b7d51a796a353824b001bea82df077706382e100815d28904"
-url = "https://github.com/eza-community/eza/releases/download/v0.23.5/eza_x86_64-unknown-linux-musl.tar.gz"
-url_api = "https://api.github.com/repos/eza-community/eza/releases/assets/471228890"
+url = "https://github.com/eza-community/eza/releases/download/v0.23.5/eza_x86_64-unknown-linux-gnu.tar.gz"
 
 [tools.eza."platforms.linux-x64-musl-baseline"]
-checksum = "sha256:e06eebab74b73d6b7d51a796a353824b001bea82df077706382e100815d28904"
-url = "https://github.com/eza-community/eza/releases/download/v0.23.5/eza_x86_64-unknown-linux-musl.tar.gz"
-url_api = "https://api.github.com/repos/eza-community/eza/releases/assets/471228890"
+url = "https://github.com/eza-community/eza/releases/download/v0.23.5/eza_x86_64-unknown-linux-gnu.tar.gz"
 
 [[tools.fd]]
 version = "10.5.0"
@@ -1147,7 +1137,7 @@ url = "https://dl.google.com/go/go1.27.1.darwin-amd64.tar.gz"
 
 [[tools.gradle]]
 version = "9.7.1"
-backend = "aqua:gradle/gradle"
+backend = "aqua:gradle/gradle-distributions"
 
 [tools.gradle."platforms.linux-arm64"]
 checksum = "sha256:acd53f1edaf02f1a8ff99879f8a34b302661a057d9b063ae9e35b552f804d20a"
@@ -1254,7 +1244,7 @@ provenance = "github-attestations"
 
 [[tools.herdr]]
 version = "0.9.1"
-backend = "aqua:ogulcancelik/herdr"
+backend = "aqua:herdrdev/herdr"
 
 [tools.herdr."platforms.linux-arm64"]
 checksum = "sha256:f4ccf4de745f2cb9a39a983e9ba3703dad50ec2a58dea83026ceab721bbd8d9e"
@@ -1707,7 +1697,7 @@ url_api = "https://api.github.com/repos/ahmetb/kubectx/releases/assets/382590964
 
 [[tools.kubeseal]]
 version = "0.40.0"
-backend = "aqua:bitnami-labs/sealed-secrets"
+backend = "aqua:bitnami/sealed-secrets"
 
 [tools.kubeseal."platforms.linux-arm64"]
 checksum = "sha256:d82f01e9226d194ca7ebc13e3619edefd596b5b433582bcec3d5a8e8b1a03123"
@@ -1854,7 +1844,7 @@ url_api = "https://api.github.com/repos/johnkerl/miller/releases/assets/50881811
 
 [[tools.mitmproxy]]
 version = "12.2.3"
-backend = "pipx:mitmproxy"
+backend = "pypi:mitmproxy"
 
 [[tools.mr-boxington]]
 version = "1.13.0"
@@ -2026,7 +2016,52 @@ backend = "npm:oxfmt"
 
 [[tools.oxlint]]
 version = "1.83.0"
-backend = "npm:oxlint"
+backend = "aqua:oxc-project/oxc/oxlint"
+
+[tools.oxlint."platforms.linux-arm64"]
+checksum = "sha256:612b6f36ff61a19a604bf2a51f7d1a9528c3cbbb73eccb43a07e55d89ca19d8b"
+url = "https://github.com/oxc-project/oxc/releases/download/apps_v1.83.0/oxlint-aarch64-unknown-linux-gnu.tar.gz"
+url_api = "https://api.github.com/repos/oxc-project/oxc/releases/assets/563328347"
+
+[tools.oxlint."platforms.linux-arm64-musl"]
+checksum = "sha256:7cf2a30ddf88ff337ecf7e5f50b7718e5eed6295daf32e9f42f211520cc0b287"
+url = "https://github.com/oxc-project/oxc/releases/download/apps_v1.83.0/oxlint-aarch64-unknown-linux-musl.tar.gz"
+url_api = "https://api.github.com/repos/oxc-project/oxc/releases/assets/563328352"
+
+[tools.oxlint."platforms.linux-x64"]
+checksum = "sha256:4995c0f6a55ed8aa611a7c5461dd4d61cdc41ce767d6d92aae665d135b50e5a1"
+url = "https://github.com/oxc-project/oxc/releases/download/apps_v1.83.0/oxlint-x86_64-unknown-linux-gnu.tar.gz"
+url_api = "https://api.github.com/repos/oxc-project/oxc/releases/assets/563328410"
+
+[tools.oxlint."platforms.linux-x64-baseline"]
+checksum = "sha256:4995c0f6a55ed8aa611a7c5461dd4d61cdc41ce767d6d92aae665d135b50e5a1"
+url = "https://github.com/oxc-project/oxc/releases/download/apps_v1.83.0/oxlint-x86_64-unknown-linux-gnu.tar.gz"
+url_api = "https://api.github.com/repos/oxc-project/oxc/releases/assets/563328410"
+
+[tools.oxlint."platforms.linux-x64-musl"]
+checksum = "sha256:ffb6b0de929cf5628aee19973208f3a52fd17c1dddae6577436b09d8fc12ecd2"
+url = "https://github.com/oxc-project/oxc/releases/download/apps_v1.83.0/oxlint-x86_64-unknown-linux-musl.tar.gz"
+url_api = "https://api.github.com/repos/oxc-project/oxc/releases/assets/563328416"
+
+[tools.oxlint."platforms.linux-x64-musl-baseline"]
+checksum = "sha256:ffb6b0de929cf5628aee19973208f3a52fd17c1dddae6577436b09d8fc12ecd2"
+url = "https://github.com/oxc-project/oxc/releases/download/apps_v1.83.0/oxlint-x86_64-unknown-linux-musl.tar.gz"
+url_api = "https://api.github.com/repos/oxc-project/oxc/releases/assets/563328416"
+
+[tools.oxlint."platforms.macos-arm64"]
+checksum = "sha256:18021b3bc2557e1cb9bb912ff7ae730d877f3e2ba1e06f98c75a979e5fa3a97e"
+url = "https://github.com/oxc-project/oxc/releases/download/apps_v1.83.0/oxlint-aarch64-apple-darwin.tar.gz"
+url_api = "https://api.github.com/repos/oxc-project/oxc/releases/assets/563328337"
+
+[tools.oxlint."platforms.macos-x64"]
+checksum = "sha256:ac0289dae46ff03414be668c79c0d4d36cf0db617adf4a1983083789d9d70367"
+url = "https://github.com/oxc-project/oxc/releases/download/apps_v1.83.0/oxlint-x86_64-apple-darwin.tar.gz"
+url_api = "https://api.github.com/repos/oxc-project/oxc/releases/assets/563328394"
+
+[tools.oxlint."platforms.macos-x64-baseline"]
+checksum = "sha256:ac0289dae46ff03414be668c79c0d4d36cf0db617adf4a1983083789d9d70367"
+url = "https://github.com/oxc-project/oxc/releases/download/apps_v1.83.0/oxlint-x86_64-apple-darwin.tar.gz"
+url_api = "https://api.github.com/repos/oxc-project/oxc/releases/assets/563328394"
 
 [[tools.pinact]]
 version = "5.0.0"
@@ -2871,7 +2906,7 @@ url_api = "https://api.github.com/repos/google/yamlfmt/releases/assets/336650207
 
 [[tools.yamllint]]
 version = "1.38.0"
-backend = "pipx:yamllint"
+backend = "pypi:yamllint"
 
 [[tools.yq]]
 version = "4.53.6"
