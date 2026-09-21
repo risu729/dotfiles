@@ -23,16 +23,9 @@ services:
     environment:
       GITHUB_TOKEN: ${GITHUB_TOKEN:-}
       __CI: ${__CI:-}
-      SHA: ${GIT_COMMIT_SHA:-}
+      GIT_COMMIT_SHA: ${GIT_COMMIT_SHA:-}
+      TEST_PROFILE: ${TEST_PROFILE:-bare}
       MISE_LOG_LEVEL: ${MISE_LOG_LEVEL:-info}
-    command:
-      - /bin/bash
-      - -lc
-      - |
-        set -euo pipefail
-        curl -fsSL "http://worker:4173/wsl?ref=$${SHA}&profile=personal" | bash
-        # `mise.linux.toml` is only loaded when the platform configs are enabled
-        test -f /etc/codex/config.toml
-        cd "$${HOME}/.ghr/github.com/risu729/dotfiles"
-        test "$$(git rev-parse HEAD)" = "$${SHA}"
-        bash -ic 'hk --profile bootstrap check --step mise-doctor --all'
+    volumes:
+      - ./tasks/test/installer-container:/usr/local/bin/test-installer:ro
+    command: ["bash", "/usr/local/bin/test-installer"]

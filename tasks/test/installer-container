@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+#MISE hide=true
+# Runs inside the disposable Ubuntu WSL filesystem, never on the Docker host.
+set -euo pipefail
+
+: "${GIT_COMMIT_SHA:?Set GIT_COMMIT_SHA to the revision under test}"
+case "${TEST_PROFILE:-bare}" in
+bare) profile_query='' ;;
+personal) profile_query='&profile=personal' ;;
+*)
+	echo 'TEST_PROFILE must be bare or personal' >&2
+	exit 1
+	;;
+esac
+
+installer=$(mktemp)
+trap 'rm -f "${installer}"' EXIT
+curl -fsSL "http://worker:4173/wsl?ref=${GIT_COMMIT_SHA}${profile_query}" >"${installer}"
+for attempt in 1 2; do
+
+	echo "Installer pass ${attempt} (${TEST_PROFILE:-bare})"
+	cd "${HOME}"
+	bash "${installer}"
+	cd "${HOME}/.ghr/github.com/risu729/dotfiles"
+	bash tasks/verify/bootstrap
+done

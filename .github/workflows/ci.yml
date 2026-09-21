@@ -61,13 +61,17 @@ jobs:
       - name: Run Bats tests
         run: mise run test:bats
   test-linux:
-    name: Test Installer Scripts on WSL Ubuntu Image
+    name: Linux installer (${{ matrix.profile }})
+    strategy:
+      fail-fast: false
+      matrix:
+        profile: [bare, personal]
     runs-on: ubuntu-24.04
     timeout-minutes: 30
     permissions:
       contents: read # for checkout
     env:
-      COMPOSE_PROJECT_NAME: dotfiles-ci-${{ github.run_id }}-${{ github.run_attempt }}
+      COMPOSE_PROJECT_NAME: dotfiles-ci-${{ github.run_id }}-${{ github.run_attempt }}-${{ matrix.profile }}
       # Match the Ubuntu release installed by win/install.ps1.
       WSL_IMAGE_URL: https://cdimages.ubuntu.com/ubuntu-wsl/resolute/daily-live/current/resolute-wsl-amd64.wsl
     steps:
@@ -108,18 +112,20 @@ jobs:
         if: steps.wsl-cache.outputs.cache-hit != 'true'
         run: curl --fail-with-body --location --output wsl-amd64.wsl "${WSL_IMAGE_URL}"
       - name: Run installer
-        run: docker compose --file compose.ci.yml up --build --abort-on-container-exit --exit-code-from test-linux
+        run: bash tasks/test/installer-linux
         env:
           GITHUB_TOKEN: ${{ github.token }}
           __CI: true
+          TEST_PROFILE: ${{ matrix.profile }}
           # use head sha for pull requests because github.sha is set to the merge commit
           GIT_COMMIT_SHA: ${{ case(github.event_name == 'pull_request', github.event.pull_request.head.sha, github.sha) }}
           MISE_LOG_LEVEL: ${{ case(runner.debug == '1', 'debug', 'info') }}
-      - name: Clean up Docker Compose
-        if: ${{ always() }}
-        run: docker compose --file compose.ci.yml down --volumes --remove-orphans
   test-macos:
-    name: Test Installer Script on macOS
+    name: macOS installer (${{ matrix.profile }})
+    strategy:
+      fail-fast: false
+      matrix:
+        profile: [bare, personal]
     runs-on: macos-15
     timeout-minutes: 60
     permissions:
@@ -129,61 +135,14 @@ jobs:
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
-      # The worker is covered by the WSL job, so set the ref the way it does.
-      # The personal profile is a superset of the shared one.
-      - name: Run installer
-        run: |
-          cp unix/install.sh "${RUNNER_TEMP}/install.sh"
-          # Users run the installer from their home directory, where this
-          # repository's `.miserc.toml` is not discovered.
-          cd "${HOME}"
-          bash "${RUNNER_TEMP}/install.sh"
+      - name: Install twice and verify
+        run: bash tasks/test/installer-macos
         env:
-          DOTFILES_PROFILE: personal
-          DOTFILES_REF: ${{ case(github.event_name == 'pull_request', github.event.pull_request.head.sha, github.sha) }}
+          TEST_PROFILE: ${{ matrix.profile }}
           GITHUB_TOKEN: ${{ github.token }}
           __CI: true
-          # use head sha for pull requests because github.sha is set to the merge commit
           GIT_COMMIT_SHA: ${{ case(github.event_name == 'pull_request', github.event.pull_request.head.sha, github.sha) }}
           MISE_LOG_LEVEL: ${{ case(runner.debug == '1', 'debug', 'info') }}
-      # `mise dot status` counts excluded files and other platforms' entries as
-      # missing, so assert the expected paths directly.
-      - name: Verify the result
-        run: |
-          export PATH="${HOME}/.local/bin:${PATH}"
-          cd "${HOME}/.ghr/github.com/risu729/dotfiles"
-          test "$(git rev-parse HEAD)" = "${GIT_COMMIT_SHA}"
-          mise bootstrap macos defaults status --missing
-          # shared
-          test -L "${HOME}/.config/mise/config.toml" -a -e "${HOME}/.config/mise/config.toml"
-          test -L "${HOME}/.config/git/config" -a -e "${HOME}/.config/git/config"
-          grep --quiet '^source .*/\.config/zsh/zshrc"$' "${HOME}/.zshrc"
-          test -L "${HOME}/.config/zsh/zshrc" -a -e "${HOME}/.config/zsh/zshrc"
-          # personal
-          grep --quiet '^env = \["personal"\]$' "${HOME}/.config/mise/miserc.toml"
-          test -L "${HOME}/.ssh/config" -a -e "${HOME}/.ssh/config"
-          test -L "${HOME}/.config/git/personal.gitconfig" -a -e "${HOME}/.config/git/personal.gitconfig"
-          # Linux-only
-          test ! -L "${HOME}/.bashrc"
-          test ! -e "${HOME}/.config/mimeapps.list"
-          test ! -e "${HOME}/.config/pitchfork"
-          test ! -e "${HOME}/.local/bin/wsl-open"
-          # macOS apps, including one from a third-party tap
-          test -d /Applications/Orca.app
-          test -d /Applications/Ghostty.app
-          # mise-managed tools resolve, including the macOS-specific eza backend and a
-          # personal tool, and a fresh interactive shell finds them and brew's btop
-          mise which eza
-          mise which kubectl
-          mise which glab
-          zsh -ic 'eza --version && btop --version && glab --version'
-          # completion is initialized and tool completions are registered
-          zsh -ic 'whence -w compdef | grep --quiet function && [[ -n ${_comps[gh]} && -n ${_comps[mise]} && -n ${_comps[ghr]} ]]'
-          zsh -ic 'hk --profile bootstrap check --step mise-doctor --all'
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
-          # use head sha for pull requests because github.sha is set to the merge commit
-          GIT_COMMIT_SHA: ${{ case(github.event_name == 'pull_request', github.event.pull_request.head.sha, github.sha) }}
   test-worker:
     name: Cloudflare Worker
     runs-on: ubuntu-24.04

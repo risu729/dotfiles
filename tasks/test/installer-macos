@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+#MISE description="Install twice and verify on a disposable Mac (TEST_PROFILE=bare|personal)."
+set -euo pipefail
+
+cd "$(dirname "${BASH_SOURCE[0]}")/../.."
+export GIT_COMMIT_SHA="${GIT_COMMIT_SHA:-$(git rev-parse HEAD)}"
+export DOTFILES_REF="${GIT_COMMIT_SHA}"
+export TEST_PROFILE="${TEST_PROFILE:-bare}"
+case "${TEST_PROFILE}" in
+bare) export DOTFILES_PROFILE='' ;;
+personal) export DOTFILES_PROFILE=personal ;;
+*)
+	echo 'TEST_PROFILE must be bare or personal' >&2
+	exit 1
+	;;
+esac
+
+installer=$(mktemp)
+trap 'rm -f "${installer}"' EXIT
+cp unix/install.sh "${installer}"
+export PATH="${HOME}/.local/bin:/opt/homebrew/bin:${PATH}"
+for attempt in 1 2; do
+	echo "Installer pass ${attempt} (${TEST_PROFILE})"
+	cd "${HOME}"
+	bash "${installer}"
+	cd "${HOME}/.ghr/github.com/risu729/dotfiles"
+	bash tasks/verify/bootstrap
+done

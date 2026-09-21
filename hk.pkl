@@ -51,6 +51,7 @@ hooks =
       steps {
         ["mise-fmt"] = mise.steps["mise-fmt"]
         ["mise-tasks"] = (mise.steps["mise-tasks"]) {
+          check = "mise task validate"
           glob =
             List(
               "tasks.toml",
@@ -77,6 +78,11 @@ hooks =
             """#
         }
       }
+    }
+    ["bootstrap-files"] = new Step {
+      profiles = List("bootstrap")
+      batch = false
+      check = "bash tests/bootstrap.sh"
     }
     ["pwsh"] = new Step {
       // batch=false: ScriptAnalyzer scans `win/` recursively; command has no `{{ files }}`
