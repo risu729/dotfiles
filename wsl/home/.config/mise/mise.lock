@@ -1970,7 +1970,7 @@ url = "https://registry.npmjs.org/npm/-/npm-12.0.2.tgz"
 url = "https://registry.npmjs.org/npm/-/npm-12.0.2.tgz"
 
 [[tools."npm:ccusage"]]
-version = "20.0.23"
+version = "20.0.24"
 backend = "npm:ccusage"
 
 [[tools.numbat]]
@@ -2023,57 +2023,57 @@ url = "https://github.com/sharkdp/numbat/releases/download/v1.24.0/numbat-v1.24.
 url_api = "https://api.github.com/repos/sharkdp/numbat/releases/assets/526573130"
 
 [[tools.oxfmt]]
-version = "0.68.0"
+version = "0.70.0"
 backend = "npm:oxfmt"
 
 [[tools.oxlint]]
-version = "1.83.0"
+version = "1.84.0"
 backend = "aqua:oxc-project/oxc/oxlint"
 
 [tools.oxlint."platforms.linux-arm64"]
-checksum = "sha256:612b6f36ff61a19a604bf2a51f7d1a9528c3cbbb73eccb43a07e55d89ca19d8b"
-url = "https://github.com/oxc-project/oxc/releases/download/apps_v1.83.0/oxlint-aarch64-unknown-linux-gnu.tar.gz"
-url_api = "https://api.github.com/repos/oxc-project/oxc/releases/assets/563328347"
+checksum = "sha256:f0c68dab774f32e0a3f7225ecf18bbe28c112a8e57fc88f30e802115035321f7"
+url = "https://github.com/oxc-project/oxc/releases/download/apps_v1.84.0/oxlint-aarch64-unknown-linux-gnu.tar.gz"
+url_api = "https://api.github.com/repos/oxc-project/oxc/releases/assets/579056545"
 
 [tools.oxlint."platforms.linux-arm64-musl"]
-checksum = "sha256:7cf2a30ddf88ff337ecf7e5f50b7718e5eed6295daf32e9f42f211520cc0b287"
-url = "https://github.com/oxc-project/oxc/releases/download/apps_v1.83.0/oxlint-aarch64-unknown-linux-musl.tar.gz"
-url_api = "https://api.github.com/repos/oxc-project/oxc/releases/assets/563328352"
+checksum = "sha256:4323bbb98dcf532c01c64d3af2d5ba27298a7a602d5c8ea16d5a70c1557256e3"
+url = "https://github.com/oxc-project/oxc/releases/download/apps_v1.84.0/oxlint-aarch64-unknown-linux-musl.tar.gz"
+url_api = "https://api.github.com/repos/oxc-project/oxc/releases/assets/579056550"
 
 [tools.oxlint."platforms.linux-x64"]
-checksum = "sha256:4995c0f6a55ed8aa611a7c5461dd4d61cdc41ce767d6d92aae665d135b50e5a1"
-url = "https://github.com/oxc-project/oxc/releases/download/apps_v1.83.0/oxlint-x86_64-unknown-linux-gnu.tar.gz"
-url_api = "https://api.github.com/repos/oxc-project/oxc/releases/assets/563328410"
+checksum = "sha256:1839650aa43c7aafcd077134c1b3ad033893649a85a9a4cd1993c1a49c93468d"
+url = "https://github.com/oxc-project/oxc/releases/download/apps_v1.84.0/oxlint-x86_64-unknown-linux-gnu.tar.gz"
+url_api = "https://api.github.com/repos/oxc-project/oxc/releases/assets/579056598"
 
 [tools.oxlint."platforms.linux-x64-baseline"]
-checksum = "sha256:4995c0f6a55ed8aa611a7c5461dd4d61cdc41ce767d6d92aae665d135b50e5a1"
-url = "https://github.com/oxc-project/oxc/releases/download/apps_v1.83.0/oxlint-x86_64-unknown-linux-gnu.tar.gz"
-url_api = "https://api.github.com/repos/oxc-project/oxc/releases/assets/563328410"
+checksum = "sha256:1839650aa43c7aafcd077134c1b3ad033893649a85a9a4cd1993c1a49c93468d"
+url = "https://github.com/oxc-project/oxc/releases/download/apps_v1.84.0/oxlint-x86_64-unknown-linux-gnu.tar.gz"
+url_api = "https://api.github.com/repos/oxc-project/oxc/releases/assets/579056598"
 
 [tools.oxlint."platforms.linux-x64-musl"]
-checksum = "sha256:ffb6b0de929cf5628aee19973208f3a52fd17c1dddae6577436b09d8fc12ecd2"
-url = "https://github.com/oxc-project/oxc/releases/download/apps_v1.83.0/oxlint-x86_64-unknown-linux-musl.tar.gz"
-url_api = "https://api.github.com/repos/oxc-project/oxc/releases/assets/563328416"
+checksum = "sha256:b7a4b7e322cc5d4ecba1f17ce67a2eba3a911e421c65ea2d0d1a1752e402b293"
+url = "https://github.com/oxc-project/oxc/releases/download/apps_v1.84.0/oxlint-x86_64-unknown-linux-musl.tar.gz"
+url_api = "https://api.github.com/repos/oxc-project/oxc/releases/assets/579056600"
 
 [tools.oxlint."platforms.linux-x64-musl-baseline"]
-checksum = "sha256:ffb6b0de929cf5628aee19973208f3a52fd17c1dddae6577436b09d8fc12ecd2"
-url = "https://github.com/oxc-project/oxc/releases/download/apps_v1.83.0/oxlint-x86_64-unknown-linux-musl.tar.gz"
-url_api = "https://api.github.com/repos/oxc-project/oxc/releases/assets/563328416"
+checksum = "sha256:b7a4b7e322cc5d4ecba1f17ce67a2eba3a911e421c65ea2d0d1a1752e402b293"
+url = "https://github.com/oxc-project/oxc/releases/download/apps_v1.84.0/oxlint-x86_64-unknown-linux-musl.tar.gz"
+url_api = "https://api.github.com/repos/oxc-project/oxc/releases/assets/579056600"
 
 [tools.oxlint."platforms.macos-arm64"]
-checksum = "sha256:18021b3bc2557e1cb9bb912ff7ae730d877f3e2ba1e06f98c75a979e5fa3a97e"
-url = "https://github.com/oxc-project/oxc/releases/download/apps_v1.83.0/oxlint-aarch64-apple-darwin.tar.gz"
-url_api = "https://api.github.com/repos/oxc-project/oxc/releases/assets/563328337"
+checksum = "sha256:e45d663c25b14ce0c85a56802ec868610d17b0e3311a1f39fc7f2b6f31efda94"
+url = "https://github.com/oxc-project/oxc/releases/download/apps_v1.84.0/oxlint-aarch64-apple-darwin.tar.gz"
+url_api = "https://api.github.com/repos/oxc-project/oxc/releases/assets/579056542"
 
 [tools.oxlint."platforms.macos-x64"]
-checksum = "sha256:ac0289dae46ff03414be668c79c0d4d36cf0db617adf4a1983083789d9d70367"
-url = "https://github.com/oxc-project/oxc/releases/download/apps_v1.83.0/oxlint-x86_64-apple-darwin.tar.gz"
-url_api = "https://api.github.com/repos/oxc-project/oxc/releases/assets/563328394"
+checksum = "sha256:fcf84ccd6cba88e714c644f2c61efc6349a0b4a40a48d72b117d9aba9812117a"
+url = "https://github.com/oxc-project/oxc/releases/download/apps_v1.84.0/oxlint-x86_64-apple-darwin.tar.gz"
+url_api = "https://api.github.com/repos/oxc-project/oxc/releases/assets/579056585"
 
 [tools.oxlint."platforms.macos-x64-baseline"]
-checksum = "sha256:ac0289dae46ff03414be668c79c0d4d36cf0db617adf4a1983083789d9d70367"
-url = "https://github.com/oxc-project/oxc/releases/download/apps_v1.83.0/oxlint-x86_64-apple-darwin.tar.gz"
-url_api = "https://api.github.com/repos/oxc-project/oxc/releases/assets/563328394"
+checksum = "sha256:fcf84ccd6cba88e714c644f2c61efc6349a0b4a40a48d72b117d9aba9812117a"
+url = "https://github.com/oxc-project/oxc/releases/download/apps_v1.84.0/oxlint-x86_64-apple-darwin.tar.gz"
+url_api = "https://api.github.com/repos/oxc-project/oxc/releases/assets/579056585"
 
 [[tools.pinact]]
 version = "5.0.0"
