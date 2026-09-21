@@ -163,6 +163,7 @@ jobs:
           zsh -ic 'eza --version && btop --version && glab --version'
           # completion is initialized and tool completions are registered
           zsh -ic 'whence -w compdef | grep --quiet function && [[ -n ${_comps[gh]} && -n ${_comps[mise]} && -n ${_comps[ghr]} ]]'
+          zsh -ic 'hk --profile bootstrap check --step mise-doctor --all'
         env:
           # use head sha for pull requests because github.sha is set to the merge commit
           GIT_COMMIT_SHA: ${{ case(github.event_name == 'pull_request', github.event.pull_request.head.sha, github.sha) }}

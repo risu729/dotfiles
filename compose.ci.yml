@@ -33,3 +33,7 @@ services:
         curl -fsSL "http://worker:4173/wsl?ref=$${SHA}&profile=personal" | bash
         # `mise.linux.toml` is only loaded when the platform configs are enabled
         test -f /etc/codex/config.toml
+        cd "$${HOME}/.ghr/github.com/risu729/dotfiles"
+        # The installer returns to the default branch; check the tested commit.
+        git checkout --quiet --detach "$${SHA:-HEAD}"
+        bash -ic 'hk --profile bootstrap check --step mise-doctor --all'
