@@ -46,8 +46,8 @@ fzf = "latest"
 jc = "latest"
 delta = "latest"
 ripgrep = "latest"
-# The lockfile pins one backend per tool and aqua has no macOS asset for eza, so
-# macOS builds it with cargo instead.
+# Linux follows mise's recommended eza backend; macOS uses cargo's prebuilt
+# releases through cargo-binstall.
 eza = { version = "latest", os = ["linux"] }
 "cargo:eza" = { version = "latest", os = ["macos"] }
 bat = "latest"
