@@ -51,6 +51,21 @@ hooks =
               "mise/**",
             )
         }
+        ["mise-doctor"] = new Step {
+          // Check the installed machine after bootstrap, not a lint-only runner.
+          profiles = List("bootstrap")
+          batch = false
+          // Warnings alone do not make `mise doctor` exit unsuccessfully.
+          check = #"""
+            report=$(mise doctor --json) || { printf '%s\n' "$report"; exit 1; }
+            printf '%s\n' "$report" | bun -e '
+              const { warnings = [], errors = [] } = await Bun.stdin.json();
+              const issues = [...warnings, ...errors];
+              for (const issue of issues) console.error(issue);
+              process.exit(issues.length > 0 ? 1 : 0);
+            '
+            """#
+        }
       }
     }
     ["pwsh"] = new Step {
