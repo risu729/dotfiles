@@ -7,3 +7,7 @@
 
 [dotfiles]
 "~/.zshrc/config" = { block = 'source "${HOME}/.config/zsh/zshrc"' }
+
+# Create the screenshot destination before applying macOS preferences.
+[bootstrap.directories."~/Pictures/Screenshots"]
+state = "present"

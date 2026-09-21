@@ -167,8 +167,8 @@ installer always passes `profile=personal` to it.
 > `PATH` before it; the real run does this itself.
 
 The first run asks for sudo to create `/opt/homebrew`; mise installs Homebrew
-packages itself, so Homebrew is not required. Screenshots fall back to the
-Desktop unless `~/Pictures/Screenshots` exists.
+packages itself, so Homebrew is not required. Bootstrap creates
+`~/Pictures/Screenshots` and configures it as the screenshot destination.
 
 Log out and back in for the keyboard, mouse, and scrolling preferences to take
 effect, and relaunch applications to pick up the text input ones.
