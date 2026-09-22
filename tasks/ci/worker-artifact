@@ -1,0 +1,51 @@
+#!/usr/bin/env bash
+#MISE description="Package or restore the validated Worker bundle without rebuilding it."
+#USAGE arg "<operation>" choices="pack restore"
+set -euo pipefail
+
+pack_worker() {
+	local revision="$1"
+	mkdir -p out/worker-artifact
+	# Archive hidden files and permissions along with the generated configuration.
+	tar -czf out/worker-artifact/worker.tar.gz -C worker dist
+	printf '%s\n' "${revision}" >out/worker-artifact/revision
+	(cd out/worker-artifact && shasum --algorithm 256 worker.tar.gz >SHA256SUMS)
+}
+
+restore_worker() {
+	local expected_revision="$1" actual_revision
+	actual_revision=$(cat out/worker-artifact/revision) || return
+	if [[ ${actual_revision} != "${expected_revision}" ]]; then
+		echo 'Worker artifact belongs to a different revision' >&2
+		return 1
+	fi
+	(cd out/worker-artifact && shasum --algorithm 256 --check SHA256SUMS) || return
+	tar -xzf out/worker-artifact/worker.tar.gz -C worker || return
+	test -f worker/dist/dotfiles_worker/wrangler.json || return
+	test -f worker/dist/dotfiles_worker/index.js || return
+	# The generated config must deploy these bytes, without another build/bundle.
+	bun -e '
+		const config = await Bun.file("worker/dist/dotfiles_worker/wrangler.json").json();
+		if (config.no_bundle !== true || config.build?.command) {
+			throw new Error("Worker artifact must disable builds and bundling");
+		}
+	'
+}
+
+main() {
+	local revision
+	cd "$(dirname "${BASH_SOURCE[0]}")/../.."
+	revision=$(git rev-parse HEAD)
+	case "${1:?Expected pack or restore}" in
+	pack) pack_worker "${revision}" ;;
+	restore) restore_worker "${EXPECTED_REVISION:?Set EXPECTED_REVISION to the validated commit}" ;;
+	*)
+		echo 'Expected pack or restore' >&2
+		return 1
+		;;
+	esac
+}
+
+if [[ ${BASH_SOURCE[0]:-$0} == "$0" ]]; then
+	main "$@"
+fi

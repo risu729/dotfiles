@@ -290,6 +290,19 @@ To verify an existing installation without installing again, run
 
 ### ☁️ Cloudflare Worker Deployment
 
+CI builds and validates the Worker, then uploads its bundle with the source
+revision and a checksum. A separate job downloads it and exercises Wrangler's
+deployment dry run. Production deploys that same artifact after lint and all
+four installer combinations pass on main; it never rebuilds the bundle.
+Every main push receives full validation and deployment, so queued/coalesced
+runs cannot miss an earlier Worker or toolchain change. PRs keep previews and
+selective checks. Running main deployments finish before the next main run.
+
+For a manual deployment, run **CI** on `main` with
+**Deploy the validated Worker** enabled. This reruns full validation before
+deploying. **Upstream Health** runs never deploy, and other branches only
+validate artifacts.
+
 GitHub Actions reads repository variable `CLOUDFLARE_ACCOUNT_ID` and
 repository secret `CLOUDFLARE_API_TOKEN` to deploy the Worker. The token's
 minimum permissions are:

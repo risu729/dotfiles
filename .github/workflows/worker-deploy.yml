@@ -1,14 +1,16 @@
 name: Worker Deploy
 on:
-  push:
-    branches:
-      - main
-    paths:
-      - ".github/workflows/worker-deploy.yml"
-      - "worker/**"
-  workflow_dispatch:
+  workflow_call:
+    inputs:
+      production:
+        description: Publish to production after main validation
+        type: boolean
+        default: false
+    secrets:
+      CLOUDFLARE_API_TOKEN:
+        required: false
 concurrency:
-  group: worker-production
+  group: worker-${{ inputs.production && 'production' || format('validation-{0}', github.run_id) }}
   cancel-in-progress: false
 permissions: {}
 defaults:
@@ -16,7 +18,8 @@ defaults:
     shell: bash
 jobs:
   deploy:
-    name: Deploy
+    name: ${{ inputs.production && 'Deploy' || 'Validate downloaded artifact' }}
+    if: ${{ !inputs.production || github.ref == 'refs/heads/main' }}
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     permissions:
@@ -29,6 +32,7 @@ jobs:
             mise.toml
             mise.lock
             tasks.toml
+            tasks/
             worker/
           persist-credentials: false
       - name: Install mise
@@ -37,13 +41,23 @@ jobs:
           version: 2026.9.12
         env:
           MISE_ENABLE_TOOLS: bun,node
-      - name: Build Worker
-        run: mise run worker:build
+      - name: Install deployment CLI from the lockfile
+        working-directory: worker
+        run: bun install --frozen-lockfile
+      - name: Download validated Worker
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: worker-build
+          path: out/worker-artifact/
+      - name: Verify and restore the artifact
+        run: bash tasks/ci/worker-artifact restore
+        env:
+          EXPECTED_REVISION: ${{ github.sha }}
       - name: Deploy Worker
         uses: risu729/wrangler-deploy-action@e943f9681fb250fa0d0a104bd95ea121c510d192 # v1.2.0
         with:
-          mode: production
+          mode: ${{ inputs.production && 'production' || 'dry-run' }}
           working-directory: worker
           config: dist/dotfiles_worker/wrangler.json
-          cloudflare-account-id: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
-          cloudflare-api-token: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          cloudflare-account-id: ${{ inputs.production && vars.CLOUDFLARE_ACCOUNT_ID || '' }}
+          cloudflare-api-token: ${{ inputs.production && secrets.CLOUDFLARE_API_TOKEN || '' }}

@@ -11,6 +11,10 @@ on:
         description: Run all installer and Worker checks
         type: boolean
         default: true
+      deploy:
+        description: Deploy the validated Worker (main only)
+        type: boolean
+        default: false
   workflow_call:
     inputs:
       full:
@@ -21,7 +25,8 @@ on:
         default: false
 concurrency:
   group: ${{ github.workflow }}-${{ inputs.health && 'health' || 'ci' }}-${{ case(github.event_name == 'pull_request', github.event.pull_request.number, github.ref) }}
-  cancel-in-progress: true
+  # Finish running main validations/deployments; superseded PR runs can stop.
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 permissions: {}
 defaults:
   run:
@@ -46,7 +51,8 @@ jobs:
         id: select
         run: bash tasks/ci/select >> "${GITHUB_OUTPUT}"
         env:
-          CI_FULL: ${{ inputs.full || inputs.health }}
+          # Validate the complete main tree, including commits coalesced by concurrency.
+          CI_FULL: ${{ inputs.full || inputs.health || github.event_name == 'push' || inputs.deploy }}
           BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before || format('{0}^', github.sha) }}
           HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
   lint:
@@ -202,6 +208,8 @@ jobs:
         uses: jdx/mise-action@c2a87611a18de5b3828c5652fe268e992400cb5c # v4.3.0
         with:
           version: 2026.9.12
+        env:
+          MISE_ENABLE_TOOLS: bun,node
       - name: Run tests
         run: mise run worker:test
         env:
@@ -219,6 +227,33 @@ jobs:
           preview-alias: pr-${{ github.event.pull_request.number }}
           cloudflare-account-id: ${{ github.event_name == 'pull_request' && vars.CLOUDFLARE_ACCOUNT_ID || '' }}
           cloudflare-api-token: ${{ github.event_name == 'pull_request' && secrets.CLOUDFLARE_API_TOKEN || '' }}
+      - name: Package validated Worker
+        run: bash tasks/ci/worker-artifact pack
+      - name: Upload validated Worker
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: worker-build
+          path: out/worker-artifact/
+          if-no-files-found: error
+          retention-days: 7
+  verify-worker-artifact:
+    name: Verify Worker artifact
+    needs: test-worker
+    permissions:
+      contents: read # for checkout in the reusable workflow
+    uses: ./.github/workflows/worker-deploy.yml # zizmor: ignore[self-repository] -- actionlint 1.7.12 does not support $/ yet.
+  deploy-worker:
+    name: Deploy validated Worker
+    needs: [changes, lint, test-linux, test-macos, verify-worker-artifact]
+    if: >-
+      ${{ !cancelled() && !inputs.health && github.ref == 'refs/heads/main' && (github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && inputs.deploy)) && needs.changes.result == 'success' && needs.lint.result == 'success' && needs.test-linux.result == 'success' && needs.test-macos.result == 'success' && needs.verify-worker-artifact.result == 'success' }}
+    permissions:
+      contents: read # for checkout in the reusable workflow
+    uses: ./.github/workflows/worker-deploy.yml # zizmor: ignore[self-repository] -- actionlint 1.7.12 does not support $/ yet.
+    with:
+      production: true
+    secrets:
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
   ci-check:
     name: CI Check
     needs:
@@ -228,6 +263,7 @@ jobs:
       - test-linux
       - test-macos
       - test-worker
+      - verify-worker-artifact
     if: ${{ !cancelled() && (contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled')) }}
     runs-on: ubuntu-24.04
     timeout-minutes: 5
