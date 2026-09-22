@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #MISE description="Package or restore the validated Worker bundle without rebuilding it."
-#USAGE arg "<operation>" choices="pack restore"
+#USAGE arg "<operation>" help="pack or restore"
 set -euo pipefail
 
 pack_worker() {
