@@ -252,6 +252,9 @@ watch mode with the Vitest UI, use `mise run worker:test:watch`. Bats discovers
 suite, run `mise exec -- bats tests/installer-revisions.bats`. CI runs Bats and
 Vitest in separate jobs. `hk` lints and formats the test files.
 
+Worker tests fetch installer scripts from GitHub at the checked-out commit.
+Push local commits before running the Worker suite or the combined test command.
+
 ### ☁️ Cloudflare Worker Deployment
 
 GitHub Actions reads repository variable `CLOUDFLARE_ACCOUNT_ID` and
