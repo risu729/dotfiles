@@ -34,6 +34,7 @@ typos = "1.50.2"
 hadolint = "2.15.1"
 betterleaks = "v1.8.1"
 powershell = "7.6.6"
+bats = "1.14.0"
 
 [settings]
 experimental = true

@@ -49,7 +49,7 @@ install_mise_macos() {
 		# Fails when the installation dialog is already open
 		xcode-select --install || true
 		log_info "Accept the installation dialog. Waiting for it to finish..."
-		log_info 'Without a dialog, install the Command Line Tools entry of `softwareupdate --list` in another terminal.'
+		log_info "Without a dialog, install the Command Line Tools entry listed by softwareupdate --list in another terminal."
 		until xcode-select -p >/dev/null 2>&1; do
 			sleep 5
 		done

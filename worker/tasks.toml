@@ -15,9 +15,15 @@ description = "Preview the built worker."
 
 ["worker:test"]
 depends = ["worker:generate:types"]
-run = "bun run vitest {% if env.CI is undefined %}watch --ui{% else %}run{% endif %}"
+run = "bun run vitest run"
 dir = "worker"
-description = "Run tests for the worker."
+description = "Run Worker tests once."
+
+["worker:test:watch"]
+depends = ["worker:generate:types"]
+run = "bun run vitest watch --ui"
+dir = "worker"
+description = "Watch Worker tests with the Vitest UI."
 
 ["worker:generate:types"]
 run = "bun run wrangler types src/worker-configuration.d.ts"

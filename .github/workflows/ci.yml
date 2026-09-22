@@ -41,8 +41,8 @@ jobs:
         run: mise run check --lint --flaky
         env:
           GITHUB_TOKEN: ${{ github.token }}
-  test-scripts:
-    name: Script regression tests
+  test-bats:
+    name: Bats
     runs-on: ubuntu-24.04
     timeout-minutes: 5
     permissions:
@@ -57,9 +57,9 @@ jobs:
         with:
           version: 2026.9.12
         env:
-          MISE_ENABLE_TOOLS: bun
-      - name: Run script regression tests
-        run: mise run test:scripts
+          MISE_ENABLE_TOOLS: bats,bun
+      - name: Run Bats tests
+        run: mise run test:bats
   test-linux:
     name: Test Installer Scripts on WSL Ubuntu Image
     runs-on: ubuntu-24.04
@@ -224,7 +224,7 @@ jobs:
     name: CI Check
     needs:
       - lint
-      - test-scripts
+      - test-bats
       - test-linux
       - test-macos
       - test-worker

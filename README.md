@@ -238,13 +238,19 @@ The following command will lint and format the code, including auto-fixes:
 mise check
 ```
 
-### Script Regression Tests
+### Tests
 
-Run isolated script regression tests separately from linting and formatting:
+Run the Bats shell regressions and Worker Vitest suite once:
 
-```shell
-mise run test:scripts
+```bash
+mise run test
 ```
+
+Run either suite with `mise run test:bats` or `mise run worker:test`. For Worker
+watch mode with the Vitest UI, use `mise run worker:test:watch`. Bats discovers
+`tests/*.bats`; each case uses isolated temporary fixtures. To focus on a shell
+suite, run `mise exec -- bats tests/installer-revisions.bats`. CI runs Bats and
+Vitest in separate jobs. `hk` lints and formats the test files.
 
 ### ☁️ Cloudflare Worker Deployment
 

@@ -14,13 +14,13 @@ hk \
 """
 description = "Run hk linters and formatters."
 
-["test:scripts"]
-depends = ["test:installer-revisions"]
-description = "Run isolated script regression tests."
+[test]
+depends = ["test:bats", "worker:test"]
+description = "Run Bats and Worker tests once."
 
-["test:installer-revisions"]
-run = "bash tests/installer-revisions.sh"
-description = "Test installer revision selection in temporary Git repositories."
+["test:bats"]
+run = "bats tests"
+description = "Run all shell regression tests with Bats."
 
 ["install:ps-script-analyzer"]
 shell = "pwsh -Command"

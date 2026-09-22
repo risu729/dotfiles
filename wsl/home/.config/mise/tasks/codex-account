@@ -163,6 +163,8 @@ account_rows() {
 	local source
 
 	current_name=$(current_account_name)
+	# Missing accounts produce an empty listing.
+	# shellcheck disable=SC2312
 	while IFS= read -r account_name; do
 		[[ -n ${account_name} ]] || continue
 
