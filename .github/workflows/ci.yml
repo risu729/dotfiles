@@ -191,6 +191,8 @@ jobs:
     name: Worker (Vitest)
     runs-on: ubuntu-24.04
     timeout-minutes: 10
+    env:
+      MISE_ENABLE_TOOLS: bun,node
     permissions:
       contents: read # for checkout
     steps:
@@ -208,8 +210,6 @@ jobs:
         uses: jdx/mise-action@c2a87611a18de5b3828c5652fe268e992400cb5c # v4.3.0
         with:
           version: 2026.9.12
-        env:
-          MISE_ENABLE_TOOLS: bun,node
       - name: Run tests
         run: mise run worker:test
         env:
