@@ -1,0 +1,50 @@
+#!/usr/bin/env bash
+#MISE description="Select expensive CI jobs from the changed paths, or run the full suite."
+set -euo pipefail
+
+select_checks() {
+	local installers=false worker=false path
+	for path in "$@"; do
+		case "${path}" in
+		wsl/*) installers=true ;;
+		unix/* | worker/*)
+			installers=true
+			worker=true
+			;;
+		win/*) worker=true ;;
+		docs/* | *.md) ;;
+		*)
+			installers=true
+			worker=true
+			;;
+		esac
+	done
+	printf 'installers=%s\nworker=%s\n' "${installers}" "${worker}"
+}
+
+main() {
+	local changes path
+	set --
+	if [[ ${CI_FULL:-false} == true ]]; then
+		select_checks mise.toml
+		return
+	fi
+	changes=$(mktemp)
+	# Both sides of renames matter: moving a configuration file into docs still
+	# requires an installer test. NUL delimiters preserve unusual filenames.
+	if ! git diff --name-only --no-renames -z "${BASE_SHA:?}" "${HEAD_SHA:?}" -- >"${changes}"; then
+		echo 'Cannot compare revisions; running the full suite.' >&2
+		rm -f "${changes}"
+		select_checks mise.toml
+		return
+	fi
+	while IFS= read -r -d '' path; do
+		set -- "$@" "${path}"
+	done <"${changes}"
+	rm -f "${changes}"
+	select_checks "$@"
+}
+
+if [[ ${BASH_SOURCE[0]:-$0} == "$0" ]]; then
+	main "$@"
+fi

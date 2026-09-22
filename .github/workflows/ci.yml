@@ -6,16 +6,49 @@ on:
   # Stacked PRs target their parent branch rather than main.
   pull_request:
   workflow_dispatch:
-  schedule:
-    - cron: "0 0 * * SUN"
+    inputs:
+      full:
+        description: Run all installer and Worker checks
+        type: boolean
+        default: true
+  workflow_call:
+    inputs:
+      full:
+        type: boolean
+        default: true
+      health:
+        type: boolean
+        default: false
 concurrency:
-  group: ${{ github.workflow }}-${{ case(github.event_name == 'pull_request', github.event.pull_request.number, github.ref) }}
+  group: ${{ github.workflow }}-${{ inputs.health && 'health' || 'ci' }}-${{ case(github.event_name == 'pull_request', github.event.pull_request.number, github.ref) }}
   cancel-in-progress: true
 permissions: {}
 defaults:
   run:
     shell: bash
 jobs:
+  changes:
+    name: Select checks
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    permissions:
+      contents: read # for checkout
+    outputs:
+      installers: ${{ steps.select.outputs.installers }}
+      worker: ${{ steps.select.outputs.worker }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Select expensive checks
+        id: select
+        run: bash tasks/ci/select >> "${GITHUB_OUTPUT}"
+        env:
+          CI_FULL: ${{ inputs.full || inputs.health }}
+          BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before || format('{0}^', github.sha) }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
   lint:
     name: Lint
     runs-on: ubuntu-24.04
@@ -32,12 +65,12 @@ jobs:
         with:
           version: 2026.9.12
       - name: Run check
-        if: github.event_name != 'schedule'
+        if: ${{ !inputs.health }}
         run: mise run check --lint
         env:
           GITHUB_TOKEN: ${{ github.token }}
       - name: Run flaky check
-        if: github.event_name == 'schedule'
+        if: ${{ inputs.health }}
         run: mise run check --lint --flaky
         env:
           GITHUB_TOKEN: ${{ github.token }}
@@ -61,6 +94,8 @@ jobs:
       - name: Run Bats tests
         run: mise run test:bats
   test-linux:
+    needs: changes
+    if: ${{ needs.changes.outputs.installers == 'true' }}
     name: Linux installer (${{ matrix.profile }})
     strategy:
       fail-fast: false
@@ -121,6 +156,8 @@ jobs:
           GIT_COMMIT_SHA: ${{ case(github.event_name == 'pull_request', github.event.pull_request.head.sha, github.sha) }}
           MISE_LOG_LEVEL: ${{ case(runner.debug == '1', 'debug', 'info') }}
   test-macos:
+    needs: changes
+    if: ${{ needs.changes.outputs.installers == 'true' }}
     name: macOS installer (${{ matrix.profile }})
     strategy:
       fail-fast: false
@@ -144,6 +181,8 @@ jobs:
           GIT_COMMIT_SHA: ${{ case(github.event_name == 'pull_request', github.event.pull_request.head.sha, github.sha) }}
           MISE_LOG_LEVEL: ${{ case(runner.debug == '1', 'debug', 'info') }}
   test-worker:
+    needs: changes
+    if: ${{ needs.changes.outputs.worker == 'true' }}
     name: Cloudflare Worker
     runs-on: ubuntu-24.04
     timeout-minutes: 10
@@ -182,6 +221,7 @@ jobs:
   ci-check:
     name: CI Check
     needs:
+      - changes
       - lint
       - test-bats
       - test-linux
