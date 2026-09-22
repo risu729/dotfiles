@@ -292,9 +292,9 @@ To verify an existing installation without installing again, run
 
 CI builds and validates the Worker, then uploads its bundle with the source
 revision and a checksum. A separate job downloads it and exercises Wrangler's
-deployment dry run. Production deploys that same artifact after lint, script
-regression tests, and all four installer combinations pass on main; it never
-rebuilds the bundle.
+deployment dry run. Production deploys that same artifact after lint, Bats,
+Vitest, and all four installer combinations pass on main; it never rebuilds
+the bundle.
 Every main push receives full validation and deployment, so queued/coalesced
 runs cannot miss an earlier Worker or toolchain change. PRs keep previews and
 selective checks. Running main deployments finish before the next main run.

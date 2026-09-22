@@ -228,8 +228,10 @@ jobs:
           cloudflare-account-id: ${{ github.event_name == 'pull_request' && vars.CLOUDFLARE_ACCOUNT_ID || '' }}
           cloudflare-api-token: ${{ github.event_name == 'pull_request' && secrets.CLOUDFLARE_API_TOKEN || '' }}
       - name: Package validated Worker
+        if: ${{ needs.changes.outputs.worker == 'true' }}
         run: bash tasks/ci/worker-artifact pack
       - name: Upload validated Worker
+        if: ${{ needs.changes.outputs.worker == 'true' }}
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: worker-build
@@ -238,15 +240,16 @@ jobs:
           retention-days: 7
   verify-worker-artifact:
     name: Verify Worker artifact
-    needs: test-worker
+    needs: [changes, test-worker]
+    if: ${{ needs.changes.outputs.worker == 'true' }}
     permissions:
       contents: read # for checkout in the reusable workflow
     uses: ./.github/workflows/worker-deploy.yml # zizmor: ignore[self-repository] -- actionlint 1.7.12 does not support $/ yet.
   deploy-worker:
     name: Deploy validated Worker
-    needs: [changes, lint, test-scripts, test-linux, test-macos, verify-worker-artifact]
+    needs: [changes, lint, test-bats, test-worker, test-linux, test-macos, verify-worker-artifact]
     if: >-
-      ${{ !cancelled() && !inputs.health && github.ref == 'refs/heads/main' && (github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && inputs.deploy)) && needs.changes.result == 'success' && needs.lint.result == 'success' && needs.test-scripts.result == 'success' && needs.test-linux.result == 'success' && needs.test-macos.result == 'success' && needs.verify-worker-artifact.result == 'success' }}
+      ${{ !cancelled() && !inputs.health && github.ref == 'refs/heads/main' && (github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && inputs.deploy)) && needs.changes.result == 'success' && needs.lint.result == 'success' && needs.test-bats.result == 'success' && needs.test-worker.result == 'success' && needs.test-linux.result == 'success' && needs.test-macos.result == 'success' && needs.verify-worker-artifact.result == 'success' }}
     permissions:
       contents: read # for checkout in the reusable workflow
     uses: ./.github/workflows/worker-deploy.yml # zizmor: ignore[self-repository] -- actionlint 1.7.12 does not support $/ yet.
