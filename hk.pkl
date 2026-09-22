@@ -66,11 +66,6 @@ hooks =
         }
       }
     }
-    ["worker-artifact"] = new Step {
-      glob = List("tasks/ci/worker-artifact", "tests/worker-artifact.sh", ".github/workflows/*.yml")
-      batch = false
-      check = "bash tests/worker-artifact.sh"
-    }
     ["pwsh"] = new Step {
       // batch=false: ScriptAnalyzer scans `win/` recursively; command has no `{{ files }}`
       batch = false

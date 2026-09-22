@@ -244,9 +244,9 @@ jobs:
     uses: ./.github/workflows/worker-deploy.yml # zizmor: ignore[self-repository] -- actionlint 1.7.12 does not support $/ yet.
   deploy-worker:
     name: Deploy validated Worker
-    needs: [changes, lint, test-linux, test-macos, verify-worker-artifact]
+    needs: [changes, lint, test-scripts, test-linux, test-macos, verify-worker-artifact]
     if: >-
-      ${{ !cancelled() && !inputs.health && github.ref == 'refs/heads/main' && (github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && inputs.deploy)) && needs.changes.result == 'success' && needs.lint.result == 'success' && needs.test-linux.result == 'success' && needs.test-macos.result == 'success' && needs.verify-worker-artifact.result == 'success' }}
+      ${{ !cancelled() && !inputs.health && github.ref == 'refs/heads/main' && (github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && inputs.deploy)) && needs.changes.result == 'success' && needs.lint.result == 'success' && needs.test-scripts.result == 'success' && needs.test-linux.result == 'success' && needs.test-macos.result == 'success' && needs.verify-worker-artifact.result == 'success' }}
     permissions:
       contents: read # for checkout in the reusable workflow
     uses: ./.github/workflows/worker-deploy.yml # zizmor: ignore[self-repository] -- actionlint 1.7.12 does not support $/ yet.

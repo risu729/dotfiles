@@ -22,6 +22,10 @@ description = "Run Bats and Worker tests once."
 run = "bats tests"
 description = "Run all shell regression tests with Bats."
 
+["test:worker-artifact"]
+run = "bash tests/worker-artifact.sh"
+description = "Test Worker artifact packaging and validation."
+
 ["install:ps-script-analyzer"]
 shell = "pwsh -Command"
 # Force is required to bypass untrusted repository confirmation
