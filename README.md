@@ -259,9 +259,10 @@ Push local commits before running the Worker suite or the combined test command.
 
 CI tests Linux and macOS with both the bare (shared-only) and personal profiles.
 Each job installs twice, verifies the requested Git revision and managed state
-after both passes, and runs `mise doctor` through hk in a fresh interactive
-shell. Linux uses the Ubuntu WSL filesystem in Docker; actual Windows/WSL
-runtime coverage is tracked in
+after both passes, and runs `mise doctor` in a fresh interactive shell. The
+`verify:installation` task checks installed state and fails on doctor warnings
+as well as errors. Linux uses the Ubuntu WSL filesystem in Docker; actual
+Windows/WSL runtime coverage is tracked in
 [#4287](https://github.com/risu729/dotfiles/issues/4287).
 
 On a disposable environment, run the same tasks as CI:

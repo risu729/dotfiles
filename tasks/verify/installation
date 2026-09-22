@@ -11,4 +11,4 @@ Linux) login_shell=bash ;;
 	exit 1
 	;;
 esac
-exec "${login_shell}" -ic 'hk --profile bootstrap check --check --step bootstrap-files --step mise-doctor --all'
+exec "${login_shell}" -ic 'bash tests/bootstrap.sh && bash tasks/verify/mise-doctor'
