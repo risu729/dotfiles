@@ -84,53 +84,53 @@ url = "https://github.com/bitwarden/clients/releases/download/cli-v2026.9.0/bw-m
 url_api = "https://api.github.com/repos/bitwarden/clients/releases/assets/570320154"
 
 [[tools.copilot]]
-version = "1.0.86"
+version = "1.0.87"
 backend = "aqua:github/copilot-cli"
 
 [tools.copilot."platforms.linux-arm64"]
-checksum = "sha256:3c0e1f939931ddf19cf4d6a2d77922afb937dbfa8d373fe623b8befab5bd7fdb"
-url = "https://github.com/github/copilot-cli/releases/download/v1.0.86/copilot-linux-arm64.tar.gz"
-url_api = "https://api.github.com/repos/github/copilot-cli/releases/assets/571325925"
+checksum = "sha256:c175343f60024d368e58a71f2294384b2b7df7b958079570b05b69ca89ce55f6"
+url = "https://github.com/github/copilot-cli/releases/download/v1.0.87/copilot-linux-arm64.tar.gz"
+url_api = "https://api.github.com/repos/github/copilot-cli/releases/assets/579311941"
 
 [tools.copilot."platforms.linux-arm64-musl"]
-checksum = "sha256:3c0e1f939931ddf19cf4d6a2d77922afb937dbfa8d373fe623b8befab5bd7fdb"
-url = "https://github.com/github/copilot-cli/releases/download/v1.0.86/copilot-linux-arm64.tar.gz"
-url_api = "https://api.github.com/repos/github/copilot-cli/releases/assets/571325925"
+checksum = "sha256:c175343f60024d368e58a71f2294384b2b7df7b958079570b05b69ca89ce55f6"
+url = "https://github.com/github/copilot-cli/releases/download/v1.0.87/copilot-linux-arm64.tar.gz"
+url_api = "https://api.github.com/repos/github/copilot-cli/releases/assets/579311941"
 
 [tools.copilot."platforms.linux-x64"]
-checksum = "sha256:ea4a519d7b2ff54e9c7d10ae9921cf4ab3f5041489ec340852f47f4f63fc535b"
-url = "https://github.com/github/copilot-cli/releases/download/v1.0.86/copilot-linux-x64.tar.gz"
-url_api = "https://api.github.com/repos/github/copilot-cli/releases/assets/571326067"
+checksum = "sha256:49d81b184f1a1b358af676155fe97e341b9d9f0bc8dd25190dfe17087669b5b9"
+url = "https://github.com/github/copilot-cli/releases/download/v1.0.87/copilot-linux-x64.tar.gz"
+url_api = "https://api.github.com/repos/github/copilot-cli/releases/assets/579312213"
 
 [tools.copilot."platforms.linux-x64-baseline"]
-checksum = "sha256:ea4a519d7b2ff54e9c7d10ae9921cf4ab3f5041489ec340852f47f4f63fc535b"
-url = "https://github.com/github/copilot-cli/releases/download/v1.0.86/copilot-linux-x64.tar.gz"
-url_api = "https://api.github.com/repos/github/copilot-cli/releases/assets/571326067"
+checksum = "sha256:49d81b184f1a1b358af676155fe97e341b9d9f0bc8dd25190dfe17087669b5b9"
+url = "https://github.com/github/copilot-cli/releases/download/v1.0.87/copilot-linux-x64.tar.gz"
+url_api = "https://api.github.com/repos/github/copilot-cli/releases/assets/579312213"
 
 [tools.copilot."platforms.linux-x64-musl"]
-checksum = "sha256:ea4a519d7b2ff54e9c7d10ae9921cf4ab3f5041489ec340852f47f4f63fc535b"
-url = "https://github.com/github/copilot-cli/releases/download/v1.0.86/copilot-linux-x64.tar.gz"
-url_api = "https://api.github.com/repos/github/copilot-cli/releases/assets/571326067"
+checksum = "sha256:49d81b184f1a1b358af676155fe97e341b9d9f0bc8dd25190dfe17087669b5b9"
+url = "https://github.com/github/copilot-cli/releases/download/v1.0.87/copilot-linux-x64.tar.gz"
+url_api = "https://api.github.com/repos/github/copilot-cli/releases/assets/579312213"
 
 [tools.copilot."platforms.linux-x64-musl-baseline"]
-checksum = "sha256:ea4a519d7b2ff54e9c7d10ae9921cf4ab3f5041489ec340852f47f4f63fc535b"
-url = "https://github.com/github/copilot-cli/releases/download/v1.0.86/copilot-linux-x64.tar.gz"
-url_api = "https://api.github.com/repos/github/copilot-cli/releases/assets/571326067"
+checksum = "sha256:49d81b184f1a1b358af676155fe97e341b9d9f0bc8dd25190dfe17087669b5b9"
+url = "https://github.com/github/copilot-cli/releases/download/v1.0.87/copilot-linux-x64.tar.gz"
+url_api = "https://api.github.com/repos/github/copilot-cli/releases/assets/579312213"
 
 [tools.copilot."platforms.macos-arm64"]
-checksum = "sha256:a242a106b9b47f23cf02f354113a86c5efc6f69a4e175265f7c9bc509daa7789"
-url = "https://github.com/github/copilot-cli/releases/download/v1.0.86/copilot-darwin-arm64.tar.gz"
-url_api = "https://api.github.com/repos/github/copilot-cli/releases/assets/571325928"
+checksum = "sha256:5efcf761670d0cbb3da0edd86fb6fd14cf890254d58cdb80c5ad6cfd4b5394d4"
+url = "https://github.com/github/copilot-cli/releases/download/v1.0.87/copilot-darwin-arm64.tar.gz"
+url_api = "https://api.github.com/repos/github/copilot-cli/releases/assets/579311947"
 
 [tools.copilot."platforms.macos-x64"]
-checksum = "sha256:f1f2cfd1f2b54d492365b4ceefb473cc84530b970ac8c9e49e2f539133016cd1"
-url = "https://github.com/github/copilot-cli/releases/download/v1.0.86/copilot-darwin-x64.tar.gz"
-url_api = "https://api.github.com/repos/github/copilot-cli/releases/assets/571325926"
+checksum = "sha256:946a91fbb938b9fdf044856761f338c3f2cd92325c2bccc6c50f61deb2e5fc25"
+url = "https://github.com/github/copilot-cli/releases/download/v1.0.87/copilot-darwin-x64.tar.gz"
+url_api = "https://api.github.com/repos/github/copilot-cli/releases/assets/579311938"
 
 [tools.copilot."platforms.macos-x64-baseline"]
-checksum = "sha256:f1f2cfd1f2b54d492365b4ceefb473cc84530b970ac8c9e49e2f539133016cd1"
-url = "https://github.com/github/copilot-cli/releases/download/v1.0.86/copilot-darwin-x64.tar.gz"
-url_api = "https://api.github.com/repos/github/copilot-cli/releases/assets/571325926"
+checksum = "sha256:946a91fbb938b9fdf044856761f338c3f2cd92325c2bccc6c50f61deb2e5fc25"
+url = "https://github.com/github/copilot-cli/releases/download/v1.0.87/copilot-darwin-x64.tar.gz"
+url_api = "https://api.github.com/repos/github/copilot-cli/releases/assets/579311938"
 
 [[tools.cursor-agent]]
 version = "2026.09.18-9a7762b"
@@ -278,37 +278,37 @@ url_api = "https://api.github.com/repos/risu729/kuebiko/releases/assets/56909010
 provenance = "github-attestations"
 
 [[tools."github:risu729/mikoto"]]
-version = "1.0.46"
+version = "1.0.47"
 backend = "github:risu729/mikoto"
 
 [tools."github:risu729/mikoto"."platforms.linux-x64"]
-checksum = "sha256:da6cfee33ed788ce5f605d68330bba665d65a43758ddd3e25991f9a0f3a3d494"
-url = "https://github.com/risu729/mikoto/releases/download/v1.0.46/mikoto-v1.0.46-linux-x64.tar.gz"
-url_api = "https://api.github.com/repos/risu729/mikoto/releases/assets/576112701"
+checksum = "sha256:f4d7a491a513337b1dc22c267f5f323bc2a1c340e552df6d61062ba59b08b844"
+url = "https://github.com/risu729/mikoto/releases/download/v1.0.47/mikoto-v1.0.47-linux-x64.tar.gz"
+url_api = "https://api.github.com/repos/risu729/mikoto/releases/assets/579020645"
 provenance = "github-attestations"
 
 [tools."github:risu729/mikoto"."platforms.linux-x64-baseline"]
-checksum = "sha256:da6cfee33ed788ce5f605d68330bba665d65a43758ddd3e25991f9a0f3a3d494"
-url = "https://github.com/risu729/mikoto/releases/download/v1.0.46/mikoto-v1.0.46-linux-x64.tar.gz"
-url_api = "https://api.github.com/repos/risu729/mikoto/releases/assets/576112701"
+checksum = "sha256:f4d7a491a513337b1dc22c267f5f323bc2a1c340e552df6d61062ba59b08b844"
+url = "https://github.com/risu729/mikoto/releases/download/v1.0.47/mikoto-v1.0.47-linux-x64.tar.gz"
+url_api = "https://api.github.com/repos/risu729/mikoto/releases/assets/579020645"
 provenance = "github-attestations"
 
 [tools."github:risu729/mikoto"."platforms.linux-x64-musl"]
-checksum = "sha256:da6cfee33ed788ce5f605d68330bba665d65a43758ddd3e25991f9a0f3a3d494"
-url = "https://github.com/risu729/mikoto/releases/download/v1.0.46/mikoto-v1.0.46-linux-x64.tar.gz"
-url_api = "https://api.github.com/repos/risu729/mikoto/releases/assets/576112701"
+checksum = "sha256:f4d7a491a513337b1dc22c267f5f323bc2a1c340e552df6d61062ba59b08b844"
+url = "https://github.com/risu729/mikoto/releases/download/v1.0.47/mikoto-v1.0.47-linux-x64.tar.gz"
+url_api = "https://api.github.com/repos/risu729/mikoto/releases/assets/579020645"
 provenance = "github-attestations"
 
 [tools."github:risu729/mikoto"."platforms.linux-x64-musl-baseline"]
-checksum = "sha256:da6cfee33ed788ce5f605d68330bba665d65a43758ddd3e25991f9a0f3a3d494"
-url = "https://github.com/risu729/mikoto/releases/download/v1.0.46/mikoto-v1.0.46-linux-x64.tar.gz"
-url_api = "https://api.github.com/repos/risu729/mikoto/releases/assets/576112701"
+checksum = "sha256:f4d7a491a513337b1dc22c267f5f323bc2a1c340e552df6d61062ba59b08b844"
+url = "https://github.com/risu729/mikoto/releases/download/v1.0.47/mikoto-v1.0.47-linux-x64.tar.gz"
+url_api = "https://api.github.com/repos/risu729/mikoto/releases/assets/579020645"
 provenance = "github-attestations"
 
 [tools."github:risu729/mikoto"."platforms.macos-arm64"]
-checksum = "sha256:db625a7a1df37e5bd7c672df93599ddcc5ca78e450e2f51eaf6e95865d66fb98"
-url = "https://github.com/risu729/mikoto/releases/download/v1.0.46/mikoto-v1.0.46-macos-arm64.tar.gz"
-url_api = "https://api.github.com/repos/risu729/mikoto/releases/assets/576112679"
+checksum = "sha256:f722e561f68010a86337aa13dd77d3b24318cf06a290b3d1c25f2bd33b0d4bd3"
+url = "https://github.com/risu729/mikoto/releases/download/v1.0.47/mikoto-v1.0.47-macos-arm64.tar.gz"
+url_api = "https://api.github.com/repos/risu729/mikoto/releases/assets/579020626"
 provenance = "github-attestations"
 
 [[tools.glab]]
