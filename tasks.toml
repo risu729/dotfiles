@@ -14,6 +14,14 @@ hk \
 """
 description = "Run hk linters and formatters."
 
+["test:scripts"]
+depends = ["test:installer-revisions"]
+description = "Run isolated script regression tests."
+
+["test:installer-revisions"]
+run = "bash tests/installer-revisions.sh"
+description = "Test installer revision selection in temporary Git repositories."
+
 ["install:ps-script-analyzer"]
 shell = "pwsh -Command"
 # Force is required to bypass untrusted repository confirmation

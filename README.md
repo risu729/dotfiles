@@ -238,6 +238,14 @@ The following command will lint and format the code, including auto-fixes:
 mise check
 ```
 
+### Script Regression Tests
+
+Run isolated script regression tests separately from linting and formatting:
+
+```shell
+mise run test:scripts
+```
+
 ### ☁️ Cloudflare Worker Deployment
 
 GitHub Actions reads repository variable `CLOUDFLARE_ACCOUNT_ID` and
