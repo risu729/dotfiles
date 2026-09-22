@@ -35,6 +35,11 @@ local mise = picked["mise"] as Group
 
 hooks =
   helpers.standardHooks((picked) {
+    // Work around hk 1.58.1's pklr evaluator dropping inherited commands when
+    // these preset steps are amended; otherwise hk silently skips the steps.
+    // Standard Pkl preserves them. Recheck during the hk v2 upgrade:
+    // https://github.com/risu729/dotfiles/pull/4188
+    // Remove the duplicate commands once check/fix plans retain the inherited ones.
     ["shfmt"] = (includeShellFiles(picked["shfmt"] as Step)) {
       check_diff = "shfmt --diff --simplify {{ files }}"
       fix = "shfmt --write --simplify {{ files }}"
