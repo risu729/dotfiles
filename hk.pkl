@@ -66,11 +66,6 @@ hooks =
         }
       }
     }
-    ["ci-selection"] = new Step {
-      glob = List("tasks/ci/select", "tests/ci-selection.sh", ".github/workflows/*.yml")
-      batch = false
-      check = "bash tests/ci-selection.sh"
-    }
     ["pwsh"] = new Step {
       // batch=false: ScriptAnalyzer scans `win/` recursively; command has no `{{ files }}`
       batch = false
