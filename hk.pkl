@@ -51,6 +51,8 @@ hooks =
       steps {
         ["mise-fmt"] = mise.steps["mise-fmt"]
         ["mise-tasks"] = (mise.steps["mise-tasks"]) {
+          // Same hk 1.58.1 pklr inheritance workaround as the shell steps above.
+          // Remove with #4188 once this step inherits the preset's check command.
           check = "mise task validate"
           glob =
             List(
