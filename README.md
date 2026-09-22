@@ -275,7 +275,7 @@ The Linux task needs Docker and the `wsl-amd64.wsl` image downloaded by CI.
 The macOS task installs directly onto the Mac running it. Both require the
 selected `GIT_COMMIT_SHA` (default: `HEAD`) to be available on GitHub.
 To verify an existing installation without installing again, run
-`TEST_PROFILE=personal mise run verify:bootstrap` (or `bare` as appropriate).
+`TEST_PROFILE=personal mise run verify:installation` (or `bare` as appropriate).
 
 ### ☁️ Cloudflare Worker Deployment
 

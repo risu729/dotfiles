@@ -6,6 +6,7 @@ services:
       args:
         MISE_VERSION: ${MISE_VERSION:-}
     environment:
+      CI: "true"
       GIT_COMMIT_SHA: ${GIT_COMMIT_SHA:-}
       GITHUB_TOKEN: ${GITHUB_TOKEN:-}
     healthcheck:
@@ -21,6 +22,7 @@ services:
       worker:
         condition: service_healthy
     environment:
+      CI: "true"
       GITHUB_TOKEN: ${GITHUB_TOKEN:-}
       __CI: ${__CI:-}
       GIT_COMMIT_SHA: ${GIT_COMMIT_SHA:-}

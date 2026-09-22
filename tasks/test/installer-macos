@@ -24,5 +24,5 @@ for attempt in 1 2; do
 	cd "${HOME}"
 	bash "${installer}"
 	cd "${HOME}/.ghr/github.com/risu729/dotfiles"
-	bash tasks/verify/bootstrap
+	bash tasks/verify/installation
 done
