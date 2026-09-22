@@ -22,10 +22,6 @@ description = "Run Bats and Worker tests once."
 run = "bats tests"
 description = "Run all shell regression tests with Bats."
 
-["test:ci-selection"]
-run = "bash tests/ci-selection.sh"
-description = "Test CI change selection and conservative fallbacks."
-
 ["install:ps-script-analyzer"]
 shell = "pwsh -Command"
 # Force is required to bypass untrusted repository confirmation

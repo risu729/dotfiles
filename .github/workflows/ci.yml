@@ -182,8 +182,7 @@ jobs:
           MISE_LOG_LEVEL: ${{ case(runner.debug == '1', 'debug', 'info') }}
   test-worker:
     needs: changes
-    if: ${{ needs.changes.outputs.worker == 'true' }}
-    name: Cloudflare Worker
+    name: Worker (Vitest)
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     permissions:
@@ -208,8 +207,10 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ github.token }}
       - name: Build Worker
+        if: ${{ needs.changes.outputs.worker == 'true' }}
         run: mise run worker:build
       - name: Upload preview or validate deployment
+        if: ${{ needs.changes.outputs.worker == 'true' }}
         uses: risu729/wrangler-deploy-action@e943f9681fb250fa0d0a104bd95ea121c510d192 # v1.2.0
         with:
           mode: ${{ github.event_name == 'pull_request' && 'preview-or-dry-run' || 'dry-run' }}

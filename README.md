@@ -258,9 +258,10 @@ Push local commits before running the Worker suite or the combined test command.
 ### Installer Checks
 
 CI tests Linux and macOS with both the bare (shared-only) and personal profiles.
-Documentation-only PRs run lint without bootstrapping either platform. Shared
+Every PR runs lint, Bats, and Vitest; documentation-only PRs skip bootstrapping
+either platform and building the Worker. Shared
 configuration/toolchain and unknown paths conservatively select the full suite;
-Windows-only changes run lint and Worker route tests. Every installer run keeps
+Windows-only changes also build the Worker. Every installer run keeps
 all four platform/profile combinations. Stacked PRs receive the same checks. The
 separate **Upstream Health** workflow runs the full suite and external-link
 checks weekly or on demand, keeping upstream failures identifiable. Manual CI
