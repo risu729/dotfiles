@@ -292,28 +292,28 @@ url = "https://github.com/lycheeverse/lychee/releases/download/lychee-v0.24.2/ly
 url_api = "https://api.github.com/repos/lycheeverse/lychee/releases/assets/409957951"
 
 [[tools.node]]
-version = "26.9.0"
+version = "26.10.0"
 backend = "core:node"
 
 [tools.node."platforms.linux-x64"]
-checksum = "sha256:03d9104fc4f19652e74480fed11c023d75981464b7292f21a601c3f95ce7d90d"
-url = "https://nodejs.org/dist/v26.9.0/node-v26.9.0-linux-x64.tar.gz"
+checksum = "sha256:cb5c9ce9c80d7b8821e3a258543c71b939138cf17c74d5cc44bbe85d6dbc5ad8"
+url = "https://nodejs.org/dist/v26.10.0/node-v26.10.0-linux-x64.tar.gz"
 
 [tools.node."platforms.linux-x64-baseline"]
-checksum = "sha256:03d9104fc4f19652e74480fed11c023d75981464b7292f21a601c3f95ce7d90d"
-url = "https://nodejs.org/dist/v26.9.0/node-v26.9.0-linux-x64.tar.gz"
+checksum = "sha256:cb5c9ce9c80d7b8821e3a258543c71b939138cf17c74d5cc44bbe85d6dbc5ad8"
+url = "https://nodejs.org/dist/v26.10.0/node-v26.10.0-linux-x64.tar.gz"
 
 [tools.node."platforms.linux-x64-musl"]
-checksum = "sha256:669dd67ec374f7315dbac9e119641d0e4f371519e00c4b692f1f81e7a04b747c"
-url = "https://unofficial-builds.nodejs.org/download/release/v26.9.0/node-v26.9.0-linux-x64-musl.tar.gz"
+checksum = "sha256:e42da94821b9422eb76bf5aaf4de0977e04ba320b8aff6148d895a94b08ee223"
+url = "https://unofficial-builds.nodejs.org/download/release/v26.10.0/node-v26.10.0-linux-x64-musl.tar.gz"
 
 [tools.node."platforms.linux-x64-musl-baseline"]
-checksum = "sha256:669dd67ec374f7315dbac9e119641d0e4f371519e00c4b692f1f81e7a04b747c"
-url = "https://unofficial-builds.nodejs.org/download/release/v26.9.0/node-v26.9.0-linux-x64-musl.tar.gz"
+checksum = "sha256:e42da94821b9422eb76bf5aaf4de0977e04ba320b8aff6148d895a94b08ee223"
+url = "https://unofficial-builds.nodejs.org/download/release/v26.10.0/node-v26.10.0-linux-x64-musl.tar.gz"
 
 [tools.node."platforms.macos-arm64"]
-checksum = "sha256:6f3de7ed853ee283b4bf24b6e426618f1d357401ce5815db1866eb85eb4b05d9"
-url = "https://nodejs.org/dist/v26.9.0/node-v26.9.0-darwin-arm64.tar.gz"
+checksum = "sha256:751fdf7439f115d87ee2a8f3f18c065b6151852068e3e666ac60ac2996f75ac9"
+url = "https://nodejs.org/dist/v26.10.0/node-v26.10.0-darwin-arm64.tar.gz"
 
 [[tools."npm:typescript"]]
 version = "7.0.2"
