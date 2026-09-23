@@ -255,6 +255,29 @@ Vitest in separate jobs. `hk` lints and formats the test files.
 Worker tests fetch installer scripts from GitHub at the checked-out commit.
 Push local commits before running the Worker suite or the combined test command.
 
+### Installer Checks
+
+CI tests Linux and macOS with both the bare (shared-only) and personal profiles.
+Each job installs twice, verifies the requested Git revision and managed state
+after both passes, and runs `mise doctor` in a fresh interactive shell. The
+`verify:installation` task checks installed state and fails on doctor warnings
+as well as errors. Linux uses the Ubuntu WSL filesystem in Docker; actual
+Windows/WSL runtime coverage is tracked in
+[#4287](https://github.com/risu729/dotfiles/issues/4287).
+
+On a disposable environment, run the same tasks as CI:
+
+```bash
+TEST_PROFILE=bare mise run test:installer-linux
+TEST_PROFILE=personal mise run test:installer-macos
+```
+
+The Linux task needs Docker and the `wsl-amd64.wsl` image downloaded by CI.
+The macOS task installs directly onto the Mac running it. Both require the
+selected `GIT_COMMIT_SHA` (default: `HEAD`) to be available on GitHub.
+To verify an existing installation without installing again, run
+`TEST_PROFILE=personal mise run verify:installation` (or `bare` as appropriate).
+
 ### ☁️ Cloudflare Worker Deployment
 
 GitHub Actions reads repository variable `CLOUDFLARE_ACCOUNT_ID` and

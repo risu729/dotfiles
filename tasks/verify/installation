@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+#MISE description="Verify installed dotfiles and mise diagnostics in a fresh interactive shell."
+set -euo pipefail
+
+cd "$(dirname "${BASH_SOURCE[0]}")/../.."
+case "$(uname -s)" in
+Darwin) login_shell=zsh ;;
+Linux) login_shell=bash ;;
+*)
+	echo 'Unsupported bootstrap verification platform' >&2
+	exit 1
+	;;
+esac
+exec "${login_shell}" -ic 'bash tests/bootstrap.sh && bash tasks/verify/mise-doctor'

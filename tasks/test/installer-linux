@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+#MISE description="Test the Linux installer in disposable Docker containers (TEST_PROFILE=bare|personal)."
+set -euo pipefail
+
+cd "$(dirname "${BASH_SOURCE[0]}")/../.."
+export GIT_COMMIT_SHA="${GIT_COMMIT_SHA:-$(git rev-parse HEAD)}"
+export MISE_VERSION="${MISE_VERSION:-$(sed -n 's/^min_version = "\(.*\)"$/\1/p' mise.toml)}"
+export TEST_PROFILE="${TEST_PROFILE:-bare}"
+export COMPOSE_PROJECT_NAME="${COMPOSE_PROJECT_NAME:-dotfiles-test-${TEST_PROFILE}-$$}"
+trap 'docker compose --file compose.ci.yml down --volumes --remove-orphans' EXIT
+docker compose --file compose.ci.yml up --build --abort-on-container-exit --exit-code-from test-linux
