@@ -689,53 +689,53 @@ url = "https://github.com/mr-karan/doggo/releases/download/v1.4.0/doggo-darwin-x
 url_api = "https://api.github.com/repos/mr-karan/doggo/releases/assets/539320095"
 
 [[tools.entire]]
-version = "0.11.0"
+version = "0.11.2"
 backend = "aqua:entireio/cli"
 
 [tools.entire."platforms.linux-arm64"]
-checksum = "sha256:ab6616f993087d605a9ed05ac2240ceb5b8d385ba98b4a4276aae1ee377e3bed"
-url = "https://github.com/entireio/cli/releases/download/v0.11.0/entire_linux_arm64.tar.gz"
-url_api = "https://api.github.com/repos/entireio/cli/releases/assets/581895615"
+checksum = "sha256:5311e6fda6856897b74b4ed17f7da99400ecded72840bea8306f4c4193b561bd"
+url = "https://github.com/entireio/cli/releases/download/v0.11.2/entire_linux_arm64.tar.gz"
+url_api = "https://api.github.com/repos/entireio/cli/releases/assets/583127633"
 
 [tools.entire."platforms.linux-arm64-musl"]
-checksum = "sha256:ab6616f993087d605a9ed05ac2240ceb5b8d385ba98b4a4276aae1ee377e3bed"
-url = "https://github.com/entireio/cli/releases/download/v0.11.0/entire_linux_arm64.tar.gz"
-url_api = "https://api.github.com/repos/entireio/cli/releases/assets/581895615"
+checksum = "sha256:5311e6fda6856897b74b4ed17f7da99400ecded72840bea8306f4c4193b561bd"
+url = "https://github.com/entireio/cli/releases/download/v0.11.2/entire_linux_arm64.tar.gz"
+url_api = "https://api.github.com/repos/entireio/cli/releases/assets/583127633"
 
 [tools.entire."platforms.linux-x64"]
-checksum = "sha256:5f151c624bb32975f43e7fdb86ff89c9c941dcc776468778127edb9d0b4eb2bc"
-url = "https://github.com/entireio/cli/releases/download/v0.11.0/entire_linux_amd64.tar.gz"
-url_api = "https://api.github.com/repos/entireio/cli/releases/assets/581895613"
+checksum = "sha256:6bb93b257f5321ea311f0cd8e0ca74b4ea9f8f5bdf3b11e68ded57242f824d26"
+url = "https://github.com/entireio/cli/releases/download/v0.11.2/entire_linux_amd64.tar.gz"
+url_api = "https://api.github.com/repos/entireio/cli/releases/assets/583127680"
 
 [tools.entire."platforms.linux-x64-baseline"]
-checksum = "sha256:5f151c624bb32975f43e7fdb86ff89c9c941dcc776468778127edb9d0b4eb2bc"
-url = "https://github.com/entireio/cli/releases/download/v0.11.0/entire_linux_amd64.tar.gz"
-url_api = "https://api.github.com/repos/entireio/cli/releases/assets/581895613"
+checksum = "sha256:6bb93b257f5321ea311f0cd8e0ca74b4ea9f8f5bdf3b11e68ded57242f824d26"
+url = "https://github.com/entireio/cli/releases/download/v0.11.2/entire_linux_amd64.tar.gz"
+url_api = "https://api.github.com/repos/entireio/cli/releases/assets/583127680"
 
 [tools.entire."platforms.linux-x64-musl"]
-checksum = "sha256:5f151c624bb32975f43e7fdb86ff89c9c941dcc776468778127edb9d0b4eb2bc"
-url = "https://github.com/entireio/cli/releases/download/v0.11.0/entire_linux_amd64.tar.gz"
-url_api = "https://api.github.com/repos/entireio/cli/releases/assets/581895613"
+checksum = "sha256:6bb93b257f5321ea311f0cd8e0ca74b4ea9f8f5bdf3b11e68ded57242f824d26"
+url = "https://github.com/entireio/cli/releases/download/v0.11.2/entire_linux_amd64.tar.gz"
+url_api = "https://api.github.com/repos/entireio/cli/releases/assets/583127680"
 
 [tools.entire."platforms.linux-x64-musl-baseline"]
-checksum = "sha256:5f151c624bb32975f43e7fdb86ff89c9c941dcc776468778127edb9d0b4eb2bc"
-url = "https://github.com/entireio/cli/releases/download/v0.11.0/entire_linux_amd64.tar.gz"
-url_api = "https://api.github.com/repos/entireio/cli/releases/assets/581895613"
+checksum = "sha256:6bb93b257f5321ea311f0cd8e0ca74b4ea9f8f5bdf3b11e68ded57242f824d26"
+url = "https://github.com/entireio/cli/releases/download/v0.11.2/entire_linux_amd64.tar.gz"
+url_api = "https://api.github.com/repos/entireio/cli/releases/assets/583127680"
 
 [tools.entire."platforms.macos-arm64"]
-checksum = "sha256:cb386bdcf8a0a6d7b61f3ddc92f751f2ff8dd434e32f22af9b0b2fbb1299d8f5"
-url = "https://github.com/entireio/cli/releases/download/v0.11.0/entire_darwin_arm64.tar.gz"
-url_api = "https://api.github.com/repos/entireio/cli/releases/assets/581895618"
+checksum = "sha256:ddbe01c458c22494489dbd04227594b8e4360705c53c51d7ca246dcbc4f49c9e"
+url = "https://github.com/entireio/cli/releases/download/v0.11.2/entire_darwin_arm64.tar.gz"
+url_api = "https://api.github.com/repos/entireio/cli/releases/assets/583127638"
 
 [tools.entire."platforms.macos-x64"]
-checksum = "sha256:00aabe5e4e08b360d2e7e92f9170741e85f62e4535f672ad960ae6ee1763bd70"
-url = "https://github.com/entireio/cli/releases/download/v0.11.0/entire_darwin_amd64.tar.gz"
-url_api = "https://api.github.com/repos/entireio/cli/releases/assets/581895612"
+checksum = "sha256:a8b1f89e2eda7987d89bab3d99d8f5c1057cc4e86da80a4c5278c0160d0bdad3"
+url = "https://github.com/entireio/cli/releases/download/v0.11.2/entire_darwin_amd64.tar.gz"
+url_api = "https://api.github.com/repos/entireio/cli/releases/assets/583127636"
 
 [tools.entire."platforms.macos-x64-baseline"]
-checksum = "sha256:00aabe5e4e08b360d2e7e92f9170741e85f62e4535f672ad960ae6ee1763bd70"
-url = "https://github.com/entireio/cli/releases/download/v0.11.0/entire_darwin_amd64.tar.gz"
-url_api = "https://api.github.com/repos/entireio/cli/releases/assets/581895612"
+checksum = "sha256:a8b1f89e2eda7987d89bab3d99d8f5c1057cc4e86da80a4c5278c0160d0bdad3"
+url = "https://github.com/entireio/cli/releases/download/v0.11.2/entire_darwin_amd64.tar.gz"
+url_api = "https://api.github.com/repos/entireio/cli/releases/assets/583127636"
 
 [[tools.eza]]
 version = "0.23.5"
