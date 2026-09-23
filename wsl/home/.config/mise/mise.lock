@@ -689,53 +689,53 @@ url = "https://github.com/mr-karan/doggo/releases/download/v1.4.0/doggo-darwin-x
 url_api = "https://api.github.com/repos/mr-karan/doggo/releases/assets/539320095"
 
 [[tools.entire]]
-version = "0.11.0"
+version = "0.11.2"
 backend = "aqua:entireio/cli"
 
 [tools.entire."platforms.linux-arm64"]
-checksum = "sha256:ab6616f993087d605a9ed05ac2240ceb5b8d385ba98b4a4276aae1ee377e3bed"
-url = "https://github.com/entireio/cli/releases/download/v0.11.0/entire_linux_arm64.tar.gz"
-url_api = "https://api.github.com/repos/entireio/cli/releases/assets/581895615"
+checksum = "sha256:5311e6fda6856897b74b4ed17f7da99400ecded72840bea8306f4c4193b561bd"
+url = "https://github.com/entireio/cli/releases/download/v0.11.2/entire_linux_arm64.tar.gz"
+url_api = "https://api.github.com/repos/entireio/cli/releases/assets/583127633"
 
 [tools.entire."platforms.linux-arm64-musl"]
-checksum = "sha256:ab6616f993087d605a9ed05ac2240ceb5b8d385ba98b4a4276aae1ee377e3bed"
-url = "https://github.com/entireio/cli/releases/download/v0.11.0/entire_linux_arm64.tar.gz"
-url_api = "https://api.github.com/repos/entireio/cli/releases/assets/581895615"
+checksum = "sha256:5311e6fda6856897b74b4ed17f7da99400ecded72840bea8306f4c4193b561bd"
+url = "https://github.com/entireio/cli/releases/download/v0.11.2/entire_linux_arm64.tar.gz"
+url_api = "https://api.github.com/repos/entireio/cli/releases/assets/583127633"
 
 [tools.entire."platforms.linux-x64"]
-checksum = "sha256:5f151c624bb32975f43e7fdb86ff89c9c941dcc776468778127edb9d0b4eb2bc"
-url = "https://github.com/entireio/cli/releases/download/v0.11.0/entire_linux_amd64.tar.gz"
-url_api = "https://api.github.com/repos/entireio/cli/releases/assets/581895613"
+checksum = "sha256:6bb93b257f5321ea311f0cd8e0ca74b4ea9f8f5bdf3b11e68ded57242f824d26"
+url = "https://github.com/entireio/cli/releases/download/v0.11.2/entire_linux_amd64.tar.gz"
+url_api = "https://api.github.com/repos/entireio/cli/releases/assets/583127680"
 
 [tools.entire."platforms.linux-x64-baseline"]
-checksum = "sha256:5f151c624bb32975f43e7fdb86ff89c9c941dcc776468778127edb9d0b4eb2bc"
-url = "https://github.com/entireio/cli/releases/download/v0.11.0/entire_linux_amd64.tar.gz"
-url_api = "https://api.github.com/repos/entireio/cli/releases/assets/581895613"
+checksum = "sha256:6bb93b257f5321ea311f0cd8e0ca74b4ea9f8f5bdf3b11e68ded57242f824d26"
+url = "https://github.com/entireio/cli/releases/download/v0.11.2/entire_linux_amd64.tar.gz"
+url_api = "https://api.github.com/repos/entireio/cli/releases/assets/583127680"
 
 [tools.entire."platforms.linux-x64-musl"]
-checksum = "sha256:5f151c624bb32975f43e7fdb86ff89c9c941dcc776468778127edb9d0b4eb2bc"
-url = "https://github.com/entireio/cli/releases/download/v0.11.0/entire_linux_amd64.tar.gz"
-url_api = "https://api.github.com/repos/entireio/cli/releases/assets/581895613"
+checksum = "sha256:6bb93b257f5321ea311f0cd8e0ca74b4ea9f8f5bdf3b11e68ded57242f824d26"
+url = "https://github.com/entireio/cli/releases/download/v0.11.2/entire_linux_amd64.tar.gz"
+url_api = "https://api.github.com/repos/entireio/cli/releases/assets/583127680"
 
 [tools.entire."platforms.linux-x64-musl-baseline"]
-checksum = "sha256:5f151c624bb32975f43e7fdb86ff89c9c941dcc776468778127edb9d0b4eb2bc"
-url = "https://github.com/entireio/cli/releases/download/v0.11.0/entire_linux_amd64.tar.gz"
-url_api = "https://api.github.com/repos/entireio/cli/releases/assets/581895613"
+checksum = "sha256:6bb93b257f5321ea311f0cd8e0ca74b4ea9f8f5bdf3b11e68ded57242f824d26"
+url = "https://github.com/entireio/cli/releases/download/v0.11.2/entire_linux_amd64.tar.gz"
+url_api = "https://api.github.com/repos/entireio/cli/releases/assets/583127680"
 
 [tools.entire."platforms.macos-arm64"]
-checksum = "sha256:cb386bdcf8a0a6d7b61f3ddc92f751f2ff8dd434e32f22af9b0b2fbb1299d8f5"
-url = "https://github.com/entireio/cli/releases/download/v0.11.0/entire_darwin_arm64.tar.gz"
-url_api = "https://api.github.com/repos/entireio/cli/releases/assets/581895618"
+checksum = "sha256:ddbe01c458c22494489dbd04227594b8e4360705c53c51d7ca246dcbc4f49c9e"
+url = "https://github.com/entireio/cli/releases/download/v0.11.2/entire_darwin_arm64.tar.gz"
+url_api = "https://api.github.com/repos/entireio/cli/releases/assets/583127638"
 
 [tools.entire."platforms.macos-x64"]
-checksum = "sha256:00aabe5e4e08b360d2e7e92f9170741e85f62e4535f672ad960ae6ee1763bd70"
-url = "https://github.com/entireio/cli/releases/download/v0.11.0/entire_darwin_amd64.tar.gz"
-url_api = "https://api.github.com/repos/entireio/cli/releases/assets/581895612"
+checksum = "sha256:a8b1f89e2eda7987d89bab3d99d8f5c1057cc4e86da80a4c5278c0160d0bdad3"
+url = "https://github.com/entireio/cli/releases/download/v0.11.2/entire_darwin_amd64.tar.gz"
+url_api = "https://api.github.com/repos/entireio/cli/releases/assets/583127636"
 
 [tools.entire."platforms.macos-x64-baseline"]
-checksum = "sha256:00aabe5e4e08b360d2e7e92f9170741e85f62e4535f672ad960ae6ee1763bd70"
-url = "https://github.com/entireio/cli/releases/download/v0.11.0/entire_darwin_amd64.tar.gz"
-url_api = "https://api.github.com/repos/entireio/cli/releases/assets/581895612"
+checksum = "sha256:a8b1f89e2eda7987d89bab3d99d8f5c1057cc4e86da80a4c5278c0160d0bdad3"
+url = "https://github.com/entireio/cli/releases/download/v0.11.2/entire_darwin_amd64.tar.gz"
+url_api = "https://api.github.com/repos/entireio/cli/releases/assets/583127636"
 
 [[tools.eza]]
 version = "0.23.5"
@@ -1304,42 +1304,42 @@ url = "https://github.com/herdrdev/herdr/releases/download/v0.9.1/herdr-macos-x8
 url_api = "https://api.github.com/repos/herdrdev/herdr/releases/assets/568559678"
 
 [[tools.hk]]
-version = "2.0.1"
+version = "2.1.0"
 backend = "packslip:github.com/jdx/hk"
 
 [tools.hk."platforms.linux-arm64"]
-checksum = "sha256:8a28f2737914bbffa8dd16f39a2fc65d85e9a52261789cf6a1affd6c6762fbc1"
-url = "https://github.com/jdx/hk/releases/download/v2.0.1/hk-aarch64-unknown-linux-gnu.tar.gz"
+checksum = "sha256:7ffb155147a8a9dae1b571fb31a5d19a35d0175afb5fe3e5b2c652ebf67feb9f"
+url = "https://github.com/jdx/hk/releases/download/v2.1.0/hk-aarch64-unknown-linux-gnu.tar.gz"
 signer = "sigstore-oidc:https://github.com/jdx/hk/.github/workflows/release.yml"
 
 [tools.hk."platforms.linux-arm64-musl"]
-checksum = "sha256:b75f54bf8a3679a13a01d250959ae77fab033ca5025eb557b76442c59efa8eb8"
-url = "https://github.com/jdx/hk/releases/download/v2.0.1/hk-aarch64-unknown-linux-musl.tar.gz"
+checksum = "sha256:8417655fd02f8311bcad9efab7594d4b6d7cca1c4d00cd1576f12ad5e40dac06"
+url = "https://github.com/jdx/hk/releases/download/v2.1.0/hk-aarch64-unknown-linux-musl.tar.gz"
 signer = "sigstore-oidc:https://github.com/jdx/hk/.github/workflows/release.yml"
 
 [tools.hk."platforms.linux-x64"]
-checksum = "sha256:f14d0290a07f82911f32ea5e4a91dd80d90abb852488912b1ade9b240f70d615"
-url = "https://github.com/jdx/hk/releases/download/v2.0.1/hk-x86_64-unknown-linux-gnu.tar.gz"
+checksum = "sha256:7a7b28741d16f777d8be90fbcd8523996ee95c2d5222d5b173652d9b37e31969"
+url = "https://github.com/jdx/hk/releases/download/v2.1.0/hk-x86_64-unknown-linux-gnu.tar.gz"
 signer = "sigstore-oidc:https://github.com/jdx/hk/.github/workflows/release.yml"
 
 [tools.hk."platforms.linux-x64-baseline"]
-checksum = "sha256:f14d0290a07f82911f32ea5e4a91dd80d90abb852488912b1ade9b240f70d615"
-url = "https://github.com/jdx/hk/releases/download/v2.0.1/hk-x86_64-unknown-linux-gnu.tar.gz"
+checksum = "sha256:7a7b28741d16f777d8be90fbcd8523996ee95c2d5222d5b173652d9b37e31969"
+url = "https://github.com/jdx/hk/releases/download/v2.1.0/hk-x86_64-unknown-linux-gnu.tar.gz"
 signer = "sigstore-oidc:https://github.com/jdx/hk/.github/workflows/release.yml"
 
 [tools.hk."platforms.linux-x64-musl"]
-checksum = "sha256:76269248e27114f361d533551ffca757e58a1d4abe880fd008df16d19128ea97"
-url = "https://github.com/jdx/hk/releases/download/v2.0.1/hk-x86_64-unknown-linux-musl.tar.gz"
+checksum = "sha256:ab5a8fa2819fe3a1762576ac557b9797e1fe587b41a1f93c50e4dfa9f5b89e76"
+url = "https://github.com/jdx/hk/releases/download/v2.1.0/hk-x86_64-unknown-linux-musl.tar.gz"
 signer = "sigstore-oidc:https://github.com/jdx/hk/.github/workflows/release.yml"
 
 [tools.hk."platforms.linux-x64-musl-baseline"]
-checksum = "sha256:76269248e27114f361d533551ffca757e58a1d4abe880fd008df16d19128ea97"
-url = "https://github.com/jdx/hk/releases/download/v2.0.1/hk-x86_64-unknown-linux-musl.tar.gz"
+checksum = "sha256:ab5a8fa2819fe3a1762576ac557b9797e1fe587b41a1f93c50e4dfa9f5b89e76"
+url = "https://github.com/jdx/hk/releases/download/v2.1.0/hk-x86_64-unknown-linux-musl.tar.gz"
 signer = "sigstore-oidc:https://github.com/jdx/hk/.github/workflows/release.yml"
 
 [tools.hk."platforms.macos-arm64"]
-checksum = "sha256:6ec393f898f562f76c4839a910356b4afec6740eff23f18ebdf8cf41c793a461"
-url = "https://github.com/jdx/hk/releases/download/v2.0.1/hk-aarch64-apple-darwin.tar.gz"
+checksum = "sha256:b30c6fb4447b5a9c24f9f80d165dca2d2e682907b8acb8222391e0527fea1ebe"
+url = "https://github.com/jdx/hk/releases/download/v2.1.0/hk-aarch64-apple-darwin.tar.gz"
 signer = "sigstore-oidc:https://github.com/jdx/hk/.github/workflows/release.yml"
 
 [[tools.hunk]]
@@ -1859,42 +1859,42 @@ version = "12.2.3"
 backend = "pypi:mitmproxy"
 
 [[tools.mr-boxington]]
-version = "1.15.0"
+version = "1.16.0"
 backend = "packslip:github.com/jdx/mr-boxington"
 
 [tools.mr-boxington."platforms.linux-arm64"]
-checksum = "sha256:36ffb9247dcddd7490abad4de5314908f766f913737b44865e03ba820046dd18"
-url = "https://github.com/jdx/mr-boxington/releases/download/v1.15.0/mbx-aarch64-unknown-linux-gnu.tar.gz"
+checksum = "sha256:7c3b444fb5561e8ca35668249f4fe17160fcdaa0f7a58ff43d5d6b6ab8fc8adc"
+url = "https://github.com/jdx/mr-boxington/releases/download/v1.16.0/mbx-aarch64-unknown-linux-gnu.tar.gz"
 signer = "sigstore-oidc:https://github.com/jdx/mr-boxington/.github/workflows/release.yml"
 
 [tools.mr-boxington."platforms.linux-arm64-musl"]
-checksum = "sha256:d0bb6c0eb4b4ba9abed39516ab769ca62429e3e47b548848ac40becee6870c2a"
-url = "https://github.com/jdx/mr-boxington/releases/download/v1.15.0/mbx-aarch64-unknown-linux-musl.tar.gz"
+checksum = "sha256:01cce632e7bacacd78935226e778c5199f6942a55789645eb3e56c662f448792"
+url = "https://github.com/jdx/mr-boxington/releases/download/v1.16.0/mbx-aarch64-unknown-linux-musl.tar.gz"
 signer = "sigstore-oidc:https://github.com/jdx/mr-boxington/.github/workflows/release.yml"
 
 [tools.mr-boxington."platforms.linux-x64"]
-checksum = "sha256:ee89e29a76849fe6344d81187cdcdb8c7710b96d7a2f54a7f99dc9f49eba114e"
-url = "https://github.com/jdx/mr-boxington/releases/download/v1.15.0/mbx-x86_64-unknown-linux-gnu.tar.gz"
+checksum = "sha256:98e94a424e947c052226d99b5bb192a774166818ee8266a0398b5a233b8745a5"
+url = "https://github.com/jdx/mr-boxington/releases/download/v1.16.0/mbx-x86_64-unknown-linux-gnu.tar.gz"
 signer = "sigstore-oidc:https://github.com/jdx/mr-boxington/.github/workflows/release.yml"
 
 [tools.mr-boxington."platforms.linux-x64-baseline"]
-checksum = "sha256:ee89e29a76849fe6344d81187cdcdb8c7710b96d7a2f54a7f99dc9f49eba114e"
-url = "https://github.com/jdx/mr-boxington/releases/download/v1.15.0/mbx-x86_64-unknown-linux-gnu.tar.gz"
+checksum = "sha256:98e94a424e947c052226d99b5bb192a774166818ee8266a0398b5a233b8745a5"
+url = "https://github.com/jdx/mr-boxington/releases/download/v1.16.0/mbx-x86_64-unknown-linux-gnu.tar.gz"
 signer = "sigstore-oidc:https://github.com/jdx/mr-boxington/.github/workflows/release.yml"
 
 [tools.mr-boxington."platforms.linux-x64-musl"]
-checksum = "sha256:bf9fcc7ed39e4923588f6c25a781aa59eb466fec347102a3bb1a0c2acd12ebf8"
-url = "https://github.com/jdx/mr-boxington/releases/download/v1.15.0/mbx-x86_64-unknown-linux-musl.tar.gz"
+checksum = "sha256:be74eb96c62e774d90e8e036ed3d5541bde682802b11dfb1bf340d57276f5ab1"
+url = "https://github.com/jdx/mr-boxington/releases/download/v1.16.0/mbx-x86_64-unknown-linux-musl.tar.gz"
 signer = "sigstore-oidc:https://github.com/jdx/mr-boxington/.github/workflows/release.yml"
 
 [tools.mr-boxington."platforms.linux-x64-musl-baseline"]
-checksum = "sha256:bf9fcc7ed39e4923588f6c25a781aa59eb466fec347102a3bb1a0c2acd12ebf8"
-url = "https://github.com/jdx/mr-boxington/releases/download/v1.15.0/mbx-x86_64-unknown-linux-musl.tar.gz"
+checksum = "sha256:be74eb96c62e774d90e8e036ed3d5541bde682802b11dfb1bf340d57276f5ab1"
+url = "https://github.com/jdx/mr-boxington/releases/download/v1.16.0/mbx-x86_64-unknown-linux-musl.tar.gz"
 signer = "sigstore-oidc:https://github.com/jdx/mr-boxington/.github/workflows/release.yml"
 
 [tools.mr-boxington."platforms.macos-arm64"]
-checksum = "sha256:291f6b5c6e3faf24497de71291ed56217f7cd685b09e24e574d69ee11b88378d"
-url = "https://github.com/jdx/mr-boxington/releases/download/v1.15.0/mbx-aarch64-apple-darwin.tar.gz"
+checksum = "sha256:b4e20f6059346c3d428c3dfeebb486a998df4bf2d5a03f71cdb620e3ff7b029b"
+url = "https://github.com/jdx/mr-boxington/releases/download/v1.16.0/mbx-aarch64-apple-darwin.tar.gz"
 signer = "sigstore-oidc:https://github.com/jdx/mr-boxington/.github/workflows/release.yml"
 
 [[tools.node]]
@@ -2320,7 +2320,7 @@ url_api = "https://api.github.com/repos/pnpm/pnpm/releases/assets/573486224"
 provenance = "github-attestations"
 
 [[tools.prettier]]
-version = "3.9.8"
+version = "3.9.9"
 backend = "npm:prettier"
 
 [[tools.python]]
