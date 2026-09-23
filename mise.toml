@@ -308,12 +308,21 @@ automatic_spelling_correction = false
 # mise evaluates the Ruby definition of a cask from a third-party tap, such as
 # Orca below, with Ruby 3 or newer on PATH; macOS ships Ruby 2.6.
 "brew:ruby" = { os = "macos" }
-# `adopt` takes over a copy that was already installed by hand.
+# These app casks declare auto_updates=true. Adopt existing bundles in place;
+# only enable adoption for self-updating app casks when adding more apps.
 "brew-cask:claude" = { os = "macos", adopt = true }
 # The ChatGPT app replaced the discontinued Codex desktop app (`codex-app`).
 "brew-cask:chatgpt" = { os = "macos", adopt = true }
 "brew-cask:ghostty" = { os = "macos", adopt = true }
+"brew-cask:google-chrome@beta" = { os = "macos", adopt = true }
+"brew-cask:notion" = { os = "macos", adopt = true }
+"brew-cask:slack" = { os = "macos", adopt = true }
 "brew-cask:stablyai/orca/orca" = { os = "macos", adopt = true }
+"brew-cask:visual-studio-code@insiders" = { os = "macos", adopt = true }
+# Zoom self-updates too, but pkg installers do not use app-bundle adoption.
+"brew-cask:zoom" = { os = "macos" }
+# Logi Options+ self-updates and runs its installer with sudo; no app to adopt.
+"brew-cask:logi-options+" = { os = "macos" }
 
 [bootstrap.repos]
 # The installer clones this repo when it is missing, then delegates updates to

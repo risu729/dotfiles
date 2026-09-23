@@ -176,6 +176,10 @@ The first run asks for sudo to create `/opt/homebrew`; mise installs Homebrew
 packages itself, so Homebrew is not required. Bootstrap creates
 `~/Pictures/Screenshots` and configures it as the screenshot destination.
 
+The shared (bare) macOS profile also installs Chrome Beta, VS Code Insiders,
+Zoom, Slack, Notion, and Logi Options+. The personal profile inherits these
+apps.
+
 Log out and back in for the keyboard, mouse, and scrolling preferences to take
 effect, and relaunch applications to pick up the text input ones.
 
