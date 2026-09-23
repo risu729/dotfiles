@@ -2320,7 +2320,7 @@ url_api = "https://api.github.com/repos/pnpm/pnpm/releases/assets/573486224"
 provenance = "github-attestations"
 
 [[tools.prettier]]
-version = "3.9.8"
+version = "3.9.9"
 backend = "npm:prettier"
 
 [[tools.python]]
