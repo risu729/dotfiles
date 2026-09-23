@@ -321,6 +321,8 @@ automatic_spelling_correction = false
 "brew-cask:visual-studio-code@insiders" = { os = "macos", adopt = true }
 # Zoom self-updates too, but pkg installers do not use app-bundle adoption.
 "brew-cask:zoom" = { os = "macos" }
+# Logi Options+ self-updates and runs its installer with sudo; no app to adopt.
+"brew-cask:logi-options+" = { os = "macos" }
 
 [bootstrap.repos]
 # The installer clones this repo when it is missing, then delegates updates to
