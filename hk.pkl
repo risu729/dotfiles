@@ -4,12 +4,12 @@ import "https://raw.githubusercontent.com/risu729/hk-config/v1.1.0/helpers.pkl"
 
 subprojects = List("worker")
 
-local const bashrcGlobs = List("wsl/home/.bashrc")
+local const shellGlobs = List("wsl/home/.bashrc", "tests/**/*.bats")
 
-local function includeBashrc(step: Step): Step = (step) {
+local function includeShellFiles(step: Step): Step = (step) {
   match_any =
     step.match_any!!
-      + List(new FileSelector { glob = bashrcGlobs })
+      + List(new FileSelector { glob = shellGlobs })
 }
 
 local picked =
@@ -35,8 +35,18 @@ local mise = picked["mise"] as Group
 
 hooks =
   helpers.standardHooks((picked) {
-    ["shfmt"] = includeBashrc(picked["shfmt"] as Step)
-    ["shellcheck"] = includeBashrc(picked["shellcheck"] as Step)
+    // Work around hk 1.58.1's pklr evaluator dropping inherited commands when
+    // these preset steps are amended; otherwise hk silently skips the steps.
+    // Standard Pkl preserves them. Recheck during the hk v2 upgrade:
+    // https://github.com/risu729/dotfiles/pull/4188
+    // Remove the duplicate commands once check/fix plans retain the inherited ones.
+    ["shfmt"] = (includeShellFiles(picked["shfmt"] as Step)) {
+      check_diff = "shfmt --diff --simplify {{ files }}"
+      fix = "shfmt --write --simplify {{ files }}"
+    }
+    ["shellcheck"] = (includeShellFiles(picked["shellcheck"] as Step)) {
+      check = "shellcheck --external-sources {{ files }}"
+    }
     ["mise"] = (mise) {
       steps {
         ["mise-fmt"] = mise.steps["mise-fmt"]

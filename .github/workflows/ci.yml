@@ -3,9 +3,8 @@ on:
   push:
     branches:
       - main
+  # Stacked PRs target their parent branch rather than main.
   pull_request:
-    branches:
-      - main
   workflow_dispatch:
   schedule:
     - cron: "0 0 * * SUN"
@@ -42,6 +41,25 @@ jobs:
         run: mise run check --lint --flaky
         env:
           GITHUB_TOKEN: ${{ github.token }}
+  test-bats:
+    name: Bats
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    env:
+      MISE_ENABLE_TOOLS: bats,bun
+    permissions:
+      contents: read # for checkout
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Install mise
+        uses: jdx/mise-action@c2a87611a18de5b3828c5652fe268e992400cb5c # v4.3.0
+        with:
+          version: 2026.9.12
+      - name: Run Bats tests
+        run: mise run test:bats
   test-linux:
     name: Test Installer Scripts on WSL Ubuntu Image
     runs-on: ubuntu-24.04
@@ -115,14 +133,14 @@ jobs:
       # The personal profile is a superset of the shared one.
       - name: Run installer
         run: |
-          sed "s/^git_ref=\"\"$/git_ref=\"${GIT_COMMIT_SHA}\"/" unix/install.sh > "${RUNNER_TEMP}/install.sh"
-          grep --quiet "^git_ref=\"${GIT_COMMIT_SHA}\"$" "${RUNNER_TEMP}/install.sh"
+          cp unix/install.sh "${RUNNER_TEMP}/install.sh"
           # Users run the installer from their home directory, where this
           # repository's `.miserc.toml` is not discovered.
           cd "${HOME}"
           bash "${RUNNER_TEMP}/install.sh"
         env:
           DOTFILES_PROFILE: personal
+          DOTFILES_REF: ${{ case(github.event_name == 'pull_request', github.event.pull_request.head.sha, github.sha) }}
           GITHUB_TOKEN: ${{ github.token }}
           __CI: true
           # use head sha for pull requests because github.sha is set to the merge commit
@@ -134,9 +152,7 @@ jobs:
         run: |
           export PATH="${HOME}/.local/bin:${PATH}"
           cd "${HOME}/.ghr/github.com/risu729/dotfiles"
-          # The installer returns to the default branch, and the dotfiles are
-          # symlinks into this worktree, so check out the tested commit again.
-          git checkout --quiet --detach "${GIT_COMMIT_SHA}"
+          test "$(git rev-parse HEAD)" = "${GIT_COMMIT_SHA}"
           mise bootstrap macos defaults status --missing
           # shared
           test -L "${HOME}/.config/mise/config.toml" -a -e "${HOME}/.config/mise/config.toml"
@@ -208,6 +224,7 @@ jobs:
     name: CI Check
     needs:
       - lint
+      - test-bats
       - test-linux
       - test-macos
       - test-worker

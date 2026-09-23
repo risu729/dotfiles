@@ -152,6 +152,12 @@ Mac, add the personal profile:
 bash <(curl -fsSL "https://dot.risunosu.com/mac?profile=personal")
 ```
 
+An explicit `?ref=<branch-tag-or-commit>` installs that revision and keeps the
+checkout detached at it, so symlinked dotfiles continue using the requested
+version. A later install without a ref returns to the default branch and
+updates it. Direct invocations accept `DOTFILES_REF` for the same purpose.
+Revision changes refuse a dirty checkout or an unexpected repository origin.
+
 The profile is stored in `~/.config/mise/miserc.toml`, so it only has to be
 given once. Running `unix/install.sh` from a clone takes it from
 `DOTFILES_PROFILE` instead. `/wsl` takes the same query, and the Windows
@@ -231,6 +237,23 @@ The following command will lint and format the code, including auto-fixes:
 ```bash
 mise check
 ```
+
+### Tests
+
+Run the Bats shell regressions and Worker Vitest suite once:
+
+```bash
+mise run test
+```
+
+Run either suite with `mise run test:bats` or `mise run worker:test`. For Worker
+watch mode with the Vitest UI, use `mise run worker:test:watch`. Bats discovers
+`tests/*.bats`; each case uses isolated temporary fixtures. To focus on a shell
+suite, run `mise exec -- bats tests/installer-revisions.bats`. CI runs Bats and
+Vitest in separate jobs. `hk` lints and formats the test files.
+
+Worker tests fetch installer scripts from GitHub at the checked-out commit.
+Push local commits before running the Worker suite or the combined test command.
 
 ### ☁️ Cloudflare Worker Deployment
 

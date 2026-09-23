@@ -14,6 +14,14 @@ hk \
 """
 description = "Run hk linters and formatters."
 
+[test]
+depends = ["test:bats", "worker:test"]
+description = "Run Bats and Worker tests once."
+
+["test:bats"]
+run = "bats tests"
+description = "Run all shell regression tests with Bats."
+
 ["install:ps-script-analyzer"]
 shell = "pwsh -Command"
 # Force is required to bypass untrusted repository confirmation
