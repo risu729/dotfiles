@@ -176,6 +176,9 @@ The first run asks for sudo to create `/opt/homebrew`; mise installs Homebrew
 packages itself, so Homebrew is not required. Bootstrap creates
 `~/Pictures/Screenshots` and configures it as the screenshot destination.
 
+The shared (bare) macOS profile also installs Chrome Beta, VS Code Insiders,
+Zoom, Slack, and Notion. The personal profile inherits these apps.
+
 Log out and back in for the keyboard, mouse, and scrolling preferences to take
 effect, and relaunch applications to pick up the text input ones.
 
@@ -213,6 +216,11 @@ glab auth login \
 - [LINE](https://desktop.line-scdn.net/win/new/LineInst.exe)
   (Cannot be installed via `winget`.)
 
+4. On macOS, install the following software manually:
+
+- [Logi Options+][logi-options-plus]
+
+[logi-options-plus]: https://www.logitech.com/en-us/software/logi-options-plus.html
 [powertoys-backup-restore]: https://learn.microsoft.com/windows/powertoys/general#backup--restore
 
 ## 🛠️ Development

@@ -5,9 +5,18 @@
 # machine-local lines, so it only gets a managed block that sources the zsh
 # configuration linked into `~/.config/zsh`, which also activates mise.
 
-[dotfiles]
-"~/.zshrc/config" = { block = 'source "${HOME}/.config/zsh/zshrc"' }
+[bootstrap.packages]
+# Shared by bare and personal installs. Adopt existing app bundles when present.
+"brew-cask:google-chrome@beta" = { os = "macos", adopt = true }
+"brew-cask:visual-studio-code@insiders" = { os = "macos", adopt = true }
+# Zoom uses a pkg installer rather than an app-bundle artifact.
+"brew-cask:zoom" = { os = "macos" }
+"brew-cask:slack" = { os = "macos", adopt = true }
+"brew-cask:notion" = { os = "macos", adopt = true }
 
 # Create the screenshot destination before applying macOS preferences.
 [bootstrap.directories."~/Pictures/Screenshots"]
 state = "present"
+
+[dotfiles]
+"~/.zshrc/config" = { block = 'source "${HOME}/.config/zsh/zshrc"' }
