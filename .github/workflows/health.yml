@@ -1,0 +1,16 @@
+name: Upstream Health
+on:
+  schedule:
+    - cron: "0 0 * * SUN"
+  workflow_dispatch:
+permissions: {}
+jobs:
+  health:
+    name: Full installer and upstream checks
+    permissions:
+      contents: read # for checkout in the reusable workflow
+      actions: read # for the actions timeline in the reusable workflow
+    uses: ./.github/workflows/ci.yml # zizmor: ignore[self-repository] -- actionlint 1.7.12 does not support $/ yet.
+    with:
+      full: true
+      health: true
