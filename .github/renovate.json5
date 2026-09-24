@@ -31,6 +31,18 @@
 			},
 			groupSingleUpdates: true,
 		},
+		// every tool in the global config is pinned to "latest", so Renovate also
+		// opens per-tool lockfile-only PRs ("update dependency X to latest") that
+		// duplicate the maintenance PR above and get autoclosed whenever it merges
+		// first. keep only the bulk maintenance PR.
+		{
+			matchFileNames: [
+				"wsl/home/.config/mise/config.toml",
+				"wsl/home/.config/mise/config.personal.toml",
+			],
+			matchCurrentValue: "/^latest$/",
+			enabled: false,
+		},
 	],
 	// ref: https://docs.renovatebot.com/modules/manager/regex/#advanced-capture
 	customManagers: [
