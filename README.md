@@ -234,6 +234,13 @@ mise i
 mise deps
 ```
 
+Git hooks run `hk` through `mise exec` with the repository's pinned tools.
+Automatic installation during `mise exec` is disabled in this repository, so
+an unrelated missing global tool cannot trigger downloads during a commit.
+After tool versions change, run `mise install` before committing. This also
+applies to manually running `mise exec`; `mise run` retains its installation
+behavior.
+
 ### 🧵 Lint and Format
 
 The following command will lint and format the code, including auto-fixes:

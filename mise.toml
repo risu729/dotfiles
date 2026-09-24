@@ -35,6 +35,9 @@ bats = "1.14.0"
 
 [settings]
 experimental = true
+# Git hooks use `mise exec`; installing missing global tools must not block commits.
+# Install required development tools explicitly with `mise install`.
+exec_auto_install = false
 dotfiles.default_mode = "symlink"
 
 [settings.npm]
