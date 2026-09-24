@@ -44,8 +44,19 @@
 			enabled: false,
 		},
 	],
-	// ref: https://docs.renovatebot.com/modules/manager/regex/#advanced-capture
+	// ref: https://docs.renovatebot.com/modules/manager/jsonata/
 	customManagers: [
+		{
+			customType: "jsonata",
+			description: "Updates pinned mise JSON schemas",
+			managerFilePatterns: ["/^tombi\\.toml$/"],
+			fileFormat: "toml",
+			datasourceTemplate: "github-releases",
+			packageNameTemplate: "jdx/mise",
+			matchStrings: [
+				'schemas.$match(path, /^https:\\/\\/raw\\.githubusercontent\\.com\\/jdx\\/mise\\/(v[0-9]+\\.[0-9]+\\.[0-9]+)\\/schema\\/(mise(?:-task)?)\\.json$/).{ "currentValue": groups[0], "depType": groups[1] }',
+			],
+		},
 		{
 			customType: "jsonata",
 			description: "Updates PSScriptAnalyzer version",

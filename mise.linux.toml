@@ -1,5 +1,4 @@
 # ref: https://mise.jdx.dev/configuration/environments.html#platform-environments
-#:schema https://mise.jdx.dev/schema/mise.json
 #:tombi schema.strict = false
 # Loaded on Linux only. These sections have neither an OS filter nor template
 # support, so they cannot stay in `mise.toml` without breaking macOS: the `root`

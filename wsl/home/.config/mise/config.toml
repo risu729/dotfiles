@@ -1,5 +1,4 @@
 # ref: https://mise.jdx.dev/configuration.html#global-config-config-mise-config-toml
-#:schema https://mise.jdx.dev/schema/mise.json
 # Tools and settings that are safe on any machine. `config.personal.toml` adds
 # the personal ones under `-E personal`, and `config.linux.toml` the Linux ones.
 
