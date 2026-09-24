@@ -69,14 +69,11 @@ doggo = "latest"
 # The Linux boot service runs as my user. The script is a template, and
 # MISE_ENV is not exported to it, so the profile is checked here.
 pitchfork = { version = "latest", postinstall = """
-if [ "$(uname -s)" = Darwin ]; then
-  if "$MISE_TOOL_INSTALL_PATH/pitchfork" supervisor status >/dev/null 2>&1; then
-    exec "$MISE_TOOL_INSTALL_PATH/pitchfork" supervisor start --force
-  fi
-  exit 0
+{% if os() == "macos" %}
+if "$MISE_TOOL_INSTALL_PATH/pitchfork" supervisor status >/dev/null 2>&1; then
+  exec "$MISE_TOOL_INSTALL_PATH/pitchfork" supervisor start --force
 fi
-[ "$(uname -s)" = Linux ] || exit 0
-{% if mise_env is defined and "personal" in mise_env %}
+{% elif os() == "linux" and mise_env is defined and "personal" in mise_env %}
 src="$(dirname "$(readlink -f ~/.config/mise/config.toml)")/../../../systemd/pitchfork-nonroot.conf"
 sudo install -D -m644 "$src" /etc/systemd/system/pitchfork.service.d/nonroot.conf
 sudo "$MISE_TOOL_INSTALL_PATH/pitchfork" boot disable
