@@ -1,5 +1,4 @@
 # ref: https://mise.jdx.dev/configuration.html
-#:tombi schema.strict = false
 
 min_version = "2026.9.12"
 

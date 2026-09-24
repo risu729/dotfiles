@@ -1,5 +1,4 @@
 # ref: https://mise.jdx.dev/configuration/environments.html#platform-environments
-#:tombi schema.strict = false
 # Loaded on macOS only. macOS keeps zsh as the login shell. `~/.zshrc` may hold
 # machine-local lines, so it only gets a managed block that sources the zsh
 # configuration linked into `~/.config/zsh`, which also activates mise.

@@ -1,5 +1,4 @@
 # ref: https://mise.jdx.dev/configuration/environments.html
-#:tombi schema.strict = false
 # Loaded with `-E personal` only. mise merges configuration additively, so the
 # base `mise.toml` holds what is safe on any machine and this file adds the rest.
 
