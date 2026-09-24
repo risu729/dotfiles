@@ -140,6 +140,13 @@ sudo update-desktop-database
 {% endif %}
 '''
 
+[bootstrap.hooks.post-defaults]
+run = '''
+{% if os() == "macos" %}
+/bin/sh "{{ config_root }}/macos/disable-auto-brightness.sh"
+{% endif %}
+'''
+
 [bootstrap.hooks.post-tools]
 run = '''
 mise exec -- gh extension install github/gh-stack --force
