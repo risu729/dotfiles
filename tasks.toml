@@ -15,12 +15,16 @@ hk \
 description = "Run hk linters and formatters."
 
 [test]
-depends = ["test:bats", "worker:test"]
-description = "Run Bats and Worker tests once."
+depends = ["test:bats", "test:pr-tree", "worker:test"]
+description = "Run Bats, PR-tree, and Worker tests once."
 
 ["test:bats"]
 run = "bats tests"
 description = "Run all shell regression tests with Bats."
+
+["test:pr-tree"]
+run = "bun test ./wsl/home/.agents/skills/pr-tree/scripts/"
+description = "Run the PR-tree unit tests with Bun."
 
 ["install:ps-script-analyzer"]
 shell = "pwsh -Command"
