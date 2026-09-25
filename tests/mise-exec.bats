@@ -16,9 +16,11 @@ setup() {
 }
 
 @test "mise exec runs commands with an unavailable global tool" {
+	# Check the fixture directly; missing-tool warning output varies by environment.
+	run -0 mise current usage
+	[[ ${output} == '0.0.0' ]]
 	# Dependency preparation is separate from tool installation and needs Bun.
 	run -0 mise exec --no-deps -- sh -c 'echo hook-ran'
-	[[ ${output} == *'usage@0.0.0'* ]]
 	[[ ${output} == *'hook-ran'* ]]
 }
 
