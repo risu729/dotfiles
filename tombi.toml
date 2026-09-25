@@ -9,3 +9,13 @@ trailing-comment-space-width = 1
 dotted-keys-out-of-order = "error"
 key-empty = "error"
 tables-out-of-order = "error"
+
+# Keep mise schema changes reviewable. Renovate updates these release pins.
+# Store the URLs as TOML values so its JSONata manager can read them.
+[[schemas]]
+path = "https://raw.githubusercontent.com/jdx/mise/v2026.9.12/schema/mise.json"
+include = ["mise*.toml", "wsl/home/.config/mise/config*.toml"]
+
+[[schemas]]
+path = "https://raw.githubusercontent.com/jdx/mise/v2026.9.12/schema/mise-task.json"
+include = ["tasks.toml", "worker/tasks.toml"]

@@ -1,5 +1,4 @@
 # ref: https://mise.jdx.dev/tasks/
-#:schema https://mise.jdx.dev/schema/mise-task.json
 
 [check]
 usage = '''

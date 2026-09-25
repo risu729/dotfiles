@@ -1,5 +1,4 @@
 # ref: https://mise.jdx.dev/configuration/environments.html#platform-environments
-#:schema https://mise.jdx.dev/schema/mise.json
 # Loaded on Linux only, through `auto_env` in `miserc.toml`.
 
 [env]

@@ -3,6 +3,13 @@
 	$schema: "https://docs.renovatebot.com/renovate-schema.json",
 	extends: ["github>risu729/renovate-config#3.19.0"],
 	packageRules: [
+		// Keep min_version, GitHub Actions' mise versions, and schema pins together.
+		// Both the custom and built-in managers use this package name.
+		{
+			matchPackageNames: ["jdx/mise"],
+			groupName: "mise",
+			groupSingleUpdates: true,
+		},
 		// set semantic commit types
 		{
 			// override the default semanticCommitType, fix for dependencies, to chore
@@ -44,8 +51,19 @@
 			enabled: false,
 		},
 	],
-	// ref: https://docs.renovatebot.com/modules/manager/regex/#advanced-capture
+	// ref: https://docs.renovatebot.com/modules/manager/jsonata/
 	customManagers: [
+		{
+			customType: "jsonata",
+			description: "Updates pinned mise JSON schemas",
+			managerFilePatterns: ["/^tombi\\.toml$/"],
+			fileFormat: "toml",
+			datasourceTemplate: "github-releases",
+			packageNameTemplate: "jdx/mise",
+			matchStrings: [
+				'schemas.$match(path, /^https:\\/\\/raw\\.githubusercontent\\.com\\/jdx\\/mise\\/(v[0-9]+\\.[0-9]+\\.[0-9]+)\\/schema\\/(mise(?:-task)?)\\.json$/).{ "currentValue": groups[0], "depType": groups[1] }',
+			],
+		},
 		{
 			customType: "jsonata",
 			description: "Updates PSScriptAnalyzer version",
