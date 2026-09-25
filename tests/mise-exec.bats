@@ -16,12 +16,13 @@ setup() {
 }
 
 @test "mise exec runs commands with an unavailable global tool" {
-	run -0 mise exec -- sh -c 'echo hook-ran'
+	# Dependency preparation is separate from tool installation and needs Bun.
+	run -0 mise exec --no-deps -- sh -c 'echo hook-ran'
 	[[ ${output} == *'usage@0.0.0'* ]]
 	[[ ${output} == *'hook-ran'* ]]
 }
 
 @test "mise exec preserves check failures with an unavailable global tool" {
-	run -23 mise exec -- sh -c 'echo check-failed; exit 23'
+	run -23 mise exec --no-deps -- sh -c 'echo check-failed; exit 23'
 	[[ ${output} == *'check-failed'* ]]
 }
