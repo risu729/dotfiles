@@ -102,11 +102,7 @@ jobs:
       - name: Run PR-tree tests
         run: mise run test:pr-tree
   test-windows-packages:
-    name: Windows packages (mise ${{ matrix.mise }})
-    strategy:
-      fail-fast: false
-      matrix:
-        mise: [2026.9.3, 2026.9.14]
+    name: Windows packages (latest mise)
     runs-on: windows-2025
     timeout-minutes: 20
     permissions:
@@ -122,7 +118,7 @@ jobs:
       - name: Install native mise without Unix repository tools
         uses: jdx/mise-action@c2a87611a18de5b3828c5652fe268e992400cb5c # v4.3.0
         with:
-          version: ${{ matrix.mise }}
+          # Omit version to test the latest stable mise release only.
           install: false
           cache: false
           env: false
