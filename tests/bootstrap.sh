@@ -67,7 +67,7 @@ Linux)
 	assert_link "${HOME}/.bashrc"
 	assert_link "${HOME}/.config/mimeapps.list"
 	assert_link "${HOME}/.local/bin/wsl-open"
-	cmp wsl/codex/config.toml /etc/codex/config.toml
+	cmp unix/codex/config.toml /etc/codex/config.toml
 	if [[ ${TEST_PROFILE} == personal ]]; then
 		test -d "${HOME}/.config/pitchfork"
 		test -f /etc/ssh/sshd_config.d/10-cloudflare-access.conf

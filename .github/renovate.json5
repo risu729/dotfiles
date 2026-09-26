@@ -27,7 +27,10 @@
 		// lockFileMaintenance because its defaults are re-merged over packageRules
 		// afterwards.
 		{
-			matchFileNames: ["home/.config/mise/config.toml", "home/.config/mise/config.personal.toml"],
+			matchFileNames: [
+				"unix/home/.config/mise/config.toml",
+				"unix/home/.config/mise/config.personal.toml",
+			],
 			matchUpdateTypes: ["lockFileMaintenance"],
 			lockFileMaintenance: {
 				schedule: ["* * * * *"],
@@ -40,7 +43,10 @@
 		// duplicate the maintenance PR above and get autoclosed whenever it merges
 		// first. keep only the bulk maintenance PR.
 		{
-			matchFileNames: ["home/.config/mise/config.toml", "home/.config/mise/config.personal.toml"],
+			matchFileNames: [
+				"unix/home/.config/mise/config.toml",
+				"unix/home/.config/mise/config.personal.toml",
+			],
 			matchCurrentValue: "/^latest$/",
 			enabled: false,
 		},

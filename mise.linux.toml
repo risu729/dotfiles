@@ -9,7 +9,7 @@ group = "root"
 mode = "0755"
 
 [bootstrap.files."/etc/codex/config.toml"]
-source = "./wsl/codex/config.toml"
+source = "./unix/codex/config.toml"
 owner = "root"
 group = "root"
 mode = "0644"

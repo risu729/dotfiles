@@ -1,15 +1,15 @@
 # Maintenance Notes
 
-- `wsl/home` is a compatibility symlink to `home/` so existing installations
-  keep working after a pull, before bootstrap replaces their old links. Use
-  `home/` for new source paths.
+- `wsl` is a compatibility symlink to `unix/` so existing installations keep
+  working after a pull, before bootstrap replaces their old links. Use `unix/`
+  for new source paths.
 - Root mise configuration bootstraps the machine and provides repository tools;
-  `home/.config/mise/` becomes the user's global mise configuration. Put
+  `unix/home/.config/mise/` becomes the user's global mise configuration. Put
   tool changes in the configuration that owns them.
-- `home/.codex/AGENTS.md` is installed as global agent instructions,
+- `unix/home/.codex/AGENTS.md` is installed as global agent instructions,
   including Claude Code and Cursor mappings. Repository-only guidance belongs
   here.
-- Agent skills under `home/.agents/` are copied, unlike most dotfiles,
+- Agent skills under `unix/home/.agents/` are copied, unlike most dotfiles,
   because Codex does not discover symlinked skill files. Editing the source does
   not update an already installed copy.
 - The Worker substitutes empty ref, profile, and origin assignments in the

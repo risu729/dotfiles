@@ -6,7 +6,7 @@ select_checks() {
 	local installers=false worker=false path
 	for path in "$@"; do
 		case "${path}" in
-		home/* | wsl/*) installers=true ;;
+		unix/home/* | unix/codex/* | unix/ssh/* | unix/systemd/* | wsl/*) installers=true ;;
 		unix/* | worker/*)
 			installers=true
 			worker=true

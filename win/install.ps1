@@ -509,7 +509,7 @@ function Invoke-GitSetupInWsl {
 		[string]$RepoName
 	)
 
-	Invoke-WSLCommand -Interactive -Command "~/.ghr/github.com/$RepoName/wsl/setup-git.ts"
+	Invoke-WSLCommand -Interactive -Command "~/.ghr/github.com/$RepoName/unix/setup-git.ts"
 }
 
 # ===== Main Script Execution =====
