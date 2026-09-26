@@ -256,17 +256,20 @@ mise check
 
 ### Tests
 
-Run the Bats shell regressions and Worker Vitest suite once:
+Run the Bats shell regressions, PR-tree unit tests, and Worker Vitest suite
+once:
 
 ```bash
 mise run test
 ```
 
-Run either suite with `mise run test:bats` or `mise run worker:test`. For Worker
-watch mode with the Vitest UI, use `mise run worker:test:watch`. Bats discovers
-`tests/*.bats`; each case uses isolated temporary fixtures. To focus on a shell
-suite, run `mise exec -- bats tests/installer-revisions.bats`. CI runs Bats and
-Vitest in separate jobs. `hk` lints and formats the test files.
+Run an individual suite with `mise run test:bats`, `mise run test:pr-tree`, or
+`mise run worker:test`. For Worker watch mode with the Vitest UI, use
+`mise run worker:test:watch`. Bats discovers `tests/*.bats`; each case uses
+isolated temporary fixtures. To focus on a shell suite, run
+`mise exec -- bats tests/installer-revisions.bats`. PR-tree tests use Bun and
+run from `wsl/home/.agents/skills/pr-tree/scripts/`. CI runs Bats and PR-tree in
+one job and Vitest in a separate job. `hk` lints and formats the test files.
 
 Worker tests fetch installer scripts from GitHub at the checked-out commit.
 Push local commits before running the Worker suite or the combined test command.
@@ -274,15 +277,14 @@ Push local commits before running the Worker suite or the combined test command.
 ### Installer Checks
 
 CI tests Linux and macOS with both the bare (shared-only) and personal profiles.
-Every PR runs lint, Bats, and Vitest; documentation-only PRs skip bootstrapping
-either platform and building the Worker. Shared
+Every PR runs lint, Bats, PR-tree, and Vitest; documentation-only PRs skip
+bootstrapping either platform and building the Worker. Shared
 configuration/toolchain and unknown paths conservatively select the full suite;
-Windows-only changes also build the Worker. Every installer run keeps
-all four platform/profile combinations. Stacked PRs receive the same checks. The
-separate **Upstream Health** workflow runs the full suite and external-link
-checks weekly or on demand, keeping upstream failures identifiable. Manual CI
-runs default to full coverage. Latest package and image selections remain in
-use.
+Windows-only changes also build the Worker. Every installer run keeps all four
+platform/profile combinations. Stacked PRs receive the same checks. The separate
+**Upstream Health** workflow runs the full suite and external-link checks weekly
+or on demand, keeping upstream failures identifiable. Manual CI runs default to
+full coverage. Latest package and image selections remain in use.
 
 Each job installs twice, verifies the requested Git revision and managed state
 after both passes, and runs `mise doctor` in a fresh interactive shell. The
