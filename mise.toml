@@ -56,9 +56,6 @@ sources = ["package.json", "bun.lock"]
 outputs = ["node_modules"]
 run = "bun install --frozen-lockfile"
 
-[task_config]
-includes = ["tasks.toml", "tasks", "worker/tasks.toml", "worker/tasks"]
-
 # Shared task metadata stays with the root task includes, not bootstrap fragments.
 [task_templates.worker]
 dir = "{{ config_root }}/worker"
@@ -67,6 +64,9 @@ dir = "{{ config_root }}/worker"
 [task_templates."worker:runtime"]
 dir = "{{ config_root }}/worker"
 depends = ["worker:generate:types"]
+
+[task_config]
+includes = ["tasks.toml", "tasks", "worker/tasks.toml", "worker/tasks"]
 
 # Hooks are Tera templates, so Linux-only steps are skipped on other platforms
 # and my own infrastructure is only set up with the personal profile.
