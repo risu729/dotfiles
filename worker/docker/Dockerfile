@@ -1,36 +1,35 @@
+FROM ghcr.io/jdx/mise:2026.9.14@sha256:cdbc8e22efb0686bebaa27d7d0e9306895e02d10c37ef615e53f4a971fe877e2 AS mise
+
 FROM ubuntu:26.04@sha256:da6fc2be547864451aa253836dd926da33623312df4a9a243e35dc877c378a78
 
 ARG MISE_VERSION
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
-# version of gnupg does not matter
 # hadolint ignore=DL3008
 RUN apt-get update && \
-    apt-get install -y --no-install-recommends curl ca-certificates gnupg git libatomic1 && \
+    apt-get install -y --no-install-recommends curl ca-certificates git libatomic1 && \
     rm -rf /var/lib/apt/lists/*
+
+COPY --from=mise /usr/local/bin/mise /usr/local/bin/mise
 
 # Configure mise environment variables
 # ref: https://mise.jdx.dev/mise-cookbook/docker.html
 ENV MISE_DATA_DIR="/mise"
 ENV MISE_CACHE_DIR="/mise/cache"
-ENV MISE_INSTALL_PATH="/usr/local/bin/mise"
 ENV MISE_TRUSTED_CONFIG_PATHS="/dotfiles"
 ENV MISE_ENABLE_TOOLS=bun,node
 ENV MISE_YES=1
-ENV PATH="${MISE_DATA_DIR}/shims:${MISE_INSTALL_PATH%/*}:$PATH"
+ENV PATH="${MISE_DATA_DIR}/shims:$PATH"
 
-# Install mise with GPG verification and specific version
+# CI and Compose derive MISE_VERSION from mise.toml's min_version. A digest
+# selects the binary even if its tag changes, so fail on version drift.
 RUN set -eux && \
-    echo "Installing mise version: ${MISE_VERSION}" && \
-    # ref: https://mise.jdx.dev/installing-mise.html#https-mise-run
-    # use hkp because hkps fails with: gpg: keyserver receive failed: General error
-    gpg --keyserver hkp://keyserver.ubuntu.com --recv-keys 0x7413A06D && \
-    curl --fail-with-body --location --output install.sh.sig "https://mise.jdx.dev/install.sh.sig" && \
-    gpg --decrypt --output install.sh install.sh.sig && \
-    sh ./install.sh && \
-    rm install.sh.sig install.sh && \
-    mise version
+    actual_version="$(mise --version)" && \
+    if [ "${actual_version%% *}" != "${MISE_VERSION:?MISE_VERSION is required}" ]; then \
+        echo "mise image version ${actual_version} does not match MISE_VERSION=${MISE_VERSION}; update the image tag and digest together." >&2; \
+        exit 1; \
+    fi
 
 # Set git config to suppress hints and warnings
 RUN set -eux && \

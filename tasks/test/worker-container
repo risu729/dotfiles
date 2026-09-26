@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+#MISE description="Build and smoke-test the Worker container without bootstrapping the host."
+set -euo pipefail
+
+cd "$(dirname "${BASH_SOURCE[0]}")/../.."
+export GIT_COMMIT_SHA="${GIT_COMMIT_SHA:-$(git rev-parse HEAD)}"
+export MISE_VERSION="${MISE_VERSION:-$(sed -n 's/^min_version = "\(.*\)"$/\1/p' mise.toml)}"
+export COMPOSE_PROJECT_NAME="${COMPOSE_PROJECT_NAME:-dotfiles-worker-test-$$}"
+scratch=$(mktemp -d)
+compose() { docker compose --file compose.ci.yml "$@"; }
+cleanup() {
+	compose logs worker
+	compose down --volumes --remove-orphans
+	rm -rf "${scratch}"
+}
+trap cleanup EXIT
+
+compose build worker
+# A stale image digest must not silently ignore the requested mise version.
+if docker build --build-arg MISE_VERSION=0.0.0 worker/docker >"${scratch}/mismatch.log" 2>&1; then
+	echo 'Expected the mismatched mise version to fail the build.' >&2
+	exit 1
+fi
+grep -F 'does not match MISE_VERSION=0.0.0' "${scratch}/mismatch.log"
+
+# Use the real entrypoint: sparse checkout, pinned tools, build, then preview.
+compose up --wait --wait-timeout 180 worker
+compose exec -T worker curl --fail --silent --show-error \
+	"http://localhost:4173/wsl?ref=${GIT_COMMIT_SHA}" >"${scratch}/installer.sh"
+grep -Fx "# source: https://raw.githubusercontent.com/risu729/dotfiles/${GIT_COMMIT_SHA}/unix/install.sh" "${scratch}/installer.sh"
+grep -Fx "git_ref=\"${GIT_COMMIT_SHA}\"" "${scratch}/installer.sh"

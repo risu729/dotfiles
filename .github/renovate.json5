@@ -3,10 +3,9 @@
 	$schema: "https://docs.renovatebot.com/renovate-schema.json",
 	extends: ["github>risu729/renovate-config#3.19.0"],
 	packageRules: [
-		// Keep min_version, GitHub Actions' mise versions, and schema pins together.
-		// Both the custom and built-in managers use this package name.
+		// Keep min_version, GitHub Actions, schemas, and the container tag/digest together.
 		{
-			matchPackageNames: ["jdx/mise"],
+			matchPackageNames: ["jdx/mise", "ghcr.io/jdx/mise"],
 			groupName: "mise",
 			groupSingleUpdates: true,
 		},
