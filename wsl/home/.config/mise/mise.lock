@@ -556,53 +556,53 @@ url = "https://github.com/anthropics/claude-code/releases/download/v2.1.283/clau
 url_api = "https://api.github.com/repos/anthropics/claude-code/releases/assets/588996736"
 
 [[tools.codex]]
-version = "0.157.0"
+version = "0.157.1"
 backend = "aqua:openai/codex"
 
 [tools.codex."platforms.linux-arm64"]
-checksum = "sha256:c1c36beab0b4f72779adf53ba9e9e494bf7cbfbe4f3506a08ff67a24f5f00d08"
-url = "https://github.com/openai/codex/releases/download/rust-v0.157.0/codex-package-aarch64-unknown-linux-musl.tar.gz"
-url_api = "https://api.github.com/repos/openai/codex/releases/assets/587340226"
+checksum = "sha256:499fe70d70f4e4904b6a5a4ec1b1edf6c4a1a47a075ea7e2ec2b5262ba47b471"
+url = "https://github.com/openai/codex/releases/download/rust-v0.157.1/codex-package-aarch64-unknown-linux-musl.tar.gz"
+url_api = "https://api.github.com/repos/openai/codex/releases/assets/589602711"
 
 [tools.codex."platforms.linux-arm64-musl"]
-checksum = "sha256:c1c36beab0b4f72779adf53ba9e9e494bf7cbfbe4f3506a08ff67a24f5f00d08"
-url = "https://github.com/openai/codex/releases/download/rust-v0.157.0/codex-package-aarch64-unknown-linux-musl.tar.gz"
-url_api = "https://api.github.com/repos/openai/codex/releases/assets/587340226"
+checksum = "sha256:499fe70d70f4e4904b6a5a4ec1b1edf6c4a1a47a075ea7e2ec2b5262ba47b471"
+url = "https://github.com/openai/codex/releases/download/rust-v0.157.1/codex-package-aarch64-unknown-linux-musl.tar.gz"
+url_api = "https://api.github.com/repos/openai/codex/releases/assets/589602711"
 
 [tools.codex."platforms.linux-x64"]
-checksum = "sha256:042f851ea3fc1083c45157520520944fc790632b53ebc580fc98eaca55862a25"
-url = "https://github.com/openai/codex/releases/download/rust-v0.157.0/codex-package-x86_64-unknown-linux-musl.tar.gz"
-url_api = "https://api.github.com/repos/openai/codex/releases/assets/587334214"
+checksum = "sha256:0e211868c9fd73cb49ad35ac675b5eafdf6b9f453df8a493df980c59a590fe5f"
+url = "https://github.com/openai/codex/releases/download/rust-v0.157.1/codex-package-x86_64-unknown-linux-musl.tar.gz"
+url_api = "https://api.github.com/repos/openai/codex/releases/assets/589593045"
 
 [tools.codex."platforms.linux-x64-baseline"]
-checksum = "sha256:042f851ea3fc1083c45157520520944fc790632b53ebc580fc98eaca55862a25"
-url = "https://github.com/openai/codex/releases/download/rust-v0.157.0/codex-package-x86_64-unknown-linux-musl.tar.gz"
-url_api = "https://api.github.com/repos/openai/codex/releases/assets/587334214"
+checksum = "sha256:0e211868c9fd73cb49ad35ac675b5eafdf6b9f453df8a493df980c59a590fe5f"
+url = "https://github.com/openai/codex/releases/download/rust-v0.157.1/codex-package-x86_64-unknown-linux-musl.tar.gz"
+url_api = "https://api.github.com/repos/openai/codex/releases/assets/589593045"
 
 [tools.codex."platforms.linux-x64-musl"]
-checksum = "sha256:042f851ea3fc1083c45157520520944fc790632b53ebc580fc98eaca55862a25"
-url = "https://github.com/openai/codex/releases/download/rust-v0.157.0/codex-package-x86_64-unknown-linux-musl.tar.gz"
-url_api = "https://api.github.com/repos/openai/codex/releases/assets/587334214"
+checksum = "sha256:0e211868c9fd73cb49ad35ac675b5eafdf6b9f453df8a493df980c59a590fe5f"
+url = "https://github.com/openai/codex/releases/download/rust-v0.157.1/codex-package-x86_64-unknown-linux-musl.tar.gz"
+url_api = "https://api.github.com/repos/openai/codex/releases/assets/589593045"
 
 [tools.codex."platforms.linux-x64-musl-baseline"]
-checksum = "sha256:042f851ea3fc1083c45157520520944fc790632b53ebc580fc98eaca55862a25"
-url = "https://github.com/openai/codex/releases/download/rust-v0.157.0/codex-package-x86_64-unknown-linux-musl.tar.gz"
-url_api = "https://api.github.com/repos/openai/codex/releases/assets/587334214"
+checksum = "sha256:0e211868c9fd73cb49ad35ac675b5eafdf6b9f453df8a493df980c59a590fe5f"
+url = "https://github.com/openai/codex/releases/download/rust-v0.157.1/codex-package-x86_64-unknown-linux-musl.tar.gz"
+url_api = "https://api.github.com/repos/openai/codex/releases/assets/589593045"
 
 [tools.codex."platforms.macos-arm64"]
-checksum = "sha256:97809f91cb355e55480cd7a126f9ad24bb7b162222515e30286bcac6fba94acd"
-url = "https://github.com/openai/codex/releases/download/rust-v0.157.0/codex-package-aarch64-apple-darwin.tar.gz"
-url_api = "https://api.github.com/repos/openai/codex/releases/assets/587343110"
+checksum = "sha256:6cda538d19c2f4d9dce965369aa22011afa9dce8c7a73c234b66eb3611ea4aab"
+url = "https://github.com/openai/codex/releases/download/rust-v0.157.1/codex-package-aarch64-apple-darwin.tar.gz"
+url_api = "https://api.github.com/repos/openai/codex/releases/assets/589607687"
 
 [tools.codex."platforms.macos-x64"]
-checksum = "sha256:51cc89d32145c1e5dd4aa9670b88facbeb967ba1470470680ae85376f3e340a0"
-url = "https://github.com/openai/codex/releases/download/rust-v0.157.0/codex-package-x86_64-apple-darwin.tar.gz"
-url_api = "https://api.github.com/repos/openai/codex/releases/assets/587337705"
+checksum = "sha256:d2285a56c7d1f74923e708b18308870e367479a4423784ed488578af89d6af77"
+url = "https://github.com/openai/codex/releases/download/rust-v0.157.1/codex-package-x86_64-apple-darwin.tar.gz"
+url_api = "https://api.github.com/repos/openai/codex/releases/assets/589598502"
 
 [tools.codex."platforms.macos-x64-baseline"]
-checksum = "sha256:51cc89d32145c1e5dd4aa9670b88facbeb967ba1470470680ae85376f3e340a0"
-url = "https://github.com/openai/codex/releases/download/rust-v0.157.0/codex-package-x86_64-apple-darwin.tar.gz"
-url_api = "https://api.github.com/repos/openai/codex/releases/assets/587337705"
+checksum = "sha256:d2285a56c7d1f74923e708b18308870e367479a4423784ed488578af89d6af77"
+url = "https://github.com/openai/codex/releases/download/rust-v0.157.1/codex-package-x86_64-apple-darwin.tar.gz"
+url_api = "https://api.github.com/repos/openai/codex/releases/assets/589598502"
 
 [[tools.delta]]
 version = "0.19.2"
@@ -688,53 +688,53 @@ url = "https://github.com/mr-karan/doggo/releases/download/v1.4.0/doggo-darwin-x
 url_api = "https://api.github.com/repos/mr-karan/doggo/releases/assets/539320095"
 
 [[tools.entire]]
-version = "0.11.2"
+version = "0.11.3"
 backend = "aqua:entireio/cli"
 
 [tools.entire."platforms.linux-arm64"]
-checksum = "sha256:5311e6fda6856897b74b4ed17f7da99400ecded72840bea8306f4c4193b561bd"
-url = "https://github.com/entireio/cli/releases/download/v0.11.2/entire_linux_arm64.tar.gz"
-url_api = "https://api.github.com/repos/entireio/cli/releases/assets/583127633"
+checksum = "sha256:943c5fb0283c1ffc68a2a962660ba89c8d12fe46642f2f708b040040adb154a2"
+url = "https://github.com/entireio/cli/releases/download/v0.11.3/entire_linux_arm64.tar.gz"
+url_api = "https://api.github.com/repos/entireio/cli/releases/assets/589226937"
 
 [tools.entire."platforms.linux-arm64-musl"]
-checksum = "sha256:5311e6fda6856897b74b4ed17f7da99400ecded72840bea8306f4c4193b561bd"
-url = "https://github.com/entireio/cli/releases/download/v0.11.2/entire_linux_arm64.tar.gz"
-url_api = "https://api.github.com/repos/entireio/cli/releases/assets/583127633"
+checksum = "sha256:943c5fb0283c1ffc68a2a962660ba89c8d12fe46642f2f708b040040adb154a2"
+url = "https://github.com/entireio/cli/releases/download/v0.11.3/entire_linux_arm64.tar.gz"
+url_api = "https://api.github.com/repos/entireio/cli/releases/assets/589226937"
 
 [tools.entire."platforms.linux-x64"]
-checksum = "sha256:6bb93b257f5321ea311f0cd8e0ca74b4ea9f8f5bdf3b11e68ded57242f824d26"
-url = "https://github.com/entireio/cli/releases/download/v0.11.2/entire_linux_amd64.tar.gz"
-url_api = "https://api.github.com/repos/entireio/cli/releases/assets/583127680"
+checksum = "sha256:a491d2329fd38d215185746925d0086969262676f7ce9de55ac724bd7b2a7412"
+url = "https://github.com/entireio/cli/releases/download/v0.11.3/entire_linux_amd64.tar.gz"
+url_api = "https://api.github.com/repos/entireio/cli/releases/assets/589226931"
 
 [tools.entire."platforms.linux-x64-baseline"]
-checksum = "sha256:6bb93b257f5321ea311f0cd8e0ca74b4ea9f8f5bdf3b11e68ded57242f824d26"
-url = "https://github.com/entireio/cli/releases/download/v0.11.2/entire_linux_amd64.tar.gz"
-url_api = "https://api.github.com/repos/entireio/cli/releases/assets/583127680"
+checksum = "sha256:a491d2329fd38d215185746925d0086969262676f7ce9de55ac724bd7b2a7412"
+url = "https://github.com/entireio/cli/releases/download/v0.11.3/entire_linux_amd64.tar.gz"
+url_api = "https://api.github.com/repos/entireio/cli/releases/assets/589226931"
 
 [tools.entire."platforms.linux-x64-musl"]
-checksum = "sha256:6bb93b257f5321ea311f0cd8e0ca74b4ea9f8f5bdf3b11e68ded57242f824d26"
-url = "https://github.com/entireio/cli/releases/download/v0.11.2/entire_linux_amd64.tar.gz"
-url_api = "https://api.github.com/repos/entireio/cli/releases/assets/583127680"
+checksum = "sha256:a491d2329fd38d215185746925d0086969262676f7ce9de55ac724bd7b2a7412"
+url = "https://github.com/entireio/cli/releases/download/v0.11.3/entire_linux_amd64.tar.gz"
+url_api = "https://api.github.com/repos/entireio/cli/releases/assets/589226931"
 
 [tools.entire."platforms.linux-x64-musl-baseline"]
-checksum = "sha256:6bb93b257f5321ea311f0cd8e0ca74b4ea9f8f5bdf3b11e68ded57242f824d26"
-url = "https://github.com/entireio/cli/releases/download/v0.11.2/entire_linux_amd64.tar.gz"
-url_api = "https://api.github.com/repos/entireio/cli/releases/assets/583127680"
+checksum = "sha256:a491d2329fd38d215185746925d0086969262676f7ce9de55ac724bd7b2a7412"
+url = "https://github.com/entireio/cli/releases/download/v0.11.3/entire_linux_amd64.tar.gz"
+url_api = "https://api.github.com/repos/entireio/cli/releases/assets/589226931"
 
 [tools.entire."platforms.macos-arm64"]
-checksum = "sha256:ddbe01c458c22494489dbd04227594b8e4360705c53c51d7ca246dcbc4f49c9e"
-url = "https://github.com/entireio/cli/releases/download/v0.11.2/entire_darwin_arm64.tar.gz"
-url_api = "https://api.github.com/repos/entireio/cli/releases/assets/583127638"
+checksum = "sha256:ad8de534e985ca2f4f6ba98dea810ab4c88cd06e81dccd04d38d68c1021b28cf"
+url = "https://github.com/entireio/cli/releases/download/v0.11.3/entire_darwin_arm64.tar.gz"
+url_api = "https://api.github.com/repos/entireio/cli/releases/assets/589226967"
 
 [tools.entire."platforms.macos-x64"]
-checksum = "sha256:a8b1f89e2eda7987d89bab3d99d8f5c1057cc4e86da80a4c5278c0160d0bdad3"
-url = "https://github.com/entireio/cli/releases/download/v0.11.2/entire_darwin_amd64.tar.gz"
-url_api = "https://api.github.com/repos/entireio/cli/releases/assets/583127636"
+checksum = "sha256:0c80e3183a530e8a4170288b272afd2a6a00c367485b027acf3780253236796a"
+url = "https://github.com/entireio/cli/releases/download/v0.11.3/entire_darwin_amd64.tar.gz"
+url_api = "https://api.github.com/repos/entireio/cli/releases/assets/589226972"
 
 [tools.entire."platforms.macos-x64-baseline"]
-checksum = "sha256:a8b1f89e2eda7987d89bab3d99d8f5c1057cc4e86da80a4c5278c0160d0bdad3"
-url = "https://github.com/entireio/cli/releases/download/v0.11.2/entire_darwin_amd64.tar.gz"
-url_api = "https://api.github.com/repos/entireio/cli/releases/assets/583127636"
+checksum = "sha256:0c80e3183a530e8a4170288b272afd2a6a00c367485b027acf3780253236796a"
+url = "https://github.com/entireio/cli/releases/download/v0.11.3/entire_darwin_amd64.tar.gz"
+url_api = "https://api.github.com/repos/entireio/cli/releases/assets/589226972"
 
 [[tools.eza]]
 version = "0.23.5"
@@ -1805,53 +1805,53 @@ url = "https://github.com/lycheeverse/lychee/releases/download/lychee-v0.24.2/ly
 url_api = "https://api.github.com/repos/lycheeverse/lychee/releases/assets/409957687"
 
 [[tools.miller]]
-version = "6.21.0"
+version = "6.22.0"
 backend = "aqua:johnkerl/miller"
 
 [tools.miller."platforms.linux-arm64"]
-checksum = "sha256:3f4bc15993da3039e5aad1f67a114817db5d933a1cde26b6c2edf867de467d27"
-url = "https://github.com/johnkerl/miller/releases/download/v6.21.0/miller-6.21.0-linux-arm64.tar.gz"
-url_api = "https://api.github.com/repos/johnkerl/miller/releases/assets/508818115"
+checksum = "sha256:86dbf9078cf4cd96fef7a8306b3786a441cdf7f8526324a233e38c37c4bfe742"
+url = "https://github.com/johnkerl/miller/releases/download/v6.22.0/miller-6.22.0-linux-arm64.tar.gz"
+url_api = "https://api.github.com/repos/johnkerl/miller/releases/assets/589277848"
 
 [tools.miller."platforms.linux-arm64-musl"]
-checksum = "sha256:3f4bc15993da3039e5aad1f67a114817db5d933a1cde26b6c2edf867de467d27"
-url = "https://github.com/johnkerl/miller/releases/download/v6.21.0/miller-6.21.0-linux-arm64.tar.gz"
-url_api = "https://api.github.com/repos/johnkerl/miller/releases/assets/508818115"
+checksum = "sha256:86dbf9078cf4cd96fef7a8306b3786a441cdf7f8526324a233e38c37c4bfe742"
+url = "https://github.com/johnkerl/miller/releases/download/v6.22.0/miller-6.22.0-linux-arm64.tar.gz"
+url_api = "https://api.github.com/repos/johnkerl/miller/releases/assets/589277848"
 
 [tools.miller."platforms.linux-x64"]
-checksum = "sha256:22daf43f3afc7c497da0b9480a0d4ef0d39c9bf68b2460068dd0187ed44f7b80"
-url = "https://github.com/johnkerl/miller/releases/download/v6.21.0/miller-6.21.0-linux-amd64.tar.gz"
-url_api = "https://api.github.com/repos/johnkerl/miller/releases/assets/508818093"
+checksum = "sha256:0551f8696e8f42dae1c67c782bbe04e0589e718268722fa98561e2566e4623b8"
+url = "https://github.com/johnkerl/miller/releases/download/v6.22.0/miller-6.22.0-linux-amd64.tar.gz"
+url_api = "https://api.github.com/repos/johnkerl/miller/releases/assets/589277832"
 
 [tools.miller."platforms.linux-x64-baseline"]
-checksum = "sha256:22daf43f3afc7c497da0b9480a0d4ef0d39c9bf68b2460068dd0187ed44f7b80"
-url = "https://github.com/johnkerl/miller/releases/download/v6.21.0/miller-6.21.0-linux-amd64.tar.gz"
-url_api = "https://api.github.com/repos/johnkerl/miller/releases/assets/508818093"
+checksum = "sha256:0551f8696e8f42dae1c67c782bbe04e0589e718268722fa98561e2566e4623b8"
+url = "https://github.com/johnkerl/miller/releases/download/v6.22.0/miller-6.22.0-linux-amd64.tar.gz"
+url_api = "https://api.github.com/repos/johnkerl/miller/releases/assets/589277832"
 
 [tools.miller."platforms.linux-x64-musl"]
-checksum = "sha256:22daf43f3afc7c497da0b9480a0d4ef0d39c9bf68b2460068dd0187ed44f7b80"
-url = "https://github.com/johnkerl/miller/releases/download/v6.21.0/miller-6.21.0-linux-amd64.tar.gz"
-url_api = "https://api.github.com/repos/johnkerl/miller/releases/assets/508818093"
+checksum = "sha256:0551f8696e8f42dae1c67c782bbe04e0589e718268722fa98561e2566e4623b8"
+url = "https://github.com/johnkerl/miller/releases/download/v6.22.0/miller-6.22.0-linux-amd64.tar.gz"
+url_api = "https://api.github.com/repos/johnkerl/miller/releases/assets/589277832"
 
 [tools.miller."platforms.linux-x64-musl-baseline"]
-checksum = "sha256:22daf43f3afc7c497da0b9480a0d4ef0d39c9bf68b2460068dd0187ed44f7b80"
-url = "https://github.com/johnkerl/miller/releases/download/v6.21.0/miller-6.21.0-linux-amd64.tar.gz"
-url_api = "https://api.github.com/repos/johnkerl/miller/releases/assets/508818093"
+checksum = "sha256:0551f8696e8f42dae1c67c782bbe04e0589e718268722fa98561e2566e4623b8"
+url = "https://github.com/johnkerl/miller/releases/download/v6.22.0/miller-6.22.0-linux-amd64.tar.gz"
+url_api = "https://api.github.com/repos/johnkerl/miller/releases/assets/589277832"
 
 [tools.miller."platforms.macos-arm64"]
-checksum = "sha256:e172a045a813de63753ddbe043208785e944819b082526ddd927559eeb0ad176"
-url = "https://github.com/johnkerl/miller/releases/download/v6.21.0/miller-6.21.0-darwin-arm64.tar.gz"
-url_api = "https://api.github.com/repos/johnkerl/miller/releases/assets/508818153"
+checksum = "sha256:b99af86bf902c4fd269c28ec4142111dc27815b3ae63801baceaa001d09b9fd7"
+url = "https://github.com/johnkerl/miller/releases/download/v6.22.0/miller-6.22.0-darwin-arm64.tar.gz"
+url_api = "https://api.github.com/repos/johnkerl/miller/releases/assets/589277818"
 
 [tools.miller."platforms.macos-x64"]
-checksum = "sha256:0b02be2a7166b56bad29b0446e2a2cc8c47269410e6af2841174aa1854fde53a"
-url = "https://github.com/johnkerl/miller/releases/download/v6.21.0/miller-6.21.0-darwin-amd64.tar.gz"
-url_api = "https://api.github.com/repos/johnkerl/miller/releases/assets/508818116"
+checksum = "sha256:441b486b0c4d89a7465fc958dc6f3bbd0339e270230e5f81a520b04d202a9838"
+url = "https://github.com/johnkerl/miller/releases/download/v6.22.0/miller-6.22.0-darwin-amd64.tar.gz"
+url_api = "https://api.github.com/repos/johnkerl/miller/releases/assets/589277858"
 
 [tools.miller."platforms.macos-x64-baseline"]
-checksum = "sha256:0b02be2a7166b56bad29b0446e2a2cc8c47269410e6af2841174aa1854fde53a"
-url = "https://github.com/johnkerl/miller/releases/download/v6.21.0/miller-6.21.0-darwin-amd64.tar.gz"
-url_api = "https://api.github.com/repos/johnkerl/miller/releases/assets/508818116"
+checksum = "sha256:441b486b0c4d89a7465fc958dc6f3bbd0339e270230e5f81a520b04d202a9838"
+url = "https://github.com/johnkerl/miller/releases/download/v6.22.0/miller-6.22.0-darwin-amd64.tar.gz"
+url_api = "https://api.github.com/repos/johnkerl/miller/releases/assets/589277858"
 
 [[tools.mitmproxy]]
 version = "12.2.3"
