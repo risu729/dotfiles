@@ -10,7 +10,16 @@ Choose the platform to configure. The Windows installer also handles WSL2.
 
 ### Windows 11
 
-Run in Windows Terminal:
+Set up Windows without a Microsoft account to avoid automatically installing
+OneDrive. During initial setup, stay disconnected from the internet, press
+`Shift + F10`, and run:
+
+```cmd
+start ms-cxh:localonly
+```
+
+Continue with **I don't have internet**. Update Windows to the latest version
+and uninstall OneDrive if present, then run in Windows Terminal:
 
 ```powershell
 powershell -c "irm dot.risunosu.com/win | iex"
@@ -19,6 +28,12 @@ powershell -c "irm dot.risunosu.com/win | iex"
 This also sets up WSL2 with the personal profile. After installation, restore
 [PowerToys settings][powertoys-backup]
 from the backup in [`win/`](win/).
+
+Remove unnecessary pre-installed software and install these apps separately:
+
+- [Lenovo Vantage](https://www.lenovo.com/us/en/software/vantage)
+- [Minecraft Launcher](https://aka.ms/minecraftClientGameCoreWindows)
+- [LINE](https://desktop.line-scdn.net/win/new/LineInst.exe)
 
 [powertoys-backup]: https://learn.microsoft.com/windows/powertoys/general#backup--restore
 
@@ -29,6 +44,10 @@ For an existing or reset WSL2 environment, run in Bash:
 ```bash
 bash -i <(curl -fsSL https://dot.risunosu.com/wsl)
 ```
+
+The WSL2 and macOS commands use process substitution (`<()`) so the script
+comes from a file descriptor while standard input stays available for
+interactive prompts. Piping into Bash would use standard input for the script.
 
 ### macOS
 
