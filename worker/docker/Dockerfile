@@ -1,4 +1,4 @@
-FROM ghcr.io/jdx/mise:2026.9.14@sha256:cdbc8e22efb0686bebaa27d7d0e9306895e02d10c37ef615e53f4a971fe877e2 AS mise
+FROM ghcr.io/jdx/mise:2026.9.12@sha256:868b004119abb2e7c146618da63371ec65da40bfb0f38a0ec4128ca9e96c057a AS mise
 
 FROM ubuntu:26.04@sha256:da6fc2be547864451aa253836dd926da33623312df4a9a243e35dc877c378a78
 
