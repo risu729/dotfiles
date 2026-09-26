@@ -7,7 +7,7 @@ PS_SCRIPT_ANALYZER_VERSION = "1.25.0"
 
 [tools]
 bun = "1.4.2"
-aube = "v2.3.0"
+aube = "v2.4.0"
 node = "26.10.0"
 github-cli = "2.101.0"
 hk = "1.58.1"
