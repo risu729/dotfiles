@@ -6,7 +6,7 @@
 setup() {
 	bats_require_minimum_version 1.7.0
 	root=$(cd "${BATS_TEST_DIRNAME}/.." && pwd)
-	cd "${root}"
+	cd "${root}" || exit
 	# shellcheck source=tasks/ci/select
 	source "${root}/tasks/ci/select"
 }
@@ -86,7 +86,7 @@ assert_selection() {
 }
 
 setup_changed_repository() {
-	cd "${BATS_TEST_TMPDIR}"
+	cd "${BATS_TEST_TMPDIR}" || exit
 	git -c init.defaultBranch=main init --quiet
 	git config user.name 'Selection test'
 	git config user.email 'selection@example.invalid'
