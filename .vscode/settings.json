@@ -21,7 +21,7 @@
 	"files.associations": {
 		// match on the absolute path if / is contained
 		"**/tasks/**": "shellscript",
-		"**/wsl/etc/**": "plaintext",
+		"**/unix/etc/**": "plaintext",
 		"gpg-agent.conf": "plaintext",
 		"shellcheckrc": "ini",
 		"winget.json": "jsonc"

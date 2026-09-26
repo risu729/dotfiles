@@ -28,8 +28,8 @@
 		// afterwards.
 		{
 			matchFileNames: [
-				"wsl/home/.config/mise/config.toml",
-				"wsl/home/.config/mise/config.personal.toml",
+				"unix/home/.config/mise/config.toml",
+				"unix/home/.config/mise/config.personal.toml",
 			],
 			matchUpdateTypes: ["lockFileMaintenance"],
 			lockFileMaintenance: {
@@ -44,8 +44,8 @@
 		// first. keep only the bulk maintenance PR.
 		{
 			matchFileNames: [
-				"wsl/home/.config/mise/config.toml",
-				"wsl/home/.config/mise/config.personal.toml",
+				"unix/home/.config/mise/config.toml",
+				"unix/home/.config/mise/config.personal.toml",
 			],
 			matchCurrentValue: "/^latest$/",
 			enabled: false,

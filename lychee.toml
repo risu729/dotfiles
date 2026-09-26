@@ -12,7 +12,7 @@ exclude_path = [
 	"node_modules",
 	"worker/node_modules",
 	".gitignore",
-	"wsl/home/.config/git/ignore",
+	"unix/home/.config/git/ignore",
 	"bun.lock",
 	"worker/bun.lock",
 	# ignore binaries

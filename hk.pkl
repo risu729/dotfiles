@@ -4,7 +4,7 @@ import "https://raw.githubusercontent.com/risu729/hk-config/v1.1.0/helpers.pkl"
 
 subprojects = List("worker")
 
-local const shellGlobs = List("wsl/home/.bashrc", "tests/**/*.bats")
+local const shellGlobs = List("unix/home/.bashrc", "tests/**/*.bats")
 
 local function includeShellFiles(step: Step): Step = (step) {
   match_any =

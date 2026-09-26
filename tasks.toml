@@ -22,7 +22,7 @@ run = "bats tests"
 description = "Run all shell regression tests with Bats."
 
 ["test:pr-tree"]
-run = "bun test ./wsl/home/.agents/skills/pr-tree/scripts/"
+run = "bun test ./unix/home/.agents/skills/pr-tree/scripts/"
 description = "Run the PR-tree unit tests with Bun."
 
 ["install:ps-script-analyzer"]
