@@ -51,6 +51,7 @@ steps = (picked) {
             "worker/tasks/**",
             "mise.toml",
             "mise/**",
+            ".config/mise/conf.d/*.toml",
           )
       }
     }
