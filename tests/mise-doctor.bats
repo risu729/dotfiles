@@ -1,7 +1,8 @@
 #!/usr/bin/env bats
 # shellcheck shell=bash
 # Bats supplies test paths and captured output.
-# shellcheck disable=SC2154
+# Each Bats test has its own environment; doctor messages contain literal backticks.
+# shellcheck disable=SC2154,SC2030,SC2031,SC2016
 
 setup() {
 	bats_require_minimum_version 1.7.0
@@ -10,6 +11,10 @@ setup() {
 	cat >"${BATS_TEST_TMPDIR}/bin/mise" <<'STUB'
 #!/usr/bin/env bash
 set -euo pipefail
+if [[ $* == 'tool usage --json' ]]; then
+  printf '%s\n' "${DOCTOR_TOOL}"
+  exit 0
+fi
 [[ $* == 'doctor --json' ]]
 printf '%s\n' "${DOCTOR_REPORT}"
 exit "${DOCTOR_STATUS}"
@@ -41,4 +46,21 @@ STUB
 
 @test "mise diagnostics reject malformed JSON" {
 	run ! env DOCTOR_REPORT='not json' bash "${root}/tasks/verify/mise-doctor"
+}
+
+@test "mise diagnostics allow only the effective lazy tool's missing error" {
+	export DOCTOR_REPORT='{"toolset":{"usage":[{"version":"0.0.0","missing":true}]},"errors":["tool aqua:jdx/usage@0.0.0 is not installed, install with `mise install`"]}'
+	export DOCTOR_TOOL='{"backend":"aqua:jdx/usage","active_versions":["0.0.0"],"tool_options":{"lazy":true}}' DOCTOR_STATUS=1
+	run -0 bash "${root}/tasks/verify/mise-doctor"
+	[[ -z ${output} ]]
+	export DOCTOR_TOOL='{"backend":"aqua:jdx/usage","active_versions":["0.0.0"],"tool_options":{"lazy":false}}'
+	run ! bash "${root}/tasks/verify/mise-doctor"
+	[[ ${output} == *'is not installed'* ]]
+}
+
+@test "lazy allowance never hides other doctor warnings or broken installs" {
+	export DOCTOR_REPORT='{"warnings":["warning fixture"],"toolset":{"usage":[{"version":"0.0.0","missing":true}]},"errors":["tool aqua:jdx/usage@0.0.0 is not installed, install with `mise install`","broken install"]}'
+	export DOCTOR_TOOL='{"backend":"aqua:jdx/usage","active_versions":["0.0.0"],"tool_options":{"lazy":true}}' DOCTOR_STATUS=1
+	run ! bash "${root}/tasks/verify/mise-doctor"
+	[[ ${output} == $'warning fixture\nbroken install' ]]
 }
