@@ -253,6 +253,13 @@ if declare -f _command_not_found_handle >/dev/null; then
 	unset -f _command_not_found_handle
 fi
 
+# Shared prompt for WSL bash and macOS zsh. Keep the PS1 above as a fallback.
+if command -v starship &>/dev/null; then
+	starship_init="$(starship init bash)"
+	eval "${starship_init}"
+	unset starship_init
+fi
+
 # Activate atuin
 if command -v atuin &>/dev/null; then
 	atuin_init="$(atuin init bash --disable-up-arrow)"

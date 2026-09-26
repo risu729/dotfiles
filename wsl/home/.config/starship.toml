@@ -1,0 +1,22 @@
+"$schema" = "https://starship.rs/config-schema.json"
+
+# Keep local prompts short; username and hostname appear for SSH sessions.
+format = "$username$hostname$directory$git_branch$git_status$line_break$character"
+
+[directory]
+truncation_length = 2
+truncation_symbol = "…/"
+read_only = " ro"
+
+[git_branch]
+format = "[$branch]($style) "
+truncation_length = 24
+
+[git_status]
+style = "bold yellow"
+
+[hostname]
+format = "[$hostname]($style) "
+
+[username]
+format = "[$user]($style)@"

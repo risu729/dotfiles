@@ -52,6 +52,7 @@ eza = { version = "latest", os = ["linux"] }
 bat = "latest"
 fd = "latest"
 atuin = "latest"
+starship = "latest"
 zoxide = "latest"
 # No macOS release; installed there as `brew:btop` by the dotfiles bootstrap.
 btop = { version = "latest", os = ["linux"] }

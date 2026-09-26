@@ -15,6 +15,11 @@ system preferences, and a few desktop apps, and keeps zsh as the login shell.
 `~/.zshrc` only gets a managed block that sources `~/.config/zsh/zshrc`, the zsh
 counterpart of `.bashrc`, so machine-local lines in `~/.zshrc` survive.
 
+WSL Bash and macOS zsh share a minimal Starship prompt configured in
+`~/.config/starship.toml`: a shortened cyan directory, purple Git branch,
+yellow Git status, and a green input arrow that turns red after a failed
+command. Username and hostname appear over SSH; no special font is needed.
+
 Everything is split along two axes:
 
 - **Platform.** Linux-only and macOS-only configuration lives in
