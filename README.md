@@ -85,6 +85,11 @@ personal-profile links may remain.
 Rerun the installer to update and reapply the configuration. On WSL2 and macOS,
 the checkout lives at `~/.ghr/github.com/risu729/dotfiles`.
 
+On Windows, rerunning installs missing apps without upgrading installed ones.
+Use `win/packages.ps1 -Action Upgrade -DryRun`, then `-Action Upgrade`, from the
+checkout in native PowerShell for managed app updates. Self-updating apps are
+excluded. See [Windows update ownership and commands](win/README.md).
+
 Add `?ref=<branch-tag-or-commit>` to an installer URL to select a revision, or
 combine it with a profile:
 
@@ -104,6 +109,9 @@ DOTFILES_PROFILE=personal DOTFILES_REF=main bash unix/install.sh
 ```
 
 ## Customization
+
+Only the latest stable mise release is supported. Keep mise up to date;
+`min_version` checks are feature guards, not a supported-version range.
 
 Shared packages and dotfile mappings are in [`mise.toml`](mise.toml), with
 platform overrides in [`mise.linux.toml`](mise.linux.toml) and
