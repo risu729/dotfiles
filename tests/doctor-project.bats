@@ -13,7 +13,7 @@ setup() {
 		"${fixture_home}/.config/mise" "${fixture_home}/.config/git" "${fixture}/bin"
 	cp "${root}/mise/doctor/"* "${fixture}/mise/doctor/"
 	cp "${root}/tasks/verify/project" "${fixture}/tasks/verify/"
-	printf '[settings]\nexperimental = true\n' >"${fixture}/mise.toml"
+	printf '[settings]\nexperimental = true\n[task_config]\nincludes = ["tasks"]\n' >"${fixture}/mise.toml"
 	printf 'auto_env = true\n' >"${fixture_home}/.config/mise/miserc.toml"
 	touch "${fixture}/global.toml" "${fixture}/gitconfig"
 	ln -s "${fixture}/global.toml" "${fixture_home}/.config/mise/config.toml"
@@ -61,7 +61,7 @@ assert_check() {
 @test "opt-in checks resolve from config root and report platform skips" {
 	# The empty fixture is not a bootstrapped machine: platform state/shell fail.
 	# Shared links, commands and bare profile pass without touching the real HOME.
-	run -1 isolated TEST_PROFILE=bare bash "${fixture}/tasks/verify/project" --json
+	run -1 --separate-stderr isolated TEST_PROFILE=bare "${doctor_mise}" run verify:project --json
 	assert_check dotfile-links pass
 	assert_check commands pass
 	assert_check profile pass
