@@ -9,11 +9,10 @@ setup() {
 	doctor_mise=${DOCTOR_TEST_MISE:-$(command -v mise)}
 	fixture="${BATS_TEST_TMPDIR}/project with spaces"
 	fixture_home="${BATS_TEST_TMPDIR}/home"
-	mkdir -p "${fixture}/mise/doctor" "${fixture}/tasks/verify" "${fixture}/child" \
+	mkdir -p "${fixture}/mise/doctor" "${fixture}/child" \
 		"${fixture_home}/.config/mise" "${fixture_home}/.config/git" "${fixture}/bin"
 	cp "${root}/mise/doctor/"* "${fixture}/mise/doctor/"
-	cp "${root}/tasks/verify/project" "${fixture}/tasks/verify/"
-	printf '[settings]\nexperimental = true\n[task_config]\nincludes = ["tasks"]\n' >"${fixture}/mise.toml"
+	printf '[settings]\nexperimental = true\n' >"${fixture}/mise.toml"
 	printf 'auto_env = true\n' >"${fixture_home}/.config/mise/miserc.toml"
 	touch "${fixture}/global.toml" "${fixture}/gitconfig"
 	ln -s "${fixture}/global.toml" "${fixture_home}/.config/mise/config.toml"
@@ -24,7 +23,7 @@ set -euo pipefail
 case "$*" in
 'which eza' | 'which kubectl') exit 0 ;;
 'which glab') [[ ${DOCTOR_PERSONAL_LOADED:-} == true ]] ;;
-'bootstrap files status --missing' | 'bootstrap macos defaults status --missing') exit 0 ;;
+'bootstrap files status --missing' | 'bootstrap macos defaults status --missing') [[ -d mise/doctor ]] ;;
 *) exec "${DOCTOR_REAL_MISE}" "$@" ;;
 esac
 STUB
@@ -61,9 +60,8 @@ assert_check() {
 @test "opt-in checks resolve from config root and report platform skips" {
 	# The empty fixture is not a bootstrapped machine: platform state/shell fail.
 	# Shared links, commands and bare profile pass without touching the real HOME.
-	run -1 --separate-stderr isolated TEST_PROFILE=bare "${doctor_mise}" run verify:project --json
-	assert_check dotfile-links pass
-	assert_check commands pass
+	run -1 --separate-stderr isolated TEST_PROFILE=bare "${doctor_mise}" --cd "${fixture}/mise/doctor" doctor project --json
+	assert_check shared pass
 	assert_check profile pass
 	case "$(uname -s)" in
 	Darwin)
@@ -80,21 +78,24 @@ assert_check() {
 
 @test "project diagnostics reject a dangling dotfile link with a repair hint" {
 	rm "${fixture}/gitconfig"
-	run -1 isolated TEST_PROFILE=bare bash "${fixture}/tasks/verify/project" --json
-	assert_check dotfile-links fail
+	run -1 isolated TEST_PROFILE=bare "${doctor_mise}" --cd "${fixture}/mise/doctor" doctor project --json
+	assert_check shared fail
 	assert_check profile pass
+	# The documented debug command exposes the failing expanded path.
+	run -1 isolated bash -x "${fixture}/mise/doctor/check.sh" shared
+	[[ ${output} == *"${fixture_home}/.config/git/config"* ]]
 }
 
 @test "bare profile rejects missing profile state instead of silently passing" {
 	rm "${fixture_home}/.config/mise/miserc.toml"
-	run -1 isolated TEST_PROFILE=bare bash "${fixture}/tasks/verify/project" --json
+	run -1 isolated TEST_PROFILE=bare "${doctor_mise}" --cd "${fixture}/mise/doctor" doctor project --json
 	assert_check profile fail
 }
 
 @test "bare profile rejects even dangling personal links" {
 	mkdir -p "${fixture_home}/.ssh"
 	ln -s missing "${fixture_home}/.ssh/config"
-	run -1 isolated TEST_PROFILE=bare bash "${fixture}/tasks/verify/project" --json
+	run -1 isolated TEST_PROFILE=bare "${doctor_mise}" --cd "${fixture}/mise/doctor" doctor project --json
 	assert_check profile fail
 }
 
@@ -111,21 +112,21 @@ TOML
 	ln -s "${fixture}/gitconfig" "${fixture_home}/.ssh/config"
 	ln -s "${fixture}/gitconfig" "${fixture_home}/.config/git/personal.gitconfig"
 	ln -s "${fixture}/gitconfig" "${fixture_home}/.config/git/unsw.gitconfig"
-	run -1 isolated TEST_PROFILE=personal bash "${fixture}/tasks/verify/project" --json
+	run -1 isolated TEST_PROFILE=personal "${doctor_mise}" --cd "${fixture}/mise/doctor" doctor project --json
 	assert_check profile pass
 	assert_check profile-environment pass
 }
 
-@test "project task requires an explicit valid profile" {
-	run -1 isolated bash "${fixture}/tasks/verify/project" --json
-	[[ ${output} == *'Set TEST_PROFILE=bare or personal'* ]]
-	run -1 isolated TEST_PROFILE=invalid bash "${fixture}/tasks/verify/project" --json
-	[[ ${output} == *'Set TEST_PROFILE=bare or personal'* ]]
+@test "profile check requires an explicit valid profile" {
+	run -1 isolated "${doctor_mise}" --cd "${fixture}/mise/doctor" doctor project --json
+	assert_check profile fail
+	run -1 isolated TEST_PROFILE=invalid "${doctor_mise}" --cd "${fixture}/mise/doctor" doctor project --json
+	assert_check profile fail
 }
 
 @test "project checks inherit normal trust from the repository config" {
 	run -0 isolated MISE_TRUSTED_CONFIG_PATHS= "${doctor_mise}" trust --yes "${fixture}/mise.toml"
-	run -1 isolated MISE_TRUSTED_CONFIG_PATHS= TEST_PROFILE=bare bash "${fixture}/tasks/verify/project" --json
-	assert_check dotfile-links pass
+	run -1 isolated MISE_TRUSTED_CONFIG_PATHS= TEST_PROFILE=bare "${doctor_mise}" --cd "${fixture}/mise/doctor" doctor project --json
+	assert_check shared pass
 	assert_check profile pass
 }

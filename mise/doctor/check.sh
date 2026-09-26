@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
-# Read-only probes used by mise/doctor/mise.toml. Run from the repository root.
+# Read-only probes used by mise/doctor/mise.toml. Use bash -x for failure details.
 set -euo pipefail
-trap 'printf "Installation probe %s failed at line %s: %s\n" "$1" "${LINENO}" "${BASH_COMMAND}" >&2' ERR
+cd "$(dirname "${BASH_SOURCE[0]}")/../.."
 
 assert_link() {
 	test -L "$1" && test -e "$1"
@@ -10,13 +10,16 @@ assert_absent() {
 	test ! -e "$1" && test ! -L "$1"
 }
 
-case "${1:?Specify links, profile, linux, or macos}" in
-links)
+case "${1:?Specify shared, profile, linux, or macos}" in
+shared)
 	assert_link "${HOME}/.config/mise/config.toml"
 	assert_link "${HOME}/.config/git/config"
+	mise which eza
+	mise which kubectl
+	mise bootstrap files status --missing
 	;;
 profile)
-	case "${TEST_PROFILE:?Set TEST_PROFILE=bare or personal}" in
+	case "${TEST_PROFILE:-}" in
 	personal)
 		grep --quiet '^env = \["personal"\]$' "${HOME}/.config/mise/miserc.toml"
 		assert_link "${HOME}/.ssh/config"
@@ -41,7 +44,7 @@ profile)
 		fi
 		;;
 	*)
-		echo 'TEST_PROFILE must be bare or personal' >&2
+		echo 'Set TEST_PROFILE=bare or personal' >&2
 		exit 1
 		;;
 	esac
@@ -60,6 +63,7 @@ linux)
 	fi
 	;;
 macos)
+	mise bootstrap macos defaults status --missing
 	test -d "${HOME}/Pictures/Screenshots"
 	grep --quiet '^source .*/\.config/zsh/zshrc"$' "${HOME}/.zshrc"
 	assert_link "${HOME}/.config/zsh/zshrc"

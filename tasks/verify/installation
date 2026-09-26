@@ -15,4 +15,4 @@ if [[ -n ${GIT_COMMIT_SHA:-} ]]; then
 	installed_revision=$(git rev-parse HEAD)
 	test "${installed_revision}" = "${GIT_COMMIT_SHA}"
 fi
-exec "${login_shell}" -ic 'bash tasks/verify/mise-doctor && bash tasks/verify/project'
+exec "${login_shell}" -ic 'bash tasks/verify/mise-doctor && mise --cd mise/doctor doctor project'
