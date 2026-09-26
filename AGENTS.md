@@ -45,7 +45,18 @@ prepared by CI. The macOS task changes the Mac running it. Both require
 
 To inspect an existing installation without reinstalling, use
 `TEST_PROFILE=personal mise run verify:installation` (or `bare`). This includes
-`mise doctor` in a fresh interactive shell and treats warnings as failures.
+`mise doctor` in a fresh interactive shell and treats warnings as failures,
+then runs the named `mise doctor project` checks. Project diagnostics alone:
+`TEST_PROFILE=personal mise run verify:project` (or `bare`); append `--json` for
+per-check results. These checks inspect an installed machine, not a development
+checkout. Ordinary `mise doctor`, root-level `mise doctor project`, and hk lint
+runs do not run them.
+
+The opt-in configuration lives in `mise/doctor/mise.toml` and retains the active
+mise profile. Its paths are relative to that config's root; probes run from the
+repository root. Linux Bash and macOS Zsh checks start fresh interactive shells.
+Failed checks include repair hints; probe output is hidden by mise, so run the
+command declared in the config directly when more detail is needed.
 
 ## Worker Maintenance
 

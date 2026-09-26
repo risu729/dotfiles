@@ -1,0 +1,88 @@
+# Installed-machine checks are deliberately scoped to this directory.
+# Ordinary development at the repository root must not require bootstrap.
+# Relative dirs resolve from this config's root, not the invocation directory.
+
+[doctor.checks.dotfile-links]
+description = "Shared mise and Git configuration links exist and resolve"
+run = "bash mise/doctor/check.sh links"
+dir = "../.."
+shell = "bash -c"
+os = ["linux", "macos"]
+timeout = "10s"
+hint = "Inspect ~/.config/mise/config.toml and ~/.config/git/config; restore their dotfile links from this checkout."
+
+[doctor.checks.commands]
+description = "Shared eza and kubectl tools resolve through mise"
+run = "mise which eza && mise which kubectl"
+dir = "../.."
+shell = "bash -c"
+os = ["linux", "macos"]
+timeout = "30s"
+hint = "Check the installed global mise config and run mise install for its missing tools."
+
+[doctor.checks.profile]
+description = "Installed personal or bare profile matches TEST_PROFILE"
+run = "bash mise/doctor/check.sh profile"
+dir = "../.."
+shell = "bash -c"
+os = ["linux", "macos"]
+timeout = "30s"
+hint = "Check TEST_PROFILE and ~/.config/mise/miserc.toml, personal Git/SSH links, biwa checkout and glab; run bash mise/doctor/check.sh profile for details."
+
+[doctor.checks.system-files]
+description = "Declared bootstrap system files are installed"
+run = "mise bootstrap files status --missing"
+dir = "../.."
+shell = "bash -c"
+os = ["linux", "macos"]
+timeout = "30s"
+hint = "Run mise bootstrap files status --missing from the repository root to inspect missing or changed files."
+
+[doctor.checks.linux-state]
+description = "Linux links, Codex system config and profile-specific services are installed"
+run = "bash mise/doctor/check.sh linux"
+dir = "../.."
+shell = "bash -c"
+os = "linux"
+timeout = "10s"
+hint = "Run bash mise/doctor/check.sh linux from the repository root; inspect the failed link, system file or personal service config."
+
+[doctor.checks.linux-shell]
+description = "A fresh interactive Bash can run eza and find mise and ghr"
+run = "eza --version && command -v mise && command -v ghr"
+dir = "../.."
+shell = "bash -ic"
+os = "linux"
+timeout = "60s"
+hint = "Open a new Bash shell and check ~/.bashrc, mise activation and PATH."
+
+[doctor.checks.macos-state]
+description = "macOS shell links, app bundles and screenshot directory are installed without Linux-only files"
+run = "bash mise/doctor/check.sh macos"
+dir = "../.."
+shell = "bash -c"
+os = "macos"
+timeout = "10s"
+hint = "Run bash mise/doctor/check.sh macos from the repository root; inspect the failed path or missing Orca/Ghostty app."
+
+[doctor.checks.macos-defaults]
+description = "Declared macOS preferences are applied"
+run = "mise bootstrap macos defaults status --missing"
+dir = "../.."
+shell = "bash -c"
+os = "macos"
+timeout = "30s"
+hint = "Run mise bootstrap macos defaults status --missing from the repository root to inspect preference drift."
+
+[doctor.checks.macos-shell]
+description = "A fresh interactive Zsh can run eza and btop and load gh, mise and ghr completions"
+run = '''
+eza --version && btop --version &&
+  whence -w compdef | grep --quiet function &&
+  [[ -n ${_comps[gh]} && -n ${_comps[mise]} && -n ${_comps[ghr]} ]]
+'''
+dir = "../.."
+shell = "zsh -ic"
+os = "macos"
+timeout = "60s"
+hint = "Open a new Zsh shell and check ~/.zshrc, ~/.config/zsh/zshrc, mise activation, btop and completion initialization."
