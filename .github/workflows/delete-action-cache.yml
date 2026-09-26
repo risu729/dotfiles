@@ -11,7 +11,7 @@ permissions: {}
 jobs:
   delete-cache:
     name: Delete Action Cache
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     timeout-minutes: 5
     permissions:
       actions: write # for delete cache
@@ -25,7 +25,7 @@ jobs:
     needs:
       - delete-cache
     if: ${{ !cancelled() }}
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     timeout-minutes: 5
     permissions:
       actions: read # for actions-timeline
