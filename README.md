@@ -103,6 +103,29 @@ and `DOTFILES_REF` for the same options:
 DOTFILES_PROFILE=personal DOTFILES_REF=main bash unix/install.sh
 ```
 
+## On-Demand Tools and Offline Use
+
+Optional global and personal CLI tools use mise's
+[lazy installation](https://mise.jdx.dev/dev-tools/shims.html#lazy-tools): setup
+creates command shims, and the first invocation downloads the locked tool.
+Normal `mise install` skips these tools. Shell startup tools, runtimes, backend
+prerequisites, bootstrap integrations and repository check tools remain eager.
+Personal tools are still selected only by the personal profile.
+
+Before going offline, provision all tools for the saved profile from your home
+directory, outside any project that might override the global declarations:
+
+```bash
+mise --cd "$HOME" install --include-lazy --locked
+```
+
+To provision the personal profile explicitly, add `-E personal` before
+`install`. This installs mise tools; it does not cache future dependency
+downloads, apps or Git repositories. To install just one deferred tool, use
+`mise install glab`, for example, with the personal profile active. After
+manually changing a lazy configuration, run `mise reshim` to refresh its command
+shims.
+
 ## Customization
 
 Shared packages and dotfile mappings are in [`mise.toml`](mise.toml), with

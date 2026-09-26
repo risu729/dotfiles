@@ -26,7 +26,7 @@ profile)
 		assert_link "${HOME}/.config/git/personal.gitconfig"
 		assert_link "${HOME}/.config/git/unsw.gitconfig"
 		test -d "${HOME}/.ghr/github.com/risu729/biwa/.git"
-		mise which glab
+		mise current glab
 		;;
 	bare)
 		test -f "${HOME}/.config/mise/miserc.toml"
@@ -38,7 +38,7 @@ profile)
 		assert_absent "${HOME}/.config/git/personal.gitconfig"
 		assert_absent "${HOME}/.config/git/unsw.gitconfig"
 		assert_absent "${HOME}/.ghr/github.com/risu729/biwa"
-		if mise which glab; then
+		if mise current glab; then
 			echo 'Bare installation enabled a personal tool' >&2
 			exit 1
 		fi

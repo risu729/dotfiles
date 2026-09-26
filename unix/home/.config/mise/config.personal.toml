@@ -7,29 +7,31 @@
 COPILOT_AUTO_UPDATE = "false"
 
 [tools]
+# Personal commands are installed on first use. The WSL SSH agent stays eager
+# because shell startup invokes it. Backend runtimes remain in config.toml.
 # cli tools
-bitwarden = "latest"
-glab = "latest"
+bitwarden = { version = "latest", lazy = true }
+glab = { version = "latest", lazy = true }
 "aqua:mame/wsl2-ssh-agent" = { version = "latest", os = ["linux"] }
-"github:risu729/kuebiko" = { version = "latest", minimum_release_age = "0s" }
-"github:risu729/biwa" = { version = "latest", minimum_release_age = "0s" }
-"github:risu729/mikoto" = { version = "latest", minimum_release_age = "0s" }
+"github:risu729/kuebiko" = { version = "latest", minimum_release_age = "0s", lazy = true, lazy_bins = ["kuebiko"] }
+"github:risu729/biwa" = { version = "latest", minimum_release_age = "0s", lazy = true, lazy_bins = ["biwa"] }
+"github:risu729/mikoto" = { version = "latest", minimum_release_age = "0s", lazy = true, lazy_bins = ["mikoto"] }
 # resend dropped npm provenance from 6.18.1 onward while its release automation is
 # reworked, which trips aube's no-downgrade trust policy.
 # ref: https://github.com/resend/resend-node/issues/1061
-"npm:resend-cli" = { version = "latest", allow_builds = ["esbuild"], trust_policy_excludes = [
+"npm:resend-cli" = { version = "latest", lazy = true, lazy_bins = ["resend"], allow_builds = ["esbuild"], trust_policy_excludes = [
 	"resend@>=6.18.1",
 ] }
 
 # ai agents
-cursor-agent = { version = "latest", minimum_release_age = "0s" }
-copilot = "latest"
+cursor-agent = { version = "latest", minimum_release_age = "0s", lazy = true }
+copilot = { version = "latest", lazy = true }
 
 # uni tools
-typst = "latest"
+typst = { version = "latest", lazy = true }
 
 # mise development
-gcloud = "latest"
+gcloud = { version = "latest", lazy = true }
 
 # Cursor Agent self-updates into ~/.local/share/cursor-agent and relinks
 # ~/.local/bin/{agent,cursor-agent}, which would shadow the mise-managed install.

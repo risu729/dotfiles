@@ -13,16 +13,19 @@ GCC_COLORS = "error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01
 _.path = ["~/.local/bin"]
 
 [tools]
+# Defer optional commands; keep runtimes, backend prerequisites, shell startup,
+# bootstrap hooks and repository checks eager. Install everything for offline use
+# with `mise install --include-lazy` from $HOME (plus -E personal when desired).
 # language tools
 node = "latest"
 bun = "latest"
 aube = "latest"
 npm = "latest"
 # Don't use the vfox plugin; it doesn't support lockfiles
-"aqua:yarn" = "latest"
-pnpm = "latest"
+"aqua:yarn" = { version = "latest", lazy = true, lazy_bins = ["yarn", "yarnpkg"] }
+pnpm = { version = "latest", lazy = true }
 java = "latest"
-gradle = "latest"
+gradle = { version = "latest", lazy = true }
 rust = "latest"
 python = "latest"
 go = "latest"
@@ -33,7 +36,7 @@ cargo-binstall = "latest"
 uv = "latest"
 # for completion
 usage = "latest"
-watchexec = "latest"
+watchexec = { version = "latest", lazy = true }
 
 # cli tools
 jq = "latest"
@@ -42,7 +45,7 @@ github-cli = "latest"
 "github:seachicken/gh-poi" = { version = "latest", bin = "gh-poi" }
 "aqua:siketyan/ghr" = { version = "latest", prerelease = true }
 fzf = "latest"
-jc = "latest"
+jc = { version = "latest", lazy = true }
 delta = "latest"
 ripgrep = "latest"
 # Linux follows mise's recommended eza backend; macOS uses cargo's prebuilt
@@ -56,15 +59,15 @@ starship = "latest"
 zoxide = "latest"
 # No macOS release; installed there as `brew:btop` by the dotfiles bootstrap.
 btop = { version = "latest", os = ["linux"] }
-xh = "latest"
-jd = "latest"
-sd = "latest"
+xh = { version = "latest", lazy = true }
+jd = { version = "latest", lazy = true }
+sd = { version = "latest", lazy = true }
 kubecolor = "latest"
 kubectl = "latest"
-kubectx = "latest"
-kubeseal = "latest"
-mitmproxy = "latest"
-doggo = "latest"
+kubectx = { version = "latest", lazy = true }
+kubeseal = { version = "latest", lazy = true }
+mitmproxy = { version = "latest", lazy = true }
+doggo = { version = "latest", lazy = true }
 # Restart an existing macOS supervisor with the newly installed binary.
 # The Linux boot service runs as my user. The script is a template, and
 # MISE_ENV is not exported to it, so the profile is checked here.
@@ -83,14 +86,14 @@ if [ -d /run/systemd/system ]; then
 fi
 {% endif %}
 """ }
-miller = "latest"
-glow = "latest"
-"pipx:markitdown" = { version = "latest", extras = "pdf,docx,pptx,xlsx" }
+miller = { version = "latest", lazy = true }
+glow = { version = "latest", lazy = true }
+"pipx:markitdown" = { version = "latest", extras = "pdf,docx,pptx,xlsx", lazy = true, lazy_bins = ["markitdown"] }
 
 # ai agents
 entire = "latest"
 codex = { version = "latest", minimum_release_age = "0s" }
-"npm:ccusage" = "latest"
+"npm:ccusage" = { version = "latest", lazy = true, lazy_bins = ["ccusage"] }
 claude = { version = "latest", minimum_release_age = "0s" }
 hunk = "latest"
 herdr = "latest"
@@ -115,11 +118,11 @@ typos = "latest"
 hadolint = "latest"
 
 # calculator
-numbat = "latest"
+numbat = { version = "latest", lazy = true }
 
 # mise development
-aqua = "latest"
-pipx = "latest"
+aqua = { version = "latest", lazy = true }
+pipx = { version = "latest", lazy = true }
 # Global RUSTC_WRAPPER must stay unset; mbx defers to an existing wrapper and skips caching.
 mr-boxington = "latest"
 
