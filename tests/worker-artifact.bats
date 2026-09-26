@@ -9,7 +9,7 @@ setup() {
 	root=$(cd "${BATS_TEST_DIRNAME}/.." && pwd)
 	# shellcheck source=tasks/ci/worker-artifact
 	source "${root}/tasks/ci/worker-artifact"
-	cd "${BATS_TEST_TMPDIR}"
+	cd "${BATS_TEST_TMPDIR}" || exit
 	mkdir -p worker/dist/dotfiles_worker/.vite
 	printf '{"no_bundle":true}\n' >worker/dist/dotfiles_worker/wrangler.json
 	printf 'export default {};\n' >worker/dist/dotfiles_worker/index.js

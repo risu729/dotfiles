@@ -1,6 +1,6 @@
-amends "https://raw.githubusercontent.com/risu729/hk-config/v1.1.0/presets.pkl"
+amends "https://raw.githubusercontent.com/risu729/hk-config/v2.0.0/presets.pkl"
 
-import "https://raw.githubusercontent.com/risu729/hk-config/v1.1.0/helpers.pkl"
+import "https://raw.githubusercontent.com/risu729/hk-config/v2.0.0/helpers.pkl"
 
 subprojects = List("worker")
 
@@ -33,44 +33,33 @@ local picked =
 
 local mise = picked["mise"] as Group
 
-hooks =
-  helpers.standardHooks((picked) {
-    // Work around hk 1.58.1's pklr evaluator dropping inherited commands when
-    // these preset steps are amended; otherwise hk silently skips the steps.
-    // Standard Pkl preserves them. Recheck during the hk v2 upgrade:
-    // https://github.com/risu729/dotfiles/pull/4188
-    // Remove the duplicate commands once check/fix plans retain the inherited ones.
-    ["shfmt"] = (includeShellFiles(picked["shfmt"] as Step)) {
-      check_diff = "shfmt --diff --simplify {{ files }}"
-      fix = "shfmt --write --simplify {{ files }}"
-    }
-    ["shellcheck"] = (includeShellFiles(picked["shellcheck"] as Step)) {
-      check = "shellcheck --external-sources {{ files }}"
-    }
-    ["mise"] = (mise) {
-      steps {
-        ["mise-fmt"] = mise.steps["mise-fmt"]
-        ["mise-tasks"] = (mise.steps["mise-tasks"]) {
-          // Same hk 1.58.1 pklr inheritance workaround as the shell steps above.
-          // Remove with #4188 once this step inherits the preset's check command.
-          check = "mise task validate"
-          glob =
-            List(
-              "tasks.toml",
-              "tasks/**",
-              "worker/tasks.toml",
-              "worker/tasks/**",
-              "mise.toml",
-              "mise/**",
-            )
-        }
+steps = (picked) {
+  ["shfmt"] = includeShellFiles(picked["shfmt"] as Step)
+  ["shellcheck"] = includeShellFiles(picked["shellcheck"] as Step)
+  ["mise"] = (mise) {
+    steps {
+      ["mise-fmt"] = mise.steps["mise-fmt"]
+      ["mise-tasks"] = (mise.steps["mise-tasks"]) {
+        // Preserve the command while the evaluator drops it from amended custom steps.
+        // https://github.com/risu729/hk-config/issues/124
+        check = "mise task validate"
+        glob =
+          List(
+            "tasks.toml",
+            "tasks/**",
+            "worker/tasks.toml",
+            "worker/tasks/**",
+            "mise.toml",
+            "mise/**",
+          )
       }
     }
-    ["pwsh"] = new Step {
-      // batch=false: ScriptAnalyzer scans `win/` recursively; command has no `{{ files }}`
-      batch = false
-      glob = List("win/**/*.ps1", "win/**/*.psd1", "win/**/*.psm1")
-      check =
-        "pwsh -NoProfile -Command 'Invoke-ScriptAnalyzer -Path win -Recurse -EnableExit -Settings win/PSScriptAnalyzerSettings.psd1'"
-    }
-  })
+  }
+  ["pwsh"] = new Step {
+    // batch=false: ScriptAnalyzer scans `win/` recursively; command has no `{{ files }}`
+    batch = false
+    glob = List("win/**/*.ps1", "win/**/*.psd1", "win/**/*.psm1")
+    check =
+      "pwsh -NoProfile -Command 'Invoke-ScriptAnalyzer -Path win -Recurse -EnableExit -Settings win/PSScriptAnalyzerSettings.psd1'"
+  }
+}
