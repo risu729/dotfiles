@@ -13,9 +13,9 @@ tables-out-of-order = "error"
 # Keep mise schema changes reviewable. Renovate updates these release pins.
 # Store the URLs as TOML values so its JSONata manager can read them.
 [[schemas]]
-path = "https://raw.githubusercontent.com/jdx/mise/v2026.9.12/schema/mise.json"
+path = "https://raw.githubusercontent.com/jdx/mise/v2026.9.14/schema/mise.json"
 include = ["mise*.toml", "unix/home/.config/mise/config*.toml"]
 
 [[schemas]]
-path = "https://raw.githubusercontent.com/jdx/mise/v2026.9.12/schema/mise-task.json"
+path = "https://raw.githubusercontent.com/jdx/mise/v2026.9.14/schema/mise-task.json"
 include = ["tasks.toml", "worker/tasks.toml"]
