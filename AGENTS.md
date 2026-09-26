@@ -51,7 +51,8 @@ To inspect an existing installation without reinstalling, use
 `mise doctor` in a fresh interactive shell and treats warnings as failures, then
 runs the named `mise doctor project` checks. On mise 2026.9.12/14, ordinary
 doctor reports missing lazy tools as errors; `mise/doctor/filter.ts` allows only
-those exact errors after checking the effective tool options. It retains all
+those exact errors after reading the effective declaration identified by mise.
+It retains all
 warnings, non-lazy missing tools, broken installs and other failures. Project
 diagnostics alone: `TEST_PROFILE=personal mise --cd mise/doctor doctor project`
 (or `bare`); append `--json` for per-check results. These checks inspect an

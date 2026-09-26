@@ -12,7 +12,7 @@ setup() {
 #!/usr/bin/env bash
 set -euo pipefail
 if [[ $* == 'tool usage --json' ]]; then
-  printf '%s\n' "${DOCTOR_TOOL}"
+  printf '{"backend":"aqua:jdx/usage","active_versions":["0.0.0"],"config_source":{"path":"%s"}}\n' "${DOCTOR_CONFIG}"
   exit 0
 fi
 [[ $* == 'doctor --json' ]]
@@ -22,6 +22,8 @@ STUB
 	chmod +x "${BATS_TEST_TMPDIR}/bin/mise"
 	export PATH="${BATS_TEST_TMPDIR}/bin:${PATH}"
 	export DOCTOR_REPORT='{"warnings":[],"errors":[]}' DOCTOR_STATUS=0
+	export DOCTOR_CONFIG="${BATS_TEST_TMPDIR}/config.toml"
+	printf '[tools]\nusage = {version="0.0.0",lazy=true}\n' >"${DOCTOR_CONFIG}"
 }
 
 @test "mise diagnostics accept a clean report" {
@@ -50,17 +52,17 @@ STUB
 
 @test "mise diagnostics allow only the effective lazy tool's missing error" {
 	export DOCTOR_REPORT='{"toolset":{"usage":[{"version":"0.0.0","missing":true}]},"errors":["tool aqua:jdx/usage@0.0.0 is not installed, install with `mise install`"]}'
-	export DOCTOR_TOOL='{"backend":"aqua:jdx/usage","active_versions":["0.0.0"],"tool_options":{"lazy":true}}' DOCTOR_STATUS=1
+	export DOCTOR_STATUS=1
 	run -0 bash "${root}/tasks/verify/mise-doctor"
 	[[ -z ${output} ]]
-	export DOCTOR_TOOL='{"backend":"aqua:jdx/usage","active_versions":["0.0.0"],"tool_options":{"lazy":false}}'
+	printf '[tools]\nusage = "0.0.0"\n' >"${DOCTOR_CONFIG}"
 	run ! bash "${root}/tasks/verify/mise-doctor"
 	[[ ${output} == *'is not installed'* ]]
 }
 
 @test "lazy allowance never hides other doctor warnings or broken installs" {
 	export DOCTOR_REPORT='{"warnings":["warning fixture"],"toolset":{"usage":[{"version":"0.0.0","missing":true}]},"errors":["tool aqua:jdx/usage@0.0.0 is not installed, install with `mise install`","broken install"]}'
-	export DOCTOR_TOOL='{"backend":"aqua:jdx/usage","active_versions":["0.0.0"],"tool_options":{"lazy":true}}' DOCTOR_STATUS=1
+	export DOCTOR_STATUS=1
 	run ! bash "${root}/tasks/verify/mise-doctor"
 	[[ ${output} == $'warning fixture\nbroken install' ]]
 }
