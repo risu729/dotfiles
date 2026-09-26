@@ -163,6 +163,28 @@ jobs:
           # use head sha for pull requests because github.sha is set to the merge commit
           GIT_COMMIT_SHA: ${{ case(github.event_name == 'pull_request', github.event.pull_request.head.sha, github.sha) }}
           MISE_LOG_LEVEL: ${{ case(runner.debug == '1', 'debug', 'info') }}
+  test-worker-container:
+    needs: changes
+    if: ${{ needs.changes.outputs.worker == 'true' }}
+    name: Worker container (${{ matrix.runner }})
+    strategy:
+      fail-fast: false
+      matrix:
+        runner: [ubuntu-24.04, ubuntu-24.04-arm]
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 10
+    permissions:
+      contents: read # for checkout
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Build and test Worker container
+        run: bash tasks/test/worker-container
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          GIT_COMMIT_SHA: ${{ case(github.event_name == 'pull_request', github.event.pull_request.head.sha, github.sha) }}
   test-macos:
     needs: changes
     if: ${{ needs.changes.outputs.installers == 'true' }}
@@ -249,9 +271,9 @@ jobs:
     uses: ./.github/workflows/worker-deploy.yml # zizmor: ignore[self-repository] -- actionlint 1.7.12 does not support $/ yet.
   deploy-worker:
     name: Deploy validated Worker
-    needs: [changes, lint, test-bats, test-worker, test-linux, test-macos, verify-worker-artifact]
+    needs: [changes, lint, test-bats, test-worker, test-worker-container, test-linux, test-macos, verify-worker-artifact]
     if: >-
-      ${{ !cancelled() && !inputs.health && github.ref == 'refs/heads/main' && (github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && inputs.deploy)) && needs.changes.result == 'success' && needs.lint.result == 'success' && needs.test-bats.result == 'success' && needs.test-worker.result == 'success' && needs.test-linux.result == 'success' && needs.test-macos.result == 'success' && needs.verify-worker-artifact.result == 'success' }}
+      ${{ !cancelled() && !inputs.health && github.ref == 'refs/heads/main' && (github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && inputs.deploy)) && needs.changes.result == 'success' && needs.lint.result == 'success' && needs.test-bats.result == 'success' && needs.test-worker.result == 'success' && needs.test-worker-container.result == 'success' && needs.test-linux.result == 'success' && needs.test-macos.result == 'success' && needs.verify-worker-artifact.result == 'success' }}
     permissions:
       contents: read # for checkout in the reusable workflow
     uses: ./.github/workflows/worker-deploy.yml # zizmor: ignore[self-repository] -- actionlint 1.7.12 does not support $/ yet.
@@ -268,6 +290,7 @@ jobs:
       - test-linux
       - test-macos
       - test-worker
+      - test-worker-container
       - verify-worker-artifact
     if: ${{ !cancelled() && (contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled')) }}
     runs-on: ubuntu-24.04
