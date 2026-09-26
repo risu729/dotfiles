@@ -166,6 +166,11 @@ if [[ -z ${__CI:-} ]] && command -v gh >/dev/null 2>&1; then
 	unset github_token
 fi
 
+# Shared prompt for macOS zsh and WSL bash.
+if command -v starship >/dev/null 2>&1; then
+	eval "$(starship init zsh)"
+fi
+
 # Activate atuin last so that its key bindings win
 if command -v atuin >/dev/null 2>&1; then
 	eval "$(atuin init zsh --disable-up-arrow)"
