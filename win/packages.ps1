@@ -86,7 +86,10 @@ function Invoke-WindowsPackage {
 			throw 'mise 2026.9.3+ is required. Upgrade mise explicitly; this script will not upgrade it.'
 		}
 
-		$miseArgs = @('--no-hooks', '--no-env', 'bootstrap', 'packages', $Action.ToLowerInvariant(), '--manager', 'winget')
+		$miseArgs = @('--no-hooks', '--no-env', 'bootstrap', 'packages', $Action.ToLowerInvariant())
+		if ($Action -ne 'Status') {
+			$miseArgs += @('--manager', 'winget')
+		}
 		if ($DryRun) {
 			$miseArgs += '--dry-run'
 		}

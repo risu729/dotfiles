@@ -125,6 +125,10 @@ jobs:
           version: ${{ matrix.mise }}
           install: false
           cache: false
+          env: false
+          add_shims_to_path: false
+        env:
+          MISE_NO_CONFIG: 1
       - name: Test policy with native mise and fixture WinGet
         run: ./tests/windows-packages.ps1
       - name: Prepare real WinGet on disposable runner
