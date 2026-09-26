@@ -18,7 +18,9 @@ shared)
 	mise which kubectl
 	mise bootstrap files status --missing
 	;;
+# `mise current` exits 0 even when no version is selected; inspect stdout.
 profile)
+	selected_glab=$(mise current glab)
 	case "${TEST_PROFILE:-}" in
 	personal)
 		grep --quiet '^env = \["personal"\]$' "${HOME}/.config/mise/miserc.toml"
@@ -26,7 +28,7 @@ profile)
 		assert_link "${HOME}/.config/git/personal.gitconfig"
 		assert_link "${HOME}/.config/git/unsw.gitconfig"
 		test -d "${HOME}/.ghr/github.com/risu729/biwa/.git"
-		mise which glab
+		[[ -n ${selected_glab} ]]
 		;;
 	bare)
 		test -f "${HOME}/.config/mise/miserc.toml"
@@ -38,7 +40,7 @@ profile)
 		assert_absent "${HOME}/.config/git/personal.gitconfig"
 		assert_absent "${HOME}/.config/git/unsw.gitconfig"
 		assert_absent "${HOME}/.ghr/github.com/risu729/biwa"
-		if mise which glab; then
+		if [[ -n ${selected_glab} ]]; then
 			echo 'Bare installation enabled a personal tool' >&2
 			exit 1
 		fi

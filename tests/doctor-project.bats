@@ -22,7 +22,6 @@ setup() {
 set -euo pipefail
 case "$*" in
 'which eza' | 'which kubectl') exit 0 ;;
-'which glab') [[ ${DOCTOR_PERSONAL_LOADED:-} == true ]] ;;
 'bootstrap files status --missing' | 'bootstrap macos defaults status --missing') [[ -d mise/doctor ]] ;;
 *) exec "${DOCTOR_REAL_MISE}" "$@" ;;
 esac
@@ -102,6 +101,8 @@ assert_check() {
 @test "personal profile remains active in the opt-in config" {
 	printf 'auto_env = true\nenv = ["personal"]\n' >"${fixture_home}/.config/mise/miserc.toml"
 	cat >"${fixture}/mise.personal.toml" <<'TOML'
+[tools]
+glab = { version = "0.0.0", lazy = true }
 [env]
 DOCTOR_PERSONAL_LOADED = "true"
 [doctor.checks.profile-environment]
@@ -129,4 +130,10 @@ TOML
 	run -1 isolated MISE_TRUSTED_CONFIG_PATHS= TEST_PROFILE=bare "${doctor_mise}" --cd "${fixture}/mise/doctor" doctor project --json
 	assert_check shared pass
 	assert_check profile pass
+}
+
+@test "bare profile rejects a selected but uninstalled lazy personal tool" {
+	printf '\n[tools]\nglab = {version="0.0.0",lazy=true}\n' >>"${fixture}/mise.toml"
+	run -1 isolated TEST_PROFILE=bare "${doctor_mise}" --cd "${fixture}/mise/doctor" doctor project --json
+	assert_check profile fail
 }
