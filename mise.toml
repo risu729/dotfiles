@@ -341,85 +341,85 @@ automatic_spelling_correction = false
 # one platform and `profile = "personal"` to machines bootstrapped with
 # `-E personal`; an entry whose variants do not match is skipped.
 [dotfiles]
-"~/.agents" = { source = "wsl/home/.agents", mode = "copy" }
-"~/.bashrc" = { source = "wsl/home/.bashrc", variants = [{ os = "linux" }] }
-"~/.claude/CLAUDE.md" = "wsl/home/.codex/AGENTS.md"
-"~/.claude/settings.json" = { source = "wsl/home/.claude/settings.json", mode = "template" }
-"~/.claude/skills/pr-tree" = "wsl/home/.agents/skills/pr-tree"
-"~/.codex" = { source = "wsl/home/.codex", mode = "symlink-each" }
-"~/.cursor/rules/global/RULE.md" = "wsl/home/.codex/AGENTS.md"
-"~/.ghr" = { source = "wsl/home/.ghr", mode = "symlink-each" }
-"~/.hushlogin" = "wsl/home/.hushlogin"
+"~/.agents" = { source = "home/.agents", mode = "copy" }
+"~/.bashrc" = { source = "home/.bashrc", variants = [{ os = "linux" }] }
+"~/.claude/CLAUDE.md" = "home/.codex/AGENTS.md"
+"~/.claude/settings.json" = { source = "home/.claude/settings.json", mode = "template" }
+"~/.claude/skills/pr-tree" = "home/.agents/skills/pr-tree"
+"~/.codex" = { source = "home/.codex", mode = "symlink-each" }
+"~/.cursor/rules/global/RULE.md" = "home/.codex/AGENTS.md"
+"~/.ghr" = { source = "home/.ghr", mode = "symlink-each" }
+"~/.hushlogin" = "home/.hushlogin"
 
 # Paths excluded here are linked by the entries below under narrower variants.
 # A pattern without `/` matches that name at any depth, so keep the names unique.
 [dotfiles."~/.config"]
-source = "wsl/home/.config"
+source = "home/.config"
 mode = "symlink-each"
 exclude = ["biwa", "*.gitconfig", "mimeapps.list", "*.tera", "pitchfork"]
 
 [dotfiles."~/.config/biwa"]
-source = "wsl/home/.config/biwa"
+source = "home/.config/biwa"
 mode = "symlink-each"
 variants = [{ profile = "personal" }]
 
 [dotfiles."~/.config/git/personal.gitconfig"]
-source = "wsl/home/.config/git/personal.gitconfig"
+source = "home/.config/git/personal.gitconfig"
 variants = [{ profile = "personal" }]
 
 [dotfiles."~/.config/git/unsw.gitconfig"]
-source = "wsl/home/.config/git/unsw.gitconfig"
+source = "home/.config/git/unsw.gitconfig"
 variants = [{ profile = "personal" }]
 
 [dotfiles."~/.config/mimeapps.list"]
-source = "wsl/home/.config/mimeapps.list"
+source = "home/.config/mimeapps.list"
 variants = [{ os = "linux" }]
 
 # `env` in miserc selects the profile for every later mise invocation, so the
 # file is rendered from the profile that bootstrapped the machine.
 [dotfiles."~/.config/mise/miserc.toml"]
-source = "wsl/home/.config/mise/miserc.toml.tera"
+source = "home/.config/mise/miserc.toml.tera"
 mode = "template"
 
 # The supervisor user and daemon paths are specific to the personal WSL machine.
 [dotfiles."~/.config/pitchfork"]
-source = "wsl/home/.config/pitchfork"
+source = "home/.config/pitchfork"
 mode = "symlink-each"
 variants = [{ os = "linux", profile = "personal" }]
 
 [dotfiles."~/.local"]
-source = "wsl/home/.local"
+source = "home/.local"
 mode = "symlink-each"
 exclude = ["code", "wsl-open", "applications", "bash-completion"]
 
 [dotfiles."~/.local/bin/code"]
-source = "wsl/home/.local/bin/code"
+source = "home/.local/bin/code"
 variants = [{ os = "linux" }]
 
 [dotfiles."~/.local/bin/wsl-open"]
-source = "wsl/home/.local/bin/wsl-open"
+source = "home/.local/bin/wsl-open"
 variants = [{ os = "linux" }]
 
 [dotfiles."~/.local/share/applications"]
-source = "wsl/home/.local/share/applications"
+source = "home/.local/share/applications"
 mode = "symlink-each"
 variants = [{ os = "linux" }]
 
 [dotfiles."~/.local/share/bash-completion"]
-source = "wsl/home/.local/share/bash-completion"
+source = "home/.local/share/bash-completion"
 mode = "symlink-each"
 variants = [{ os = "linux" }]
 
 [dotfiles."~/.selected_editor"]
-source = "wsl/home/.selected_editor"
+source = "home/.selected_editor"
 variants = [{ os = "linux" }]
 
 [dotfiles."~/.ssh/config"]
-source = "wsl/home/.ssh/config"
+source = "home/.ssh/config"
 variants = [{ profile = "personal" }]
 
 [dotfiles."~/.ssh/unsw-z5642102.pub"]
-source = "wsl/home/.ssh/unsw-z5642102.pub"
+source = "home/.ssh/unsw-z5642102.pub"
 variants = [{ profile = "personal" }]
 
 [hooks]

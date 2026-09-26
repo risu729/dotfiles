@@ -28,7 +28,11 @@ assert_selection() {
 }
 
 @test "installed Markdown selects installers" {
-	assert_selection true false wsl/home/.agents/AGENTS.md
+	assert_selection true false home/.agents/AGENTS.md
+}
+
+@test "WSL system configuration selects installers" {
+	assert_selection true false wsl/codex/config.toml
 }
 
 @test "Unix installer selects both expensive checks" {
@@ -60,7 +64,7 @@ assert_selection() {
 }
 
 @test "mixed paths retain every affected check" {
-	assert_selection true true README.md wsl/home/.bashrc worker/src/index.ts
+	assert_selection true true README.md home/.bashrc worker/src/index.ts
 }
 
 @test "full runs select both expensive checks" {
@@ -86,8 +90,8 @@ setup_changed_repository() {
 	git config user.email 'selection@example.invalid'
 	git config commit.gpgsign false
 	git config core.hooksPath /dev/null
-	mkdir -p wsl/home
-	printf 'managed\n' >wsl/home/.bashrc
+	mkdir -p home
+	printf 'managed\n' >home/.bashrc
 	git add .
 	git commit --quiet -m initial
 }
@@ -95,7 +99,7 @@ setup_changed_repository() {
 @test "renaming a managed file into docs still selects installers" {
 	setup_changed_repository
 	mkdir docs
-	git mv wsl/home/.bashrc 'docs/file with spaces.md'
+	git mv home/.bashrc 'docs/file with spaces.md'
 	git commit --quiet -m rename
 	run -0 env BASE_SHA=HEAD^ HEAD_SHA=HEAD CI_FULL=false bash "${root}/tasks/ci/select"
 	[[ ${output} == $'installers=true\nworker=false' ]]
@@ -103,7 +107,7 @@ setup_changed_repository() {
 
 @test "deleting a managed file still selects installers" {
 	setup_changed_repository
-	git rm wsl/home/.bashrc
+	git rm home/.bashrc
 	git commit --quiet -m delete
 	run -0 env BASE_SHA=HEAD^ HEAD_SHA=HEAD CI_FULL=false bash "${root}/tasks/ci/select"
 	[[ ${output} == $'installers=true\nworker=false' ]]
