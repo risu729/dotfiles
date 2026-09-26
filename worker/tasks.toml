@@ -1,31 +1,28 @@
 # ref: https://mise.jdx.dev/tasks/
 
 ["worker:dev"]
-depends = ["worker:generate:types"]
-dir = "worker"
+extends = "worker:runtime"
 run = "bun run vite dev"
 description = "Start a local development server for the worker."
 
 ["worker:preview"]
+extends = "worker"
 depends = ["worker:build"]
-dir = "worker"
 run = "bun run vite preview"
 description = "Preview the built worker."
 
 ["worker:test"]
-depends = ["worker:generate:types"]
+extends = "worker:runtime"
 run = "bun run vitest run"
-dir = "worker"
 description = "Run Worker tests once."
 
 ["worker:test:watch"]
-depends = ["worker:generate:types"]
+extends = "worker:runtime"
 run = "bun run vitest watch --ui"
-dir = "worker"
 description = "Watch Worker tests with the Vitest UI."
 
 ["worker:generate:types"]
+extends = "worker"
 run = "bun run wrangler types src/worker-configuration.d.ts"
-dir = "worker"
 hide = true
 description = "Generate types of Cloudflare Worker runtimes."

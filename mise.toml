@@ -56,6 +56,15 @@ sources = ["package.json", "bun.lock"]
 outputs = ["node_modules"]
 run = "bun install --frozen-lockfile"
 
+# Shared task metadata stays with the root task includes, not bootstrap fragments.
+[task_templates.worker]
+dir = "{{ config_root }}/worker"
+
+# Keep build and type generation free of this prerequisite; depends=[] inherits it.
+[task_templates."worker:runtime"]
+dir = "{{ config_root }}/worker"
+depends = ["worker:generate:types"]
+
 [task_config]
 includes = ["tasks.toml", "tasks", "worker/tasks.toml", "worker/tasks"]
 
