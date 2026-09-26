@@ -101,6 +101,44 @@ jobs:
         run: mise run test:bats
       - name: Run PR-tree tests
         run: mise run test:pr-tree
+  test-windows-packages:
+    name: Windows packages (mise ${{ matrix.mise }})
+    strategy:
+      fail-fast: false
+      matrix:
+        mise: [2026.9.3, 2026.9.14]
+    runs-on: windows-2025
+    timeout-minutes: 20
+    permissions:
+      contents: read
+    defaults:
+      run:
+        shell: powershell
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Install native mise without Unix repository tools
+        uses: jdx/mise-action@c2a87611a18de5b3828c5652fe268e992400cb5c # v4.3.0
+        with:
+          version: ${{ matrix.mise }}
+          install: false
+          cache: false
+      - name: Test policy with native mise and fixture WinGet
+        run: ./tests/windows-packages.ps1
+      - name: Prepare real WinGet on disposable runner
+        run: |
+          Install-PackageProvider -Name NuGet -Force | Out-Null
+          Install-Module Microsoft.WinGet.Client -Force -Repository PSGallery
+          Repair-WinGetPackageManager -AllUsers
+          $env:PATH += ";$env:LOCALAPPDATA\Microsoft\WindowsApps"
+          "$env:LOCALAPPDATA\Microsoft\WindowsApps" >> $env:GITHUB_PATH
+      - name: Test real WinGet with Microsoft.Edit (PowerShell 5.1)
+        run: ./tests/windows-winget-smoke.ps1
+      - name: Test real WinGet with Microsoft.Edit (PowerShell 7)
+        shell: pwsh
+        run: ./tests/windows-winget-smoke.ps1
   test-linux:
     needs: changes
     if: ${{ needs.changes.outputs.installers == 'true' }}
@@ -249,9 +287,9 @@ jobs:
     uses: ./.github/workflows/worker-deploy.yml # zizmor: ignore[self-repository] -- actionlint 1.7.12 does not support $/ yet.
   deploy-worker:
     name: Deploy validated Worker
-    needs: [changes, lint, test-bats, test-worker, test-linux, test-macos, verify-worker-artifact]
+    needs: [changes, lint, test-bats, test-windows-packages, test-worker, test-linux, test-macos, verify-worker-artifact]
     if: >-
-      ${{ !cancelled() && !inputs.health && github.ref == 'refs/heads/main' && (github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && inputs.deploy)) && needs.changes.result == 'success' && needs.lint.result == 'success' && needs.test-bats.result == 'success' && needs.test-worker.result == 'success' && needs.test-linux.result == 'success' && needs.test-macos.result == 'success' && needs.verify-worker-artifact.result == 'success' }}
+      ${{ !cancelled() && !inputs.health && github.ref == 'refs/heads/main' && (github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && inputs.deploy)) && needs.changes.result == 'success' && needs.lint.result == 'success' && needs.test-bats.result == 'success' && needs.test-windows-packages.result == 'success' && needs.test-worker.result == 'success' && needs.test-linux.result == 'success' && needs.test-macos.result == 'success' && needs.verify-worker-artifact.result == 'success' }}
     permissions:
       contents: read # for checkout in the reusable workflow
     uses: ./.github/workflows/worker-deploy.yml # zizmor: ignore[self-repository] -- actionlint 1.7.12 does not support $/ yet.
@@ -265,6 +303,7 @@ jobs:
       - changes
       - lint
       - test-bats
+      - test-windows-packages
       - test-linux
       - test-macos
       - test-worker

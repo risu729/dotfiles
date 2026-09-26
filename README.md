@@ -85,6 +85,11 @@ personal-profile links may remain.
 Rerun the installer to update and reapply the configuration. On WSL2 and macOS,
 the checkout lives at `~/.ghr/github.com/risu729/dotfiles`.
 
+On Windows, rerunning installs missing apps without upgrading installed ones.
+Use `win/packages.ps1 -Action Upgrade -DryRun`, then `-Action Upgrade`, from the
+checkout in native PowerShell for managed app updates. Self-updating apps are
+excluded. See [Windows update ownership and commands](win/README.md).
+
 Add `?ref=<branch-tag-or-commit>` to an installer URL to select a revision, or
 combine it with a profile:
 
