@@ -10,25 +10,3 @@ experimental = true
 "winget:GIMP.GIMP.Nightly" = { os = "windows" }
 "winget:Inkscape.Inkscape" = { os = "windows" }
 "winget:Microsoft.Edit" = { os = "windows" }
-
-# Install/status only. The update command does not activate this environment.
-# This includes optional/vendor-managed updaters; see README.md for each app.
-# Do not use brew-cask's adopt option: winget does not implement it.
-"winget:Bitwarden.Bitwarden" = { os = "windows", env = "apps" }
-"winget:Cloudflare.Warp" = { os = "windows", env = "apps" }
-"winget:Discord.Discord.Canary" = { os = "windows", env = "apps" }
-"winget:Discord.Discord.PTB" = { os = "windows", env = "apps" }
-"winget:Figma.Figma" = { os = "windows", env = "apps" }
-"winget:Google.Chrome.Beta" = { os = "windows", env = "apps" }
-"winget:Google.GoogleDrive" = { os = "windows", env = "apps" }
-"winget:JetBrains.Toolbox" = { os = "windows", env = "apps" }
-"winget:Logitech.OptionsPlus" = { os = "windows", env = "apps" }
-"winget:Microsoft.PowerShell.Preview" = { os = "windows", env = "apps" }
-"winget:Microsoft.PowerToys" = { os = "windows", env = "apps" }
-"winget:Microsoft.VisualStudioCode.Insiders" = { os = "windows", env = "apps" }
-"winget:Notion.Notion" = { os = "windows", env = "apps" }
-"winget:Tailscale.Tailscale" = { os = "windows", env = "apps" }
-"winget:Termius.Termius" = { os = "windows", env = "apps" }
-"winget:TheDocumentFoundation.LibreOffice" = { os = "windows", env = "apps" }
-"winget:Valve.Steam" = { os = "windows", env = "apps" }
-"winget:Zoom.Zoom" = { os = "windows", env = "apps" }
