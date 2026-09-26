@@ -1,0 +1,58 @@
+# Installed-machine checks are deliberately scoped to this directory.
+# Ordinary development at the repository root must not require bootstrap.
+# Checks default to this config's directory. Interactive shells start at the
+# repository root; the shared probe script resolves that root itself.
+
+[doctor.checks.shared]
+description = "Shared dotfile links, eza/kubectl tools and system files are installed"
+run = "bash check.sh shared"
+shell = "bash -c"
+os = ["linux", "macos"]
+timeout = "30s"
+hint = "Run bash -x mise/doctor/check.sh shared to locate the broken link, missing tool or system file."
+
+[doctor.checks.profile]
+description = "Installed personal or bare profile matches TEST_PROFILE"
+run = "bash check.sh profile"
+shell = "bash -c"
+os = ["linux", "macos"]
+timeout = "30s"
+hint = "Set TEST_PROFILE=bare or personal; run bash -x mise/doctor/check.sh profile to inspect profile state, personal links, biwa and glab."
+
+[doctor.checks.linux-state]
+description = "Linux links, Codex system config and profile-specific services are installed"
+run = "bash check.sh linux"
+shell = "bash -c"
+os = "linux"
+timeout = "10s"
+hint = "Run bash -x mise/doctor/check.sh linux to locate the missing link, system file or personal service config."
+
+[doctor.checks.linux-shell]
+description = "A fresh interactive Bash can run eza and find mise and ghr"
+run = "eza --version && command -v mise && command -v ghr"
+dir = "../.."
+shell = "bash -ic"
+os = "linux"
+timeout = "60s"
+hint = "Open a new Bash shell and check ~/.bashrc, mise activation and PATH."
+
+[doctor.checks.macos-state]
+description = "macOS preferences, shell links, app bundles and screenshot directory are installed without Linux-only files"
+run = "bash check.sh macos"
+shell = "bash -c"
+os = "macos"
+timeout = "30s"
+hint = "Run bash -x mise/doctor/check.sh macos to locate preference drift, a missing path or missing Orca/Ghostty app."
+
+[doctor.checks.macos-shell]
+description = "A fresh interactive Zsh can run eza and btop and load gh, mise and ghr completions"
+run = '''
+eza --version && btop --version &&
+  whence -w compdef | grep --quiet function &&
+  [[ -n ${_comps[gh]} && -n ${_comps[mise]} && -n ${_comps[ghr]} ]]
+'''
+dir = "../.."
+shell = "zsh -ic"
+os = "macos"
+timeout = "60s"
+hint = "Open a new Zsh shell and check ~/.zshrc, ~/.config/zsh/zshrc, mise activation, btop and completion initialization."

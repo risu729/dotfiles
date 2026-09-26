@@ -11,4 +11,8 @@ Linux) login_shell=bash ;;
 	exit 1
 	;;
 esac
-exec "${login_shell}" -ic 'bash tests/bootstrap.sh && bash tasks/verify/mise-doctor'
+if [[ -n ${GIT_COMMIT_SHA:-} ]]; then
+	installed_revision=$(git rev-parse HEAD)
+	test "${installed_revision}" = "${GIT_COMMIT_SHA}"
+fi
+exec "${login_shell}" -ic 'bash tasks/verify/mise-doctor && mise --cd mise/doctor doctor project'
