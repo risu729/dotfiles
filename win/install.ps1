@@ -411,12 +411,12 @@ function Invoke-WslSetupScript {
 
 <#
 	.SYNOPSIS
-	Imports winget packages from a JSON file.
+	Applies Windows packages with native mise and the built-in WinGet manager.
 
 	.NOTES
 	Requires access to the WSL filesystem via \\wsl.localhost.
 #>
-function Import-WingetPackagesFile {
+function Install-WindowsPackage {
 	[CmdletBinding()]
 	param(
 		[Parameter(Mandatory = $true)]
@@ -424,12 +424,8 @@ function Import-WingetPackagesFile {
 		[string]$DotfilesPath
 	)
 
-	$wingetConfigFile = "$DotfilesPath\win\winget.json"
-	Invoke-ExternalCommand (
-		"winget import --import-file `"$wingetConfigFile`" " +
-		'--disable-interactivity --accept-package-agreements --no-upgrade'
-	)
-	Write-Information 'winget packages imported successfully.'
+	& "$DotfilesPath\win\packages.ps1" -Action Apply -BootstrapMise
+	Write-Information 'Windows packages applied successfully.'
 
 	# Remove the generated shortcuts from the desktop
 	Remove-Item -Path "$([Environment]::GetFolderPath('Desktop'))\*.lnk" -Force -ErrorAction SilentlyContinue
@@ -534,7 +530,7 @@ Invoke-WslSetupScript -ScriptOrigin $scriptOrigin -GitRef $gitRef
 
 $dotfilesPath = Invoke-WSLCommand -Command "eval `$(mise env --shell bash); wslpath -w `$(ghr path $repoName)"
 
-Import-WingetPackagesFile -DotfilesPath $dotfilesPath
+Install-WindowsPackage -DotfilesPath $dotfilesPath
 
 Set-PowerToysBackupDirectory -DotfilesPath $dotfilesPath
 

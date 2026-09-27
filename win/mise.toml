@@ -1,0 +1,12 @@
+# Native Windows only; packages.ps1 isolates this from the Unix root config.
+min_version = "2026.9.3"
+
+[settings]
+experimental = true
+
+[bootstrap.packages]
+# Managed upgrades: these distributions have no integrated application updater.
+"winget:CrystalDewWorld.CrystalDiskInfo.AoiEdition" = { os = "windows" }
+"winget:GIMP.GIMP.Nightly" = { os = "windows" }
+"winget:Inkscape.Inkscape" = { os = "windows" }
+"winget:Microsoft.Edit" = { os = "windows" }

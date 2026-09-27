@@ -56,10 +56,10 @@ steps = (picked) {
     }
   }
   ["pwsh"] = new Step {
-    // batch=false: ScriptAnalyzer scans `win/` recursively; command has no `{{ files }}`
+    // batch=false: ScriptAnalyzer scans `win/` and `tests/` recursively; command has no `{{ files }}`
     batch = false
-    glob = List("win/**/*.ps1", "win/**/*.psd1", "win/**/*.psm1")
+    glob = List("win/**/*.ps1", "win/**/*.psd1", "win/**/*.psm1", "tests/**/*.ps1")
     check =
-      "pwsh -NoProfile -Command 'Invoke-ScriptAnalyzer -Path win -Recurse -EnableExit -Settings win/PSScriptAnalyzerSettings.psd1'"
+      "pwsh -NoProfile -Command 'foreach ($path in @(\"win\", \"tests\")) { Invoke-ScriptAnalyzer -Path $path -Recurse -EnableExit -Settings win/PSScriptAnalyzerSettings.psd1 }'"
   }
 }
