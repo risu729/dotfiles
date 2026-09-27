@@ -11,8 +11,10 @@ restart = "on-failure"
 restart_sec = "5s"
 
 [bootstrap.packages]
-# The APT repository is added by the personal part of the pre-packages hook.
+# The APT repositories are added by the personal part of the pre-packages hook.
 "apt:cloudflared" = "latest"
+# kuebiko drives it with `--browser-command google-chrome`.
+"apt:google-chrome-stable" = "latest"
 
 [bootstrap.repos]
 "~/.ghr/github.com/risu729/aqua" = { url = "https://github.com/risu729/aqua.git" }
