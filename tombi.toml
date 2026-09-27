@@ -14,7 +14,7 @@ tables-out-of-order = "error"
 # Store the URLs as TOML values so its JSONata manager can read them.
 [[schemas]]
 path = "https://raw.githubusercontent.com/jdx/mise/v2026.9.12/schema/mise.json"
-include = ["mise*.toml", "unix/home/.config/mise/config*.toml"]
+include = ["mise*.toml", ".config/mise/conf.d/*.toml", "unix/home/.config/mise/config*.toml"]
 
 [[schemas]]
 path = "https://raw.githubusercontent.com/jdx/mise/v2026.9.12/schema/mise-task.json"

@@ -1,0 +1,155 @@
+# ref: https://mise.jdx.dev/bootstrap.html
+
+# macOS preferences. They are inert on Linux and can be applied alone with
+# `mise bootstrap macos defaults apply`.
+[bootstrap.macos.defaults.NSGlobalDomain]
+# Disable natural scrolling.
+"com.apple.swipescrolldirection" = false
+# Mouse tracking speed.
+"com.apple.mouse.scaling" = 2.5
+# Mouse scroll speed.
+"com.apple.scrollwheel.scaling" = 1.0
+# Disable user interface sound effects.
+"com.apple.sound.uiaudio.enabled" = 0
+# Always show filename extensions.
+AppleShowAllExtensions = true
+# Disable text substitutions that corrupt pasted code and commands.
+NSAutomaticDashSubstitutionEnabled = false
+NSAutomaticPeriodSubstitutionEnabled = false
+NSAutomaticQuoteSubstitutionEnabled = false
+# Keyboard navigation: move focus between all controls with Tab.
+AppleKeyboardUIMode = 2
+# Expand save dialogs by default.
+NSNavPanelExpandedStateForSaveMode = true
+NSNavPanelExpandedStateForSaveMode2 = true
+
+[bootstrap.macos.defaults."com.apple.WindowManager"]
+# Tile windows without margins.
+EnableTiledWindowMargins = false
+
+[bootstrap.macos.defaults."com.apple.desktopservices"]
+# Do not write .DS_Store files to network volumes.
+DSDontWriteNetworkStores = true
+
+[bootstrap.macos.defaults."com.apple.finder"]
+# Search the current folder instead of the whole Mac.
+FXDefaultSearchScope = "SCcf"
+# Show the full POSIX path in the window title.
+_FXShowPosixPathInTitle = true
+
+[bootstrap.macos.defaults."com.apple.screencapture"]
+# macOS falls back to the Desktop when the directory is missing.
+location = "~/Pictures/Screenshots"
+# Capture windows without the drop shadow.
+disable-shadow = true
+
+# Modifier keys of the built-in keyboard (`0-0-0`), which take effect after the
+# next login. The values are HID usages: `0xFF00000003` and `0xFF0100000003`
+# are Globe/fn, `0x7000000E3`/`0x7000000E7` are left/right Command, and
+# `0x700000039` is Caps Lock.
+# - Globe/fn -> Command, so the bottom-left key matches Ctrl on Windows
+# - Command -> Globe/fn
+# - Caps Lock -> Globe/fn
+[[bootstrap.macos.defaults_entries]]
+domain = "NSGlobalDomain"
+key = "com.apple.keyboard.modifiermapping.0-0-0"
+host = "current"
+
+[[bootstrap.macos.defaults_entries.value]]
+HIDKeyboardModifierMappingSrc = 280379760050179
+HIDKeyboardModifierMappingDst = 30064771299
+
+[[bootstrap.macos.defaults_entries.value]]
+HIDKeyboardModifierMappingSrc = 1095216660483
+HIDKeyboardModifierMappingDst = 30064771303
+
+[[bootstrap.macos.defaults_entries.value]]
+HIDKeyboardModifierMappingSrc = 30064771299
+HIDKeyboardModifierMappingDst = 1095216660483
+
+[[bootstrap.macos.defaults_entries.value]]
+HIDKeyboardModifierMappingSrc = 30064771303
+HIDKeyboardModifierMappingDst = 1095216660483
+
+[[bootstrap.macos.defaults_entries.value]]
+HIDKeyboardModifierMappingSrc = 30064771129
+HIDKeyboardModifierMappingDst = 1095216660483
+
+[bootstrap.macos.dock]
+show_recents = false
+# Do not rearrange Spaces based on most recent use.
+mru_spaces = false
+
+[bootstrap.macos.finder]
+show_all_files = true
+show_pathbar = true
+show_status_bar = true
+preferred_view_style = "list"
+show_extensions_warning = false
+save_new_documents_to_cloud = false
+
+[bootstrap.macos.keyboard]
+# Use F1, F2, etc. as standard function keys.
+fn_state = true
+# Fastest repeat rate and shortest delay offered by System Settings.
+key_repeat = 2
+initial_key_repeat = 15
+# Repeat held keys instead of showing the accent menu.
+press_and_hold = false
+automatic_capitalization = false
+automatic_spelling_correction = false
+
+[bootstrap.packages]
+"apt:bubblewrap" = "latest"
+"apt:build-essential" = "latest"
+"apt:clang" = "latest"
+"apt:clangd" = "latest"
+"apt:clang-format" = "latest"
+"apt:cmake" = "latest"
+"apt:containerd.io" = "latest"
+"apt:desktop-file-utils" = "latest"
+"apt:docker-buildx-plugin" = "latest"
+"apt:docker-ce" = "latest"
+"apt:docker-ce-cli" = "latest"
+"apt:docker-compose-plugin" = "latest"
+"apt:ffmpeg" = "latest"
+"apt:gdb" = "latest"
+"apt:graphviz" = "latest"
+"apt:libssl-dev" = "latest"
+"apt:llvm" = "latest"
+"apt:openssh-server" = "latest"
+"apt:parallel" = "latest"
+"apt:pkg-config" = "latest"
+"apt:strace" = "latest"
+"apt:xdg-utils" = "latest"
+"apt:zip" = "latest"
+# macOS packages. mise installs them itself, so Homebrew is not required.
+# btop has no macOS release in any mise backend, so `[tools]` in the global
+# config skips it there.
+"brew:btop" = { os = "macos" }
+# A current git instead of the one bundled with the Xcode Command Line Tools.
+"brew:git" = { os = "macos" }
+# mise evaluates the Ruby definition of a cask from a third-party tap, such as
+# Orca below, with Ruby 3 or newer on PATH; macOS ships Ruby 2.6.
+"brew:ruby" = { os = "macos" }
+# These app casks declare auto_updates=true. Adopt existing bundles in place;
+# only enable adoption for self-updating app casks when adding more apps.
+"brew-cask:claude" = { os = "macos", adopt = true }
+# The ChatGPT app replaced the discontinued Codex desktop app (`codex-app`).
+"brew-cask:chatgpt" = { os = "macos", adopt = true }
+"brew-cask:ghostty" = { os = "macos", adopt = true }
+"brew-cask:google-chrome@beta" = { os = "macos", adopt = true }
+"brew-cask:notion" = { os = "macos", adopt = true }
+"brew-cask:slack" = { os = "macos", adopt = true }
+"brew-cask:stablyai/orca/orca" = { os = "macos", adopt = true }
+"brew-cask:visual-studio-code@insiders" = { os = "macos", adopt = true }
+# Zoom self-updates too, but pkg installers do not use app-bundle adoption.
+"brew-cask:zoom" = { os = "macos" }
+# Logi Options+ self-updates and runs its installer with sudo; no app to adopt.
+"brew-cask:logi-options+" = { os = "macos" }
+
+[bootstrap.repos]
+# The installer clones this repo when it is missing, then delegates updates to
+# mise, which refuses to touch a dirty worktree, a mismatched origin, or a
+# detached HEAD. Personal repositories are declared in `mise.personal.toml`.
+"~/.ghr/github.com/risu729/dotfiles" = { url = "https://github.com/risu729/dotfiles.git" }

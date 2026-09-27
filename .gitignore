@@ -162,3 +162,6 @@ nohup.out
 
 # Built Visual Studio Code Extensions
 *.vsix
+
+# mise config fragments (the global ignore excludes *.d)
+!/.config/mise/conf.d/
