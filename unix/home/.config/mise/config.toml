@@ -80,6 +80,27 @@ sudo "$MISE_TOOL_INSTALL_PATH/pitchfork" boot disable
 sudo "$MISE_TOOL_INSTALL_PATH/pitchfork" boot enable
 if [ -d /run/systemd/system ]; then
   sudo systemctl restart pitchfork.service
+  # The supervisor generates the proxy CA on its first start. It runs as my
+  # user, so it cannot add the CA to the system store itself. Under WSL, add
+  # it to the Windows user store as well so browsers on the host trust it.
+  ca="$HOME/.local/state/pitchfork/proxy/ca.pem"
+  for _ in $(seq 1 30); do
+    [ -f "$ca" ] && break
+    sleep 1
+  done
+  if [ -f "$ca" ]; then
+    sudo "$MISE_TOOL_INSTALL_PATH/pitchfork" proxy trust --cert "$ca"
+    certutil=/mnt/c/Windows/System32/certutil.exe
+    if [ -x "$certutil" ]; then
+      thumbprint=$(openssl x509 -in "$ca" -noout -fingerprint -sha1 | cut -d= -f2 | tr -d :)
+      # Read the whole listing before matching; closing certutil's pipe early
+      # can take the WSL interop relay down with it.
+      store=$("$certutil" -user -store Root 2>/dev/null </dev/null || true)
+      if ! echo "$store" | grep -qi "$thumbprint"; then
+        "$certutil" -user -addstore Root "$(wslpath -w "$ca")" </dev/null >/dev/null
+      fi
+    fi
+  fi
 fi
 {% endif %}
 """ }
