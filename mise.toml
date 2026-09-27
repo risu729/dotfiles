@@ -92,11 +92,22 @@ curl --fail-with-body --silent --show-error --location https://pkg.cloudflare.co
 echo "deb [signed-by=/etc/apt/keyrings/cloudflare-main.gpg] https://pkg.cloudflare.com/cloudflared any main" |
   sudo tee /etc/apt/sources.list.d/cloudflared.list >/dev/null
 # ref: https://www.google.com/linuxrepositories/
-# The same source the package configures for itself, so it does not add a second one.
-curl --fail-with-body --silent --show-error --location https://dl.google.com/linux/linux_signing_key.pub |
-  sudo tee /etc/apt/keyrings/google-chrome.asc >/dev/null
-echo "deb [arch=amd64 signed-by=/etc/apt/keyrings/google-chrome.asc] https://dl.google.com/linux/chrome-stable/deb/ stable main" |
-  sudo tee /etc/apt/sources.list.d/google-chrome.list >/dev/null
+# The package's postinst writes this same file for the same source, so nothing
+# conflicts once it is installed. The key is inlined because the postinst
+# installs its own keyring and gpg may be missing before bootstrap.
+{
+  cat <<'SOURCES'
+X-Repolib-Name: Google Chrome
+Types: deb
+URIs: https://dl.google.com/linux/chrome-stable/deb/
+Suites: stable
+Components: main
+Architectures: amd64
+Signed-By:
+SOURCES
+  curl --fail-with-body --silent --show-error --location https://dl.google.com/linux/linux_signing_key.pub |
+    sed -e 's/^$/./' -e 's/^/ /'
+} | sudo tee /etc/apt/sources.list.d/google-chrome.sources >/dev/null
 {% endif %}
 {% if os() == "macos" %}
 # The package plan evaluates every cask, and a cask from a third-party tap
