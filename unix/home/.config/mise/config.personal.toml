@@ -2,10 +2,6 @@
 # Loaded with `MISE_ENV=personal` only, which `miserc.toml` sets on machines
 # bootstrapped with `-E personal`. Locked by `mise.personal.lock`.
 
-[env]
-# mise manages the installed Copilot CLI version.
-COPILOT_AUTO_UPDATE = "false"
-
 [tools]
 # cli tools
 bitwarden = "latest"
@@ -23,7 +19,6 @@ glab = "latest"
 
 # ai agents
 cursor-agent = { version = "latest", minimum_release_age = "0s" }
-copilot = "latest"
 
 # uni tools
 typst = "latest"
