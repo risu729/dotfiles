@@ -1,4 +1,4 @@
-// Mise 2026.9.12/14 reports deliberately uninstalled lazy tools as errors.
+// Mise 2026.9.12/14/15 reports deliberately uninstalled lazy tools as errors.
 // Suppress only exact missing-tool errors for the effective lazy declaration;
 // Project overrides, broken installs, other errors and all warnings still fail.
 // Keep the fail-closed diagnostic flow together.

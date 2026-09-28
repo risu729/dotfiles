@@ -49,15 +49,15 @@ prepared by CI. The macOS task changes the Mac running it. Both require
 To inspect an existing installation without reinstalling, use
 `TEST_PROFILE=personal mise run verify:installation` (or `bare`). This includes
 `mise doctor` in a fresh interactive shell and treats warnings as failures, then
-runs the named `mise doctor project` checks. On mise 2026.9.12/14, ordinary
+runs the named `mise doctor project` checks. On mise 2026.9.12/14/15, ordinary
 doctor reports missing lazy tools as errors; `mise/doctor/filter.ts` allows only
 those exact errors after reading the effective declaration identified by mise.
-It retains all
-warnings, non-lazy missing tools, broken installs and other failures. Project
-diagnostics alone: `TEST_PROFILE=personal mise --cd mise/doctor doctor project`
-(or `bare`); append `--json` for per-check results. These checks inspect an
-installed machine, not a development checkout. Ordinary `mise doctor`,
-root-level `mise doctor project`, and hk lint runs do not run them.
+It retains all warnings, non-lazy missing tools, broken installs and other
+failures. Project diagnostics alone:
+`TEST_PROFILE=personal mise --cd mise/doctor doctor project` (or `bare`); append
+`--json` for per-check results. These checks inspect an installed machine, not a
+development checkout. Ordinary `mise doctor`, root-level `mise doctor project`,
+and hk lint runs do not run them.
 
 The opt-in configuration lives in `mise/doctor/mise.toml` and retains the active
 mise profile. Probes resolve paths from the repository root. Linux Bash and
