@@ -16,6 +16,8 @@ instructions take precedence.
   existing PR if one exists; otherwise open a PR. Only leave changes local when
   explicitly requested.
 - Follow repository conventions for commits and PR titles.
+- Write PR titles and descriptions in English, regardless of the conversation
+  language.
 - Prefer normal commits and pushes when updating PRs. Do not rewrite history or
   force-push merely to clean up a PR's commit log. Force-push only when
   necessary, such as after a required rebase, and use `--force-with-lease`.
