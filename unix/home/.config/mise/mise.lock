@@ -556,53 +556,53 @@ url = "https://github.com/anthropics/claude-code/releases/download/v2.1.283/clau
 url_api = "https://api.github.com/repos/anthropics/claude-code/releases/assets/588996736"
 
 [[tools.codex]]
-version = "0.157.1"
+version = "0.158.0"
 backend = "aqua:openai/codex"
 
 [tools.codex."platforms.linux-arm64"]
-checksum = "sha256:499fe70d70f4e4904b6a5a4ec1b1edf6c4a1a47a075ea7e2ec2b5262ba47b471"
-url = "https://github.com/openai/codex/releases/download/rust-v0.157.1/codex-package-aarch64-unknown-linux-musl.tar.gz"
-url_api = "https://api.github.com/repos/openai/codex/releases/assets/589602711"
+checksum = "sha256:bc55b988c2e0c54ac6a6d437c4e63781e671b269752ac26592675bb9e9f99902"
+url = "https://github.com/openai/codex/releases/download/rust-v0.158.0/codex-package-aarch64-unknown-linux-musl.tar.gz"
+url_api = "https://api.github.com/repos/openai/codex/releases/assets/594549699"
 
 [tools.codex."platforms.linux-arm64-musl"]
-checksum = "sha256:499fe70d70f4e4904b6a5a4ec1b1edf6c4a1a47a075ea7e2ec2b5262ba47b471"
-url = "https://github.com/openai/codex/releases/download/rust-v0.157.1/codex-package-aarch64-unknown-linux-musl.tar.gz"
-url_api = "https://api.github.com/repos/openai/codex/releases/assets/589602711"
+checksum = "sha256:bc55b988c2e0c54ac6a6d437c4e63781e671b269752ac26592675bb9e9f99902"
+url = "https://github.com/openai/codex/releases/download/rust-v0.158.0/codex-package-aarch64-unknown-linux-musl.tar.gz"
+url_api = "https://api.github.com/repos/openai/codex/releases/assets/594549699"
 
 [tools.codex."platforms.linux-x64"]
-checksum = "sha256:0e211868c9fd73cb49ad35ac675b5eafdf6b9f453df8a493df980c59a590fe5f"
-url = "https://github.com/openai/codex/releases/download/rust-v0.157.1/codex-package-x86_64-unknown-linux-musl.tar.gz"
-url_api = "https://api.github.com/repos/openai/codex/releases/assets/589593045"
+checksum = "sha256:b33cd426c9acab9b34c5a93200ba4fe83c8e614c18ce5ef52b2bf36408b8e18c"
+url = "https://github.com/openai/codex/releases/download/rust-v0.158.0/codex-package-x86_64-unknown-linux-musl.tar.gz"
+url_api = "https://api.github.com/repos/openai/codex/releases/assets/594540051"
 
 [tools.codex."platforms.linux-x64-baseline"]
-checksum = "sha256:0e211868c9fd73cb49ad35ac675b5eafdf6b9f453df8a493df980c59a590fe5f"
-url = "https://github.com/openai/codex/releases/download/rust-v0.157.1/codex-package-x86_64-unknown-linux-musl.tar.gz"
-url_api = "https://api.github.com/repos/openai/codex/releases/assets/589593045"
+checksum = "sha256:b33cd426c9acab9b34c5a93200ba4fe83c8e614c18ce5ef52b2bf36408b8e18c"
+url = "https://github.com/openai/codex/releases/download/rust-v0.158.0/codex-package-x86_64-unknown-linux-musl.tar.gz"
+url_api = "https://api.github.com/repos/openai/codex/releases/assets/594540051"
 
 [tools.codex."platforms.linux-x64-musl"]
-checksum = "sha256:0e211868c9fd73cb49ad35ac675b5eafdf6b9f453df8a493df980c59a590fe5f"
-url = "https://github.com/openai/codex/releases/download/rust-v0.157.1/codex-package-x86_64-unknown-linux-musl.tar.gz"
-url_api = "https://api.github.com/repos/openai/codex/releases/assets/589593045"
+checksum = "sha256:b33cd426c9acab9b34c5a93200ba4fe83c8e614c18ce5ef52b2bf36408b8e18c"
+url = "https://github.com/openai/codex/releases/download/rust-v0.158.0/codex-package-x86_64-unknown-linux-musl.tar.gz"
+url_api = "https://api.github.com/repos/openai/codex/releases/assets/594540051"
 
 [tools.codex."platforms.linux-x64-musl-baseline"]
-checksum = "sha256:0e211868c9fd73cb49ad35ac675b5eafdf6b9f453df8a493df980c59a590fe5f"
-url = "https://github.com/openai/codex/releases/download/rust-v0.157.1/codex-package-x86_64-unknown-linux-musl.tar.gz"
-url_api = "https://api.github.com/repos/openai/codex/releases/assets/589593045"
+checksum = "sha256:b33cd426c9acab9b34c5a93200ba4fe83c8e614c18ce5ef52b2bf36408b8e18c"
+url = "https://github.com/openai/codex/releases/download/rust-v0.158.0/codex-package-x86_64-unknown-linux-musl.tar.gz"
+url_api = "https://api.github.com/repos/openai/codex/releases/assets/594540051"
 
 [tools.codex."platforms.macos-arm64"]
-checksum = "sha256:6cda538d19c2f4d9dce965369aa22011afa9dce8c7a73c234b66eb3611ea4aab"
-url = "https://github.com/openai/codex/releases/download/rust-v0.157.1/codex-package-aarch64-apple-darwin.tar.gz"
-url_api = "https://api.github.com/repos/openai/codex/releases/assets/589607687"
+checksum = "sha256:09f2a9fde318fbcd384f15b4850c1b90930678f4805647b6bded196ccf32f590"
+url = "https://github.com/openai/codex/releases/download/rust-v0.158.0/codex-package-aarch64-apple-darwin.tar.gz"
+url_api = "https://api.github.com/repos/openai/codex/releases/assets/594553803"
 
 [tools.codex."platforms.macos-x64"]
-checksum = "sha256:d2285a56c7d1f74923e708b18308870e367479a4423784ed488578af89d6af77"
-url = "https://github.com/openai/codex/releases/download/rust-v0.157.1/codex-package-x86_64-apple-darwin.tar.gz"
-url_api = "https://api.github.com/repos/openai/codex/releases/assets/589598502"
+checksum = "sha256:46a687a4d52e2e935c23e3acaf1002a21ccfe4b6be918f407898438b5fd24b17"
+url = "https://github.com/openai/codex/releases/download/rust-v0.158.0/codex-package-x86_64-apple-darwin.tar.gz"
+url_api = "https://api.github.com/repos/openai/codex/releases/assets/594545939"
 
 [tools.codex."platforms.macos-x64-baseline"]
-checksum = "sha256:d2285a56c7d1f74923e708b18308870e367479a4423784ed488578af89d6af77"
-url = "https://github.com/openai/codex/releases/download/rust-v0.157.1/codex-package-x86_64-apple-darwin.tar.gz"
-url_api = "https://api.github.com/repos/openai/codex/releases/assets/589598502"
+checksum = "sha256:46a687a4d52e2e935c23e3acaf1002a21ccfe4b6be918f407898438b5fd24b17"
+url = "https://github.com/openai/codex/releases/download/rust-v0.158.0/codex-package-x86_64-apple-darwin.tar.gz"
+url_api = "https://api.github.com/repos/openai/codex/releases/assets/594545939"
 
 [[tools.delta]]
 version = "0.19.2"
@@ -1303,42 +1303,42 @@ url = "https://github.com/herdrdev/herdr/releases/download/v0.9.1/herdr-macos-x8
 url_api = "https://api.github.com/repos/herdrdev/herdr/releases/assets/568559678"
 
 [[tools.hk]]
-version = "2.3.1"
+version = "2.4.0"
 backend = "packslip:github.com/jdx/hk"
 
 [tools.hk."platforms.linux-arm64"]
-checksum = "sha256:b81851bcf9d64b438272c49a6164a333b3b3dbc9523fc53610e407ad5d1da1ec"
-url = "https://github.com/jdx/hk/releases/download/v2.3.1/hk-aarch64-unknown-linux-gnu.tar.gz"
+checksum = "sha256:836235bd8aa06f25e7ff28591b32efb5297abe55366e912095636a49ffe4d363"
+url = "https://github.com/jdx/hk/releases/download/v2.4.0/hk-aarch64-unknown-linux-gnu.tar.gz"
 signer = "sigstore-oidc:https://github.com/jdx/hk/.github/workflows/release.yml"
 
 [tools.hk."platforms.linux-arm64-musl"]
-checksum = "sha256:8fadebeaa5dc8854080f56f674a23ae2487bf536aa986521437df445dbba8b59"
-url = "https://github.com/jdx/hk/releases/download/v2.3.1/hk-aarch64-unknown-linux-musl.tar.gz"
+checksum = "sha256:ad5c5a556e0a505d9a3441868217976bd4ae610e1364e93516993b9717d9ef28"
+url = "https://github.com/jdx/hk/releases/download/v2.4.0/hk-aarch64-unknown-linux-musl.tar.gz"
 signer = "sigstore-oidc:https://github.com/jdx/hk/.github/workflows/release.yml"
 
 [tools.hk."platforms.linux-x64"]
-checksum = "sha256:b9c9eaef35bf792a31ad0ab6bfbe5fd14898815307459480a4aa572346c3438e"
-url = "https://github.com/jdx/hk/releases/download/v2.3.1/hk-x86_64-unknown-linux-gnu.tar.gz"
+checksum = "sha256:6efabe30aeabc4611a42ce6cf0fd46b9a19478e2cfd9acfd1bd93998736f3153"
+url = "https://github.com/jdx/hk/releases/download/v2.4.0/hk-x86_64-unknown-linux-gnu.tar.gz"
 signer = "sigstore-oidc:https://github.com/jdx/hk/.github/workflows/release.yml"
 
 [tools.hk."platforms.linux-x64-baseline"]
-checksum = "sha256:b9c9eaef35bf792a31ad0ab6bfbe5fd14898815307459480a4aa572346c3438e"
-url = "https://github.com/jdx/hk/releases/download/v2.3.1/hk-x86_64-unknown-linux-gnu.tar.gz"
+checksum = "sha256:6efabe30aeabc4611a42ce6cf0fd46b9a19478e2cfd9acfd1bd93998736f3153"
+url = "https://github.com/jdx/hk/releases/download/v2.4.0/hk-x86_64-unknown-linux-gnu.tar.gz"
 signer = "sigstore-oidc:https://github.com/jdx/hk/.github/workflows/release.yml"
 
 [tools.hk."platforms.linux-x64-musl"]
-checksum = "sha256:43b4b76e17b3f474c3d31ff56c3291df02af74267972013956ee83ec3e2a08a8"
-url = "https://github.com/jdx/hk/releases/download/v2.3.1/hk-x86_64-unknown-linux-musl.tar.gz"
+checksum = "sha256:f34598671ca40be5c308324a60ef30b736dbbbf4259dfb511abd79009ee4de2a"
+url = "https://github.com/jdx/hk/releases/download/v2.4.0/hk-x86_64-unknown-linux-musl.tar.gz"
 signer = "sigstore-oidc:https://github.com/jdx/hk/.github/workflows/release.yml"
 
 [tools.hk."platforms.linux-x64-musl-baseline"]
-checksum = "sha256:43b4b76e17b3f474c3d31ff56c3291df02af74267972013956ee83ec3e2a08a8"
-url = "https://github.com/jdx/hk/releases/download/v2.3.1/hk-x86_64-unknown-linux-musl.tar.gz"
+checksum = "sha256:f34598671ca40be5c308324a60ef30b736dbbbf4259dfb511abd79009ee4de2a"
+url = "https://github.com/jdx/hk/releases/download/v2.4.0/hk-x86_64-unknown-linux-musl.tar.gz"
 signer = "sigstore-oidc:https://github.com/jdx/hk/.github/workflows/release.yml"
 
 [tools.hk."platforms.macos-arm64"]
-checksum = "sha256:534f356d37297903d01d26e06d1665db769a53339145f2584fccc6caa450aec8"
-url = "https://github.com/jdx/hk/releases/download/v2.3.1/hk-aarch64-apple-darwin.tar.gz"
+checksum = "sha256:6e1c970b9de7ab4ee52c85869b2ea9cfe8769d25a0fe9536062e0ba62366ec59"
+url = "https://github.com/jdx/hk/releases/download/v2.4.0/hk-aarch64-apple-darwin.tar.gz"
 signer = "sigstore-oidc:https://github.com/jdx/hk/.github/workflows/release.yml"
 
 [[tools.hunk]]
