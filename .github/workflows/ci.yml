@@ -85,7 +85,7 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 5
     env:
-      MISE_ENABLE_TOOLS: bats,bun
+      MISE_ENABLE_TOOLS: bats,bun,hk
     permissions:
       contents: read # for checkout
     steps:

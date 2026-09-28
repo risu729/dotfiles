@@ -1,15 +1,7 @@
 #!/usr/bin/env bash
-#MISE description="Check mise diagnostics, failing on warnings as well as errors."
+#MISE description="Check mise diagnostics, allowing only deliberately uninstalled lazy tools."
 set -euo pipefail
 
-report=$(mise doctor --json) || {
-	printf '%s\n' "${report}" >&2
-	exit 1
-}
-# Warnings alone do not make mise doctor exit unsuccessfully.
-printf '%s\n' "${report}" | bun -e '
-	const { warnings = [], errors = [] } = await Bun.stdin.json();
-	const issues = [...warnings, ...errors];
-	for (const issue of issues) console.error(issue);
-	process.exit(issues.length > 0 ? 1 : 0);
-'
+status=0
+report=$(mise doctor --json) || status=$?
+printf '%s\n' "${report}" | bun "$(dirname "${BASH_SOURCE[0]}")/../../mise/doctor/filter.ts" "${status}"
