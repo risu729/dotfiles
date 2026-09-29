@@ -11,6 +11,7 @@ setup() {
 #!/usr/bin/env bash
 set -euo pipefail
 [[ $* == 'doctor --json' ]]
+[[ ${MISE_DISABLE_UPDATE_WARNING:-} == 1 ]]
 printf '%s\n' "${DOCTOR_REPORT}"
 exit "${DOCTOR_STATUS}"
 STUB
