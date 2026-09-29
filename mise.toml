@@ -228,6 +228,9 @@ NSAutomaticPeriodSubstitutionEnabled = false
 NSAutomaticQuoteSubstitutionEnabled = false
 # Keyboard navigation: move focus between all controls with Tab.
 AppleKeyboardUIMode = 2
+# Use Caps Lock to switch between Latin and non-Latin input sources.
+# Integer preference: 1 enables the native switch; 0 disables it.
+TISRomanSwitchState = 1
 # Expand save dialogs by default.
 NSNavPanelExpandedStateForSaveMode = true
 NSNavPanelExpandedStateForSaveMode2 = true
@@ -254,11 +257,10 @@ disable-shadow = true
 
 # Modifier keys of the built-in keyboard (`0-0-0`), which take effect after the
 # next login. The values are HID usages: `0xFF00000003` and `0xFF0100000003`
-# are Globe/fn, `0x7000000E3`/`0x7000000E7` are left/right Command, and
-# `0x700000039` is Caps Lock.
+# are Globe/fn and `0x7000000E3`/`0x7000000E7` are left/right Command.
 # - Globe/fn -> Command, so the bottom-left key matches Ctrl on Windows
 # - Command -> Globe/fn
-# - Caps Lock -> Globe/fn
+# Leave Caps Lock unmapped for native ABC/Japanese switching.
 [[bootstrap.macos.defaults_entries]]
 domain = "NSGlobalDomain"
 key = "com.apple.keyboard.modifiermapping.0-0-0"
@@ -278,10 +280,6 @@ HIDKeyboardModifierMappingDst = 1095216660483
 
 [[bootstrap.macos.defaults_entries.value]]
 HIDKeyboardModifierMappingSrc = 30064771303
-HIDKeyboardModifierMappingDst = 1095216660483
-
-[[bootstrap.macos.defaults_entries.value]]
-HIDKeyboardModifierMappingSrc = 30064771129
 HIDKeyboardModifierMappingDst = 1095216660483
 
 [bootstrap.macos.dock]
