@@ -3,7 +3,7 @@
 	$schema: "https://docs.renovatebot.com/renovate-schema.json",
 	extends: ["github>risu729/renovate-config#3.19.0"],
 	packageRules: [
-		// Keep min_version, GitHub Actions, schemas, and the container tag/digest together.
+		// Keep the installer, min_version, CI, schemas, and container tag/digest together.
 		{
 			matchPackageNames: ["jdx/mise", "ghcr.io/jdx/mise"],
 			groupName: "mise",
@@ -52,6 +52,15 @@
 	],
 	// ref: https://docs.renovatebot.com/modules/manager/jsonata/
 	customManagers: [
+		{
+			customType: "regex",
+			description: "Updates the pinned Unix installer mise version",
+			managerFilePatterns: ["/^unix\\/install\\.sh$/"],
+			datasourceTemplate: "github-releases",
+			packageNameTemplate: "jdx/mise",
+			extractVersionTemplate: "^v(?<version>.*)$",
+			matchStrings: ['mise_version="(?<currentValue>[0-9]+\\.[0-9]+\\.[0-9]+)"'],
+		},
 		{
 			customType: "jsonata",
 			description: "Updates pinned mise JSON schemas",

@@ -3,6 +3,9 @@
 
 # shellcheck disable=SC2148 # shebang is not required in .bashrc
 
+# The installer places the pinned mise binary in the user bin directory.
+export PATH="${HOME}/.local/bin:${PATH}"
+
 # Activate mise
 if command -v mise &>/dev/null; then
 	mise_activate="$(mise activate bash)"

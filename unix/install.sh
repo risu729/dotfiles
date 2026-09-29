@@ -3,6 +3,8 @@
 set -euo pipefail
 
 repo_name="risu729/dotfiles"
+# Keep the installer on the version validated by CI; Renovate updates the pin.
+mise_version="2026.9.15"
 # might be edited by the worker to checkout a specific ref
 git_ref=""
 # Direct invocations can select the same revision as the Worker ref parameter.
@@ -28,21 +30,7 @@ log_error() {
 # macOS ships BSD userland, so only flags common to GNU and BSD are used below.
 os="$(uname -s)"
 
-install_mise_linux() {
-	log_info "Installing extrepo..."
-	# ref: https://mise.jdx.dev/installing-mise.html#apt
-	sudo apt-get update
-	sudo apt-get install --yes extrepo
-
-	log_info "Adding mise APT repository..."
-	sudo extrepo enable mise
-
-	log_info "Installing mise..."
-	sudo apt-get update
-	sudo apt-get install --yes mise
-}
-
-install_mise_macos() {
+prepare_macos_tools() {
 	# git and the C toolchain are provided by the Xcode Command Line Tools
 	if ! xcode-select -p >/dev/null 2>&1; then
 		log_info "Installing Xcode Command Line Tools..."
@@ -56,28 +44,42 @@ install_mise_macos() {
 		log_info "Xcode Command Line Tools installed."
 	fi
 
-	# The installer puts mise here, which is not on the default macOS PATH. mise
-	# also needs the Ruby 3 or newer it pours into the Homebrew prefix to
-	# evaluate casks from third-party taps.
-	export PATH="${HOME}/.local/bin:/opt/homebrew/bin:${PATH}"
+	# mise needs Ruby from the Homebrew prefix to evaluate third-party casks.
+	export PATH="/opt/homebrew/bin:${PATH}"
+}
 
-	# The installer also upgrades an existing mise, like apt does on Linux, so
-	# that `min_version` in mise.toml is met.
-	log_info "Installing mise..."
+install_mise_binary() {
+	local install_path="$1"
+	local install_dir
+	install_dir=$(dirname "${install_path}") || return
+	export PATH="${install_dir}:${PATH}"
+	log_info "Installing mise ${mise_version}..."
+	# Pin both the version and destination even if the caller exports overrides.
+	# The upstream installer verifies the archive checksum before installing it.
 	# ref: https://mise.jdx.dev/installing-mise.html
-	curl --fail --silent --show-error --location https://mise.run | sh
+	curl --fail --silent --show-error --location https://mise.run |
+		MISE_VERSION="v${mise_version}" MISE_INSTALL_PATH="${install_path}" \
+			MISE_INSTALL_SKIP_IF_EXISTS=1 sh || return
+
+	local actual_version
+	actual_version=$(mise --version) || return
+	if [[ ${actual_version%% *} != "${mise_version}" ]]; then
+		log_error "Expected mise ${mise_version}, but found ${actual_version}."
+		return 1
+	fi
+	log_info "mise ${mise_version} installed."
 }
 
 install_mise() {
 	case "${os}" in
-	Linux) install_mise_linux ;;
-	Darwin) install_mise_macos ;;
+	Linux) ;;
+	Darwin) prepare_macos_tools ;;
 	*)
 		log_error "Unsupported operating system: ${os}"
-		exit 1
+		return 1
 		;;
 	esac
-	log_info "mise installed."
+	install_mise_binary "${HOME}/.local/bin/mise"
 }
 
 # Trust the platform and profile configs next to mise.toml as well. `--all` is
