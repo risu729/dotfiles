@@ -260,7 +260,7 @@ disable-shadow = true
 # are Globe/fn and `0x7000000E3`/`0x7000000E7` are left/right Command.
 # - Globe/fn -> Command, so the bottom-left key matches Ctrl on Windows
 # - Command -> Globe/fn
-# Leave Caps Lock unmapped for native ABC/Japanese switching (see README.md).
+# Leave Caps Lock unmapped for native ABC/Japanese switching.
 [[bootstrap.macos.defaults_entries]]
 domain = "NSGlobalDomain"
 key = "com.apple.keyboard.modifiermapping.0-0-0"
