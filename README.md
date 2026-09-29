@@ -62,6 +62,18 @@ installer sets up mise, desktop apps, system preferences, and shared dotfiles.
 Homebrew itself is not required. Log out and back in for keyboard, mouse, and
 scrolling preferences to take effect.
 
+Caps Lock stays unmapped for macOS's native ABC/Japanese switching; the built-in
+keyboard's Globe/fn and Command mappings remain in place. Once per Mac, open
+**System Settings > Keyboard > Text Input > Edit**, add **ABC** and **Japanese**
+if needed, and enable **Use the Caps Lock key to switch to and from ABC** under
+**All Input Sources** (the label follows the last-used Latin input source).
+Tap Caps Lock to switch; press and hold it for uppercase. See
+[Apple's input-source switching guide][macos-input-switching].
+Existing installations must reapply the configuration and log out and back in
+to remove the previous Caps Lock-to-Globe mapping.
+
+[macos-input-switching]: https://support.apple.com/guide/japanese-input-method/jpimf6ffb247/mac
+
 macOS keeps zsh as the login shell. A managed block in `~/.zshrc` loads the
 shared configuration while preserving machine-local lines.
 
