@@ -228,6 +228,9 @@ NSAutomaticPeriodSubstitutionEnabled = false
 NSAutomaticQuoteSubstitutionEnabled = false
 # Keyboard navigation: move focus between all controls with Tab.
 AppleKeyboardUIMode = 2
+# Use Caps Lock to switch between Latin and non-Latin input sources.
+# Integer preference: 1 enables the native switch; 0 disables it.
+TISRomanSwitchState = 1
 # Expand save dialogs by default.
 NSNavPanelExpandedStateForSaveMode = true
 NSNavPanelExpandedStateForSaveMode2 = true

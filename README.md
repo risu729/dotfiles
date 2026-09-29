@@ -62,15 +62,18 @@ installer sets up mise, desktop apps, system preferences, and shared dotfiles.
 Homebrew itself is not required. Log out and back in for keyboard, mouse, and
 scrolling preferences to take effect.
 
-Caps Lock stays unmapped for macOS's native ABC/Japanese switching; the built-in
-keyboard's Globe/fn and Command mappings remain in place. Once per Mac, open
-**System Settings > Keyboard > Text Input > Edit**, add **ABC** and **Japanese**
-if needed, and enable **Use the Caps Lock key to switch to and from ABC** under
-**All Input Sources** (the label follows the last-used Latin input source).
+The installer enables macOS's native Caps Lock language switch with
+`NSGlobalDomain.TISRomanSwitchState = 1` and leaves Caps Lock unmapped. The
+built-in keyboard's Globe/fn and Command mappings remain in place. If missing,
+add **ABC** and **Japanese** in
+**System Settings > Keyboard > Text Input > Edit**. The switch appears under
+**All Input Sources** as **Use the Caps Lock key to switch to and from ABC**
+(the label follows the last-used Latin input source).
+No manual toggle is needed.
 Tap Caps Lock to switch; press and hold it for uppercase. See
 [Apple's input-source switching guide][macos-input-switching].
 Existing installations must reapply the configuration and log out and back in
-to remove the previous Caps Lock-to-Globe mapping.
+to activate the switch and remove the previous Caps Lock-to-Globe mapping.
 
 [macos-input-switching]: https://support.apple.com/guide/japanese-input-method/jpimf6ffb247/mac
 
