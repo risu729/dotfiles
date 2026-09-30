@@ -507,102 +507,102 @@ version = "0.23.5"
 backend = "cargo:eza"
 
 [[tools.claude]]
-version = "2.1.284"
+version = "2.1.285"
 backend = "aqua:anthropics/claude-code"
 
 [tools.claude."platforms.linux-arm64"]
-checksum = "sha256:671804ae4f461cf9508b39d676046724ec9fef0bf602e4f77471825d77eec2c7"
-url = "https://github.com/anthropics/claude-code/releases/download/v2.1.284/claude-linux-arm64.tar.gz"
-url_api = "https://api.github.com/repos/anthropics/claude-code/releases/assets/595943847"
+checksum = "sha256:39bd977cb57144ba41ad165e4cca540e9b4b58199df79dd96fa7002be7086923"
+url = "https://github.com/anthropics/claude-code/releases/download/v2.1.285/claude-linux-arm64.tar.gz"
+url_api = "https://api.github.com/repos/anthropics/claude-code/releases/assets/598796735"
 
 [tools.claude."platforms.linux-arm64-musl"]
-checksum = "sha256:56eb547e09f3a3b5d6f740991ce402ea4d123e176cd539e71cacef2a454741c6"
-url = "https://github.com/anthropics/claude-code/releases/download/v2.1.284/claude-linux-arm64-musl.tar.gz"
-url_api = "https://api.github.com/repos/anthropics/claude-code/releases/assets/595943848"
+checksum = "sha256:80bf3d397325d770f7d0b64a73ba92a1af85981f17b64be7b264648dbf4310ae"
+url = "https://github.com/anthropics/claude-code/releases/download/v2.1.285/claude-linux-arm64-musl.tar.gz"
+url_api = "https://api.github.com/repos/anthropics/claude-code/releases/assets/598796732"
 
 [tools.claude."platforms.linux-x64"]
-checksum = "sha256:3e143fd5753fda1d150dd081ff7c584d0eb5b85cc259729e5429957ed9de202e"
-url = "https://github.com/anthropics/claude-code/releases/download/v2.1.284/claude-linux-x64.tar.gz"
-url_api = "https://api.github.com/repos/anthropics/claude-code/releases/assets/595944060"
+checksum = "sha256:0cde844749a50c0f717a2b123d5771629d5c9a270c9203c81ac120a716444b36"
+url = "https://github.com/anthropics/claude-code/releases/download/v2.1.285/claude-linux-x64.tar.gz"
+url_api = "https://api.github.com/repos/anthropics/claude-code/releases/assets/598796905"
 
 [tools.claude."platforms.linux-x64-baseline"]
-checksum = "sha256:3e143fd5753fda1d150dd081ff7c584d0eb5b85cc259729e5429957ed9de202e"
-url = "https://github.com/anthropics/claude-code/releases/download/v2.1.284/claude-linux-x64.tar.gz"
-url_api = "https://api.github.com/repos/anthropics/claude-code/releases/assets/595944060"
+checksum = "sha256:0cde844749a50c0f717a2b123d5771629d5c9a270c9203c81ac120a716444b36"
+url = "https://github.com/anthropics/claude-code/releases/download/v2.1.285/claude-linux-x64.tar.gz"
+url_api = "https://api.github.com/repos/anthropics/claude-code/releases/assets/598796905"
 
 [tools.claude."platforms.linux-x64-musl"]
-checksum = "sha256:a076284b740390b7d8129315549fe91a732cc5ec8104d4264601bd2ab36b85a8"
-url = "https://github.com/anthropics/claude-code/releases/download/v2.1.284/claude-linux-x64-musl.tar.gz"
-url_api = "https://api.github.com/repos/anthropics/claude-code/releases/assets/595943850"
+checksum = "sha256:bf3633c8800377b67074dc200f6f45079644e34e416eb5735c2cd96b8cf8f4c6"
+url = "https://github.com/anthropics/claude-code/releases/download/v2.1.285/claude-linux-x64-musl.tar.gz"
+url_api = "https://api.github.com/repos/anthropics/claude-code/releases/assets/598796736"
 
 [tools.claude."platforms.linux-x64-musl-baseline"]
-checksum = "sha256:a076284b740390b7d8129315549fe91a732cc5ec8104d4264601bd2ab36b85a8"
-url = "https://github.com/anthropics/claude-code/releases/download/v2.1.284/claude-linux-x64-musl.tar.gz"
-url_api = "https://api.github.com/repos/anthropics/claude-code/releases/assets/595943850"
+checksum = "sha256:bf3633c8800377b67074dc200f6f45079644e34e416eb5735c2cd96b8cf8f4c6"
+url = "https://github.com/anthropics/claude-code/releases/download/v2.1.285/claude-linux-x64-musl.tar.gz"
+url_api = "https://api.github.com/repos/anthropics/claude-code/releases/assets/598796736"
 
 [tools.claude."platforms.macos-arm64"]
-checksum = "sha256:75603fec942fff2cbda25cfec94801402d029b4a7827b9875f64a7a326f46451"
-url = "https://github.com/anthropics/claude-code/releases/download/v2.1.284/claude-darwin-arm64.tar.gz"
-url_api = "https://api.github.com/repos/anthropics/claude-code/releases/assets/595943851"
+checksum = "sha256:3b1c9984a63193c7758b66c8769781428139935200c38e6462339cf4da463d78"
+url = "https://github.com/anthropics/claude-code/releases/download/v2.1.285/claude-darwin-arm64.tar.gz"
+url_api = "https://api.github.com/repos/anthropics/claude-code/releases/assets/598796737"
 
 [tools.claude."platforms.macos-x64"]
-checksum = "sha256:c0941fd6902dd6c7c9d2da7d71778e65bc9718aa496c1460e5b9b434a4651392"
-url = "https://github.com/anthropics/claude-code/releases/download/v2.1.284/claude-darwin-x64.tar.gz"
-url_api = "https://api.github.com/repos/anthropics/claude-code/releases/assets/595943853"
+checksum = "sha256:8cab1b4d2b6f3aeb4f4f5ed99f6fb4a51ef6198f4d8deffe6c4a835c4bdb5c09"
+url = "https://github.com/anthropics/claude-code/releases/download/v2.1.285/claude-darwin-x64.tar.gz"
+url_api = "https://api.github.com/repos/anthropics/claude-code/releases/assets/598796734"
 
 [tools.claude."platforms.macos-x64-baseline"]
-checksum = "sha256:c0941fd6902dd6c7c9d2da7d71778e65bc9718aa496c1460e5b9b434a4651392"
-url = "https://github.com/anthropics/claude-code/releases/download/v2.1.284/claude-darwin-x64.tar.gz"
-url_api = "https://api.github.com/repos/anthropics/claude-code/releases/assets/595943853"
+checksum = "sha256:8cab1b4d2b6f3aeb4f4f5ed99f6fb4a51ef6198f4d8deffe6c4a835c4bdb5c09"
+url = "https://github.com/anthropics/claude-code/releases/download/v2.1.285/claude-darwin-x64.tar.gz"
+url_api = "https://api.github.com/repos/anthropics/claude-code/releases/assets/598796734"
 
 [[tools.codex]]
-version = "0.159.0"
+version = "0.159.1"
 backend = "aqua:openai/codex"
 
 [tools.codex."platforms.linux-arm64"]
-checksum = "sha256:7399d2bf7618cc8d6845a8acdb2078106332861f7f30d36527e8f53208df89da"
-url = "https://github.com/openai/codex/releases/download/rust-v0.159.0/codex-package-aarch64-unknown-linux-musl.tar.gz"
-url_api = "https://api.github.com/repos/openai/codex/releases/assets/597639655"
+checksum = "sha256:63b3b5a4e76b4174d651d2d363ac028fdb4961ba47eca9946da3c35267999aec"
+url = "https://github.com/openai/codex/releases/download/rust-v0.159.1/codex-package-aarch64-unknown-linux-musl.tar.gz"
+url_api = "https://api.github.com/repos/openai/codex/releases/assets/599151423"
 
 [tools.codex."platforms.linux-arm64-musl"]
-checksum = "sha256:7399d2bf7618cc8d6845a8acdb2078106332861f7f30d36527e8f53208df89da"
-url = "https://github.com/openai/codex/releases/download/rust-v0.159.0/codex-package-aarch64-unknown-linux-musl.tar.gz"
-url_api = "https://api.github.com/repos/openai/codex/releases/assets/597639655"
+checksum = "sha256:63b3b5a4e76b4174d651d2d363ac028fdb4961ba47eca9946da3c35267999aec"
+url = "https://github.com/openai/codex/releases/download/rust-v0.159.1/codex-package-aarch64-unknown-linux-musl.tar.gz"
+url_api = "https://api.github.com/repos/openai/codex/releases/assets/599151423"
 
 [tools.codex."platforms.linux-x64"]
-checksum = "sha256:35da65d7e8644e28ea0a4d4e3d8c15b40c6b492356d4cf21986c7e341f83a24e"
-url = "https://github.com/openai/codex/releases/download/rust-v0.159.0/codex-package-x86_64-unknown-linux-musl.tar.gz"
-url_api = "https://api.github.com/repos/openai/codex/releases/assets/597628463"
+checksum = "sha256:9a2dff8e1eb9bad83f52edb6f91175efeb5c68a316f880c95d7770f87a34fc5c"
+url = "https://github.com/openai/codex/releases/download/rust-v0.159.1/codex-package-x86_64-unknown-linux-musl.tar.gz"
+url_api = "https://api.github.com/repos/openai/codex/releases/assets/599140838"
 
 [tools.codex."platforms.linux-x64-baseline"]
-checksum = "sha256:35da65d7e8644e28ea0a4d4e3d8c15b40c6b492356d4cf21986c7e341f83a24e"
-url = "https://github.com/openai/codex/releases/download/rust-v0.159.0/codex-package-x86_64-unknown-linux-musl.tar.gz"
-url_api = "https://api.github.com/repos/openai/codex/releases/assets/597628463"
+checksum = "sha256:9a2dff8e1eb9bad83f52edb6f91175efeb5c68a316f880c95d7770f87a34fc5c"
+url = "https://github.com/openai/codex/releases/download/rust-v0.159.1/codex-package-x86_64-unknown-linux-musl.tar.gz"
+url_api = "https://api.github.com/repos/openai/codex/releases/assets/599140838"
 
 [tools.codex."platforms.linux-x64-musl"]
-checksum = "sha256:35da65d7e8644e28ea0a4d4e3d8c15b40c6b492356d4cf21986c7e341f83a24e"
-url = "https://github.com/openai/codex/releases/download/rust-v0.159.0/codex-package-x86_64-unknown-linux-musl.tar.gz"
-url_api = "https://api.github.com/repos/openai/codex/releases/assets/597628463"
+checksum = "sha256:9a2dff8e1eb9bad83f52edb6f91175efeb5c68a316f880c95d7770f87a34fc5c"
+url = "https://github.com/openai/codex/releases/download/rust-v0.159.1/codex-package-x86_64-unknown-linux-musl.tar.gz"
+url_api = "https://api.github.com/repos/openai/codex/releases/assets/599140838"
 
 [tools.codex."platforms.linux-x64-musl-baseline"]
-checksum = "sha256:35da65d7e8644e28ea0a4d4e3d8c15b40c6b492356d4cf21986c7e341f83a24e"
-url = "https://github.com/openai/codex/releases/download/rust-v0.159.0/codex-package-x86_64-unknown-linux-musl.tar.gz"
-url_api = "https://api.github.com/repos/openai/codex/releases/assets/597628463"
+checksum = "sha256:9a2dff8e1eb9bad83f52edb6f91175efeb5c68a316f880c95d7770f87a34fc5c"
+url = "https://github.com/openai/codex/releases/download/rust-v0.159.1/codex-package-x86_64-unknown-linux-musl.tar.gz"
+url_api = "https://api.github.com/repos/openai/codex/releases/assets/599140838"
 
 [tools.codex."platforms.macos-arm64"]
-checksum = "sha256:7748d07d7921a67b91d015e9d0f43177c675977e67f955b2f8fb96dc880dd5d7"
-url = "https://github.com/openai/codex/releases/download/rust-v0.159.0/codex-package-aarch64-apple-darwin.tar.gz"
-url_api = "https://api.github.com/repos/openai/codex/releases/assets/597646117"
+checksum = "sha256:a8fc76ccb5230dd97fb6db01873fa9c12b5e1efdf32d13c2ba7f6e8489ccd893"
+url = "https://github.com/openai/codex/releases/download/rust-v0.159.1/codex-package-aarch64-apple-darwin.tar.gz"
+url_api = "https://api.github.com/repos/openai/codex/releases/assets/599157482"
 
 [tools.codex."platforms.macos-x64"]
-checksum = "sha256:ab64d30288454124c7c15abd81672a9dfda7e3e723d76c4cfa6c0aba4b439017"
-url = "https://github.com/openai/codex/releases/download/rust-v0.159.0/codex-package-x86_64-apple-darwin.tar.gz"
-url_api = "https://api.github.com/repos/openai/codex/releases/assets/597634435"
+checksum = "sha256:b8e8e6e403ed4357dfac2f2e5bba0f22df3e6a6962c68da792d6720a32e0842a"
+url = "https://github.com/openai/codex/releases/download/rust-v0.159.1/codex-package-x86_64-apple-darwin.tar.gz"
+url_api = "https://api.github.com/repos/openai/codex/releases/assets/599146813"
 
 [tools.codex."platforms.macos-x64-baseline"]
-checksum = "sha256:ab64d30288454124c7c15abd81672a9dfda7e3e723d76c4cfa6c0aba4b439017"
-url = "https://github.com/openai/codex/releases/download/rust-v0.159.0/codex-package-x86_64-apple-darwin.tar.gz"
-url_api = "https://api.github.com/repos/openai/codex/releases/assets/597634435"
+checksum = "sha256:b8e8e6e403ed4357dfac2f2e5bba0f22df3e6a6962c68da792d6720a32e0842a"
+url = "https://github.com/openai/codex/releases/download/rust-v0.159.1/codex-package-x86_64-apple-darwin.tar.gz"
+url_api = "https://api.github.com/repos/openai/codex/releases/assets/599146813"
 
 [[tools.delta]]
 version = "0.19.2"
@@ -1254,53 +1254,53 @@ url_api = "https://api.github.com/repos/hadolint/hadolint/releases/assets/496546
 provenance = "github-attestations"
 
 [[tools.herdr]]
-version = "0.9.2"
+version = "0.9.3"
 backend = "aqua:herdrdev/herdr"
 
 [tools.herdr."platforms.linux-arm64"]
-checksum = "sha256:50ba6fe8dde5ff35af6654082d7e1a4afcb58c9ff3d22bfcf9d41445c971fcc7"
-url = "https://github.com/herdrdev/herdr/releases/download/v0.9.2/herdr-linux-aarch64"
-url_api = "https://api.github.com/repos/herdrdev/herdr/releases/assets/598275579"
+checksum = "sha256:4de7aa3e25678812e92960de64f7c2aaa1bca1f0f80a3c5e559837e231e1f5c0"
+url = "https://github.com/herdrdev/herdr/releases/download/v0.9.3/herdr-linux-aarch64"
+url_api = "https://api.github.com/repos/herdrdev/herdr/releases/assets/599036386"
 
 [tools.herdr."platforms.linux-arm64-musl"]
-checksum = "sha256:50ba6fe8dde5ff35af6654082d7e1a4afcb58c9ff3d22bfcf9d41445c971fcc7"
-url = "https://github.com/herdrdev/herdr/releases/download/v0.9.2/herdr-linux-aarch64"
-url_api = "https://api.github.com/repos/herdrdev/herdr/releases/assets/598275579"
+checksum = "sha256:4de7aa3e25678812e92960de64f7c2aaa1bca1f0f80a3c5e559837e231e1f5c0"
+url = "https://github.com/herdrdev/herdr/releases/download/v0.9.3/herdr-linux-aarch64"
+url_api = "https://api.github.com/repos/herdrdev/herdr/releases/assets/599036386"
 
 [tools.herdr."platforms.linux-x64"]
-checksum = "sha256:74de34746f96236f76d599f8f5d2439f884351eabe25b7495e0edab75414064a"
-url = "https://github.com/herdrdev/herdr/releases/download/v0.9.2/herdr-linux-x86_64"
-url_api = "https://api.github.com/repos/herdrdev/herdr/releases/assets/598275563"
+checksum = "sha256:18a8dc65f1c2fa485884344356dea1cfd911c6f06cf46fa78e193f4087f4dba7"
+url = "https://github.com/herdrdev/herdr/releases/download/v0.9.3/herdr-linux-x86_64"
+url_api = "https://api.github.com/repos/herdrdev/herdr/releases/assets/599036383"
 
 [tools.herdr."platforms.linux-x64-baseline"]
-checksum = "sha256:74de34746f96236f76d599f8f5d2439f884351eabe25b7495e0edab75414064a"
-url = "https://github.com/herdrdev/herdr/releases/download/v0.9.2/herdr-linux-x86_64"
-url_api = "https://api.github.com/repos/herdrdev/herdr/releases/assets/598275563"
+checksum = "sha256:18a8dc65f1c2fa485884344356dea1cfd911c6f06cf46fa78e193f4087f4dba7"
+url = "https://github.com/herdrdev/herdr/releases/download/v0.9.3/herdr-linux-x86_64"
+url_api = "https://api.github.com/repos/herdrdev/herdr/releases/assets/599036383"
 
 [tools.herdr."platforms.linux-x64-musl"]
-checksum = "sha256:74de34746f96236f76d599f8f5d2439f884351eabe25b7495e0edab75414064a"
-url = "https://github.com/herdrdev/herdr/releases/download/v0.9.2/herdr-linux-x86_64"
-url_api = "https://api.github.com/repos/herdrdev/herdr/releases/assets/598275563"
+checksum = "sha256:18a8dc65f1c2fa485884344356dea1cfd911c6f06cf46fa78e193f4087f4dba7"
+url = "https://github.com/herdrdev/herdr/releases/download/v0.9.3/herdr-linux-x86_64"
+url_api = "https://api.github.com/repos/herdrdev/herdr/releases/assets/599036383"
 
 [tools.herdr."platforms.linux-x64-musl-baseline"]
-checksum = "sha256:74de34746f96236f76d599f8f5d2439f884351eabe25b7495e0edab75414064a"
-url = "https://github.com/herdrdev/herdr/releases/download/v0.9.2/herdr-linux-x86_64"
-url_api = "https://api.github.com/repos/herdrdev/herdr/releases/assets/598275563"
+checksum = "sha256:18a8dc65f1c2fa485884344356dea1cfd911c6f06cf46fa78e193f4087f4dba7"
+url = "https://github.com/herdrdev/herdr/releases/download/v0.9.3/herdr-linux-x86_64"
+url_api = "https://api.github.com/repos/herdrdev/herdr/releases/assets/599036383"
 
 [tools.herdr."platforms.macos-arm64"]
-checksum = "sha256:e5dae9c7d93010968897de10c6e9ea2aacb14965f7b9e3b3d061dba82d2a1944"
-url = "https://github.com/herdrdev/herdr/releases/download/v0.9.2/herdr-macos-aarch64"
-url_api = "https://api.github.com/repos/herdrdev/herdr/releases/assets/598275558"
+checksum = "sha256:5173a3e0ae42d5d1ab7ebfa5d5e6329f7c3d23f8e1a3677c7ce3231da2884157"
+url = "https://github.com/herdrdev/herdr/releases/download/v0.9.3/herdr-macos-aarch64"
+url_api = "https://api.github.com/repos/herdrdev/herdr/releases/assets/599036381"
 
 [tools.herdr."platforms.macos-x64"]
-checksum = "sha256:665b7f7aee96bfdd34ff46c111599170ceee68d860c9fe9ea17cd5f9a80bdc43"
-url = "https://github.com/herdrdev/herdr/releases/download/v0.9.2/herdr-macos-x86_64"
-url_api = "https://api.github.com/repos/herdrdev/herdr/releases/assets/598275564"
+checksum = "sha256:db62d548ff3e832b087a96b1894a08d26be3905f1830309cd556783f215d4054"
+url = "https://github.com/herdrdev/herdr/releases/download/v0.9.3/herdr-macos-x86_64"
+url_api = "https://api.github.com/repos/herdrdev/herdr/releases/assets/599036385"
 
 [tools.herdr."platforms.macos-x64-baseline"]
-checksum = "sha256:665b7f7aee96bfdd34ff46c111599170ceee68d860c9fe9ea17cd5f9a80bdc43"
-url = "https://github.com/herdrdev/herdr/releases/download/v0.9.2/herdr-macos-x86_64"
-url_api = "https://api.github.com/repos/herdrdev/herdr/releases/assets/598275564"
+checksum = "sha256:db62d548ff3e832b087a96b1894a08d26be3905f1830309cd556783f215d4054"
+url = "https://github.com/herdrdev/herdr/releases/download/v0.9.3/herdr-macos-x86_64"
+url_api = "https://api.github.com/repos/herdrdev/herdr/releases/assets/599036385"
 
 [[tools.hk]]
 version = "2.4.0"
@@ -1858,42 +1858,42 @@ version = "12.2.3"
 backend = "pypi:mitmproxy"
 
 [[tools.mr-boxington]]
-version = "1.20.0"
+version = "1.21.0"
 backend = "packslip:github.com/jdx/mr-boxington"
 
 [tools.mr-boxington."platforms.linux-arm64"]
-checksum = "sha256:ce9f353547ea3e71642b44726a6d7ee503fabb93380176ada644a6e5eb8e6809"
-url = "https://github.com/jdx/mr-boxington/releases/download/v1.20.0/mbx-aarch64-unknown-linux-gnu.tar.gz"
+checksum = "sha256:8a29bf0682d31767405cd606e7153385d8d3ec8b498bf089e554375a8842de3c"
+url = "https://github.com/jdx/mr-boxington/releases/download/v1.21.0/mbx-aarch64-unknown-linux-gnu.tar.gz"
 signer = "sigstore-oidc:https://github.com/jdx/mr-boxington/.github/workflows/release.yml"
 
 [tools.mr-boxington."platforms.linux-arm64-musl"]
-checksum = "sha256:2d91c8c06d912a53a3f56512326a65eadbad5e70b34c28ceed8ec0e923bdfdc1"
-url = "https://github.com/jdx/mr-boxington/releases/download/v1.20.0/mbx-aarch64-unknown-linux-musl.tar.gz"
+checksum = "sha256:107f86955f8323ea96ca90ca2d06d49b9b1b99789dd8007f71f9c59bb17bb6d7"
+url = "https://github.com/jdx/mr-boxington/releases/download/v1.21.0/mbx-aarch64-unknown-linux-musl.tar.gz"
 signer = "sigstore-oidc:https://github.com/jdx/mr-boxington/.github/workflows/release.yml"
 
 [tools.mr-boxington."platforms.linux-x64"]
-checksum = "sha256:f3537f6a2a7d3eaef5840fcd0bfccb108941f7a7ab395ec82914fd99c91ff357"
-url = "https://github.com/jdx/mr-boxington/releases/download/v1.20.0/mbx-x86_64-unknown-linux-gnu.tar.gz"
+checksum = "sha256:1ed3fd18da0decc106a6242d1b724e6a4b8d0f6173b8abe4d4d68c929ed47120"
+url = "https://github.com/jdx/mr-boxington/releases/download/v1.21.0/mbx-x86_64-unknown-linux-gnu.tar.gz"
 signer = "sigstore-oidc:https://github.com/jdx/mr-boxington/.github/workflows/release.yml"
 
 [tools.mr-boxington."platforms.linux-x64-baseline"]
-checksum = "sha256:f3537f6a2a7d3eaef5840fcd0bfccb108941f7a7ab395ec82914fd99c91ff357"
-url = "https://github.com/jdx/mr-boxington/releases/download/v1.20.0/mbx-x86_64-unknown-linux-gnu.tar.gz"
+checksum = "sha256:1ed3fd18da0decc106a6242d1b724e6a4b8d0f6173b8abe4d4d68c929ed47120"
+url = "https://github.com/jdx/mr-boxington/releases/download/v1.21.0/mbx-x86_64-unknown-linux-gnu.tar.gz"
 signer = "sigstore-oidc:https://github.com/jdx/mr-boxington/.github/workflows/release.yml"
 
 [tools.mr-boxington."platforms.linux-x64-musl"]
-checksum = "sha256:c9dbbde6105aa852bcf3b8df616243225b14099ccdafd0923f6d7d181d55c93f"
-url = "https://github.com/jdx/mr-boxington/releases/download/v1.20.0/mbx-x86_64-unknown-linux-musl.tar.gz"
+checksum = "sha256:5225a3b77f90e1cd3d1ef0d1054ccd4593ae19b2c98b815af1b82a4dfed0f97b"
+url = "https://github.com/jdx/mr-boxington/releases/download/v1.21.0/mbx-x86_64-unknown-linux-musl.tar.gz"
 signer = "sigstore-oidc:https://github.com/jdx/mr-boxington/.github/workflows/release.yml"
 
 [tools.mr-boxington."platforms.linux-x64-musl-baseline"]
-checksum = "sha256:c9dbbde6105aa852bcf3b8df616243225b14099ccdafd0923f6d7d181d55c93f"
-url = "https://github.com/jdx/mr-boxington/releases/download/v1.20.0/mbx-x86_64-unknown-linux-musl.tar.gz"
+checksum = "sha256:5225a3b77f90e1cd3d1ef0d1054ccd4593ae19b2c98b815af1b82a4dfed0f97b"
+url = "https://github.com/jdx/mr-boxington/releases/download/v1.21.0/mbx-x86_64-unknown-linux-musl.tar.gz"
 signer = "sigstore-oidc:https://github.com/jdx/mr-boxington/.github/workflows/release.yml"
 
 [tools.mr-boxington."platforms.macos-arm64"]
-checksum = "sha256:0b4b12d09dd4cc4571a53472823dd04a987d0105e162ed2d383d73e22f17a602"
-url = "https://github.com/jdx/mr-boxington/releases/download/v1.20.0/mbx-aarch64-apple-darwin.tar.gz"
+checksum = "sha256:4aa9da108e90c6c269819fed8e822a42f5101260961cd511999facd5726cf9d9"
+url = "https://github.com/jdx/mr-boxington/releases/download/v1.21.0/mbx-aarch64-apple-darwin.tar.gz"
 signer = "sigstore-oidc:https://github.com/jdx/mr-boxington/.github/workflows/release.yml"
 
 [[tools.node]]
@@ -2132,53 +2132,53 @@ url_api = "https://api.github.com/repos/suzuki-shunsuke/pinact/releases/assets/5
 provenance = "github-attestations"
 
 [[tools.pipx]]
-version = "1.17.7"
+version = "1.17.8"
 backend = "aqua:pypa/pipx"
 
 [tools.pipx."platforms.linux-arm64"]
-checksum = "sha256:5ef25e79e3806899f384ade7ca60fa6bd11c906de1f33f2b95bef03980c08ba3"
-url = "https://github.com/pypa/pipx/releases/download/1.17.7/pipx.pyz"
-url_api = "https://api.github.com/repos/pypa/pipx/releases/assets/594578880"
+checksum = "sha256:a5827798e78767c7f83c7261400e3521a68c18cae9f6635ad7fe739290cb3e87"
+url = "https://github.com/pypa/pipx/releases/download/1.17.8/pipx.pyz"
+url_api = "https://api.github.com/repos/pypa/pipx/releases/assets/598951216"
 
 [tools.pipx."platforms.linux-arm64-musl"]
-checksum = "sha256:5ef25e79e3806899f384ade7ca60fa6bd11c906de1f33f2b95bef03980c08ba3"
-url = "https://github.com/pypa/pipx/releases/download/1.17.7/pipx.pyz"
-url_api = "https://api.github.com/repos/pypa/pipx/releases/assets/594578880"
+checksum = "sha256:a5827798e78767c7f83c7261400e3521a68c18cae9f6635ad7fe739290cb3e87"
+url = "https://github.com/pypa/pipx/releases/download/1.17.8/pipx.pyz"
+url_api = "https://api.github.com/repos/pypa/pipx/releases/assets/598951216"
 
 [tools.pipx."platforms.linux-x64"]
-checksum = "sha256:5ef25e79e3806899f384ade7ca60fa6bd11c906de1f33f2b95bef03980c08ba3"
-url = "https://github.com/pypa/pipx/releases/download/1.17.7/pipx.pyz"
-url_api = "https://api.github.com/repos/pypa/pipx/releases/assets/594578880"
+checksum = "sha256:a5827798e78767c7f83c7261400e3521a68c18cae9f6635ad7fe739290cb3e87"
+url = "https://github.com/pypa/pipx/releases/download/1.17.8/pipx.pyz"
+url_api = "https://api.github.com/repos/pypa/pipx/releases/assets/598951216"
 
 [tools.pipx."platforms.linux-x64-baseline"]
-checksum = "sha256:5ef25e79e3806899f384ade7ca60fa6bd11c906de1f33f2b95bef03980c08ba3"
-url = "https://github.com/pypa/pipx/releases/download/1.17.7/pipx.pyz"
-url_api = "https://api.github.com/repos/pypa/pipx/releases/assets/594578880"
+checksum = "sha256:a5827798e78767c7f83c7261400e3521a68c18cae9f6635ad7fe739290cb3e87"
+url = "https://github.com/pypa/pipx/releases/download/1.17.8/pipx.pyz"
+url_api = "https://api.github.com/repos/pypa/pipx/releases/assets/598951216"
 
 [tools.pipx."platforms.linux-x64-musl"]
-checksum = "sha256:5ef25e79e3806899f384ade7ca60fa6bd11c906de1f33f2b95bef03980c08ba3"
-url = "https://github.com/pypa/pipx/releases/download/1.17.7/pipx.pyz"
-url_api = "https://api.github.com/repos/pypa/pipx/releases/assets/594578880"
+checksum = "sha256:a5827798e78767c7f83c7261400e3521a68c18cae9f6635ad7fe739290cb3e87"
+url = "https://github.com/pypa/pipx/releases/download/1.17.8/pipx.pyz"
+url_api = "https://api.github.com/repos/pypa/pipx/releases/assets/598951216"
 
 [tools.pipx."platforms.linux-x64-musl-baseline"]
-checksum = "sha256:5ef25e79e3806899f384ade7ca60fa6bd11c906de1f33f2b95bef03980c08ba3"
-url = "https://github.com/pypa/pipx/releases/download/1.17.7/pipx.pyz"
-url_api = "https://api.github.com/repos/pypa/pipx/releases/assets/594578880"
+checksum = "sha256:a5827798e78767c7f83c7261400e3521a68c18cae9f6635ad7fe739290cb3e87"
+url = "https://github.com/pypa/pipx/releases/download/1.17.8/pipx.pyz"
+url_api = "https://api.github.com/repos/pypa/pipx/releases/assets/598951216"
 
 [tools.pipx."platforms.macos-arm64"]
-checksum = "sha256:5ef25e79e3806899f384ade7ca60fa6bd11c906de1f33f2b95bef03980c08ba3"
-url = "https://github.com/pypa/pipx/releases/download/1.17.7/pipx.pyz"
-url_api = "https://api.github.com/repos/pypa/pipx/releases/assets/594578880"
+checksum = "sha256:a5827798e78767c7f83c7261400e3521a68c18cae9f6635ad7fe739290cb3e87"
+url = "https://github.com/pypa/pipx/releases/download/1.17.8/pipx.pyz"
+url_api = "https://api.github.com/repos/pypa/pipx/releases/assets/598951216"
 
 [tools.pipx."platforms.macos-x64"]
-checksum = "sha256:5ef25e79e3806899f384ade7ca60fa6bd11c906de1f33f2b95bef03980c08ba3"
-url = "https://github.com/pypa/pipx/releases/download/1.17.7/pipx.pyz"
-url_api = "https://api.github.com/repos/pypa/pipx/releases/assets/594578880"
+checksum = "sha256:a5827798e78767c7f83c7261400e3521a68c18cae9f6635ad7fe739290cb3e87"
+url = "https://github.com/pypa/pipx/releases/download/1.17.8/pipx.pyz"
+url_api = "https://api.github.com/repos/pypa/pipx/releases/assets/598951216"
 
 [tools.pipx."platforms.macos-x64-baseline"]
-checksum = "sha256:5ef25e79e3806899f384ade7ca60fa6bd11c906de1f33f2b95bef03980c08ba3"
-url = "https://github.com/pypa/pipx/releases/download/1.17.7/pipx.pyz"
-url_api = "https://api.github.com/repos/pypa/pipx/releases/assets/594578880"
+checksum = "sha256:a5827798e78767c7f83c7261400e3521a68c18cae9f6635ad7fe739290cb3e87"
+url = "https://github.com/pypa/pipx/releases/download/1.17.8/pipx.pyz"
+url_api = "https://api.github.com/repos/pypa/pipx/releases/assets/598951216"
 
 [[tools."pipx:markitdown"]]
 version = "0.1.8"
