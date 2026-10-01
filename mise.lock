@@ -35,33 +35,33 @@ url_api = "https://api.github.com/repos/rhysd/actionlint/releases/assets/3849248
 provenance = "github-attestations"
 
 [[tools.aube]]
-version = "2.4.0"
+version = "2.6.1"
 backend = "packslip:github.com/aubepkg/aube"
 
 [tools.aube."platforms.linux-x64"]
-checksum = "sha256:7896047bcbf2b21bc278c0a766d6d8a200ca1e4a37d261552e7e97788be0d3d5"
-url = "https://github.com/aubepkg/aube/releases/download/v2.4.0/aube-v2.4.0-x86_64-unknown-linux-gnu.tar.gz"
-signer = "sigstore-oidc:https://github.com/aubepkg/aube/.github/workflows/release-plz.yml"
+checksum = "sha256:364b4cf201970cd5c943390dd3e736b4256b14a0ac52d304f8fb4acfd6a1fbd3"
+url = "https://github.com/aubepkg/aube/releases/download/v2.6.1/aube-v2.6.1-x86_64-unknown-linux-gnu.tar.gz"
+signer = "sigstore-oidc:https://github.com/aubepkg/aube/.github/workflows/release.yml"
 
 [tools.aube."platforms.linux-x64-baseline"]
-checksum = "sha256:7896047bcbf2b21bc278c0a766d6d8a200ca1e4a37d261552e7e97788be0d3d5"
-url = "https://github.com/aubepkg/aube/releases/download/v2.4.0/aube-v2.4.0-x86_64-unknown-linux-gnu.tar.gz"
-signer = "sigstore-oidc:https://github.com/aubepkg/aube/.github/workflows/release-plz.yml"
+checksum = "sha256:364b4cf201970cd5c943390dd3e736b4256b14a0ac52d304f8fb4acfd6a1fbd3"
+url = "https://github.com/aubepkg/aube/releases/download/v2.6.1/aube-v2.6.1-x86_64-unknown-linux-gnu.tar.gz"
+signer = "sigstore-oidc:https://github.com/aubepkg/aube/.github/workflows/release.yml"
 
 [tools.aube."platforms.linux-x64-musl"]
-checksum = "sha256:69aef2a7cec0f2bcb88504bf06c418c788f47cf11d8830c831bb42cbf6e156c8"
-url = "https://github.com/aubepkg/aube/releases/download/v2.4.0/aube-v2.4.0-x86_64-unknown-linux-musl.tar.gz"
-signer = "sigstore-oidc:https://github.com/aubepkg/aube/.github/workflows/release-plz.yml"
+checksum = "sha256:d69ab74a5e21f4dcaf5a41899a623114d6df77c11a170089ade86348bbc2b234"
+url = "https://github.com/aubepkg/aube/releases/download/v2.6.1/aube-v2.6.1-x86_64-unknown-linux-musl.tar.gz"
+signer = "sigstore-oidc:https://github.com/aubepkg/aube/.github/workflows/release.yml"
 
 [tools.aube."platforms.linux-x64-musl-baseline"]
-checksum = "sha256:69aef2a7cec0f2bcb88504bf06c418c788f47cf11d8830c831bb42cbf6e156c8"
-url = "https://github.com/aubepkg/aube/releases/download/v2.4.0/aube-v2.4.0-x86_64-unknown-linux-musl.tar.gz"
-signer = "sigstore-oidc:https://github.com/aubepkg/aube/.github/workflows/release-plz.yml"
+checksum = "sha256:d69ab74a5e21f4dcaf5a41899a623114d6df77c11a170089ade86348bbc2b234"
+url = "https://github.com/aubepkg/aube/releases/download/v2.6.1/aube-v2.6.1-x86_64-unknown-linux-musl.tar.gz"
+signer = "sigstore-oidc:https://github.com/aubepkg/aube/.github/workflows/release.yml"
 
 [tools.aube."platforms.macos-arm64"]
-checksum = "sha256:93c782fa74a5558c8f67d43b15b1db85598b61df84faf19ba8e72698e38ef9b1"
-url = "https://github.com/aubepkg/aube/releases/download/v2.4.0/aube-v2.4.0-aarch64-apple-darwin.tar.gz"
-signer = "sigstore-oidc:https://github.com/aubepkg/aube/.github/workflows/release-plz.yml"
+checksum = "sha256:a36856db187dd8f2c3cbf651de1384a2d0748d7cc5507671e6ec02751f00c032"
+url = "https://github.com/aubepkg/aube/releases/download/v2.6.1/aube-v2.6.1-aarch64-apple-darwin.tar.gz"
+signer = "sigstore-oidc:https://github.com/aubepkg/aube/.github/workflows/release.yml"
 
 [[tools.bats]]
 version = "1.14.0"
