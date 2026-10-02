@@ -127,11 +127,23 @@ backend = "aqua:siketyan/ghr"
 url = "https://github.com/siketyan/ghr/releases/download/v0.4.5/ghr-aarch64-unknown-linux-gnu.tar.gz"
 url_api = "https://api.github.com/repos/siketyan/ghr/releases/assets/235741476"
 
+[tools."aqua:siketyan/ghr"."platforms.linux-arm64-musl"]
+url = "https://github.com/siketyan/ghr/releases/download/v0.4.5/ghr-aarch64-unknown-linux-gnu.tar.gz"
+url_api = "https://api.github.com/repos/siketyan/ghr/releases/assets/235741476"
+
 [tools."aqua:siketyan/ghr"."platforms.linux-x64"]
 url = "https://github.com/siketyan/ghr/releases/download/v0.4.5/ghr-x86_64-unknown-linux-gnu.tar.gz"
 url_api = "https://api.github.com/repos/siketyan/ghr/releases/assets/235741426"
 
 [tools."aqua:siketyan/ghr"."platforms.linux-x64-baseline"]
+url = "https://github.com/siketyan/ghr/releases/download/v0.4.5/ghr-x86_64-unknown-linux-gnu.tar.gz"
+url_api = "https://api.github.com/repos/siketyan/ghr/releases/assets/235741426"
+
+[tools."aqua:siketyan/ghr"."platforms.linux-x64-musl"]
+url = "https://github.com/siketyan/ghr/releases/download/v0.4.5/ghr-x86_64-unknown-linux-gnu.tar.gz"
+url_api = "https://api.github.com/repos/siketyan/ghr/releases/assets/235741426"
+
+[tools."aqua:siketyan/ghr"."platforms.linux-x64-musl-baseline"]
 url = "https://github.com/siketyan/ghr/releases/download/v0.4.5/ghr-x86_64-unknown-linux-gnu.tar.gz"
 url_api = "https://api.github.com/repos/siketyan/ghr/releases/assets/235741426"
 
@@ -323,9 +335,9 @@ url_api = "https://api.github.com/repos/biomejs/biome/releases/assets/601227632"
 provenance = "github-attestations"
 
 [tools.biome."platforms.linux-arm64-musl"]
-checksum = "sha256:195d4525282d2b877357ba8377545061e342808da37997051153708c7b5326fa"
-url = "https://github.com/biomejs/biome/releases/download/%40biomejs/biome%402.5.15/biome-linux-arm64-musl"
-url_api = "https://api.github.com/repos/biomejs/biome/releases/assets/601227635"
+checksum = "sha256:a56bcd73ddbfdb0f57a82bb67b7ea698eed4027aff602b95aa18fafe919d59e0"
+url = "https://github.com/biomejs/biome/releases/download/%40biomejs/biome%402.5.15/biome-linux-arm64"
+url_api = "https://api.github.com/repos/biomejs/biome/releases/assets/601227632"
 provenance = "github-attestations"
 
 [tools.biome."platforms.linux-x64"]
@@ -341,15 +353,15 @@ url_api = "https://api.github.com/repos/biomejs/biome/releases/assets/601227626"
 provenance = "github-attestations"
 
 [tools.biome."platforms.linux-x64-musl"]
-checksum = "sha256:42b6fd3662fc1fc3075a370414478aa3ed82fd43d28430bbfb81ebd02cbde656"
-url = "https://github.com/biomejs/biome/releases/download/%40biomejs/biome%402.5.15/biome-linux-x64-musl"
-url_api = "https://api.github.com/repos/biomejs/biome/releases/assets/601227631"
+checksum = "sha256:5d867a0b2ccea1755b7e508b01d836a8c64e31a1e4d11ec24b43b6b4eec8b3b6"
+url = "https://github.com/biomejs/biome/releases/download/%40biomejs/biome%402.5.15/biome-linux-x64"
+url_api = "https://api.github.com/repos/biomejs/biome/releases/assets/601227626"
 provenance = "github-attestations"
 
 [tools.biome."platforms.linux-x64-musl-baseline"]
-checksum = "sha256:42b6fd3662fc1fc3075a370414478aa3ed82fd43d28430bbfb81ebd02cbde656"
-url = "https://github.com/biomejs/biome/releases/download/%40biomejs/biome%402.5.15/biome-linux-x64-musl"
-url_api = "https://api.github.com/repos/biomejs/biome/releases/assets/601227631"
+checksum = "sha256:5d867a0b2ccea1755b7e508b01d836a8c64e31a1e4d11ec24b43b6b4eec8b3b6"
+url = "https://github.com/biomejs/biome/releases/download/%40biomejs/biome%402.5.15/biome-linux-x64"
+url_api = "https://api.github.com/repos/biomejs/biome/releases/assets/601227626"
 provenance = "github-attestations"
 
 [tools.biome."platforms.macos-arm64"]
@@ -609,6 +621,11 @@ version = "0.19.2"
 backend = "aqua:dandavison/delta"
 
 [tools.delta."platforms.linux-arm64"]
+checksum = "sha256:0bfce159a5cddd5feb3d6db4a616d883ff51253ce08ac7ec11cb1d208cfaab9e"
+url = "https://github.com/dandavison/delta/releases/download/0.19.2/delta-0.19.2-aarch64-unknown-linux-gnu.tar.gz"
+url_api = "https://api.github.com/repos/dandavison/delta/releases/assets/383662337"
+
+[tools.delta."platforms.linux-arm64-musl"]
 checksum = "sha256:0bfce159a5cddd5feb3d6db4a616d883ff51253ce08ac7ec11cb1d208cfaab9e"
 url = "https://github.com/dandavison/delta/releases/download/0.19.2/delta-0.19.2-aarch64-unknown-linux-gnu.tar.gz"
 url_api = "https://api.github.com/repos/dandavison/delta/releases/assets/383662337"
@@ -2132,53 +2149,53 @@ url_api = "https://api.github.com/repos/suzuki-shunsuke/pinact/releases/assets/5
 provenance = "github-attestations"
 
 [[tools.pipx]]
-version = "1.17.8"
+version = "1.17.9"
 backend = "aqua:pypa/pipx"
 
 [tools.pipx."platforms.linux-arm64"]
-checksum = "sha256:a5827798e78767c7f83c7261400e3521a68c18cae9f6635ad7fe739290cb3e87"
-url = "https://github.com/pypa/pipx/releases/download/1.17.8/pipx.pyz"
-url_api = "https://api.github.com/repos/pypa/pipx/releases/assets/598951216"
+checksum = "sha256:fdeb4c8fa0205d2a1d7feaee37ea50e5171077225bcd02d7375c19692d57e5e6"
+url = "https://github.com/pypa/pipx/releases/download/1.17.9/pipx.pyz"
+url_api = "https://api.github.com/repos/pypa/pipx/releases/assets/604357373"
 
 [tools.pipx."platforms.linux-arm64-musl"]
-checksum = "sha256:a5827798e78767c7f83c7261400e3521a68c18cae9f6635ad7fe739290cb3e87"
-url = "https://github.com/pypa/pipx/releases/download/1.17.8/pipx.pyz"
-url_api = "https://api.github.com/repos/pypa/pipx/releases/assets/598951216"
+checksum = "sha256:fdeb4c8fa0205d2a1d7feaee37ea50e5171077225bcd02d7375c19692d57e5e6"
+url = "https://github.com/pypa/pipx/releases/download/1.17.9/pipx.pyz"
+url_api = "https://api.github.com/repos/pypa/pipx/releases/assets/604357373"
 
 [tools.pipx."platforms.linux-x64"]
-checksum = "sha256:a5827798e78767c7f83c7261400e3521a68c18cae9f6635ad7fe739290cb3e87"
-url = "https://github.com/pypa/pipx/releases/download/1.17.8/pipx.pyz"
-url_api = "https://api.github.com/repos/pypa/pipx/releases/assets/598951216"
+checksum = "sha256:fdeb4c8fa0205d2a1d7feaee37ea50e5171077225bcd02d7375c19692d57e5e6"
+url = "https://github.com/pypa/pipx/releases/download/1.17.9/pipx.pyz"
+url_api = "https://api.github.com/repos/pypa/pipx/releases/assets/604357373"
 
 [tools.pipx."platforms.linux-x64-baseline"]
-checksum = "sha256:a5827798e78767c7f83c7261400e3521a68c18cae9f6635ad7fe739290cb3e87"
-url = "https://github.com/pypa/pipx/releases/download/1.17.8/pipx.pyz"
-url_api = "https://api.github.com/repos/pypa/pipx/releases/assets/598951216"
+checksum = "sha256:fdeb4c8fa0205d2a1d7feaee37ea50e5171077225bcd02d7375c19692d57e5e6"
+url = "https://github.com/pypa/pipx/releases/download/1.17.9/pipx.pyz"
+url_api = "https://api.github.com/repos/pypa/pipx/releases/assets/604357373"
 
 [tools.pipx."platforms.linux-x64-musl"]
-checksum = "sha256:a5827798e78767c7f83c7261400e3521a68c18cae9f6635ad7fe739290cb3e87"
-url = "https://github.com/pypa/pipx/releases/download/1.17.8/pipx.pyz"
-url_api = "https://api.github.com/repos/pypa/pipx/releases/assets/598951216"
+checksum = "sha256:fdeb4c8fa0205d2a1d7feaee37ea50e5171077225bcd02d7375c19692d57e5e6"
+url = "https://github.com/pypa/pipx/releases/download/1.17.9/pipx.pyz"
+url_api = "https://api.github.com/repos/pypa/pipx/releases/assets/604357373"
 
 [tools.pipx."platforms.linux-x64-musl-baseline"]
-checksum = "sha256:a5827798e78767c7f83c7261400e3521a68c18cae9f6635ad7fe739290cb3e87"
-url = "https://github.com/pypa/pipx/releases/download/1.17.8/pipx.pyz"
-url_api = "https://api.github.com/repos/pypa/pipx/releases/assets/598951216"
+checksum = "sha256:fdeb4c8fa0205d2a1d7feaee37ea50e5171077225bcd02d7375c19692d57e5e6"
+url = "https://github.com/pypa/pipx/releases/download/1.17.9/pipx.pyz"
+url_api = "https://api.github.com/repos/pypa/pipx/releases/assets/604357373"
 
 [tools.pipx."platforms.macos-arm64"]
-checksum = "sha256:a5827798e78767c7f83c7261400e3521a68c18cae9f6635ad7fe739290cb3e87"
-url = "https://github.com/pypa/pipx/releases/download/1.17.8/pipx.pyz"
-url_api = "https://api.github.com/repos/pypa/pipx/releases/assets/598951216"
+checksum = "sha256:fdeb4c8fa0205d2a1d7feaee37ea50e5171077225bcd02d7375c19692d57e5e6"
+url = "https://github.com/pypa/pipx/releases/download/1.17.9/pipx.pyz"
+url_api = "https://api.github.com/repos/pypa/pipx/releases/assets/604357373"
 
 [tools.pipx."platforms.macos-x64"]
-checksum = "sha256:a5827798e78767c7f83c7261400e3521a68c18cae9f6635ad7fe739290cb3e87"
-url = "https://github.com/pypa/pipx/releases/download/1.17.8/pipx.pyz"
-url_api = "https://api.github.com/repos/pypa/pipx/releases/assets/598951216"
+checksum = "sha256:fdeb4c8fa0205d2a1d7feaee37ea50e5171077225bcd02d7375c19692d57e5e6"
+url = "https://github.com/pypa/pipx/releases/download/1.17.9/pipx.pyz"
+url_api = "https://api.github.com/repos/pypa/pipx/releases/assets/604357373"
 
 [tools.pipx."platforms.macos-x64-baseline"]
-checksum = "sha256:a5827798e78767c7f83c7261400e3521a68c18cae9f6635ad7fe739290cb3e87"
-url = "https://github.com/pypa/pipx/releases/download/1.17.8/pipx.pyz"
-url_api = "https://api.github.com/repos/pypa/pipx/releases/assets/598951216"
+checksum = "sha256:fdeb4c8fa0205d2a1d7feaee37ea50e5171077225bcd02d7375c19692d57e5e6"
+url = "https://github.com/pypa/pipx/releases/download/1.17.9/pipx.pyz"
+url_api = "https://api.github.com/repos/pypa/pipx/releases/assets/604357373"
 
 [[tools."pipx:markitdown"]]
 version = "0.1.8"
@@ -2381,9 +2398,9 @@ url = "https://github.com/BurntSushi/ripgrep/releases/download/15.2.0/ripgrep-15
 url_api = "https://api.github.com/repos/BurntSushi/ripgrep/releases/assets/478119579"
 
 [tools.ripgrep."platforms.linux-arm64-musl"]
-checksum = "sha256:800b1e7206afe799dfb5a6901f23147cfaabe0e52210538100f61e86e1740915"
-url = "https://github.com/BurntSushi/ripgrep/releases/download/15.2.0/ripgrep-15.2.0-aarch64-unknown-linux-musl.tar.gz"
-url_api = "https://api.github.com/repos/BurntSushi/ripgrep/releases/assets/478120060"
+checksum = "sha256:a740b91c82eaf9914cfedd353572f2791cbe0162c84101ee0951058f4dcbc90d"
+url = "https://github.com/BurntSushi/ripgrep/releases/download/15.2.0/ripgrep-15.2.0-aarch64-unknown-linux-gnu.tar.gz"
+url_api = "https://api.github.com/repos/BurntSushi/ripgrep/releases/assets/478119579"
 
 [tools.ripgrep."platforms.linux-x64"]
 checksum = "sha256:33e15bcf1624b25cdd2a55813a47a2f95dbe126268203e76aa6a585d1e7b149c"
@@ -2759,61 +2776,61 @@ url = "https://github.com/jdx/usage/releases/download/v6.12.0/usage-universal-ap
 signer = "sigstore-oidc:https://github.com/jdx/usage/.github/workflows/publish-cli.yml"
 
 [[tools.uv]]
-version = "0.12.21"
+version = "0.12.22"
 backend = "aqua:astral-sh/uv"
 
 [tools.uv."platforms.linux-arm64"]
-checksum = "sha256:030b69227b40af8c1981b7301793dc66e71ed3c796ea8688209dd268bd91ec51"
-url = "https://github.com/astral-sh/uv/releases/download/0.12.21/uv-aarch64-unknown-linux-gnu.tar.gz"
-url_api = "https://api.github.com/repos/astral-sh/uv/releases/assets/599237845"
+checksum = "sha256:6f66a14e8239871fb477f9746c941fedfa77e8fe28a8bc7c07e1dc7f53a66712"
+url = "https://github.com/astral-sh/uv/releases/download/0.12.22/uv-aarch64-unknown-linux-gnu.tar.gz"
+url_api = "https://api.github.com/repos/astral-sh/uv/releases/assets/604418317"
 provenance = "github-attestations"
 
 [tools.uv."platforms.linux-arm64-musl"]
-checksum = "sha256:67389a674e62adffa5a395d9a3b80688731c4aa7b33a6def3e62d00f7fec821f"
-url = "https://github.com/astral-sh/uv/releases/download/0.12.21/uv-aarch64-unknown-linux-musl.tar.gz"
-url_api = "https://api.github.com/repos/astral-sh/uv/releases/assets/599237864"
+checksum = "sha256:228bd32c180421a94eef91378a92b2dd63c768bd278430e833250524c4a13382"
+url = "https://github.com/astral-sh/uv/releases/download/0.12.22/uv-aarch64-unknown-linux-musl.tar.gz"
+url_api = "https://api.github.com/repos/astral-sh/uv/releases/assets/604418325"
 provenance = "github-attestations"
 
 [tools.uv."platforms.linux-x64"]
-checksum = "sha256:23f02075b652bb1df64178cfae41b5caf160822e720e2663568f3f5d63bc52c0"
-url = "https://github.com/astral-sh/uv/releases/download/0.12.21/uv-x86_64-unknown-linux-gnu.tar.gz"
-url_api = "https://api.github.com/repos/astral-sh/uv/releases/assets/599238020"
+checksum = "sha256:b9980552309f09c15172b8be828555e375097f16deb459795ce7bfd200380f0b"
+url = "https://github.com/astral-sh/uv/releases/download/0.12.22/uv-x86_64-unknown-linux-gnu.tar.gz"
+url_api = "https://api.github.com/repos/astral-sh/uv/releases/assets/604418465"
 provenance = "github-attestations"
 
 [tools.uv."platforms.linux-x64-baseline"]
-checksum = "sha256:23f02075b652bb1df64178cfae41b5caf160822e720e2663568f3f5d63bc52c0"
-url = "https://github.com/astral-sh/uv/releases/download/0.12.21/uv-x86_64-unknown-linux-gnu.tar.gz"
-url_api = "https://api.github.com/repos/astral-sh/uv/releases/assets/599238020"
+checksum = "sha256:b9980552309f09c15172b8be828555e375097f16deb459795ce7bfd200380f0b"
+url = "https://github.com/astral-sh/uv/releases/download/0.12.22/uv-x86_64-unknown-linux-gnu.tar.gz"
+url_api = "https://api.github.com/repos/astral-sh/uv/releases/assets/604418465"
 provenance = "github-attestations"
 
 [tools.uv."platforms.linux-x64-musl"]
-checksum = "sha256:d69d543a55ec9cdf9d3d9f2648b0a161847e3dbddc477e3be6b5813a6d46f639"
-url = "https://github.com/astral-sh/uv/releases/download/0.12.21/uv-x86_64-unknown-linux-musl.tar.gz"
-url_api = "https://api.github.com/repos/astral-sh/uv/releases/assets/599238034"
+checksum = "sha256:a50fd68c653b0cfb1c85e0a7db62cb78cf5c22b6f3dcf3ae173e5f222d084470"
+url = "https://github.com/astral-sh/uv/releases/download/0.12.22/uv-x86_64-unknown-linux-musl.tar.gz"
+url_api = "https://api.github.com/repos/astral-sh/uv/releases/assets/604418476"
 provenance = "github-attestations"
 
 [tools.uv."platforms.linux-x64-musl-baseline"]
-checksum = "sha256:d69d543a55ec9cdf9d3d9f2648b0a161847e3dbddc477e3be6b5813a6d46f639"
-url = "https://github.com/astral-sh/uv/releases/download/0.12.21/uv-x86_64-unknown-linux-musl.tar.gz"
-url_api = "https://api.github.com/repos/astral-sh/uv/releases/assets/599238034"
+checksum = "sha256:a50fd68c653b0cfb1c85e0a7db62cb78cf5c22b6f3dcf3ae173e5f222d084470"
+url = "https://github.com/astral-sh/uv/releases/download/0.12.22/uv-x86_64-unknown-linux-musl.tar.gz"
+url_api = "https://api.github.com/repos/astral-sh/uv/releases/assets/604418476"
 provenance = "github-attestations"
 
 [tools.uv."platforms.macos-arm64"]
-checksum = "sha256:b88bda573e566ef9bced66b155fe0408626fbbc053aee1c30ba686f0728c9447"
-url = "https://github.com/astral-sh/uv/releases/download/0.12.21/uv-aarch64-apple-darwin.tar.gz"
-url_api = "https://api.github.com/repos/astral-sh/uv/releases/assets/599237829"
+checksum = "sha256:5d714de09501a59393ceca78f4bc232a50478729640d251907160299b2a93ddd"
+url = "https://github.com/astral-sh/uv/releases/download/0.12.22/uv-aarch64-apple-darwin.tar.gz"
+url_api = "https://api.github.com/repos/astral-sh/uv/releases/assets/604418308"
 provenance = "github-attestations"
 
 [tools.uv."platforms.macos-x64"]
-checksum = "sha256:2b336763b396ec6afa20c5a8b083538ca7402445b868311979d740a4344c17d8"
-url = "https://github.com/astral-sh/uv/releases/download/0.12.21/uv-x86_64-apple-darwin.tar.gz"
-url_api = "https://api.github.com/repos/astral-sh/uv/releases/assets/599237993"
+checksum = "sha256:1b8a5b316883df2daf20fb9a446e5b230e01d947d57aba2694977c5ac5a7e98c"
+url = "https://github.com/astral-sh/uv/releases/download/0.12.22/uv-x86_64-apple-darwin.tar.gz"
+url_api = "https://api.github.com/repos/astral-sh/uv/releases/assets/604418427"
 provenance = "github-attestations"
 
 [tools.uv."platforms.macos-x64-baseline"]
-checksum = "sha256:2b336763b396ec6afa20c5a8b083538ca7402445b868311979d740a4344c17d8"
-url = "https://github.com/astral-sh/uv/releases/download/0.12.21/uv-x86_64-apple-darwin.tar.gz"
-url_api = "https://api.github.com/repos/astral-sh/uv/releases/assets/599237993"
+checksum = "sha256:1b8a5b316883df2daf20fb9a446e5b230e01d947d57aba2694977c5ac5a7e98c"
+url = "https://github.com/astral-sh/uv/releases/download/0.12.22/uv-x86_64-apple-darwin.tar.gz"
+url_api = "https://api.github.com/repos/astral-sh/uv/releases/assets/604418427"
 provenance = "github-attestations"
 
 [[tools.watchexec]]
@@ -3036,6 +3053,9 @@ url_api = "https://api.github.com/repos/zizmorcore/zizmor/releases/assets/552067
 provenance = "github-attestations"
 
 [tools.zizmor."platforms.linux-arm64-musl"]
+checksum = "sha256:7ff1dce33bdd18fd2a4affe63bdd47efcccca97b2cec1c1863ec26e9e2647540"
+url = "https://github.com/zizmorcore/zizmor/releases/download/v1.30.1/zizmor-aarch64-unknown-linux-gnu.tar.gz"
+url_api = "https://api.github.com/repos/zizmorcore/zizmor/releases/assets/552067643"
 provenance = "github-attestations"
 
 [tools.zizmor."platforms.linux-x64"]
@@ -3051,9 +3071,15 @@ url_api = "https://api.github.com/repos/zizmorcore/zizmor/releases/assets/552067
 provenance = "github-attestations"
 
 [tools.zizmor."platforms.linux-x64-musl"]
+checksum = "sha256:e65324f4430c2717591937edcec90ccbefaf14c174f8ec9415e03ca875b46e1a"
+url = "https://github.com/zizmorcore/zizmor/releases/download/v1.30.1/zizmor-x86_64-unknown-linux-gnu.tar.gz"
+url_api = "https://api.github.com/repos/zizmorcore/zizmor/releases/assets/552067642"
 provenance = "github-attestations"
 
 [tools.zizmor."platforms.linux-x64-musl-baseline"]
+checksum = "sha256:e65324f4430c2717591937edcec90ccbefaf14c174f8ec9415e03ca875b46e1a"
+url = "https://github.com/zizmorcore/zizmor/releases/download/v1.30.1/zizmor-x86_64-unknown-linux-gnu.tar.gz"
+url_api = "https://api.github.com/repos/zizmorcore/zizmor/releases/assets/552067642"
 provenance = "github-attestations"
 
 [tools.zizmor."platforms.macos-arm64"]
