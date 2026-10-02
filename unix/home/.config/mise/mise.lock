@@ -519,53 +519,53 @@ version = "0.23.5"
 backend = "cargo:eza"
 
 [[tools.claude]]
-version = "2.1.287"
+version = "2.1.288"
 backend = "aqua:anthropics/claude-code"
 
 [tools.claude."platforms.linux-arm64"]
-checksum = "sha256:9b1f2996166948602b399cea6c11a654f52ac3b38c27142dfa4e6420e57eb3bd"
-url = "https://github.com/anthropics/claude-code/releases/download/v2.1.287/claude-linux-arm64.tar.gz"
-url_api = "https://api.github.com/repos/anthropics/claude-code/releases/assets/603710525"
+checksum = "sha256:4d27054191394530666025db88114ea38c31cc5f5564766beb909b079a9652c4"
+url = "https://github.com/anthropics/claude-code/releases/download/v2.1.288/claude-linux-arm64.tar.gz"
+url_api = "https://api.github.com/repos/anthropics/claude-code/releases/assets/606215763"
 
 [tools.claude."platforms.linux-arm64-musl"]
-checksum = "sha256:6b52a82507e5a71e21fc1e70b63bad4cb4d939b41218cc0d40779058837e914a"
-url = "https://github.com/anthropics/claude-code/releases/download/v2.1.287/claude-linux-arm64-musl.tar.gz"
-url_api = "https://api.github.com/repos/anthropics/claude-code/releases/assets/603710527"
+checksum = "sha256:31df6461c2f8f9684aeb0e6cd3c4d0411aad21683827e1abd9ad93ec69ed4186"
+url = "https://github.com/anthropics/claude-code/releases/download/v2.1.288/claude-linux-arm64-musl.tar.gz"
+url_api = "https://api.github.com/repos/anthropics/claude-code/releases/assets/606215761"
 
 [tools.claude."platforms.linux-x64"]
-checksum = "sha256:627e578d436ebc12daf059c0379dee23f77c761fb7d2ad5de82645dc29b24372"
-url = "https://github.com/anthropics/claude-code/releases/download/v2.1.287/claude-linux-x64.tar.gz"
-url_api = "https://api.github.com/repos/anthropics/claude-code/releases/assets/603710749"
+checksum = "sha256:5f3e0d5bfc21123a880ba6ffbd10f1b819c5e56204473591be1c1f65847c9368"
+url = "https://github.com/anthropics/claude-code/releases/download/v2.1.288/claude-linux-x64.tar.gz"
+url_api = "https://api.github.com/repos/anthropics/claude-code/releases/assets/606216002"
 
 [tools.claude."platforms.linux-x64-baseline"]
-checksum = "sha256:627e578d436ebc12daf059c0379dee23f77c761fb7d2ad5de82645dc29b24372"
-url = "https://github.com/anthropics/claude-code/releases/download/v2.1.287/claude-linux-x64.tar.gz"
-url_api = "https://api.github.com/repos/anthropics/claude-code/releases/assets/603710749"
+checksum = "sha256:5f3e0d5bfc21123a880ba6ffbd10f1b819c5e56204473591be1c1f65847c9368"
+url = "https://github.com/anthropics/claude-code/releases/download/v2.1.288/claude-linux-x64.tar.gz"
+url_api = "https://api.github.com/repos/anthropics/claude-code/releases/assets/606216002"
 
 [tools.claude."platforms.linux-x64-musl"]
-checksum = "sha256:f6457822fa75fb2246031b30b2b68c0126ded7e3c5437c77ba8616f34493c35b"
-url = "https://github.com/anthropics/claude-code/releases/download/v2.1.287/claude-linux-x64-musl.tar.gz"
-url_api = "https://api.github.com/repos/anthropics/claude-code/releases/assets/603710523"
+checksum = "sha256:889979239be18d47047d88f4fcbf3d8a6fead28190512c42c31a34b23e4800fb"
+url = "https://github.com/anthropics/claude-code/releases/download/v2.1.288/claude-linux-x64-musl.tar.gz"
+url_api = "https://api.github.com/repos/anthropics/claude-code/releases/assets/606215766"
 
 [tools.claude."platforms.linux-x64-musl-baseline"]
-checksum = "sha256:f6457822fa75fb2246031b30b2b68c0126ded7e3c5437c77ba8616f34493c35b"
-url = "https://github.com/anthropics/claude-code/releases/download/v2.1.287/claude-linux-x64-musl.tar.gz"
-url_api = "https://api.github.com/repos/anthropics/claude-code/releases/assets/603710523"
+checksum = "sha256:889979239be18d47047d88f4fcbf3d8a6fead28190512c42c31a34b23e4800fb"
+url = "https://github.com/anthropics/claude-code/releases/download/v2.1.288/claude-linux-x64-musl.tar.gz"
+url_api = "https://api.github.com/repos/anthropics/claude-code/releases/assets/606215766"
 
 [tools.claude."platforms.macos-arm64"]
-checksum = "sha256:43b83e4bf099f47efe590c8da0db43b33109c558ae81b8d1c7b1d024db86d6ef"
-url = "https://github.com/anthropics/claude-code/releases/download/v2.1.287/claude-darwin-arm64.tar.gz"
-url_api = "https://api.github.com/repos/anthropics/claude-code/releases/assets/603710526"
+checksum = "sha256:86616c1bdb2d3581343b41bf1674b936991d74d14b6d5cf205194cd7d2e104fe"
+url = "https://github.com/anthropics/claude-code/releases/download/v2.1.288/claude-darwin-arm64.tar.gz"
+url_api = "https://api.github.com/repos/anthropics/claude-code/releases/assets/606215765"
 
 [tools.claude."platforms.macos-x64"]
-checksum = "sha256:7a33c480c439702c7cb28c4614fc9178f3b08d18038472b74a8fb939570b092f"
-url = "https://github.com/anthropics/claude-code/releases/download/v2.1.287/claude-darwin-x64.tar.gz"
-url_api = "https://api.github.com/repos/anthropics/claude-code/releases/assets/603710528"
+checksum = "sha256:d5181f0842894b6a495e97bc4f0215556ee224b9a8a27b6e7fc3c340dea9e08e"
+url = "https://github.com/anthropics/claude-code/releases/download/v2.1.288/claude-darwin-x64.tar.gz"
+url_api = "https://api.github.com/repos/anthropics/claude-code/releases/assets/606215764"
 
 [tools.claude."platforms.macos-x64-baseline"]
-checksum = "sha256:7a33c480c439702c7cb28c4614fc9178f3b08d18038472b74a8fb939570b092f"
-url = "https://github.com/anthropics/claude-code/releases/download/v2.1.287/claude-darwin-x64.tar.gz"
-url_api = "https://api.github.com/repos/anthropics/claude-code/releases/assets/603710528"
+checksum = "sha256:d5181f0842894b6a495e97bc4f0215556ee224b9a8a27b6e7fc3c340dea9e08e"
+url = "https://github.com/anthropics/claude-code/releases/download/v2.1.288/claude-darwin-x64.tar.gz"
+url_api = "https://api.github.com/repos/anthropics/claude-code/releases/assets/606215764"
 
 [[tools.codex]]
 version = "0.160.0"
@@ -2149,53 +2149,53 @@ url_api = "https://api.github.com/repos/suzuki-shunsuke/pinact/releases/assets/5
 provenance = "github-attestations"
 
 [[tools.pipx]]
-version = "1.17.9"
+version = "1.17.10"
 backend = "aqua:pypa/pipx"
 
 [tools.pipx."platforms.linux-arm64"]
-checksum = "sha256:fdeb4c8fa0205d2a1d7feaee37ea50e5171077225bcd02d7375c19692d57e5e6"
-url = "https://github.com/pypa/pipx/releases/download/1.17.9/pipx.pyz"
-url_api = "https://api.github.com/repos/pypa/pipx/releases/assets/604357373"
+checksum = "sha256:8812d058e381f1dcba0f535b4e81f7855be9abc2b290979fc1f852e1aa0b7f0d"
+url = "https://github.com/pypa/pipx/releases/download/1.17.10/pipx.pyz"
+url_api = "https://api.github.com/repos/pypa/pipx/releases/assets/605913430"
 
 [tools.pipx."platforms.linux-arm64-musl"]
-checksum = "sha256:fdeb4c8fa0205d2a1d7feaee37ea50e5171077225bcd02d7375c19692d57e5e6"
-url = "https://github.com/pypa/pipx/releases/download/1.17.9/pipx.pyz"
-url_api = "https://api.github.com/repos/pypa/pipx/releases/assets/604357373"
+checksum = "sha256:8812d058e381f1dcba0f535b4e81f7855be9abc2b290979fc1f852e1aa0b7f0d"
+url = "https://github.com/pypa/pipx/releases/download/1.17.10/pipx.pyz"
+url_api = "https://api.github.com/repos/pypa/pipx/releases/assets/605913430"
 
 [tools.pipx."platforms.linux-x64"]
-checksum = "sha256:fdeb4c8fa0205d2a1d7feaee37ea50e5171077225bcd02d7375c19692d57e5e6"
-url = "https://github.com/pypa/pipx/releases/download/1.17.9/pipx.pyz"
-url_api = "https://api.github.com/repos/pypa/pipx/releases/assets/604357373"
+checksum = "sha256:8812d058e381f1dcba0f535b4e81f7855be9abc2b290979fc1f852e1aa0b7f0d"
+url = "https://github.com/pypa/pipx/releases/download/1.17.10/pipx.pyz"
+url_api = "https://api.github.com/repos/pypa/pipx/releases/assets/605913430"
 
 [tools.pipx."platforms.linux-x64-baseline"]
-checksum = "sha256:fdeb4c8fa0205d2a1d7feaee37ea50e5171077225bcd02d7375c19692d57e5e6"
-url = "https://github.com/pypa/pipx/releases/download/1.17.9/pipx.pyz"
-url_api = "https://api.github.com/repos/pypa/pipx/releases/assets/604357373"
+checksum = "sha256:8812d058e381f1dcba0f535b4e81f7855be9abc2b290979fc1f852e1aa0b7f0d"
+url = "https://github.com/pypa/pipx/releases/download/1.17.10/pipx.pyz"
+url_api = "https://api.github.com/repos/pypa/pipx/releases/assets/605913430"
 
 [tools.pipx."platforms.linux-x64-musl"]
-checksum = "sha256:fdeb4c8fa0205d2a1d7feaee37ea50e5171077225bcd02d7375c19692d57e5e6"
-url = "https://github.com/pypa/pipx/releases/download/1.17.9/pipx.pyz"
-url_api = "https://api.github.com/repos/pypa/pipx/releases/assets/604357373"
+checksum = "sha256:8812d058e381f1dcba0f535b4e81f7855be9abc2b290979fc1f852e1aa0b7f0d"
+url = "https://github.com/pypa/pipx/releases/download/1.17.10/pipx.pyz"
+url_api = "https://api.github.com/repos/pypa/pipx/releases/assets/605913430"
 
 [tools.pipx."platforms.linux-x64-musl-baseline"]
-checksum = "sha256:fdeb4c8fa0205d2a1d7feaee37ea50e5171077225bcd02d7375c19692d57e5e6"
-url = "https://github.com/pypa/pipx/releases/download/1.17.9/pipx.pyz"
-url_api = "https://api.github.com/repos/pypa/pipx/releases/assets/604357373"
+checksum = "sha256:8812d058e381f1dcba0f535b4e81f7855be9abc2b290979fc1f852e1aa0b7f0d"
+url = "https://github.com/pypa/pipx/releases/download/1.17.10/pipx.pyz"
+url_api = "https://api.github.com/repos/pypa/pipx/releases/assets/605913430"
 
 [tools.pipx."platforms.macos-arm64"]
-checksum = "sha256:fdeb4c8fa0205d2a1d7feaee37ea50e5171077225bcd02d7375c19692d57e5e6"
-url = "https://github.com/pypa/pipx/releases/download/1.17.9/pipx.pyz"
-url_api = "https://api.github.com/repos/pypa/pipx/releases/assets/604357373"
+checksum = "sha256:8812d058e381f1dcba0f535b4e81f7855be9abc2b290979fc1f852e1aa0b7f0d"
+url = "https://github.com/pypa/pipx/releases/download/1.17.10/pipx.pyz"
+url_api = "https://api.github.com/repos/pypa/pipx/releases/assets/605913430"
 
 [tools.pipx."platforms.macos-x64"]
-checksum = "sha256:fdeb4c8fa0205d2a1d7feaee37ea50e5171077225bcd02d7375c19692d57e5e6"
-url = "https://github.com/pypa/pipx/releases/download/1.17.9/pipx.pyz"
-url_api = "https://api.github.com/repos/pypa/pipx/releases/assets/604357373"
+checksum = "sha256:8812d058e381f1dcba0f535b4e81f7855be9abc2b290979fc1f852e1aa0b7f0d"
+url = "https://github.com/pypa/pipx/releases/download/1.17.10/pipx.pyz"
+url_api = "https://api.github.com/repos/pypa/pipx/releases/assets/605913430"
 
 [tools.pipx."platforms.macos-x64-baseline"]
-checksum = "sha256:fdeb4c8fa0205d2a1d7feaee37ea50e5171077225bcd02d7375c19692d57e5e6"
-url = "https://github.com/pypa/pipx/releases/download/1.17.9/pipx.pyz"
-url_api = "https://api.github.com/repos/pypa/pipx/releases/assets/604357373"
+checksum = "sha256:8812d058e381f1dcba0f535b4e81f7855be9abc2b290979fc1f852e1aa0b7f0d"
+url = "https://github.com/pypa/pipx/releases/download/1.17.10/pipx.pyz"
+url_api = "https://api.github.com/repos/pypa/pipx/releases/assets/605913430"
 
 [[tools."pipx:markitdown"]]
 version = "0.1.8"
@@ -2834,53 +2834,53 @@ url_api = "https://api.github.com/repos/astral-sh/uv/releases/assets/604418427"
 provenance = "github-attestations"
 
 [[tools.watchexec]]
-version = "2.7.3"
+version = "2.7.4"
 backend = "aqua:watchexec/watchexec"
 
 [tools.watchexec."platforms.linux-arm64"]
-checksum = "sha256:02b3e2beddf96fef5fb2b88849902e3cf9e96da87968bdfb7a488700d64142cc"
-url = "https://github.com/watchexec/watchexec/releases/download/v2.7.3/watchexec-2.7.3-aarch64-unknown-linux-gnu.tar.xz"
-url_api = "https://api.github.com/repos/watchexec/watchexec/releases/assets/565495662"
+checksum = "sha256:b649cf89bda51ba060abb9e9765ea585823ee94b9bf2e2ad86081323a13a81c4"
+url = "https://github.com/watchexec/watchexec/releases/download/v2.7.4/watchexec-2.7.4-aarch64-unknown-linux-gnu.tar.xz"
+url_api = "https://api.github.com/repos/watchexec/watchexec/releases/assets/605904467"
 
 [tools.watchexec."platforms.linux-arm64-musl"]
-checksum = "sha256:80bd9acfc25e4035624d99585b2f920add5ecbdc0c732c4e42fa1451b63d80a5"
-url = "https://github.com/watchexec/watchexec/releases/download/v2.7.3/watchexec-2.7.3-aarch64-unknown-linux-musl.tar.xz"
-url_api = "https://api.github.com/repos/watchexec/watchexec/releases/assets/565495670"
+checksum = "sha256:8596e3082e7116d4438f71f3e8eb1ad25d39dc4fe8560d2b1240af86e0c56df8"
+url = "https://github.com/watchexec/watchexec/releases/download/v2.7.4/watchexec-2.7.4-aarch64-unknown-linux-musl.tar.xz"
+url_api = "https://api.github.com/repos/watchexec/watchexec/releases/assets/605904476"
 
 [tools.watchexec."platforms.linux-x64"]
-checksum = "sha256:8ace3a1d2e752d189f28b6766311d58f155ab977fae66aba60b111ec8aec2f64"
-url = "https://github.com/watchexec/watchexec/releases/download/v2.7.3/watchexec-2.7.3-x86_64-unknown-linux-gnu.tar.xz"
-url_api = "https://api.github.com/repos/watchexec/watchexec/releases/assets/565495660"
+checksum = "sha256:6d7e89e8815ac1b4eafb9497ed0a8ada986117fbba460b2f9282e0e160f776dd"
+url = "https://github.com/watchexec/watchexec/releases/download/v2.7.4/watchexec-2.7.4-x86_64-unknown-linux-gnu.tar.xz"
+url_api = "https://api.github.com/repos/watchexec/watchexec/releases/assets/605904460"
 
 [tools.watchexec."platforms.linux-x64-baseline"]
-checksum = "sha256:8ace3a1d2e752d189f28b6766311d58f155ab977fae66aba60b111ec8aec2f64"
-url = "https://github.com/watchexec/watchexec/releases/download/v2.7.3/watchexec-2.7.3-x86_64-unknown-linux-gnu.tar.xz"
-url_api = "https://api.github.com/repos/watchexec/watchexec/releases/assets/565495660"
+checksum = "sha256:6d7e89e8815ac1b4eafb9497ed0a8ada986117fbba460b2f9282e0e160f776dd"
+url = "https://github.com/watchexec/watchexec/releases/download/v2.7.4/watchexec-2.7.4-x86_64-unknown-linux-gnu.tar.xz"
+url_api = "https://api.github.com/repos/watchexec/watchexec/releases/assets/605904460"
 
 [tools.watchexec."platforms.linux-x64-musl"]
-checksum = "sha256:b5bcd00ae3ebb53f7ea5d499fdf98bda14711589a7ecc0619e1847586beaa24d"
-url = "https://github.com/watchexec/watchexec/releases/download/v2.7.3/watchexec-2.7.3-x86_64-unknown-linux-musl.tar.xz"
-url_api = "https://api.github.com/repos/watchexec/watchexec/releases/assets/565495691"
+checksum = "sha256:00a4be01add74acfaa37978081b331d60f4691f7e39b2028e5301242d61a464b"
+url = "https://github.com/watchexec/watchexec/releases/download/v2.7.4/watchexec-2.7.4-x86_64-unknown-linux-musl.tar.xz"
+url_api = "https://api.github.com/repos/watchexec/watchexec/releases/assets/605904457"
 
 [tools.watchexec."platforms.linux-x64-musl-baseline"]
-checksum = "sha256:b5bcd00ae3ebb53f7ea5d499fdf98bda14711589a7ecc0619e1847586beaa24d"
-url = "https://github.com/watchexec/watchexec/releases/download/v2.7.3/watchexec-2.7.3-x86_64-unknown-linux-musl.tar.xz"
-url_api = "https://api.github.com/repos/watchexec/watchexec/releases/assets/565495691"
+checksum = "sha256:00a4be01add74acfaa37978081b331d60f4691f7e39b2028e5301242d61a464b"
+url = "https://github.com/watchexec/watchexec/releases/download/v2.7.4/watchexec-2.7.4-x86_64-unknown-linux-musl.tar.xz"
+url_api = "https://api.github.com/repos/watchexec/watchexec/releases/assets/605904457"
 
 [tools.watchexec."platforms.macos-arm64"]
-checksum = "sha256:bb2a3acc02de5c64f87779fc0226274d47d79026c6df969c8c1034a110b2efad"
-url = "https://github.com/watchexec/watchexec/releases/download/v2.7.3/watchexec-2.7.3-aarch64-apple-darwin.tar.xz"
-url_api = "https://api.github.com/repos/watchexec/watchexec/releases/assets/565495664"
+checksum = "sha256:1e5052fe1f0690cd04d13d59f2d6bb0b090985d88c7406acadacd1198f58706e"
+url = "https://github.com/watchexec/watchexec/releases/download/v2.7.4/watchexec-2.7.4-aarch64-apple-darwin.tar.xz"
+url_api = "https://api.github.com/repos/watchexec/watchexec/releases/assets/605904470"
 
 [tools.watchexec."platforms.macos-x64"]
-checksum = "sha256:ddca28bbd6b219a14ffec4893d56dad2e29cfc8b3e47f49e275706c9af20b4c2"
-url = "https://github.com/watchexec/watchexec/releases/download/v2.7.3/watchexec-2.7.3-x86_64-apple-darwin.tar.xz"
-url_api = "https://api.github.com/repos/watchexec/watchexec/releases/assets/565495778"
+checksum = "sha256:e3016a20879510ea3a585e75d73a5aff8be0648d9e88d71439d515e63da13255"
+url = "https://github.com/watchexec/watchexec/releases/download/v2.7.4/watchexec-2.7.4-x86_64-apple-darwin.tar.xz"
+url_api = "https://api.github.com/repos/watchexec/watchexec/releases/assets/605904462"
 
 [tools.watchexec."platforms.macos-x64-baseline"]
-checksum = "sha256:ddca28bbd6b219a14ffec4893d56dad2e29cfc8b3e47f49e275706c9af20b4c2"
-url = "https://github.com/watchexec/watchexec/releases/download/v2.7.3/watchexec-2.7.3-x86_64-apple-darwin.tar.xz"
-url_api = "https://api.github.com/repos/watchexec/watchexec/releases/assets/565495778"
+checksum = "sha256:e3016a20879510ea3a585e75d73a5aff8be0648d9e88d71439d515e63da13255"
+url = "https://github.com/watchexec/watchexec/releases/download/v2.7.4/watchexec-2.7.4-x86_64-apple-darwin.tar.xz"
+url_api = "https://api.github.com/repos/watchexec/watchexec/releases/assets/605904462"
 
 [[tools.xh]]
 version = "0.26.2"
