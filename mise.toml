@@ -1,6 +1,6 @@
 # ref: https://mise.jdx.dev/configuration.html
 
-min_version = "2026.10.0"
+min_version = "2026.10.1"
 
 [vars]
 PS_SCRIPT_ANALYZER_VERSION = "1.25.0"
