@@ -4,7 +4,7 @@ set -euo pipefail
 
 repo_name="risu729/dotfiles"
 # Keep the installer on the version validated by CI; Renovate updates the pin.
-mise_version="2026.10.1"
+mise_version="2026.10.2"
 # might be edited by the worker to checkout a specific ref
 git_ref=""
 # Direct invocations can select the same revision as the Worker ref parameter.
