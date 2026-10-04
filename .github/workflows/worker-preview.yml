@@ -1,0 +1,100 @@
+name: Worker Preview
+on:
+  pull_request:
+    paths-ignore:
+      - 'docs/**'
+      - '**/*.md'
+      - 'unix/home/**'
+      - 'unix/codex/**'
+      - 'unix/ssh/**'
+      - 'unix/systemd/**'
+      - 'wsl/**'
+  pull_request_target: # zizmor: ignore[dangerous-triggers] -- Closed-event cleanup uses only trusted base checkout and a pinned action; no PR code runs.
+    types: [closed]
+permissions: {}
+defaults:
+  run:
+    shell: bash
+jobs:
+  preview:
+    name: Deploy or clean up Preview
+    if: ${{ github.event.pull_request.head.repo.full_name == github.repository }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    concurrency:
+      # This workflow is separate from CI so cancellation cannot interrupt an upload.
+      group: worker-preview-${{ github.event.pull_request.number }}
+      cancel-in-progress: false
+    permissions:
+      contents: read
+      pull-requests: read # for live PR state verification
+    env:
+      MISE_ENABLE_TOOLS: bun,node
+    steps:
+      - name: Check current PR state and credentials
+        id: current
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          EXPECTED_HEAD: ${{ github.event.pull_request.head.sha }}
+          CLEANUP: ${{ github.event_name == 'pull_request_target' }}
+          ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
+          API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: |
+          if [[ -z "${ACCOUNT_ID}" && -z "${API_TOKEN}" ]]; then
+            echo 'No Preview credentials; production build validation still runs in CI.' >> "${GITHUB_STEP_SUMMARY}"
+            exit 0
+          fi
+          [[ -n "${ACCOUNT_ID}" && -n "${API_TOKEN}" ]] || exit 1
+          pr="$(gh pr view "${PR_NUMBER}" --json state,headRefOid)"
+          if [[ "${CLEANUP}" == true ]]; then
+            [[ "$(jq -r '.state' <<< "${pr}")" != OPEN ]] || exit 0
+          else
+            jq -e --arg head "${EXPECTED_HEAD}" '.state == "OPEN" and .headRefOid == $head' <<< "${pr}" > /dev/null || exit 0
+          fi
+          echo 'run=true' >> "${GITHUB_OUTPUT}"
+      - name: Checkout tested source or trusted base for cleanup
+        if: steps.current.outputs.run == 'true'
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          # pull_request_target checks out the trusted base, never the PR head.
+          persist-credentials: false
+      - name: Install mise
+        if: steps.current.outputs.run == 'true' && github.event_name != 'pull_request_target'
+        uses: jdx/mise-action@c2a87611a18de5b3828c5652fe268e992400cb5c # v4.3.0
+        with:
+          version: 2026.10.2
+      - name: Install locked Worker dependencies
+        if: steps.current.outputs.run == 'true' && github.event_name != 'pull_request_target'
+        working-directory: worker
+        run: bun install --frozen-lockfile
+      - name: Test Worker before Preview deployment
+        if: steps.current.outputs.run == 'true' && github.event_name != 'pull_request_target'
+        run: mise run worker:test
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+      - name: Build Preview
+        if: steps.current.outputs.run == 'true' && github.event_name != 'pull_request_target'
+        working-directory: worker
+        run: bun run cf-vite build --preview
+      - name: Deploy or delete Preview
+        id: preview
+        if: steps.current.outputs.run == 'true'
+        uses: risu729/wrangler-deploy-action@c2c1bf1396daf8ec7de4189e7b0dc92cab32f244 # v2.1.0
+        with:
+          mode: ${{ github.event_name == 'pull_request_target' && 'delete-preview' || 'worker-preview' }}
+          working-directory: worker
+          worker: dotfiles-worker
+          preview-name: pr-${{ github.event.pull_request.number }}
+          cloudflare-account-id: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
+          cloudflare-api-token: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      - name: Verify Preview response
+        if: steps.current.outputs.run == 'true' && github.event_name != 'pull_request_target'
+        env:
+          PREVIEW_URL: ${{ steps.preview.outputs.preview-url }}
+          EXPECTED_REVISION: ${{ github.sha }}
+        run: |
+          printf 'Preview URL: %s\n' "${PREVIEW_URL}"
+          [[ "$(curl --silent --show-error --output /dev/null --write-out '%{http_code}' "${PREVIEW_URL}/")" == 307 ]]
+          curl --fail --retry 5 --retry-all-errors --retry-delay 2 --silent --show-error "${PREVIEW_URL}/wsl?ref=${EXPECTED_REVISION}" | grep -F "${EXPECTED_REVISION}"

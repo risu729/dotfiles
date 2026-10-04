@@ -241,17 +241,14 @@ jobs:
       - name: Build Worker
         if: ${{ needs.changes.outputs.worker == 'true' }}
         run: mise run worker:build
-      - name: Upload preview or validate deployment
+      - name: Validate production build
         if: ${{ needs.changes.outputs.worker == 'true' }}
-        uses: risu729/wrangler-deploy-action@db82fbec0db564950f5c319292aab124896d74f3 # v2.0.0
+        uses: risu729/wrangler-deploy-action@c2c1bf1396daf8ec7de4189e7b0dc92cab32f244 # v2.1.0
         with:
-          mode: ${{ github.event_name == 'pull_request' && 'preview-or-dry-run' || 'dry-run' }}
+          mode: dry-run
           working-directory: worker
           worker: dotfiles-worker
           build-mode: production
-          preview-alias: pr-${{ github.event.pull_request.number }}
-          cloudflare-account-id: ${{ github.event_name == 'pull_request' && vars.CLOUDFLARE_ACCOUNT_ID || '' }}
-          cloudflare-api-token: ${{ github.event_name == 'pull_request' && secrets.CLOUDFLARE_API_TOKEN || '' }}
       - name: Package validated Worker
         if: ${{ needs.changes.outputs.worker == 'true' }}
         run: bash tasks/ci/worker-artifact pack
