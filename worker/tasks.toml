@@ -8,6 +8,8 @@ description = "Build the worker for production."
 
 ["worker:build:preview"]
 extends = "worker"
+# Both builds write the same output; serialize them when scheduled together.
+wait_for = ["worker:build"]
 run = "bun run cf-vite build --preview"
 description = "Build a named Workers Preview."
 
