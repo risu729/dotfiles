@@ -78,6 +78,9 @@ preserves the existing Custom Domain without updating triggers.
 
 The pinned `cf` beta reads `worker/cloudflare.config.ts` and builds with Vite.
 CI archives `.cloudflare/output/v0` and always uses `--prebuilt` when uploading.
+PRs use named Workers Previews built separately with `cf-vite build --preview`.
+The Preview workflow serializes updates and close-event cleanup per PR and
+checks the live PR state before acting. Fork PRs only run validation.
 The pinned `wrangler-deploy-action` v2 runs cf for previews, dry runs, and
 production. It reads back the deployment to verify the exact version at 100%.
 Keep `deploy-triggers` false for routine deployment. The action owns the beta

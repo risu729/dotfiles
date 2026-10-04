@@ -241,17 +241,14 @@ jobs:
       - name: Build Worker
         if: ${{ needs.changes.outputs.worker == 'true' }}
         run: mise run worker:build
-      - name: Upload preview or validate deployment
+      - name: Validate production build
         if: ${{ needs.changes.outputs.worker == 'true' }}
         uses: risu729/wrangler-deploy-action@db82fbec0db564950f5c319292aab124896d74f3 # v2.0.0
         with:
-          mode: ${{ github.event_name == 'pull_request' && 'preview-or-dry-run' || 'dry-run' }}
+          mode: dry-run
           working-directory: worker
           worker: dotfiles-worker
           build-mode: production
-          preview-alias: pr-${{ github.event.pull_request.number }}
-          cloudflare-account-id: ${{ github.event_name == 'pull_request' && vars.CLOUDFLARE_ACCOUNT_ID || '' }}
-          cloudflare-api-token: ${{ github.event_name == 'pull_request' && secrets.CLOUDFLARE_API_TOKEN || '' }}
       - name: Package validated Worker
         if: ${{ needs.changes.outputs.worker == 'true' }}
         run: bash tasks/ci/worker-artifact pack
@@ -263,6 +260,16 @@ jobs:
           path: out/worker-artifact/
           if-no-files-found: error
           retention-days: 7
+  preview-worker:
+    name: Workers Preview
+    needs: [changes, test-worker]
+    if: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository && needs.changes.outputs.worker == 'true' }}
+    permissions:
+      contents: read
+      pull-requests: read # for live PR state verification
+    uses: ./.github/workflows/worker-preview.yml # zizmor: ignore[self-repository] -- actionlint 1.7.12 does not support $/ yet.
+    secrets:
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
   verify-worker-artifact:
     name: Verify Worker artifact
     needs: [changes, test-worker]
@@ -293,6 +300,7 @@ jobs:
       - test-worker
       - test-worker-container
       - verify-worker-artifact
+      - preview-worker
     if: ${{ !cancelled() && (contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled')) }}
     runs-on: ubuntu-24.04
     timeout-minutes: 5
