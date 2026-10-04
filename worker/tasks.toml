@@ -2,7 +2,7 @@
 
 ["worker:dev"]
 extends = "worker:runtime"
-run = "bun run vite dev"
+run = "bun run cf dev"
 description = "Start a local development server for the worker."
 
 ["worker:preview"]
@@ -23,6 +23,6 @@ description = "Watch Worker tests with the Vitest UI."
 
 ["worker:generate:types"]
 extends = "worker"
-run = "bun run wrangler types src/worker-configuration.d.ts"
+run = "bun run cf workers types"
 hide = true
 description = "Generate types of Cloudflare Worker runtimes."

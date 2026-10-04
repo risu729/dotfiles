@@ -5,6 +5,7 @@ import { defineConfig } from "vite";
 
 // Ref: https://vite.dev/config/
 export default defineConfig(({ mode }) => ({
+	build: { sourcemap: true },
 	define: {
 		"import.meta.env.DEFAULT_BRANCH": JSON.stringify("main"),
 		...(mode === "production"

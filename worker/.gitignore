@@ -1,5 +1,4 @@
 # honojs/starter templates/cloudflare-workers/.gitignore
-# inline: src/worker-configuration.d.ts
 
 # honojs/starter templates/cloudflare-workers/.gitignore
 
@@ -37,5 +36,6 @@ lerna-debug.log*
 # misc
 .DS_Store
 
-# inline: src/worker-configuration.d.ts
-src/worker-configuration.d.ts
+
+# Generated Cloudflare configuration, types and build output
+.cloudflare/

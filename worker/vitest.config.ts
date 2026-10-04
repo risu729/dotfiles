@@ -2,7 +2,7 @@ import { exec } from "node:child_process";
 import process from "node:process";
 import { promisify } from "node:util";
 
-import { cloudflareTest } from "@cloudflare/vitest-pool-workers";
+import { cloudflareTest } from "@cloudflare/vitest-plugin";
 import { defineConfig } from "vitest/config";
 
 const execAsync = promisify(exec);
@@ -16,8 +16,8 @@ if (!latestCommitHash) {
 export default defineConfig({
 	plugins: [
 		cloudflareTest({
-			wrangler: {
-				configPath: "./wrangler.jsonc",
+			experimental: {
+				newConfig: true,
 			},
 		}),
 	],
