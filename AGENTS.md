@@ -75,7 +75,6 @@ Deployment uses repository variable `CLOUDFLARE_ACCOUNT_ID` and secret
 with `wrangler versions upload`, then deploys that exact version to 100% of
 traffic. It preserves the existing Custom Domain without updating triggers.
 
-Manage Custom Domain, route, and other Worker-level settings separately with
-suitable permissions when those settings change. Per-Worker tokens currently
-cannot manage Custom Domains. Do not replace version deployment with
-`wrangler deploy` without accounting for its trigger updates.
+Manage Custom Domain and route changes separately with suitable permissions.
+Per-Worker tokens currently cannot manage Custom Domains. Do not replace version
+deployment with `wrangler deploy` without accounting for its trigger updates.
