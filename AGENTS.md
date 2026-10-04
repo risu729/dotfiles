@@ -63,6 +63,8 @@ detail is needed. `bash -x` shows the failing assertion and expanded paths.
 Run tasks from the repository root: `mise run worker:dev` starts the local
 server, `mise run worker:preview` previews a build, and
 `mise run worker:test:watch` opens the Vitest UI.
+`mise run worker:build:preview` builds a named Workers Preview;
+`mise run worker:build` builds the production artifact.
 
 Production uses the exact Worker artifact validated by CI, with its source
 revision and checksum; do not rebuild it during deployment. Main pushes deploy

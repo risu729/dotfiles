@@ -24,5 +24,7 @@ for attempt in 1 2; do
 	cd "${HOME}"
 	bash "${installer}"
 	cd "${HOME}/.ghr/github.com/risu729/dotfiles"
+	# Let the fresh interactive shell activate mise itself; a task invocation
+	# here could repair missing tools or mask a broken activation in its PATH.
 	bash tasks/verify/installation
 done

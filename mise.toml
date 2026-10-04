@@ -66,7 +66,7 @@ dir = "{{ config_root }}/worker"
 depends = ["worker:generate:types"]
 
 [task_config]
-includes = ["tasks.toml", "tasks", "worker/tasks.toml", "worker/tasks"]
+includes = ["tasks.toml", "tasks", "worker/tasks.toml"]
 
 # Hooks are Tera templates, so Linux-only steps are skipped on other platforms
 # and my own infrastructure is only set up with the personal profile.
