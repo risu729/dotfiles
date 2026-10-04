@@ -97,4 +97,4 @@ jobs:
         run: |
           printf 'Preview URL: %s\n' "${PREVIEW_URL}"
           [[ "$(curl --silent --show-error --output /dev/null --write-out '%{http_code}' "${PREVIEW_URL}/")" == 307 ]]
-          curl --fail --silent --show-error "${PREVIEW_URL}/wsl" | grep -F "${EXPECTED_REVISION}"
+          curl --fail --retry 5 --retry-all-errors --retry-delay 2 --silent --show-error "${PREVIEW_URL}/wsl?ref=${EXPECTED_REVISION}" | grep -F "${EXPECTED_REVISION}"
