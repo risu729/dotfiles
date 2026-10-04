@@ -1,9 +1,0 @@
-#!/usr/bin/env bash
-#MISE description="Build the worker for production."
-#MISE hide=true
-#MISE extends="worker"
-
-set -euo pipefail
-
-set -x
-bun run cf build

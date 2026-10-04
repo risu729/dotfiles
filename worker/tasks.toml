@@ -1,5 +1,18 @@
 # ref: https://mise.jdx.dev/tasks/
 
+["worker:build"]
+extends = "worker"
+run = "bun run cf build"
+hide = true
+description = "Build the worker for production."
+
+["worker:build:preview"]
+extends = "worker"
+# Both builds write the same output; serialize them when scheduled together.
+wait_for = ["worker:build"]
+run = "bun run cf-vite build --preview"
+description = "Build a named Workers Preview."
+
 ["worker:dev"]
 extends = "worker:runtime"
 run = "bun run cf dev"

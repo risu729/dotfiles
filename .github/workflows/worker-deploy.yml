@@ -42,19 +42,19 @@ jobs:
         with:
           version: 2026.10.2
       - name: Install deployment CLI from the lockfile
-        working-directory: worker
-        run: bun install --frozen-lockfile
+        run: mise deps bun-worker
       - name: Download validated Worker
         uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
         with:
           name: worker-build
           path: out/worker-artifact/
       - name: Verify and restore the artifact
-        run: bash tasks/ci/worker-artifact restore
+        # Restore must not install dependencies or rebuild the validated bundle.
+        run: mise run --skip-tools --no-deps ci:worker-artifact restore
         env:
           EXPECTED_REVISION: ${{ github.sha }}
       - name: Validate or deploy Worker version
-        uses: risu729/wrangler-deploy-action@c2c1bf1396daf8ec7de4189e7b0dc92cab32f244 # v2.1.0
+        uses: risu729/wrangler-deploy-action@0d45a001e87e556e88dcf4aa6111a2dab05ea42b # v2.1.1
         with:
           mode: ${{ inputs.production && 'production' || 'dry-run' }}
           working-directory: worker

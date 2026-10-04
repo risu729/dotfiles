@@ -49,6 +49,7 @@ jobs:
           persist-credentials: false
       - name: Select expensive checks
         id: select
+        # No mise is installed in this lightweight path-selection job.
         run: bash tasks/ci/select >> "${GITHUB_OUTPUT}"
         env:
           # Validate the complete main tree, including commits coalesced by concurrency.
@@ -155,6 +156,7 @@ jobs:
         if: steps.wsl-cache.outputs.cache-hit != 'true'
         run: curl --fail-with-body --location --output wsl-amd64.wsl "${WSL_IMAGE_URL}"
       - name: Run installer
+        # Keep the Docker host independent of the installation under test.
         run: bash tasks/test/installer-linux
         env:
           GITHUB_TOKEN: ${{ github.token }}
@@ -181,6 +183,7 @@ jobs:
         with:
           persist-credentials: false
       - name: Build and test Worker container
+        # mise is provided by the tested container, not installed on this host.
         run: bash tasks/test/worker-container
         env:
           GITHUB_TOKEN: ${{ github.token }}
@@ -203,6 +206,7 @@ jobs:
         with:
           persist-credentials: false
       - name: Install twice and verify
+        # The first installer pass must bootstrap mise on the fresh runner.
         run: bash tasks/test/installer-macos
         env:
           TEST_PROFILE: ${{ matrix.profile }}
@@ -243,7 +247,7 @@ jobs:
         run: mise run worker:build
       - name: Validate production build
         if: ${{ needs.changes.outputs.worker == 'true' }}
-        uses: risu729/wrangler-deploy-action@c2c1bf1396daf8ec7de4189e7b0dc92cab32f244 # v2.1.0
+        uses: risu729/wrangler-deploy-action@0d45a001e87e556e88dcf4aa6111a2dab05ea42b # v2.1.1
         with:
           mode: dry-run
           working-directory: worker
@@ -251,7 +255,8 @@ jobs:
           build-mode: production
       - name: Package validated Worker
         if: ${{ needs.changes.outputs.worker == 'true' }}
-        run: bash tasks/ci/worker-artifact pack
+        # Packaging uses the already prepared tools and dependencies.
+        run: mise run --skip-tools --no-deps ci:worker-artifact pack
       - name: Upload validated Worker
         if: ${{ needs.changes.outputs.worker == 'true' }}
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1

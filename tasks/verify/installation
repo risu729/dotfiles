@@ -15,4 +15,6 @@ if [[ -n ${GIT_COMMIT_SHA:-} ]]; then
 	installed_revision=$(git rev-parse HEAD)
 	test "${installed_revision}" = "${GIT_COMMIT_SHA}"
 fi
+# Keep diagnostics in the shell being checked. A mise task would adjust PATH
+# and could install missing tools before doctor can report the broken setup.
 exec "${login_shell}" -ic 'bash tasks/verify/mise-doctor && mise --cd mise/doctor doctor project'
