@@ -243,26 +243,15 @@ jobs:
         run: mise run worker:build
       - name: Upload preview or validate deployment
         if: ${{ needs.changes.outputs.worker == 'true' }}
-        working-directory: worker
-        env:
-          PREVIEW_ALIAS: pr-${{ github.event.pull_request.number }}
-          CLOUDFLARE_ACCOUNT_ID: ${{ github.event_name == 'pull_request' && vars.CLOUDFLARE_ACCOUNT_ID || '' }}
-          CLOUDFLARE_API_TOKEN: ${{ github.event_name == 'pull_request' && secrets.CLOUDFLARE_API_TOKEN || '' }}
-        run: |
-          if [[ -n ${CLOUDFLARE_API_TOKEN} && -n ${CLOUDFLARE_ACCOUNT_ID} ]]; then
-            output_file=$(mktemp)
-            trap 'rm -f -- "${output_file}"' EXIT
-            export WRANGLER_OUTPUT_FILE_PATH="${output_file}"
-            bun run cf workers versions create --prebuilt --mode production --preview-alias "${PREVIEW_ALIAS}"
-            # Exercise the structured metadata used by production deployment, too.
-            jq --slurp --exit-status '
-              map(select(.type == "version-upload" and .worker_name == "dotfiles-worker"))
-              | if length == 1 then .[0].version_id else error("Expected one uploaded version") end
-              | select(type == "string" and test("^[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}$"))
-            ' "${output_file}"
-          else
-            bun run cf workers versions create --prebuilt --mode production --dry-run
-          fi
+        uses: risu729/wrangler-deploy-action@db82fbec0db564950f5c319292aab124896d74f3 # v2.0.0
+        with:
+          mode: ${{ github.event_name == 'pull_request' && 'preview-or-dry-run' || 'dry-run' }}
+          working-directory: worker
+          worker: dotfiles-worker
+          build-mode: production
+          preview-alias: pr-${{ github.event.pull_request.number }}
+          cloudflare-account-id: ${{ github.event_name == 'pull_request' && vars.CLOUDFLARE_ACCOUNT_ID || '' }}
+          cloudflare-api-token: ${{ github.event_name == 'pull_request' && secrets.CLOUDFLARE_API_TOKEN || '' }}
       - name: Package validated Worker
         if: ${{ needs.changes.outputs.worker == 'true' }}
         run: bash tasks/ci/worker-artifact pack

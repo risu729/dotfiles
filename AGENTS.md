@@ -78,8 +78,10 @@ preserves the existing Custom Domain without updating triggers.
 
 The pinned `cf` beta reads `worker/cloudflare.config.ts` and builds with Vite.
 CI archives `.cloudflare/output/v0` and always uses `--prebuilt` when uploading.
-The beta uploader still emits structured version metadata through
-`WRANGLER_OUTPUT_FILE_PATH`; verify this when upgrading `cf`.
+The pinned `wrangler-deploy-action` v2 runs cf for previews, dry runs, and
+production. It reads back the deployment to verify the exact version at 100%.
+Keep `deploy-triggers` false for routine deployment. The action owns the beta
+CLI output contract; validate CLI and action upgrades together.
 
 Manage Custom Domain and route changes separately with suitable permissions.
 Per-Worker tokens currently cannot manage Custom Domains. Do not replace version
