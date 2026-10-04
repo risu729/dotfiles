@@ -70,8 +70,12 @@ after all checks pass. For a manual deployment, run **CI** on `main` with
 **Deploy the validated Worker** enabled. **Upstream Health** never deploys.
 
 Deployment uses repository variable `CLOUDFLARE_ACCOUNT_ID` and secret
-`CLOUDFLARE_API_TOKEN`. The token needs `Workers Scripts: Edit` on account
-`risu` and `Workers Routes: Read` on zone `risunosu.com`. Wrangler reads routes
-to check for conflicting assignments before publishing the Custom Domain;
-Cloudflare creates its DNS record and certificate. If switching to an ordinary
-route, use `Workers Routes: Edit` instead.
+`CLOUDFLARE_API_TOKEN`. The token needs `Individual Workers Editor` scoped to
+`dotfiles-worker` on account `risu`. Production uploads the validated artifact
+with `wrangler versions upload`, then deploys that exact version to 100% of
+traffic. It preserves the existing Custom Domain without updating triggers.
+
+Manage Custom Domain, route, and other Worker-level settings separately with
+suitable permissions when those settings change. Per-Worker tokens currently
+cannot manage Custom Domains. Do not replace version deployment with
+`wrangler deploy` without accounting for its trigger updates.
