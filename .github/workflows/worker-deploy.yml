@@ -60,7 +60,9 @@ jobs:
           working-directory: worker
           worker: dotfiles-worker
           build-mode: production
-          # Preserve the existing Custom Domain with the Worker-scoped token.
+          # Use only Individual Workers Editor scoped to dotfiles-worker.
+          # Preserve the existing domain without zone Workers Routes permissions.
+          # Manage Custom Domain and route changes separately.
           deploy-triggers: 'false'
           cloudflare-account-id: ${{ inputs.production && vars.CLOUDFLARE_ACCOUNT_ID || '' }}
           cloudflare-api-token: ${{ inputs.production && secrets.CLOUDFLARE_API_TOKEN || '' }}
