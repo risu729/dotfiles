@@ -81,7 +81,7 @@ jobs:
       - name: Deploy or delete Preview
         id: preview
         if: steps.current.outputs.run == 'true'
-        uses: risu729/wrangler-deploy-action@561bbb845e7d4033808f88132646dd3ecbfca931 # 561bbb845e7d4033808f88132646dd3ecbfca931 # zizmor: ignore[stale-action-refs,ref-version-mismatch] -- PR 106 review commit; replace with its release before merging.
+        uses: risu729/wrangler-deploy-action@c2c1bf1396daf8ec7de4189e7b0dc92cab32f244 # v2.1.0
         with:
           mode: ${{ github.event_name == 'pull_request_target' && 'delete-preview' || 'worker-preview' }}
           working-directory: worker
