@@ -72,9 +72,15 @@ after all checks pass. For a manual deployment, run **CI** on `main` with
 Deployment uses repository variable `CLOUDFLARE_ACCOUNT_ID` and secret
 `CLOUDFLARE_API_TOKEN`. The token needs `Individual Workers Editor` scoped to
 `dotfiles-worker` on account `risu`. Production uploads the validated artifact
-with `wrangler versions upload`, then deploys that exact version to 100% of
-traffic. It preserves the existing Custom Domain without updating triggers.
+with `cf workers versions create --prebuilt --mode production`, then deploys
+that exact version with `cf workers deployments create` to 100% of traffic. It
+preserves the existing Custom Domain without updating triggers.
+
+The pinned `cf` beta reads `worker/cloudflare.config.ts` and builds with Vite.
+CI archives `.cloudflare/output/v0` and always uses `--prebuilt` when uploading.
+The beta uploader still emits structured version metadata through
+`WRANGLER_OUTPUT_FILE_PATH`; verify this when upgrading `cf`.
 
 Manage Custom Domain and route changes separately with suitable permissions.
 Per-Worker tokens currently cannot manage Custom Domains. Do not replace version
-deployment with `wrangler deploy` without accounting for its trigger updates.
+deployment with `cf deploy` without accounting for its trigger updates.

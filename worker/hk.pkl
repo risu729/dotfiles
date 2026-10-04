@@ -6,7 +6,7 @@ local tsc = helpers.pick(new Listing { "tsc" })["tsc"] as Step
 
 steps = new Mapping<String, Step | Group> {
   ["generate-types"] = new Step {
-    check = "bun run wrangler types src/worker-configuration.d.ts"
+    check = "bun run cf workers types"
     hide = true
   }
   ["tsc:base"] = (tsc) {

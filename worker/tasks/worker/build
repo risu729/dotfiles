@@ -6,4 +6,4 @@
 set -euo pipefail
 
 set -x
-bun run vite build
+bun run cf build
