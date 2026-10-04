@@ -1,10 +1,10 @@
 import { defineConfig } from "cf/config";
 
-export default defineConfig({
+export default defineConfig(({ isPreview }) => ({
 	worker: {
 		compatibilityDate: "2026-07-30",
 		compatibilityFlags: ["nodejs_compat"],
-		domains: ["dot.risunosu.com"],
+		domains: isPreview ? [] : ["dot.risunosu.com"],
 		entrypoint: "src/index.ts",
 		name: "dotfiles-worker",
 		observability: {
@@ -21,4 +21,4 @@ export default defineConfig({
 		previewUrls: true,
 		workersDev: false,
 	},
-});
+}));

@@ -69,7 +69,7 @@ jobs:
         run: bun run cf-vite build --preview
       - name: Deploy or delete Preview
         if: steps.current.outputs.run == 'true'
-        uses: risu729/wrangler-deploy-action@561bbb845e7d4033808f88132646dd3ecbfca931 # 561bbb845e7d4033808f88132646dd3ecbfca931
+        uses: risu729/wrangler-deploy-action@561bbb845e7d4033808f88132646dd3ecbfca931 # 561bbb845e7d4033808f88132646dd3ecbfca931 # zizmor: ignore[stale-action-refs,ref-version-mismatch] -- PR 106 review commit; replace with its release before merging.
         with:
           mode: ${{ github.event_name == 'pull_request_target' && 'delete-preview' || 'worker-preview' }}
           working-directory: worker
