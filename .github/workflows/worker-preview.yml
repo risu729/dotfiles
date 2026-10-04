@@ -1,9 +1,14 @@
 name: Worker Preview
 on:
-  workflow_call:
-    secrets:
-      CLOUDFLARE_API_TOKEN:
-        required: false
+  pull_request:
+    paths-ignore:
+      - 'docs/**'
+      - '**/*.md'
+      - 'unix/home/**'
+      - 'unix/codex/**'
+      - 'unix/ssh/**'
+      - 'unix/systemd/**'
+      - 'wsl/**'
   pull_request_target: # zizmor: ignore[dangerous-triggers] -- Closed-event cleanup uses only trusted base checkout and a pinned action; no PR code runs.
     types: [closed]
 permissions: {}
@@ -17,6 +22,7 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     concurrency:
+      # This workflow is separate from CI so cancellation cannot interrupt an upload.
       group: worker-preview-${{ github.event.pull_request.number }}
       cancel-in-progress: false
     permissions:
@@ -63,6 +69,11 @@ jobs:
         if: steps.current.outputs.run == 'true' && github.event_name != 'pull_request_target'
         working-directory: worker
         run: bun install --frozen-lockfile
+      - name: Test Worker before Preview deployment
+        if: steps.current.outputs.run == 'true' && github.event_name != 'pull_request_target'
+        run: mise run worker:test
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
       - name: Build Preview
         if: steps.current.outputs.run == 'true' && github.event_name != 'pull_request_target'
         working-directory: worker
