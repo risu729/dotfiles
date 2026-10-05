@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>dev.kanata.driver-activation</string>
+    <key>ProgramArguments</key>
+    <array>
+        <string>/Applications/.Karabiner-VirtualHIDDevice-Manager.app/Contents/MacOS/Karabiner-VirtualHIDDevice-Manager</string>
+        <string>activate</string>
+    </array>
+    <!-- A first activation waits for approval; never block the installer on it. -->
+    <key>RunAtLoad</key>
+    <true/>
+    <key>StandardOutPath</key>
+    <string>/var/log/kanata-driver-activation.log</string>
+    <key>StandardErrorPath</key>
+    <string>/var/log/kanata-driver-activation.log</string>
+</dict>
+</plist>

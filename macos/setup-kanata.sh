@@ -88,7 +88,6 @@ driver_manager='/Applications/.Karabiner-VirtualHIDDevice-Manager.app/Contents/M
 if [[ ${driver_installed} != "${driver_version}" || ! -x ${driver_manager} ]]; then
 	sudo installer -pkg "${cache}/driver.pkg" -target /
 fi
-sudo "${driver_manager}" activate
 
 # Keep the privileged executable outside Homebrew's potentially user-owned prefix.
 runtime_dir='/Library/Application Support/Kanata'
@@ -100,7 +99,7 @@ fi
 sudo chown root:wheel "${runtime_dir}/kanata"
 sudo chmod 755 "${runtime_dir}/kanata"
 sudo install -o root -g wheel -m 644 "${script_dir}/kanata/kanata.kbd" /etc/kanata/kanata.kbd
-for label in org.pqrs.Karabiner-VirtualHIDDevice-Daemon dev.kanata.kanata; do
+for label in dev.kanata.driver-activation org.pqrs.Karabiner-VirtualHIDDevice-Daemon dev.kanata.kanata; do
 	plist="/Library/LaunchDaemons/${label}.plist"
 	if sudo launchctl print "system/${label}" >/dev/null 2>&1; then
 		sudo launchctl bootout "system/${label}"
@@ -125,5 +124,6 @@ done
 
 echo 'Allow /Library/Application Support/Kanata/kanata in System Settings > Privacy & Security > Input Monitoring and Accessibility.'
 echo 'Allow the Karabiner driver in General > Login Items & Extensions > Driver Extensions.'
+echo 'Driver activation status: /var/log/kanata-driver-activation.log'
 echo 'Then run: sudo launchctl kickstart -k system/dev.kanata.kanata'
 echo "Previous settings are backed up in ${backup}"
