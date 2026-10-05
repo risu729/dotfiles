@@ -90,9 +90,11 @@ if [[ ${driver_installed} != "${driver_version}" || ! -x ${driver_manager} ]]; t
 fi
 sudo "${driver_manager}" activate
 
-sudo install -d -m 755 /usr/local/bin /etc/kanata
-if ! cmp -s "${binary}" /usr/local/bin/kanata; then
-	sudo install -o root -g wheel -m 755 "${binary}" /usr/local/bin/kanata
+# Keep the privileged executable outside Homebrew's potentially user-owned prefix.
+runtime_dir='/Library/Application Support/Kanata'
+sudo install -d -o root -g wheel -m 755 "${runtime_dir}" /etc/kanata
+if ! cmp -s "${binary}" "${runtime_dir}/kanata"; then
+	sudo install -o root -g wheel -m 755 "${binary}" "${runtime_dir}/kanata"
 fi
 sudo install -o root -g wheel -m 644 "${script_dir}/kanata/kanata.kbd" /etc/kanata/kanata.kbd
 for label in org.pqrs.Karabiner-VirtualHIDDevice-Daemon dev.kanata.kanata; do
@@ -118,7 +120,7 @@ for domain in com.google.Chrome com.google.Chrome.beta; do
 		'Show Full History' '@h' 'Hide Google Chrome' '@^h'
 done
 
-echo 'Allow /usr/local/bin/kanata in System Settings > Privacy & Security > Input Monitoring and Accessibility.'
+echo 'Allow /Library/Application Support/Kanata/kanata in System Settings > Privacy & Security > Input Monitoring and Accessibility.'
 echo 'Allow the Karabiner driver in General > Login Items & Extensions > Driver Extensions.'
 echo 'Then run: sudo launchctl kickstart -k system/dev.kanata.kanata'
 echo "Previous settings are backed up in ${backup}"

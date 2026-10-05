@@ -6,7 +6,7 @@
     <string>dev.kanata.kanata</string>
     <key>ProgramArguments</key>
     <array>
-        <string>/usr/local/bin/kanata</string>
+        <string>/Library/Application Support/Kanata/kanata</string>
         <string>--cfg</string>
         <string>/etc/kanata/kanata.kbd</string>
         <string>--no-wait</string>
@@ -20,8 +20,9 @@
     </dict>
     <key>ThrottleInterval</key>
     <integer>10</integer>
+    <!-- The DriverKit client prints readiness to stdout once per second. -->
     <key>StandardOutPath</key>
-    <string>/var/log/kanata.log</string>
+    <string>/dev/null</string>
     <key>StandardErrorPath</key>
     <string>/var/log/kanata.log</string>
 </dict>
