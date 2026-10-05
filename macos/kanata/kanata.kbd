@@ -1,0 +1,12 @@
+;; Only the built-in keyboard is remapped; external keyboards keep their layout.
+(defcfg
+  process-unmapped-keys yes
+  macos-dev-names-include ("Apple Internal Keyboard / Trackpad")
+  macos-continue-if-no-devs-found yes
+)
+
+(defsrc caps fn lmet rmet)
+
+;; The macro releases Control immediately, even if Caps Lock is still held.
+;; Physical Fn acts as Command; both physical Command keys act as Fn.
+(deflayer base (macro C-spc) lmet fn fn)

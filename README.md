@@ -65,6 +65,49 @@ scrolling preferences to take effect.
 macOS keeps zsh as the login shell. A managed block in `~/.zshrc` loads the
 shared configuration while preserving machine-local lines.
 
+#### Keyboard
+
+[Kanata](https://github.com/jtroo/kanata) handles the built-in keyboard:
+
+| Physical key | Action |
+| --- | --- |
+| Caps Lock | Switch input source with Control-Space (no hold repeat) |
+| Globe/Fn | Left Command |
+| Left or right Command | Globe/Fn |
+| Globe/Fn + H in Chrome | Show Full History |
+
+Chrome and Chrome Beta use macOS App Shortcuts: Command-H opens history and
+Control-Command-H hides Chrome. These menu names require English app menus;
+restart Chrome after applying them. External keyboards keep their key layout.
+
+Bootstrap verifies and installs Kanata 1.12.0 and its matching standalone
+Karabiner DriverKit 6.2.0. It uninstalls Karabiner-Elements to avoid two
+remappers capturing the same keyboard. Do not upgrade the driver separately: its
+protocol must match Kanata. The binary has shell-command execution disabled.
+
+Allow `/usr/local/bin/kanata` in **System Settings → Privacy & Security →
+Input Monitoring**, and allow the Karabiner driver under **General → Login Items
+& Extensions → Driver Extensions**. macOS may require a restart when replacing
+an existing driver. Keep the **Control-Space** input-source shortcut enabled.
+Then start Kanata with:
+
+```bash
+sudo launchctl kickstart -k system/dev.kanata.kanata
+```
+
+Edit `macos/kanata/kanata.kbd` and run `bash macos/setup-kanata.sh` to reapply.
+`bash macos/setup-kanata.sh prepare` only downloads and validates the files.
+Runtime configuration and executables are root-owned. Startup failures are in
+`/var/log/kanata.log`.
+
+For an emergency stop, press physical **Left Control + Space + Escape**.
+To stop persistently, run `sudo launchctl bootout system/dev.kanata.kanata`.
+Without Kanata the keyboard uses its original layout. Previous modifier settings
+and Karabiner configuration are saved once in
+`~/Library/Application Support/dotfiles/kanata-backup/`. To return to Karabiner,
+stop Kanata, reinstall Karabiner-Elements, and restore its backed-up config.
+The old native modifier map is removed to prevent double remapping.
+
 ### Profiles
 
 The WSL2 and macOS commands above install the shared configuration. Add
