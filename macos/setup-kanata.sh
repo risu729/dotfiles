@@ -96,6 +96,9 @@ sudo install -d -o root -g wheel -m 755 "${runtime_dir}" /etc/kanata
 if ! cmp -s "${binary}" "${runtime_dir}/kanata"; then
 	sudo install -o root -g wheel -m 755 "${binary}" "${runtime_dir}/kanata"
 fi
+# Preserve the binary identity for TCC while enforcing metadata on every run.
+sudo chown root:wheel "${runtime_dir}/kanata"
+sudo chmod 755 "${runtime_dir}/kanata"
 sudo install -o root -g wheel -m 644 "${script_dir}/kanata/kanata.kbd" /etc/kanata/kanata.kbd
 for label in org.pqrs.Karabiner-VirtualHIDDevice-Daemon dev.kanata.kanata; do
 	plist="/Library/LaunchDaemons/${label}.plist"
