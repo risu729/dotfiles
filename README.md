@@ -86,7 +86,8 @@ remappers capturing the same keyboard. Do not upgrade the driver separately: its
 protocol must match Kanata. The binary has shell-command execution disabled.
 
 Allow `/usr/local/bin/kanata` in **System Settings → Privacy & Security →
-Input Monitoring**, and allow the Karabiner driver under **General → Login Items
+Input Monitoring** and **Accessibility**, then allow the driver under
+**General → Login Items
 & Extensions → Driver Extensions**. macOS may require a restart when replacing
 an existing driver. Keep the **Control-Space** input-source shortcut enabled.
 Then start Kanata with:

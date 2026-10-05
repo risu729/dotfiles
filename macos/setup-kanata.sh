@@ -118,7 +118,7 @@ for domain in com.google.Chrome com.google.Chrome.beta; do
 		'Show Full History' '@h' 'Hide Google Chrome' '@^h'
 done
 
-echo 'Allow /usr/local/bin/kanata in System Settings > Privacy & Security > Input Monitoring.'
+echo 'Allow /usr/local/bin/kanata in System Settings > Privacy & Security > Input Monitoring and Accessibility.'
 echo 'Allow the Karabiner driver in General > Login Items & Extensions > Driver Extensions.'
 echo 'Then run: sudo launchctl kickstart -k system/dev.kanata.kanata'
 echo "Previous settings are backed up in ${backup}"
