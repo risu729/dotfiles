@@ -54,7 +54,7 @@ jobs:
         env:
           EXPECTED_REVISION: ${{ github.sha }}
       - name: Validate or deploy Worker version
-        uses: risu729/wrangler-deploy-action@0d45a001e87e556e88dcf4aa6111a2dab05ea42b # v2.1.1
+        uses: risu729/wrangler-deploy-action@251e42de418f3f5aece2789cc1c0f76d3f8264f5 # v2.2.0
         with:
           mode: ${{ inputs.production && 'production' || 'dry-run' }}
           working-directory: worker
