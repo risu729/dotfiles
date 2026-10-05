@@ -617,43 +617,43 @@ url = "https://github.com/openai/codex/releases/download/rust-v0.160.0/codex-pac
 url_api = "https://api.github.com/repos/openai/codex/releases/assets/604052366"
 
 [[tools.delta]]
-version = "0.20.0"
+version = "0.20.1"
 backend = "aqua:dandavison/delta"
 
 [tools.delta."platforms.linux-arm64"]
-checksum = "sha256:c3730d1f774c59066bafb91cead886a1a30ebefca707359a4513fa8e45a6b81f"
-url = "https://github.com/dandavison/delta/releases/download/0.20.0/delta-0.20.0-aarch64-unknown-linux-gnu.tar.gz"
-url_api = "https://api.github.com/repos/dandavison/delta/releases/assets/610057558"
+checksum = "sha256:da7f4338f593572ff426ae153e0870e2fdc72729416eff551b40cdeb67940db8"
+url = "https://github.com/dandavison/delta/releases/download/0.20.1/delta-0.20.1-aarch64-unknown-linux-gnu.tar.gz"
+url_api = "https://api.github.com/repos/dandavison/delta/releases/assets/610499593"
 
 [tools.delta."platforms.linux-arm64-musl"]
-checksum = "sha256:c3730d1f774c59066bafb91cead886a1a30ebefca707359a4513fa8e45a6b81f"
-url = "https://github.com/dandavison/delta/releases/download/0.20.0/delta-0.20.0-aarch64-unknown-linux-gnu.tar.gz"
-url_api = "https://api.github.com/repos/dandavison/delta/releases/assets/610057558"
+checksum = "sha256:da7f4338f593572ff426ae153e0870e2fdc72729416eff551b40cdeb67940db8"
+url = "https://github.com/dandavison/delta/releases/download/0.20.1/delta-0.20.1-aarch64-unknown-linux-gnu.tar.gz"
+url_api = "https://api.github.com/repos/dandavison/delta/releases/assets/610499593"
 
 [tools.delta."platforms.linux-x64"]
-checksum = "sha256:d230b86c51e4764f0bc3285859652316c26ff39f2283d44f97a9d54387bcab4e"
-url = "https://github.com/dandavison/delta/releases/download/0.20.0/delta-0.20.0-x86_64-unknown-linux-gnu.tar.gz"
-url_api = "https://api.github.com/repos/dandavison/delta/releases/assets/610056023"
+checksum = "sha256:50f08c879f84c81ceb220e476491a7f492d2c9c671e79918cc44badf961a6240"
+url = "https://github.com/dandavison/delta/releases/download/0.20.1/delta-0.20.1-x86_64-unknown-linux-gnu.tar.gz"
+url_api = "https://api.github.com/repos/dandavison/delta/releases/assets/610498121"
 
 [tools.delta."platforms.linux-x64-baseline"]
-checksum = "sha256:d230b86c51e4764f0bc3285859652316c26ff39f2283d44f97a9d54387bcab4e"
-url = "https://github.com/dandavison/delta/releases/download/0.20.0/delta-0.20.0-x86_64-unknown-linux-gnu.tar.gz"
-url_api = "https://api.github.com/repos/dandavison/delta/releases/assets/610056023"
+checksum = "sha256:50f08c879f84c81ceb220e476491a7f492d2c9c671e79918cc44badf961a6240"
+url = "https://github.com/dandavison/delta/releases/download/0.20.1/delta-0.20.1-x86_64-unknown-linux-gnu.tar.gz"
+url_api = "https://api.github.com/repos/dandavison/delta/releases/assets/610498121"
 
 [tools.delta."platforms.linux-x64-musl"]
-checksum = "sha256:6566c4ca33558f0b63ead06febdc4e50ed05fba3becd70d35329c5120fb698d3"
-url = "https://github.com/dandavison/delta/releases/download/0.20.0/delta-0.20.0-x86_64-unknown-linux-musl.tar.gz"
-url_api = "https://api.github.com/repos/dandavison/delta/releases/assets/610056836"
+checksum = "sha256:69dcb4043f55c29118f408c6efd30115e0a4e0a6709253343b8c8fa814ab4a31"
+url = "https://github.com/dandavison/delta/releases/download/0.20.1/delta-0.20.1-x86_64-unknown-linux-musl.tar.gz"
+url_api = "https://api.github.com/repos/dandavison/delta/releases/assets/610498263"
 
 [tools.delta."platforms.linux-x64-musl-baseline"]
-checksum = "sha256:6566c4ca33558f0b63ead06febdc4e50ed05fba3becd70d35329c5120fb698d3"
-url = "https://github.com/dandavison/delta/releases/download/0.20.0/delta-0.20.0-x86_64-unknown-linux-musl.tar.gz"
-url_api = "https://api.github.com/repos/dandavison/delta/releases/assets/610056836"
+checksum = "sha256:69dcb4043f55c29118f408c6efd30115e0a4e0a6709253343b8c8fa814ab4a31"
+url = "https://github.com/dandavison/delta/releases/download/0.20.1/delta-0.20.1-x86_64-unknown-linux-musl.tar.gz"
+url_api = "https://api.github.com/repos/dandavison/delta/releases/assets/610498263"
 
 [tools.delta."platforms.macos-arm64"]
-checksum = "sha256:e50d88b6b16e15bc9fef9034b2007fe4a217e8bd61061665966058eb82c1eb84"
-url = "https://github.com/dandavison/delta/releases/download/0.20.0/delta-0.20.0-aarch64-apple-darwin.tar.gz"
-url_api = "https://api.github.com/repos/dandavison/delta/releases/assets/610056040"
+checksum = "sha256:bc1839cea69288d4673a24faffbb825d408ca907e0f7d33b1678c9e6cdd5e58e"
+url = "https://github.com/dandavison/delta/releases/download/0.20.1/delta-0.20.1-aarch64-apple-darwin.tar.gz"
+url_api = "https://api.github.com/repos/dandavison/delta/releases/assets/610498923"
 
 [[tools.doggo]]
 version = "1.4.0"
