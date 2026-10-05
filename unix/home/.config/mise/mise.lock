@@ -2038,7 +2038,7 @@ url = "https://github.com/sharkdp/numbat/releases/download/v1.24.0/numbat-v1.24.
 url_api = "https://api.github.com/repos/sharkdp/numbat/releases/assets/526573130"
 
 [[tools.oxfmt]]
-version = "0.71.0"
+version = "0.72.0"
 backend = "npm:oxfmt"
 
 [[tools.oxlint]]
