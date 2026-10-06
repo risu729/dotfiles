@@ -59,61 +59,61 @@ url_api = "https://api.github.com/repos/rhysd/actionlint/releases/assets/3849248
 provenance = "github-attestations"
 
 [[tools.aqua]]
-version = "2.63.0"
+version = "2.64.0"
 backend = "github:aquaproj/aqua"
 
 [tools.aqua."platforms.linux-arm64"]
-checksum = "sha256:3dd441af09e988c63d2d6a36f391a0609fd35ca95f548038f02471de6a0bdef1"
-url = "https://github.com/aquaproj/aqua/releases/download/v2.63.0/aqua_linux_arm64.tar.gz"
-url_api = "https://api.github.com/repos/aquaproj/aqua/releases/assets/565570050"
+checksum = "sha256:7cc2b859333f40ef52eb62a1be3bfaa34dcbc27ef1c8bdc5bfaea7787597bc18"
+url = "https://github.com/aquaproj/aqua/releases/download/v2.64.0/aqua_linux_arm64.tar.gz"
+url_api = "https://api.github.com/repos/aquaproj/aqua/releases/assets/615231601"
 provenance = "github-attestations"
 
 [tools.aqua."platforms.linux-arm64-musl"]
-checksum = "sha256:3dd441af09e988c63d2d6a36f391a0609fd35ca95f548038f02471de6a0bdef1"
-url = "https://github.com/aquaproj/aqua/releases/download/v2.63.0/aqua_linux_arm64.tar.gz"
-url_api = "https://api.github.com/repos/aquaproj/aqua/releases/assets/565570050"
+checksum = "sha256:7cc2b859333f40ef52eb62a1be3bfaa34dcbc27ef1c8bdc5bfaea7787597bc18"
+url = "https://github.com/aquaproj/aqua/releases/download/v2.64.0/aqua_linux_arm64.tar.gz"
+url_api = "https://api.github.com/repos/aquaproj/aqua/releases/assets/615231601"
 provenance = "github-attestations"
 
 [tools.aqua."platforms.linux-x64"]
-checksum = "sha256:5d2ea870fb45847e67128af128f8a2f974c7f3a0e7bf9f880015562b9064bb9b"
-url = "https://github.com/aquaproj/aqua/releases/download/v2.63.0/aqua_linux_amd64.tar.gz"
-url_api = "https://api.github.com/repos/aquaproj/aqua/releases/assets/565570042"
+checksum = "sha256:b276e927ee2f4dc214831708c0843a91007bafa06f2f9fcd6ee1fd73fd165598"
+url = "https://github.com/aquaproj/aqua/releases/download/v2.64.0/aqua_linux_amd64.tar.gz"
+url_api = "https://api.github.com/repos/aquaproj/aqua/releases/assets/615231584"
 provenance = "github-attestations"
 
 [tools.aqua."platforms.linux-x64-baseline"]
-checksum = "sha256:5d2ea870fb45847e67128af128f8a2f974c7f3a0e7bf9f880015562b9064bb9b"
-url = "https://github.com/aquaproj/aqua/releases/download/v2.63.0/aqua_linux_amd64.tar.gz"
-url_api = "https://api.github.com/repos/aquaproj/aqua/releases/assets/565570042"
+checksum = "sha256:b276e927ee2f4dc214831708c0843a91007bafa06f2f9fcd6ee1fd73fd165598"
+url = "https://github.com/aquaproj/aqua/releases/download/v2.64.0/aqua_linux_amd64.tar.gz"
+url_api = "https://api.github.com/repos/aquaproj/aqua/releases/assets/615231584"
 provenance = "github-attestations"
 
 [tools.aqua."platforms.linux-x64-musl"]
-checksum = "sha256:5d2ea870fb45847e67128af128f8a2f974c7f3a0e7bf9f880015562b9064bb9b"
-url = "https://github.com/aquaproj/aqua/releases/download/v2.63.0/aqua_linux_amd64.tar.gz"
-url_api = "https://api.github.com/repos/aquaproj/aqua/releases/assets/565570042"
+checksum = "sha256:b276e927ee2f4dc214831708c0843a91007bafa06f2f9fcd6ee1fd73fd165598"
+url = "https://github.com/aquaproj/aqua/releases/download/v2.64.0/aqua_linux_amd64.tar.gz"
+url_api = "https://api.github.com/repos/aquaproj/aqua/releases/assets/615231584"
 provenance = "github-attestations"
 
 [tools.aqua."platforms.linux-x64-musl-baseline"]
-checksum = "sha256:5d2ea870fb45847e67128af128f8a2f974c7f3a0e7bf9f880015562b9064bb9b"
-url = "https://github.com/aquaproj/aqua/releases/download/v2.63.0/aqua_linux_amd64.tar.gz"
-url_api = "https://api.github.com/repos/aquaproj/aqua/releases/assets/565570042"
+checksum = "sha256:b276e927ee2f4dc214831708c0843a91007bafa06f2f9fcd6ee1fd73fd165598"
+url = "https://github.com/aquaproj/aqua/releases/download/v2.64.0/aqua_linux_amd64.tar.gz"
+url_api = "https://api.github.com/repos/aquaproj/aqua/releases/assets/615231584"
 provenance = "github-attestations"
 
 [tools.aqua."platforms.macos-arm64"]
-checksum = "sha256:c1f2454a193d0234d0b40b326c98db4909572ff34429ee2078fae5681d90737e"
-url = "https://github.com/aquaproj/aqua/releases/download/v2.63.0/aqua_darwin_arm64.tar.gz"
-url_api = "https://api.github.com/repos/aquaproj/aqua/releases/assets/565570015"
+checksum = "sha256:f7f7890781bbd8863b04b61eb7bb40fe83add7097243c13da987ae9fb56d93b7"
+url = "https://github.com/aquaproj/aqua/releases/download/v2.64.0/aqua_darwin_arm64.tar.gz"
+url_api = "https://api.github.com/repos/aquaproj/aqua/releases/assets/615231567"
 provenance = "github-attestations"
 
 [tools.aqua."platforms.macos-x64"]
-checksum = "sha256:87c5cc2fb7d37f3c8471bc597484b38e9977c873cc3a020389ff018e864c8747"
-url = "https://github.com/aquaproj/aqua/releases/download/v2.63.0/aqua_darwin_amd64.tar.gz"
-url_api = "https://api.github.com/repos/aquaproj/aqua/releases/assets/565570016"
+checksum = "sha256:64bc676871f2fe2683f57371e958963fc5a14b72b03e22b796fa228dcdeb353b"
+url = "https://github.com/aquaproj/aqua/releases/download/v2.64.0/aqua_darwin_amd64.tar.gz"
+url_api = "https://api.github.com/repos/aquaproj/aqua/releases/assets/615231564"
 provenance = "github-attestations"
 
 [tools.aqua."platforms.macos-x64-baseline"]
-checksum = "sha256:87c5cc2fb7d37f3c8471bc597484b38e9977c873cc3a020389ff018e864c8747"
-url = "https://github.com/aquaproj/aqua/releases/download/v2.63.0/aqua_darwin_amd64.tar.gz"
-url_api = "https://api.github.com/repos/aquaproj/aqua/releases/assets/565570016"
+checksum = "sha256:64bc676871f2fe2683f57371e958963fc5a14b72b03e22b796fa228dcdeb353b"
+url = "https://github.com/aquaproj/aqua/releases/download/v2.64.0/aqua_darwin_amd64.tar.gz"
+url_api = "https://api.github.com/repos/aquaproj/aqua/releases/assets/615231564"
 provenance = "github-attestations"
 
 [[tools."aqua:siketyan/ghr"]]
@@ -705,53 +705,53 @@ url = "https://github.com/mr-karan/doggo/releases/download/v1.4.0/doggo-darwin-x
 url_api = "https://api.github.com/repos/mr-karan/doggo/releases/assets/539320095"
 
 [[tools.entire]]
-version = "0.11.3"
+version = "0.11.4"
 backend = "aqua:entireio/cli"
 
 [tools.entire."platforms.linux-arm64"]
-checksum = "sha256:943c5fb0283c1ffc68a2a962660ba89c8d12fe46642f2f708b040040adb154a2"
-url = "https://github.com/entireio/cli/releases/download/v0.11.3/entire_linux_arm64.tar.gz"
-url_api = "https://api.github.com/repos/entireio/cli/releases/assets/589226937"
+checksum = "sha256:389274ce4bfc0813fe5d6ac0cc8b270beddfa025340e4506f4807dab7798f447"
+url = "https://github.com/entireio/cli/releases/download/v0.11.4/entire_linux_arm64.tar.gz"
+url_api = "https://api.github.com/repos/entireio/cli/releases/assets/615245217"
 
 [tools.entire."platforms.linux-arm64-musl"]
-checksum = "sha256:943c5fb0283c1ffc68a2a962660ba89c8d12fe46642f2f708b040040adb154a2"
-url = "https://github.com/entireio/cli/releases/download/v0.11.3/entire_linux_arm64.tar.gz"
-url_api = "https://api.github.com/repos/entireio/cli/releases/assets/589226937"
+checksum = "sha256:389274ce4bfc0813fe5d6ac0cc8b270beddfa025340e4506f4807dab7798f447"
+url = "https://github.com/entireio/cli/releases/download/v0.11.4/entire_linux_arm64.tar.gz"
+url_api = "https://api.github.com/repos/entireio/cli/releases/assets/615245217"
 
 [tools.entire."platforms.linux-x64"]
-checksum = "sha256:a491d2329fd38d215185746925d0086969262676f7ce9de55ac724bd7b2a7412"
-url = "https://github.com/entireio/cli/releases/download/v0.11.3/entire_linux_amd64.tar.gz"
-url_api = "https://api.github.com/repos/entireio/cli/releases/assets/589226931"
+checksum = "sha256:b93634124bf51bc5e07156d92b53853d124325a3ff9af60c4960307bf8eb870f"
+url = "https://github.com/entireio/cli/releases/download/v0.11.4/entire_linux_amd64.tar.gz"
+url_api = "https://api.github.com/repos/entireio/cli/releases/assets/615245143"
 
 [tools.entire."platforms.linux-x64-baseline"]
-checksum = "sha256:a491d2329fd38d215185746925d0086969262676f7ce9de55ac724bd7b2a7412"
-url = "https://github.com/entireio/cli/releases/download/v0.11.3/entire_linux_amd64.tar.gz"
-url_api = "https://api.github.com/repos/entireio/cli/releases/assets/589226931"
+checksum = "sha256:b93634124bf51bc5e07156d92b53853d124325a3ff9af60c4960307bf8eb870f"
+url = "https://github.com/entireio/cli/releases/download/v0.11.4/entire_linux_amd64.tar.gz"
+url_api = "https://api.github.com/repos/entireio/cli/releases/assets/615245143"
 
 [tools.entire."platforms.linux-x64-musl"]
-checksum = "sha256:a491d2329fd38d215185746925d0086969262676f7ce9de55ac724bd7b2a7412"
-url = "https://github.com/entireio/cli/releases/download/v0.11.3/entire_linux_amd64.tar.gz"
-url_api = "https://api.github.com/repos/entireio/cli/releases/assets/589226931"
+checksum = "sha256:b93634124bf51bc5e07156d92b53853d124325a3ff9af60c4960307bf8eb870f"
+url = "https://github.com/entireio/cli/releases/download/v0.11.4/entire_linux_amd64.tar.gz"
+url_api = "https://api.github.com/repos/entireio/cli/releases/assets/615245143"
 
 [tools.entire."platforms.linux-x64-musl-baseline"]
-checksum = "sha256:a491d2329fd38d215185746925d0086969262676f7ce9de55ac724bd7b2a7412"
-url = "https://github.com/entireio/cli/releases/download/v0.11.3/entire_linux_amd64.tar.gz"
-url_api = "https://api.github.com/repos/entireio/cli/releases/assets/589226931"
+checksum = "sha256:b93634124bf51bc5e07156d92b53853d124325a3ff9af60c4960307bf8eb870f"
+url = "https://github.com/entireio/cli/releases/download/v0.11.4/entire_linux_amd64.tar.gz"
+url_api = "https://api.github.com/repos/entireio/cli/releases/assets/615245143"
 
 [tools.entire."platforms.macos-arm64"]
-checksum = "sha256:ad8de534e985ca2f4f6ba98dea810ab4c88cd06e81dccd04d38d68c1021b28cf"
-url = "https://github.com/entireio/cli/releases/download/v0.11.3/entire_darwin_arm64.tar.gz"
-url_api = "https://api.github.com/repos/entireio/cli/releases/assets/589226967"
+checksum = "sha256:6636dd5bf1b2ff9a9c52d4ea1ad936799ada962142f0f5e5c3c8611f3acd347b"
+url = "https://github.com/entireio/cli/releases/download/v0.11.4/entire_darwin_arm64.tar.gz"
+url_api = "https://api.github.com/repos/entireio/cli/releases/assets/615245146"
 
 [tools.entire."platforms.macos-x64"]
-checksum = "sha256:0c80e3183a530e8a4170288b272afd2a6a00c367485b027acf3780253236796a"
-url = "https://github.com/entireio/cli/releases/download/v0.11.3/entire_darwin_amd64.tar.gz"
-url_api = "https://api.github.com/repos/entireio/cli/releases/assets/589226972"
+checksum = "sha256:74ff766a6877741ece7f100b2c428bd5d748899018f464a6ea6fa397b33da345"
+url = "https://github.com/entireio/cli/releases/download/v0.11.4/entire_darwin_amd64.tar.gz"
+url_api = "https://api.github.com/repos/entireio/cli/releases/assets/615245224"
 
 [tools.entire."platforms.macos-x64-baseline"]
-checksum = "sha256:0c80e3183a530e8a4170288b272afd2a6a00c367485b027acf3780253236796a"
-url = "https://github.com/entireio/cli/releases/download/v0.11.3/entire_darwin_amd64.tar.gz"
-url_api = "https://api.github.com/repos/entireio/cli/releases/assets/589226972"
+checksum = "sha256:74ff766a6877741ece7f100b2c428bd5d748899018f464a6ea6fa397b33da345"
+url = "https://github.com/entireio/cli/releases/download/v0.11.4/entire_darwin_amd64.tar.gz"
+url_api = "https://api.github.com/repos/entireio/cli/releases/assets/615245224"
 
 [[tools.eza]]
 version = "0.23.5"
@@ -2727,52 +2727,52 @@ url = "https://github.com/crate-ci/typos/releases/download/v1.50.3/typos-v1.50.3
 url_api = "https://api.github.com/repos/crate-ci/typos/releases/assets/589006772"
 
 [[tools.usage]]
-version = "6.12.0"
+version = "6.12.1"
 backend = "packslip:github.com/jdx/usage"
 
 [tools.usage."platforms.linux-arm64"]
-checksum = "sha256:6e9be5caa7dc8a484fc488cf5ed6fcde5d2b3271943ccc039e0c08041a8f8bf8"
-url = "https://github.com/jdx/usage/releases/download/v6.12.0/usage-aarch64-unknown-linux-gnu.tar.gz"
+checksum = "sha256:455668f6f7055c5c40b9046089910344adb499d7a3621aa25d332cde6a749b8f"
+url = "https://github.com/jdx/usage/releases/download/v6.12.1/usage-aarch64-unknown-linux-gnu.tar.gz"
 signer = "sigstore-oidc:https://github.com/jdx/usage/.github/workflows/publish-cli.yml"
 
 [tools.usage."platforms.linux-arm64-musl"]
-checksum = "sha256:28729924e46bfad1112a7ec35003cdf074d2686346ddaa2d0f4206c1f66a2827"
-url = "https://github.com/jdx/usage/releases/download/v6.12.0/usage-aarch64-unknown-linux-musl.tar.gz"
+checksum = "sha256:da046ed28c02a18f48c46f00d3ae7b4448a8398eed664c92ae93f38d812c446f"
+url = "https://github.com/jdx/usage/releases/download/v6.12.1/usage-aarch64-unknown-linux-musl.tar.gz"
 signer = "sigstore-oidc:https://github.com/jdx/usage/.github/workflows/publish-cli.yml"
 
 [tools.usage."platforms.linux-x64"]
-checksum = "sha256:c82b39ca9c64e3256284667ca8ddd4c27b7141d842ba054a645ee73d6ab99b17"
-url = "https://github.com/jdx/usage/releases/download/v6.12.0/usage-x86_64-unknown-linux-gnu.tar.gz"
+checksum = "sha256:db25b616258fce61af2e07f1aa1c7ed33c7303a8a38abade121920b1dca86488"
+url = "https://github.com/jdx/usage/releases/download/v6.12.1/usage-x86_64-unknown-linux-gnu.tar.gz"
 signer = "sigstore-oidc:https://github.com/jdx/usage/.github/workflows/publish-cli.yml"
 
 [tools.usage."platforms.linux-x64-baseline"]
-checksum = "sha256:c82b39ca9c64e3256284667ca8ddd4c27b7141d842ba054a645ee73d6ab99b17"
-url = "https://github.com/jdx/usage/releases/download/v6.12.0/usage-x86_64-unknown-linux-gnu.tar.gz"
+checksum = "sha256:db25b616258fce61af2e07f1aa1c7ed33c7303a8a38abade121920b1dca86488"
+url = "https://github.com/jdx/usage/releases/download/v6.12.1/usage-x86_64-unknown-linux-gnu.tar.gz"
 signer = "sigstore-oidc:https://github.com/jdx/usage/.github/workflows/publish-cli.yml"
 
 [tools.usage."platforms.linux-x64-musl"]
-checksum = "sha256:5cab69ffacde3f700bd74095f89a4879cea591a8c0656f3104786ed1d0df218a"
-url = "https://github.com/jdx/usage/releases/download/v6.12.0/usage-x86_64-unknown-linux-musl.tar.gz"
+checksum = "sha256:10be12209c9ed33781cb93ab17685a8966fa7ab049bf5c7d34b7d231de5aec33"
+url = "https://github.com/jdx/usage/releases/download/v6.12.1/usage-x86_64-unknown-linux-musl.tar.gz"
 signer = "sigstore-oidc:https://github.com/jdx/usage/.github/workflows/publish-cli.yml"
 
 [tools.usage."platforms.linux-x64-musl-baseline"]
-checksum = "sha256:5cab69ffacde3f700bd74095f89a4879cea591a8c0656f3104786ed1d0df218a"
-url = "https://github.com/jdx/usage/releases/download/v6.12.0/usage-x86_64-unknown-linux-musl.tar.gz"
+checksum = "sha256:10be12209c9ed33781cb93ab17685a8966fa7ab049bf5c7d34b7d231de5aec33"
+url = "https://github.com/jdx/usage/releases/download/v6.12.1/usage-x86_64-unknown-linux-musl.tar.gz"
 signer = "sigstore-oidc:https://github.com/jdx/usage/.github/workflows/publish-cli.yml"
 
 [tools.usage."platforms.macos-arm64"]
-checksum = "sha256:1e43be745db2fd81259e2b0e68d689d7f55b93da815f452c2154710f6de6ec52"
-url = "https://github.com/jdx/usage/releases/download/v6.12.0/usage-universal-apple-darwin.tar.gz"
+checksum = "sha256:1f01fb6abe27e5e510778568ae8604720d42986bbeee9ac8cda52c659b84914f"
+url = "https://github.com/jdx/usage/releases/download/v6.12.1/usage-universal-apple-darwin.tar.gz"
 signer = "sigstore-oidc:https://github.com/jdx/usage/.github/workflows/publish-cli.yml"
 
 [tools.usage."platforms.macos-x64"]
-checksum = "sha256:1e43be745db2fd81259e2b0e68d689d7f55b93da815f452c2154710f6de6ec52"
-url = "https://github.com/jdx/usage/releases/download/v6.12.0/usage-universal-apple-darwin.tar.gz"
+checksum = "sha256:1f01fb6abe27e5e510778568ae8604720d42986bbeee9ac8cda52c659b84914f"
+url = "https://github.com/jdx/usage/releases/download/v6.12.1/usage-universal-apple-darwin.tar.gz"
 signer = "sigstore-oidc:https://github.com/jdx/usage/.github/workflows/publish-cli.yml"
 
 [tools.usage."platforms.macos-x64-baseline"]
-checksum = "sha256:1e43be745db2fd81259e2b0e68d689d7f55b93da815f452c2154710f6de6ec52"
-url = "https://github.com/jdx/usage/releases/download/v6.12.0/usage-universal-apple-darwin.tar.gz"
+checksum = "sha256:1f01fb6abe27e5e510778568ae8604720d42986bbeee9ac8cda52c659b84914f"
+url = "https://github.com/jdx/usage/releases/download/v6.12.1/usage-universal-apple-darwin.tar.gz"
 signer = "sigstore-oidc:https://github.com/jdx/usage/.github/workflows/publish-cli.yml"
 
 [[tools.uv]]
