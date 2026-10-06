@@ -5,8 +5,23 @@
   macos-continue-if-no-devs-found yes
 )
 
-(defsrc caps fn lmet rmet)
+(defsrc
+  caps fn lmet rmet
+  f1 f2 f7 f8 f9 f10 f11 f12
+)
+
+;; Preserve native Fn chords, and explicitly translate the top row: a synthetic
+;; Fn modifier alone does not make macOS convert virtual F keys to media keys.
+(defalias apple-fn (multi fn (layer-while-held media)))
 
 ;; The macro releases Control immediately, even if Caps Lock is still held.
 ;; Physical Fn acts as Command; both physical Command keys act as Fn.
-(deflayer base (macro C-spc) lmet fn fn)
+(deflayer base
+  (macro C-spc) lmet @apple-fn @apple-fn
+  f1 f2 f7 f8 f9 f10 f11 f12
+)
+
+(deflayer media
+  _ _ _ _
+  brdown brup prev pp next mute vold volu
+)
