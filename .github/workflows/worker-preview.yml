@@ -64,7 +64,7 @@ jobs:
         if: steps.current.outputs.run == 'true' && github.event_name != 'pull_request_target'
         uses: jdx/mise-action@c2a87611a18de5b3828c5652fe268e992400cb5c # v4.3.0
         with:
-          version: 2026.10.3
+          version: 2026.10.4
       - name: Test Worker before Preview deployment
         if: steps.current.outputs.run == 'true' && github.event_name != 'pull_request_target'
         run: mise run worker:test
