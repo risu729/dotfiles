@@ -76,7 +76,7 @@ jobs:
       - name: Deploy or delete Preview
         id: preview
         if: steps.current.outputs.run == 'true'
-        uses: risu729/wrangler-deploy-action@251e42de418f3f5aece2789cc1c0f76d3f8264f5 # v2.2.0
+        uses: risu729/wrangler-deploy-action@6a93154ef1c550b760d8582bcf59d8d4a0710788 # v2.2.1
         with:
           mode: ${{ github.event_name == 'pull_request_target' && 'delete-preview' || 'worker-preview' }}
           working-directory: worker
