@@ -247,7 +247,7 @@ jobs:
         run: mise run worker:build
       - name: Validate production build
         if: ${{ needs.changes.outputs.worker == 'true' }}
-        uses: risu729/wrangler-deploy-action@251e42de418f3f5aece2789cc1c0f76d3f8264f5 # v2.2.0
+        uses: risu729/wrangler-deploy-action@6a93154ef1c550b760d8582bcf59d8d4a0710788 # v2.2.1
         with:
           mode: dry-run
           working-directory: worker
