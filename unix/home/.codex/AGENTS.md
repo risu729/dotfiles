@@ -38,6 +38,9 @@ the user's open PRs. If one is clearly relevant, create the new branch on top of
 that PR automatically. Ask only when multiple source PRs are plausible.
 
 - Mention the source PR in the stacked PR's description, not the reverse.
+- Use GitHub's official `github/gh-stack` extension (`gh stack`) to create and
+  manage same-repository PR stacks. Cross-fork stacks are unsupported; use
+  ordinary PRs with explicit dependency links for fork-to-upstream work.
 - Rebase a stacked PR only while actively working on it. After the source PR
   merges, rebase onto the latest target branch when resuming the stacked work.
 
