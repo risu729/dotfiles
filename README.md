@@ -110,6 +110,9 @@ DOTFILES_PROFILE=personal DOTFILES_REF=main bash unix/install.sh
 
 ## Customization
 
+Only the latest stable mise release is supported. Keep mise up to date;
+`min_version` checks are feature guards, not a supported-version range.
+
 Shared packages and dotfile mappings are in [`mise.toml`](mise.toml), with
 platform overrides in [`mise.linux.toml`](mise.linux.toml) and
 [`mise.macos.toml`](mise.macos.toml). Personal additions are in
