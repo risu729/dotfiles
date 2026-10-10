@@ -70,7 +70,7 @@ jobs:
       - name: Install mise
         uses: jdx/mise-action@2d8d4cafcbd33be2ea37d2b6f5ad595363d1f1ca # v5.1.1
         with:
-          version: 2026.10.4
+          version: 2026.10.7
       - name: Run check
         if: ${{ !inputs.health }}
         run: mise run check --lint
@@ -97,7 +97,7 @@ jobs:
       - name: Install mise
         uses: jdx/mise-action@2d8d4cafcbd33be2ea37d2b6f5ad595363d1f1ca # v5.1.1
         with:
-          version: 2026.10.4
+          version: 2026.10.7
       - name: Run Bats tests
         run: mise run test:bats
       - name: Run PR-tree tests
@@ -123,29 +123,30 @@ jobs:
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
-      - name: Prepare Docker Compose environment
-        run: |
-          mise_version=$(sed -n 's/^min_version = "\(.*\)"$/\1/p' mise.toml)
-          if [[ -z ${mise_version} ]]; then
-            echo "Failed to read mise min_version." >&2
-            exit 1
-          fi
-          echo "MISE_VERSION=${mise_version}" >> "${GITHUB_ENV}"
-      - name: Resolve Ubuntu WSL image version
-        id: wsl-image
-        run: |
-          etag=$(
-            curl --fail-with-body --silent --head --location \
-              --write-out '%header{etag}' \
-              --output /dev/null \
-              "${WSL_IMAGE_URL}"
-          )
-          etag="${etag//\"/}"
-          if [[ -z ${etag} ]]; then
-            echo "Failed to read WSL image ETag." >&2
-            exit 1
-          fi
-          echo "etag=${etag}" >> "${GITHUB_OUTPUT}"
+      - parallel:
+          - name: Prepare Docker Compose environment
+            run: |
+              mise_version=$(sed -n 's/^min_version = "\(.*\)"$/\1/p' mise.toml)
+              if [[ -z ${mise_version} ]]; then
+                echo "Failed to read mise min_version." >&2
+                exit 1
+              fi
+              echo "MISE_VERSION=${mise_version}" >> "${GITHUB_ENV}"
+          - name: Resolve Ubuntu WSL image version
+            id: wsl-image
+            run: |
+              etag=$(
+                curl --fail-with-body --silent --head --location \
+                  --write-out '%header{etag}' \
+                  --output /dev/null \
+                  "${WSL_IMAGE_URL}"
+              )
+              etag="${etag//\"/}"
+              if [[ -z ${etag} ]]; then
+                echo "Failed to read WSL image ETag." >&2
+                exit 1
+              fi
+              echo "etag=${etag}" >> "${GITHUB_OUTPUT}"
       - name: Cache Ubuntu WSL image
         id: wsl-cache
         uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
@@ -237,7 +238,7 @@ jobs:
       - name: Install mise
         uses: jdx/mise-action@2d8d4cafcbd33be2ea37d2b6f5ad595363d1f1ca # v5.1.1
         with:
-          version: 2026.10.4
+          version: 2026.10.7
       - name: Run tests
         run: mise run worker:test
         env:
@@ -271,7 +272,7 @@ jobs:
     if: ${{ needs.changes.outputs.worker == 'true' }}
     permissions:
       contents: read # for checkout in the reusable workflow
-    uses: ./.github/workflows/worker-deploy.yml # zizmor: ignore[self-repository] -- Intentionally use the repository-local reusable workflow.
+    uses: $/.github/workflows/worker-deploy.yml
   deploy-worker:
     name: Deploy validated Worker
     needs: [changes, lint, test-bats, test-worker, test-worker-container, test-linux, test-macos, verify-worker-artifact]
@@ -279,7 +280,7 @@ jobs:
       ${{ !cancelled() && !inputs.health && github.ref == 'refs/heads/main' && (github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && inputs.deploy)) && needs.changes.result == 'success' && needs.lint.result == 'success' && needs.test-bats.result == 'success' && needs.test-worker.result == 'success' && needs.test-worker-container.result == 'success' && needs.test-linux.result == 'success' && needs.test-macos.result == 'success' && needs.verify-worker-artifact.result == 'success' }}
     permissions:
       contents: read # for checkout in the reusable workflow
-    uses: ./.github/workflows/worker-deploy.yml # zizmor: ignore[self-repository] -- Intentionally use the repository-local reusable workflow.
+    uses: $/.github/workflows/worker-deploy.yml
     with:
       production: true
     secrets:
