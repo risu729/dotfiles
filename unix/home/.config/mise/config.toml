@@ -146,6 +146,7 @@ mr-boxington = "latest"
 
 [settings]
 experimental = true
+lockfile_mode = "generate"
 minimum_release_age = "3h"
 cargo.binstall_native = true
 # Prebuilt binaries from cargo-quickinstall instead of compiling, which also

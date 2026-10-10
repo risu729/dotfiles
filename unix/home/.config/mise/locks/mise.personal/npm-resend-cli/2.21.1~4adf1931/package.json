@@ -1,0 +1,12 @@
+{
+  "name": "mise-npm-install",
+  "private": true,
+  "aube": {
+    "allowBuilds": {
+      "esbuild": true
+    }
+  },
+  "dependencies": {
+    "resend-cli": "2.21.1"
+  }
+}

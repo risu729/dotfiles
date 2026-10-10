@@ -32,10 +32,22 @@ local picked =
   })
 
 local mise = picked["mise"] as Group
+local yaml = picked["yaml"] as Group
 
 steps = (picked) {
   ["shfmt"] = includeShellFiles(picked["shfmt"] as Step)
   ["shellcheck"] = includeShellFiles(picked["shellcheck"] as Step)
+  ["yaml"] = (yaml) {
+    steps = (yaml.steps) {
+      // Native mise dependency graphs are generated and checksum-locked.
+      ["yamllint"] = (yaml.steps["yamllint"]) {
+        exclude = (yaml.steps["yamllint"] as Step).exclude!! + List("**/aube-lock.yaml")
+      }
+      ["yamlfmt"] = (yaml.steps["yamlfmt"]) {
+        exclude = (yaml.steps["yamlfmt"] as Step).exclude!! + List("**/aube-lock.yaml")
+      }
+    }
+  }
   ["mise"] = (mise) {
     steps {
       ["mise-fmt"] = mise.steps["mise-fmt"]
