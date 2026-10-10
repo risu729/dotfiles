@@ -4,12 +4,12 @@
 # repository root; the shared probe script resolves that root itself.
 
 [doctor.checks.shared]
-description = "Shared dotfile links, eza/kubectl tools and system files are installed"
+description = "Shared dotfiles, merged Codex settings, eza/kubectl tools and system files are installed"
 run = "bash check.sh shared"
 shell = "bash -c"
 os = ["linux", "macos"]
 timeout = "30s"
-hint = "Run bash -x mise/doctor/check.sh shared to locate the broken link, missing tool or system file."
+hint = "Run bash -x mise/doctor/check.sh shared to locate the broken link, missing tool, merged settings or system file."
 
 [doctor.checks.profile]
 description = "Installed personal or bare profile matches TEST_PROFILE"
@@ -20,7 +20,7 @@ timeout = "30s"
 hint = "Set TEST_PROFILE=bare or personal; run bash -x mise/doctor/check.sh profile to inspect profile state, personal links, biwa and glab."
 
 [doctor.checks.linux-state]
-description = "Linux links, Codex system config and profile-specific services are installed"
+description = "Linux links and profile-specific services are installed"
 run = "bash check.sh linux"
 shell = "bash -c"
 os = "linux"

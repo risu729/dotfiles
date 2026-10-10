@@ -166,6 +166,7 @@ fi
 run = '''
 {% if os() == "linux" %}
 sudo update-desktop-database
+bash "{{ config_root }}/unix/codex/migrate-system-config.sh"
 {% endif %}
 '''
 
@@ -372,8 +373,9 @@ exclude = ["code", "wsl-open", "applications", "bash-completion"]
 # one platform and `profile = "personal"` to machines bootstrapped with
 # `-E personal`; an entry whose variants do not match is skipped.
 [dotfiles]
-# Own only these MCP keys; the clients retain their other settings and state.
+# Merge shared settings and MCP keys; retain unrelated client settings and state.
 "~/.claude.json/mcp" = { source = "unix/claude/mcp.json", merge = true }
+"~/.codex/config.toml/shared" = { source = "unix/codex/config.toml", merge = true }
 "~/.codex/config.toml/mcp" = { source = "unix/codex/mcp.toml", merge = true }
 "~/.bashrc" = { source = "unix/home/.bashrc", variants = [{ os = "linux" }] }
 "~/.claude/CLAUDE.md" = "unix/home/.codex/AGENTS.md"
