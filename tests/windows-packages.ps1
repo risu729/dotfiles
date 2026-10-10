@@ -64,8 +64,9 @@ enter = "exit 99"
 	# Reproduce upstream's case-sensitive row parsing, despite WinGet's
 	# case-insensitive ID matching. The real config uses canonical casing.
 	Copy-Item $script "$fixture/packages.ps1"
-	(Get-Content "$repo/win/mise.toml" -Raw).Replace('Tailscale.Tailscale', 'tailscale.tailscale') |
-		Set-Content "$fixture/mise.toml"
+	Copy-Item "$repo/win/mise.toml" "$fixture/mise.toml"
+	(Get-Content "$repo/win/mise.apps.toml" -Raw).Replace('Tailscale.Tailscale', 'tailscale.tailscale') |
+		Set-Content "$fixture/mise.apps.toml"
 	$caseFailed = $false
 	try { & "$fixture/packages.ps1" -Action Status } catch { $caseFailed = $true }
 	Assert-True $caseFailed 'Upstream now handles case differences; revisit the documented workaround.'
@@ -85,3 +86,6 @@ finally {
 	Remove-Item Env:WINGET_TEST_LOG, Env:WINGET_TEST_FAIL, Env:WINGET_TEST_MISSING -ErrorAction SilentlyContinue
 	Remove-Item $fixture -Recurse -Force
 }
+
+# The expected failure above must not become the Actions step exit code.
+exit 0

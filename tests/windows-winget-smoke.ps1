@@ -13,6 +13,7 @@ experimental = true
 [bootstrap.packages]
 "winget:Microsoft.Edit" = { os = "windows" }
 '@ | Set-Content "$fixture/mise.toml"
+	'[bootstrap.packages]' | Set-Content "$fixture/mise.apps.toml"
 	& winget.exe --version
 	if ($LASTEXITCODE -ne 0) { throw 'WinGet unavailable.' }
 	# Read-only dry runs deliberately cannot accept source agreements. Accept

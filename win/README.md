@@ -19,7 +19,8 @@ apps. WSL's Linux mise cannot run the WinGet bootstrap manager.
 .\win\packages.ps1 -Action Upgrade
 ```
 
-`packages.ps1` loads only [`mise.toml`](mise.toml), suppresses hooks and config
+`packages.ps1` loads only [`mise.toml`](mise.toml) and, for Apply/Status,
+[`mise.apps.toml`](mise.apps.toml). It suppresses hooks and config
 environment directives, and restores its process configuration after success or
 failure. It does not execute the Unix root bootstrap, install development tools,
 or modify the user's mise configuration. Native mise must be at least 2026.9.3
@@ -39,17 +40,17 @@ recognition, not brew-cask's bundle adoption; WinGet has no `adopt` option in
 mise. An unregistered/portable app that WinGet cannot identify is not adopted:
 inspect status before applying to avoid a second installation.
 
-During **Upgrade**, the wrapper selects the `managed` environment, so only these
+During **Upgrade**, the wrapper loads only `win/mise.toml`, so only these
 four packages are eligible: CrystalDiskInfo Aoi, GIMP Nightly, Inkscape, and
-Microsoft Edit. The other 18 declarations require the `apps` environment, which
-only Apply/Status select. Caller `MISE_ENV` and global/system declarations
-cannot add them back. Missing apps are skipped by Upgrade. There is no `--all`,
+Microsoft Edit. The other 18 declarations live in `win/mise.apps.toml`, which
+only Apply/Status load. Caller `MISE_ENV` and global/system declarations cannot
+add them back. Missing apps are skipped by Upgrade. There is no `--all`,
 version pin, force, downgrade, or upgrade-unknown flag. Review the preview
 before updating; WinGet/installer failures stop the command and are not
 suppressed.
 
 Do not substitute an unrestricted `mise bootstrap packages upgrade` with the
-`apps` environment, or `winget upgrade --all`: these bypass this policy. No
+`apps` config loaded, or `winget upgrade --all`: these bypass this policy. No
 WinGet pins are created, so other package managers remain outside this policy.
 `mise upgrade` updates development tools, not these apps. mise's packages
 `apply --update` refreshes source metadata when installing missing packages; it
@@ -167,8 +168,8 @@ controlled updaters are conservatively excluded too.
   the app declarations.
 
 When adding an app, establish who owns its updates first. Place self-updating or
-uncertain distributions behind `env = "apps"`; add an unconditional declaration
-only after verifying that managed upgrades are appropriate.
+uncertain distributions in `mise.apps.toml`; add to `mise.toml` only after
+verifying that managed upgrades are appropriate.
 
 ## WinGet Source Selection and Troubleshooting
 
