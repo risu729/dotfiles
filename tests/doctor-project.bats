@@ -31,7 +31,7 @@ TOML
 set -euo pipefail
 case "$*" in
 'which eza' | 'which kubectl') exit 0 ;;
-'which glab') [[ ${DOCTOR_PERSONAL_LOADED:-} == true ]] ;;
+'current glab') [[ ${DOCTOR_PERSONAL_LOADED:-} == true ]] ;;
 'bootstrap files status --missing' | 'bootstrap macos defaults status --missing') [[ -d mise/doctor ]] ;;
 *) exec "${DOCTOR_REAL_MISE}" "$@" ;;
 esac
