@@ -212,8 +212,10 @@ for server in hk mise; do
   mise exec -- claude mcp remove "${server}" --scope user >/dev/null 2>&1 || true
 done
 # Read the session root inside the server process; Claude sets it at launch.
+# shellcheck disable=SC2016
 mise exec -- claude mcp add --transport stdio --scope user hk -- /bin/sh -c \
   'exec "$HOME/.local/bin/mise" --cd "${CLAUDE_PROJECT_DIR:-$PWD}" exec -- hk mcp --root "${CLAUDE_PROJECT_DIR:-$PWD}"'
+# shellcheck disable=SC2016
 mise exec -- claude mcp add --transport stdio --scope user mise -- /bin/sh -c \
   'exec "$HOME/.local/bin/mise" --cd "${CLAUDE_PROJECT_DIR:-$PWD}" mcp'
 '''
