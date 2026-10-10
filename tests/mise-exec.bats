@@ -6,6 +6,10 @@
 setup() {
 	bats_require_minimum_version 1.7.0
 	cd "${BATS_TEST_DIRNAME}/.." || return
+	export MISE_DATA_DIR="${BATS_TEST_TMPDIR}/data"
+	export MISE_CACHE_DIR="${BATS_TEST_TMPDIR}/cache"
+	export MISE_STATE_DIR="${BATS_TEST_TMPDIR}/state"
+	export MISE_SYSTEM_CONFIG_DIR="${BATS_TEST_TMPDIR}/system"
 	export MISE_CONFIG_DIR="${BATS_TEST_TMPDIR}/mise"
 	export MISE_GLOBAL_CONFIG_FILE="${MISE_CONFIG_DIR}/config.toml"
 	export MISE_TRUSTED_CONFIG_PATHS="${PWD}:${MISE_CONFIG_DIR}"
