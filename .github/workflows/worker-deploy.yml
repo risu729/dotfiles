@@ -37,10 +37,17 @@ jobs:
             tasks/
             worker/
           persist-credentials: false
+      - name: Cache verified mise downloads
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: ~/.cache/mise/downloads-cas
+          key: mise-downloads-${{ runner.os }}-${{ runner.arch }}-${{ github.job }}-${{ hashFiles('mise.lock') }}
+          restore-keys: mise-downloads-${{ runner.os }}-${{ runner.arch }}-${{ github.job }}-
       - name: Install mise
         uses: jdx/mise-action@2d8d4cafcbd33be2ea37d2b6f5ad595363d1f1ca # v5.1.1
         with:
           version: 2026.10.7
+          cache: false
       - name: Install deployment CLI from the lockfile
         run: mise deps bun-worker
       - name: Download validated Worker
