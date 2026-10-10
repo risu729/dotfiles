@@ -10,7 +10,7 @@ jobs:
     permissions:
       contents: read # for checkout in the reusable workflow
       actions: read # for the actions timeline in the reusable workflow
-    uses: ./.github/workflows/ci.yml # zizmor: ignore[self-repository] -- Intentionally use the repository-local reusable workflow.
+    uses: $/.github/workflows/ci.yml
     with:
       full: true
       health: true
