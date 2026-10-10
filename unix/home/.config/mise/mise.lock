@@ -1408,27 +1408,27 @@ url_api = "https://api.github.com/repos/jdx/jactionlint/releases/assets/62602073
 provenance = "github-attestations"
 
 [[tools.java]]
-version = "27.0.0"
+version = "27.0.0+35"
 backend = "core:java"
 
 [tools.java.options]
-shorthand_vendor = "openjdk"
+shorthand_vendor = "temurin"
 
 [tools.java."platforms.linux-arm64"]
-checksum = "sha256:da4e9dde1fff90204739e969187bab4751bd59a2a1c479672e1a1810f7dd23ea"
-url = "https://download.java.net/java/GA/jdk27/55ce5470a6294008af0057ff4626d0e5/35/GPL/openjdk-27_linux-aarch64_bin.tar.gz"
+checksum = "sha256:e4ec5c7276290c7bde0baecba9a29be4962f5388684296406a9799d465936087"
+url = "https://github.com/adoptium/temurin27-binaries/releases/download/jdk-27%2B35/OpenJDK27U-jdk_aarch64_linux_hotspot_27_35.tar.gz"
 
 [tools.java."platforms.linux-x64"]
-checksum = "sha256:95fc37eb3a18a27a26d5904c2d89d52bace8dafa9a078ca27f4747fbc4bf070b"
-url = "https://download.java.net/java/GA/jdk27/55ce5470a6294008af0057ff4626d0e5/35/GPL/openjdk-27_linux-x64_bin.tar.gz"
+checksum = "sha256:1cf69a4848ffb728b3b260dfd45206a51566ab571a02a30092271d4c580bccbc"
+url = "https://github.com/adoptium/temurin27-binaries/releases/download/jdk-27%2B35/OpenJDK27U-jdk_x64_linux_hotspot_27_35.tar.gz"
 
 [tools.java."platforms.linux-x64-baseline"]
-checksum = "sha256:95fc37eb3a18a27a26d5904c2d89d52bace8dafa9a078ca27f4747fbc4bf070b"
-url = "https://download.java.net/java/GA/jdk27/55ce5470a6294008af0057ff4626d0e5/35/GPL/openjdk-27_linux-x64_bin.tar.gz"
+checksum = "sha256:1cf69a4848ffb728b3b260dfd45206a51566ab571a02a30092271d4c580bccbc"
+url = "https://github.com/adoptium/temurin27-binaries/releases/download/jdk-27%2B35/OpenJDK27U-jdk_x64_linux_hotspot_27_35.tar.gz"
 
 [tools.java."platforms.macos-arm64"]
-checksum = "sha256:ff42134c1bc5ac81c5a91a95fd4df87479db5d0499ba875d6adb5bda5626c3e8"
-url = "https://download.java.net/java/GA/jdk27/55ce5470a6294008af0057ff4626d0e5/35/GPL/openjdk-27_macos-aarch64_bin.tar.gz"
+checksum = "sha256:a59626c926f0146a286cb535fc9a46499d6c46b3d79ae72168bbf18438fe49dd"
+url = "https://github.com/adoptium/temurin27-binaries/releases/download/jdk-27%2B35/OpenJDK27U-jdk_aarch64_mac_hotspot_27_35.tar.gz"
 
 [[tools.jc]]
 version = "1.26.0"
