@@ -6,7 +6,7 @@ min_version = "2026.10.7"
 PS_SCRIPT_ANALYZER_VERSION = "1.25.0"
 
 [tools]
-bun = "1.4.2"
+bun = "1.4.3"
 aube = "v2.7.0"
 node = "26.11.1"
 github-cli = "2.102.0"
