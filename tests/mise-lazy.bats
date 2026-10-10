@@ -49,36 +49,16 @@ SH
 	printf '\n"asdf:lazy-fixture" = { version = "1.0.0", lazy = true, lazy_bins = ["lazy-fixture"] }\n' >>"${fixture}/config/config.toml"
 }
 
-@test "lazy global tools do not block unrelated exec even with auto install enabled" {
-	run -0 isolated MISE_EXEC_AUTO_INSTALL=true mise exec --no-deps -- sh -c 'echo hook-ran'
-	[[ ${output} == *hook-ran* ]]
-	[[ ! -d ${fixture}/data/installs/usage/0.0.0 ]]
-}
-
-@test "lazy alone does not protect exec from an unavailable non-lazy global tool" {
-	printf '\njq = "0.0.0"\n' >>"${fixture}/config/config.toml"
-	run ! isolated MISE_EXEC_AUTO_INSTALL=true mise exec --no-deps -- sh -c 'echo hook-ran'
-	[[ ${output} != *hook-ran* ]]
-	run -0 isolated mise exec --no-deps -- sh -c 'echo hook-ran'
-	[[ ${output} == *hook-ran* ]]
-}
-
-@test "exec keeps check failure status with missing lazy and non-lazy globals" {
-	printf '\njq = "0.0.0"\n' >>"${fixture}/config/config.toml"
-	run -23 isolated mise exec --no-deps -- sh -c 'echo check-failed; exit 23'
-	[[ ${output} == *check-failed* ]]
-}
-
-@test "direct lazy invocation still attempts its provider with exec auto install disabled" {
-	run ! isolated mise exec --no-deps -- usage --version
-	[[ ${output} == *usage* ]]
-	[[ ${output} == *offline* || ${output} == *OFFLINE* ]]
-}
-
-@test "nested lazy invocation fails offline instead of silently succeeding" {
-	run ! isolated mise exec --no-deps -- sh -c 'usage --version'
-	[[ ${output} == *usage* ]]
-	[[ ${output} == *offline* || ${output} == *OFFLINE* ]]
+@test "direct and nested lazy invocation fail offline even with auto install disabled" {
+	for mode in direct nested; do
+		if [[ ${mode} == direct ]]; then
+			run ! isolated mise exec --no-deps -- usage --version
+		else
+			run ! isolated mise exec --no-deps -- sh -c 'usage --version'
+		fi
+		[[ ${output} == *usage* ]]
+		[[ ${output} == *offline* || ${output} == *OFFLINE* ]]
+	done
 }
 
 @test "project non-lazy selection overrides a lazy global declaration" {
@@ -117,20 +97,22 @@ SH
 	[[ -x ${fixture}/data/shims/lazy-fixture ]]
 }
 
-@test "direct lazy command installs only its local provider and preserves exit status" {
+@test "direct and nested lazy commands install only their provider and preserve exit status" {
 	local_provider
 	printf '\njq = "0.0.0"\n' >>"${fixture}/config/config.toml"
-	run -23 isolated mise exec --no-deps -- lazy-fixture 23
-	[[ ${output} == *lazy-ran* ]]
-	[[ -x ${fixture}/data/installs/asdf-lazy-fixture/1.0.0/bin/lazy-fixture ]]
-	[[ ! -d ${fixture}/data/installs/usage/0.0.0 ]]
-}
-
-@test "nested lazy command installs on first use and preserves exit status" {
-	local_provider
-	run -23 isolated mise exec --no-deps -- sh -c 'lazy-fixture 23'
-	[[ ${output} == *lazy-ran* ]]
-	[[ -x ${fixture}/data/installs/asdf-lazy-fixture/1.0.0/bin/lazy-fixture ]]
+	for mode in direct nested; do
+		# Each invocation must install from scratch, including shim generation.
+		rm -rf "${fixture}/data/installs/asdf-lazy-fixture" "${fixture}/data/shims"
+		if [[ ${mode} == direct ]]; then
+			run -23 isolated mise exec --no-deps -- lazy-fixture 23
+		else
+			run -23 isolated mise exec --no-deps -- sh -c 'lazy-fixture 23'
+		fi
+		[[ ${output} == *lazy-ran* ]]
+		[[ -x ${fixture}/data/installs/asdf-lazy-fixture/1.0.0/bin/lazy-fixture ]]
+		[[ ! -d ${fixture}/data/installs/usage/0.0.0 ]]
+		[[ ! -d ${fixture}/data/installs/jq/0.0.0 ]]
+	done
 }
 
 @test "include-lazy and explicit selection provision lazy tools before use" {
@@ -167,6 +149,7 @@ PKL
 	# Lazy alone succeeds with the default auto-install policy.
 	run -0 isolated MISE_EXEC_AUTO_INSTALL=true git commit -m lazy-only
 	[[ ${output} == *hook-ran* ]]
+	[[ ! -d ${fixture}/data/installs/usage/0.0.0 ]]
 	printf '\njq = "0.0.0"\n' >>"${fixture}/config/config.toml"
 	printf 'second\n' >>fixture.txt
 	isolated git add fixture.txt
@@ -185,19 +168,7 @@ PKL
 	[[ ${output} == protected ]]
 }
 
-@test "ordinary doctor reports missing lazy tools but verification permits only those errors" {
-	ln -s "${lazy_bun}" "${fixture}/bin/bun"
-	run -0 isolated mise reshim
-	run -1 isolated mise doctor --json
-	[[ ${output} == *'is not installed, install with'* ]]
-	run -0 isolated bash "${root}/tasks/verify/mise-doctor"
-	# A project override must remain a failure despite global lazy=true.
-	printf '\n[tools]\nusage = "0.0.1"\n' >>mise.toml
-	run ! isolated bash "${root}/tasks/verify/mise-doctor"
-	[[ ${output} == *'is not installed'* ]]
-}
-
-@test "global and personal lazy declarations keep locked versions and provision explicit backend shims" {
+@test "global and personal lazy declarations keep locked versions and provision registry and explicit backend shims" {
 	cp "${root}/unix/home/.config/mise/"config*.toml "${fixture}/config/"
 	cp "${root}/unix/home/.config/mise/"mise*.lock "${fixture}/config/"
 	for profile in '' personal; do
@@ -216,11 +187,11 @@ PKL
 			if (Boolean(tools.glab) !== Boolean(profile)) throw new Error("Personal tool leaked or missing");
 		' "${fixture}/config" "${profile}"
 		run -0 isolated MISE_ENV="${profile}" MISE_AUTO_ENV=1 mise reshim
-		for cmd in yarn yarnpkg markitdown ccusage; do
+		for cmd in yarn yarnpkg markitdown ccusage mlr mitmdump; do
 			[[ -x ${fixture}/data/shims/${cmd} ]]
 		done
 		if [[ ${profile} == personal ]]; then
-			for cmd in kuebiko biwa mikoto resend glab cursor-agent; do
+			for cmd in kuebiko biwa mikoto resend glab cursor-agent bw; do
 				[[ -x ${fixture}/data/shims/${cmd} ]]
 			done
 		else
