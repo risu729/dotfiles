@@ -4,6 +4,9 @@ import "https://raw.githubusercontent.com/risu729/hk-config/v3.0.0/helpers.pkl"
 
 subprojects = List("worker")
 
+// Preserve all mise-generated dependency manifests and lockfiles.
+exclude = List(".mise/locks/**", "unix/home/.config/mise/locks/**")
+
 local const shellGlobs = List("unix/home/.bashrc", "tests/**/*.bats")
 
 local function includeShellFiles(step: Step): Step = (step) {
