@@ -1,4 +1,3 @@
-#!/usr/bin/env bats
 # shellcheck shell=bash
 # Bats supplies BATS_TEST_DIRNAME and captures the command status.
 # shellcheck disable=SC2154
