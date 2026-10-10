@@ -146,6 +146,8 @@ mr-boxington = "latest"
 
 [settings]
 experimental = true
+# Keep the OpenJDK distribution recorded in the lockfile when mise's default changes.
+java.shorthand_vendor = "openjdk"
 minimum_release_age = "3h"
 cargo.binstall_native = true
 # Prebuilt binaries from cargo-quickinstall instead of compiling, which also
