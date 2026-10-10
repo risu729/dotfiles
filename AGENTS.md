@@ -3,6 +3,10 @@
 - `wsl` is a compatibility symlink to `unix/` so existing installations keep
   working after a pull, before bootstrap replaces their old links. Use `unix/`
   for new source paths.
+- Bootstrap hooks and declarations live in `.config/mise/conf.d/`; keep
+  repository tools, task includes, and relative dotfile sources in root configs
+  to preserve their lockfile ownership and path resolution. Platform and
+  personal overlays remain in `mise.<env>.toml`.
 - Root mise configuration bootstraps the machine and provides repository tools;
   `unix/home/.config/mise/` becomes the user's global mise configuration. Put
   tool changes in the configuration that owns them.
