@@ -31,6 +31,7 @@
 
 	"files.readonlyInclude": {
 		// auto-generated
+		"**/aube-lock.yaml": true,
 		"**/bun.lock": true
 	},
 
