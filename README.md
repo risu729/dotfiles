@@ -115,9 +115,26 @@ On macOS, machine-local Claude Code credentials can go in
 `/Library/Application Support/ClaudeCode/managed-settings.d/*.json`; the
 installer manages `~/.claude/settings.json`.
 
-For the personal WSL Cloudflare Tunnel, place the remotely managed tunnel token
-at `~/.config/cloudflared/tunnel-token`. The systemd user service connects once
-the token is present.
+For the personal WSL Cloudflare Tunnel, provision or rotate the remotely managed
+tunnel token from the repository root:
+
+```bash
+mise -E personal,cloudflare-tunnel dot apply --prompt-secrets --yes --force \
+  '~/.config/cloudflared/tunnel-token'
+systemctl --user restart cloudflared.service
+```
+
+mise prompts for the token without echoing it, or reads
+`CLOUDFLARE_TUNNEL_TOKEN` if supplied by a secret manager. Its secret template
+writes a regular file at `~/.config/cloudflared/tunnel-token` with permissions
+`0600`. `--force` allows replacing an existing manually provisioned token. A
+missing or empty input fails without replacing the file. Restart the service
+after a successful apply so it reads the new token.
+
+The `cloudflare-tunnel` profile is only for this explicit token operation; do
+not persist it in `miserc.toml` or use it for normal installation. Ordinary bare
+and personal bootstraps neither require a token nor change an existing one. The
+template is selected only on Linux with both profiles enabled.
 
 The personal profile includes `glab`. To authenticate with UNSW CSE GitLab:
 
