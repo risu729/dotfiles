@@ -1,0 +1,81 @@
+[dotfiles]
+"~/.agents" = { source = "unix/home/.agents", mode = "copy" }
+"~/.bashrc" = { source = "unix/home/.bashrc", variants = [{ os = "linux" }] }
+"~/.claude/CLAUDE.md" = "unix/home/.codex/AGENTS.md"
+"~/.claude/settings.json" = { source = "unix/home/.claude/settings.json", mode = "template" }
+"~/.claude/skills/pr-tree" = "unix/home/.agents/skills/pr-tree"
+"~/.codex" = { source = "unix/home/.codex", mode = "symlink-each" }
+"~/.cursor/rules/global/RULE.md" = "unix/home/.codex/AGENTS.md"
+"~/.ghr" = { source = "unix/home/.ghr", mode = "symlink-each" }
+"~/.hushlogin" = "unix/home/.hushlogin"
+
+# Paths excluded here are linked by the entries below under narrower variants.
+# A pattern without `/` matches that name at any depth, so keep the names unique.
+[dotfiles."~/.config"]
+source = "unix/home/.config"
+mode = "symlink-each"
+exclude = ["biwa", "*.gitconfig", "mimeapps.list", "*.tera", "pitchfork"]
+
+[dotfiles."~/.config/biwa"]
+source = "unix/home/.config/biwa"
+mode = "symlink-each"
+variants = [{ profile = "personal" }]
+
+[dotfiles."~/.config/git/personal.gitconfig"]
+source = "unix/home/.config/git/personal.gitconfig"
+variants = [{ profile = "personal" }]
+
+[dotfiles."~/.config/git/unsw.gitconfig"]
+source = "unix/home/.config/git/unsw.gitconfig"
+variants = [{ profile = "personal" }]
+
+[dotfiles."~/.config/mimeapps.list"]
+source = "unix/home/.config/mimeapps.list"
+variants = [{ os = "linux" }]
+
+# `env` in miserc selects the profile for every later mise invocation, so the
+# file is rendered from the profile that bootstrapped the machine.
+[dotfiles."~/.config/mise/miserc.toml"]
+source = "unix/home/.config/mise/miserc.toml.tera"
+mode = "template"
+
+# The supervisor user and daemon paths are specific to the personal WSL machine.
+[dotfiles."~/.config/pitchfork"]
+source = "unix/home/.config/pitchfork"
+mode = "symlink-each"
+variants = [{ os = "linux", profile = "personal" }]
+
+[dotfiles."~/.local"]
+source = "unix/home/.local"
+mode = "symlink-each"
+exclude = ["code", "wsl-open", "applications", "bash-completion"]
+
+[dotfiles."~/.local/bin/code"]
+source = "unix/home/.local/bin/code"
+variants = [{ os = "linux" }]
+
+[dotfiles."~/.local/bin/wsl-open"]
+source = "unix/home/.local/bin/wsl-open"
+variants = [{ os = "linux" }]
+
+[dotfiles."~/.local/share/applications"]
+source = "unix/home/.local/share/applications"
+mode = "symlink-each"
+variants = [{ os = "linux" }]
+
+[dotfiles."~/.local/share/bash-completion"]
+source = "unix/home/.local/share/bash-completion"
+mode = "symlink-each"
+variants = [{ os = "linux" }]
+
+[dotfiles."~/.selected_editor"]
+source = "unix/home/.selected_editor"
+variants = [{ os = "linux" }]
+
+[dotfiles."~/.ssh/config"]
+source = "unix/home/.ssh/config"
+variants = [{ profile = "personal" }]
+
+[dotfiles."~/.ssh/unsw-z5642102.pub"]
+source = "unix/home/.ssh/unsw-z5642102.pub"
+variants = [{ profile = "personal" }]
