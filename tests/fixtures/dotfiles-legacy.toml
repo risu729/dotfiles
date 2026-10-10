@@ -1,4 +1,6 @@
 [dotfiles]
+"~/.claude.json/mcp" = { source = "unix/claude/mcp.json", merge = true }
+"~/.codex/config.toml/mcp" = { source = "unix/codex/mcp.toml", merge = true }
 "~/.agents" = { source = "unix/home/.agents", mode = "copy" }
 "~/.bashrc" = { source = "unix/home/.bashrc", variants = [{ os = "linux" }] }
 "~/.claude/CLAUDE.md" = "unix/home/.codex/AGENTS.md"

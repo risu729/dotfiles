@@ -1,0 +1,17 @@
+{
+	"mcpServers": {
+		"hk": {
+			"type": "stdio",
+			"command": "/bin/sh",
+			"args": [
+				"-c",
+				"exec \"$HOME/.local/bin/mise\" --cd \"${CLAUDE_PROJECT_DIR:-$PWD}\" exec -- hk mcp --root \"${CLAUDE_PROJECT_DIR:-$PWD}\""
+			]
+		},
+		"mise": {
+			"type": "stdio",
+			"command": "/bin/sh",
+			"args": ["-c", "exec \"$HOME/.local/bin/mise\" --cd \"${CLAUDE_PROJECT_DIR:-$PWD}\" mcp"]
+		}
+	}
+}

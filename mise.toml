@@ -201,23 +201,6 @@ for integration in claude codex; do
   mise exec -- herdr integration install "${integration}"
 done
 
-# Register local servers without adding agent stop hooks. The installer gives
-# mise this stable path, including when a GUI client has a minimal PATH.
-mise_path="${HOME}/.local/bin/mise"
-mise exec -- codex mcp add hk -- "${mise_path}" exec -- hk mcp --root .
-mise exec -- codex mcp add mise -- "${mise_path}" mcp
-
-# Claude's add command does not replace an existing user-scoped entry.
-for server in hk mise; do
-  mise exec -- claude mcp remove "${server}" --scope user >/dev/null 2>&1 || true
-done
-# Read the session root inside the server process; Claude sets it at launch.
-# shellcheck disable=SC2016
-mise exec -- claude mcp add --transport stdio --scope user hk -- /bin/sh -c \
-  'exec "$HOME/.local/bin/mise" --cd "${CLAUDE_PROJECT_DIR:-$PWD}" exec -- hk mcp --root "${CLAUDE_PROJECT_DIR:-$PWD}"'
-# shellcheck disable=SC2016
-mise exec -- claude mcp add --transport stdio --scope user mise -- /bin/sh -c \
-  'exec "$HOME/.local/bin/mise" --cd "${CLAUDE_PROJECT_DIR:-$PWD}" mcp'
 '''
 
 [bootstrap.hooks.final]
@@ -388,6 +371,9 @@ exclude = ["code", "wsl-open", "applications", "bash-completion"]
 # one platform and `profile = "personal"` to machines bootstrapped with
 # `-E personal`; an entry whose variants do not match is skipped.
 [dotfiles]
+# Own only these MCP keys; the clients retain their other settings and state.
+"~/.claude.json/mcp" = { source = "unix/claude/mcp.json", merge = true }
+"~/.codex/config.toml/mcp" = { source = "unix/codex/mcp.toml", merge = true }
 "~/.bashrc" = { source = "unix/home/.bashrc", variants = [{ os = "linux" }] }
 "~/.claude/CLAUDE.md" = "unix/home/.codex/AGENTS.md"
 "~/.claude/settings.json" = { source = "unix/home/.claude/settings.json", mode = "template" }
