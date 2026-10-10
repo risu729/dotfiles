@@ -1,18 +1,4 @@
-# ref: https://mise.jdx.dev/configuration/environments.html#platform-environments
-# Loaded on Linux only. These sections have neither an OS filter nor template
-# support, so they cannot stay in `mise.toml` without breaking macOS: the `root`
-# group does not exist there.
-
-[bootstrap.directories."/etc/codex"]
-owner = "root"
-group = "root"
-mode = "0755"
-
-[bootstrap.files."/etc/codex/config.toml"]
-source = "./unix/codex/config.toml"
-owner = "root"
-group = "root"
-mode = "0644"
+# Loaded on Linux only; macOS uses its default login shell.
 
 [bootstrap.user]
 login_shell = "/bin/bash"

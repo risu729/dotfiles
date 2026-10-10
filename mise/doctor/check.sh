@@ -17,6 +17,7 @@ shared)
 	mise which eza
 	mise which kubectl
 	mise bootstrap files status --missing
+	mise dotfiles status --missing "${HOME}/.codex/config.toml/shared" "${HOME}/.codex/config.toml/mcp"
 	;;
 profile)
 	case "${TEST_PROFILE:-}" in
@@ -53,7 +54,6 @@ linux)
 	assert_link "${HOME}/.bashrc"
 	assert_link "${HOME}/.config/mimeapps.list"
 	assert_link "${HOME}/.local/bin/wsl-open"
-	cmp unix/codex/config.toml /etc/codex/config.toml
 	if [[ ${TEST_PROFILE} == personal ]]; then
 		test -d "${HOME}/.config/pitchfork"
 		test -f /etc/ssh/sshd_config.d/10-cloudflare-access.conf

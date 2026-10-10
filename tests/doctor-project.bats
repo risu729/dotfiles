@@ -12,7 +12,16 @@ setup() {
 	mkdir -p "${fixture}/mise/doctor" "${fixture}/child" \
 		"${fixture_home}/.config/mise" "${fixture_home}/.config/git" "${fixture}/bin"
 	cp "${root}/mise/doctor/"* "${fixture}/mise/doctor/"
-	printf '[settings]\nexperimental = true\n' >"${fixture}/mise.toml"
+	mkdir -p "${fixture}/unix/codex" "${fixture_home}/.codex"
+	cp "${root}/unix/codex/"*.toml "${fixture}/unix/codex/"
+	cat >"${fixture}/mise.toml" <<'TOML'
+[settings]
+experimental = true
+[dotfiles]
+"~/.codex/config.toml/shared" = { source = "unix/codex/config.toml", merge = true }
+"~/.codex/config.toml/mcp" = { source = "unix/codex/mcp.toml", merge = true }
+TOML
+	cat "${fixture}/unix/codex/config.toml" "${fixture}/unix/codex/mcp.toml" >"${fixture_home}/.codex/config.toml"
 	printf 'auto_env = true\n' >"${fixture_home}/.config/mise/miserc.toml"
 	touch "${fixture}/global.toml" "${fixture}/gitconfig"
 	ln -s "${fixture}/global.toml" "${fixture_home}/.config/mise/config.toml"
@@ -129,4 +138,10 @@ TOML
 	run -1 isolated MISE_TRUSTED_CONFIG_PATHS= TEST_PROFILE=bare "${doctor_mise}" --cd "${fixture}/mise/doctor" doctor project --json
 	assert_check shared pass
 	assert_check profile pass
+}
+
+@test "shared diagnostics reject missing merged Codex settings" {
+	rm "${fixture_home}/.codex/config.toml"
+	run -1 isolated TEST_PROFILE=bare "${doctor_mise}" --cd "${fixture}/mise/doctor" doctor project --json
+	assert_check shared fail
 }
