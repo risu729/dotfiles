@@ -2,5 +2,11 @@
 	"$schema": "https://raw.githubusercontent.com/oxc-project/oxc/main/npm/oxfmt/configuration_schema.json",
 	"useTabs": true,
 	"experimentalSortImports": {},
-	"ignorePatterns": ["**/*.yml", "**/*.yaml", "**/*.toml"]
+	"ignorePatterns": [
+		"**/*.yml",
+		"**/*.yaml",
+		"**/*.toml",
+		".mise/locks/**/package.json",
+		"unix/home/.config/mise/locks/**/package.json"
+	]
 }

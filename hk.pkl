@@ -35,6 +35,12 @@ local mise = picked["mise"] as Group
 local yaml = picked["yaml"] as Group
 
 steps = (picked) {
+  ["oxfmt"] = (picked["oxfmt"]) {
+    // Preserve the manifests covered by native mise dependency graph digests.
+    exclude =
+      (picked["oxfmt"] as Step).exclude!!
+        + List(".mise/locks/**/package.json", "unix/home/.config/mise/locks/**/package.json")
+  }
   ["shfmt"] = includeShellFiles(picked["shfmt"] as Step)
   ["shellcheck"] = includeShellFiles(picked["shellcheck"] as Step)
   ["yaml"] = (yaml) {
