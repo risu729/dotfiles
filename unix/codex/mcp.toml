@@ -1,0 +1,8 @@
+# Resolve mise at launch without depending on a GUI client's PATH.
+[mcp_servers.hk]
+command = "/bin/sh"
+args = ["-c", 'exec "$HOME/.local/bin/mise" exec -- hk mcp --root .']
+
+[mcp_servers.mise]
+command = "/bin/sh"
+args = ["-c", 'exec "$HOME/.local/bin/mise" mcp']

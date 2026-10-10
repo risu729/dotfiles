@@ -201,6 +201,7 @@ mise exec -- npx --yes skills add https://github.com/stablyai/orca \
 for integration in claude codex; do
   mise exec -- herdr integration install "${integration}"
 done
+
 '''
 
 [bootstrap.hooks.final]
@@ -371,6 +372,9 @@ exclude = ["code", "wsl-open", "applications", "bash-completion"]
 # one platform and `profile = "personal"` to machines bootstrapped with
 # `-E personal`; an entry whose variants do not match is skipped.
 [dotfiles]
+# Own only these MCP keys; the clients retain their other settings and state.
+"~/.claude.json/mcp" = { source = "unix/claude/mcp.json", merge = true }
+"~/.codex/config.toml/mcp" = { source = "unix/codex/mcp.toml", merge = true }
 "~/.bashrc" = { source = "unix/home/.bashrc", variants = [{ os = "linux" }] }
 "~/.claude/CLAUDE.md" = "unix/home/.codex/AGENTS.md"
 "~/.claude/settings.json" = { source = "unix/home/.claude/settings.json", mode = "template" }
