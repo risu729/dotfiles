@@ -39,6 +39,8 @@ experimental = true
 # Install required development tools explicitly with `mise install`.
 exec_auto_install = false
 dotfiles.default_mode = "symlink"
+# Group roots resolve from the source tree in this repository.
+dotfiles.root = "unix/home"
 
 [settings.npm]
 package_manager = "aube"
@@ -334,26 +336,46 @@ automatic_spelling_correction = false
 # detached HEAD. Personal repositories are declared in `mise.personal.toml`.
 "~/.ghr/github.com/risu729/dotfiles" = { url = "https://github.com/risu729/dotfiles.git" }
 
+# Named groups apply by default. Standalone entries retain profile and OS variants.
+# Codex discovers copied skill files, so the agents group must remain a copy.
+[dotfile_groups.agents]
+root = ".agents"
+target = "~/.agents"
+mode = "copy"
+
+[dotfile_groups.codex]
+root = ".codex"
+target = "~/.codex"
+mode = "symlink-each"
+
+# The walks exclude paths with standalone profile, OS or template entries.
+[dotfile_groups.config]
+root = ".config"
+target = "~/.config"
+mode = "symlink-each"
+exclude = ["biwa", "*.gitconfig", "mimeapps.list", "*.tera", "pitchfork"]
+
+[dotfile_groups.ghr]
+root = ".ghr"
+target = "~/.ghr"
+mode = "symlink-each"
+
+[dotfile_groups.local]
+root = ".local"
+target = "~/.local"
+mode = "symlink-each"
+exclude = ["code", "wsl-open", "applications", "bash-completion"]
+
 # An entry without `variants` applies everywhere. An `os` variant restricts it to
 # one platform and `profile = "personal"` to machines bootstrapped with
 # `-E personal`; an entry whose variants do not match is skipped.
 [dotfiles]
-"~/.agents" = { source = "unix/home/.agents", mode = "copy" }
 "~/.bashrc" = { source = "unix/home/.bashrc", variants = [{ os = "linux" }] }
 "~/.claude/CLAUDE.md" = "unix/home/.codex/AGENTS.md"
 "~/.claude/settings.json" = { source = "unix/home/.claude/settings.json", mode = "template" }
 "~/.claude/skills/pr-tree" = "unix/home/.agents/skills/pr-tree"
-"~/.codex" = { source = "unix/home/.codex", mode = "symlink-each" }
 "~/.cursor/rules/global/RULE.md" = "unix/home/.codex/AGENTS.md"
-"~/.ghr" = { source = "unix/home/.ghr", mode = "symlink-each" }
 "~/.hushlogin" = "unix/home/.hushlogin"
-
-# Paths excluded here are linked by the entries below under narrower variants.
-# A pattern without `/` matches that name at any depth, so keep the names unique.
-[dotfiles."~/.config"]
-source = "unix/home/.config"
-mode = "symlink-each"
-exclude = ["biwa", "*.gitconfig", "mimeapps.list", "*.tera", "pitchfork"]
 
 [dotfiles."~/.config/biwa"]
 source = "unix/home/.config/biwa"
@@ -383,11 +405,6 @@ mode = "template"
 source = "unix/home/.config/pitchfork"
 mode = "symlink-each"
 variants = [{ os = "linux", profile = "personal" }]
-
-[dotfiles."~/.local"]
-source = "unix/home/.local"
-mode = "symlink-each"
-exclude = ["code", "wsl-open", "applications", "bash-completion"]
 
 [dotfiles."~/.local/bin/code"]
 source = "unix/home/.local/bin/code"
