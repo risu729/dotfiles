@@ -23,9 +23,10 @@ apps. WSL's Linux mise cannot run the WinGet bootstrap manager.
 [`mise.apps.toml`](mise.apps.toml). It suppresses hooks and config
 environment directives, and restores its process configuration after success or
 failure. It does not execute the Unix root bootstrap, install development tools,
-or modify the user's mise configuration. Native mise must be at least 2026.9.3
-(the first WinGet release). This minimum is separate from the Unix/development
-minimum. No root or Unix mise version bump is needed.
+or modify the user's mise configuration. **Only the latest stable native mise
+release is supported.** Windows CI resolves that release on every run; it does
+not test older-version compatibility. The 2026.9.3 minimum is only a feature
+guard for WinGet support, not a promise to support older mise releases.
 
 The full Windows installer invokes `Apply -BootstrapMise` after WSL setup and
 still configures the PowerToys backup path, persists WSLENV, and removes desktop
@@ -58,7 +59,10 @@ is **not** an app-upgrade command. Upgrade refreshes metadata itself.
 
 mise itself is bootstrapped separately with exact `jdx.mise`, `--source winget`
 and `--no-upgrade`. Neither Apply nor Upgrade updates it. If the existing native
-mise is too old, update it deliberately using its original installation method.
+mise is not the latest stable release, update it deliberately using its original
+installation method. WinGet catalog updates can lag behind GitHub releases;
+check the [latest mise release](https://github.com/jdx/mise/releases/latest)
+before native verification. A catalog lag does not extend support to older mise.
 For a WinGet installation:
 
 ```powershell
