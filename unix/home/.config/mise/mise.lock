@@ -2256,10 +2256,11 @@ url_api = "https://api.github.com/repos/pypa/pipx/releases/assets/619690377"
 version = "0.1.8"
 backend = "pipx:markitdown"
 specifiers = ["latest"]
-uv = { path = "locks/pipx-markitdown/0.1.8~634c7ce6", digest = "sha256:b7c1548b5fbd9486714520bab4802339cf3f899c530c0e9757ab640a139a3372" }
+uv = { path = "locks/pipx-markitdown/0.1.8~e670cd0e", digest = "sha256:9f70a824541ff11ecfed2771669dc41ba50200b7c478c0093a57594f1d93b085" }
 
 [tools."pipx:markitdown".options]
 extras = "pdf,docx,pptx,xlsx"
+with = """["onnxruntime>=1.31.0; python_version >= '3.14' and sys_platform != 'win32'"]"""
 
 [[tools.pitchfork]]
 version = "2.30.1"
