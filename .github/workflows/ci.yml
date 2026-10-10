@@ -168,7 +168,7 @@ jobs:
           path: wsl-amd64.wsl
           key: ubuntu-wsl-resolute-${{ steps.wsl-image.outputs.etag }}
       - name: Download Ubuntu WSL image
-        if: steps.wsl-cache.outputs.cache-hit != 'true'
+        if: ${{ steps.wsl-cache.outputs.cache-hit != 'true' }}
         run: curl --fail-with-body --location --output wsl-amd64.wsl "${WSL_IMAGE_URL}"
       - name: Run installer
         # Keep the Docker host independent of the installation under test.
