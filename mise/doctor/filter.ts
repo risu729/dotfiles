@@ -5,6 +5,21 @@
 /* oxlint-disable eslint/max-statements */
 type Version = { version: string; missing?: boolean };
 
+const declaredLazy = async (name: string, source?: { path?: string }): Promise<boolean> => {
+	if (!source?.path) {
+		return false;
+	}
+	// `mise tool` can lose tool_options when resolving through a lockfile.
+	// Its config_source still identifies the winning declaration, including
+	// Project/profile overrides. Mixed or unsupported declarations fail closed.
+	const config = Bun.TOML.parse(await Bun.file(source.path).text()) as {
+		tools?: Record<string, unknown>;
+	};
+	const entry = config.tools?.[name];
+	const entries = Array.isArray(entry) ? entry : [entry];
+	return entries.length > 0 && entries.every((value) => value?.lazy === true);
+};
+
 const lazyErrors = async (name: string, versions: Version[]): Promise<string[]> => {
 	const missing = versions.filter((version) => version.missing);
 	if (!missing.length) {
@@ -16,7 +31,7 @@ const lazyErrors = async (name: string, versions: Version[]): Promise<string[]> 
 		return [];
 	}
 	const tool = JSON.parse(output);
-	if (tool.tool_options?.lazy !== true) {
+	if (!(await declaredLazy(name, tool.config_source))) {
 		return [];
 	}
 	return missing

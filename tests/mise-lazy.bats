@@ -102,9 +102,11 @@ SH
 
 @test "missing required hook tools fail rather than skipping checks" {
 	printf '\n[tools]\nhk = "0.0.0"\nbun = "0.0.0"\npowershell = "0.0.0"\n' >>"${fixture}/project/mise.toml"
+	# CI runners may have system PowerShell even with isolated mise state.
+	ln -s /bin/sh "${fixture}/bin/sh"
 	for cmd in hk bun pwsh; do
-		run ! isolated mise exec --no-deps -- "${cmd}" --version
-		run ! isolated mise exec --no-deps -- sh -c '"$1" --version' sh "${cmd}"
+		run ! isolated PATH="${fixture}/bin" mise exec --no-deps -- "${cmd}" --version
+		run ! isolated PATH="${fixture}/bin" mise exec --no-deps -- sh -c '"$1" --version' sh "${cmd}"
 	done
 }
 
@@ -227,4 +229,26 @@ PKL
 	done
 	cmp "${root}/unix/home/.config/mise/mise.lock" "${fixture}/config/mise.lock"
 	cmp "${root}/unix/home/.config/mise/mise.personal.lock" "${fixture}/config/mise.personal.lock"
+}
+
+@test "doctor allows locked lazy declarations whose tool metadata drops lazy options" {
+	ln -s "${lazy_bun}" "${fixture}/bin/bun"
+	cat >"${fixture}/config/config.toml" <<'TOML'
+[settings]
+experimental = true
+[tools]
+usage = { version = "latest", lazy = true }
+TOML
+	cat >"${fixture}/config/mise.lock" <<'TOML'
+[[tools.usage]]
+version = "0.0.0"
+backend = "aqua:jdx/usage"
+TOML
+	run -0 isolated mise reshim
+	run -1 isolated mise doctor --json
+	[[ ${output} == *'aqua:jdx/usage@0.0.0 is not installed'* ]]
+	run -0 isolated bash "${root}/tasks/verify/mise-doctor"
+	printf '\n[tools]\nusage = "0.0.1"\n' >>mise.toml
+	run ! isolated bash "${root}/tasks/verify/mise-doctor"
+	[[ ${output} == *'is not installed'* ]]
 }
