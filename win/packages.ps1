@@ -59,18 +59,24 @@ function Invoke-WindowsPackage {
 	# upgrade. A unique project filename prevents loading the Unix parent config.
 	# Restore all process settings even if mise fails; do not persist any of them.
 	$config = Join-Path $PSScriptRoot 'mise.toml'
+	$appsConfig = Join-Path $PSScriptRoot 'mise.apps.toml'
+	if ($Action -eq 'Upgrade') {
+		$appsConfig = $config
+	}
+	foreach ($file in @($config, $appsConfig)) {
+		if (-not (Test-Path -LiteralPath $file -PathType Leaf)) {
+			throw "Windows package configuration is missing: $file"
+		}
+	}
 	$settings = @{
-		MISE_GLOBAL_CONFIG_FILE = $config
+		MISE_GLOBAL_CONFIG_FILE = $appsConfig
 		MISE_SYSTEM_CONFIG_FILE = $config
 		MISE_OVERRIDE_CONFIG_FILENAMES = "dotfiles-$([guid]::NewGuid()).toml"
 		MISE_OVERRIDE_TOOL_VERSIONS_FILENAMES = 'none'
 		MISE_AUTO_ENV = '0'
-		MISE_ENV = 'apps'
+		MISE_ENV = 'windows-packages'
 		MISE_AUTO_UPDATE = '0'
 		MISE_NO_CONFIG = '0'
-	}
-	if ($Action -eq 'Upgrade') {
-		$settings.MISE_ENV = 'managed'
 	}
 	$previous = @{}
 	try {
@@ -97,7 +103,7 @@ function Invoke-WindowsPackage {
 			$miseArgs += '--yes'
 		}
 		# Upgrade deliberately retains mise's confirmation prompt.
-		Write-Information "Windows packages: $Action (environment: $($settings.MISE_ENV))."
+		Write-Information "Windows packages: $Action (config: $appsConfig)."
 		& mise.exe @miseArgs
 		if ($LASTEXITCODE -ne 0) {
 			throw "mise packages $Action failed (exit $LASTEXITCODE). See win/README.md."
