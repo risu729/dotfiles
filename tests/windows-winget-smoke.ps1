@@ -27,6 +27,13 @@ experimental = true
 	& winget.exe list --id Microsoft.Edit --exact --source winget --disable-interactivity
 	if ($LASTEXITCODE -ne 0) { throw 'Microsoft.Edit was not installed.' }
 	Write-Output 'PASS: real WinGet install, rerun, status and upgrade dry-run for Microsoft.Edit.'
+	if ($PSVersionTable.PSVersion.Major -eq 5) {
+		# Query/preview the complete inventory, without installing the other apps.
+		& "$repo/win/packages.ps1" -Action Status
+		& "$repo/win/packages.ps1" -Action Apply -DryRun
+		& "$repo/win/packages.ps1" -Action Upgrade -DryRun
+		Write-Output 'PASS: full inventory status and dry runs with real WinGet.'
+	}
 }
 finally {
 	Remove-Item $fixture -Recurse -Force
