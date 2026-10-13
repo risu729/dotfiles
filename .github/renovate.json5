@@ -52,6 +52,22 @@
 	],
 	// ref: https://docs.renovatebot.com/modules/manager/jsonata/
 	customManagers: [
+		// min_version follows every mise release here so new releases that break
+		// these dotfiles show up in CI. other repositories raise it by hand.
+		{
+			customType: "jsonata",
+			description: "Updates min_version in mise config",
+			managerFilePatterns: [
+				// ref: https://docs.renovatebot.com/modules/manager/mise/#file-matching
+				"/(^|/)\\.?mise\\.toml$/",
+				"/(^|/)\\.?mise/config\\.toml$/",
+			],
+			fileFormat: "toml",
+			datasourceTemplate: "github-releases",
+			depNameTemplate: "mise",
+			packageNameTemplate: "jdx/mise",
+			matchStrings: ['{ "currentValue": $.min_version }'],
+		},
 		{
 			customType: "regex",
 			description: "Updates the pinned Unix installer mise version",
