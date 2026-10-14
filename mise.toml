@@ -46,7 +46,8 @@ dotfiles.root = "unix/home"
 [settings.npm]
 package_manager = "aube"
 
-[deps.aube]
+# Use a custom name: the built-in aube provider requires aube-lock.yaml.
+[deps.aube-root]
 auto = true
 sources = ["package.json", "pnpm-lock.yaml", ".npmrc"]
 outputs = ["node_modules"]
