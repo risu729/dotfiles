@@ -89,3 +89,8 @@ CLI output contract; validate CLI and action upgrades together.
 Manage Custom Domain and route changes separately with suitable permissions.
 Per-Worker tokens currently cannot manage Custom Domains. Do not replace version
 deployment with `cf deploy` without accounting for its trigger updates.
+
+## Language
+
+Use English consistently for repository documentation, code comments, commit
+messages, and pull request titles and descriptions.
