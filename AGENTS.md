@@ -16,7 +16,9 @@
 ## Development
 
 From the repository root, `mise install` installs the pinned tools and
-`mise deps` installs the root and Worker dependencies.
+`mise deps` installs both root and Worker dependencies with Aube. Bun remains
+the runtime for Bun-specific scripts and tests; Worker package binaries run
+through `aube exec --no-install` after mise prepares their dependencies.
 
 | Task | Command |
 | --- | --- |
@@ -97,5 +99,10 @@ messages, and pull request titles and descriptions.
 
 ## Generated Lockfiles
 
-Generate `aube-lock.yaml` and `worker/bun.lock` with their package managers; do
-not edit these generated files by hand.
+Generate `aube-lock.yaml` and `worker/aube-lock.yaml` with their package
+managers; do not edit these generated files by hand.
+
+Renovate currently updates package manifests without refreshing Aube lockfiles.
+For dependency changes, run `aube install --fix-lockfile --lockfile-only` from
+the affected package, then verify `aube install --frozen-lockfile` and commit
+the updated lockfile with the manifest.

@@ -19,7 +19,7 @@ setup() {
 	# Check the fixture directly; missing-tool warning output varies by environment.
 	run -0 mise current usage
 	[[ ${output} == '0.0.0' ]]
-	# Dependency preparation is separate from tool installation and needs Bun.
+	# Dependency preparation is separate from tool installation; skip it here.
 	run -0 mise exec --no-deps -- sh -c 'echo hook-ran'
 	[[ ${output} == *'hook-ran'* ]]
 }

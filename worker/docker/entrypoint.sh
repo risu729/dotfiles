@@ -38,7 +38,7 @@ echo "==> Checked out FETCH_HEAD (commit ${GIT_COMMIT_SHA})."
 
 echo "==> Successfully sparse-cloned and checked out commit ${GIT_COMMIT_SHA}."
 
-# Worker preview should only install worker dependencies with Bun.
+# Worker preview should only install Worker dependencies with Aube.
 export DOTFILES_SKIP_ROOT_AUBE_INSTALL=1
 # --host required to be accessible from other containers
 exec mise run worker:preview --host
