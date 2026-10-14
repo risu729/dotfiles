@@ -37,8 +37,8 @@
 			},
 			groupSingleUpdates: true,
 		},
-		// every tool in the global config is pinned to "latest", so Renovate also
-		// opens per-tool lockfile-only PRs ("update dependency X to latest") that
+		// tools requesting "latest" in the global config also make Renovate
+		// open per-tool lockfile-only PRs ("update dependency X to latest") that
 		// duplicate the maintenance PR above and get autoclosed whenever it merges
 		// first. keep only the bulk maintenance PR.
 		{
@@ -48,6 +48,15 @@
 			],
 			matchCurrentValue: "/^latest$/",
 			enabled: false,
+		},
+		// Keep the temporary global Python series pin while native wheels and
+		// markitdown catch up; allow 3.14 patch updates.
+		// ref: https://github.com/users/risu729/projects/3?pane=issue&itemId=271329713
+		{
+			matchManagers: ["mise"],
+			matchFileNames: ["unix/home/.config/mise/config.toml"],
+			matchPackageNames: ["python/cpython"],
+			allowedVersions: ">=3.14 <3.15",
 		},
 	],
 	// ref: https://docs.renovatebot.com/modules/manager/jsonata/
