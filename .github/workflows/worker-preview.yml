@@ -30,7 +30,7 @@ jobs:
       contents: read
       pull-requests: read # for live PR state verification
     env:
-      MISE_ENABLE_TOOLS: bun,node
+      MISE_ENABLE_TOOLS: aube,bun,node
     steps:
       - name: Check current PR state and credentials
         id: current
