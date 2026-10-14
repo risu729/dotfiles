@@ -9,8 +9,8 @@ importers:
   .:
     devDependencies:
       '@risu729/tsconfigs':
-        specifier: 3.0.0
-        version: 3.0.0(typescript@6.0.3)
+        specifier: 3.0.1
+        version: 3.0.1(typescript@6.0.3)
       '@types/bun':
         specifier: 1.4.2
         version: 1.4.2
@@ -20,10 +20,10 @@ importers:
 
 packages:
 
-  '@risu729/tsconfigs@3.0.0':
-    resolution: {integrity: sha512-FAYLBHC4KQ9TPSksm2Q8blZPSI08bedKOEE9dMbhbcQmj1I54ZPzqz4i8gqINQubcp4gkLE8kFeX5ZXudVl/9Q==}
+  '@risu729/tsconfigs@3.0.1':
+    resolution: {integrity: sha512-b/IrIdjtj4/Sgn90W6VrAy8oPuak64R9Qq3oTyo+SaszxycHU43Hk9J3sWQ8uAm7SKyH4PRm+YVF/7idrLSDQA==}
     peerDependencies:
-      typescript: ^6.0.0
+      typescript: ^6.0.0 || ^7.0.0
 
   '@types/bun@1.4.2':
     resolution: {integrity: sha512-GimotNn7+ZV0uVArItBbriZsR1oNf0+WTzPkdcFrzShI7k2norL0uzEaJT8T33dWr7O/c9ZDuAFQrctKCi72oQ==}
@@ -43,7 +43,7 @@ packages:
 
 snapshots:
 
-  '@risu729/tsconfigs@3.0.0(typescript@6.0.3)':
+  '@risu729/tsconfigs@3.0.1(typescript@6.0.3)':
     dependencies:
       typescript: 6.0.3
 
