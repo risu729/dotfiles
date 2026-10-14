@@ -94,3 +94,8 @@ deployment with `cf deploy` without accounting for its trigger updates.
 
 Use English consistently for repository documentation, code comments, commit
 messages, and pull request titles and descriptions.
+
+## Generated Lockfiles
+
+Generate `aube-lock.yaml` and `worker/bun.lock` with their package managers; do
+not edit these generated files by hand.
