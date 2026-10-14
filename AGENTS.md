@@ -18,7 +18,7 @@
 From the repository root, `mise install` installs the pinned tools and
 `mise deps` installs both root and Worker dependencies with Aube. Bun remains
 the runtime for Bun-specific scripts and tests; Worker package binaries run
-through `aube exec --no-install` after mise prepares their dependencies.
+through `aube exec --no-install --` after mise prepares their dependencies.
 
 | Task | Command |
 | --- | --- |
@@ -99,10 +99,14 @@ messages, and pull request titles and descriptions.
 
 ## Generated Lockfiles
 
-Generate `aube-lock.yaml` and `worker/aube-lock.yaml` with their package
-managers; do not edit these generated files by hand.
+Generate `pnpm-lock.yaml` and `worker/pnpm-lock.yaml` with Aube; do not edit
+these generated files by hand. Both packages retain pnpm v9 lockfiles so
+Renovate can refresh them with its standard pnpm support. Install dependencies
+and run package binaries with Aube; the lockfile format does not select the
+local package manager.
 
-Renovate currently updates package manifests without refreshing Aube lockfiles.
-For dependency changes, run `aube install --fix-lockfile --lockfile-only` from
-the affected package, then verify `aube install --frozen-lockfile` and commit
-the updated lockfile with the manifest.
+Use `aube install --lockfile-only` in the affected package after changing its
+manifest, then verify `aube install --frozen-lockfile` and commit the manifest
+and lockfile together. The package-local `.npmrc` files keep new lockfiles in
+pnpm format. Do not run `aube import`, which would create a higher-precedence
+`aube-lock.yaml`.

@@ -39,7 +39,7 @@ local yaml = picked["yaml"] as Group
 
 local function preserveWorkerLockfile(step: Step): Step = (step) {
   check = step.check
-  exclude = (step.exclude ?? List()) + List("worker/aube-lock.yaml")
+  exclude = (step.exclude ?? List()) + List("worker/pnpm-lock.yaml")
 }
 
 steps = (picked) {
