@@ -1,4 +1,0 @@
-interface:
-  display_name: "PR Tree"
-  short_description: "Stacked PR dependencies, status, and live agents"
-  default_prompt: "Use $pr-tree to build the stacked PR tree and show which agents are working on which PRs."

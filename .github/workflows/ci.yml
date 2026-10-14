@@ -89,7 +89,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ github.token }}
   test-bats:
-    name: Bats and PR-tree
+    name: Bats
     runs-on: ubuntu-26.04
     timeout-minutes: 5
     env:
@@ -114,8 +114,6 @@ jobs:
           cache: false
       - name: Run Bats tests
         run: mise run test:bats
-      - name: Run PR-tree tests
-        run: mise run test:pr-tree
   test-linux:
     needs: changes
     if: ${{ needs.changes.outputs.installers == 'true' }}

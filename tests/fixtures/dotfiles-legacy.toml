@@ -2,11 +2,9 @@
 "~/.claude.json/mcp" = { source = "unix/claude/mcp.json", merge = true }
 "~/.codex/config.toml/shared" = { source = "unix/codex/config.toml", merge = true }
 "~/.codex/config.toml/mcp" = { source = "unix/codex/mcp.toml", merge = true }
-"~/.agents" = { source = "unix/home/.agents", mode = "copy" }
 "~/.bashrc" = { source = "unix/home/.bashrc", variants = [{ os = "linux" }] }
 "~/.claude/CLAUDE.md" = "unix/home/.codex/AGENTS.md"
 "~/.claude/settings.json" = { source = "unix/home/.claude/settings.json", mode = "template" }
-"~/.claude/skills/pr-tree" = "unix/home/.agents/skills/pr-tree"
 "~/.codex" = { source = "unix/home/.codex", mode = "symlink-each" }
 "~/.cursor/rules/global/RULE.md" = "unix/home/.codex/AGENTS.md"
 "~/.ghr" = { source = "unix/home/.ghr", mode = "symlink-each" }
