@@ -10,7 +10,7 @@
       "devDependencies": {
         "@cloudflare/vite-plugin": "2.0.0-beta.sha-c82c3efb3",
         "@cloudflare/vitest-plugin": "1.4.0",
-        "@risu729/tsconfigs": "3.0.0",
+        "@risu729/tsconfigs": "3.0.1",
         "@types/bun": "1.4.2",
         "@vitest/ui": "4.1.11",
         "cf": "1.0.0-beta.14",
@@ -173,7 +173,7 @@
 
     "@poppinss/exception": ["@poppinss/exception@1.2.3", "", {}, "sha512-dCED+QRChTVatE9ibtoaxc+WkdzOSjYTKi/+uacHWIsfodVfpsueo3+DKpgU5Px8qXjgmXkSvhXvSCz3fnP9lw=="],
 
-    "@risu729/tsconfigs": ["@risu729/tsconfigs@3.0.0", "", { "peerDependencies": { "typescript": "^6.0.0" } }, "sha512-FAYLBHC4KQ9TPSksm2Q8blZPSI08bedKOEE9dMbhbcQmj1I54ZPzqz4i8gqINQubcp4gkLE8kFeX5ZXudVl/9Q=="],
+    "@risu729/tsconfigs": ["@risu729/tsconfigs@3.0.1", "", { "peerDependencies": { "typescript": "^6.0.0 || ^7.0.0" } }, "sha512-b/IrIdjtj4/Sgn90W6VrAy8oPuak64R9Qq3oTyo+SaszxycHU43Hk9J3sWQ8uAm7SKyH4PRm+YVF/7idrLSDQA=="],
 
     "@rolldown/binding-android-arm-eabi": ["@rolldown/binding-android-arm-eabi@1.2.13", "", { "os": "android", "cpu": "arm" }, "sha512-Vu/NICrgdRvUOeaJZIyB2FP63s6fO/4ud5l8dXmxDx9yDyn+mN0y+gsvsVviSli+T361Aqo0h46EuMoobrwawA=="],
 
