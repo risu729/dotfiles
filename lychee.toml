@@ -13,7 +13,7 @@ exclude_path = [
 	"worker/node_modules",
 	".gitignore",
 	"unix/home/.config/git/ignore",
-	"bun.lock",
+	"aube-lock.yaml",
 	"worker/bun.lock",
 	# ignore binaries
 	"win/powertoys",
