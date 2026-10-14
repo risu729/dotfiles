@@ -93,7 +93,7 @@ jobs:
     runs-on: ubuntu-26.04
     timeout-minutes: 5
     env:
-      MISE_ENABLE_TOOLS: aube,bats,bun
+      MISE_ENABLE_TOOLS: aube,bats,bun,node
     permissions:
       contents: read # for checkout
     steps:

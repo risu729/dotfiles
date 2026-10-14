@@ -46,9 +46,10 @@ dotfiles.root = "unix/home"
 [settings.npm]
 package_manager = "aube"
 
-[deps.aube]
+# Use a custom name: the built-in aube provider requires aube-lock.yaml.
+[deps.aube-root]
 auto = true
-sources = ["package.json", "aube-lock.yaml"]
+sources = ["package.json", "pnpm-lock.yaml", ".npmrc"]
 outputs = ["node_modules"]
 run = """
 if [ "${DOTFILES_SKIP_ROOT_AUBE_INSTALL:-}" != "1" ]; then
@@ -56,12 +57,12 @@ if [ "${DOTFILES_SKIP_ROOT_AUBE_INSTALL:-}" != "1" ]; then
 fi
 """
 
-[deps.bun-worker]
+[deps.aube-worker]
 auto = true
 dir = "worker"
-sources = ["package.json", "bun.lock"]
+sources = ["package.json", "pnpm-lock.yaml", ".npmrc"]
 outputs = ["node_modules"]
-run = "bun install --frozen-lockfile"
+run = "aube install --frozen-lockfile"
 
 # Shared task metadata stays with the root task includes, not bootstrap fragments.
 [task_templates.worker]

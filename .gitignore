@@ -6,7 +6,7 @@
 
 # oven-sh/bun src/cli/init/gitignore.default
 
-# dependencies (bun install)
+# dependencies (aube install)
 node_modules
 
 # output

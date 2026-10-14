@@ -2,7 +2,7 @@
 
 ["worker:build"]
 extends = "worker"
-run = "bun run cf build"
+run = "aube exec --no-install -- cf build"
 hide = true
 description = "Build the worker for production."
 
@@ -10,32 +10,32 @@ description = "Build the worker for production."
 extends = "worker"
 # Both builds write the same output; serialize them when scheduled together.
 wait_for = ["worker:build"]
-run = "bun run cf-vite build --preview"
+run = "aube exec --no-install -- cf-vite build --preview"
 description = "Build a named Workers Preview."
 
 ["worker:dev"]
 extends = "worker:runtime"
-run = "bun run cf dev"
+run = "aube exec --no-install -- cf dev"
 description = "Start a local development server for the worker."
 
 ["worker:preview"]
 extends = "worker"
 depends = ["worker:build"]
-run = "bun run vite preview"
+run = "aube exec --no-install -- vite preview"
 description = "Preview the built worker."
 
 ["worker:test"]
 extends = "worker:runtime"
-run = "bun run vitest run"
+run = "aube exec --no-install -- vitest run"
 description = "Run Worker tests once."
 
 ["worker:test:watch"]
 extends = "worker:runtime"
-run = "bun run vitest watch --ui"
+run = "aube exec --no-install -- vitest watch --ui"
 description = "Watch Worker tests with the Vitest UI."
 
 ["worker:generate:types"]
 extends = "worker"
-run = "bun run cf workers types"
+run = "aube exec --no-install -- cf workers types"
 hide = true
 description = "Generate types of Cloudflare Worker runtimes."

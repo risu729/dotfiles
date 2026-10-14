@@ -35,10 +35,22 @@ local picked =
   })
 
 local mise = picked["mise"] as Group
+local yaml = picked["yaml"] as Group
+
+local function preserveWorkerLockfile(step: Step): Step = (step) {
+  check = step.check
+  exclude = (step.exclude ?? List()) + List("worker/pnpm-lock.yaml")
+}
 
 steps = (picked) {
   ["shfmt"] = includeShellFiles(picked["shfmt"] as Step)
   ["shellcheck"] = includeShellFiles(picked["shellcheck"] as Step)
+  ["yaml"] = (yaml) {
+    steps {
+      ["yamllint"] = preserveWorkerLockfile(yaml.steps["yamllint"] as Step)
+      ["yamlfmt"] = preserveWorkerLockfile(yaml.steps["yamlfmt"] as Step)
+    }
+  }
   ["mise"] = (mise) {
     steps {
       ["mise-fmt"] = mise.steps["mise-fmt"]

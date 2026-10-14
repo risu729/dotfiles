@@ -18,7 +18,7 @@ COPY --from=mise /usr/local/bin/mise /usr/local/bin/mise
 ENV MISE_DATA_DIR="/mise"
 ENV MISE_CACHE_DIR="/mise/cache"
 ENV MISE_TRUSTED_CONFIG_PATHS="/dotfiles"
-ENV MISE_ENABLE_TOOLS=bun,node
+ENV MISE_ENABLE_TOOLS=aube,node
 ENV MISE_YES=1
 ENV PATH="${MISE_DATA_DIR}/shims:$PATH"
 
