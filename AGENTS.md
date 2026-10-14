@@ -9,9 +9,6 @@
 - `unix/home/.codex/AGENTS.md` is installed as global agent instructions,
   including Claude Code and Cursor mappings. Repository-only guidance belongs
   here.
-- Agent skills under `unix/home/.agents/` are copied, unlike most dotfiles,
-  because Codex does not discover symlinked skill files. Editing the source does
-  not update an already installed copy.
 - The Worker substitutes empty ref, profile, and origin assignments in the
   installers. Changes to those assignments in `unix/install.sh` or
   `win/install.ps1` must stay compatible with `worker/src/index.ts`.
@@ -27,13 +24,12 @@ From the repository root, `mise install` installs the pinned tools and
 | Lint without fixes | `mise run check --lint` |
 | Check selected files | `mise exec -- hk check <files>` |
 | Bats shell regressions | `mise run test:bats` |
-| PR-tree unit tests | `mise run test:pr-tree` |
 | Worker tests | `mise run worker:test` |
-| All three test suites | `mise run test` |
+| Both test suites | `mise run test` |
 
 Worker tests fetch installer scripts from GitHub at the checked-out commit;
-that commit must be pushed before running them. Bats and PR-tree tests use
-local fixtures. For one shell suite, use
+that commit must be pushed before running them. Bats tests use local fixtures.
+For one shell suite, use
 `mise exec -- bats tests/installer-revisions.bats`.
 
 Installer integration tests perform a real bootstrap. On a disposable machine,

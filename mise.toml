@@ -340,12 +340,6 @@ automatic_spelling_correction = false
 "~/.ghr/github.com/risu729/dotfiles" = { url = "https://github.com/risu729/dotfiles.git" }
 
 # Named groups apply by default. Standalone entries retain profile and OS variants.
-# Codex discovers copied skill files, so the agents group must remain a copy.
-[dotfile_groups.agents]
-root = ".agents"
-target = "~/.agents"
-mode = "copy"
-
 [dotfile_groups.codex]
 root = ".codex"
 target = "~/.codex"
@@ -380,7 +374,6 @@ exclude = ["code", "wsl-open", "applications", "bash-completion"]
 "~/.bashrc" = { source = "unix/home/.bashrc", variants = [{ os = "linux" }] }
 "~/.claude/CLAUDE.md" = "unix/home/.codex/AGENTS.md"
 "~/.claude/settings.json" = { source = "unix/home/.claude/settings.json", mode = "template" }
-"~/.claude/skills/pr-tree" = "unix/home/.agents/skills/pr-tree"
 "~/.cursor/rules/global/RULE.md" = "unix/home/.codex/AGENTS.md"
 "~/.hushlogin" = "unix/home/.hushlogin"
 

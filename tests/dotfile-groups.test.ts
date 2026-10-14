@@ -162,15 +162,17 @@ test.each([
 		expect(after.some((line) => line.includes("personal.gitconfig"))).toBe(personal);
 		expect(after.some((line) => line.includes("mimeapps.list"))).toBe(linux);
 		expect(after.some((line) => line.includes("pitchfork/"))).toBe(pitchfork);
+		expect(after.some((line) => line.includes(".agents/skills/pr-tree"))).toBe(false);
+		expect(after.some((line) => line.includes(".claude/skills/pr-tree"))).toBe(false);
 	},
 	20_000,
 );
 
 test("group selection retains standalone entries and excludes other groups", () => {
-	const selected = plan(current, { groups: ["agents"], os: "linux", profile: "personal" });
+	const selected = plan(current, { groups: ["codex"], os: "linux", profile: "personal" });
 	const copies = selected.filter((line) => line.startsWith("cp -r "));
-	expect(copies).toHaveLength(1);
-	expect(copies[0]).toContain(".agents");
+	expect(copies).toHaveLength(0);
+	expect(selected.some((line) => line.includes(".codex/* into"))).toBe(true);
 	expect(selected.some((line) => line.includes(".config/* into"))).toBe(false);
 	expect(selected.some((line) => line.includes(".claude/CLAUDE.md"))).toBe(true);
 }, 20_000);
