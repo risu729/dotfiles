@@ -27,7 +27,7 @@ exclude = [
 	"https://x.com/",
 	# win/winget.json
 	"https://cdn.winget.microsoft.com/cache",
-	# .vscode/
+	# Shell startup configuration documentation
 	# requests are forbidden
 	"https://code.visualstudio.com",
 	# .github/workflows/test.yml
