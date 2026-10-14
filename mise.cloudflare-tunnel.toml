@@ -1,5 +1,3 @@
-#:tombi schema.strict = false
-# mise 2026.9.14 supports bootstrap.secrets but omits it from the JSON schema.
 # Opt in only when provisioning or rotating the personal Linux tunnel token.
 # Ordinary bootstrap runs leave the existing token untouched.
 
