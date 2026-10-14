@@ -134,6 +134,9 @@ SH
 	isolated git config commit.gpgsign false
 	# hk embeds its matching Pkl package, so this needs no cache or network.
 	isolated hk init
+	# Keep the embedded package version, replacing hk's generated example steps.
+	sed -n '/^amends /p' hk.pkl >hk.fixture.pkl
+	mv hk.fixture.pkl hk.pkl
 	cat >>hk.pkl <<'PKL'
 steps {
   ["fixture"] {
