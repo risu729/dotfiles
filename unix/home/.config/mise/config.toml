@@ -147,6 +147,7 @@ mr-boxington = "latest"
 
 [settings]
 experimental = true
+lockfile = true
 lockfile_mode = "generate"
 minimum_release_age = "3h"
 cargo.binstall_native = true
