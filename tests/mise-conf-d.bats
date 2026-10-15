@@ -91,3 +91,28 @@ setup() {
 	mise() { return 23; }
 	run -23 trust_configs "${fixture}"
 }
+
+@test "managed system files retain Linux and personal boundaries and root source paths" {
+	local selected_profile detected_os
+	detected_os=$(uname -s)
+	for selected_profile in '' personal; do
+		run -0 env MISE_ENV="${selected_profile}" mise bootstrap files status --json
+		if [[ ${detected_os} != Linux ]]; then
+			[[ ${output} != *'/etc/sudoers.d/01-users-nopasswd'* ]]
+			[[ ${output} != *'/etc/ssh/ca.pub'* ]]
+			continue
+		fi
+		[[ ${output} == *'/etc/sudoers.d/01-users-nopasswd'* ]]
+		[[ ${output} == *'0440'* ]]
+		[[ ${output} == *'pre-packages'* ]]
+		if [[ -z ${selected_profile} ]]; then
+			[[ ${output} != *'/etc/ssh/ca.pub'* ]]
+			[[ ${output} != *'wsl-cloudflare-ip.service'* ]]
+		else
+			[[ ${output} == *'/etc/ssh/ca.pub'* ]]
+			[[ ${output} == *'/unix/ssh/ca.pub'* ]]
+			[[ ${output} == *'wsl-cloudflare-ip.service'* ]]
+			[[ ${output} != *'/.config/mise/conf.d/unix/'* ]]
+		fi
+	done
+}
