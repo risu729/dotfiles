@@ -117,3 +117,62 @@ JS
 	cmp "${fixture}/before.lock" "${fixture}/config/mise.lock"
 	grep -F 'version = "3.0.0"' "${fixture}/config/mise.local.lock"
 }
+
+@test "native agent lock seeding never replaces machine-owned locks" {
+	cp "${root}/unix/home/.config/mise/mise.lock" "${fixture}/config/mise.lock"
+	cp "${fixture}/config/mise.lock" "${fixture}/before.lock"
+	# The fresh-machine helper must work without any managed runtime on PATH.
+	seed_lock() {
+		env PATH="$(dirname "${local_mise}"):/usr/bin:/bin:/usr/sbin:/sbin" \
+			MISE_CONFIG_DIR="${fixture}/config" MISE_SYSTEM_CONFIG_DIR="${fixture}/system" \
+			MISE_STATE_DIR="${fixture}/state" MISE_DATA_DIR="${fixture}/data" \
+			MISE_CACHE_DIR="${fixture}/cache" MISE_CEILING_PATHS="${fixture}" \
+			MISE_TRUSTED_CONFIG_PATHS="${fixture}" MISE_OFFLINE=true CI=true \
+			bash "${root}/unix/mise/seed-agent-lock.sh" "${fixture}/config"
+	}
+	seed_lock
+	cmp "${fixture}/before.lock" "${fixture}/config/mise.lock"
+	count=$(grep -c '^\[\[tools\.' "${fixture}/config/mise.local.lock")
+	[[ ${count} -eq 2 ]]
+	cp "${fixture}/config/mise.local.lock" "${fixture}/seeded.lock"
+	seed_lock
+	cmp "${fixture}/seeded.lock" "${fixture}/config/mise.local.lock"
+
+	# Existing local entries, including generated dependency graph references, survive.
+	cp "${fixture}/before.lock" "${fixture}/config/mise.local.lock"
+	seed_lock
+	cmp "${fixture}/before.lock" "${fixture}/config/mise.local.lock"
+	: >"${fixture}/config/mise.local.lock"
+	run -1 seed_lock
+	[[ ! -s "${fixture}/config/mise.local.lock" ]]
+	[[ ${output} == *'lock --global --local codex claude'* ]]
+
+	printf 'lockfile_version = 3\n[[tools.machine-only]]\nversion = "1.0.0"\n' >"${fixture}/config/mise.local.lock"
+	cp "${fixture}/config/mise.local.lock" "${fixture}/machine.lock"
+	run -1 seed_lock
+	cmp "${fixture}/machine.lock" "${fixture}/config/mise.local.lock"
+
+	# Simulate a native atomic writer publishing between inspection and creation.
+	rm "${fixture}/config/mise.local.lock"
+	mkdir "${fixture}/race-bin"
+	ln -s "${local_mise}" "${fixture}/race-bin/mise"
+	cat >"${fixture}/race-bin/ln" <<'SH'
+#!/bin/sh
+cp "$SEED_RACE_SOURCE" "$2.race"
+mv "$2.race" "$2"
+exec /bin/ln "$@"
+SH
+	chmod +x "${fixture}/race-bin/ln"
+	original_mise=${local_mise}
+	local_mise="${fixture}/race-bin/mise"
+	export SEED_RACE_SOURCE="${fixture}/machine.lock"
+	run -1 seed_lock
+	cmp "${fixture}/machine.lock" "${fixture}/config/mise.local.lock"
+	local_mise=${original_mise}
+
+	rm "${fixture}/config/mise.local.lock"
+	ln -s "${fixture}/config/mise.lock" "${fixture}/config/mise.local.lock"
+	run -1 seed_lock
+	[[ -L "${fixture}/config/mise.local.lock" ]]
+	cmp "${fixture}/before.lock" "${fixture}/config/mise.lock"
+}

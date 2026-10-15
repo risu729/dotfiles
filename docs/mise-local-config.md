@@ -29,8 +29,8 @@ project paths continue to work normally.
 Bootstrap merges Codex and Claude overrides into the regular machine-owned
 `config.local.toml`. Their `auto_update = "24h"` setting checks at most once per
 day and preserves their existing zero release-age overrides. Other global tools
-and project pins do
-not opt in. No separate update daemon or package-manager self-update is enabled.
+and project pins do not opt in. No separate update daemon or package-manager
+self-update is enabled.
 
 Mise updates an installed agent before shim/exec launches, or in the background
 at an activated shell prompt. Offline, CI, locked execution, and project tool
@@ -41,3 +41,26 @@ The local declarations use `mise.local.lock`, leaving the shared global lock
 under Renovate's control. Commit shared-tool changes through the normal PR
 workflow. Local agent updates are per-machine state and need not match another
 machine's latest agent version.
+
+Before a locked bootstrap installs tools, a Bash seed step copies Codex and
+Claude native records verbatim from the generated shared lock into a new
+`mise.local.lock`. It validates version 3 TOML, refuses symlinked local locks
+and non-native agent backends, and atomically creates the file without replacing
+any existing machine-owned state. It requires no Bun or Python before tools.
+An existing lock containing both agents is left byte-for-byte unchanged.
+
+If write targets or another process already created a local lock without both
+agents, bootstrap stops without changing it. Initialize the missing records
+through mise's native writer, then rerun bootstrap:
+
+```sh
+mise --cd "$HOME" lock --global --local codex claude
+```
+
+This one-time migration may resolve currently available agent versions; native
+mise locking preserves other local records. The seed hook does not attempt to
+merge an existing lock because it cannot share mise's private writer mutex.
+
+If an agent later moves to an npm or PyPI backend, update this migration to
+handle its generated dependency sidecars before enabling that backend. Shared
+lock records are never edited or advanced by the seed step.

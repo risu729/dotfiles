@@ -144,12 +144,12 @@ source = "unix/home/.config/mise/miserc.local.toml.tera"
 merge = true
 template = "tera"
 
-# The supervisor user and daemon paths are specific to the personal WSL machine.
 # Automatic agent updates own local lock entries, never the shared tool lock.
 [dotfiles."~/.config/mise/config.local.toml/agent-updates"]
 source = "unix/mise/agent-updates.toml"
 merge = true
 
+# The supervisor user and daemon paths are specific to the personal WSL machine.
 [dotfiles."~/.config/pitchfork"]
 source = "unix/home/.config/pitchfork"
 mode = "symlink-each"
