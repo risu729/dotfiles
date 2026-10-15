@@ -6,6 +6,7 @@
 setup() {
 	bats_require_minimum_version 1.7.0
 	cd "${BATS_TEST_DIRNAME}/.." || return
+	native_mise=${SIDECAR_TEST_MISE:-$(command -v mise)}
 	export AUDIT_HELPER="${PWD}/mise/lock-sidecars.ts"
 	export AUDIT_FIXTURE="${BATS_TEST_TMPDIR}/repo"
 	mkdir -p "${AUDIT_FIXTURE}/.mise/locks/example"
@@ -66,4 +67,34 @@ exit 7
 MOCK
 	chmod +x "${BATS_TEST_TMPDIR}/bin/mise"
 	run -7 env PATH="${BATS_TEST_TMPDIR}/bin:${PATH}" tasks/verify/lock-sidecars
+}
+
+@test "native sidecar audit includes the personal lock and rejects its missing graph" {
+	local config="${AUDIT_FIXTURE}/unix/home/.config/mise"
+	mkdir -p "${config}" "${AUDIT_FIXTURE}/tasks/verify" "${AUDIT_FIXTURE}/mise" "${AUDIT_FIXTURE}/bin"
+	cp tasks/verify/lock-sidecars "${AUDIT_FIXTURE}/tasks/verify/lock-sidecars"
+	cp mise/lock-sidecars.ts "${AUDIT_FIXTURE}/mise/lock-sidecars.ts"
+	cp mise.lock "${AUDIT_FIXTURE}/mise.lock"
+	cp -R .mise/locks/. "${AUDIT_FIXTURE}/.mise/locks/"
+	cp unix/home/.config/mise/mise{,.personal}.lock "${config}/"
+	cp -R unix/home/.config/mise/locks "${config}/locks"
+	printf '[settings]\nexperimental = true\n' >"${AUDIT_FIXTURE}/mise.toml"
+	printf '[tools]\nnode = "latest"\n' >"${config}/config.toml"
+	printf '[tools]\n"npm:resend-cli" = "latest"\n' >"${config}/config.personal.toml"
+	ln -s "${native_mise}" "${AUDIT_FIXTURE}/bin/mise"
+	git -C "${AUDIT_FIXTURE}" add .
+	native_audit() {
+		env -u MISE_ENABLE_TOOLS -u MISE_DISABLE_TOOLS \
+			PATH="${AUDIT_FIXTURE}/bin:${PATH}" CI=true MISE_OFFLINE=true \
+			MISE_CONFIG_DIR="${BATS_TEST_TMPDIR}/host" MISE_GLOBAL_CONFIG_FILE="${BATS_TEST_TMPDIR}/host/config.toml" \
+			MISE_SYSTEM_CONFIG_DIR="${BATS_TEST_TMPDIR}/system" MISE_CEILING_PATHS="${AUDIT_FIXTURE}" \
+			MISE_DATA_DIR="${BATS_TEST_TMPDIR}/data" MISE_STATE_DIR="${BATS_TEST_TMPDIR}/state" MISE_CACHE_DIR="${BATS_TEST_TMPDIR}/cache" \
+			MISE_TRUSTED_CONFIG_PATHS="${AUDIT_FIXTURE}" \
+			"${AUDIT_FIXTURE}/tasks/verify/lock-sidecars"
+	}
+	run -0 native_audit
+	# This is a committed generated profile graph; the shared lock uses other graphs.
+	rm -rf "${config}/locks/mise.personal"
+	run -1 native_audit
+	[[ ${output} == *'mise.personal.lock: missing sidecar directory'* ]]
 }
