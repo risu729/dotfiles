@@ -2,13 +2,12 @@ name: Worker Preview
 on:
   pull_request:
     paths-ignore:
-      - 'docs/**'
       - '**/*.md'
       - 'unix/home/**'
       - 'unix/codex/**'
       - 'unix/ssh/**'
       - 'unix/systemd/**'
-      - 'wsl/**'
+      - 'wsl'
   pull_request_target: # zizmor: ignore[dangerous-triggers] -- Closed-event cleanup uses only trusted base checkout and a pinned action; no PR code runs.
     types: [closed]
 permissions: {}
