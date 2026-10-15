@@ -33,8 +33,11 @@ args=(lock --global --bump --json)
 if [[ ${write} == 0 ]]; then
 	args+=(--dry-run)
 fi
-MISE_GLOBAL_CONFIG_FILE="${repo}/unix/home/.config/mise/config.toml" \
+# A single-file override skips sibling profile configs; discover the source directory.
+env -u MISE_GLOBAL_CONFIG_FILE \
+	MISE_CONFIG_DIR="${repo}/unix/home/.config/mise" \
+	MISE_CEILING_PATHS="${repo}" \
 	MISE_SYSTEM_CONFIG_DIR="${system_config}" \
 	MISE_SYSTEM_CONFIG_FILE="${system_config}/config.toml" \
 	MISE_ENV="${selected_env}" \
-	mise "${args[@]}" "$@"
+	mise --cd "${repo}" "${args[@]}" "$@"
