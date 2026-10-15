@@ -67,7 +67,8 @@ $RECYCLE.BIN/
 __MACOSX/
 .AppleDouble
 .LSOverride
-Icon[]
+Icon[
+]
 
 # Resource forks
 ._*
@@ -780,3 +781,6 @@ dkms.conf
 !lib/
 mise-local-tasks/
 .codex
+
+# Checkout-specific early mise configuration is never shared.
+.miserc.local.toml
