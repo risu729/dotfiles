@@ -70,6 +70,10 @@ MOCK
 }
 
 @test "native sidecar audit includes the personal lock and rejects its missing graph" {
+	# Mise excludes the ceiling itself; canonical paths avoid macOS /var aliases.
+	AUDIT_FIXTURE=$(cd "${AUDIT_FIXTURE}" && pwd -P)
+	local fixture_ceiling
+	fixture_ceiling=$(cd "${BATS_TEST_TMPDIR}" && pwd -P)
 	local config="${AUDIT_FIXTURE}/unix/home/.config/mise"
 	mkdir -p "${config}" "${AUDIT_FIXTURE}/tasks/verify" "${AUDIT_FIXTURE}/mise" "${AUDIT_FIXTURE}/bin"
 	cp tasks/verify/lock-sidecars "${AUDIT_FIXTURE}/tasks/verify/lock-sidecars"
@@ -87,7 +91,7 @@ MOCK
 		env -u MISE_ENABLE_TOOLS -u MISE_DISABLE_TOOLS \
 			PATH="${AUDIT_FIXTURE}/bin:${PATH}" CI=true MISE_OFFLINE=true \
 			MISE_CONFIG_DIR="${BATS_TEST_TMPDIR}/host" MISE_GLOBAL_CONFIG_FILE="${BATS_TEST_TMPDIR}/host/config.toml" \
-			MISE_SYSTEM_CONFIG_DIR="${BATS_TEST_TMPDIR}/system" MISE_CEILING_PATHS="${AUDIT_FIXTURE}" \
+			MISE_SYSTEM_CONFIG_DIR="${BATS_TEST_TMPDIR}/system" MISE_CEILING_PATHS="${fixture_ceiling}" \
 			MISE_DATA_DIR="${BATS_TEST_TMPDIR}/data" MISE_STATE_DIR="${BATS_TEST_TMPDIR}/state" MISE_CACHE_DIR="${BATS_TEST_TMPDIR}/cache" \
 			MISE_TRUSTED_CONFIG_PATHS="${AUDIT_FIXTURE}" \
 			"${AUDIT_FIXTURE}/tasks/verify/lock-sidecars"
