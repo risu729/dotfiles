@@ -57,7 +57,9 @@ setup() {
 }
 
 @test "bootstrap dry-run registers moved tool and final hooks without applying them" {
-	run -0 mise bootstrap --dry-run --only tools,final-hook --yes
+	# Keep this empty-cache hook probe independent of CI's outer tool filter.
+	# Python graph preparation requires an installed interpreter even in dry-runs.
+	run -0 env MISE_ENABLE_TOOLS=aube,bats,bun,node mise bootstrap --dry-run --only tools,final-hook --yes
 	[[ ${output} == *'post-tools'* ]]
 	[[ ${output} == *'final'* ]]
 	[[ ! -e ${HOME}/.agents ]]
