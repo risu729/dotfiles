@@ -23,3 +23,21 @@ mise use --path ~/.config/mise/config.local.toml node@26
 A command updating entries owned by different files may require `--path`.
 Write targets route only new entries; they do not move existing tools. Explicit
 project paths continue to work normally.
+
+## Automatic Agent Updates
+
+Bootstrap merges Codex and Claude overrides into the regular machine-owned
+`config.local.toml`. Their `auto_update = "24h"` setting checks at most once per
+day and preserves their existing zero release-age overrides. Other global tools
+and project pins do
+not opt in. No separate update daemon or package-manager self-update is enabled.
+
+Mise updates an installed agent before shim/exec launches, or in the background
+at an activated shell prompt. Offline, CI, locked execution, and project tool
+overrides suppress the relevant updates. A failed update keeps the installed
+version; inspect `mise doctor` for the error.
+
+The local declarations use `mise.local.lock`, leaving the shared global lock
+under Renovate's control. Commit shared-tool changes through the normal PR
+workflow. Local agent updates are per-machine state and need not match another
+machine's latest agent version.
