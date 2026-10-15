@@ -3,6 +3,11 @@ on:
   schedule:
     - cron: "0 0 * * SUN"
   workflow_dispatch:
+concurrency:
+  # The caller and called CI must hold different groups. Keep every health run.
+  group: ${{ github.workflow }}-caller-${{ github.ref }}
+  cancel-in-progress: false
+  queue: max
 permissions: {}
 jobs:
   health:

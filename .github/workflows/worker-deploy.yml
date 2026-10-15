@@ -1,25 +1,16 @@
-name: Worker Deploy
+name: Worker Artifact Validation
 on:
   workflow_call:
-    inputs:
-      production:
-        description: Publish to production after main validation
-        type: boolean
-        default: false
-    secrets:
-      CLOUDFLARE_API_TOKEN:
-        required: false
 concurrency:
-  group: worker-${{ inputs.production && 'production' || format('validation-{0}', github.run_id) }}
+  group: worker-validation-${{ github.run_id }}
   cancel-in-progress: false
 permissions: {}
 defaults:
   run:
     shell: bash
 jobs:
-  deploy:
-    name: ${{ inputs.production && 'Deploy' || 'Validate downloaded artifact' }}
-    if: ${{ !inputs.production || github.ref == 'refs/heads/main' }}
+  validate:
+    name: Validate downloaded artifact
     runs-on: ubuntu-26.04
     timeout-minutes: 10
     env:
@@ -60,16 +51,11 @@ jobs:
         run: mise run --skip-tools --no-deps ci:worker-artifact restore
         env:
           EXPECTED_REVISION: ${{ github.sha }}
-      - name: Validate or deploy Worker version
+      - name: Validate Worker version
         uses: risu729/wrangler-deploy-action@a9db854f3a31cdf3cdf28977e66f52f32fc9e8a0 # v2.2.2
         with:
-          mode: ${{ inputs.production && 'production' || 'dry-run' }}
+          mode: dry-run
           working-directory: worker
           worker: dotfiles-worker
           build-mode: production
-          # Use only Individual Workers Editor scoped to dotfiles-worker.
-          # Preserve the existing domain without zone Workers Routes permissions.
-          # Manage Custom Domain and route changes separately.
           deploy-triggers: 'false'
-          cloudflare-account-id: ${{ inputs.production && vars.CLOUDFLARE_ACCOUNT_ID || '' }}
-          cloudflare-api-token: ${{ inputs.production && secrets.CLOUDFLARE_API_TOKEN || '' }}

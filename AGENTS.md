@@ -71,11 +71,18 @@ revision and checksum; do not rebuild it during deployment. Main pushes deploy
 after all checks pass. For a manual deployment, run **CI** on `main` with
 **Deploy the validated Worker** enabled. **Upstream Health** never deploys.
 
-Deployment uses repository variable `CLOUDFLARE_ACCOUNT_ID` and secret
-`CLOUDFLARE_API_TOKEN`. The token needs `Individual Workers Editor` scoped to
-`dotfiles-worker` on account `risu`. Production uploads the validated artifact
-with `cf workers versions create --prebuilt --mode production`, then deploys
-that exact version with `cf workers deployments create` to 100% of traffic. It
+Deployment uses repository variable `CLOUDFLARE_ACCOUNT_ID` and the
+existing repository secret `CLOUDFLARE_API_TOKEN`. Production targets the
+`production` Environment and Preview targets `preview`; both can use the
+repository secret without reading or re-entering its value. An Environment
+secret with the same name takes precedence if added later. Moving the token to
+Environment secrets is a separate migration: validate both deployment paths
+before removing the repository copy. The reusable artifact validation workflow
+receives no secrets. The token needs
+`Individual Workers Editor` scoped to `dotfiles-worker` on account `risu`.
+Production uploads the validated artifact with
+`cf workers versions create --prebuilt --mode production`, then deploys that
+exact version with `cf workers deployments create` to 100% of traffic. It
 preserves the existing Custom Domain without updating triggers.
 
 The pinned `cf` beta reads `worker/cloudflare.config.ts` and builds with Vite.
