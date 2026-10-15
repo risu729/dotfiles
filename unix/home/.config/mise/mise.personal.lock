@@ -77,16 +77,6 @@ checksum = "sha256:014bc4c093e586197013fac79b9d0f1df1da6004003293c8930406bf1ffde
 url = "https://github.com/bitwarden/clients/releases/download/cli-v2026.9.0/bw-macos-arm64-2026.9.0.zip"
 url_api = "https://api.github.com/repos/bitwarden/clients/releases/assets/570320204"
 
-[tools.bitwarden."platforms.macos-x64"]
-checksum = "sha256:d2a1865c2c1f49c34e6f1b38a42c5b95dcf22e34f81121c4962ebda32f708a3e"
-url = "https://github.com/bitwarden/clients/releases/download/cli-v2026.9.0/bw-macos-2026.9.0.zip"
-url_api = "https://api.github.com/repos/bitwarden/clients/releases/assets/570320154"
-
-[tools.bitwarden."platforms.macos-x64-baseline"]
-checksum = "sha256:d2a1865c2c1f49c34e6f1b38a42c5b95dcf22e34f81121c4962ebda32f708a3e"
-url = "https://github.com/bitwarden/clients/releases/download/cli-v2026.9.0/bw-macos-2026.9.0.zip"
-url_api = "https://api.github.com/repos/bitwarden/clients/releases/assets/570320154"
-
 [[tools.cursor-agent]]
 version = "2026.09.18-9a7762b"
 backend = "http:cursor-agent"
@@ -96,31 +86,32 @@ specifiers = ["latest"]
 strip_components = "0"
 
 [tools.cursor-agent."platforms.linux-arm64"]
+checksum = "sha256:210d58f850f4616e4f265ff7006c558d5a2a008fce3e2bf8a0105c25ae3456a0"
 url = "https://downloads.cursor.com/lab/2026.09.18-9a7762b/linux/arm64/agent-cli-package.tar.gz"
 
 [tools.cursor-agent."platforms.linux-arm64-musl"]
+checksum = "sha256:210d58f850f4616e4f265ff7006c558d5a2a008fce3e2bf8a0105c25ae3456a0"
 url = "https://downloads.cursor.com/lab/2026.09.18-9a7762b/linux/arm64/agent-cli-package.tar.gz"
 
 [tools.cursor-agent."platforms.linux-x64"]
+checksum = "sha256:b1308f5a2fc05458b9d8966752986bb23a971bbcc67c842c1df94c4b8132bad9"
 url = "https://downloads.cursor.com/lab/2026.09.18-9a7762b/linux/x64/agent-cli-package.tar.gz"
 
 [tools.cursor-agent."platforms.linux-x64-baseline"]
+checksum = "sha256:b1308f5a2fc05458b9d8966752986bb23a971bbcc67c842c1df94c4b8132bad9"
 url = "https://downloads.cursor.com/lab/2026.09.18-9a7762b/linux/x64/agent-cli-package.tar.gz"
 
 [tools.cursor-agent."platforms.linux-x64-musl"]
+checksum = "sha256:b1308f5a2fc05458b9d8966752986bb23a971bbcc67c842c1df94c4b8132bad9"
 url = "https://downloads.cursor.com/lab/2026.09.18-9a7762b/linux/x64/agent-cli-package.tar.gz"
 
 [tools.cursor-agent."platforms.linux-x64-musl-baseline"]
+checksum = "sha256:b1308f5a2fc05458b9d8966752986bb23a971bbcc67c842c1df94c4b8132bad9"
 url = "https://downloads.cursor.com/lab/2026.09.18-9a7762b/linux/x64/agent-cli-package.tar.gz"
 
 [tools.cursor-agent."platforms.macos-arm64"]
+checksum = "sha256:4e67b9ac80cc4a56e0a91b3b437894e0ba489ef7ec37f120d8084d2bfd02095d"
 url = "https://downloads.cursor.com/lab/2026.09.18-9a7762b/darwin/arm64/agent-cli-package.tar.gz"
-
-[tools.cursor-agent."platforms.macos-x64"]
-url = "https://downloads.cursor.com/lab/2026.09.18-9a7762b/darwin/x64/agent-cli-package.tar.gz"
-
-[tools.cursor-agent."platforms.macos-x64-baseline"]
-url = "https://downloads.cursor.com/lab/2026.09.18-9a7762b/darwin/x64/agent-cli-package.tar.gz"
 
 [[tools.gcloud]]
 version = "586.0.0"
@@ -128,31 +119,32 @@ backend = "vfox:mise-plugins/vfox-gcloud"
 specifiers = ["latest"]
 
 [tools.gcloud."platforms.linux-arm64"]
+checksum = "sha256:5e67bd4399c0e4b71998e7bfe1d72dbb46721726610974696b1db94859113c3f"
 url = "https://storage.googleapis.com/cloud-sdk-release/google-cloud-sdk-586.0.0-linux-arm.tar.gz"
 
 [tools.gcloud."platforms.linux-arm64-musl"]
+checksum = "sha256:5e67bd4399c0e4b71998e7bfe1d72dbb46721726610974696b1db94859113c3f"
 url = "https://storage.googleapis.com/cloud-sdk-release/google-cloud-sdk-586.0.0-linux-arm.tar.gz"
 
 [tools.gcloud."platforms.linux-x64"]
+checksum = "sha256:99a78f20d6b9335393c3022be682fc67e5f46af3e63c852a1e3c50be948f7d99"
 url = "https://storage.googleapis.com/cloud-sdk-release/google-cloud-sdk-586.0.0-linux-x86_64.tar.gz"
 
 [tools.gcloud."platforms.linux-x64-baseline"]
+checksum = "sha256:99a78f20d6b9335393c3022be682fc67e5f46af3e63c852a1e3c50be948f7d99"
 url = "https://storage.googleapis.com/cloud-sdk-release/google-cloud-sdk-586.0.0-linux-x86_64.tar.gz"
 
 [tools.gcloud."platforms.linux-x64-musl"]
+checksum = "sha256:99a78f20d6b9335393c3022be682fc67e5f46af3e63c852a1e3c50be948f7d99"
 url = "https://storage.googleapis.com/cloud-sdk-release/google-cloud-sdk-586.0.0-linux-x86_64.tar.gz"
 
 [tools.gcloud."platforms.linux-x64-musl-baseline"]
+checksum = "sha256:99a78f20d6b9335393c3022be682fc67e5f46af3e63c852a1e3c50be948f7d99"
 url = "https://storage.googleapis.com/cloud-sdk-release/google-cloud-sdk-586.0.0-linux-x86_64.tar.gz"
 
 [tools.gcloud."platforms.macos-arm64"]
+checksum = "sha256:078509d7742a65c17d17c6c2a899de752af99a94bfbd5446a013140d43550828"
 url = "https://storage.googleapis.com/cloud-sdk-release/google-cloud-sdk-586.0.0-darwin-arm.tar.gz"
-
-[tools.gcloud."platforms.macos-x64"]
-url = "https://storage.googleapis.com/cloud-sdk-release/google-cloud-sdk-586.0.0-darwin-x86_64.tar.gz"
-
-[tools.gcloud."platforms.macos-x64-baseline"]
-url = "https://storage.googleapis.com/cloud-sdk-release/google-cloud-sdk-586.0.0-darwin-x86_64.tar.gz"
 
 [[tools."github:risu729/biwa"]]
 version = "1.0.0"
@@ -311,16 +303,6 @@ checksum = "sha256:d9cddd1dbe9a8bea8d5709f90a9ac13c3dd3eb0d0e94e3bc4fae6b27abd6a
 url = "https://gitlab.com/gitlab-org/cli/-/releases/v1.119.0/downloads/glab_1.119.0_darwin_arm64.tar.gz"
 url_api = "https://gitlab.com/api/v4/projects/gitlab-org%2Fcli/packages/generic/glab/1%2E119%2E0/glab_1%2E119%2E0_darwin_arm64%2Etar%2Egz"
 
-[tools.glab."platforms.macos-x64"]
-checksum = "sha256:5dc0b4a5bbf2ae96cd7761ad76fce689c5e085e2ad4a97ec90c4db5691dcdc2a"
-url = "https://gitlab.com/gitlab-org/cli/-/releases/v1.119.0/downloads/glab_1.119.0_darwin_amd64.tar.gz"
-url_api = "https://gitlab.com/api/v4/projects/gitlab-org%2Fcli/packages/generic/glab/1%2E119%2E0/glab_1%2E119%2E0_darwin_amd64%2Etar%2Egz"
-
-[tools.glab."platforms.macos-x64-baseline"]
-checksum = "sha256:5dc0b4a5bbf2ae96cd7761ad76fce689c5e085e2ad4a97ec90c4db5691dcdc2a"
-url = "https://gitlab.com/gitlab-org/cli/-/releases/v1.119.0/downloads/glab_1.119.0_darwin_amd64.tar.gz"
-url_api = "https://gitlab.com/api/v4/projects/gitlab-org%2Fcli/packages/generic/glab/1%2E119%2E0/glab_1%2E119%2E0_darwin_amd64%2Etar%2Egz"
-
 [[tools."npm:resend-cli"]]
 version = "2.21.1"
 aube = { path = "locks/mise.personal/npm-resend-cli/2.21.1~4adf1931", digest = "sha256:89fb8e5231cfb2c72e330d65cbe9689ef96aa431e682417da0bddaf34c9f2b2b" }
@@ -370,13 +352,3 @@ url_api = "https://api.github.com/repos/typst/typst/releases/assets/480300761"
 checksum = "sha256:48f62ed034aa3a7978309579ac6ca00045e2ef0da73114e8af27cfd8e74dc05a"
 url = "https://github.com/typst/typst/releases/download/v0.15.1/typst-aarch64-apple-darwin.tar.xz"
 url_api = "https://api.github.com/repos/typst/typst/releases/assets/480299147"
-
-[tools.typst."platforms.macos-x64"]
-checksum = "sha256:7f9fdd9584866245de9a79e0add8f9236fae6f40a8a45e2c4771ccc14db4e0fa"
-url = "https://github.com/typst/typst/releases/download/v0.15.1/typst-x86_64-apple-darwin.tar.xz"
-url_api = "https://api.github.com/repos/typst/typst/releases/assets/480300018"
-
-[tools.typst."platforms.macos-x64-baseline"]
-checksum = "sha256:7f9fdd9584866245de9a79e0add8f9236fae6f40a8a45e2c4771ccc14db4e0fa"
-url = "https://github.com/typst/typst/releases/download/v0.15.1/typst-x86_64-apple-darwin.tar.xz"
-url_api = "https://api.github.com/repos/typst/typst/releases/assets/480300018"

@@ -24,7 +24,9 @@ pnpm = "latest"
 java = "latest"
 gradle = "latest"
 rust = "latest"
-python = "latest"
+# Keep 3.14 until global Python tools support 3.15 and publish compatible wheels.
+# Native lock installs are frozen and do not build packages from source.
+python = "3.14"
 go = "latest"
 pkl = "latest"
 
@@ -147,6 +149,7 @@ mr-boxington = "latest"
 
 [settings]
 experimental = true
+lockfile = true
 lockfile_mode = "generate"
 minimum_release_age = "3h"
 cargo.binstall_native = true
