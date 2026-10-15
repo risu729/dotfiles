@@ -56,6 +56,26 @@ macOS Zsh checks start fresh interactive shells. Failed checks include repair
 hints; probe output is hidden by mise, so run the command in its hint when more
 detail is needed. `bash -x` shows the failing assertion and expanded paths.
 
+## Bootstrap Inspection
+
+Inspect the same repository and profile used by the installer before applying
+changes. From this checkout, use `mise -E personal bootstrap status --json`
+(or omit `-E personal` for the shared profile). Add `--missing` when drift
+should make the command exit unsuccessfully.
+
+Use `mise -E personal bootstrap plan --json --detailed-exitcode` for the
+resource change plan: exit 0 means no changes, 2 means changes, and 1 means an
+error or unknown state. The plan covers packages, accounts, files, services,
+firewall rules, and Compose resources. It does not plan repositories, dotfiles,
+shell activation, macOS defaults, tools, or hooks. Use
+`mise -E personal bootstrap --dry-run` to preview the whole bootstrap, and
+`mise -E personal dot diff` to review managed dotfile content separately.
+
+These are native mise inspection commands; do not run them through a task that
+prepares dependencies first. Inspecting trusted templates can evaluate their
+`exec()` expressions. Keep secret prompting opt-in; ordinary inspection should
+not provision the Cloudflare Tunnel token.
+
 ## Worker Maintenance
 
 Run tasks from the repository root: `mise run worker:dev` starts the local
