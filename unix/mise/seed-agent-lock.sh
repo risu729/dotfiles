@@ -12,7 +12,7 @@ check_existing() {
 		exit 1
 	fi
 	if [[ -e ${local_lock} ]]; then
-		local_version=$(mise config get --file "${local_lock}" lockfile_version)
+		local_version=$(mise config get --file "${local_lock}" lockfile_version 2>/dev/null) || local_version=''
 		if [[ ${local_version} == "3" ]] &&
 			mise config get --file "${local_lock}" tools.codex >/dev/null 2>&1 &&
 			mise config get --file "${local_lock}" tools.claude >/dev/null 2>&1; then
