@@ -45,3 +45,36 @@ components = "main"
 architectures = "amd64"
 key = "https://dl.google.com/linux/linux_signing_key.pub"
 fingerprint = "EB4C1BFD4F042F6DDDCCEC917721F63BD38B4796"
+
+# Keep source-bearing declarations at the repository root. These files must
+# exist before the post-packages hook validates sshd and activates the units.
+[bootstrap.directories."/etc/ssh/sshd_config.d"]
+phase = "pre-packages"
+owner = "root"
+group = "root"
+mode = "0755"
+os = "linux"
+
+[bootstrap.files."/etc/ssh/ca.pub"]
+phase = "pre-packages"
+source = "unix/ssh/ca.pub"
+owner = "root"
+group = "root"
+mode = "0644"
+os = "linux"
+
+[bootstrap.files."/etc/ssh/sshd_config.d/10-cloudflare-access.conf"]
+phase = "pre-packages"
+source = "unix/ssh/10-cloudflare-access.conf"
+owner = "root"
+group = "root"
+mode = "0644"
+os = "linux"
+
+[bootstrap.files."/etc/systemd/system/wsl-cloudflare-ip.service"]
+phase = "pre-packages"
+source = "unix/systemd/wsl-cloudflare-ip.service"
+owner = "root"
+group = "root"
+mode = "0644"
+os = "linux"
