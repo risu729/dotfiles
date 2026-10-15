@@ -175,7 +175,7 @@ main() {
 
 	# mise reads the profile as its environment, which selects `mise.personal.toml`
 	# and the `profile = "personal"` dotfile variants. The bootstrap renders it into
-	# `~/.config/mise/miserc.toml`, so later runs keep the profile without this.
+	# `~/.config/mise/miserc.local.toml`, so later runs keep the profile without this.
 	if [[ -n ${profile} ]]; then
 		log_info "Using the ${profile} profile."
 		export MISE_ENV="${profile}"

@@ -1,0 +1,6 @@
+# Only the selected profile is managed; other machine-local discovery keys survive.
+{% if mise_env is defined and "personal" in mise_env %}
+env = ["personal"]
+{% else %}
+env = []
+{% endif %}

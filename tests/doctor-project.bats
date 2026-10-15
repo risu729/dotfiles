@@ -23,6 +23,7 @@ experimental = true
 TOML
 	cat "${fixture}/unix/codex/config.toml" "${fixture}/unix/codex/mcp.toml" >"${fixture_home}/.codex/config.toml"
 	printf 'auto_env = true\n' >"${fixture_home}/.config/mise/miserc.toml"
+	printf 'env = []\n' >"${fixture_home}/.config/mise/miserc.local.toml"
 	touch "${fixture}/global.toml" "${fixture}/gitconfig"
 	ln -s "${fixture}/global.toml" "${fixture_home}/.config/mise/config.toml"
 	ln -s "${fixture}/gitconfig" "${fixture_home}/.config/git/config"
@@ -95,7 +96,7 @@ assert_check() {
 }
 
 @test "bare profile rejects missing profile state instead of silently passing" {
-	rm "${fixture_home}/.config/mise/miserc.toml"
+	rm "${fixture_home}/.config/mise/miserc.local.toml"
 	run -1 isolated TEST_PROFILE=bare "${doctor_mise}" --cd "${fixture}/mise/doctor" doctor project --json
 	assert_check profile fail
 }
@@ -108,7 +109,7 @@ assert_check() {
 }
 
 @test "personal profile remains active in the opt-in config" {
-	printf 'auto_env = true\nenv = ["personal"]\n' >"${fixture_home}/.config/mise/miserc.toml"
+	printf 'env = ["personal"]\n' >"${fixture_home}/.config/mise/miserc.local.toml"
 	cat >"${fixture}/mise.personal.toml" <<'TOML'
 [tools]
 glab = { version = "0.0.0", lazy = true }

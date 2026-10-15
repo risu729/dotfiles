@@ -24,7 +24,7 @@ profile)
 	selected_glab=$(mise current glab)
 	case "${TEST_PROFILE:-}" in
 	personal)
-		grep --quiet '^env = \["personal"\]$' "${HOME}/.config/mise/miserc.toml"
+		grep --quiet '^env = \["personal"\]$' "${HOME}/.config/mise/miserc.local.toml"
 		assert_link "${HOME}/.ssh/config"
 		assert_link "${HOME}/.config/git/personal.gitconfig"
 		assert_link "${HOME}/.config/git/unsw.gitconfig"
@@ -32,11 +32,8 @@ profile)
 		[[ -n ${selected_glab} ]]
 		;;
 	bare)
-		test -f "${HOME}/.config/mise/miserc.toml"
-		if grep --quiet '^env =' "${HOME}/.config/mise/miserc.toml"; then
-			echo 'Bare installation enabled a mise profile' >&2
-			exit 1
-		fi
+		test -f "${HOME}/.config/mise/miserc.local.toml"
+		grep --quiet '^env = \[\]$' "${HOME}/.config/mise/miserc.local.toml"
 		assert_absent "${HOME}/.ssh/config"
 		assert_absent "${HOME}/.config/git/personal.gitconfig"
 		assert_absent "${HOME}/.config/git/unsw.gitconfig"

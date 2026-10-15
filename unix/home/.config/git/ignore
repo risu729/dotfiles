@@ -780,3 +780,6 @@ dkms.conf
 !lib/
 mise-local-tasks/
 .codex
+
+# Checkout-specific early mise configuration is never shared.
+.miserc.local.toml

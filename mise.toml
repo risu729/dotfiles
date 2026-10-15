@@ -134,11 +134,15 @@ variants = [{ profile = "personal" }]
 source = "unix/home/.config/mimeapps.list"
 variants = [{ os = "linux" }]
 
-# `env` in miserc selects the profile for every later mise invocation, so the
-# file is rendered from the profile that bootstrapped the machine.
+# Discovery defaults are shared, but each machine owns its selected profile.
 [dotfiles."~/.config/mise/miserc.toml"]
 source = "unix/home/.config/mise/miserc.toml.tera"
 mode = "template"
+
+[dotfiles."~/.config/mise/miserc.local.toml/profile"]
+source = "unix/home/.config/mise/miserc.local.toml.tera"
+merge = true
+template = "tera"
 
 # The supervisor user and daemon paths are specific to the personal WSL machine.
 [dotfiles."~/.config/pitchfork"]
