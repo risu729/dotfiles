@@ -1732,8 +1732,8 @@ checksum = "sha256:6666b48816b39b86c3febac7b51a4ee4de6c5ca589c382ad8004b6b113f86
 url = "https://registry.npmjs.org/npm/-/npm-12.2.0.tgz"
 
 [[tools."npm:ccusage"]]
-version = "20.0.26"
-aube = { path = "locks/npm-ccusage/20.0.26", digest = "sha256:e1229ed145ebbaaaa3e6116f5a729c75f32a6fc901a681ad0febc7451f529025" }
+version = "20.0.33"
+aube = { path = "locks/npm-ccusage/20.0.33", digest = "sha256:602b7603be5da09d894fbe719d3e5551c5cdbd72cd1f021d9dbe1ae0112a390a" }
 backend = "npm:ccusage"
 specifiers = ["latest"]
 
@@ -1778,8 +1778,8 @@ url = "https://github.com/sharkdp/numbat/releases/download/v1.24.0/numbat-v1.24.
 url_api = "https://api.github.com/repos/sharkdp/numbat/releases/assets/526572313"
 
 [[tools.oxfmt]]
-version = "0.72.0"
-aube = { path = "locks/oxfmt/0.72.0", digest = "sha256:8cff19be82a82e83efe243f08fd8bf1a2a2f635f10384d070d7956209ddd9b44" }
+version = "0.73.0"
+aube = { path = "locks/oxfmt/0.73.0", digest = "sha256:e42eeebedd060ec6393c40caa35362b541991453b9aab2de3d33d41a0c245a62" }
 backend = "npm:oxfmt"
 specifiers = ["latest"]
 
@@ -2033,8 +2033,8 @@ url_api = "https://api.github.com/repos/pnpm/pnpm/releases/assets/616153633"
 provenance = "github-attestations"
 
 [[tools.prettier]]
-version = "3.9.9"
-aube = { path = "locks/prettier/3.9.9", digest = "sha256:815f6667505e41ac2d03ecbac86b79f1beb78d45783879428193c9adc80760a3" }
+version = "3.9.10"
+aube = { path = "locks/prettier/3.9.10", digest = "sha256:0a52cf3e98ebe971f9f0c338c08e668756d290a8d14fe3fd308251084fba1522" }
 backend = "npm:prettier"
 specifiers = ["latest"]
 
