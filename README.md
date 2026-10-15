@@ -126,6 +126,31 @@ downloads, apps or Git repositories. To install just one deferred tool, use
 manually changing a lazy configuration, run `mise reshim` to refresh its command
 shims.
 
+## Tool Installation Layout
+
+Repository bootstrap and shared global tools use mise's experimental
+[identity install layout](https://mise.jdx.dev/dev-tools/install-layout.html).
+New installations distinguish backend, platform, install options, and locked
+artifacts or dependency graphs, so variants of the same tool version can
+coexist. Use `mise where`, `mise which`, or `mise exec` to find the selected
+installation; a hardcoded version path follows only its most recently installed
+variant. Rust, dotnet, and `http:` tools retain their backend's existing layout.
+
+Existing installations stay in place. To inspect an optional migration, run
+`mise installs migrate --dry-run` outside projects, then migrate selected tools
+with `mise installs migrate node`, for example, while they are not in use.
+Migration reinstalls tools when possible and can otherwise relocate their
+existing files behind a version link. Bootstrap does not migrate them
+automatically.
+
+Keep `installs/.mise/` with the installs directory when backing it up. Windows
+also needs the separate `i/` install store. The experimental catalog format may
+change between mise releases. To return to legacy installs, set
+`install_layout = "legacy"` in both [repository settings](mise.toml) and
+[global settings](unix/home/.config/mise/config.toml) (or temporarily export
+`MISE_INSTALL_LAYOUT=legacy`). Existing hashed directories remain; older mise
+versions may need tools reinstalled to select the intended variant.
+
 ## Customization
 
 Shared packages and dotfile mappings are in [`mise.toml`](mise.toml), with

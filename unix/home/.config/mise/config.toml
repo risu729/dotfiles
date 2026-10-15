@@ -151,6 +151,7 @@ mr-boxington = "latest"
 
 [settings]
 experimental = true
+install_layout = "identity"
 lockfile_mode = "generate"
 minimum_release_age = "3h"
 # Keep replaced installs for a week; tracked configs and running processes also protect them.

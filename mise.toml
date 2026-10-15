@@ -36,6 +36,7 @@ bats = "1.14.0"
 
 [settings]
 experimental = true
+install_layout = "identity"
 lockfile_mode = "generate"
 # Git hooks use `mise exec`; installing missing global tools must not block commits.
 # Lazy global tools help, but unrelated NON-lazy tools still trigger downloads.
