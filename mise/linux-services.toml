@@ -1,0 +1,41 @@
+# Included only on Linux when /run/systemd/system exists.
+# File changes notify services within the same bootstrap invocation.
+[bootstrap.files."/etc/ssh/ca.pub"]
+phase = "pre-packages"
+notify = ["ssh"]
+source = "unix/ssh/ca.pub"
+owner = "root"
+group = "root"
+mode = "0644"
+os = "linux"
+
+[bootstrap.files."/etc/ssh/sshd_config.d/10-cloudflare-access.conf"]
+phase = "pre-packages"
+notify = ["ssh"]
+source = "unix/ssh/10-cloudflare-access.conf"
+owner = "root"
+group = "root"
+mode = "0644"
+os = "linux"
+
+[bootstrap.files."/etc/systemd/system/wsl-cloudflare-ip.service"]
+phase = "pre-packages"
+notify = ["wsl-cloudflare-ip"]
+source = "unix/systemd/wsl-cloudflare-ip.service"
+owner = "root"
+group = "root"
+mode = "0644"
+os = "linux"
+
+# Start the loopback-address unit before SSH, as the old hook did.
+[bootstrap.services.wsl-cloudflare-ip]
+scope = "system"
+state = "running"
+enabled = true
+on_change = "restart"
+
+[bootstrap.services.ssh]
+scope = "system"
+state = "running"
+enabled = true
+on_change = "reload"
