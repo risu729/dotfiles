@@ -7,6 +7,6 @@
     }
   },
   "dependencies": {
-    "resend-cli": "2.21.1"
+    "resend-cli": "2.25.0"
   }
 }

@@ -38,47 +38,47 @@ url = "https://github.com/mame/wsl2-ssh-agent/releases/download/v0.9.7/wsl2-ssh-
 url_api = "https://api.github.com/repos/mame/wsl2-ssh-agent/releases/assets/321133717"
 
 [[tools.bitwarden]]
-version = "2026.9.0"
+version = "2026.9.1"
 backend = "aqua:bitwarden/clients"
 specifiers = ["latest"]
 
 [tools.bitwarden."platforms.linux-arm64"]
-checksum = "sha256:3f474cc34b701a1cebdd486009870038b034343afb83095607422cdad4c3653a"
-url = "https://github.com/bitwarden/clients/releases/download/cli-v2026.9.0/bw-linux-arm64-2026.9.0.zip"
-url_api = "https://api.github.com/repos/bitwarden/clients/releases/assets/570320369"
+checksum = "sha256:c451c773378a6f1f041ea26568a897b285a8656bee16a16e4914ce9e40fb7c79"
+url = "https://github.com/bitwarden/clients/releases/download/cli-v2026.9.1/bw-linux-arm64-2026.9.1.zip"
+url_api = "https://api.github.com/repos/bitwarden/clients/releases/assets/603936524"
 
 [tools.bitwarden."platforms.linux-arm64-musl"]
-checksum = "sha256:3f474cc34b701a1cebdd486009870038b034343afb83095607422cdad4c3653a"
-url = "https://github.com/bitwarden/clients/releases/download/cli-v2026.9.0/bw-linux-arm64-2026.9.0.zip"
-url_api = "https://api.github.com/repos/bitwarden/clients/releases/assets/570320369"
+checksum = "sha256:c451c773378a6f1f041ea26568a897b285a8656bee16a16e4914ce9e40fb7c79"
+url = "https://github.com/bitwarden/clients/releases/download/cli-v2026.9.1/bw-linux-arm64-2026.9.1.zip"
+url_api = "https://api.github.com/repos/bitwarden/clients/releases/assets/603936524"
 
 [tools.bitwarden."platforms.linux-x64"]
-checksum = "sha256:580c1deec8345b19dbac7f8b02babb6cc4fe250c69c567e29061f727f1e40768"
-url = "https://github.com/bitwarden/clients/releases/download/cli-v2026.9.0/bw-linux-2026.9.0.zip"
-url_api = "https://api.github.com/repos/bitwarden/clients/releases/assets/570320307"
+checksum = "sha256:84289eaf59d691f04242605112f21b00e8dba65acdedbc60dde001a2860f2097"
+url = "https://github.com/bitwarden/clients/releases/download/cli-v2026.9.1/bw-linux-2026.9.1.zip"
+url_api = "https://api.github.com/repos/bitwarden/clients/releases/assets/603936444"
 
 [tools.bitwarden."platforms.linux-x64-baseline"]
-checksum = "sha256:580c1deec8345b19dbac7f8b02babb6cc4fe250c69c567e29061f727f1e40768"
-url = "https://github.com/bitwarden/clients/releases/download/cli-v2026.9.0/bw-linux-2026.9.0.zip"
-url_api = "https://api.github.com/repos/bitwarden/clients/releases/assets/570320307"
+checksum = "sha256:84289eaf59d691f04242605112f21b00e8dba65acdedbc60dde001a2860f2097"
+url = "https://github.com/bitwarden/clients/releases/download/cli-v2026.9.1/bw-linux-2026.9.1.zip"
+url_api = "https://api.github.com/repos/bitwarden/clients/releases/assets/603936444"
 
 [tools.bitwarden."platforms.linux-x64-musl"]
-checksum = "sha256:580c1deec8345b19dbac7f8b02babb6cc4fe250c69c567e29061f727f1e40768"
-url = "https://github.com/bitwarden/clients/releases/download/cli-v2026.9.0/bw-linux-2026.9.0.zip"
-url_api = "https://api.github.com/repos/bitwarden/clients/releases/assets/570320307"
+checksum = "sha256:84289eaf59d691f04242605112f21b00e8dba65acdedbc60dde001a2860f2097"
+url = "https://github.com/bitwarden/clients/releases/download/cli-v2026.9.1/bw-linux-2026.9.1.zip"
+url_api = "https://api.github.com/repos/bitwarden/clients/releases/assets/603936444"
 
 [tools.bitwarden."platforms.linux-x64-musl-baseline"]
-checksum = "sha256:580c1deec8345b19dbac7f8b02babb6cc4fe250c69c567e29061f727f1e40768"
-url = "https://github.com/bitwarden/clients/releases/download/cli-v2026.9.0/bw-linux-2026.9.0.zip"
-url_api = "https://api.github.com/repos/bitwarden/clients/releases/assets/570320307"
+checksum = "sha256:84289eaf59d691f04242605112f21b00e8dba65acdedbc60dde001a2860f2097"
+url = "https://github.com/bitwarden/clients/releases/download/cli-v2026.9.1/bw-linux-2026.9.1.zip"
+url_api = "https://api.github.com/repos/bitwarden/clients/releases/assets/603936444"
 
 [tools.bitwarden."platforms.macos-arm64"]
-checksum = "sha256:014bc4c093e586197013fac79b9d0f1df1da6004003293c8930406bf1ffde45b"
-url = "https://github.com/bitwarden/clients/releases/download/cli-v2026.9.0/bw-macos-arm64-2026.9.0.zip"
-url_api = "https://api.github.com/repos/bitwarden/clients/releases/assets/570320204"
+checksum = "sha256:9f52edf5fb855e277315c1106f1bae326a87c41b425a4c0e00fd1440e77fa0a6"
+url = "https://github.com/bitwarden/clients/releases/download/cli-v2026.9.1/bw-macos-arm64-2026.9.1.zip"
+url_api = "https://api.github.com/repos/bitwarden/clients/releases/assets/603936238"
 
 [[tools.cursor-agent]]
-version = "2026.09.18-9a7762b"
+version = "2026.10.14-941492e"
 backend = "http:cursor-agent"
 specifiers = ["latest"]
 
@@ -86,65 +86,65 @@ specifiers = ["latest"]
 strip_components = "0"
 
 [tools.cursor-agent."platforms.linux-arm64"]
-checksum = "sha256:210d58f850f4616e4f265ff7006c558d5a2a008fce3e2bf8a0105c25ae3456a0"
-url = "https://downloads.cursor.com/lab/2026.09.18-9a7762b/linux/arm64/agent-cli-package.tar.gz"
+checksum = "sha256:cbba40d90d7f699874e133a5c15bf3854cee006565bd3bb00a6c79b49d62b0d0"
+url = "https://downloads.cursor.com/lab/2026.10.14-941492e/linux/arm64/agent-cli-package.tar.gz"
 
 [tools.cursor-agent."platforms.linux-arm64-musl"]
-checksum = "sha256:210d58f850f4616e4f265ff7006c558d5a2a008fce3e2bf8a0105c25ae3456a0"
-url = "https://downloads.cursor.com/lab/2026.09.18-9a7762b/linux/arm64/agent-cli-package.tar.gz"
+checksum = "sha256:cbba40d90d7f699874e133a5c15bf3854cee006565bd3bb00a6c79b49d62b0d0"
+url = "https://downloads.cursor.com/lab/2026.10.14-941492e/linux/arm64/agent-cli-package.tar.gz"
 
 [tools.cursor-agent."platforms.linux-x64"]
-checksum = "sha256:b1308f5a2fc05458b9d8966752986bb23a971bbcc67c842c1df94c4b8132bad9"
-url = "https://downloads.cursor.com/lab/2026.09.18-9a7762b/linux/x64/agent-cli-package.tar.gz"
+checksum = "sha256:6f6bf39dd2df29dcd38643cdfab0155ce71699953889f732deec123f6562bb2d"
+url = "https://downloads.cursor.com/lab/2026.10.14-941492e/linux/x64/agent-cli-package.tar.gz"
 
 [tools.cursor-agent."platforms.linux-x64-baseline"]
-checksum = "sha256:b1308f5a2fc05458b9d8966752986bb23a971bbcc67c842c1df94c4b8132bad9"
-url = "https://downloads.cursor.com/lab/2026.09.18-9a7762b/linux/x64/agent-cli-package.tar.gz"
+checksum = "sha256:6f6bf39dd2df29dcd38643cdfab0155ce71699953889f732deec123f6562bb2d"
+url = "https://downloads.cursor.com/lab/2026.10.14-941492e/linux/x64/agent-cli-package.tar.gz"
 
 [tools.cursor-agent."platforms.linux-x64-musl"]
-checksum = "sha256:b1308f5a2fc05458b9d8966752986bb23a971bbcc67c842c1df94c4b8132bad9"
-url = "https://downloads.cursor.com/lab/2026.09.18-9a7762b/linux/x64/agent-cli-package.tar.gz"
+checksum = "sha256:6f6bf39dd2df29dcd38643cdfab0155ce71699953889f732deec123f6562bb2d"
+url = "https://downloads.cursor.com/lab/2026.10.14-941492e/linux/x64/agent-cli-package.tar.gz"
 
 [tools.cursor-agent."platforms.linux-x64-musl-baseline"]
-checksum = "sha256:b1308f5a2fc05458b9d8966752986bb23a971bbcc67c842c1df94c4b8132bad9"
-url = "https://downloads.cursor.com/lab/2026.09.18-9a7762b/linux/x64/agent-cli-package.tar.gz"
+checksum = "sha256:6f6bf39dd2df29dcd38643cdfab0155ce71699953889f732deec123f6562bb2d"
+url = "https://downloads.cursor.com/lab/2026.10.14-941492e/linux/x64/agent-cli-package.tar.gz"
 
 [tools.cursor-agent."platforms.macos-arm64"]
-checksum = "sha256:4e67b9ac80cc4a56e0a91b3b437894e0ba489ef7ec37f120d8084d2bfd02095d"
-url = "https://downloads.cursor.com/lab/2026.09.18-9a7762b/darwin/arm64/agent-cli-package.tar.gz"
+checksum = "sha256:c6d9e2eaa1b1e24221517e0b4206b1f1593792e6f0d8a52e9b507bbe7ab0cc77"
+url = "https://downloads.cursor.com/lab/2026.10.14-941492e/darwin/arm64/agent-cli-package.tar.gz"
 
 [[tools.gcloud]]
-version = "586.0.0"
+version = "589.0.0"
 backend = "vfox:mise-plugins/vfox-gcloud"
 specifiers = ["latest"]
 
 [tools.gcloud."platforms.linux-arm64"]
-checksum = "sha256:5e67bd4399c0e4b71998e7bfe1d72dbb46721726610974696b1db94859113c3f"
-url = "https://storage.googleapis.com/cloud-sdk-release/google-cloud-sdk-586.0.0-linux-arm.tar.gz"
+checksum = "sha256:84cf40953433227e8019077af3b7e198b46bd3beff6d67b45168bec2eea3bd94"
+url = "https://storage.googleapis.com/cloud-sdk-release/google-cloud-sdk-589.0.0-linux-arm.tar.gz"
 
 [tools.gcloud."platforms.linux-arm64-musl"]
-checksum = "sha256:5e67bd4399c0e4b71998e7bfe1d72dbb46721726610974696b1db94859113c3f"
-url = "https://storage.googleapis.com/cloud-sdk-release/google-cloud-sdk-586.0.0-linux-arm.tar.gz"
+checksum = "sha256:84cf40953433227e8019077af3b7e198b46bd3beff6d67b45168bec2eea3bd94"
+url = "https://storage.googleapis.com/cloud-sdk-release/google-cloud-sdk-589.0.0-linux-arm.tar.gz"
 
 [tools.gcloud."platforms.linux-x64"]
-checksum = "sha256:99a78f20d6b9335393c3022be682fc67e5f46af3e63c852a1e3c50be948f7d99"
-url = "https://storage.googleapis.com/cloud-sdk-release/google-cloud-sdk-586.0.0-linux-x86_64.tar.gz"
+checksum = "sha256:8c0149c63f58a777959bbac11cc150fce98f2f9178a74ef337ce0b3acf24b7f0"
+url = "https://storage.googleapis.com/cloud-sdk-release/google-cloud-sdk-589.0.0-linux-x86_64.tar.gz"
 
 [tools.gcloud."platforms.linux-x64-baseline"]
-checksum = "sha256:99a78f20d6b9335393c3022be682fc67e5f46af3e63c852a1e3c50be948f7d99"
-url = "https://storage.googleapis.com/cloud-sdk-release/google-cloud-sdk-586.0.0-linux-x86_64.tar.gz"
+checksum = "sha256:8c0149c63f58a777959bbac11cc150fce98f2f9178a74ef337ce0b3acf24b7f0"
+url = "https://storage.googleapis.com/cloud-sdk-release/google-cloud-sdk-589.0.0-linux-x86_64.tar.gz"
 
 [tools.gcloud."platforms.linux-x64-musl"]
-checksum = "sha256:99a78f20d6b9335393c3022be682fc67e5f46af3e63c852a1e3c50be948f7d99"
-url = "https://storage.googleapis.com/cloud-sdk-release/google-cloud-sdk-586.0.0-linux-x86_64.tar.gz"
+checksum = "sha256:8c0149c63f58a777959bbac11cc150fce98f2f9178a74ef337ce0b3acf24b7f0"
+url = "https://storage.googleapis.com/cloud-sdk-release/google-cloud-sdk-589.0.0-linux-x86_64.tar.gz"
 
 [tools.gcloud."platforms.linux-x64-musl-baseline"]
-checksum = "sha256:99a78f20d6b9335393c3022be682fc67e5f46af3e63c852a1e3c50be948f7d99"
-url = "https://storage.googleapis.com/cloud-sdk-release/google-cloud-sdk-586.0.0-linux-x86_64.tar.gz"
+checksum = "sha256:8c0149c63f58a777959bbac11cc150fce98f2f9178a74ef337ce0b3acf24b7f0"
+url = "https://storage.googleapis.com/cloud-sdk-release/google-cloud-sdk-589.0.0-linux-x86_64.tar.gz"
 
 [tools.gcloud."platforms.macos-arm64"]
-checksum = "sha256:078509d7742a65c17d17c6c2a899de752af99a94bfbd5446a013140d43550828"
-url = "https://storage.googleapis.com/cloud-sdk-release/google-cloud-sdk-586.0.0-darwin-arm.tar.gz"
+checksum = "sha256:dc27f003c1061891f596ce04a4ac3b2b2ff8b9ee5d8b8822b62ae087d5e9e02c"
+url = "https://storage.googleapis.com/cloud-sdk-release/google-cloud-sdk-589.0.0-darwin-arm.tar.gz"
 
 [[tools."github:risu729/biwa"]]
 version = "1.0.0"
@@ -194,118 +194,118 @@ url_api = "https://api.github.com/repos/risu729/biwa/releases/assets/487502157"
 provenance = "github-attestations"
 
 [[tools."github:risu729/kuebiko"]]
-version = "1.3.8"
+version = "1.3.10"
 backend = "github:risu729/kuebiko"
 specifiers = ["latest"]
 
 [tools."github:risu729/kuebiko"."platforms.linux-x64"]
-checksum = "sha256:0c3814d9267c842afc870b418fd2e804de634d7e7803914c0e19c99e10c44bd7"
-url = "https://github.com/risu729/kuebiko/releases/download/v1.3.8/kuebiko-v1.3.8-linux-x64.tar.gz"
-url_api = "https://api.github.com/repos/risu729/kuebiko/releases/assets/569090124"
+checksum = "sha256:f1f9220d80ca30e4cd3a78807f432c4fcf53c117f145a6a36b4e3da783802e01"
+url = "https://github.com/risu729/kuebiko/releases/download/v1.3.10/kuebiko-v1.3.10-linux-x64.tar.gz"
+url_api = "https://api.github.com/repos/risu729/kuebiko/releases/assets/641058087"
 provenance = "github-attestations"
 
 [tools."github:risu729/kuebiko"."platforms.linux-x64-baseline"]
-checksum = "sha256:0c3814d9267c842afc870b418fd2e804de634d7e7803914c0e19c99e10c44bd7"
-url = "https://github.com/risu729/kuebiko/releases/download/v1.3.8/kuebiko-v1.3.8-linux-x64.tar.gz"
-url_api = "https://api.github.com/repos/risu729/kuebiko/releases/assets/569090124"
+checksum = "sha256:f1f9220d80ca30e4cd3a78807f432c4fcf53c117f145a6a36b4e3da783802e01"
+url = "https://github.com/risu729/kuebiko/releases/download/v1.3.10/kuebiko-v1.3.10-linux-x64.tar.gz"
+url_api = "https://api.github.com/repos/risu729/kuebiko/releases/assets/641058087"
 provenance = "github-attestations"
 
 [tools."github:risu729/kuebiko"."platforms.linux-x64-musl"]
-checksum = "sha256:0c3814d9267c842afc870b418fd2e804de634d7e7803914c0e19c99e10c44bd7"
-url = "https://github.com/risu729/kuebiko/releases/download/v1.3.8/kuebiko-v1.3.8-linux-x64.tar.gz"
-url_api = "https://api.github.com/repos/risu729/kuebiko/releases/assets/569090124"
+checksum = "sha256:f1f9220d80ca30e4cd3a78807f432c4fcf53c117f145a6a36b4e3da783802e01"
+url = "https://github.com/risu729/kuebiko/releases/download/v1.3.10/kuebiko-v1.3.10-linux-x64.tar.gz"
+url_api = "https://api.github.com/repos/risu729/kuebiko/releases/assets/641058087"
 provenance = "github-attestations"
 
 [tools."github:risu729/kuebiko"."platforms.linux-x64-musl-baseline"]
-checksum = "sha256:0c3814d9267c842afc870b418fd2e804de634d7e7803914c0e19c99e10c44bd7"
-url = "https://github.com/risu729/kuebiko/releases/download/v1.3.8/kuebiko-v1.3.8-linux-x64.tar.gz"
-url_api = "https://api.github.com/repos/risu729/kuebiko/releases/assets/569090124"
+checksum = "sha256:f1f9220d80ca30e4cd3a78807f432c4fcf53c117f145a6a36b4e3da783802e01"
+url = "https://github.com/risu729/kuebiko/releases/download/v1.3.10/kuebiko-v1.3.10-linux-x64.tar.gz"
+url_api = "https://api.github.com/repos/risu729/kuebiko/releases/assets/641058087"
 provenance = "github-attestations"
 
 [tools."github:risu729/kuebiko"."platforms.macos-arm64"]
-checksum = "sha256:c019f38830d9a250ac17d62a544abeb67dc853d4167517e0af0fc3c4fb0863c4"
-url = "https://github.com/risu729/kuebiko/releases/download/v1.3.8/kuebiko-v1.3.8-macos-arm64.tar.gz"
-url_api = "https://api.github.com/repos/risu729/kuebiko/releases/assets/569090106"
+checksum = "sha256:53504e58f16b2a1cc22cf080d6399ea3d161e5b1e4754c1668d44bd71827abac"
+url = "https://github.com/risu729/kuebiko/releases/download/v1.3.10/kuebiko-v1.3.10-macos-arm64.tar.gz"
+url_api = "https://api.github.com/repos/risu729/kuebiko/releases/assets/641058023"
 provenance = "github-attestations"
 
 [[tools."github:risu729/mikoto"]]
-version = "1.0.47"
+version = "1.0.56"
 backend = "github:risu729/mikoto"
 specifiers = ["latest"]
 
 [tools."github:risu729/mikoto"."platforms.linux-x64"]
-checksum = "sha256:f4d7a491a513337b1dc22c267f5f323bc2a1c340e552df6d61062ba59b08b844"
-url = "https://github.com/risu729/mikoto/releases/download/v1.0.47/mikoto-v1.0.47-linux-x64.tar.gz"
-url_api = "https://api.github.com/repos/risu729/mikoto/releases/assets/579020645"
+checksum = "sha256:41cf8f18782942614ffa1d95260e2435eb53da32a2b9871ef4619590ea41de13"
+url = "https://github.com/risu729/mikoto/releases/download/v1.0.56/mikoto-v1.0.56-linux-x64.tar.gz"
+url_api = "https://api.github.com/repos/risu729/mikoto/releases/assets/609960378"
 provenance = "github-attestations"
 
 [tools."github:risu729/mikoto"."platforms.linux-x64-baseline"]
-checksum = "sha256:f4d7a491a513337b1dc22c267f5f323bc2a1c340e552df6d61062ba59b08b844"
-url = "https://github.com/risu729/mikoto/releases/download/v1.0.47/mikoto-v1.0.47-linux-x64.tar.gz"
-url_api = "https://api.github.com/repos/risu729/mikoto/releases/assets/579020645"
+checksum = "sha256:41cf8f18782942614ffa1d95260e2435eb53da32a2b9871ef4619590ea41de13"
+url = "https://github.com/risu729/mikoto/releases/download/v1.0.56/mikoto-v1.0.56-linux-x64.tar.gz"
+url_api = "https://api.github.com/repos/risu729/mikoto/releases/assets/609960378"
 provenance = "github-attestations"
 
 [tools."github:risu729/mikoto"."platforms.linux-x64-musl"]
-checksum = "sha256:f4d7a491a513337b1dc22c267f5f323bc2a1c340e552df6d61062ba59b08b844"
-url = "https://github.com/risu729/mikoto/releases/download/v1.0.47/mikoto-v1.0.47-linux-x64.tar.gz"
-url_api = "https://api.github.com/repos/risu729/mikoto/releases/assets/579020645"
+checksum = "sha256:41cf8f18782942614ffa1d95260e2435eb53da32a2b9871ef4619590ea41de13"
+url = "https://github.com/risu729/mikoto/releases/download/v1.0.56/mikoto-v1.0.56-linux-x64.tar.gz"
+url_api = "https://api.github.com/repos/risu729/mikoto/releases/assets/609960378"
 provenance = "github-attestations"
 
 [tools."github:risu729/mikoto"."platforms.linux-x64-musl-baseline"]
-checksum = "sha256:f4d7a491a513337b1dc22c267f5f323bc2a1c340e552df6d61062ba59b08b844"
-url = "https://github.com/risu729/mikoto/releases/download/v1.0.47/mikoto-v1.0.47-linux-x64.tar.gz"
-url_api = "https://api.github.com/repos/risu729/mikoto/releases/assets/579020645"
+checksum = "sha256:41cf8f18782942614ffa1d95260e2435eb53da32a2b9871ef4619590ea41de13"
+url = "https://github.com/risu729/mikoto/releases/download/v1.0.56/mikoto-v1.0.56-linux-x64.tar.gz"
+url_api = "https://api.github.com/repos/risu729/mikoto/releases/assets/609960378"
 provenance = "github-attestations"
 
 [tools."github:risu729/mikoto"."platforms.macos-arm64"]
-checksum = "sha256:f722e561f68010a86337aa13dd77d3b24318cf06a290b3d1c25f2bd33b0d4bd3"
-url = "https://github.com/risu729/mikoto/releases/download/v1.0.47/mikoto-v1.0.47-macos-arm64.tar.gz"
-url_api = "https://api.github.com/repos/risu729/mikoto/releases/assets/579020626"
+checksum = "sha256:af6760f98442d462ec9b426a640e70abfd8ee5abbe266327e6bc950b8843e49e"
+url = "https://github.com/risu729/mikoto/releases/download/v1.0.56/mikoto-v1.0.56-macos-arm64.tar.gz"
+url_api = "https://api.github.com/repos/risu729/mikoto/releases/assets/609960354"
 provenance = "github-attestations"
 
 [[tools.glab]]
-version = "1.119.0"
+version = "1.123.0"
 backend = "gitlab:gitlab-org/cli"
 specifiers = ["latest"]
 
 [tools.glab."platforms.linux-arm64"]
-checksum = "sha256:8540c4afbe63c4da023c15bfce15f2f1ef9cc1afe4a6fd6812c426b9eeab073b"
-url = "https://gitlab.com/gitlab-org/cli/-/releases/v1.119.0/downloads/glab_1.119.0_linux_arm64.tar.gz"
-url_api = "https://gitlab.com/api/v4/projects/gitlab-org%2Fcli/packages/generic/glab/1%2E119%2E0/glab_1%2E119%2E0_linux_arm64%2Etar%2Egz"
+checksum = "sha256:1f2d0a885b28d08de341a597b2eb7204ce03d4e67b008efecab9951e4b014f0c"
+url = "https://gitlab.com/gitlab-org/cli/-/releases/v1.123.0/downloads/glab_1.123.0_linux_arm64.tar.gz"
+url_api = "https://gitlab.com/api/v4/projects/gitlab-org%2Fcli/packages/generic/glab/1%2E123%2E0/glab_1%2E123%2E0_linux_arm64%2Etar%2Egz"
 
 [tools.glab."platforms.linux-arm64-musl"]
-checksum = "sha256:8540c4afbe63c4da023c15bfce15f2f1ef9cc1afe4a6fd6812c426b9eeab073b"
-url = "https://gitlab.com/gitlab-org/cli/-/releases/v1.119.0/downloads/glab_1.119.0_linux_arm64.tar.gz"
-url_api = "https://gitlab.com/api/v4/projects/gitlab-org%2Fcli/packages/generic/glab/1%2E119%2E0/glab_1%2E119%2E0_linux_arm64%2Etar%2Egz"
+checksum = "sha256:1f2d0a885b28d08de341a597b2eb7204ce03d4e67b008efecab9951e4b014f0c"
+url = "https://gitlab.com/gitlab-org/cli/-/releases/v1.123.0/downloads/glab_1.123.0_linux_arm64.tar.gz"
+url_api = "https://gitlab.com/api/v4/projects/gitlab-org%2Fcli/packages/generic/glab/1%2E123%2E0/glab_1%2E123%2E0_linux_arm64%2Etar%2Egz"
 
 [tools.glab."platforms.linux-x64"]
-checksum = "sha256:4d83375d202ffa634eaf627fd9272b610fa599f20f5b711f55d770583eca2b84"
-url = "https://gitlab.com/gitlab-org/cli/-/releases/v1.119.0/downloads/glab_1.119.0_linux_amd64.tar.gz"
-url_api = "https://gitlab.com/api/v4/projects/gitlab-org%2Fcli/packages/generic/glab/1%2E119%2E0/glab_1%2E119%2E0_linux_amd64%2Etar%2Egz"
+checksum = "sha256:9c9ac4c2b74ec8709dec4819a4041050f3680c6aaa18f0ed30434081f4fe9bef"
+url = "https://gitlab.com/gitlab-org/cli/-/releases/v1.123.0/downloads/glab_1.123.0_linux_amd64.tar.gz"
+url_api = "https://gitlab.com/api/v4/projects/gitlab-org%2Fcli/packages/generic/glab/1%2E123%2E0/glab_1%2E123%2E0_linux_amd64%2Etar%2Egz"
 
 [tools.glab."platforms.linux-x64-baseline"]
-checksum = "sha256:4d83375d202ffa634eaf627fd9272b610fa599f20f5b711f55d770583eca2b84"
-url = "https://gitlab.com/gitlab-org/cli/-/releases/v1.119.0/downloads/glab_1.119.0_linux_amd64.tar.gz"
-url_api = "https://gitlab.com/api/v4/projects/gitlab-org%2Fcli/packages/generic/glab/1%2E119%2E0/glab_1%2E119%2E0_linux_amd64%2Etar%2Egz"
+checksum = "sha256:9c9ac4c2b74ec8709dec4819a4041050f3680c6aaa18f0ed30434081f4fe9bef"
+url = "https://gitlab.com/gitlab-org/cli/-/releases/v1.123.0/downloads/glab_1.123.0_linux_amd64.tar.gz"
+url_api = "https://gitlab.com/api/v4/projects/gitlab-org%2Fcli/packages/generic/glab/1%2E123%2E0/glab_1%2E123%2E0_linux_amd64%2Etar%2Egz"
 
 [tools.glab."platforms.linux-x64-musl"]
-checksum = "sha256:4d83375d202ffa634eaf627fd9272b610fa599f20f5b711f55d770583eca2b84"
-url = "https://gitlab.com/gitlab-org/cli/-/releases/v1.119.0/downloads/glab_1.119.0_linux_amd64.tar.gz"
-url_api = "https://gitlab.com/api/v4/projects/gitlab-org%2Fcli/packages/generic/glab/1%2E119%2E0/glab_1%2E119%2E0_linux_amd64%2Etar%2Egz"
+checksum = "sha256:9c9ac4c2b74ec8709dec4819a4041050f3680c6aaa18f0ed30434081f4fe9bef"
+url = "https://gitlab.com/gitlab-org/cli/-/releases/v1.123.0/downloads/glab_1.123.0_linux_amd64.tar.gz"
+url_api = "https://gitlab.com/api/v4/projects/gitlab-org%2Fcli/packages/generic/glab/1%2E123%2E0/glab_1%2E123%2E0_linux_amd64%2Etar%2Egz"
 
 [tools.glab."platforms.linux-x64-musl-baseline"]
-checksum = "sha256:4d83375d202ffa634eaf627fd9272b610fa599f20f5b711f55d770583eca2b84"
-url = "https://gitlab.com/gitlab-org/cli/-/releases/v1.119.0/downloads/glab_1.119.0_linux_amd64.tar.gz"
-url_api = "https://gitlab.com/api/v4/projects/gitlab-org%2Fcli/packages/generic/glab/1%2E119%2E0/glab_1%2E119%2E0_linux_amd64%2Etar%2Egz"
+checksum = "sha256:9c9ac4c2b74ec8709dec4819a4041050f3680c6aaa18f0ed30434081f4fe9bef"
+url = "https://gitlab.com/gitlab-org/cli/-/releases/v1.123.0/downloads/glab_1.123.0_linux_amd64.tar.gz"
+url_api = "https://gitlab.com/api/v4/projects/gitlab-org%2Fcli/packages/generic/glab/1%2E123%2E0/glab_1%2E123%2E0_linux_amd64%2Etar%2Egz"
 
 [tools.glab."platforms.macos-arm64"]
-checksum = "sha256:d9cddd1dbe9a8bea8d5709f90a9ac13c3dd3eb0d0e94e3bc4fae6b27abd6a3db"
-url = "https://gitlab.com/gitlab-org/cli/-/releases/v1.119.0/downloads/glab_1.119.0_darwin_arm64.tar.gz"
-url_api = "https://gitlab.com/api/v4/projects/gitlab-org%2Fcli/packages/generic/glab/1%2E119%2E0/glab_1%2E119%2E0_darwin_arm64%2Etar%2Egz"
+checksum = "sha256:bf776ea47d3b30410267adab9c870990be274e85f6dccccee4289f5ecf1386df"
+url = "https://gitlab.com/gitlab-org/cli/-/releases/v1.123.0/downloads/glab_1.123.0_darwin_arm64.tar.gz"
+url_api = "https://gitlab.com/api/v4/projects/gitlab-org%2Fcli/packages/generic/glab/1%2E123%2E0/glab_1%2E123%2E0_darwin_arm64%2Etar%2Egz"
 
 [[tools."npm:resend-cli"]]
-version = "2.21.1"
-aube = { path = "locks/mise.personal/npm-resend-cli/2.21.1~4adf1931", digest = "sha256:89fb8e5231cfb2c72e330d65cbe9689ef96aa431e682417da0bddaf34c9f2b2b" }
+version = "2.25.0"
+aube = { path = "locks/mise.personal/npm-resend-cli/2.25.0~4adf1931", digest = "sha256:b00ad9222e5d508d4a35da59d1501edd1b7970e4b6b3e0047b3bcdb331b03e3f" }
 backend = "npm:resend-cli"
 specifiers = ["latest"]
 

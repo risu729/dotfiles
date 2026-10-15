@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       resend-cli:
-        specifier: 2.21.1
-        version: 2.21.1
+        specifier: 2.25.0
+        version: 2.25.0
 
 packages:
 
@@ -215,16 +215,16 @@ packages:
   picocolors@1.1.1:
     resolution: {integrity: sha512-xceH2snhtb5M9liqDsmEw56le376mTZkEX/jEb/RxNFyegNul7eNslCXP9FDj/Lcu0X8KEyMceP2ntpaHrDEVA==}
 
-  postal-mime@2.7.5:
-    resolution: {integrity: sha512-GNEXKvWFQnbgO5NlrGzVa0FmWzBZ24PersAWErttSg1Hjpf0ATxTwS5DOMGaOpTG6bUh5cTr7xi0jAD942wCJA==}
+  postal-mime@2.7.6:
+    resolution: {integrity: sha512-UUlyE2KlxmvwMGq060onF/VWU3zD6dVW31FwokQ5v26jWd35fbs2MoTFzh+jXnPwAyV2MULMKXcBInGOl5TO6Q==}
 
-  resend-cli@2.21.1:
-    resolution: {integrity: sha512-bBruvCP1x7nN33eGkOzpnv6iyNo81y3n2P1OVkBK25RyVv2/jP+DsJDFZpDwrKUQRre0lFjcbWkIrcNET4xkMg==}
+  resend-cli@2.25.0:
+    resolution: {integrity: sha512-9VyI+y2Ka4xRcLsPtQY+O5ylYpWvsT1Y/eGPjRmwrV1vzyF6EtrMukve8POnMUbWQG+9MbxRzrqVhKTPg6VD+g==}
     engines: {node: '>=22'}
     hasBin: true
 
-  resend@6.28.0:
-    resolution: {integrity: sha512-xhRMQDZRjvJQ+sWJA3wFaoeVe5CpTxJJAfHnnULX8vifjj4QQLCLRn/AfnMZ4YmVhpFkuiX4LKxZCcj54l67Yw==}
+  resend@6.33.0:
+    resolution: {integrity: sha512-sbpWLrwlaIDZuGHRYNX6101CWtXLqRNcT1S9c8BB357Ab2+IUJ7dNpYffVmGh2C11/4AfcFvM4ltURH8NJlPGw==}
     engines: {node: '>=20'}
     peerDependencies:
       '@react-email/render': '*'
@@ -235,8 +235,8 @@ packages:
   sisteransi@1.0.5:
     resolution: {integrity: sha512-bLGGlR1QxBcynn2d5YmDX4MGjlZvy2MRBDRNHLJ8VI6l6+9FUiyTFNJ0IveOSP0bcXgVDPRcfGqA0pjaqUpfVg==}
 
-  standardwebhooks@1.0.0:
-    resolution: {integrity: sha512-BbHGOQK9olHPMvQNHWul6MYlrRTAOKn03rOe4A8O3CLWhNf4YHBqq2HJKKC+sfqpxiBY52pNeesD6jIiLDz8jg==}
+  standardwebhooks@1.1.1:
+    resolution: {integrity: sha512-bCbX9ZEyFkWPsRz7Bl3NuQUJohmwGSev/yhr7vhaGPlc4AfIrspIRa6cPTBuI1ItmrTDJ4d/S2hCsfe4+vQGnQ==}
 
 snapshots:
 
@@ -383,9 +383,9 @@ snapshots:
 
   picocolors@1.1.1: {}
 
-  postal-mime@2.7.5: {}
+  postal-mime@2.7.6: {}
 
-  resend-cli@2.21.1:
+  resend-cli@2.25.0:
     dependencies:
       '@clack/prompts': 1.4.0
       '@commander-js/extra-typings': 14.0.0(commander@14.0.3)
@@ -393,18 +393,18 @@ snapshots:
       esbuild: 0.28.1
       esbuild-wasm: 0.28.0
       picocolors: 1.1.1
-      resend: 6.28.0
+      resend: 6.33.0
     transitivePeerDependencies:
       - '@react-email/render'
 
-  resend@6.28.0:
+  resend@6.33.0:
     dependencies:
-      postal-mime: 2.7.5
-      standardwebhooks: 1.0.0
+      postal-mime: 2.7.6
+      standardwebhooks: 1.1.1
 
   sisteransi@1.0.5: {}
 
-  standardwebhooks@1.0.0:
+  standardwebhooks@1.1.1:
     dependencies:
       '@stablelib/base64': 1.0.1
       fast-sha256: 1.3.0
