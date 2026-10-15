@@ -44,8 +44,8 @@ HISTSIZE=10000
 SAVEHIST=10000
 setopt HIST_IGNORE_ALL_DUPS HIST_IGNORE_SPACE HIST_REDUCE_BLANKS SHARE_HISTORY
 
-# Tools that generate their own zsh completion. Each script registers itself
-# with compdef, so they run after compinit.
+# Activated mise loads hk and pitchfork Packslip completions on demand.
+# Other completion scripts register with compdef after compinit.
 if command -v mise >/dev/null 2>&1; then
 	eval "$(mise completion zsh)"
 fi
@@ -65,13 +65,6 @@ fi
 # ref: https://mikefarah.gitbook.io/yq/v/v4.x/commands/shell-completion
 if command -v yq >/dev/null 2>&1; then
 	eval "$(yq shell-completion zsh)"
-fi
-# ref: https://hk.jdx.dev/cli/completion.html
-if command -v hk >/dev/null 2>&1; then
-	eval "$(hk completion zsh)"
-fi
-if command -v pitchfork >/dev/null 2>&1; then
-	eval "$(pitchfork completion zsh)"
 fi
 # ghr only generates bash completion, which zsh loads through bashcompinit.
 if command -v ghr >/dev/null 2>&1; then
