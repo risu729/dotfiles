@@ -151,3 +151,25 @@ equivalent task invocation is
 arguments are rejected because `mise lock tool@version` can rewrite a configured
 request. The root project pins and host system configuration are outside this
 operation's write scope.
+
+## Native Dependency Sidecars
+
+Run `tasks/verify/lock-sidecars` after changing mise locks or native backend
+settings. It checks the root lock and the checked-in shared/personal global
+locks using `mise lock --sidecars --json`, and fails if a referenced sidecar
+directory is missing. The native inventory handles profile lock names and
+symlinked lock locations; the audit does not guess paths from tool versions.
+It does not validate sidecar contents or recompute their digests.
+
+Keep referenced native manifests and lockfiles with their owning mise lock in
+commits and caches. Root sidecars live under `.mise/locks/`; the global source
+uses `unix/home/.config/mise/locks/`, with profile locks in named
+subdirectories. Use the native inventory when checking a particular reference,
+including paths outside the current directory. Do not delete sidecars merely
+because they are not needed on the current operating system.
+
+The executable needs the already installed mise and Bun runtimes and does not
+install dependencies. For task discovery, the equivalent invocation is
+`mise run --skip-tools --no-deps verify:lock-sidecars`. To inspect paths without
+requiring every directory to exist, run `mise lock --sidecars --json` directly
+(or add `--global` for the installed global configuration).
