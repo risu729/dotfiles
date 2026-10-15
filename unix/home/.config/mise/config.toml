@@ -164,6 +164,12 @@ cargo.binstall_quickinstall = true
 [settings.npm]
 package_manager = "aube"
 
+# New machine-specific declarations must not write through repository symlinks.
+[settings.write_targets]
+tools = "~/.config/mise/conf.d/90-tools.local.toml"
+packages = "~/.config/mise/conf.d/91-packages.local.toml"
+dotfiles = "~/.config/mise/conf.d/92-dotfiles.local.toml"
+
 [settings.skills]
 # Version-matched vendor skills supplement the separately installed GitHub skills.
 dir = ".agents/skills"
