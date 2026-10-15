@@ -72,11 +72,13 @@ after all checks pass. For a manual deployment, run **CI** on `main` with
 **Deploy the validated Worker** enabled. **Upstream Health** never deploys.
 
 Deployment uses repository variable `CLOUDFLARE_ACCOUNT_ID` and the
-`CLOUDFLARE_API_TOKEN` secret of the `production` Environment. Preview uses its
-own `preview` Environment secret; do not keep the token as a repository secret.
-The production job reads its Environment secret directly, while the reusable
-artifact validation workflow receives no secrets. Configure the production
-Environment and its token before enabling production deployment. The token needs
+existing repository secret `CLOUDFLARE_API_TOKEN`. Production targets the
+`production` Environment and Preview targets `preview`; both can use the
+repository secret without reading or re-entering its value. An Environment
+secret with the same name takes precedence if added later. Moving the token to
+Environment secrets is a separate migration: validate both deployment paths
+before removing the repository copy. The reusable artifact validation workflow
+receives no secrets. The token needs
 `Individual Workers Editor` scoped to `dotfiles-worker` on account `risu`.
 Production uploads the validated artifact with
 `cf workers versions create --prebuilt --mode production`, then deploys that
