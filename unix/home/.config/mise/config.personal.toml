@@ -1,5 +1,5 @@
 # ref: https://mise.jdx.dev/configuration/environments.html
-# Loaded with `MISE_ENV=personal` only, which `miserc.toml` sets on machines
+# Loaded with `MISE_ENV=personal` only, which `miserc.local.toml` sets on machines
 # bootstrapped with `-E personal`. Locked by `mise.personal.lock`.
 
 [tools]
