@@ -3,6 +3,7 @@
 # shellcheck disable=SC2154
 
 setup() {
+	bats_require_minimum_version 1.7.0
 	root=$(cd "${BATS_TEST_DIRNAME}/.." && pwd)
 	fixture="${BATS_TEST_TMPDIR}/discovery"
 	local_mise=${LOCAL_CONFIG_TEST_MISE:-$(command -v mise)}
@@ -27,10 +28,11 @@ JS
 }
 
 isolated() {
-	env MISE_CONFIG_DIR="${fixture}/config" MISE_SYSTEM_CONFIG_DIR="${fixture}/system" \
+	# CI limits repository tools; the fixture supplies its own native plugin.
+	env -u MISE_ENABLE_TOOLS -u MISE_DISABLE_TOOLS MISE_CONFIG_DIR="${fixture}/config" MISE_SYSTEM_CONFIG_DIR="${fixture}/system" \
 		MISE_DATA_DIR="${fixture}/data" MISE_STATE_DIR="${fixture}/state" \
 		MISE_CACHE_DIR="${fixture}/cache" MISE_CEILING_PATHS="${fixture}" \
-		MISE_TRUSTED_CONFIG_PATHS="${fixture}" MISE_OFFLINE=true CI=true \
+		MISE_TRUSTED_CONFIG_PATHS="${fixture}" MISE_OFFLINE="${LOCAL_CONFIG_OFFLINE:-true}" CI=true \
 		"${local_mise}" --cd "${fixture}/project" "$@"
 }
 
@@ -79,4 +81,110 @@ SH
 	MISE_ENV='' isolated dot add --yes --no-apply --source "${fixture}/source.conf" "${fixture}/machine.conf"
 	grep -F 'machine.conf' "${fixture}/config/conf.d/92-dotfiles.local.toml"
 	cmp "${fixture}/before.toml" "${fixture}/config/config.toml"
+}
+
+@test "upgrading a local agent leaves the shared global lock unchanged" {
+	mkdir -p "${fixture}/data/plugins/asdf-updates-fixture/bin"
+	cat >"${fixture}/data/plugins/asdf-updates-fixture/bin/list-all" <<'SH'
+#!/bin/sh
+cat "$(dirname "$0")/versions"
+SH
+	cat >"${fixture}/data/plugins/asdf-updates-fixture/bin/install" <<'SH'
+#!/bin/sh
+mkdir -p "$ASDF_INSTALL_PATH/bin"
+printf '#!/bin/sh\necho fixture\n' >"$ASDF_INSTALL_PATH/bin/updates-fixture"
+chmod +x "$ASDF_INSTALL_PATH/bin/updates-fixture"
+SH
+	chmod +x "${fixture}/data/plugins/asdf-updates-fixture/bin/"{install,list-all}
+	printf '1.0.0 2.0.0\n' >"${fixture}/data/plugins/asdf-updates-fixture/bin/versions"
+	printf '\n[tools]\n"asdf:updates-fixture" = "1.0.0"\n' >>"${fixture}/config/config.toml"
+	MISE_ENV='' isolated lock --global
+	cp "${fixture}/config/mise.lock" "${fixture}/before.lock"
+	bun - "${root}" "${fixture}" <<'JS'
+const [root, fixture] = process.argv.slice(2);
+const config = Bun.TOML.parse(await Bun.file(`${root}/unix/mise/agent-updates.toml`).text());
+let output = '[tools."asdf:updates-fixture"]\n';
+for (const [name, value] of Object.entries(config.tools.codex)) output += `${name} = ${JSON.stringify(value)}\n`;
+await Bun.write(`${fixture}/config/config.local.toml`, output);
+JS
+	LOCAL_CONFIG_OFFLINE=false MISE_ENV='' isolated install
+	LOCAL_CONFIG_OFFLINE=false MISE_ENV='' isolated lock --global
+	cmp "${fixture}/before.lock" "${fixture}/config/mise.lock"
+	grep -F 'version = "2.0.0"' "${fixture}/config/mise.local.lock"
+
+	printf '1.0.0 2.0.0 3.0.0\n' >"${fixture}/data/plugins/asdf-updates-fixture/bin/versions"
+	MISE_ENV='' isolated cache clear
+	LOCAL_CONFIG_OFFLINE=false MISE_ENV='' isolated upgrade --global asdf:updates-fixture
+	cmp "${fixture}/before.lock" "${fixture}/config/mise.lock"
+	grep -F 'version = "3.0.0"' "${fixture}/config/mise.local.lock"
+}
+
+@test "native agent lock seeding never replaces machine-owned locks" {
+	cp "${root}/unix/home/.config/mise/mise.lock" "${fixture}/config/mise.lock"
+	cp "${fixture}/config/mise.lock" "${fixture}/before.lock"
+	# The fresh-machine helper must work without any managed runtime on PATH.
+	seed_lock() {
+		env PATH="$(dirname "${local_mise}"):/usr/bin:/bin:/usr/sbin:/sbin" \
+			MISE_CONFIG_DIR="${fixture}/config" MISE_SYSTEM_CONFIG_DIR="${fixture}/system" \
+			MISE_STATE_DIR="${fixture}/state" MISE_DATA_DIR="${fixture}/data" \
+			MISE_CACHE_DIR="${fixture}/cache" MISE_CEILING_PATHS="${fixture}" \
+			MISE_TRUSTED_CONFIG_PATHS="${fixture}" MISE_OFFLINE=true CI=true \
+			bash "${root}/unix/mise/seed-agent-lock.sh" "${fixture}/config"
+	}
+	seed_lock
+	cmp "${fixture}/before.lock" "${fixture}/config/mise.lock"
+	count=$(grep -c '^\[\[tools\.' "${fixture}/config/mise.local.lock")
+	[[ ${count} -eq 2 ]]
+	cp "${fixture}/config/mise.local.lock" "${fixture}/seeded.lock"
+	seed_lock
+	cmp "${fixture}/seeded.lock" "${fixture}/config/mise.local.lock"
+
+	# Existing local entries, including generated dependency graph references, survive.
+	cp "${fixture}/before.lock" "${fixture}/config/mise.local.lock"
+	seed_lock
+	cmp "${fixture}/before.lock" "${fixture}/config/mise.local.lock"
+	: >"${fixture}/config/mise.local.lock"
+	run -1 seed_lock
+	[[ ! -s "${fixture}/config/mise.local.lock" ]]
+	[[ ${output} == *'lock --global --local codex claude'* ]]
+
+	printf 'lockfile_version = 3\n[[tools.machine-only]]\nversion = "1.0.0"\n' >"${fixture}/config/mise.local.lock"
+	cp "${fixture}/config/mise.local.lock" "${fixture}/machine.lock"
+	run -1 seed_lock
+	cmp "${fixture}/machine.lock" "${fixture}/config/mise.local.lock"
+
+	printf 'lockfile_version = 2\n[[tools.machine-only]]\nversion = "1.0.0"\n' >"${fixture}/config/mise.local.lock"
+	cp "${fixture}/config/mise.local.lock" "${fixture}/legacy.lock"
+	run -1 seed_lock
+	[[ ${output} == *'lock --global --local codex claude'* ]]
+	cmp "${fixture}/legacy.lock" "${fixture}/config/mise.local.lock"
+	# Native mise repairs may keep an existing legacy format; complete locks work.
+	sed 's/lockfile_version = 3/lockfile_version = 2/' "${fixture}/seeded.lock" >"${fixture}/config/mise.local.lock"
+	cp "${fixture}/config/mise.local.lock" "${fixture}/legacy-complete.lock"
+	seed_lock
+	cmp "${fixture}/legacy-complete.lock" "${fixture}/config/mise.local.lock"
+
+	# Simulate a native atomic writer publishing between inspection and creation.
+	rm "${fixture}/config/mise.local.lock"
+	mkdir "${fixture}/race-bin"
+	ln -s "${local_mise}" "${fixture}/race-bin/mise"
+	cat >"${fixture}/race-bin/ln" <<'SH'
+#!/bin/sh
+cp "$SEED_RACE_SOURCE" "$2.race"
+mv "$2.race" "$2"
+exec /bin/ln "$@"
+SH
+	chmod +x "${fixture}/race-bin/ln"
+	original_mise=${local_mise}
+	local_mise="${fixture}/race-bin/mise"
+	export SEED_RACE_SOURCE="${fixture}/machine.lock"
+	run -1 seed_lock
+	cmp "${fixture}/machine.lock" "${fixture}/config/mise.local.lock"
+	local_mise=${original_mise}
+
+	rm "${fixture}/config/mise.local.lock"
+	ln -s "${fixture}/config/mise.lock" "${fixture}/config/mise.local.lock"
+	run -1 seed_lock
+	[[ -L "${fixture}/config/mise.local.lock" ]]
+	cmp "${fixture}/before.lock" "${fixture}/config/mise.lock"
 }
