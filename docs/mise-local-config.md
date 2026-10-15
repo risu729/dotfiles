@@ -44,21 +44,15 @@ machine's latest agent version.
 
 Before a locked bootstrap installs tools, a Bash seed step copies Codex and
 Claude native records verbatim from the generated shared lock into a new
-`mise.local.lock`. It validates version 3 TOML, refuses symlinked local locks
-and non-native agent backends, and atomically creates the file without replacing
-any existing machine-owned state. It requires no Bun or Python before tools.
-An existing lock containing both agents is left byte-for-byte unchanged.
+`mise.local.lock`. It validates the generated source's version 3 TOML, refuses
+symlinked local locks and non-native agent backends, and atomically creates the
+file without replacing any existing machine-owned state. It requires no Bun or
+Python before tools. An existing valid lock containing both agents is left
+byte-for-byte unchanged, including older formats supported by mise.
 
 If write targets or another process already created a local lock without both
-agents, bootstrap stops without changing it. For an empty or pre-version-3 local
-lock, first upgrade its format through mise's native writer (this processes all
-local tools and cannot be combined with tool arguments):
-
-```sh
-mise --cd "$HOME" lock --global --local --upgrade
-```
-
-Initialize missing agent records, then rerun bootstrap:
+agents, bootstrap stops without changing it. Initialize missing agent records
+through mise's native writer, then rerun bootstrap:
 
 ```sh
 mise --cd "$HOME" lock --global --local codex claude

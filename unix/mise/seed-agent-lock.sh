@@ -12,18 +12,12 @@ check_existing() {
 		exit 1
 	fi
 	if [[ -e ${local_lock} ]]; then
-		local_version=$(mise config get --file "${local_lock}" lockfile_version 2>/dev/null) || local_version=''
-		if [[ ${local_version} == "3" ]] &&
+		if mise config get --file "${local_lock}" >/dev/null 2>&1 &&
 			mise config get --file "${local_lock}" tools.codex >/dev/null 2>&1 &&
 			mise config get --file "${local_lock}" tools.claude >/dev/null 2>&1; then
 			exit 0
 		fi
 		echo 'The existing machine-owned lock needs agent records; no file was changed.' >&2
-		if [[ ${local_version} != "3" ]]; then
-			echo 'First upgrade the existing local lock format (all local tools):' >&2
-			# shellcheck disable=SC2016
-			echo '  mise --cd "$HOME" lock --global --local --upgrade' >&2
-		fi
 		# The command is printed literally for the user's shell.
 		# shellcheck disable=SC2016
 		echo 'Run: mise --cd "$HOME" lock --global --local codex claude' >&2

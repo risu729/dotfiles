@@ -156,8 +156,13 @@ JS
 	printf 'lockfile_version = 2\n[[tools.machine-only]]\nversion = "1.0.0"\n' >"${fixture}/config/mise.local.lock"
 	cp "${fixture}/config/mise.local.lock" "${fixture}/legacy.lock"
 	run -1 seed_lock
-	[[ ${output} == *'lock --global --local --upgrade'* ]]
+	[[ ${output} == *'lock --global --local codex claude'* ]]
 	cmp "${fixture}/legacy.lock" "${fixture}/config/mise.local.lock"
+	# Native mise repairs may keep an existing legacy format; complete locks work.
+	sed 's/lockfile_version = 3/lockfile_version = 2/' "${fixture}/seeded.lock" >"${fixture}/config/mise.local.lock"
+	cp "${fixture}/config/mise.local.lock" "${fixture}/legacy-complete.lock"
+	seed_lock
+	cmp "${fixture}/legacy-complete.lock" "${fixture}/config/mise.local.lock"
 
 	# Simulate a native atomic writer publishing between inspection and creation.
 	rm "${fixture}/config/mise.local.lock"
