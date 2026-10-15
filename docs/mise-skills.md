@@ -3,8 +3,9 @@
 Packslip tools fetch their declared skills during installation by default. The
 global mise configuration enables project synchronization into `.agents/skills`
 after install, use, and upgrade, and removes only stale mise-owned links.
-Bootstrap also runs `mise skills sync --global --prune` to
-prepare the home-level directory. Run it again after changing global versions.
+Bootstrap also runs `mise --cd "$HOME" skills sync --global --prune` to prepare
+the home-level directory from global tool versions. Run it again after changing
+global versions.
 
 Inspect available skills with `mise skills ls --json`. These links point into
 the active tool installation; they are machine-local and should not be
