@@ -109,6 +109,9 @@ run = '''
 
 [bootstrap.hooks.post-tools]
 run = '''
+# Automatic sync targets projects; explicitly prepare the shared home directory.
+mise --cd "$HOME" skills sync --global --prune
+
 mise exec -- gh extension install github/gh-stack --force
 
 for agent in universal claude-code; do

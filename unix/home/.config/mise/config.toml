@@ -161,6 +161,12 @@ cargo.binstall_quickinstall = true
 [settings.npm]
 package_manager = "aube"
 
+[settings.skills]
+# Version-matched vendor skills supplement the separately installed GitHub skills.
+dir = ".agents/skills"
+auto_sync = true
+prune = true
+
 [settings.python]
 # disable python-build
 compile = false
