@@ -28,7 +28,8 @@ JS
 }
 
 isolated() {
-	env MISE_CONFIG_DIR="${fixture}/config" MISE_SYSTEM_CONFIG_DIR="${fixture}/system" \
+	# CI limits repository tools; the fixture supplies its own native plugin.
+	env -u MISE_ENABLE_TOOLS -u MISE_DISABLE_TOOLS MISE_CONFIG_DIR="${fixture}/config" MISE_SYSTEM_CONFIG_DIR="${fixture}/system" \
 		MISE_DATA_DIR="${fixture}/data" MISE_STATE_DIR="${fixture}/state" \
 		MISE_CACHE_DIR="${fixture}/cache" MISE_CEILING_PATHS="${fixture}" \
 		MISE_TRUSTED_CONFIG_PATHS="${fixture}" MISE_OFFLINE="${LOCAL_CONFIG_OFFLINE:-true}" CI=true \
@@ -151,6 +152,12 @@ JS
 	cp "${fixture}/config/mise.local.lock" "${fixture}/machine.lock"
 	run -1 seed_lock
 	cmp "${fixture}/machine.lock" "${fixture}/config/mise.local.lock"
+
+	printf 'lockfile_version = 2\n[[tools.machine-only]]\nversion = "1.0.0"\n' >"${fixture}/config/mise.local.lock"
+	cp "${fixture}/config/mise.local.lock" "${fixture}/legacy.lock"
+	run -1 seed_lock
+	[[ ${output} == *'lock --global --local --upgrade'* ]]
+	cmp "${fixture}/legacy.lock" "${fixture}/config/mise.local.lock"
 
 	# Simulate a native atomic writer publishing between inspection and creation.
 	rm "${fixture}/config/mise.local.lock"

@@ -19,6 +19,11 @@ check_existing() {
 			exit 0
 		fi
 		echo 'The existing machine-owned lock needs agent records; no file was changed.' >&2
+		if [[ ${local_version} != "3" ]]; then
+			echo 'First upgrade the existing local lock format (all local tools):' >&2
+			# shellcheck disable=SC2016
+			echo '  mise --cd "$HOME" lock --global --local --upgrade' >&2
+		fi
 		# The command is printed literally for the user's shell.
 		# shellcheck disable=SC2016
 		echo 'Run: mise --cd "$HOME" lock --global --local codex claude' >&2

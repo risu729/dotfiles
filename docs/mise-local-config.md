@@ -50,8 +50,15 @@ any existing machine-owned state. It requires no Bun or Python before tools.
 An existing lock containing both agents is left byte-for-byte unchanged.
 
 If write targets or another process already created a local lock without both
-agents, bootstrap stops without changing it. Initialize the missing records
-through mise's native writer, then rerun bootstrap:
+agents, bootstrap stops without changing it. For an empty or pre-version-3 local
+lock, first upgrade its format through mise's native writer (this processes all
+local tools and cannot be combined with tool arguments):
+
+```sh
+mise --cd "$HOME" lock --global --local --upgrade
+```
+
+Initialize missing agent records, then rerun bootstrap:
 
 ```sh
 mise --cd "$HOME" lock --global --local codex claude
