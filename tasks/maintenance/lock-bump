@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+#MISE description="Preview or write global tool lock updates without installing tools."
+#MISE raw_args=true
+set -euo pipefail
+
+write=0
+if [[ ${1:-} == --write ]]; then
+	write=1
+	shift
+fi
+profile=${1:-shared}
+[[ $# == 0 ]] || shift
+case "${profile}" in
+shared) selected_env='' ;;
+personal) selected_env=personal ;;
+*)
+	echo 'Usage: lock-bump [--write] [shared|personal] [tool ...]' >&2
+	exit 2
+	;;
+esac
+for tool in "$@"; do
+	if [[ ${tool} == -* || ${tool} == *@* ]]; then
+		echo 'Pass tool names only; exact-version requests can change configuration.' >&2
+		exit 2
+	fi
+done
+
+repo=$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)
+# Native --global includes system configuration; isolate it from this repository operation.
+system_config=$(mktemp -d)
+trap 'rm -rf "${system_config}"' EXIT
+args=(lock --global --bump --json)
+if [[ ${write} == 0 ]]; then
+	args+=(--dry-run)
+fi
+MISE_GLOBAL_CONFIG_FILE="${repo}/unix/home/.config/mise/config.toml" \
+	MISE_SYSTEM_CONFIG_DIR="${system_config}" \
+	MISE_SYSTEM_CONFIG_FILE="${system_config}/config.toml" \
+	MISE_ENV="${selected_env}" \
+	mise "${args[@]}" "$@"
