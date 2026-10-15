@@ -153,6 +153,9 @@ mr-boxington = "latest"
 experimental = true
 lockfile_mode = "generate"
 minimum_release_age = "3h"
+# Keep replaced installs for a week; tracked configs and running processes also protect them.
+upgrade.auto_prune = true
+upgrade.prune_after = "7d"
 cargo.binstall_native = true
 # Prebuilt binaries from cargo-quickinstall instead of compiling, which also
 # needs no working C toolchain (a too-new Command Line Tools SDK broke linking).
