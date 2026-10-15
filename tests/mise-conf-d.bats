@@ -116,3 +116,36 @@ setup() {
 		fi
 	done
 }
+
+@test "native services are personal-only and require Linux with a systemd manager" {
+	run -0 mise bootstrap services status --json
+	[[ ${output} != *'"name": "ssh"'* ]]
+	[[ ${output} != *'"name": "wsl-cloudflare-ip"'* ]]
+	local detected_os
+	detected_os=$(uname -s)
+	run -0 env MISE_ENV=personal mise bootstrap services status --json
+	if [[ ${detected_os} == Linux && -d /run/systemd/system ]]; then
+		[[ ${output} == *'"name": "wsl-cloudflare-ip"'*'"name": "ssh"'* ]]
+	else
+		[[ ${output} != *'"name": "ssh"'* ]]
+		[[ ${output} != *'"name": "wsl-cloudflare-ip"'* ]]
+	fi
+}
+
+@test "systemd and fallback includes manage identical files without losing notifications" {
+	# The interpolation below belongs to JavaScript, not the shell.
+	# shellcheck disable=SC2016
+	run -0 bun -e '
+		import { isDeepStrictEqual } from "node:util";
+		const root = process.argv[1];
+		const fallback = Bun.TOML.parse(await Bun.file(`${root}/mise/linux-files.toml`).text());
+		const systemd = Bun.TOML.parse(await Bun.file(`${root}/mise/linux-services.toml`).text());
+		for (const file of Object.values(systemd.bootstrap.files)) {
+			if (!file.notify?.length) throw new Error("Missing service notification");
+			delete file.notify;
+		}
+		if (!isDeepStrictEqual(fallback.bootstrap.files, systemd.bootstrap.files)) {
+			throw new Error("Conditional include file declarations diverged");
+		}
+	' "${root}"
+}

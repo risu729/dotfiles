@@ -2,6 +2,10 @@
 # Loaded with `-E personal` only. mise merges configuration additively, so the
 # base `mise.toml` holds what is safe on any machine and this file adds the rest.
 
+# System services are unavailable on non-systemd Linux and other platforms.
+# Local includes keep all relative sources owned by this root config.
+include = ["{% if os() == 'linux' and '/run/systemd/system' is dir %}./mise/linux-services.toml{% else %}./mise/linux-files.toml{% endif %}"]
+
 [bootstrap.linux.systemd.units.cloudflared]
 description = "Cloudflare Tunnel client"
 after = ["network-online.target"]
@@ -53,28 +57,4 @@ phase = "pre-packages"
 owner = "root"
 group = "root"
 mode = "0755"
-os = "linux"
-
-[bootstrap.files."/etc/ssh/ca.pub"]
-phase = "pre-packages"
-source = "unix/ssh/ca.pub"
-owner = "root"
-group = "root"
-mode = "0644"
-os = "linux"
-
-[bootstrap.files."/etc/ssh/sshd_config.d/10-cloudflare-access.conf"]
-phase = "pre-packages"
-source = "unix/ssh/10-cloudflare-access.conf"
-owner = "root"
-group = "root"
-mode = "0644"
-os = "linux"
-
-[bootstrap.files."/etc/systemd/system/wsl-cloudflare-ip.service"]
-phase = "pre-packages"
-source = "unix/systemd/wsl-cloudflare-ip.service"
-owner = "root"
-group = "root"
-mode = "0644"
 os = "linux"
