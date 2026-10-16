@@ -7,7 +7,7 @@
 	},
 	"devDependencies": {
 		"@cloudflare/vite-plugin": "2.0.0-beta.sha-c82c3efb3",
-		"@cloudflare/vitest-plugin": "1.4.0",
+		"@cloudflare/vitest-plugin": "1.4.1",
 		"@risu729/tsconfigs": "3.0.1",
 		"@types/bun": "1.4.3",
 		"@vitest/ui": "5.0.3",
