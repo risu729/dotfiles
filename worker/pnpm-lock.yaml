@@ -28,8 +28,8 @@ importers:
         specifier: 5.0.3
         version: 5.0.3(vitest@5.0.3)
       cf:
-        specifier: 1.0.0-beta.15
-        version: 1.0.0-beta.15(@types/node@26.6.5)
+        specifier: 1.0.0-beta.16
+        version: 1.0.0-beta.16(@types/node@26.6.5)
       diff:
         specifier: 9.0.0
         version: 9.0.0
@@ -964,8 +964,8 @@ packages:
   bun-types@1.4.3:
     resolution: {integrity: sha512-tinRJNGOmUN+tEAsn2y2e942n9JHRHR42iUYzDH75NmhJqVBokGSQkkfSFdNWwsANIdrK6ACH9t01M452YyTwg==}
 
-  cf@1.0.0-beta.15:
-    resolution: {integrity: sha512-8wOSnVM7fj5U6/OmEO0oSK6EFdRT5ayXdaWPIHzs+JFutWNOOvWR1N4+tijKoGXGP2KCxISpsnSDgVdJLRhzbA==}
+  cf@1.0.0-beta.16:
+    resolution: {integrity: sha512-buY0XUHp+wAA0paOKxdUr5UgLKhO8xkeJL5Pn2Xt1UQLfqPFKrqTC3mKrGsrmOhf8Qyn4Omxc4F/8x37fa9kVA==}
     engines: {node: '>=22'}
     hasBin: true
 
@@ -1996,14 +1996,14 @@ snapshots:
       '@types/node': 26.6.5
       undici-types: 8.12.1
 
-  cf@1.0.0-beta.15(@types/node@26.6.5):
+  cf@1.0.0-beta.16(@types/node@26.6.5):
     dependencies:
       '@cloudflare/build-output-utils': 0.9.1
       '@cloudflare/codemods': 0.4.2
       '@cloudflare/config': 0.25.0
       '@cloudflare/runtime-types': 0.1.10(@types/node@26.6.5)
       blake3-wasm: 2.1.5
-      miniflare: 5.20261006.1-alpha(@types/node@26.6.5)
+      miniflare: 5.20261006.2-beta(@types/node@26.6.5)
       minisearch: 7.2.0
     transitivePeerDependencies:
       - '@types/node'
