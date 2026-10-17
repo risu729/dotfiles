@@ -76,7 +76,7 @@ jobs:
       - name: Install mise
         uses: jdx/mise-action@9b200bcecbfd6303e69a4a261b2e09e3757440a7 # v5.2.0
         with:
-          version: 2026.10.11
+          version: 2026.10.12
           cache: false
       - name: Run check
         if: ${{ !inputs.health }}
@@ -110,7 +110,7 @@ jobs:
       - name: Install mise
         uses: jdx/mise-action@9b200bcecbfd6303e69a4a261b2e09e3757440a7 # v5.2.0
         with:
-          version: 2026.10.11
+          version: 2026.10.12
           cache: false
       - name: Run Bats tests
         run: mise run test:bats
@@ -256,7 +256,7 @@ jobs:
       - name: Install mise
         uses: jdx/mise-action@9b200bcecbfd6303e69a4a261b2e09e3757440a7 # v5.2.0
         with:
-          version: 2026.10.11
+          version: 2026.10.12
           cache: false
       - name: Run tests
         run: mise run worker:test
@@ -322,7 +322,7 @@ jobs:
       - name: Install mise
         uses: jdx/mise-action@9b200bcecbfd6303e69a4a261b2e09e3757440a7 # v5.2.0
         with:
-          version: 2026.10.11
+          version: 2026.10.12
           # Production uses verified downloads, never a restored tool cache.
           cache: false
       - name: Install deployment CLI from the lockfile
