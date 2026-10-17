@@ -127,7 +127,8 @@ glab auth login --hostname gitlab.cse.unsw.edu.au --git-protocol https
 
 ## Contributing
 
-See [AGENTS.md](AGENTS.md) for development and maintenance notes.
+See [AGENTS.md](AGENTS.md) for development and maintenance notes, including
+[bootstrap inspection](AGENTS.md#bootstrap-inspection) before applying changes.
 
 ## License
 
