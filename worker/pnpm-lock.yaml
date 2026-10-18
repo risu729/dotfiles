@@ -16,8 +16,8 @@ importers:
         specifier: 2.0.0-beta.v.0
         version: 2.0.0-beta.v.0(@types/node@26.6.5)(vite@8.3.4(@types/node@26.6.5)(esbuild@0.28.2))(workerd@1.20261012.1)
       '@cloudflare/vitest-plugin':
-        specifier: 1.4.2
-        version: 1.4.2(@types/node@26.6.5)(vitest@5.0.3)
+        specifier: 1.4.3
+        version: 1.4.3(@types/node@26.6.5)(vitest@5.0.3)
       '@risu729/tsconfigs':
         specifier: 3.0.1
         version: 3.0.1(typescript@7.0.2)
@@ -70,8 +70,8 @@ packages:
     peerDependencies:
       vite: ^7.0.0 || ^8.0.0
 
-  '@cloudflare/vitest-plugin@1.4.2':
-    resolution: {integrity: sha512-5I8Hk8cJcl5kP1uRTfLOLW6fUv1eRqgvTWvtEOxZARDlnlCMRY/sYDnspLutlCMxq0hxJjLVBETdoJTLHGHSng==}
+  '@cloudflare/vitest-plugin@1.4.3':
+    resolution: {integrity: sha512-GA0735VV3HgWRCO4sIXUL4uPDXbsaM4hA3Kj+8MqaLTgodeGt+VpcZYQUPg0hXBzkPeT/lxORPnWwIHRAmTavQ==}
     peerDependencies:
       vitest: ^4.1.0 || ^5.0.0
 
@@ -1166,7 +1166,7 @@ snapshots:
       - utf-8-validate
       - workerd
 
-  '@cloudflare/vitest-plugin@1.4.2(@types/node@26.6.5)(vitest@5.0.3)':
+  '@cloudflare/vitest-plugin@1.4.3(@types/node@26.6.5)(vitest@5.0.3)':
     dependencies:
       cjs-module-lexer: 1.2.3
       esbuild: 0.28.2
