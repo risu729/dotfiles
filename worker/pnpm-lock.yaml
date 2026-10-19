@@ -985,8 +985,8 @@ packages:
     engines: {node: '>=16.20.0'}
     hasBin: true
 
-  undici-types@8.12.1:
-    resolution: {integrity: sha512-nCiEcIx87oMw9u3Yzj2DuRBzv6p0e7akhy4HUPtpBiVWmAY3o6Phznst8QhmY1oLMttLgJ2tlAvsKuzCgBSoAw==}
+  undici-types@8.12.2:
+    resolution: {integrity: sha512-VoMeD2O0KdHhcn+oPqOrpivN+7aDOklVSwOLD7JNjbzV1CboAFek9IFOXnreoufTUtAsCsOK0iETiERPNR/fDA==}
 
   undici-types@8.9.0:
     resolution: {integrity: sha512-KTDyRTYX8sWmKXAikPHHSyc63CRPETMctyjKFupcC6OBLXT3xsN0e9aF7m+mIXutFWpUXuedtowG7iLOzp0kQg==}
@@ -1588,7 +1588,7 @@ snapshots:
   bun-types@1.4.3:
     dependencies:
       '@types/node': 26.6.5
-      undici-types: 8.12.1
+      undici-types: 8.12.2
 
   cf@1.0.0-beta.17(@types/node@26.6.5):
     dependencies:
@@ -1861,7 +1861,7 @@ snapshots:
       '@typescript/typescript-win32-arm64': 7.0.2
       '@typescript/typescript-win32-x64': 7.0.2
 
-  undici-types@8.12.1: {}
+  undici-types@8.12.2: {}
 
   undici-types@8.9.0: {}
 
