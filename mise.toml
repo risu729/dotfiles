@@ -30,7 +30,7 @@ typos = "1.51.1"
 "npm:typescript" = "7.0.2"
 hadolint = "2.15.1"
 betterleaks = "v1.9.0"
-powershell = "7.6.7"
+powershell = "7.6.8"
 bats = "1.14.0"
 
 [settings]
