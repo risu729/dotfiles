@@ -435,34 +435,34 @@ url_api = "https://api.github.com/repos/suzuki-shunsuke/pinact/releases/assets/6
 provenance = "github-attestations"
 
 [[tools.powershell]]
-version = "7.6.7"
+version = "7.6.8"
 backend = "aqua:PowerShell/PowerShell"
-specifiers = ["7.6.7"]
+specifiers = ["7.6.8"]
 
 [tools.powershell."platforms.linux-x64"]
-checksum = "sha256:6896f9e3a6b0a354bf470835a96da76d2f801cd50dcf047ad7c4563bf93bf431"
-url = "https://github.com/PowerShell/PowerShell/releases/download/v7.6.7/powershell-7.6.7-linux-x64.tar.gz"
-url_api = "https://api.github.com/repos/PowerShell/PowerShell/releases/assets/638079580"
+checksum = "sha256:59112e38ad83350e4f6dc0195953c66b5926792f300ca2e7691b8242e7a16e7f"
+url = "https://github.com/PowerShell/PowerShell/releases/download/v7.6.8/powershell-7.6.8-linux-x64.tar.gz"
+url_api = "https://api.github.com/repos/PowerShell/PowerShell/releases/assets/666459897"
 
 [tools.powershell."platforms.linux-x64-baseline"]
-checksum = "sha256:6896f9e3a6b0a354bf470835a96da76d2f801cd50dcf047ad7c4563bf93bf431"
-url = "https://github.com/PowerShell/PowerShell/releases/download/v7.6.7/powershell-7.6.7-linux-x64.tar.gz"
-url_api = "https://api.github.com/repos/PowerShell/PowerShell/releases/assets/638079580"
+checksum = "sha256:59112e38ad83350e4f6dc0195953c66b5926792f300ca2e7691b8242e7a16e7f"
+url = "https://github.com/PowerShell/PowerShell/releases/download/v7.6.8/powershell-7.6.8-linux-x64.tar.gz"
+url_api = "https://api.github.com/repos/PowerShell/PowerShell/releases/assets/666459897"
 
 [tools.powershell."platforms.linux-x64-musl"]
-checksum = "sha256:6896f9e3a6b0a354bf470835a96da76d2f801cd50dcf047ad7c4563bf93bf431"
-url = "https://github.com/PowerShell/PowerShell/releases/download/v7.6.7/powershell-7.6.7-linux-x64.tar.gz"
-url_api = "https://api.github.com/repos/PowerShell/PowerShell/releases/assets/638079580"
+checksum = "sha256:59112e38ad83350e4f6dc0195953c66b5926792f300ca2e7691b8242e7a16e7f"
+url = "https://github.com/PowerShell/PowerShell/releases/download/v7.6.8/powershell-7.6.8-linux-x64.tar.gz"
+url_api = "https://api.github.com/repos/PowerShell/PowerShell/releases/assets/666459897"
 
 [tools.powershell."platforms.linux-x64-musl-baseline"]
-checksum = "sha256:6896f9e3a6b0a354bf470835a96da76d2f801cd50dcf047ad7c4563bf93bf431"
-url = "https://github.com/PowerShell/PowerShell/releases/download/v7.6.7/powershell-7.6.7-linux-x64.tar.gz"
-url_api = "https://api.github.com/repos/PowerShell/PowerShell/releases/assets/638079580"
+checksum = "sha256:59112e38ad83350e4f6dc0195953c66b5926792f300ca2e7691b8242e7a16e7f"
+url = "https://github.com/PowerShell/PowerShell/releases/download/v7.6.8/powershell-7.6.8-linux-x64.tar.gz"
+url_api = "https://api.github.com/repos/PowerShell/PowerShell/releases/assets/666459897"
 
 [tools.powershell."platforms.macos-arm64"]
-checksum = "sha256:50dde99bb066adacbb9a748182d09eb9beff25119dc3b12e85c84b6b6b1c5da9"
-url = "https://github.com/PowerShell/PowerShell/releases/download/v7.6.7/powershell-7.6.7-osx-arm64.tar.gz"
-url_api = "https://api.github.com/repos/PowerShell/PowerShell/releases/assets/638079780"
+checksum = "sha256:c16a3f433966c6fd5a9c8a660a95c92cb5dbc4b1813416501d1ba30ca160da32"
+url = "https://github.com/PowerShell/PowerShell/releases/download/v7.6.8/powershell-7.6.8-osx-arm64.tar.gz"
+url_api = "https://api.github.com/repos/PowerShell/PowerShell/releases/assets/666460184"
 
 [[tools.rumdl]]
 version = "v0.3.0"
