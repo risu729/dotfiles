@@ -90,8 +90,11 @@ CI archives `.cloudflare/output/v0` and always uses `--prebuilt` when uploading.
 PRs use named Workers Previews built separately by the same `cf build` with
 `CLOUDFLARE_PREVIEW_BUILD=true`, which drops production domains. CI deploys
 them in a job required by `CI Check`, so a broken Preview build or deployment
-blocks merging. Fork PRs only run validation. Superseded PR runs are cancelled
-with the rest of CI; the next run redeploys the same Preview name.
+blocks merging. Fork PRs only run validation; runs without Preview
+credentials, such as Dependabot's, build the Preview but skip deployment.
+Superseded PR runs are cancelled with the rest of CI. Before deploying, the
+job checks that the PR is open at the tested head, so re-running an old run
+cannot replace the current Preview.
 The pinned `wrangler-deploy-action` v2 runs cf for previews, dry runs, and
 production. It reads back the deployment to verify the exact version at 100%.
 Keep `deploy-triggers` false for routine deployment. The action owns the beta
