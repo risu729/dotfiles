@@ -285,11 +285,6 @@ jobs:
           path: out/worker-artifact/
           if-no-files-found: error
           retention-days: 7
-      # Preview deployments are not required checks, so keep their build
-      # command covered here. It overwrites the build output, so run it last.
-      - name: Build Preview
-        if: ${{ needs.changes.outputs.worker == 'true' }}
-        run: mise run worker:build:preview
   verify-worker-artifact:
     name: Verify Worker artifact
     needs: [changes, test-worker]
@@ -297,6 +292,61 @@ jobs:
     permissions:
       contents: read # for checkout in the reusable workflow
     uses: $/.github/workflows/worker-deploy.yml
+  preview-worker:
+    name: Deploy Worker Preview
+    needs: [changes, test-worker]
+    # Fork PRs receive no Cloudflare credentials and only run validation.
+    if: >-
+      ${{ github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository && needs.changes.outputs.worker == 'true' }}
+    environment: preview
+    runs-on: ubuntu-26.04
+    timeout-minutes: 10
+    permissions:
+      contents: read # for checkout
+    env:
+      MISE_ENABLE_TOOLS: aube,bun,node
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          sparse-checkout: |
+            mise.toml
+            mise.lock
+            tasks.toml
+            tasks/
+            worker/
+          persist-credentials: false
+      - name: Cache verified mise downloads
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: ~/.cache/mise/downloads-cas
+          key: mise-downloads-${{ runner.os }}-${{ runner.arch }}-${{ github.job }}-${{ hashFiles('mise.lock') }}
+          restore-keys: mise-downloads-${{ runner.os }}-${{ runner.arch }}-${{ github.job }}-
+      - name: Install mise
+        uses: jdx/mise-action@8418fedb1110381a0d3ba51a7a415d7c1b884550 # v5.2.2
+        with:
+          version: 2026.10.17
+          cache: false
+      - name: Build Preview
+        run: mise run worker:build:preview
+      - name: Deploy Preview
+        id: preview
+        uses: risu729/wrangler-deploy-action@a9db854f3a31cdf3cdf28977e66f52f32fc9e8a0 # v2.2.2
+        with:
+          mode: worker-preview
+          working-directory: worker
+          worker: dotfiles-worker
+          preview-name: pr-${{ github.event.pull_request.number }}
+          cloudflare-account-id: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
+          cloudflare-api-token: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      - name: Verify Preview response
+        env:
+          PREVIEW_URL: ${{ steps.preview.outputs.preview-url }}
+          EXPECTED_REVISION: ${{ github.sha }}
+        run: |
+          printf 'Preview URL: %s\n' "${PREVIEW_URL}"
+          [[ "$(curl --silent --show-error --output /dev/null --write-out '%{http_code}' "${PREVIEW_URL}/")" == 307 ]]
+          curl --fail --retry 5 --retry-all-errors --retry-delay 2 --silent --show-error "${PREVIEW_URL}/wsl?ref=${EXPECTED_REVISION}" | grep -F "${EXPECTED_REVISION}"
   deploy-worker:
     name: Deploy validated Worker
     needs: [changes, lint, test-bats, test-worker, test-worker-container, test-linux, test-macos, verify-worker-artifact]
@@ -364,6 +414,7 @@ jobs:
       - test-worker
       - test-worker-container
       - verify-worker-artifact
+      - preview-worker
     if: ${{ !cancelled() && (contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled')) }}
     runs-on: ubuntu-26.04
     timeout-minutes: 5

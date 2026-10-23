@@ -88,9 +88,16 @@ preserves the existing Custom Domain without updating triggers.
 The pinned `cf` beta reads `worker/cloudflare.config.ts` and builds with Vite.
 CI archives `.cloudflare/output/v0` and always uses `--prebuilt` when uploading.
 PRs use named Workers Previews built separately by `cf-vite build` with
-`CLOUDFLARE_PREVIEW_BUILD=true`.
-The Preview workflow serializes updates and close-event cleanup per PR and
-checks the live PR state before acting. Fork PRs only run validation.
+`CLOUDFLARE_PREVIEW_BUILD=true`. CI deploys them in a job required by
+`CI Check`, so a broken Preview build or deployment blocks merging. Fork PRs
+only run validation. Superseded PR runs are cancelled with the rest of CI; the
+next run redeploys the same Preview name.
+
+Previews of closed PRs are not deleted. Cloudflare evicts the least recently
+deployed Preview once a Worker reaches its Preview limit, and this Worker has
+no storage bindings whose data would outlive the PR. A closed PR's Preview
+only stays reachable at its unadvertised Preview URL until it is evicted.
+Revisit cleanup if the Worker gains storage bindings or secrets.
 The pinned `wrangler-deploy-action` v2 runs cf for previews, dry runs, and
 production. It reads back the deployment to verify the exact version at 100%.
 Keep `deploy-triggers` false for routine deployment. The action owns the beta
