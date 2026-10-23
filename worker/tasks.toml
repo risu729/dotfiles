@@ -10,7 +10,8 @@ description = "Build the worker for production."
 extends = "worker"
 # Both builds write the same output; serialize them when scheduled together.
 wait_for = ["worker:build"]
-run = "aube exec --no-install -- cf-vite build --preview"
+env = { CLOUDFLARE_PREVIEW_BUILD = "true" }
+run = "aube exec --no-install -- cf-vite build"
 description = "Build a named Workers Preview."
 
 ["worker:dev"]
