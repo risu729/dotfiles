@@ -137,3 +137,24 @@ manifest, then verify `aube install --frozen-lockfile` and commit the manifest
 and lockfile together. The package-local `.npmrc` files keep new lockfiles in
 pnpm format. Do not run `aube import`, which would create a higher-precedence
 `aube-lock.yaml`.
+
+## Updating Global Tool Locks
+
+Preview newer versions for the checked-in shared global tool configuration with
+`tasks/maintenance/lock-bump shared` or select the personal configuration with
+`tasks/maintenance/lock-bump personal`. Add tool names to narrow the update.
+The command uses native `mise lock --global --bump --dry-run --json`, retains
+the declared release-age policy and exact pins, and does not install tools.
+
+After reviewing the preview, use `tasks/maintenance/lock-bump --write personal`
+(or `shared`) to update the locks and native dependency sidecars. Review and
+commit those generated files together. JSON reports version changes only;
+unchanged-version metadata or sidecar refreshes can still produce a Git diff.
+Installation remains a separate `mise install --locked` operation.
+
+Invoke the executable directly to avoid task dependency preparation. The
+equivalent task invocation is
+`mise run --skip-tools --no-deps maintenance:lock-bump personal`. Exact-version
+arguments are rejected because `mise lock tool@version` can rewrite a configured
+request. The root project pins and host system configuration are outside this
+operation's write scope.
