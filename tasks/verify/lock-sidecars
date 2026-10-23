@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+#MISE description="Check referenced native lock-sidecar directories without resolving or installing tools."
+set -euo pipefail
+
+repo=$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)
+system_config=$(mktemp -d)
+trap 'rm -rf "${system_config}"' EXIT
+cd "${repo}"
+
+MISE_ENV='' mise lock --sidecars --json | bun mise/lock-sidecars.ts
+# Include the shared and personal checked-in global locks, not the host's system locks.
+env -u MISE_GLOBAL_CONFIG_FILE \
+	MISE_CONFIG_DIR="${repo}/unix/home/.config/mise" \
+	MISE_CEILING_PATHS="${repo}" \
+	MISE_SYSTEM_CONFIG_DIR="${system_config}" \
+	MISE_SYSTEM_CONFIG_FILE="${system_config}/config.toml" \
+	MISE_ENV=personal \
+	mise lock --global --sidecars --json | bun mise/lock-sidecars.ts
