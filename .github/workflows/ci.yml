@@ -328,8 +328,6 @@ jobs:
         with:
           version: 2026.10.17
           cache: false
-      - name: Build Preview
-        run: mise run worker:build:preview
       - name: Check current PR state and credentials
         id: current
         env:
@@ -340,7 +338,7 @@ jobs:
           ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
           API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
         run: |
-          # Dependabot runs receive no Actions secrets; the Preview build above still ran.
+          # Dependabot runs receive no Actions secrets.
           if [[ -z "${ACCOUNT_ID}" && -z "${API_TOKEN}" ]]; then
             echo 'No Preview credentials; skipped the Preview deployment.' >> "${GITHUB_STEP_SUMMARY}"
             exit 0
@@ -353,12 +351,18 @@ jobs:
             exit 0
           fi
           echo 'run=true' >> "${GITHUB_OUTPUT}"
-      - name: Deploy Preview
+      - name: Install deployment CLI from the lockfile
+        if: ${{ steps.current.outputs.run == 'true' }}
+        run: mise deps aube-worker
+      - name: Build and deploy Preview
         id: preview
         if: ${{ steps.current.outputs.run == 'true' }}
-        uses: risu729/wrangler-deploy-action@a9db854f3a31cdf3cdf28977e66f52f32fc9e8a0 # v2.2.2
+        # TODO: pin the release of risu729/wrangler-deploy-action#204 before merging.
+        uses: risu729/wrangler-deploy-action@6029020227626674f8ba56d116898fca02110a2b # feat/worker-preview-build
         with:
           mode: worker-preview
+          # cf previews deploy builds with Preview context, which drops production domains.
+          prebuilt: false
           working-directory: worker
           worker: dotfiles-worker
           preview-name: pr-${{ github.event.pull_request.number }}
