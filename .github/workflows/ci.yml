@@ -303,6 +303,7 @@ jobs:
     timeout-minutes: 10
     permissions:
       contents: read # for checkout
+      pull-requests: read # for live PR state verification
     env:
       MISE_ENABLE_TOOLS: aube,bun,node
     steps:
@@ -329,8 +330,32 @@ jobs:
           cache: false
       - name: Build Preview
         run: mise run worker:build:preview
+      - name: Check current PR state and credentials
+        id: current
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          EXPECTED_HEAD: ${{ github.event.pull_request.head.sha }}
+          ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
+          API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: |
+          # Dependabot runs receive no Actions secrets; the Preview build above still ran.
+          if [[ -z "${ACCOUNT_ID}" && -z "${API_TOKEN}" ]]; then
+            echo 'No Preview credentials; skipped the Preview deployment.' >> "${GITHUB_STEP_SUMMARY}"
+            exit 0
+          fi
+          [[ -n "${ACCOUNT_ID}" && -n "${API_TOKEN}" ]] || exit 1
+          # Re-run superseded or closed-PR runs must not replace the current Preview.
+          pr="$(gh pr view "${PR_NUMBER}" --json state,headRefOid)"
+          if ! jq -e --arg head "${EXPECTED_HEAD}" '.state == "OPEN" and .headRefOid == $head' <<< "${pr}" > /dev/null; then
+            echo 'The PR is closed or has a newer head; skipped the Preview deployment.' >> "${GITHUB_STEP_SUMMARY}"
+            exit 0
+          fi
+          echo 'run=true' >> "${GITHUB_OUTPUT}"
       - name: Deploy Preview
         id: preview
+        if: ${{ steps.current.outputs.run == 'true' }}
         uses: risu729/wrangler-deploy-action@a9db854f3a31cdf3cdf28977e66f52f32fc9e8a0 # v2.2.2
         with:
           mode: worker-preview
@@ -340,13 +365,16 @@ jobs:
           cloudflare-account-id: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
           cloudflare-api-token: ${{ secrets.CLOUDFLARE_API_TOKEN }}
       - name: Verify Preview response
+        if: ${{ steps.current.outputs.run == 'true' }}
         env:
           PREVIEW_URL: ${{ steps.preview.outputs.preview-url }}
+          DEPLOYMENT_URL: ${{ steps.preview.outputs.deployment-url }}
           EXPECTED_REVISION: ${{ github.sha }}
         run: |
-          printf 'Preview URL: %s\n' "${PREVIEW_URL}"
-          [[ "$(curl --silent --show-error --output /dev/null --write-out '%{http_code}' "${PREVIEW_URL}/")" == 307 ]]
-          curl --fail --retry 5 --retry-all-errors --retry-delay 2 --silent --show-error "${PREVIEW_URL}/wsl?ref=${EXPECTED_REVISION}" | grep -F "${EXPECTED_REVISION}"
+          printf 'Preview URL: %s\nDeployment URL: %s\n' "${PREVIEW_URL}" "${DEPLOYMENT_URL}"
+          [[ "$(curl --retry 5 --retry-all-errors --retry-delay 2 --silent --show-error --output /dev/null --write-out '%{http_code}' "${PREVIEW_URL}/")" == 307 ]]
+          # The stable Preview URL echoes any requested ref; the deployment URL pins this build.
+          curl --fail --retry 5 --retry-all-errors --retry-delay 2 --silent --show-error "${DEPLOYMENT_URL}/wsl?ref=${EXPECTED_REVISION}" | grep -F "${EXPECTED_REVISION}"
   deploy-worker:
     name: Deploy validated Worker
     needs: [changes, lint, test-bats, test-worker, test-worker-container, test-linux, test-macos, verify-worker-artifact]
