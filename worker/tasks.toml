@@ -6,14 +6,6 @@ run = "aube exec --no-install -- cf build"
 hide = true
 description = "Build the worker for production."
 
-["worker:build:preview"]
-extends = "worker"
-# Both builds write the same output; serialize them when scheduled together.
-wait_for = ["worker:build"]
-env = { CLOUDFLARE_PREVIEW_BUILD = "true" }
-run = "aube exec --no-install -- cf build"
-description = "Build a named Workers Preview."
-
 ["worker:dev"]
 extends = "worker:runtime"
 run = "aube exec --no-install -- cf dev"

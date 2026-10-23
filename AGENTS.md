@@ -61,10 +61,7 @@ detail is needed. `bash -x` shows the failing assertion and expanded paths.
 Run tasks from the repository root: `mise run worker:dev` starts the local
 server, `mise run worker:preview` previews a build, and
 `mise run worker:test:watch` opens the Vitest UI.
-`mise run worker:build:preview` builds a named Workers Preview;
-`mise run worker:build` builds the production artifact. Both write the same
-output directory. Mise serializes them within one invocation; do not run
-production and Preview builds in separate concurrent processes.
+`mise run worker:build` builds the production artifact.
 
 Production uses the exact Worker artifact validated by CI, with its source
 revision and checksum; do not rebuild it during deployment. Main pushes deploy
@@ -87,14 +84,14 @@ preserves the existing Custom Domain without updating triggers.
 
 The pinned `cf` beta reads `worker/cloudflare.config.ts` and builds with Vite.
 CI archives `.cloudflare/output/v0` and always uses `--prebuilt` when uploading.
-PRs use named Workers Previews built separately by the same `cf build` with
-`CLOUDFLARE_PREVIEW_BUILD=true`, which drops production domains. CI deploys
-them in a job required by `CI Check`, so a broken Preview build or deployment
-blocks merging. Fork PRs only run validation; runs without Preview
-credentials, such as Dependabot's, build the Preview but skip deployment.
-Superseded PR runs are cancelled with the rest of CI. Before deploying, the
-job checks that the PR is open at the tested head, so re-running an old run
-cannot replace the current Preview.
+PRs use named Workers Previews. CI lets `wrangler-deploy-action` run
+`cf previews deploy` without `--prebuilt`, Cloudflare's documented flow, so cf
+builds with Preview context and drops production domains. The deploy runs in a
+job required by `CI Check`, so a broken Preview build or deployment blocks
+merging. Fork PRs only run validation; runs without Preview credentials, such
+as Dependabot's, skip the Preview. Superseded PR runs are cancelled with the
+rest of CI. Before deploying, the job checks that the PR is open at the tested
+head, so re-running an old run cannot replace the current Preview.
 The pinned `wrangler-deploy-action` v2 runs cf for previews, dry runs, and
 production. It reads back the deployment to verify the exact version at 100%.
 Keep `deploy-triggers` false for routine deployment. The action owns the beta

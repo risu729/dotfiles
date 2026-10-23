@@ -15,6 +15,7 @@ jobs:
     permissions:
       contents: read # for checkout in the reusable workflow
       actions: read # for the actions timeline in the reusable workflow
+      pull-requests: read # for Preview PR state checks in the reusable workflow
     uses: $/.github/workflows/ci.yml
     with:
       full: true
