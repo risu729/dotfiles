@@ -285,6 +285,11 @@ jobs:
           path: out/worker-artifact/
           if-no-files-found: error
           retention-days: 7
+      # Preview deployments are not required checks, so keep their build
+      # command covered here. It overwrites the build output, so run it last.
+      - name: Build Preview
+        if: ${{ needs.changes.outputs.worker == 'true' }}
+        run: mise run worker:build:preview
   verify-worker-artifact:
     name: Verify Worker artifact
     needs: [changes, test-worker]
