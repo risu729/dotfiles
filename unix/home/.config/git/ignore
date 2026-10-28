@@ -67,7 +67,8 @@ $RECYCLE.BIN/
 __MACOSX/
 .AppleDouble
 .LSOverride
-Icon[]
+Icon[
+]
 
 # Resource forks
 ._*
@@ -763,6 +764,8 @@ __marimo__/
 
 # Kernel Module Compile Results
 *.mod*
+# Keep Go module files, which the kernel-module pattern above would hide
+!go.mod
 *.cmd
 .tmp_versions/
 modules.order
