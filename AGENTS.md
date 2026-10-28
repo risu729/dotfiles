@@ -74,8 +74,9 @@ existing repository secret `CLOUDFLARE_API_TOKEN`. Production targets the
 repository secret without reading or re-entering its value. An Environment
 secret with the same name takes precedence if added later. Moving the token to
 Environment secrets is a separate migration: validate both deployment paths
-before removing the repository copy. The reusable artifact validation workflow
-receives no secrets. The token needs
+before removing the repository copy. All Worker jobs live in `ci.yml`; only
+the Preview and production deploy jobs reference Cloudflare credentials, and
+artifact validation runs without them. The token needs
 `Individual Workers Editor` scoped to `dotfiles-worker` on account `risu`.
 Production uploads the validated artifact with
 `cf workers versions create --prebuilt --mode production`, then deploys that
