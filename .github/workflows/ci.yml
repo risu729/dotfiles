@@ -267,7 +267,7 @@ jobs:
         run: mise run worker:build
       - name: Validate production build
         if: ${{ needs.changes.outputs.worker == 'true' }}
-        uses: risu729/wrangler-deploy-action@a9db854f3a31cdf3cdf28977e66f52f32fc9e8a0 # v2.2.2
+        uses: risu729/wrangler-deploy-action@c85532bf934238e9811676cbf10a4d08ff88ae12 # v3.0.0
         with:
           mode: dry-run
           working-directory: worker
@@ -289,9 +289,140 @@ jobs:
     name: Verify Worker artifact
     needs: [changes, test-worker]
     if: ${{ needs.changes.outputs.worker == 'true' }}
+    runs-on: ubuntu-26.04
+    timeout-minutes: 10
     permissions:
-      contents: read # for checkout in the reusable workflow
-    uses: $/.github/workflows/worker-deploy.yml
+      contents: read # for checkout
+    env:
+      MISE_ENABLE_TOOLS: aube,bun,node
+    # Validation passes no Cloudflare credentials; only deploy jobs reference secrets.
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          sparse-checkout: |
+            mise.toml
+            mise.lock
+            tasks.toml
+            tasks/
+            worker/
+          persist-credentials: false
+      - name: Cache verified mise downloads
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: ~/.cache/mise/downloads-cas
+          key: mise-downloads-${{ runner.os }}-${{ runner.arch }}-${{ github.job }}-${{ hashFiles('mise.lock') }}
+          restore-keys: mise-downloads-${{ runner.os }}-${{ runner.arch }}-${{ github.job }}-
+      - name: Install mise
+        uses: jdx/mise-action@6be3c7ed4c21d4f76b208d351d95aac273ebb76d # v5.2.4
+        with:
+          version: 2026.10.19
+          cache: false
+      - name: Install deployment CLI from the lockfile
+        run: mise deps aube-worker
+      - name: Download validated Worker
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
+        with:
+          name: worker-build
+          path: out/worker-artifact/
+      - name: Verify and restore the artifact
+        # Restore must not install dependencies or rebuild the validated bundle.
+        run: mise run --skip-tools --no-deps ci:worker-artifact restore
+        env:
+          EXPECTED_REVISION: ${{ github.sha }}
+      - name: Validate Worker version
+        uses: risu729/wrangler-deploy-action@c85532bf934238e9811676cbf10a4d08ff88ae12 # v3.0.0
+        with:
+          mode: dry-run
+          working-directory: worker
+          worker: dotfiles-worker
+          build-mode: production
+          deploy-triggers: 'false'
+  preview-worker:
+    name: Deploy Worker Preview
+    needs: [changes, test-worker]
+    # Fork PRs receive no Cloudflare credentials and only run validation.
+    if: >-
+      ${{ github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository && needs.changes.outputs.worker == 'true' }}
+    environment: preview
+    runs-on: ubuntu-26.04
+    timeout-minutes: 10
+    permissions:
+      contents: read # for checkout
+      pull-requests: read # for live PR state verification
+    env:
+      MISE_ENABLE_TOOLS: aube,bun,node
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          sparse-checkout: |
+            mise.toml
+            mise.lock
+            tasks.toml
+            tasks/
+            worker/
+          persist-credentials: false
+      - name: Cache verified mise downloads
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: ~/.cache/mise/downloads-cas
+          key: mise-downloads-${{ runner.os }}-${{ runner.arch }}-${{ github.job }}-${{ hashFiles('mise.lock') }}
+          restore-keys: mise-downloads-${{ runner.os }}-${{ runner.arch }}-${{ github.job }}-
+      - name: Install mise
+        uses: jdx/mise-action@6be3c7ed4c21d4f76b208d351d95aac273ebb76d # v5.2.4
+        with:
+          version: 2026.10.19
+          cache: false
+      - name: Check current PR state and credentials
+        id: current
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          EXPECTED_HEAD: ${{ github.event.pull_request.head.sha }}
+          ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
+          API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: |
+          # Dependabot runs receive no Actions secrets.
+          if [[ -z "${ACCOUNT_ID}" && -z "${API_TOKEN}" ]]; then
+            echo 'No Preview credentials; skipped the Preview deployment.' >> "${GITHUB_STEP_SUMMARY}"
+            exit 0
+          fi
+          [[ -n "${ACCOUNT_ID}" && -n "${API_TOKEN}" ]] || exit 1
+          # Re-run superseded or closed-PR runs must not replace the current Preview.
+          pr="$(gh pr view "${PR_NUMBER}" --json state,headRefOid)"
+          if ! jq -e --arg head "${EXPECTED_HEAD}" '.state == "OPEN" and .headRefOid == $head' <<< "${pr}" > /dev/null; then
+            echo 'The PR is closed or has a newer head; skipped the Preview deployment.' >> "${GITHUB_STEP_SUMMARY}"
+            exit 0
+          fi
+          echo 'run=true' >> "${GITHUB_OUTPUT}"
+      - name: Install deployment CLI from the lockfile
+        if: ${{ steps.current.outputs.run == 'true' }}
+        run: mise deps aube-worker
+      - name: Build and deploy Preview
+        id: preview
+        if: ${{ steps.current.outputs.run == 'true' }}
+        # cf previews deploy builds with Preview context, which drops production domains.
+        uses: risu729/wrangler-deploy-action@c85532bf934238e9811676cbf10a4d08ff88ae12 # v3.0.0
+        with:
+          mode: worker-preview
+          working-directory: worker
+          worker: dotfiles-worker
+          preview-name: pr-${{ github.event.pull_request.number }}
+          cloudflare-account-id: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
+          cloudflare-api-token: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      - name: Verify Preview response
+        if: ${{ steps.current.outputs.run == 'true' }}
+        env:
+          PREVIEW_URL: ${{ steps.preview.outputs.preview-url }}
+          DEPLOYMENT_URL: ${{ steps.preview.outputs.deployment-url }}
+          EXPECTED_REVISION: ${{ github.sha }}
+        run: |
+          printf 'Preview URL: %s\nDeployment URL: %s\n' "${PREVIEW_URL}" "${DEPLOYMENT_URL}"
+          [[ "$(curl --retry 5 --retry-all-errors --retry-delay 2 --silent --show-error --output /dev/null --write-out '%{http_code}' "${PREVIEW_URL}/")" == 307 ]]
+          # The stable Preview URL echoes any requested ref; the deployment URL pins this build.
+          curl --fail --retry 5 --retry-all-errors --retry-delay 2 --silent --show-error "${DEPLOYMENT_URL}/wsl?ref=${EXPECTED_REVISION}" | grep -F "${EXPECTED_REVISION}"
   deploy-worker:
     name: Deploy validated Worker
     needs: [changes, lint, test-bats, test-worker, test-worker-container, test-linux, test-macos, verify-worker-artifact]
@@ -338,7 +469,7 @@ jobs:
         env:
           EXPECTED_REVISION: ${{ github.sha }}
       - name: Deploy Worker version
-        uses: risu729/wrangler-deploy-action@a9db854f3a31cdf3cdf28977e66f52f32fc9e8a0 # v2.2.2
+        uses: risu729/wrangler-deploy-action@c85532bf934238e9811676cbf10a4d08ff88ae12 # v3.0.0
         with:
           mode: production
           working-directory: worker
@@ -359,6 +490,7 @@ jobs:
       - test-worker
       - test-worker-container
       - verify-worker-artifact
+      - preview-worker
     if: ${{ !cancelled() && (contains(needs.*.result, 'failure') || contains(needs.*.result, 'cancelled')) }}
     runs-on: ubuntu-26.04
     timeout-minutes: 5
