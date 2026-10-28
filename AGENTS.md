@@ -92,7 +92,11 @@ merging. Fork PRs only run validation; runs without Preview credentials, such
 as Dependabot's, skip the Preview. Superseded PR runs are cancelled with the
 rest of CI. Before deploying, the job checks that the PR is open at the tested
 head, so re-running an old run cannot replace the current Preview.
-The pinned `wrangler-deploy-action` v2 runs cf for previews, dry runs, and
+Because cf builds while holding the API token, build-time code from
+same-repository PRs, including Renovate's dependency updates, can read it.
+Cloudflare's documented Preview flow has the same premise; keep the token
+scoped to this Worker.
+The pinned `wrangler-deploy-action` v3 runs cf for previews, dry runs, and
 production. It reads back the deployment to verify the exact version at 100%.
 Keep `deploy-triggers` false for routine deployment. The action owns the beta
 CLI output contract; validate CLI and action upgrades together.

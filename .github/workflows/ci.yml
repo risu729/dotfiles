@@ -267,7 +267,7 @@ jobs:
         run: mise run worker:build
       - name: Validate production build
         if: ${{ needs.changes.outputs.worker == 'true' }}
-        uses: risu729/wrangler-deploy-action@a9db854f3a31cdf3cdf28977e66f52f32fc9e8a0 # v2.2.2
+        uses: risu729/wrangler-deploy-action@c85532bf934238e9811676cbf10a4d08ff88ae12 # v3.0.0
         with:
           mode: dry-run
           working-directory: worker
@@ -324,9 +324,9 @@ jobs:
           key: mise-downloads-${{ runner.os }}-${{ runner.arch }}-${{ github.job }}-${{ hashFiles('mise.lock') }}
           restore-keys: mise-downloads-${{ runner.os }}-${{ runner.arch }}-${{ github.job }}-
       - name: Install mise
-        uses: jdx/mise-action@8418fedb1110381a0d3ba51a7a415d7c1b884550 # v5.2.2
+        uses: jdx/mise-action@6be3c7ed4c21d4f76b208d351d95aac273ebb76d # v5.2.4
         with:
-          version: 2026.10.17
+          version: 2026.10.19
           cache: false
       - name: Check current PR state and credentials
         id: current
@@ -357,12 +357,10 @@ jobs:
       - name: Build and deploy Preview
         id: preview
         if: ${{ steps.current.outputs.run == 'true' }}
-        # TODO: pin the release of risu729/wrangler-deploy-action#204 before merging.
-        uses: risu729/wrangler-deploy-action@6029020227626674f8ba56d116898fca02110a2b # feat/worker-preview-build
+        # cf previews deploy builds with Preview context, which drops production domains.
+        uses: risu729/wrangler-deploy-action@c85532bf934238e9811676cbf10a4d08ff88ae12 # v3.0.0
         with:
           mode: worker-preview
-          # cf previews deploy builds with Preview context, which drops production domains.
-          prebuilt: false
           working-directory: worker
           worker: dotfiles-worker
           preview-name: pr-${{ github.event.pull_request.number }}
@@ -425,7 +423,7 @@ jobs:
         env:
           EXPECTED_REVISION: ${{ github.sha }}
       - name: Deploy Worker version
-        uses: risu729/wrangler-deploy-action@a9db854f3a31cdf3cdf28977e66f52f32fc9e8a0 # v2.2.2
+        uses: risu729/wrangler-deploy-action@c85532bf934238e9811676cbf10a4d08ff88ae12 # v3.0.0
         with:
           mode: production
           working-directory: worker
