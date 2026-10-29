@@ -11,7 +11,7 @@
 # github/gitignore Go.gitignore
 # github/gitignore Python.gitignore
 # github/gitignore C.gitignore
-# inline: !env/, !ENV/, !lib/, mise-local-tasks/, .codex
+# inline: !env/, !ENV/, !lib/, mise-local-tasks/, .codex, source files hidden by the templates above
 
 # github/gitignore Global/Linux.gitignore
 
@@ -67,7 +67,8 @@ $RECYCLE.BIN/
 __MACOSX/
 .AppleDouble
 .LSOverride
-Icon[]
+Icon[
+]
 
 # Resource forks
 ._*
@@ -773,10 +774,30 @@ dkms.conf
 # debug information files
 *.dwo
 
-# inline: !env/, !ENV/, !lib/, mise-local-tasks/, .codex
+# inline: !env/, !ENV/, !lib/, mise-local-tasks/, .codex, source files hidden by the templates above
 
 !env/
 !ENV/
 !lib/
 mise-local-tasks/
 .codex
+
+# Keep source files that the language templates above hide in other ecosystems.
+# Ignoring them silently drops files from commits; un-ignoring only shows them as untracked.
+# Kernel modules (C): `*.mod*` also matches go.mod, app.module.ts and *.module.css
+!*.mod*
+*.mod
+*.mod.c
+*.mod.o
+!go.mod
+# C dependency files (`*.d`): keep directories such as conf.d/ and *.service.d/
+!*.d/
+# Rust (`debug`): build output lives under target/, which stays ignored
+!debug
+# Python packaging (`dist/`, `parts/`, `var/`): common source and asset directory names
+!dist/
+!parts/
+!var/
+# Environment templates (`.env.*`): no secrets by convention
+!.env.sample
+!.env.template
