@@ -11,7 +11,7 @@
 		"@risu729/tsconfigs": "3.0.1",
 		"@types/bun": "1.4.4",
 		"@vitest/ui": "5.0.5",
-		"cf": "1.0.0-beta.21",
+		"cf": "1.0.0-beta.25",
 		"diff": "9.0.0",
 		"vite": "8.3.5",
 		"vitest": "5.0.5"
