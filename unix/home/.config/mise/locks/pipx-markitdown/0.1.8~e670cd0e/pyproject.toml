@@ -1,0 +1,5 @@
+[project]
+name = "mise-pypi-tool-environment"
+version = "0.0.0"
+requires-python = ">=3.10, <3.15"
+dependencies = ["markitdown[pdf,docx,pptx,xlsx]==0.1.8", "onnxruntime>=1.31.0; python_version >= '3.14' and sys_platform != 'win32'"]
