@@ -66,6 +66,31 @@ setup() {
 	assert_output requested cat "${BATS_TEST_TMPDIR}/installed"
 }
 
+@test "installer refreshes shims after each bootstrap" {
+	git_ref=${requested}
+	export MISE_CALL_LOG="${BATS_TEST_TMPDIR}/mise-calls"
+	mise() { printf '%s\n' "$*" >>"${MISE_CALL_LOG}"; }
+	main
+	main
+	run -0 cat "${MISE_CALL_LOG}"
+	[[ ${#lines[@]} == 4 ]]
+	[[ ${lines[0]} == "--cd ${checkout} bootstrap --yes --update --force-dotfiles --locked --skip-dirty" ]]
+	[[ ${lines[1]} == "--cd ${checkout} reshim" ]]
+	[[ ${lines[2]} == "${lines[0]}" ]]
+	[[ ${lines[3]} == "${lines[1]}" ]]
+}
+
+@test "failed shim refresh cannot report installation success" {
+	git_ref=${requested}
+	mise() {
+		if [[ $* == *' reshim' ]]; then
+			return 23
+		fi
+	}
+	run -23 main
+	[[ ${output} != *'Setup script finished successfully!'* ]]
+}
+
 @test "ordinary installation returns from a pinned revision to updated main" {
 	git_ref=requested
 	main

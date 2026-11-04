@@ -186,6 +186,9 @@ main() {
 	log_info "Bootstrapping packages, dotfiles, and tools with mise..."
 	trust_configs "${dotfiles_dir}"
 	mise --cd "${dotfiles_dir}" bootstrap --yes --update --force-dotfiles --locked --skip-dirty
+	# Tool installation and post-tools hooks can leave stale shims behind.
+	# Refresh them before a fresh shell runs the read-only installation checks.
+	mise --cd "${dotfiles_dir}" reshim || return
 	log_info "mise bootstrap completed."
 
 	log_info "Setup script finished successfully!"
