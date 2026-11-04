@@ -88,6 +88,32 @@ jobs:
         run: mise run check --lint --flaky
         env:
           GITHUB_TOKEN: ${{ github.token }}
+  mise-backends:
+    name: Mise backends (${{ matrix.runner }})
+    strategy:
+      fail-fast: false
+      matrix:
+        runner: [ubuntu-26.04, macos-26]
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 10
+    permissions:
+      contents: read # for checkout
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Install latest mise registry
+        uses: jdx/mise-action@6be3c7ed4c21d4f76b208d351d95aac273ebb76d # v5.2.4
+        with:
+          # Discover registry migrations even before the pinned mise is upgraded.
+          minimum_release_age: 0s
+          install: false
+          cache: false
+      - name: Reject superseded backends
+        run: bash tasks/verify/mise-backends
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
   test-bats:
     name: Bats
     runs-on: ubuntu-26.04
@@ -425,9 +451,9 @@ jobs:
           curl --fail --retry 5 --retry-all-errors --retry-delay 2 --silent --show-error "${DEPLOYMENT_URL}/wsl?ref=${EXPECTED_REVISION}" | grep -F "${EXPECTED_REVISION}"
   deploy-worker:
     name: Deploy validated Worker
-    needs: [changes, lint, test-bats, test-worker, test-worker-container, test-linux, test-macos, verify-worker-artifact]
+    needs: [changes, lint, mise-backends, test-bats, test-worker, test-worker-container, test-linux, test-macos, verify-worker-artifact]
     if: >-
-      ${{ !cancelled() && !inputs.health && github.ref == 'refs/heads/main' && (github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && inputs.deploy)) && needs.changes.result == 'success' && needs.lint.result == 'success' && needs.test-bats.result == 'success' && needs.test-worker.result == 'success' && needs.test-worker-container.result == 'success' && needs.test-linux.result == 'success' && needs.test-macos.result == 'success' && needs.verify-worker-artifact.result == 'success' }}
+      ${{ !cancelled() && !inputs.health && github.ref == 'refs/heads/main' && (github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && inputs.deploy)) && needs.changes.result == 'success' && needs.lint.result == 'success' && needs.mise-backends.result == 'success' && needs.test-bats.result == 'success' && needs.test-worker.result == 'success' && needs.test-worker-container.result == 'success' && needs.test-linux.result == 'success' && needs.test-macos.result == 'success' && needs.verify-worker-artifact.result == 'success' }}
     environment: production
     runs-on: ubuntu-26.04
     timeout-minutes: 10
@@ -484,6 +510,7 @@ jobs:
     needs:
       - changes
       - lint
+      - mise-backends
       - test-bats
       - test-linux
       - test-macos
