@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       resend-cli:
-        specifier: 2.25.0
-        version: 2.25.0
+        specifier: 2.26.0
+        version: 2.26.0
 
 packages:
 
@@ -218,13 +218,13 @@ packages:
   postal-mime@2.7.6:
     resolution: {integrity: sha512-UUlyE2KlxmvwMGq060onF/VWU3zD6dVW31FwokQ5v26jWd35fbs2MoTFzh+jXnPwAyV2MULMKXcBInGOl5TO6Q==}
 
-  resend-cli@2.25.0:
-    resolution: {integrity: sha512-9VyI+y2Ka4xRcLsPtQY+O5ylYpWvsT1Y/eGPjRmwrV1vzyF6EtrMukve8POnMUbWQG+9MbxRzrqVhKTPg6VD+g==}
+  resend-cli@2.26.0:
+    resolution: {integrity: sha512-x7qAbKn7dG7jWoEWbFgR59DEH09fZPSZn7nvvCcKGULoqfJwZUqdd0QyOF+yQ3zvNntbu9IFxwvzZ4nkYknEew==}
     engines: {node: '>=22'}
     hasBin: true
 
-  resend@6.33.0:
-    resolution: {integrity: sha512-sbpWLrwlaIDZuGHRYNX6101CWtXLqRNcT1S9c8BB357Ab2+IUJ7dNpYffVmGh2C11/4AfcFvM4ltURH8NJlPGw==}
+  resend@6.34.1:
+    resolution: {integrity: sha512-3jo/j1WAW7CBkE6pzK4qLjZCfHRLIhY3ph3x/wzU+MN51cSw3EtReGce8S1cA1R0ipNDOdFYU5Lmt5r563lvYw==}
     engines: {node: '>=20'}
     peerDependencies:
       '@react-email/render': '*'
@@ -385,7 +385,7 @@ snapshots:
 
   postal-mime@2.7.6: {}
 
-  resend-cli@2.25.0:
+  resend-cli@2.26.0:
     dependencies:
       '@clack/prompts': 1.4.0
       '@commander-js/extra-typings': 14.0.0(commander@14.0.3)
@@ -393,11 +393,11 @@ snapshots:
       esbuild: 0.28.1
       esbuild-wasm: 0.28.0
       picocolors: 1.1.1
-      resend: 6.33.0
+      resend: 6.34.1
     transitivePeerDependencies:
       - '@react-email/render'
 
-  resend@6.33.0:
+  resend@6.34.1:
     dependencies:
       postal-mime: 2.7.6
       standardwebhooks: 1.1.1
