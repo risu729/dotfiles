@@ -34,6 +34,7 @@ setup() {
 	requested=$(git -C "${remote}" rev-parse HEAD)
 	git -C "${remote}" checkout --quiet main
 	ln -s "${checkout}/managed" "${BATS_TEST_TMPDIR}/installed"
+	export MISE_CALL_LOG="${BATS_TEST_TMPDIR}/mise-calls"
 
 	# Stub only package/configuration work. Git operations remain real.
 	trust_configs() { :; }
@@ -68,7 +69,6 @@ setup() {
 
 @test "installer refreshes shims after each bootstrap" {
 	git_ref=${requested}
-	export MISE_CALL_LOG="${BATS_TEST_TMPDIR}/mise-calls"
 	mise() { printf '%s\n' "$*" >>"${MISE_CALL_LOG}"; }
 	main
 	main
@@ -78,6 +78,36 @@ setup() {
 	[[ ${lines[1]} == "--cd ${checkout} reshim" ]]
 	[[ ${lines[2]} == "${lines[0]}" ]]
 	[[ ${lines[3]} == "${lines[1]}" ]]
+}
+
+@test "bootstrap selects the default Rust homes before its first tool install" {
+	git_ref=${requested}
+	unset CARGO_HOME RUSTUP_HOME
+	mise() {
+		printf '%s\n' "${CARGO_HOME-unset}" "${RUSTUP_HOME-unset}" >>"${MISE_CALL_LOG}"
+	}
+	main
+	main
+	run -0 cat "${MISE_CALL_LOG}"
+	[[ ${#lines[@]} == 8 ]]
+	for index in 0 2 4 6; do
+		[[ ${lines[index]} == "${HOME}/.cargo" ]]
+		[[ ${lines[index + 1]} == "${HOME}/.rustup" ]]
+	done
+}
+
+@test "bootstrap preserves caller Rust homes including paths with spaces" {
+	git_ref=${requested}
+	export CARGO_HOME="${BATS_TEST_TMPDIR}/custom cargo"
+	export RUSTUP_HOME="${BATS_TEST_TMPDIR}/custom rustup"
+	mise() {
+		printf '%s\n' "${CARGO_HOME}" "${RUSTUP_HOME}" >>"${MISE_CALL_LOG}"
+	}
+	main
+	run -0 cat "${MISE_CALL_LOG}"
+	[[ ${#lines[@]} == 4 ]]
+	[[ ${lines[0]} == "${CARGO_HOME}" && ${lines[2]} == "${CARGO_HOME}" ]]
+	[[ ${lines[1]} == "${RUSTUP_HOME}" && ${lines[3]} == "${RUSTUP_HOME}" ]]
 }
 
 @test "failed shim refresh cannot report installation success" {
