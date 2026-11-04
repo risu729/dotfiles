@@ -185,7 +185,18 @@ main() {
 
 	log_info "Bootstrapping packages, dotfiles, and tools with mise..."
 	trust_configs "${dotfiles_dir}"
+	# mise 2026.10.22 changes Rust providers when activation exports these homes:
+	# an external rustup becomes an empty CARGO_HOME/bin. Select managed proxies
+	# from the first install so activation and reshim agree. Preserve caller homes;
+	# mise's configured homes still take precedence over these inherited defaults.
+	# Remove once upstream separates home resolution from provider selection:
+	# https://github.com/jdx/mise/pull/11938#issuecomment-5293784273
+	export CARGO_HOME="${CARGO_HOME:-${HOME}/.cargo}"
+	export RUSTUP_HOME="${RUSTUP_HOME:-${HOME}/.rustup}"
 	mise --cd "${dotfiles_dir}" bootstrap --yes --update --force-dotfiles --locked --skip-dirty
+	# Tool installation and post-tools hooks can leave stale shims behind.
+	# Refresh them before a fresh shell runs the read-only installation checks.
+	mise --cd "${dotfiles_dir}" reshim || return
 	log_info "mise bootstrap completed."
 
 	log_info "Setup script finished successfully!"
