@@ -3,37 +3,37 @@
 lockfile_version = 3
 
 [[tools.aube]]
-version = "2.8.4"
+version = "2.9.0"
 backend = "packslip:github.com/aubepkg/aube"
-specifiers = ["v2.8.4"]
+specifiers = ["v2.9.0"]
 
 [tools.aube."platforms.linux-x64"]
-checksum = "sha256:7cdc99ea7a4ceced9ee174c2f2406abf6ed252b192b222a8a5ecb386b2dc2fe1"
-url = "https://github.com/aubepkg/aube/releases/download/v2.8.4/aube-v2.8.4-x86_64-unknown-linux-gnu.tar.gz"
+checksum = "sha256:b0ecb21475ec057c523f45f1b1cc0861f614065c1cf9b51cc93548989c3a2f16"
+url = "https://github.com/aubepkg/aube/releases/download/v2.9.0/aube-v2.9.0-x86_64-unknown-linux-gnu.tar.gz"
 signer = "sigstore-oidc:https://github.com/aubepkg/aube/.github/workflows/release.yml"
 repository_ids = { repository = "1214542327" }
 
 [tools.aube."platforms.linux-x64-baseline"]
-checksum = "sha256:7cdc99ea7a4ceced9ee174c2f2406abf6ed252b192b222a8a5ecb386b2dc2fe1"
-url = "https://github.com/aubepkg/aube/releases/download/v2.8.4/aube-v2.8.4-x86_64-unknown-linux-gnu.tar.gz"
+checksum = "sha256:b0ecb21475ec057c523f45f1b1cc0861f614065c1cf9b51cc93548989c3a2f16"
+url = "https://github.com/aubepkg/aube/releases/download/v2.9.0/aube-v2.9.0-x86_64-unknown-linux-gnu.tar.gz"
 signer = "sigstore-oidc:https://github.com/aubepkg/aube/.github/workflows/release.yml"
 repository_ids = { repository = "1214542327" }
 
 [tools.aube."platforms.linux-x64-musl"]
-checksum = "sha256:36272090e3ec57b20e883f756e8c88cf5cd932c0244694f22cad21de25c3110a"
-url = "https://github.com/aubepkg/aube/releases/download/v2.8.4/aube-v2.8.4-x86_64-unknown-linux-musl.tar.gz"
+checksum = "sha256:5733309776a843bdc7b7503ec02a33c59c57bdf2390f41e615e39c6c671629de"
+url = "https://github.com/aubepkg/aube/releases/download/v2.9.0/aube-v2.9.0-x86_64-unknown-linux-musl.tar.gz"
 signer = "sigstore-oidc:https://github.com/aubepkg/aube/.github/workflows/release.yml"
 repository_ids = { repository = "1214542327" }
 
 [tools.aube."platforms.linux-x64-musl-baseline"]
-checksum = "sha256:36272090e3ec57b20e883f756e8c88cf5cd932c0244694f22cad21de25c3110a"
-url = "https://github.com/aubepkg/aube/releases/download/v2.8.4/aube-v2.8.4-x86_64-unknown-linux-musl.tar.gz"
+checksum = "sha256:5733309776a843bdc7b7503ec02a33c59c57bdf2390f41e615e39c6c671629de"
+url = "https://github.com/aubepkg/aube/releases/download/v2.9.0/aube-v2.9.0-x86_64-unknown-linux-musl.tar.gz"
 signer = "sigstore-oidc:https://github.com/aubepkg/aube/.github/workflows/release.yml"
 repository_ids = { repository = "1214542327" }
 
 [tools.aube."platforms.macos-arm64"]
-checksum = "sha256:3c755c18237fcefbd4bf113ca7017bb1010cd12d7b756b6e2b5577862d294c71"
-url = "https://github.com/aubepkg/aube/releases/download/v2.8.4/aube-v2.8.4-aarch64-apple-darwin.tar.gz"
+checksum = "sha256:8e4d70433ae1e7ba7f43581fbfd7756210881ce1f67e1440d166bd12297161e4"
+url = "https://github.com/aubepkg/aube/releases/download/v2.9.0/aube-v2.9.0-aarch64-apple-darwin.tar.gz"
 signer = "sigstore-oidc:https://github.com/aubepkg/aube/.github/workflows/release.yml"
 repository_ids = { repository = "1214542327" }
 
@@ -233,72 +233,72 @@ url_api = "https://api.github.com/repos/hadolint/hadolint/releases/assets/496546
 provenance = "github-attestations"
 
 [[tools.hk]]
-version = "2.9.0"
+version = "2.11.0"
 backend = "packslip:github.com/jdx/hk"
-specifiers = ["2.9.0"]
+specifiers = ["2.11.0"]
 
 [tools.hk."platforms.linux-x64"]
-checksum = "sha256:db1021a8920b71c161e26bef246c5b00a3ea6aa480b6cb837ee098ffeb8c41a1"
-url = "https://github.com/jdx/hk/releases/download/v2.9.0/hk-x86_64-unknown-linux-gnu.tar.gz"
+checksum = "sha256:a461eb97df8e60c4447d1fdaa74a3d31598d7aba0d7a68ceebad0ff0405c3b5b"
+url = "https://github.com/jdx/hk/releases/download/v2.11.0/hk-x86_64-unknown-linux-gnu.tar.gz"
 signer = "sigstore-oidc:https://github.com/jdx/hk/.github/workflows/release.yml"
 repository_ids = { repository = "922514152" }
 
 [tools.hk."platforms.linux-x64-baseline"]
-checksum = "sha256:db1021a8920b71c161e26bef246c5b00a3ea6aa480b6cb837ee098ffeb8c41a1"
-url = "https://github.com/jdx/hk/releases/download/v2.9.0/hk-x86_64-unknown-linux-gnu.tar.gz"
+checksum = "sha256:a461eb97df8e60c4447d1fdaa74a3d31598d7aba0d7a68ceebad0ff0405c3b5b"
+url = "https://github.com/jdx/hk/releases/download/v2.11.0/hk-x86_64-unknown-linux-gnu.tar.gz"
 signer = "sigstore-oidc:https://github.com/jdx/hk/.github/workflows/release.yml"
 repository_ids = { repository = "922514152" }
 
 [tools.hk."platforms.linux-x64-musl"]
-checksum = "sha256:91136908087b35d1dba1caee108b577774223429546d8b28a9de57280fcc7d36"
-url = "https://github.com/jdx/hk/releases/download/v2.9.0/hk-x86_64-unknown-linux-musl.tar.gz"
+checksum = "sha256:edac507e4fb248a7d0885367b87ec002b073c530bcb07c91334855e54c4b0352"
+url = "https://github.com/jdx/hk/releases/download/v2.11.0/hk-x86_64-unknown-linux-musl.tar.gz"
 signer = "sigstore-oidc:https://github.com/jdx/hk/.github/workflows/release.yml"
 repository_ids = { repository = "922514152" }
 
 [tools.hk."platforms.linux-x64-musl-baseline"]
-checksum = "sha256:91136908087b35d1dba1caee108b577774223429546d8b28a9de57280fcc7d36"
-url = "https://github.com/jdx/hk/releases/download/v2.9.0/hk-x86_64-unknown-linux-musl.tar.gz"
+checksum = "sha256:edac507e4fb248a7d0885367b87ec002b073c530bcb07c91334855e54c4b0352"
+url = "https://github.com/jdx/hk/releases/download/v2.11.0/hk-x86_64-unknown-linux-musl.tar.gz"
 signer = "sigstore-oidc:https://github.com/jdx/hk/.github/workflows/release.yml"
 repository_ids = { repository = "922514152" }
 
 [tools.hk."platforms.macos-arm64"]
-checksum = "sha256:c7c4d85fd44e88d54b2bf8f9fc38165e278983f54210c095a3e3e8c593e4b720"
-url = "https://github.com/jdx/hk/releases/download/v2.9.0/hk-aarch64-apple-darwin.tar.gz"
+checksum = "sha256:65cc3490e93522b55abe8ae42c2b5ffe452f9fe58282455ad59d10bc0deab272"
+url = "https://github.com/jdx/hk/releases/download/v2.11.0/hk-aarch64-apple-darwin.tar.gz"
 signer = "sigstore-oidc:https://github.com/jdx/hk/.github/workflows/release.yml"
 repository_ids = { repository = "922514152" }
 
 [[tools.jactionlint]]
-version = "2.3.0"
+version = "2.4.0"
 backend = "packslip:github.com/jdx/jactionlint"
-specifiers = ["v2.3.0"]
+specifiers = ["v2.4.0"]
 
 [tools.jactionlint."platforms.linux-x64"]
-checksum = "sha256:907e6f6a59e181879f7e6936e19ee2eca1cbc51de134fb85460cfa8d65a71f28"
-url = "https://github.com/jdx/jactionlint/releases/download/v2.3.0/jactionlint_2.3.0_linux_amd64.tar.gz"
+checksum = "sha256:26ddba81db28fffc51163175c070ee1a9d1150260de4b5232f01d9b749f32d8e"
+url = "https://github.com/jdx/jactionlint/releases/download/v2.4.0/jactionlint_2.4.0_linux_amd64.tar.gz"
 signer = "sigstore-oidc:https://github.com/jdx/jactionlint/.github/workflows/release.yaml"
 repository_ids = { repository = "1404951382" }
 
 [tools.jactionlint."platforms.linux-x64-baseline"]
-checksum = "sha256:907e6f6a59e181879f7e6936e19ee2eca1cbc51de134fb85460cfa8d65a71f28"
-url = "https://github.com/jdx/jactionlint/releases/download/v2.3.0/jactionlint_2.3.0_linux_amd64.tar.gz"
+checksum = "sha256:26ddba81db28fffc51163175c070ee1a9d1150260de4b5232f01d9b749f32d8e"
+url = "https://github.com/jdx/jactionlint/releases/download/v2.4.0/jactionlint_2.4.0_linux_amd64.tar.gz"
 signer = "sigstore-oidc:https://github.com/jdx/jactionlint/.github/workflows/release.yaml"
 repository_ids = { repository = "1404951382" }
 
 [tools.jactionlint."platforms.linux-x64-musl"]
-checksum = "sha256:907e6f6a59e181879f7e6936e19ee2eca1cbc51de134fb85460cfa8d65a71f28"
-url = "https://github.com/jdx/jactionlint/releases/download/v2.3.0/jactionlint_2.3.0_linux_amd64.tar.gz"
+checksum = "sha256:26ddba81db28fffc51163175c070ee1a9d1150260de4b5232f01d9b749f32d8e"
+url = "https://github.com/jdx/jactionlint/releases/download/v2.4.0/jactionlint_2.4.0_linux_amd64.tar.gz"
 signer = "sigstore-oidc:https://github.com/jdx/jactionlint/.github/workflows/release.yaml"
 repository_ids = { repository = "1404951382" }
 
 [tools.jactionlint."platforms.linux-x64-musl-baseline"]
-checksum = "sha256:907e6f6a59e181879f7e6936e19ee2eca1cbc51de134fb85460cfa8d65a71f28"
-url = "https://github.com/jdx/jactionlint/releases/download/v2.3.0/jactionlint_2.3.0_linux_amd64.tar.gz"
+checksum = "sha256:26ddba81db28fffc51163175c070ee1a9d1150260de4b5232f01d9b749f32d8e"
+url = "https://github.com/jdx/jactionlint/releases/download/v2.4.0/jactionlint_2.4.0_linux_amd64.tar.gz"
 signer = "sigstore-oidc:https://github.com/jdx/jactionlint/.github/workflows/release.yaml"
 repository_ids = { repository = "1404951382" }
 
 [tools.jactionlint."platforms.macos-arm64"]
-checksum = "sha256:f96afa36578b21290203ae8df4fa7ac3bf5aba08ed288df28cb0530af7ca6e55"
-url = "https://github.com/jdx/jactionlint/releases/download/v2.3.0/jactionlint_2.3.0_darwin_arm64.tar.gz"
+checksum = "sha256:349a13dbffdd25376898a256d195806afda08ba97ccc6378cbf2dd11a77ef8e7"
+url = "https://github.com/jdx/jactionlint/releases/download/v2.4.0/jactionlint_2.4.0_darwin_arm64.tar.gz"
 signer = "sigstore-oidc:https://github.com/jdx/jactionlint/.github/workflows/release.yaml"
 repository_ids = { repository = "1404951382" }
 
@@ -565,103 +565,108 @@ url = "https://github.com/mvdan/sh/releases/download/v3.14.1/shfmt_v3.14.1_darwi
 url_api = "https://api.github.com/repos/mvdan/sh/releases/assets/547320930"
 
 [[tools.tombi]]
-version = "1.9.7"
+version = "1.9.9"
 backend = "aqua:tombi-toml/tombi"
-specifiers = ["1.9.7"]
+specifiers = ["1.9.9"]
 
 [tools.tombi."platforms.linux-x64"]
-checksum = "sha256:4bab30c956cc2defa5966f78e199c4c0a57e9795964142fdd6c007596519787e"
-url = "https://github.com/tombi-toml/tombi/releases/download/v1.9.7/tombi-cli-1.9.7-x86_64-unknown-linux-musl.tar.gz"
-url_api = "https://api.github.com/repos/tombi-toml/tombi/releases/assets/683771559"
+checksum = "sha256:f6094fb14fd962c9611ccd7bc73dc7e8b03fe8859fd662e022b8d0a25649b5fc"
+url = "https://github.com/tombi-toml/tombi/releases/download/v1.9.9/tombi-cli-1.9.9-x86_64-unknown-linux-musl.tar.gz"
+url_api = "https://api.github.com/repos/tombi-toml/tombi/releases/assets/703748434"
 provenance = "github-attestations"
 
 [tools.tombi."platforms.linux-x64-baseline"]
-checksum = "sha256:4bab30c956cc2defa5966f78e199c4c0a57e9795964142fdd6c007596519787e"
-url = "https://github.com/tombi-toml/tombi/releases/download/v1.9.7/tombi-cli-1.9.7-x86_64-unknown-linux-musl.tar.gz"
-url_api = "https://api.github.com/repos/tombi-toml/tombi/releases/assets/683771559"
+checksum = "sha256:f6094fb14fd962c9611ccd7bc73dc7e8b03fe8859fd662e022b8d0a25649b5fc"
+url = "https://github.com/tombi-toml/tombi/releases/download/v1.9.9/tombi-cli-1.9.9-x86_64-unknown-linux-musl.tar.gz"
+url_api = "https://api.github.com/repos/tombi-toml/tombi/releases/assets/703748434"
 provenance = "github-attestations"
 
 [tools.tombi."platforms.linux-x64-musl"]
-checksum = "sha256:4bab30c956cc2defa5966f78e199c4c0a57e9795964142fdd6c007596519787e"
-url = "https://github.com/tombi-toml/tombi/releases/download/v1.9.7/tombi-cli-1.9.7-x86_64-unknown-linux-musl.tar.gz"
-url_api = "https://api.github.com/repos/tombi-toml/tombi/releases/assets/683771559"
+checksum = "sha256:f6094fb14fd962c9611ccd7bc73dc7e8b03fe8859fd662e022b8d0a25649b5fc"
+url = "https://github.com/tombi-toml/tombi/releases/download/v1.9.9/tombi-cli-1.9.9-x86_64-unknown-linux-musl.tar.gz"
+url_api = "https://api.github.com/repos/tombi-toml/tombi/releases/assets/703748434"
 provenance = "github-attestations"
 
 [tools.tombi."platforms.linux-x64-musl-baseline"]
-checksum = "sha256:4bab30c956cc2defa5966f78e199c4c0a57e9795964142fdd6c007596519787e"
-url = "https://github.com/tombi-toml/tombi/releases/download/v1.9.7/tombi-cli-1.9.7-x86_64-unknown-linux-musl.tar.gz"
-url_api = "https://api.github.com/repos/tombi-toml/tombi/releases/assets/683771559"
+checksum = "sha256:f6094fb14fd962c9611ccd7bc73dc7e8b03fe8859fd662e022b8d0a25649b5fc"
+url = "https://github.com/tombi-toml/tombi/releases/download/v1.9.9/tombi-cli-1.9.9-x86_64-unknown-linux-musl.tar.gz"
+url_api = "https://api.github.com/repos/tombi-toml/tombi/releases/assets/703748434"
 provenance = "github-attestations"
 
 [tools.tombi."platforms.macos-arm64"]
-checksum = "sha256:bfda372442e224febf416a18cdc8099b1188cc1bc70260d1daa4d7ddafc45fa1"
-url = "https://github.com/tombi-toml/tombi/releases/download/v1.9.7/tombi-cli-1.9.7-aarch64-apple-darwin.tar.gz"
-url_api = "https://api.github.com/repos/tombi-toml/tombi/releases/assets/683771517"
+checksum = "sha256:3e156ba88ae4228b93071d9a4548e6dd64ae0e71d476ae09ee106a0d9a6ca070"
+url = "https://github.com/tombi-toml/tombi/releases/download/v1.9.9/tombi-cli-1.9.9-aarch64-apple-darwin.tar.gz"
+url_api = "https://api.github.com/repos/tombi-toml/tombi/releases/assets/703748394"
 provenance = "github-attestations"
 
 [[tools.typos]]
-version = "1.51.1"
+version = "1.52.0"
 backend = "aqua:crate-ci/typos"
-specifiers = ["1.51.1"]
+specifiers = ["1.52.0"]
 
 [tools.typos."platforms.linux-x64"]
-checksum = "sha256:93c301fd4120ff076e2cc2a6d6a61cab4a4bdb81899287c0938b452e56d1f454"
-url = "https://github.com/crate-ci/typos/releases/download/v1.51.1/typos-v1.51.1-x86_64-unknown-linux-musl.tar.gz"
-url_api = "https://api.github.com/repos/crate-ci/typos/releases/assets/616653682"
+checksum = "sha256:6155d4114f9a0f5b8f6d4fda96266c9d5f6add71df80da7f684ee5e72eb14588"
+checksum_source = "mise-versions"
+url = "https://github.com/crate-ci/typos/releases/download/v1.52.0/typos-v1.52.0-x86_64-unknown-linux-musl.tar.gz"
+url_api = "https://api.github.com/repos/crate-ci/typos/releases/assets/703158772"
 
 [tools.typos."platforms.linux-x64-baseline"]
-checksum = "sha256:93c301fd4120ff076e2cc2a6d6a61cab4a4bdb81899287c0938b452e56d1f454"
-url = "https://github.com/crate-ci/typos/releases/download/v1.51.1/typos-v1.51.1-x86_64-unknown-linux-musl.tar.gz"
-url_api = "https://api.github.com/repos/crate-ci/typos/releases/assets/616653682"
+checksum = "sha256:6155d4114f9a0f5b8f6d4fda96266c9d5f6add71df80da7f684ee5e72eb14588"
+checksum_source = "mise-versions"
+url = "https://github.com/crate-ci/typos/releases/download/v1.52.0/typos-v1.52.0-x86_64-unknown-linux-musl.tar.gz"
+url_api = "https://api.github.com/repos/crate-ci/typos/releases/assets/703158772"
 
 [tools.typos."platforms.linux-x64-musl"]
-checksum = "sha256:93c301fd4120ff076e2cc2a6d6a61cab4a4bdb81899287c0938b452e56d1f454"
-url = "https://github.com/crate-ci/typos/releases/download/v1.51.1/typos-v1.51.1-x86_64-unknown-linux-musl.tar.gz"
-url_api = "https://api.github.com/repos/crate-ci/typos/releases/assets/616653682"
+checksum = "sha256:6155d4114f9a0f5b8f6d4fda96266c9d5f6add71df80da7f684ee5e72eb14588"
+checksum_source = "mise-versions"
+url = "https://github.com/crate-ci/typos/releases/download/v1.52.0/typos-v1.52.0-x86_64-unknown-linux-musl.tar.gz"
+url_api = "https://api.github.com/repos/crate-ci/typos/releases/assets/703158772"
 
 [tools.typos."platforms.linux-x64-musl-baseline"]
-checksum = "sha256:93c301fd4120ff076e2cc2a6d6a61cab4a4bdb81899287c0938b452e56d1f454"
-url = "https://github.com/crate-ci/typos/releases/download/v1.51.1/typos-v1.51.1-x86_64-unknown-linux-musl.tar.gz"
-url_api = "https://api.github.com/repos/crate-ci/typos/releases/assets/616653682"
+checksum = "sha256:6155d4114f9a0f5b8f6d4fda96266c9d5f6add71df80da7f684ee5e72eb14588"
+checksum_source = "mise-versions"
+url = "https://github.com/crate-ci/typos/releases/download/v1.52.0/typos-v1.52.0-x86_64-unknown-linux-musl.tar.gz"
+url_api = "https://api.github.com/repos/crate-ci/typos/releases/assets/703158772"
 
 [tools.typos."platforms.macos-arm64"]
-checksum = "sha256:316d50a32c3726a80ab39c6d12141b70080498973c5e8a9b068b12cde78b10c1"
-url = "https://github.com/crate-ci/typos/releases/download/v1.51.1/typos-v1.51.1-aarch64-apple-darwin.tar.gz"
-url_api = "https://api.github.com/repos/crate-ci/typos/releases/assets/616656668"
+checksum = "sha256:90724dd2905cb1ce033343c71ed60e52fe898674f882803e3110cd228e09e1c5"
+checksum_source = "mise-versions"
+url = "https://github.com/crate-ci/typos/releases/download/v1.52.0/typos-v1.52.0-aarch64-apple-darwin.tar.gz"
+url_api = "https://api.github.com/repos/crate-ci/typos/releases/assets/703166489"
 
 [[tools.uv]]
-version = "0.13.6"
+version = "0.13.7"
 backend = "aqua:astral-sh/uv"
-specifiers = ["0.13.6"]
+specifiers = ["0.13.7"]
 
 [tools.uv."platforms.linux-x64"]
-checksum = "sha256:f29c3e94ffabd7e6f3ba521dba169a9b7ec12100bf3257087f0f24f6123f3645"
-url = "https://github.com/astral-sh/uv/releases/download/0.13.6/uv-x86_64-unknown-linux-gnu.tar.gz"
-url_api = "https://api.github.com/repos/astral-sh/uv/releases/assets/679980644"
+checksum = "sha256:c5221ff41b7892bfc223543883600125f6a47fe845093e0f5bdff4f359196d83"
+url = "https://github.com/astral-sh/uv/releases/download/0.13.7/uv-x86_64-unknown-linux-gnu.tar.gz"
+url_api = "https://api.github.com/repos/astral-sh/uv/releases/assets/704009823"
 provenance = "github-attestations"
 
 [tools.uv."platforms.linux-x64-baseline"]
-checksum = "sha256:f29c3e94ffabd7e6f3ba521dba169a9b7ec12100bf3257087f0f24f6123f3645"
-url = "https://github.com/astral-sh/uv/releases/download/0.13.6/uv-x86_64-unknown-linux-gnu.tar.gz"
-url_api = "https://api.github.com/repos/astral-sh/uv/releases/assets/679980644"
+checksum = "sha256:c5221ff41b7892bfc223543883600125f6a47fe845093e0f5bdff4f359196d83"
+url = "https://github.com/astral-sh/uv/releases/download/0.13.7/uv-x86_64-unknown-linux-gnu.tar.gz"
+url_api = "https://api.github.com/repos/astral-sh/uv/releases/assets/704009823"
 provenance = "github-attestations"
 
 [tools.uv."platforms.linux-x64-musl"]
-checksum = "sha256:5d61f26b6c7213779eda90edc6971ea6b0b796bfb8d49a574c8ad69b59838548"
-url = "https://github.com/astral-sh/uv/releases/download/0.13.6/uv-x86_64-unknown-linux-musl.tar.gz"
-url_api = "https://api.github.com/repos/astral-sh/uv/releases/assets/679980664"
+checksum = "sha256:287491da03f2a785c70fa75b13e1f849918c2f2b5415fe84876b8214eeb792f9"
+url = "https://github.com/astral-sh/uv/releases/download/0.13.7/uv-x86_64-unknown-linux-musl.tar.gz"
+url_api = "https://api.github.com/repos/astral-sh/uv/releases/assets/704009859"
 provenance = "github-attestations"
 
 [tools.uv."platforms.linux-x64-musl-baseline"]
-checksum = "sha256:5d61f26b6c7213779eda90edc6971ea6b0b796bfb8d49a574c8ad69b59838548"
-url = "https://github.com/astral-sh/uv/releases/download/0.13.6/uv-x86_64-unknown-linux-musl.tar.gz"
-url_api = "https://api.github.com/repos/astral-sh/uv/releases/assets/679980664"
+checksum = "sha256:287491da03f2a785c70fa75b13e1f849918c2f2b5415fe84876b8214eeb792f9"
+url = "https://github.com/astral-sh/uv/releases/download/0.13.7/uv-x86_64-unknown-linux-musl.tar.gz"
+url_api = "https://api.github.com/repos/astral-sh/uv/releases/assets/704009859"
 provenance = "github-attestations"
 
 [tools.uv."platforms.macos-arm64"]
-checksum = "sha256:60fbd5c8a1ed681845eea28d9d622fcde03c51e91a43465b64a1e17db1ed3472"
-url = "https://github.com/astral-sh/uv/releases/download/0.13.6/uv-aarch64-apple-darwin.tar.gz"
-url_api = "https://api.github.com/repos/astral-sh/uv/releases/assets/679980393"
+checksum = "sha256:81b811b57e4624df7ed3aac148e0359100d9962f3d9dce00aec533dc2e086731"
+url = "https://github.com/astral-sh/uv/releases/download/0.13.7/uv-aarch64-apple-darwin.tar.gz"
+url_api = "https://api.github.com/repos/astral-sh/uv/releases/assets/704009442"
 provenance = "github-attestations"
 
 [[tools.yamlfmt]]

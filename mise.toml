@@ -1,32 +1,32 @@
 # ref: https://mise.jdx.dev/configuration.html
 
-min_version = "2026.10.22"
+min_version = "2026.11.0"
 
 [vars]
 PS_SCRIPT_ANALYZER_VERSION = "1.25.0"
 
 [tools]
 bun = "1.4.4"
-aube = "v2.8.4"
+aube = "v2.9.0"
 node = "26.13.0"
 github-cli = "2.103.3"
-hk = "2.9.0"
+hk = "2.11.0"
 oxlint = "1.72.0"
 oxfmt = "0.74.0"
-jactionlint = "v2.3.0"
+jactionlint = "v2.4.0"
 ghalint = "1.5.7"
 pinact = "5.0.2"
 zizmor = "1.31.1"
-tombi = "1.9.7"
+tombi = "1.9.9"
 rumdl = "v0.3.2"
 shfmt = "3.14.1"
 shellcheck = "0.11.0"
 yamlfmt = "0.21.0"
 # required for pipx backend
-uv = "0.13.6"
+uv = "0.13.7"
 yamllint = "1.38.0"
 lychee = "0.24.2"
-typos = "1.51.1"
+typos = "1.52.0"
 "npm:typescript" = "7.0.2"
 hadolint = "2.15.1"
 betterleaks = "v1.9.0"
