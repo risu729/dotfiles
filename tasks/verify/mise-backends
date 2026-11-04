@@ -1,0 +1,59 @@
+#!/usr/bin/env bash
+#MISE description="Check that every dotfiles lockfile uses the current registry backends."
+set -euo pipefail
+
+root=$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)
+mise=$(command -v mise)
+temporary=$(mktemp -d)
+trap 'rm -rf "${temporary}"' EXIT
+
+# Do not let the caller's global tools, profile, filters, backend overrides, or
+# logging flags hide a migration. Never install into or change the user's home.
+for variable in "${!MISE_@}"; do
+	unset "${variable}"
+done
+export HOME="${temporary}/home"
+export XDG_CONFIG_HOME="${HOME}/.config" XDG_DATA_HOME="${HOME}/.local/share"
+export XDG_CACHE_HOME="${HOME}/.cache" XDG_STATE_HOME="${HOME}/.local/state"
+export MISE_TRUSTED_CONFIG_PATHS="${root}" MISE_YES=1 MISE_AUTO_ENV=true
+export MISE_DISABLE_UPDATE_WARNING=1 MISE_LOG_LEVEL=info NO_COLOR=1
+mkdir -p "${temporary}/project" "${temporary}/config"
+
+for lockfile in mise.lock unix/home/.config/mise/mise.lock unix/home/.config/mise/mise.personal.lock; do
+	if [[ ! -s ${root}/${lockfile} ]]; then
+		printf 'Missing lockfile: %s\n' "${lockfile}" >&2
+		exit 1
+	fi
+done
+
+check() {
+	local scope=$1 profile=$2 directory=$3 report
+	shift 3
+	printf 'Checking %s backends (%s profile).\n' "${scope}" "${profile:-bare}"
+	if ! report=$(MISE_ENV="${profile}" "${mise}" --cd "${directory}" backends switch --dry-run "$@" 2>&1); then
+		printf '%s\n' "${report}" >&2
+		return 1
+	fi
+	# A migration (including a stale-version replacement) also exits zero and is
+	# logged on stderr. Require the explicit no-change result; fail closed if
+	# mise changes its output contract, suppresses output, or reports a warning.
+	if [[ ${report} != "every tool in the ${scope} lockfile already uses the registry's backend" ]]; then
+		printf '%s\n' "${report}" >&2
+		printf 'Run mise backends switch for this scope/profile and commit the updated lockfiles.\n' >&2
+		return 1
+	fi
+}
+
+status=0
+for profile in '' personal; do
+	export MISE_CONFIG_DIR="${temporary}/config"
+	# check handles failures explicitly so all scopes can be reported.
+	# shellcheck disable=SC2310
+	check project "${profile}" "${root}" || status=1
+	# CONFIG_DIR loads config.personal.toml and platform siblings as well; a
+	# GLOBAL_CONFIG_FILE override would silently omit those configurations.
+	export MISE_CONFIG_DIR="${root}/unix/home/.config/mise"
+	# shellcheck disable=SC2310
+	check global "${profile}" "${temporary}/project" --global || status=1
+done
+exit "${status}"

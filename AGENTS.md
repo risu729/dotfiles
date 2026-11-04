@@ -25,9 +25,18 @@ through `aube exec --no-install --` after mise prepares their dependencies.
 | Lint and format with fixes | `mise run check` |
 | Lint without fixes | `mise run check --lint` |
 | Check selected files | `mise exec -- hk check <files>` |
+| Check current registry backends | `mise run verify:mise-backends` |
 | Bats shell regressions | `mise run test:bats` |
 | Worker tests | `mise run worker:test` |
 | Both test suites | `mise run test` |
+
+The backend check reads both the repository and installed-global configuration
+sources, for bare and personal profiles. CI runs it on Linux and macOS with the
+latest mise registry; it fails when `mise backends switch --dry-run` proposes a
+migration. Explicit backend choices remain intentional overrides. Update the
+appropriate scope with `mise backends switch` (or `--global` for the installed
+global configuration), repeat with `-E personal`, and commit the generated
+lockfiles. Run the check again to confirm there are no remaining migrations.
 
 Worker tests fetch installer scripts from GitHub at the checked-out commit;
 that commit must be pushed before running them. Bats tests use local fixtures.
