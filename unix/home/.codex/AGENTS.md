@@ -33,9 +33,16 @@ instructions take precedence.
 
 ## Stacked Pull Requests
 
-Before creating a PR, check whether the work conflicts with or depends on one of
-the user's open PRs. If one is clearly relevant, create the new branch on top of
-that PR automatically. Ask only when multiple source PRs are plausible.
+Before creating a PR, check whether the work requires specific unmerged
+changes from one of the user's open PRs to function correctly.
+
+Automatically stack only when those prerequisite changes can be identified.
+Shared files, overlapping edits, merge conflicts, and related subject matter
+do not establish a dependency and must not trigger stacking.
+
+Keep independent changes based on the latest target branch and resolve
+conflicts without stacking. If no concrete prerequisite can be identified,
+do not stack. Ask only when multiple source PRs satisfy this condition.
 
 - Mention the source PR in the stacked PR's description, not the reverse.
 - Use GitHub's official `github/gh-stack` extension (`gh stack`) to create and
