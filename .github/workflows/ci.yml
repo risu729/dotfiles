@@ -107,7 +107,7 @@ jobs:
         uses: jdx/mise-action@6be3c7ed4c21d4f76b208d351d95aac273ebb76d # v5.2.4
         with:
           # Discover registry migrations even before the pinned mise is upgraded.
-          version: latest
+          minimum_release_age: 0s
           install: false
           cache: false
       - name: Reject superseded backends
