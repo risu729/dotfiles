@@ -7,8 +7,9 @@ instructions take precedence.
 
 - Use `ghr` for repository clones.
 - Rebase conflicted PR branches onto the latest base and resolve conflicts
-  without asking for approval. Avoid routine merge commits unless repository
-  instructions require them.
+  without asking for approval, unless doing so would require a force-push
+  prohibited by the review policy below. Avoid routine merge commits unless
+  repository instructions require them.
 
 ## Commits and Pull Requests
 
@@ -22,6 +23,13 @@ instructions take precedence.
 - Prefer normal commits and pushes when updating PRs. Do not rewrite history or
   force-push merely to clean up a PR's commit log. Force-push only when
   necessary, such as after a required rebase, and use `--force-with-lease`.
+- Before any force-push, check whether the PR has received a human (non-AI)
+  review. Once it has, never force-push unless the user explicitly instructs
+  you to force-push that PR, even after a required rebase. AI reviews alone do
+  not trigger this restriction.
+- Do not reply to human PR reviews or review comments, or resolve human review
+  threads, unless the user explicitly instructs you to do so. Fixing a review
+  finding does not authorize a reply or resolution.
 - When the target repository is owned by the user, mark small, low-risk PRs
   ready for review by default. Use a draft for larger, unfinished, or uncertain
   changes.
