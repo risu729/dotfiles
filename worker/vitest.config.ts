@@ -16,9 +16,7 @@ if (!latestCommitHash) {
 export default defineConfig({
 	plugins: [
 		cloudflareTest({
-			experimental: {
-				newConfig: true,
-			},
+			config: true,
 		}),
 	],
 	test: {
