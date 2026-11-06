@@ -29,19 +29,22 @@ This also sets up WSL2 with the personal profile. After installation, restore
 [PowerToys settings][powertoys-backup]
 from the backup in [`win/`](win/).
 
-New projectless Codex chats use `%USERPROFILE%\Codex`, outside Documents.
-The Windows installer applies [`win/codex.ps1`](win/codex.ps1) when the native
-Codex CLI is available. After installing the desktop app separately, run
-`powershell -ExecutionPolicy Bypass -File win/codex.ps1` from this checkout (or add `-WhatIf` to preview).
-Restart the desktop app before creating a new chat.
+New projectless Codex chats use `%USERPROFILE%\Codex`, outside Documents. The
+Windows installer applies [`win/codex.ps1`](win/codex.ps1) when the native Codex
+CLI is available. After installing the desktop app separately, run
+`powershell -ExecutionPolicy Bypass -File win/codex.ps1` from this checkout (or
+add `-WhatIf` to preview). Restart the desktop app before creating a new chat.
 
 The helper writes only `desktop.projectlessWorkspaceRoot` through Codex's
-[single-key config writer](https://learn.chatgpt.com/docs/app-server#config-rpc-examples-for-app-settings),
-then verifies the effective value. This is the local preference corresponding to
-[managed projectless workspace storage](https://learn.chatgpt.com/docs/config-file/config-reference).
-Existing chats and `Documents\Codex` stay where they are. This does not change
-`CODEX_HOME` or exclude existing files from Google Drive backup; configure and
-verify backup exclusion separately before removing any Drive copies.
+[single-key config writer][codex-config-writer], then verifies the effective
+value. This is the local preference corresponding to
+[managed projectless workspace storage][codex-storage]. Existing chats and
+`Documents\Codex` stay where they are. This does not change `CODEX_HOME` or
+exclude existing files from Google Drive backup; configure and verify backup
+exclusion separately before removing any Drive copies.
+
+[codex-config-writer]: https://learn.chatgpt.com/docs/app-server
+[codex-storage]: https://learn.chatgpt.com/docs/config-file/config-reference
 
 Remove unnecessary pre-installed software and install these apps separately:
 
