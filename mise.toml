@@ -40,6 +40,8 @@ lockfile_mode = "generate"
 # Git hooks use `mise exec`; installing missing global tools must not block commits.
 # Install required development tools explicitly with `mise install`.
 exec_auto_install = false
+# Retain the last piped task output for replay after compact test summaries.
+task.logs = true
 dotfiles.default_mode = "symlink"
 # Group roots resolve from the source tree in this repository.
 dotfiles.root = "unix/home"
