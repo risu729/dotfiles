@@ -67,17 +67,21 @@ assert_check() {
 }
 
 @test "opt-in checks resolve from config root and report platform skips" {
-	# The empty fixture is not a bootstrapped machine: platform state/shell fail.
+	# The empty fixture fails platform state and blocks its shell probe.
 	# Shared links, commands and bare profile pass without touching the real HOME.
 	run -1 --separate-stderr isolated TEST_PROFILE=bare "${doctor_mise}" --cd "${fixture}/mise/doctor" doctor project --json
 	assert_check shared pass
 	assert_check profile pass
 	case "$(uname -s)" in
 	Darwin)
+		assert_check macos-state fail
+		assert_check macos-shell blocked
 		assert_check linux-state skipped
 		assert_check linux-shell skipped
 		;;
 	Linux)
+		assert_check linux-state fail
+		assert_check linux-shell blocked
 		assert_check macos-state skipped
 		assert_check macos-shell skipped
 		;;
@@ -145,3 +149,71 @@ TOML
 	run -1 isolated TEST_PROFILE=bare "${doctor_mise}" --cd "${fixture}/mise/doctor" doctor project --json
 	assert_check shared fail
 }
+
+# Keep the committed check graph and replace only the machine probes. The real
+# mise process still schedules checks, reports blocking and invokes each shell.
+prepare_dependency_probes() {
+	cat >"${fixture}/mise/doctor/check.sh" <<'PROBE'
+#!/usr/bin/env bash
+case "$1" in
+shared) exit "${DOCTOR_SHARED_STATUS:-0}" ;;
+profile) exit "${DOCTOR_PROFILE_STATUS:-0}" ;;
+linux | macos) exit "${DOCTOR_STATE_STATUS:-0}" ;;
+*) exit 1 ;;
+esac
+PROBE
+	cat >"${fixture}/bin/bash" <<'SHELL'
+#!/bin/bash
+if [[ ${1:-} == -ic ]]; then
+	touch "${HOME}/shell-ran"
+	exit 0
+fi
+exec /bin/bash "$@"
+SHELL
+	cat >"${fixture}/bin/zsh" <<'SHELL'
+#!/bin/bash
+touch "${HOME}/shell-ran"
+exit 0
+SHELL
+	chmod +x "${fixture}/bin/bash" "${fixture}/bin/zsh"
+	case "$(uname -s)" in
+	Darwin) platform=macos; other_platform=linux ;;
+	Linux) platform=linux; other_platform=macos ;;
+	*) return 1 ;;
+	esac
+}
+
+@test "failed shared prerequisite blocks the shell but independent checks run" {
+	prepare_dependency_probes
+	run -1 isolated DOCTOR_SHARED_STATUS=1 "${doctor_mise}" --cd "${fixture}/mise/doctor" doctor project --json
+	assert_check shared fail
+	assert_check profile pass
+	assert_check "${platform}-state" pass
+	assert_check "${platform}-shell" blocked
+	assert_check "${other_platform}-shell" skipped
+	[[ ! -e ${fixture_home}/shell-ran ]]
+}
+
+@test "failed platform state blocks the shell without blocking independent checks" {
+	prepare_dependency_probes
+	run -1 isolated DOCTOR_STATE_STATUS=1 "${doctor_mise}" --cd "${fixture}/mise/doctor" doctor project --json
+	assert_check shared pass
+	assert_check profile pass
+	assert_check "${platform}-state" fail
+	assert_check "${platform}-shell" blocked
+	assert_check "${other_platform}-shell" skipped
+	[[ ! -e ${fixture_home}/shell-ran ]]
+}
+
+@test "shell runs after prerequisites pass while an independent profile fails" {
+	prepare_dependency_probes
+	# One job also exercises dependency scheduling without waiting-job deadlocks.
+	run -1 isolated MISE_JOBS=1 DOCTOR_PROFILE_STATUS=1 "${doctor_mise}" --cd "${fixture}/mise/doctor" doctor project --json
+	assert_check shared pass
+	assert_check profile fail
+	assert_check "${platform}-state" pass
+	assert_check "${platform}-shell" pass
+	assert_check "${other_platform}-shell" skipped
+	[[ -f ${fixture_home}/shell-ran ]]
+}
+

@@ -2,6 +2,8 @@
 # Ordinary development at the repository root must not require bootstrap.
 # Checks default to this config's directory. Interactive shells start at the
 # repository root; the shared probe script resolves that root itself.
+# Shell probes wait for their managed files and tools so a missing prerequisite
+# reports its repair hint without starting a second, misleading shell failure.
 
 [doctor.checks.shared]
 description = "Shared dotfiles, merged Codex settings, eza/kubectl tools and system files are installed"
@@ -28,6 +30,7 @@ timeout = "10s"
 hint = "Run bash -x mise/doctor/check.sh linux to locate the missing link, system file or personal service config."
 
 [doctor.checks.linux-shell]
+depends = ["shared", "linux-state"]
 description = "A fresh interactive Bash can run eza and find mise and ghr"
 run = "eza --version && command -v mise && command -v ghr"
 dir = "../.."
@@ -45,6 +48,7 @@ timeout = "30s"
 hint = "Run bash -x mise/doctor/check.sh macos to locate preference drift, a missing path or missing Orca/Ghostty app."
 
 [doctor.checks.macos-shell]
+depends = ["shared", "macos-state"]
 description = "A fresh interactive Zsh can run eza and btop and load gh, mise and ghr completions"
 run = '''
 eza --version && btop --version &&
@@ -56,3 +60,4 @@ shell = "zsh -ic"
 os = "macos"
 timeout = "60s"
 hint = "Open a new Zsh shell and check ~/.zshrc, ~/.config/zsh/zshrc, mise activation, btop and completion initialization."
+
