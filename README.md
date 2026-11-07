@@ -149,6 +149,22 @@ platform overrides in [`mise.linux.toml`](mise.linux.toml) and
 [`mise.personal.toml`](mise.personal.toml). Edit these when adapting the setup
 for your own machines.
 
+Dotfile groups own their file overrides as well as their directory trees. The
+`codex` group includes shared, MCP, and Windows config merges; `config` includes
+the shared discovery template, machine-local profile merge, and personal/OS
+variants. The `local` group includes Linux launchers and desktop integration.
+All groups apply by default. To select complete groups, set this in
+machine-local mise config:
+
+```toml
+[bootstrap]
+dotfile_groups = ["codex", "config"]
+```
+
+Entries outside group targets, such as SSH and Claude
+Code settings, still apply independently. Deselecting a group leaves its files
+and merged keys in place; it stops applying that group on later runs.
+
 On macOS, machine-local Claude Code credentials can go in
 `/Library/Application Support/ClaudeCode/managed-settings.d/*.json`; the
 installer manages `~/.claude/settings.json`.
