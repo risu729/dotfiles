@@ -536,14 +536,6 @@ $dotfilesPath = Invoke-WSLCommand -Command "eval `$(~/.local/bin/mise env --shel
 
 Import-WingetPackagesFile -DotfilesPath $dotfilesPath
 
-# Codex is installed separately; configure it whenever its native CLI is available.
-if (Get-Command codex.exe -CommandType Application -ErrorAction SilentlyContinue) {
-	& powershell.exe -NoProfile -ExecutionPolicy Bypass -File "$dotfilesPath\win\codex.ps1"
-	if ($LASTEXITCODE -ne 0) {
-		throw 'Codex workspace configuration failed.'
-	}
-}
-
 Set-PowerToysBackupDirectory -DotfilesPath $dotfilesPath
 
 Set-WSLENV
