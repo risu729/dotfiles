@@ -158,7 +158,12 @@ test.each([
 		const before = plan(legacy, selection);
 		const after = plan(current, selection);
 		expect(before.length).toBeGreaterThan(10);
-		expect(after).toEqual(before);
+		expect(after).toEqual(
+			[
+				...before,
+				`edit ${target}/.config/mise/miserc.local.toml (merge:profile) (if changed)`,
+			].sort(),
+		);
 		expect(after.some((line) => line.includes("personal.gitconfig"))).toBe(personal);
 		expect(after.some((line) => line.includes("mimeapps.list"))).toBe(linux);
 		expect(after.some((line) => line.includes("pitchfork/"))).toBe(pitchfork);
