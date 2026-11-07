@@ -15,6 +15,10 @@
 
 ## Development
 
+Only the latest stable mise release is supported. Do not add compatibility
+matrices or workarounds solely for older mise releases. `min_version` values
+are feature guards, not promises of support for those versions.
+
 From the repository root, `mise install` installs the pinned tools and
 `mise deps` installs both root and Worker dependencies with Aube. Bun remains
 the runtime for Bun-specific scripts and tests; Worker package binaries run
