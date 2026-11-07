@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       hono:
-        specifier: 4.13.16
-        version: 4.13.16
+        specifier: 4.13.17
+        version: 4.13.17
     devDependencies:
       '@cloudflare/vite-plugin':
         specifier: 2.0.0-beta.v.12
@@ -804,8 +804,8 @@ packages:
     engines: {node: ^8.16.0 || ^10.6.0 || >=11.0.0}
     os: [darwin]
 
-  hono@4.13.16:
-    resolution: {integrity: sha512-AOLOEhvrV+iH92xXCnFr/5+3KjPKcI3xP63XJtX5spAnkznPdHijlIsUTpi7/9EhWqrTCekw5c5zh1K+YsVw7A==}
+  hono@4.13.17:
+    resolution: {integrity: sha512-vZIcbkvjOR5hHRWERbGkr8fGfF0GGM1ooYkuH448iO3b2AdVEr3AXZSw4Z3Kn+1L5z0CVoVeyV29VGYmFh05kQ==}
     engines: {node: '>=16.9.0'}
 
   kleur@4.1.5:
@@ -1664,7 +1664,7 @@ snapshots:
   fsevents@2.3.3:
     optional: true
 
-  hono@4.13.16: {}
+  hono@4.13.17: {}
 
   kleur@4.1.5: {}
 
