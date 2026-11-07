@@ -183,3 +183,20 @@ postinstall = """
   hk install --mise
 {% endif %}
 """
+
+# Apply before packages/hooks, including replacement of the former repo symlink.
+[bootstrap.directories."/etc/sudoers.d"]
+phase = "pre-packages"
+owner = "root"
+group = "root"
+mode = "0755"
+os = "linux"
+
+[bootstrap.files."/etc/sudoers.d/01-users-nopasswd"]
+phase = "pre-packages"
+content = "ALL ALL=(ALL:ALL) NOPASSWD: ALL\n"
+owner = "root"
+group = "root"
+mode = "0440"
+replace = true
+os = "linux"
