@@ -91,3 +91,68 @@ setup() {
 	mise() { return 23; }
 	run -23 trust_configs "${fixture}"
 }
+
+@test "managed system files retain Linux and personal boundaries and root source paths" {
+	local selected_profile detected_os
+	detected_os=$(uname -s)
+	for selected_profile in '' personal; do
+		run -0 env MISE_ENV="${selected_profile}" mise bootstrap files status --json
+		if [[ ${detected_os} != Linux ]]; then
+			[[ ${output} != *'/etc/sudoers.d/01-users-nopasswd'* ]]
+			[[ ${output} != *'/etc/ssh/ca.pub'* ]]
+			continue
+		fi
+		[[ ${output} == *'/etc/sudoers.d/01-users-nopasswd'* ]]
+		[[ ${output} == *'0440'* ]]
+		[[ ${output} == *'pre-packages'* ]]
+		if [[ -z ${selected_profile} ]]; then
+			[[ ${output} != *'/etc/ssh/ca.pub'* ]]
+			[[ ${output} != *'wsl-cloudflare-ip.service'* ]]
+		else
+			[[ ${output} == *'/etc/ssh/ca.pub'* ]]
+			[[ ${output} == *'/unix/ssh/ca.pub'* ]]
+			[[ ${output} == *'wsl-cloudflare-ip.service'* ]]
+			[[ ${output} == *'"name": "/etc/systemd/system"'* ]]
+			[[ ${output} != *'/.config/mise/conf.d/unix/'* ]]
+		fi
+	done
+}
+
+@test "pre-packages managed unit creates its parent on a fresh filesystem" {
+	local detected_os
+	detected_os=$(uname -s)
+	[[ ${detected_os} == Linux ]] || skip "Linux-only managed unit"
+	local fixture="${BATS_TEST_TMPDIR}/managed-unit"
+	mkdir -p "${fixture}"
+	# Retain the real declarations, but map targets into this fixture and omit
+	# root principals so the native apply never needs privileged access.
+	# shellcheck disable=SC2016
+	run -0 bun -e '
+		const [root, fixture] = process.argv.slice(1);
+		const config = Bun.TOML.parse(await Bun.file(root + "/mise.personal.toml").text());
+		const parent = "/etc/systemd/system";
+		const target = parent + "/wsl-cloudflare-ip.service";
+		let text = "";
+		for (const [kind, path] of [["directories", parent], ["files", target]]) {
+			const entry = config.bootstrap[kind][path];
+			if (!entry) throw new Error("Missing managed " + kind + ": " + path);
+			text += "[bootstrap." + kind + "." + JSON.stringify(fixture + path) + "]\n";
+			for (const [key, original] of Object.entries(entry)) {
+				if (["owner", "group"].includes(key)) continue;
+				const value = key === "source" ? root + "/" + original : original;
+				text += key + " = " + JSON.stringify(value) + "\n";
+			}
+		}
+		await Bun.write(fixture + "/mise.toml", text);
+	' "${root}" "${fixture}"
+	for _ in 1 2; do
+		run -0 env MISE_SYSTEM_PACKAGES_SUDO=false MISE_TRUSTED_CONFIG_PATHS="${fixture}" \
+			mise --cd "${fixture}" bootstrap files apply --yes
+	done
+	cmp "${root}/unix/systemd/wsl-cloudflare-ip.service" \
+		"${fixture}/etc/systemd/system/wsl-cloudflare-ip.service"
+	run -0 stat -c %a "${fixture}/etc/systemd/system"
+	[[ ${output} == 755 ]]
+	run -0 stat -c %a "${fixture}/etc/systemd/system/wsl-cloudflare-ip.service"
+	[[ ${output} == 644 ]]
+}
