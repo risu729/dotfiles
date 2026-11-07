@@ -41,11 +41,21 @@ MOCK
 	[[ ${arguments} == $'lock\n--global\n--bump\n--json\nnode\nnpm:ccusage' ]]
 }
 
+@test "lock bump forwards scoped npm names and bare scoped aliases unchanged" {
+	run -0 tasks/maintenance/lock-bump shared npm:@biomejs/biome @anthropic-ai/claude-code
+	arguments=$(tail -n 2 "${LOCK_BUMP_LOG}")
+	[[ ${arguments} == $'npm:@biomejs/biome\n@anthropic-ai/claude-code' ]]
+}
+
 @test "lock bump rejects exact versions and option arguments before running mise" {
 	run -2 tasks/maintenance/lock-bump shared node@26.11.1
 	[[ ! -e ${LOCK_BUMP_LOG} ]]
 	run -2 tasks/maintenance/lock-bump shared --force
 	[[ ! -e ${LOCK_BUMP_LOG} ]]
+	for tool in npm:@biomejs/biome@1.0.0 npm:@biomejs/biome@latest @biomejs/biome@1.0.0 @biomejs/biome@latest; do
+		run -2 tasks/maintenance/lock-bump shared "${tool}"
+		[[ ! -e ${LOCK_BUMP_LOG} ]]
+	done
 }
 
 @test "lock bump propagates native failures" {
