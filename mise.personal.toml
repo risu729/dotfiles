@@ -11,7 +11,7 @@ restart = "on-failure"
 restart_sec = "5s"
 
 [bootstrap.packages]
-# The APT repositories are added by the personal part of the pre-packages hook.
+# The matching APT sources below apply only with this personal profile.
 "apt:cloudflared" = "latest"
 # kuebiko drives it with `--browser-command google-chrome`.
 "apt:google-chrome-stable" = "latest"
@@ -28,3 +28,20 @@ restart_sec = "5s"
 "~/.ghr/github.com/risu729/mise-action" = { url = "https://github.com/risu729/mise-action.git" }
 "~/.ghr/github.com/risu729/renovate-config" = { url = "https://github.com/risu729/renovate-config.git" }
 "~/.ghr/github.com/risu729/tsconfigs" = { url = "https://github.com/risu729/tsconfigs.git" }
+
+# ref: https://pkg.cloudflare.com/
+[bootstrap.apt.sources.cloudflared]
+uris = "https://pkg.cloudflare.com/cloudflared"
+suites = "any"
+components = "main"
+key = "https://pkg.cloudflare.com/cloudflare-main.gpg"
+fingerprint = "CC94B39C77AE7342A68B89628A682D308D4E5E73"
+
+# ref: https://www.google.com/linuxrepositories/
+[bootstrap.apt.sources.google-chrome]
+uris = "https://dl.google.com/linux/chrome-stable/deb/"
+suites = "stable"
+components = "main"
+architectures = "amd64"
+key = "https://dl.google.com/linux/linux_signing_key.pub"
+fingerprint = "EB4C1BFD4F042F6DDDCCEC917721F63BD38B4796"
