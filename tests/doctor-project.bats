@@ -7,6 +7,7 @@ setup() {
 	bats_require_minimum_version 1.7.0
 	root=$(cd "${BATS_TEST_DIRNAME}/.." && pwd)
 	doctor_mise=${DOCTOR_TEST_MISE:-$(command -v mise)}
+	doctor_bun=$(command -v bun)
 	fixture="${BATS_TEST_TMPDIR}/project with spaces"
 	fixture_home="${BATS_TEST_TMPDIR}/home"
 	mkdir -p "${fixture}/mise/doctor" "${fixture}/child" \
@@ -41,7 +42,7 @@ STUB
 }
 
 isolated() {
-	env -i PATH="${fixture}/bin:/usr/bin:/bin:$(dirname "${doctor_mise}")" \
+	env -i PATH="${fixture}/bin:/usr/bin:/bin:$(dirname "${doctor_mise}"):$(dirname "${doctor_bun}")" \
 		HOME="${fixture_home}" MISE_CONFIG_DIR="${fixture_home}/.config/mise" \
 		MISE_DATA_DIR="${BATS_TEST_TMPDIR}/data" MISE_CACHE_DIR="${BATS_TEST_TMPDIR}/cache" \
 		MISE_STATE_DIR="${BATS_TEST_TMPDIR}/state" MISE_SYSTEM_CONFIG_DIR="${BATS_TEST_TMPDIR}/system" \
@@ -152,4 +153,24 @@ TOML
 	printf '\n[tools]\nglab = {version="0.0.0",lazy=true}\n' >>"${fixture}/mise.toml"
 	run -1 isolated TEST_PROFILE=bare "${doctor_mise}" --cd "${fixture}/mise/doctor" doctor project --json
 	assert_check profile fail
+}
+
+@test "bare profile accepts valid machine-local TOML formatting" {
+	printf 'env = [ # No selected profile.\n]\n' >"${fixture_home}/.config/mise/miserc.local.toml"
+	run -0 isolated TEST_PROFILE=bare bash "${fixture}/mise/doctor/check.sh" profile
+}
+
+@test "personal profile accepts retained TOML comments and quote style" {
+	printf "env = [ 'personal' ] # This machine's profile.\n" >"${fixture_home}/.config/mise/miserc.local.toml"
+	printf '[tools]\nglab = { version = "0.0.0", lazy = true }\n' >"${fixture}/mise.personal.toml"
+	mkdir -p "${fixture_home}/.ssh" "${fixture_home}/.ghr/github.com/risu729/biwa/.git"
+	ln -s "${fixture}/gitconfig" "${fixture_home}/.ssh/config"
+	ln -s "${fixture}/gitconfig" "${fixture_home}/.config/git/personal.gitconfig"
+	ln -s "${fixture}/gitconfig" "${fixture_home}/.config/git/unsw.gitconfig"
+	run -0 isolated TEST_PROFILE=personal bash "${fixture}/mise/doctor/check.sh" profile
+}
+
+@test "bare profile rejects an unrelated machine-local environment" {
+	printf 'env = ["unrelated"] # Valid TOML, wrong profile.\n' >"${fixture_home}/.config/mise/miserc.local.toml"
+	run -1 isolated TEST_PROFILE=bare bash "${fixture}/mise/doctor/check.sh" profile
 }
