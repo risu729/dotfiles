@@ -19,7 +19,12 @@ personal) selected_env=personal ;;
 	;;
 esac
 for tool in "$@"; do
-	if [[ ${tool} == -* || ${tool} == *@* ]]; then
+	# Mise keeps the leading @ in scoped npm IDs and bare scoped aliases.
+	version_check=${tool#npm:}
+	if [[ ${version_check} == @*/* ]]; then
+		version_check=${version_check#@}
+	fi
+	if [[ ${tool} == -* || ${version_check} == *@* ]]; then
 		echo 'Pass tool names only; exact-version requests can change configuration.' >&2
 		exit 2
 	fi
