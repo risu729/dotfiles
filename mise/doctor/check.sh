@@ -10,6 +10,15 @@ assert_absent() {
 	test ! -e "$1" && test ! -L "$1"
 }
 
+assert_profile() {
+	# Machine-owned TOML keeps its formatting and comments when a merge is unchanged.
+	bun -e '
+		const config = Bun.TOML.parse(await Bun.file(process.argv[1]).text());
+		const expected = process.argv[2] === "personal" ? ["personal"] : [];
+		if (JSON.stringify(config.env) !== JSON.stringify(expected)) process.exit(1);
+	' "${HOME}/.config/mise/miserc.local.toml" "$1"
+}
+
 case "${1:?Specify shared, profile, linux, or macos}" in
 shared)
 	assert_link "${HOME}/.config/mise/config.toml"
@@ -24,7 +33,7 @@ profile)
 	selected_glab=$(mise current glab)
 	case "${TEST_PROFILE:-}" in
 	personal)
-		grep --quiet '^env = \["personal"\]$' "${HOME}/.config/mise/miserc.toml"
+		assert_profile personal
 		assert_link "${HOME}/.ssh/config"
 		assert_link "${HOME}/.config/git/personal.gitconfig"
 		assert_link "${HOME}/.config/git/unsw.gitconfig"
@@ -32,11 +41,7 @@ profile)
 		[[ -n ${selected_glab} ]]
 		;;
 	bare)
-		test -f "${HOME}/.config/mise/miserc.toml"
-		if grep --quiet '^env =' "${HOME}/.config/mise/miserc.toml"; then
-			echo 'Bare installation enabled a mise profile' >&2
-			exit 1
-		fi
+		assert_profile bare
 		assert_absent "${HOME}/.ssh/config"
 		assert_absent "${HOME}/.config/git/personal.gitconfig"
 		assert_absent "${HOME}/.config/git/unsw.gitconfig"
