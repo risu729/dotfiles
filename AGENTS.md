@@ -23,6 +23,10 @@ From the repository root, `mise install` installs the pinned tools and
 `mise deps` installs both root and Worker dependencies with Aube. Bun remains
 the runtime for Bun-specific scripts and tests; Worker package binaries run
 through `aube exec --no-install --` after mise prepares their dependencies.
+Git hooks use `mise exec` with `exec_auto_install = false`: lazy globals do not
+prevent eager installation of unrelated non-lazy globals. Keep required hook
+tools installed explicitly; lazy command providers still install on use even
+with this setting.
 
 | Task                            | Command                         |
 | ------------------------------- | ------------------------------- |
@@ -57,7 +61,10 @@ prepared by CI. The macOS task changes the Mac running it. Both require
 To inspect an existing installation without reinstalling, use
 `TEST_PROFILE=personal mise run verify:installation` (or `bare`). This includes
 `mise doctor` in a fresh interactive shell and treats warnings as failures, then
-runs the named `mise doctor project` checks. Project diagnostics alone:
+runs the named `mise doctor project` checks. The pinned mise version recognizes
+deliberately uninstalled lazy tools, so diagnostics need no missing-tool error
+filter. All reported warnings, errors and command failures remain fatal.
+Project diagnostics alone:
 `TEST_PROFILE=personal mise --cd mise/doctor doctor project` (or `bare`); append
 `--json` for per-check results. These checks inspect an installed machine, not a
 development checkout. Ordinary `mise doctor`, root-level `mise doctor project`,
