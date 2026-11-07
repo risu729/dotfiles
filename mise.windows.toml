@@ -1,2 +1,10 @@
-[dotfiles]
-"~/.codex/config.toml/windows" = { source = "win/codex.toml", merge = true }
+# Groups replace the whole table, so retain the shared entries in this override.
+[dotfile_groups.codex]
+root = ".codex"
+target = "~/.codex"
+mode = "symlink-each"
+
+[dotfile_groups.codex.entries]
+"~/.codex/config.toml/shared" = { source = "../../codex/config.toml", merge = true }
+"~/.codex/config.toml/mcp" = { source = "../../codex/mcp.toml", merge = true }
+"~/.codex/config.toml/windows" = { source = "../../../win/codex.toml", merge = true }
