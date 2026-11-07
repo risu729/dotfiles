@@ -107,6 +107,10 @@ run = '''
 {% endif %}
 '''
 
+[bootstrap.hooks.pre-tools]
+# Local agent overrides need their initial URLs before a fresh --locked install.
+run = 'bash "{{ config_root }}/unix/mise/seed-agent-lock.sh" "$HOME/.config/mise"'
+
 [bootstrap.hooks.post-tools]
 run = '''
 # Automatic sync targets projects; explicitly prepare the shared home directory.
