@@ -153,6 +153,7 @@ mr-boxington = "latest"
 
 [settings]
 experimental = true
+install_layout = "identity"
 lockfile = true
 lockfile_mode = "generate"
 minimum_release_age = "3h"
