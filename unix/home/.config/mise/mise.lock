@@ -1620,10 +1620,13 @@ url = "https://github.com/johnkerl/miller/releases/download/v6.22.0/miller-6.22.
 url_api = "https://api.github.com/repos/johnkerl/miller/releases/assets/589277818"
 
 [[tools.mitmproxy]]
-version = "12.2.3"
+version = "12.3.1"
 backend = "pypi:mitmproxy"
 specifiers = ["latest"]
-uv = { path = "locks/mitmproxy/12.2.3", digest = "sha256:7a941ca8c98e0bf83f4c2fa8cc833a9774865e154a0850399a968367127f225a" }
+uv = { path = "locks/mitmproxy/12.3.1~402915c3", digest = "sha256:f0359296ddb98e6ea09180cf2e9280f903a817fd7898342b620f357a47b34392" }
+
+[tools.mitmproxy.options]
+python = "3.14"
 
 [[tools.mr-boxington]]
 version = "1.22.0"
@@ -1911,13 +1914,14 @@ url = "https://github.com/pypa/pipx/releases/download/1.17.12/pipx.pyz"
 url_api = "https://api.github.com/repos/pypa/pipx/releases/assets/619690377"
 
 [[tools."pipx:markitdown"]]
-version = "0.1.8"
+version = "0.1.9"
 backend = "pipx:markitdown"
 specifiers = ["latest"]
-uv = { path = "locks/pipx-markitdown/0.1.8~e670cd0e", digest = "sha256:9f70a824541ff11ecfed2771669dc41ba50200b7c478c0093a57594f1d93b085" }
+uv = { path = "locks/pipx-markitdown/0.1.9~874b93ed", digest = "sha256:c835a6e9359234283cca121a8076152fac2159473a435ff13174db385492772f" }
 
 [tools."pipx:markitdown".options]
 extras = "pdf,docx,pptx,xlsx"
+python = "3.14"
 with = """["onnxruntime>=1.31.0; python_version >= '3.14' and sys_platform != 'win32'"]"""
 
 [[tools.pitchfork]]
@@ -2037,6 +2041,46 @@ version = "3.9.10"
 aube = { path = "locks/prettier/3.9.10", digest = "sha256:0a52cf3e98ebe971f9f0c338c08e668756d290a8d14fe3fd308251084fba1522" }
 backend = "npm:prettier"
 specifiers = ["latest"]
+
+[[tools.python]]
+version = "3.15.2"
+backend = "core:python"
+specifiers = ["latest"]
+
+[tools.python."platforms.linux-arm64"]
+checksum = "sha256:0f23351c03b39beb880de668976074fcc3c082d9c3b03d0b43185632b2b270a0"
+url = "https://github.com/astral-sh/python-build-standalone/releases/download/20261026/cpython-3.15.2+20261026-aarch64-unknown-linux-gnu-install_only_stripped.tar.gz"
+provenance = "github-attestations"
+
+[tools.python."platforms.linux-arm64-musl"]
+checksum = "sha256:2996760114a56a9cbe9111f8a55e8a2e67735c1ff5b5da1bbdedf06ccc26dbb4"
+url = "https://github.com/astral-sh/python-build-standalone/releases/download/20261026/cpython-3.15.2+20261026-aarch64-unknown-linux-musl-install_only_stripped.tar.gz"
+provenance = "github-attestations"
+
+[tools.python."platforms.linux-x64"]
+checksum = "sha256:7b03163a980c607ba8194709d4a4086735a7a9c488cc475b098157306927b36b"
+url = "https://github.com/astral-sh/python-build-standalone/releases/download/20261026/cpython-3.15.2+20261026-x86_64-unknown-linux-gnu-install_only_stripped.tar.gz"
+provenance = "github-attestations"
+
+[tools.python."platforms.linux-x64-baseline"]
+checksum = "sha256:7b03163a980c607ba8194709d4a4086735a7a9c488cc475b098157306927b36b"
+url = "https://github.com/astral-sh/python-build-standalone/releases/download/20261026/cpython-3.15.2+20261026-x86_64-unknown-linux-gnu-install_only_stripped.tar.gz"
+provenance = "github-attestations"
+
+[tools.python."platforms.linux-x64-musl"]
+checksum = "sha256:9723f525ec21a52e5e3b18165ad3d553f1af38aba76125ddae25b156ed9c9202"
+url = "https://github.com/astral-sh/python-build-standalone/releases/download/20261026/cpython-3.15.2+20261026-x86_64-unknown-linux-musl-install_only_stripped.tar.gz"
+provenance = "github-attestations"
+
+[tools.python."platforms.linux-x64-musl-baseline"]
+checksum = "sha256:9723f525ec21a52e5e3b18165ad3d553f1af38aba76125ddae25b156ed9c9202"
+url = "https://github.com/astral-sh/python-build-standalone/releases/download/20261026/cpython-3.15.2+20261026-x86_64-unknown-linux-musl-install_only_stripped.tar.gz"
+provenance = "github-attestations"
+
+[tools.python."platforms.macos-arm64"]
+checksum = "sha256:1b1b03fca8aa351698403f3d100ee83db7a5d99748fc7707681ac31a6a846ad9"
+url = "https://github.com/astral-sh/python-build-standalone/releases/download/20261026/cpython-3.15.2+20261026-aarch64-apple-darwin-install_only_stripped.tar.gz"
+provenance = "github-attestations"
 
 [[tools.python]]
 version = "3.14.8"
@@ -2574,7 +2618,10 @@ url_api = "https://api.github.com/repos/google/yamlfmt/releases/assets/336650209
 version = "1.38.0"
 backend = "pypi:yamllint"
 specifiers = ["latest"]
-uv = { path = "locks/yamllint/1.38.0", digest = "sha256:1808fcd482a2df4e28fcc9161dad44f1c8279acc472814ee54a1942b532e7344" }
+uv = { path = "locks/yamllint/1.38.0~647ee145", digest = "sha256:bd8979afad5508a13283024eb05db47b946d9e6cb9bf5140c616d1ee330dd19c" }
+
+[tools.yamllint.options]
+python = "3.14"
 
 [[tools.yq]]
 version = "4.54.1"
