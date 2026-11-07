@@ -177,8 +177,14 @@ exit 0
 SHELL
 	chmod +x "${fixture}/bin/bash" "${fixture}/bin/zsh"
 	case "$(uname -s)" in
-	Darwin) platform=macos; other_platform=linux ;;
-	Linux) platform=linux; other_platform=macos ;;
+	Darwin)
+		platform=macos
+		other_platform=linux
+		;;
+	Linux)
+		platform=linux
+		other_platform=macos
+		;;
 	*) return 1 ;;
 	esac
 }
@@ -216,4 +222,3 @@ SHELL
 	assert_check "${other_platform}-shell" skipped
 	[[ -f ${fixture_home}/shell-ran ]]
 }
-
