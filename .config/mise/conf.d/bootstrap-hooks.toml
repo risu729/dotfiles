@@ -31,11 +31,8 @@ fi
 username=$(whoami)
 if [ -d /run/systemd/system ]; then
   sudo loginctl enable-linger "${username}"
-  sudo systemctl daemon-reload
-  sudo systemctl enable --now wsl-cloudflare-ip.service
+  # Managed files apply in pre-packages; validate them before native services.
   sudo /usr/sbin/sshd -t
-  sudo systemctl enable --now ssh.service
-  sudo systemctl reload ssh.service
 fi
 {% endif %}
 '''
