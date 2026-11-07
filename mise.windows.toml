@@ -1,0 +1,2 @@
+[dotfiles]
+"~/.codex/config.toml/windows" = { source = "win/codex.toml", merge = true }
