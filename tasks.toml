@@ -18,6 +18,7 @@ depends = ["test:bats", "worker:test"]
 description = "Run Bats and Worker tests once."
 
 ["test:bats"]
+output = "summary"
 tags = ["test"]
 # Sources select affected tests; explicit test runs must always execute.
 outputs = []
