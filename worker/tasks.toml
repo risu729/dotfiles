@@ -32,6 +32,7 @@ sources = [
 	"../win/install.ps1",
 	"../mise*.toml",
 	"../mise.lock",
+	"../.config/mise/conf.d/**",
 	"../.mise/locks/**",
 	"../.miserc.toml",
 	"../package.json",

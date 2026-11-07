@@ -27,6 +27,7 @@ sources = [
 	"unix/**",
 	"macos/**",
 	"mise/**",
+	".config/mise/conf.d/**",
 	"mise*.toml",
 	"mise.lock",
 	".mise/locks/**",
