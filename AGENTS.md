@@ -47,11 +47,12 @@ Installer integration tests perform a real bootstrap. On a disposable machine,
 use `TEST_PROFILE=bare mise run test:installer-linux` or
 `TEST_PROFILE=personal mise run test:installer-macos`; both tasks accept either
 profile and install twice. Linux needs Docker and the `wsl-amd64.wsl` image
-prepared by CI. The macOS task changes the Mac running it. Local `mise run test:installer-macos`
-runs share a host lock across checkouts and profiles, so two bootstraps cannot
-modify the same home or services at once. CI calls the script directly on its
-disposable runner before mise has been installed. Both require
-`GIT_COMMIT_SHA` (default: `HEAD`) to be available on GitHub.
+prepared by CI. The macOS task changes the Mac running it. Local
+`mise run test:installer-macos` runs share a host lock across checkouts and
+profiles, so two bootstraps cannot modify the same home or services at once. CI
+calls the script directly on its disposable runner before mise has been
+installed. Both require `GIT_COMMIT_SHA` (default: `HEAD`) to be available on
+GitHub.
 
 To inspect an existing installation without reinstalling, use
 `TEST_PROFILE=personal mise run verify:installation` (or `bare`). This includes
