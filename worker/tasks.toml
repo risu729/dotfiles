@@ -18,6 +18,27 @@ run = "aube exec --no-install -- vite preview"
 description = "Preview the built worker."
 
 ["worker:test"]
+tags = ["test"]
+outputs = []
+sources = [
+	"src/**",
+	"test/**",
+	"*.ts",
+	"*.json",
+	"*.toml",
+	"pnpm-lock.yaml",
+	".npmrc",
+	"../unix/install.sh",
+	"../win/install.ps1",
+	"../mise*.toml",
+	"../mise.lock",
+	"../.mise/locks/**",
+	"../.miserc.toml",
+	"../package.json",
+	"../pnpm-lock.yaml",
+	"../.npmrc",
+	"../tsconfig.json",
+]
 extends = "worker:runtime"
 run = "aube exec --no-install -- vitest run"
 description = "Run Worker tests once."

@@ -18,6 +18,24 @@ depends = ["test:bats", "worker:test"]
 description = "Run Bats and Worker tests once."
 
 ["test:bats"]
+tags = ["test"]
+# Sources select affected tests; explicit test runs must always execute.
+outputs = []
+sources = [
+	"tests/**",
+	"tasks/**",
+	"unix/**",
+	"macos/**",
+	"mise/**",
+	"mise*.toml",
+	"mise.lock",
+	".mise/locks/**",
+	".miserc.toml",
+	"package.json",
+	"pnpm-lock.yaml",
+	".npmrc",
+	"tsconfig.json",
+]
 run = "bats tests"
 description = "Run all shell regression tests with Bats."
 
