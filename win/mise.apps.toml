@@ -1,0 +1,22 @@
+[bootstrap.packages]
+# Install/status only. packages.ps1 omits this file entirely during Upgrade.
+# This includes optional/vendor-managed updaters; see README.md for each app.
+# Do not use brew-cask's adopt option: winget does not implement it.
+"winget:Bitwarden.Bitwarden" = { os = "windows" }
+"winget:Cloudflare.Warp" = { os = "windows" }
+"winget:Discord.Discord.Canary" = { os = "windows" }
+"winget:Discord.Discord.PTB" = { os = "windows" }
+"winget:Figma.Figma" = { os = "windows" }
+"winget:Google.Chrome.Beta" = { os = "windows" }
+"winget:Google.GoogleDrive" = { os = "windows" }
+"winget:JetBrains.Toolbox" = { os = "windows" }
+"winget:Logitech.OptionsPlus" = { os = "windows" }
+"winget:Microsoft.PowerShell.Preview" = { os = "windows" }
+"winget:Microsoft.PowerToys" = { os = "windows" }
+"winget:Microsoft.VisualStudioCode.Insiders" = { os = "windows" }
+"winget:Notion.Notion" = { os = "windows" }
+"winget:Tailscale.Tailscale" = { os = "windows" }
+"winget:Termius.Termius" = { os = "windows" }
+"winget:TheDocumentFoundation.LibreOffice" = { os = "windows" }
+"winget:Valve.Steam" = { os = "windows" }
+"winget:Zoom.Zoom" = { os = "windows" }
