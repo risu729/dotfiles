@@ -22,6 +22,8 @@ run = "bats tests"
 description = "Run all shell regression tests with Bats."
 
 ["install:ps-script-analyzer"]
+# PowerShell modules are shared by checkouts; keep the check and install atomic.
+lock = "dotfiles-ps-script-analyzer"
 shell = "pwsh -Command"
 # Force is required to bypass untrusted repository confirmation
 # ref: https://github.com/PowerShell/PowerShellGetv2/issues/461
