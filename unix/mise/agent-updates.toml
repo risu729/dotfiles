@@ -1,0 +1,5 @@
+# These overrides belong to a regular config.local.toml, whose mise.local.lock
+# can advance without changing the repository-managed global mise.lock.
+[tools]
+codex = { version = "latest", auto_update = "24h", minimum_release_age = "0s" }
+claude = { version = "latest", auto_update = "24h", minimum_release_age = "0s" }

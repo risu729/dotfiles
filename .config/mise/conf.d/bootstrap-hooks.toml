@@ -108,6 +108,10 @@ run = '''
 {% endif %}
 '''
 
+[bootstrap.hooks.pre-tools]
+# Local agent overrides need their initial URLs before a fresh --locked install.
+run = 'bash "{{ config_root }}/unix/mise/seed-agent-lock.sh" "$HOME/.config/mise"'
+
 [bootstrap.hooks.post-tools]
 run = '''
 # Explicitly refresh vendor skills in the shared home directory after bootstrap.
