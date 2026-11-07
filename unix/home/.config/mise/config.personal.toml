@@ -27,7 +27,8 @@ typst = "latest"
 gcloud = "latest"
 
 # Cursor Agent self-updates into ~/.local/share/cursor-agent and relinks
-# ~/.local/bin/{agent,cursor-agent}, which would shadow the mise-managed install.
+# ~/.local/bin/{agent,cursor-agent}. The global PATH ordering keeps mise first;
+# disable self-updates too so mise remains responsible for the installed version.
 # --disable-auto-update is a hidden global flag. `agent` mirrors the official
 # installer's short name; a wrapper cannot delegate to itself, so bare
 # `cursor-agent` still self-updates.
