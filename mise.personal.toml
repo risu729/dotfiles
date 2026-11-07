@@ -55,6 +55,13 @@ group = "root"
 mode = "0755"
 os = "linux"
 
+[bootstrap.directories."/etc/systemd/system"]
+phase = "pre-packages"
+owner = "root"
+group = "root"
+mode = "0755"
+os = "linux"
+
 [bootstrap.files."/etc/ssh/ca.pub"]
 phase = "pre-packages"
 source = "unix/ssh/ca.pub"
@@ -69,13 +76,6 @@ source = "unix/ssh/10-cloudflare-access.conf"
 owner = "root"
 group = "root"
 mode = "0644"
-os = "linux"
-
-[bootstrap.directories."/etc/systemd/system"]
-phase = "pre-packages"
-owner = "root"
-group = "root"
-mode = "0755"
 os = "linux"
 
 [bootstrap.files."/etc/systemd/system/wsl-cloudflare-ip.service"]
