@@ -115,16 +115,11 @@ if command -v pitchfork &>/dev/null; then
 	eval "${pitchfork_activate}"
 fi
 
-# Enable mise completion
+# Activated mise loads hk and pitchfork Packslip completions on demand.
+# Enable completion for mise itself.
 if command -v mise &>/dev/null; then
 	mise_completion="$(mise completion bash)"
 	eval "${mise_completion}"
-fi
-
-# Enable pitchfork completion
-if command -v pitchfork &>/dev/null; then
-	pitchfork_completion="$(pitchfork completion bash)"
-	eval "${pitchfork_completion}"
 fi
 
 # Enable gh completion
@@ -210,12 +205,6 @@ if command -v ghr &>/dev/null; then
 	}
 	ghr_completion="$("${__GHR}" shell bash --completion)"
 	eval "${ghr_completion}"
-fi
-
-# ref: https://hk.jdx.dev/cli/completion.html — requires `usage` on PATH (mise installs it globally)
-if command -v hk &>/dev/null; then
-	hk_completion="$(hk completion bash)"
-	eval "${hk_completion}"
 fi
 
 # mise shell_alias completions (`m` → mise, `mx` → mise x)
