@@ -38,7 +38,6 @@ local mise = picked["mise"] as Group
 local yaml = picked["yaml"] as Group
 
 local function preserveWorkerLockfile(step: Step): Step = (step) {
-  check = step.check
   exclude = (step.exclude ?? List()) + List("worker/pnpm-lock.yaml")
 }
 
@@ -55,9 +54,6 @@ steps = (picked) {
     steps {
       ["mise-fmt"] = mise.steps["mise-fmt"]
       ["mise-tasks"] = (mise.steps["mise-tasks"]) {
-        // Preserve the command while the evaluator drops it from amended custom steps.
-        // https://github.com/risu729/hk-config/issues/124
-        check = "mise task validate"
         glob =
           List(
             "tasks.toml",
