@@ -60,4 +60,3 @@ shell = "zsh -ic"
 os = "macos"
 timeout = "60s"
 hint = "Open a new Zsh shell and check ~/.zshrc, ~/.config/zsh/zshrc, mise activation, btop and completion initialization."
-
