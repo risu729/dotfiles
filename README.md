@@ -29,6 +29,21 @@ This also sets up WSL2 with the personal profile. After installation, restore
 [PowerToys settings][powertoys-backup]
 from the backup in [`win/`](win/).
 
+[`mise.windows.toml`](mise.windows.toml) uses the existing mise dotfile merge
+to apply [`win/codex.toml`](win/codex.toml) on native Windows. With mise
+2026.11.3 or newer, run from this checkout in Windows PowerShell:
+
+```powershell
+mise bootstrap dotfiles apply "~/.codex/config.toml/windows" --dry-run
+mise bootstrap dotfiles apply "~/.codex/config.toml/windows" --yes
+```
+
+The selected entry merges only its setting into
+`%USERPROFILE%\.codex\config.toml`, preserving other client settings. Adjust
+`C:\Users\risu\Codex` in the source for a different Windows user. Restart Codex
+before a new projectless chat. Existing chats stay in place; Drive backup
+exclusion is a separate setting.
+
 Remove unnecessary pre-installed software and install these apps separately:
 
 - [Lenovo Vantage](https://www.lenovo.com/us/en/software/vantage)
