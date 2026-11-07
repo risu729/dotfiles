@@ -51,3 +51,32 @@ TOML
 	grep -F 'ceiling_paths = ["/machine-boundary"]' "${fixture}/config/miserc.local.toml"
 	grep -F 'auto_env = true' "${fixture}/config/miserc.toml"
 }
+
+@test "new global tools and dotfiles are routed to machine-owned fragments" {
+	bun - "${root}" "${fixture}" <<'JS'
+const [root, fixture] = process.argv.slice(2);
+const config = Bun.TOML.parse(await Bun.file(`${root}/unix/home/.config/mise/config.toml`).text());
+let output = "[settings]\nexperimental = true\n[settings.write_targets]\n";
+for (const [name, path] of Object.entries(config.settings.write_targets)) {
+  output += `${name} = ${JSON.stringify(path.replace("~/.config/mise", `${fixture}/config`))}\n`;
+}
+await Bun.write(`${fixture}/config/config.toml`, output);
+JS
+	cp "${fixture}/config/config.toml" "${fixture}/before.toml"
+	mkdir -p "${fixture}/data/plugins/asdf-routing-fixture/bin"
+	cat >"${fixture}/data/plugins/asdf-routing-fixture/bin/install" <<'SH'
+#!/bin/sh
+mkdir -p "$ASDF_INSTALL_PATH/bin"
+printf '#!/bin/sh\necho fixture\n' >"$ASDF_INSTALL_PATH/bin/routing-fixture"
+chmod +x "$ASDF_INSTALL_PATH/bin/routing-fixture"
+SH
+	chmod +x "${fixture}/data/plugins/asdf-routing-fixture/bin/install"
+	MISE_ENV='' isolated use --global asdf:routing-fixture@1.0.0
+	grep -F '1.0.0' "${fixture}/config/conf.d/90-tools.local.toml"
+	cmp "${fixture}/before.toml" "${fixture}/config/config.toml"
+
+	printf 'machine setting\n' >"${fixture}/machine.conf"
+	MISE_ENV='' isolated dot add --yes --no-apply --source "${fixture}/source.conf" "${fixture}/machine.conf"
+	grep -F 'machine.conf' "${fixture}/config/conf.d/92-dotfiles.local.toml"
+	cmp "${fixture}/before.toml" "${fixture}/config/config.toml"
+}
