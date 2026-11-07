@@ -29,6 +29,7 @@ through `aube exec --no-install --` after mise prepares their dependencies.
 | Bats shell regressions | `mise run test:bats` |
 | Worker tests | `mise run worker:test` |
 | Both test suites | `mise run test` |
+| Affected test suites | `mise run --affected --tag test` |
 
 The backend check reads both the repository and installed-global configuration
 sources, for bare and personal profiles. CI runs it on Linux and macOS with the
@@ -42,6 +43,22 @@ Worker tests fetch installer scripts from GitHub at the checked-out commit;
 that commit must be pushed before running them. Bats tests use local fixtures.
 For one shell suite, use
 `mise exec -- bats tests/installer-revisions.bats`.
+
+The `test` tag selects only the one-shot Bats and Worker suites. To check a
+branch, run `mise run --affected --affected-base origin/main --tag test`. This
+includes committed, uncommitted, and untracked changes; add
+`--affected-explain --dry-run` to inspect the selection. Source paths include
+the installer scripts and shared tool pins. Documentation-only changes select
+neither suite. Explicit `mise run test` and individual test commands always
+execute, even after a successful run with unchanged inputs. Installer tasks
+and watchers are deliberately outside the tag; CI retains its full validations
+and separate installer-job selection.
+
+To compare with a fetched baseline without changing your checkout, use
+`mise run --at origin/main test`. Mise runs that revision's own configuration in
+a temporary detached worktree, then removes it. Use the explicit `test` task
+when the baseline predates test tags. The pushed-revision requirement for
+Worker tests still applies.
 
 Installer integration tests perform a real bootstrap. On a disposable machine,
 use `TEST_PROFILE=bare mise run test:installer-linux` or
