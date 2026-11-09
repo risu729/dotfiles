@@ -20,15 +20,15 @@ From the repository root, `mise install` installs the pinned tools and
 the runtime for Bun-specific scripts and tests; Worker package binaries run
 through `aube exec --no-install --` after mise prepares their dependencies.
 
-| Task | Command |
-| --- | --- |
-| Lint and format with fixes | `mise run check` |
-| Lint without fixes | `mise run check --lint` |
-| Check selected files | `mise exec -- hk check <files>` |
+| Task                            | Command                         |
+| ------------------------------- | ------------------------------- |
+| Lint and format with fixes      | `mise run check`                |
+| Lint without fixes              | `mise run check --lint`         |
+| Check selected files            | `mise exec -- hk check <files>` |
 | Check current registry backends | `mise run verify:mise-backends` |
-| Bats shell regressions | `mise run test:bats` |
-| Worker tests | `mise run worker:test` |
-| Both test suites | `mise run test` |
+| Bats shell regressions          | `mise run test:bats`            |
+| Worker tests                    | `mise run worker:test`          |
+| Both test suites                | `mise run test`                 |
 
 The backend check reads both the repository and installed-global configuration
 sources, for bare and personal profiles. CI runs it on Linux and macOS with the
@@ -117,9 +117,11 @@ no storage bindings whose data would outlive the PR. A closed PR's Preview
 only stays reachable at its unadvertised Preview URL until it is evicted.
 Revisit cleanup if the Worker gains storage bindings or secrets.
 
-Manage Custom Domain and route changes separately with suitable permissions.
-Per-Worker tokens currently cannot manage Custom Domains. Do not replace version
-deployment with `cf deploy` without accounting for its trigger updates.
+Manage Custom Domain and route changes separately with suitable permissions. The
+public Custom Domain API advertises Workers Scripts Write; the scoped Individual
+Workers Editor token does not declare that grant. The pinned CLI uses different
+legacy endpoints whose token acceptance remains unverified. Do not replace
+version deployment with `cf deploy` without accounting for its trigger updates.
 
 ## Language
 
@@ -139,3 +141,8 @@ manifest, then verify `aube install --frozen-lockfile` and commit the manifest
 and lockfile together. The package-local `.npmrc` files keep new lockfiles in
 pnpm format. Do not run `aube import`, which would create a higher-precedence
 `aube-lock.yaml`.
+
+## Hostname Maintenance
+
+See [hostname maintenance](worker/HOSTNAME-MAINTENANCE.md) for the separate
+manual plan/apply workflow and its current permission limits.
