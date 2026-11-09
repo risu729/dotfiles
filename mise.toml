@@ -180,6 +180,7 @@ bash "{{ config_root }}/unix/codex/migrate-system-config.sh"
 run = '''
 {% if os() == "macos" %}
 /bin/sh "{{ config_root }}/macos/disable-auto-brightness.sh"
+/bin/bash "{{ config_root }}/macos/disable-battery-dimming.sh"
 /bin/bash "{{ config_root }}/macos/setup-kanata.sh"
 {% endif %}
 '''
