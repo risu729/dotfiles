@@ -5,21 +5,36 @@ import { tmpdir } from "node:os";
 // oxlint-disable-next-line vitest/no-import-node-test -- The maintenance harness uses the Node standard library without loading application dependencies.
 import { test as nodeTest } from "node:test";
 
-import maintenance from "./hostname-maintenance.mjs";
+import maintenance from "./hostname-maintenance.mts";
 
 const { prepare, apply, createApi, validateSource, targets } = maintenance;
 
+type Target = Parameters<typeof maintenance.prepare>[1];
+type Api = Parameters<typeof maintenance.prepare>[0];
+type Envelope = Awaited<ReturnType<Api>>;
+type Body = Record<string, unknown> & { pattern?: string; service?: string };
+type State = {
+	dns: Body[];
+	domains: Body[];
+	routes: Body[];
+	writes: { body: Body; method: string; path: string }[];
+};
+
 const revision = "a".repeat(40);
-const domainTarget = {
+const domainTarget: Target = {
+	config: "unused.ts",
 	hostname: "example.test",
 	kind: "domain",
 	worker: "example",
+	zone: "test",
 	zoneId: "zone",
 };
-const routeTarget = {
+const routeTarget: Target = {
+	config: "unused.ts",
 	kind: "route",
 	patterns: ["example.test/docs", "example.test/docs/*"],
 	worker: "docs",
+	zone: "test",
 	zoneId: "zone",
 };
 const attachment = {
@@ -31,8 +46,8 @@ const attachment = {
 	service: "example",
 	zone_id: "zone",
 };
-const readFake = (state, path) => {
-	const readers = [
+const readFake = (state: State, path: string): Envelope => {
+	const readers: [string, () => Envelope][] = [
 		["/schedules", () => ({ result: [{ cron: "0 0 * * *" }] })],
 		["/subdomain", () => ({ result: { enabled: false, previews_enabled: false } })],
 		[
@@ -50,9 +65,12 @@ const readFake = (state, path) => {
 	];
 	const reader = readers.find(([suffix]) => path.includes(suffix));
 	assert.ok(reader);
-	return reader[1]();
+	return reader![1]();
 };
-const writeFake = (state, { method, path, body }) => {
+const writeFake = (
+	state: State,
+	{ method, path, body }: { method: string; path: string; body: Body },
+): Envelope => {
 	state.writes.push({ body, method, path });
 	if (method === "PUT" && path.endsWith("/workers/domains")) {
 		state.domains.push({ ...body, environment: "production", id: "domain-new" });
@@ -64,22 +82,28 @@ const writeFake = (state, { method, path, body }) => {
 	}
 	throw new Error(`Unexpected write: ${method} ${path}`);
 };
-const fake = ({ domains = [], routes = [], dns = [] } = {}) => {
-	const state = {
+const fake = ({
+	domains = [],
+	routes = [],
+	dns = [],
+}: Partial<Pick<State, "domains" | "routes" | "dns">> = {}) => {
+	const state: State = {
 		dns,
 		domains: structuredClone(domains),
 		routes: structuredClone(routes),
 		writes: [],
 	};
-	const api = (method, path, body) =>
+	const api: Api = (method, path, body = {}) =>
 		method === "GET" ? readFake(state, path) : writeFake(state, { body, method, path });
 	return { api, state };
 };
 
-const permissionError = (error) =>
+const permissionError = (error: Error) =>
 	error.message.includes("403") && !error.message.includes("synthetic-test-secret");
-const inventoryOverride = (api, response) => (method, path, body) =>
-	path.includes("/workers/domains?") ? response(path) : api(method, path, body);
+const inventoryOverride =
+	(api: Api, response: (path: string) => Envelope): Api =>
+	(method, path, body) =>
+		path.includes("/workers/domains?") ? response(path) : api(method, path, body);
 
 nodeTest("source declarations match every reviewed target without executing config", async () => {
 	await Promise.all(Object.values(targets).map((target) => validateSource(target)));
@@ -111,7 +135,7 @@ nodeTest("domain plan is read-only and includes one explicit attachment", async 
 	const { api, state } = fake();
 	const plan = await prepare(api, domainTarget, revision);
 	assert.equal(plan.changes.length, 1);
-	assert.equal(plan.changes[0].method, "PUT");
+	assert.equal(plan.changes[0]!.method, "PUT");
 	assert.deepEqual(state.writes, []);
 });
 nodeTest("existing DNS blocks even initial domain attachment", async () => {
@@ -144,9 +168,9 @@ nodeTest(
 		const plan = await prepare(api, domainTarget, revision);
 		await apply(api, plan, plan.digest);
 		assert.equal(state.writes.length, 1);
-		assert.equal(state.writes[0].method, "PUT");
-		assert.match(state.writes[0].path, /\/workers\/domains$/u);
-		assert.equal(state.domains[0].service, "example");
+		assert.equal(state.writes[0]!.method, "PUT");
+		assert.match(state.writes[0]!.path, /\/workers\/domains$/u);
+		assert.equal(state.domains[0]!.service, "example");
 	},
 );
 nodeTest(
@@ -194,7 +218,7 @@ nodeTest("403 fails closed without exposing the token or API response", async ()
 		ok: false,
 		status: 403,
 	}));
-	await assert.rejects(api("GET", "/test"), permissionError);
+	await assert.rejects(Promise.resolve(api("GET", "/test")), permissionError);
 });
 nodeTest("incomplete domain pagination prevents a misleading empty plan", async () => {
 	const { api } = fake();

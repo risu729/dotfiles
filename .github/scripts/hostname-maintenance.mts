@@ -1,39 +1,59 @@
 import { createHash } from "node:crypto";
-import { readFile, appendFile } from "node:fs/promises";
-import { env as environment } from "node:process";
+import { readFile } from "node:fs/promises";
 import { pathToFileURL } from "node:url";
 
-import sourceGuard from "./hostname-source.mjs";
+import hostnameConfig from "./hostname-config.mts";
+import sourceGuard from "./hostname-source.mts";
+import support from "./hostname-support.mts";
 
-const account = "59ea63cc00914b30ca410b062ae2bb7f";
-const targets = {
-	worker: {
-		config: "worker/cloudflare.config.ts",
-		hostname: "dot.risunosu.com",
-		kind: "domain",
-		worker: "dotfiles-worker",
-		zone: "risunosu.com",
-		zoneId: "0f7a733f9599c0ca267f2d084e8b808c",
-	},
+type TargetBase = { config: string; worker: string; zone: string; zoneId: string };
+type DomainTarget = TargetBase & { hostname: string; kind: "domain" };
+type RouteTarget = TargetBase & { kind: "route"; patterns: string[] };
+type Target = DomainTarget | RouteTarget;
+type DomainRecord = {
+	id: string;
+	hostname: string;
+	service: string;
+	zone_id: string;
+	environment: string;
+	enabled: boolean;
+	previews_enabled: boolean;
+	[key: string]: unknown;
 };
-const apiRoot = "https://api.cloudflare.com/client/v4";
-const stable = (value) =>
-	JSON.stringify(value, (_, item) =>
-		item && typeof item === "object" && !Array.isArray(item)
-			? Object.fromEntries(
-					Object.entries(item).sort(([left], [right]) => left.localeCompare(right)),
-				)
-			: item,
-	);
-const same = (left, right) => stable(left) === stable(right);
-class MaintenanceError extends Error {}
-const requireThat = (condition, message) => {
-	if (!condition) {
-		throw new MaintenanceError(message);
-	}
+type RouteRecord = {
+	id: string;
+	pattern: string;
+	script: string | null;
+	request_limit_fail_open?: boolean;
+	[key: string]: unknown;
 };
+type Envelope = Awaited<ReturnType<Api>>;
+type Body = Record<string, unknown>;
+type Api = ReturnType<typeof support.createApi>;
 
-const validateSource = async (target, root = ".") => {
+type Snapshot = {
+	domains?: DomainRecord[];
+	routes?: RouteRecord[];
+	schedules: unknown;
+	subdomain: unknown;
+};
+type Change = { body: Body; method: string; path: string };
+type Plan = {
+	before: Snapshot;
+	changes: Change[];
+	digest: string;
+	revision: string;
+	target: Target;
+};
+type Pagination = { records: DomainRecord[]; seen: Set<string>; total: number | null | undefined };
+
+const { account, environment, targets: fixedTargets } = hostnameConfig;
+const targets: Record<string, Target> = fixedTargets;
+const { createApi, MaintenanceError, same, stable, summarize } = support;
+// oxlint-disable-next-line eslint/prefer-destructuring -- TypeScript assertion calls need an explicit annotation on this binding to narrow values.
+const requireThat: typeof support.requireThat = support.requireThat;
+
+const validateSource = async (target: Target, root = ".") => {
 	const source = await readFile(`${root}/${target.config}`, "utf8");
 	const actual = sourceGuard.extract(source, target.kind);
 	const expected =
@@ -48,40 +68,7 @@ const validateSource = async (target, root = ".") => {
 	);
 };
 
-const safeFetch = async (fetcher, url, options) => {
-	try {
-		return await fetcher(url, options);
-	} catch {
-		throw new MaintenanceError(
-			"Cloudflare transport failed; no automatic retry or permission change is attempted.",
-		);
-	}
-};
-const createApi = (token, fetcher = fetch) => {
-	requireThat(token && !/[\r\n]/u.test(token), "A Cloudflare token is required.");
-	return async (method, path, body) => {
-		const response = await safeFetch(fetcher, `${apiRoot}${path}`, {
-			headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
-			method,
-			redirect: "error",
-			signal: AbortSignal.timeout(30000),
-			...(body ? { body: JSON.stringify(body) } : {}),
-		});
-		// Never emit response bodies, headers, credentials or transport error causes.
-		requireThat(
-			response.ok,
-			`Cloudflare ${method} failed with HTTP ${response.status}; no permission is added automatically.`,
-		);
-		const envelope = await response.json();
-		requireThat(
-			envelope.success === true && envelope.result !== undefined,
-			"Cloudflare returned an invalid result.",
-		);
-		return envelope;
-	};
-};
-
-const checkDomainPage = (response, page, pagination) => {
+const checkDomainPage = (response: Envelope, page: number, pagination: Pagination) => {
 	requireThat(Array.isArray(response.result), "Domain inventory is not a list.");
 	requireThat(
 		response.result_info?.page === page && response.result_info?.per_page === 100,
@@ -99,14 +86,16 @@ const checkDomainPage = (response, page, pagination) => {
 		);
 		pagination.seen.add(entry.id);
 	}
-	pagination.records.push(...response.result);
+	pagination.records.push(...(response.result as DomainRecord[]));
 	requireThat(
-		Number.isInteger(pagination.total) && pagination.total >= pagination.records.length,
+		typeof pagination.total === "number" &&
+			Number.isInteger(pagination.total) &&
+			pagination.total >= pagination.records.length,
 		"Domain pagination is incomplete.",
 	);
 };
-const domains = async (api) => {
-	const pagination = { records: [], seen: new Set(), total: null };
+const domains = async (api: Api) => {
+	const pagination: Pagination = { records: [], seen: new Set(), total: null };
 	for (let page = 1; page <= 100; page += 1) {
 		// oxlint-disable-next-line eslint/no-await-in-loop -- Each page must be validated before requesting the next one.
 		const response = await api(
@@ -117,12 +106,15 @@ const domains = async (api) => {
 		if (pagination.records.length === pagination.total) {
 			return pagination.records.sort((left, right) => left.id.localeCompare(right.id));
 		}
-		requireThat(response.result.length > 0, "Domain pagination made no progress.");
+		requireThat(
+			Array.isArray(response.result) && response.result.length > 0,
+			"Domain pagination made no progress.",
+		);
 	}
 	throw new Error("Domain pagination exceeded its bound.");
 };
 
-const snapshot = async (api, target) => {
+const snapshot = async (api: Api, target: Target): Promise<Snapshot> => {
 	const base = `/accounts/${account}/workers/scripts/${target.worker}`;
 	const schedules = (await api("GET", `${base}/schedules`)).result;
 	const subdomain = (await api("GET", `${base}/subdomain`)).result;
@@ -132,17 +124,21 @@ const snapshot = async (api, target) => {
 	const routes = (await api("GET", `/zones/${target.zoneId}/workers/routes`)).result;
 	requireThat(Array.isArray(routes), "Route inventory is not a list.");
 	return {
-		routes: routes.sort((left, right) => left.id.localeCompare(right.id)),
+		routes: (routes as RouteRecord[]).sort((left, right) => left.id.localeCompare(right.id)),
 		schedules,
 		subdomain,
 	};
 };
 
-const domainChanges = async (api, target, before) => {
-	const matches = before.domains.filter((domain) => domain.hostname === target.hostname);
+const domainChanges = async (
+	api: Api,
+	target: DomainTarget,
+	before: Snapshot,
+): Promise<Change[]> => {
+	const matches = before.domains!.filter((domain) => domain.hostname === target.hostname);
 	requireThat(matches.length <= 1, "Duplicate hostname attachments require review.");
 	if (matches.length) {
-		const [domain] = matches;
+		const domain = matches[0]!;
 		requireThat(
 			domain.service === target.worker &&
 				domain.zone_id === target.zoneId &&
@@ -175,13 +171,13 @@ const domainChanges = async (api, target, before) => {
 		},
 	];
 };
-const routeChanges = (target, before) =>
+const routeChanges = (target: RouteTarget, before: Snapshot): Change[] =>
 	target.patterns.flatMap((pattern) => {
-		const matches = before.routes.filter((route) => route.pattern === pattern);
+		const matches = before.routes!.filter((route) => route.pattern === pattern);
 		requireThat(matches.length <= 1, "Duplicate routes require review.");
 		if (matches.length) {
 			requireThat(
-				matches[0].script === target.worker && matches[0].request_limit_fail_open === false,
+				matches[0]!.script === target.worker && matches[0]!.request_limit_fail_open === false,
 				"An existing route has conflicting ownership or settings; replacement is refused.",
 			);
 			return [];
@@ -194,8 +190,11 @@ const routeChanges = (target, before) =>
 			},
 		];
 	});
-const prepare = async (api, target, revision) => {
-	requireThat(/^[a-f0-9]{40}$/u.test(revision), "A full reviewed revision is required.");
+const prepare = async (api: Api, target: Target, revision: string | undefined): Promise<Plan> => {
+	requireThat(
+		typeof revision === "string" && /^[a-f0-9]{40}$/u.test(revision),
+		"A full reviewed revision is required.",
+	);
 	const before = await snapshot(api, target);
 	const changes =
 		target.kind === "domain"
@@ -206,27 +205,27 @@ const prepare = async (api, target, revision) => {
 		.digest("hex");
 	return { before, changes, digest, revision, target };
 };
-const verifyUnrelatedState = (plan, after) => {
+const verifyUnrelatedState = (plan: Plan, after: Plan) => {
 	requireThat(
 		same(plan.before.schedules, after.before.schedules) &&
 			same(plan.before.subdomain, after.before.subdomain),
 		"Unrelated schedules or workers.dev settings changed during maintenance.",
 	);
 	const key = plan.target.kind === "domain" ? "domains" : "routes";
-	const intended = (entry) =>
+	const intended = (entry: DomainRecord | RouteRecord) =>
 		plan.target.kind === "domain"
 			? entry.hostname === plan.target.hostname
-			: plan.target.patterns.includes(entry.pattern);
+			: plan.target.patterns.includes(String(entry.pattern));
 	requireThat(
 		same(
-			plan.before[key].filter((entry) => !intended(entry)),
-			after.before[key].filter((entry) => !intended(entry)),
+			plan.before[key]!.filter((entry) => !intended(entry)),
+			after.before[key]!.filter((entry) => !intended(entry)),
 		),
 		"An unrelated hostname or route changed during maintenance.",
 	);
 };
 
-const apply = async (api, plan, expectedDigest) => {
+const apply = async (api: Api, plan: Plan, expectedDigest: string) => {
 	requireThat(
 		/^[a-f0-9]{64}$/u.test(expectedDigest) && expectedDigest === plan.digest,
 		"The current plan differs from the explicitly reviewed digest. Run plan again.",
@@ -247,18 +246,14 @@ const apply = async (api, plan, expectedDigest) => {
 	return after;
 };
 
-const validateCaller = (operation, target) => {
+const validateCaller: (
+	operation: string,
+	target: Target | undefined,
+) => asserts target is Target = (operation, target) => {
 	requireThat(operation === "plan" || operation === "apply", "Choose plan or apply.");
 	requireThat(target, "Unknown maintenance target.");
 	requireThat(environment.GITHUB_REF === "refs/heads/main", "Maintenance is restricted to main.");
 	requireThat(environment.CLOUDFLARE_ACCOUNT_ID === account, "Unexpected Cloudflare account.");
-};
-const summarize = async (plan, operation) => {
-	const summary = `Hostname maintenance: ${operation}\nRevision: ${plan.revision}\nPlan SHA-256: ${plan.digest}\nChanges: ${JSON.stringify(plan.changes)}\n`;
-	console.log(summary);
-	if (environment.GITHUB_STEP_SUMMARY) {
-		await appendFile(environment.GITHUB_STEP_SUMMARY, `\n\`\`\`text\n${summary}\`\`\`\n`);
-	}
 };
 const main = async () => {
 	const operation = environment.MAINTENANCE_OPERATION ?? "plan";
@@ -267,7 +262,7 @@ const main = async () => {
 	await validateSource(target);
 	const api = createApi(environment.CLOUDFLARE_API_TOKEN);
 	const plan = await prepare(api, target, environment.GITHUB_SHA);
-	await summarize(plan, operation);
+	await summarize(plan, operation, environment.GITHUB_STEP_SUMMARY);
 	if (operation === "apply") {
 		await apply(api, plan, environment.EXPECTED_PLAN_SHA256 ?? "");
 		console.log(

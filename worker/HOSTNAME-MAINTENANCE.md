@@ -40,6 +40,6 @@ readback.
 
 Offline regression tests run on PRs, main pushes and before maintenance. The
 test command is
-`mise exec -- node --test .github/scripts/hostname-maintenance.test.mjs`. Status
+`mise exec -- node --test .github/scripts/hostname-maintenance.test.mts`. Status
 on 2026-11-10 (Japan time): prepared for review; no workflow dispatch, live
 attachment or permission change has been performed for this implementation.

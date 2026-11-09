@@ -44,7 +44,7 @@ jobs:
       - name: Test hostname-only maintenance without credentials
         env:
           NODE_BINARY: ${{ steps.runtime.outputs.node }}
-        run: '"${NODE_BINARY}" --test .github/scripts/hostname-maintenance.test.mjs'
+        run: '"${NODE_BINARY}" --test .github/scripts/hostname-maintenance.test.mts'
   maintain:
     name: Maintain reviewed hostname attachments
     needs: validate
@@ -85,4 +85,4 @@ jobs:
           EXPECTED_PLAN_SHA256: ${{ inputs.expected-plan-sha256 }}
           CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-        run: '"${NODE_BINARY}" .github/scripts/hostname-maintenance.mjs'
+        run: '"${NODE_BINARY}" .github/scripts/hostname-maintenance.mts'
