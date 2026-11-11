@@ -60,6 +60,15 @@ a temporary detached worktree, then removes it. Use the explicit `test` task
 when the baseline predates test tags. The pushed-revision requirement for
 Worker tests still applies.
 
+One-shot test suites print a short success summary and show the newest 64 KiB
+of output on failure. Mise saves the latest piped output (the newest 4 MiB per
+task); use `mise tasks log test:bats` or `mise tasks log worker:test` to replay
+it, and `mise tasks history --summary` for recent timings and failures. Use
+`mise run --output interleave test` when you need live output. For a structured
+result, pass `--report-file` with a path outside the checkout, for example
+`mise run --report-file /tmp/dotfiles-tests.json test`. Dev servers and watchers
+keep streaming their output.
+
 Installer integration tests perform a real bootstrap. On a disposable machine,
 use `TEST_PROFILE=bare mise run test:installer-linux` or
 `TEST_PROFILE=personal mise run test:installer-macos`; both tasks accept either

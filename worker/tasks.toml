@@ -18,6 +18,7 @@ run = "aube exec --no-install -- vite preview"
 description = "Preview the built worker."
 
 ["worker:test"]
+output = "summary"
 tags = ["test"]
 outputs = []
 sources = [
