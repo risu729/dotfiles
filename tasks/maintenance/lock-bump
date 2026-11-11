@@ -41,6 +41,7 @@ fi
 # A single-file override skips sibling profile configs; discover the source directory.
 env -u MISE_GLOBAL_CONFIG_FILE -u MISE_CONFIG_FILE \
 	MISE_CONFIG_DIR="${repo}/unix/home/.config/mise" \
+	MISE_ASDF_COMPAT=0 MISE_USE_TOML=1 \
 	MISE_CEILING_PATHS="${repo}" \
 	MISE_SYSTEM_CONFIG_DIR="${system_config}" \
 	MISE_SYSTEM_CONFIG_FILE="${system_config}/config.toml" \

@@ -12,6 +12,7 @@ setup() {
 	cat >"${BATS_TEST_TMPDIR}/bin/mise" <<'MOCK'
 #!/usr/bin/env bash
 [[ -z ${MISE_GLOBAL_CONFIG_FILE+x} && -z ${MISE_CONFIG_FILE+x} ]] || exit 4
+[[ ${MISE_ASDF_COMPAT} == 0 && ${MISE_USE_TOML} == 1 ]] || exit 4
 [[ "$1" == --cd ]] || exit 4
 [[ "$2" == "$MISE_CEILING_PATHS" ]] || exit 4
 shift 2
@@ -67,7 +68,7 @@ prepare_native_fixture() {
 	native_root="${BATS_TEST_TMPDIR}/native"
 	native_config="${native_root}/unix/home/.config/mise"
 	mkdir -p "${native_config}" "${native_root}/tasks/maintenance" "${native_root}/bin" \
-		"${native_root}/host" "${native_root}/system"
+		"${native_root}/host" "${native_root}/system" "${native_root}/home"
 	cp tasks/maintenance/lock-bump "${native_root}/tasks/maintenance/lock-bump"
 	ln -s "${native_mise}" "${native_root}/bin/mise"
 	printf '[tools]\n"asdf:lock-shared" = "1.0.0"\n' >"${native_config}/config.toml"
@@ -75,6 +76,7 @@ prepare_native_fixture() {
 	printf '[tools]\n"asdf:lock-project" = "9.0.0"\n' >"${native_root}/mise.toml"
 	printf '[tools]\n"asdf:lock-host" = "8.0.0"\n' >"${native_root}/host/config.toml"
 	cp "${native_root}/host/config.toml" "${native_root}/system/config.toml"
+	printf 'asdf:lock-host 8.0.0\n' >"${native_root}/home/.tool-versions"
 	for tool in lock-shared lock-personal lock-project lock-host; do
 		mkdir -p "${native_root}/data/plugins/asdf-${tool}/bin"
 		printf '#!/bin/sh\nprintf "1.0.0 2.0.0 8.0.0 9.0.0\\n"\n' >"${native_root}/data/plugins/asdf-${tool}/bin/list-all"
@@ -86,7 +88,7 @@ native_bump() {
 	env -u MISE_ENABLE_TOOLS -u MISE_DISABLE_TOOLS \
 		PATH="${native_root}/bin:${PATH}" CI=true MISE_OFFLINE=true \
 		MISE_CONFIG_DIR="${native_root}/host" MISE_GLOBAL_CONFIG_FILE="${native_root}/host/config.toml" \
-		MISE_CONFIG_FILE="${native_root}/host/config.toml" \
+		MISE_CONFIG_FILE="${native_root}/host/config.toml" HOME="${native_root}/home" MISE_ASDF_COMPAT=1 MISE_USE_TOML=0 \
 		MISE_SYSTEM_CONFIG_DIR="${native_root}/system" MISE_SYSTEM_CONFIG_FILE="${native_root}/system/config.toml" \
 		MISE_DATA_DIR="${native_root}/data" MISE_STATE_DIR="${native_root}/state" MISE_CACHE_DIR="${native_root}/cache" \
 		MISE_TRUSTED_CONFIG_PATHS="${native_root}" \
@@ -101,7 +103,7 @@ native_bump() {
 	grep -F 'version = "1.0.0"' "${native_config}/mise.lock"
 	grep -F 'version = "2.0.0"' "${native_config}/mise.personal.lock"
 	[[ ! -e ${native_root}/mise.lock ]]
-	[[ ! -e ${native_root}/host/mise.lock && ! -e ${native_root}/system/mise.lock ]]
+	[[ ! -e ${native_root}/host/mise.lock && ! -e ${native_root}/system/mise.lock && ! -e ${native_root}/home/mise.lock ]]
 }
 
 @test "native shared bump does not select personal tools" {
