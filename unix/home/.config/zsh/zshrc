@@ -80,8 +80,11 @@ fi
 
 # Shared repository navigation; completion remains shell-specific.
 if command -v ghr >/dev/null 2>&1; then
-	# shellcheck source=unix/home/.config/shell/ghr.sh
-	source "${HOME}/.config/shell/ghr.sh"
+	# A checkout can be updated before bootstrap installs the new shared file.
+	if [[ -r ${HOME}/.config/shell/ghr.sh ]]; then
+		# shellcheck source=unix/home/.config/shell/ghr.sh
+		source "${HOME}/.config/shell/ghr.sh"
+	fi
 fi
 
 # Activate zoxide
