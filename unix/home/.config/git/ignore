@@ -67,8 +67,7 @@ $RECYCLE.BIN/
 __MACOSX/
 .AppleDouble
 .LSOverride
-Icon[
-]
+Icon[]
 
 # Resource forks
 ._*
@@ -801,3 +800,6 @@ mise-local-tasks/
 # Environment templates (`.env.*`): no secrets by convention
 !.env.sample
 !.env.template
+
+# Checkout-specific early mise configuration is never shared.
+.miserc.local.toml
