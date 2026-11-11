@@ -111,7 +111,8 @@ const plan = (config: DotfilesConfig, selection: Selection): string[] => {
 	);
 	const output = result.stdout.toString() + result.stderr.toString();
 	expect(result.exitCode, output).toBe(0);
-	return output
+	return result.stdout
+		.toString()
 		.split(/\r?\n/u)
 		.map((line) =>
 			line
@@ -161,6 +162,7 @@ test.each([
 		expect(after).toEqual(
 			[
 				...before,
+				`edit ${target}/.config/mise/config.local.toml (merge:agent-updates)`,
 				`edit ${target}/.config/mise/miserc.local.toml (merge:profile) (if changed)`,
 			].sort(),
 		);
