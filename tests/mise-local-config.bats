@@ -3,6 +3,7 @@
 # shellcheck disable=SC2154
 
 setup() {
+	bats_require_minimum_version 1.7.0
 	root=$(cd "${BATS_TEST_DIRNAME}/.." && pwd)
 	fixture="${BATS_TEST_TMPDIR}/discovery"
 	local_mise=${LOCAL_CONFIG_TEST_MISE:-$(command -v mise)}
@@ -13,13 +14,17 @@ setup() {
 import { resolve } from "node:path";
 const [root, fixture] = process.argv.slice(2);
 const config = Bun.TOML.parse(await Bun.file(`${root}/mise.toml`).text());
+const group = config.dotfile_groups.config;
+const sourceRoot = resolve(config.settings.dotfiles.root.replace("{{ config_root }}", root), group.root);
 let output = "[settings]\nexperimental = true\n";
 for (const key of ["~/.config/mise/miserc.toml", "~/.config/mise/miserc.local.toml/profile"]) {
-  const entry = config.dotfiles[key];
+  const declared = group.entries[key];
+  const inferred = key.slice(group.target.length + 1) + (declared?.mode === "template" ? ".tera" : "");
+  const entry = declared && { ...declared, source: declared.source ?? inferred };
   if (!entry) throw new Error(`Missing declaration: ${key}`);
   output += `\n[dotfiles.${JSON.stringify(key.replace("~/.config/mise", `${fixture}/config`))}]\n`;
   for (const [name, value] of Object.entries(entry)) {
-    output += `${name} = ${JSON.stringify(name === "source" ? resolve(root, value) : value)}\n`;
+    output += `${name} = ${JSON.stringify(name === "source" ? resolve(sourceRoot, value) : value)}\n`;
   }
 }
 await Bun.write(`${fixture}/project/mise.toml`, output);

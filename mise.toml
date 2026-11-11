@@ -44,7 +44,7 @@ lockfile_mode = "generate"
 exec_auto_install = false
 dotfiles.default_mode = "symlink"
 # Group roots resolve from the source tree in this repository.
-dotfiles.root = "unix/home"
+dotfiles.root = "{{ config_root }}/unix/home"
 
 [settings.npm]
 package_manager = "aube"
@@ -80,18 +80,33 @@ depends = ["worker:generate:types"]
 includes = ["tasks.toml", "tasks", "worker/tasks.toml"]
 
 # Keep sources here: relative paths are based on the declaring config directory.
-# Named groups apply by default. Standalone entries retain profile and OS variants.
+# Named groups apply by default and own their overrides and merged settings.
 [dotfile_groups.codex]
 root = ".codex"
 target = "~/.codex"
 mode = "symlink-each"
 
-# The walks exclude paths with standalone profile, OS or template entries.
+[dotfile_groups.codex.entries]
+# Keep application-owned settings and state while managing our shared/MCP keys.
+"~/.codex/config.toml/shared" = { source = "../../codex/config.toml", merge = true }
+"~/.codex/config.toml/mcp" = { source = "../../codex/mcp.toml", merge = true }
+
 [dotfile_groups.config]
 root = ".config"
 target = "~/.config"
 mode = "symlink-each"
-exclude = ["biwa", "*.gitconfig", "mimeapps.list", "*.tera", "pitchfork"]
+
+# Group entries are cut out of the walk, including their inferred .tera sources.
+[dotfile_groups.config.entries]
+"~/.config/biwa" = { variants = [{ profile = "personal" }] }
+"~/.config/git/personal.gitconfig" = { variants = [{ profile = "personal" }] }
+"~/.config/git/unsw.gitconfig" = { variants = [{ profile = "personal" }] }
+"~/.config/mimeapps.list" = { variants = [{ os = "linux" }] }
+# Discovery defaults are shared; only the selected profile is merged locally.
+"~/.config/mise/miserc.toml" = { mode = "template" }
+"~/.config/mise/miserc.local.toml/profile" = { source = "mise/miserc.local.toml.tera", merge = true, template = "tera" }
+# The supervisor user and daemon paths are specific to the personal WSL machine.
+"~/.config/pitchfork" = { variants = [{ os = "linux", profile = "personal" }] }
 
 [dotfile_groups.ghr]
 root = ".ghr"
@@ -102,72 +117,21 @@ mode = "symlink-each"
 root = ".local"
 target = "~/.local"
 mode = "symlink-each"
-exclude = ["code", "wsl-open", "applications", "bash-completion"]
 
-# An entry without `variants` applies everywhere. An `os` variant restricts it to
-# one platform and `profile = "personal"` to machines bootstrapped with
-# `-E personal`; an entry whose variants do not match is skipped.
+[dotfile_groups.local.entries]
+"~/.local/bin/code" = { variants = [{ os = "linux" }] }
+"~/.local/bin/wsl-open" = { variants = [{ os = "linux" }] }
+"~/.local/share/applications" = { variants = [{ os = "linux" }] }
+"~/.local/share/bash-completion" = { variants = [{ os = "linux" }] }
+
+# Entries outside group targets apply whichever groups the machine selects.
 [dotfiles]
-# Merge shared settings and MCP keys; retain unrelated client settings and state.
 "~/.claude.json/mcp" = { source = "unix/claude/mcp.json", merge = true }
-"~/.codex/config.toml/shared" = { source = "unix/codex/config.toml", merge = true }
-"~/.codex/config.toml/mcp" = { source = "unix/codex/mcp.toml", merge = true }
 "~/.bashrc" = { source = "unix/home/.bashrc", variants = [{ os = "linux" }] }
 "~/.claude/CLAUDE.md" = "unix/home/.codex/AGENTS.md"
 "~/.claude/settings.json" = { source = "unix/home/.claude/settings.json", mode = "template" }
 "~/.cursor/rules/global/RULE.md" = "unix/home/.codex/AGENTS.md"
 "~/.hushlogin" = "unix/home/.hushlogin"
-
-[dotfiles."~/.config/biwa"]
-source = "unix/home/.config/biwa"
-mode = "symlink-each"
-variants = [{ profile = "personal" }]
-
-[dotfiles."~/.config/git/personal.gitconfig"]
-source = "unix/home/.config/git/personal.gitconfig"
-variants = [{ profile = "personal" }]
-
-[dotfiles."~/.config/git/unsw.gitconfig"]
-source = "unix/home/.config/git/unsw.gitconfig"
-variants = [{ profile = "personal" }]
-
-[dotfiles."~/.config/mimeapps.list"]
-source = "unix/home/.config/mimeapps.list"
-variants = [{ os = "linux" }]
-
-# Discovery defaults are shared, but each machine owns its selected profile.
-[dotfiles."~/.config/mise/miserc.toml"]
-source = "unix/home/.config/mise/miserc.toml.tera"
-mode = "template"
-
-[dotfiles."~/.config/mise/miserc.local.toml/profile"]
-source = "unix/home/.config/mise/miserc.local.toml.tera"
-merge = true
-template = "tera"
-
-# The supervisor user and daemon paths are specific to the personal WSL machine.
-[dotfiles."~/.config/pitchfork"]
-source = "unix/home/.config/pitchfork"
-mode = "symlink-each"
-variants = [{ os = "linux", profile = "personal" }]
-
-[dotfiles."~/.local/bin/code"]
-source = "unix/home/.local/bin/code"
-variants = [{ os = "linux" }]
-
-[dotfiles."~/.local/bin/wsl-open"]
-source = "unix/home/.local/bin/wsl-open"
-variants = [{ os = "linux" }]
-
-[dotfiles."~/.local/share/applications"]
-source = "unix/home/.local/share/applications"
-mode = "symlink-each"
-variants = [{ os = "linux" }]
-
-[dotfiles."~/.local/share/bash-completion"]
-source = "unix/home/.local/share/bash-completion"
-mode = "symlink-each"
-variants = [{ os = "linux" }]
 
 [dotfiles."~/.selected_editor"]
 source = "unix/home/.selected_editor"
