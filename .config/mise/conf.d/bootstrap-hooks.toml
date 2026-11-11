@@ -110,6 +110,9 @@ run = '''
 
 [bootstrap.hooks.post-tools]
 run = '''
+# Explicitly refresh vendor skills in the shared home directory after bootstrap.
+mise --cd "$HOME" skills sync --global --prune
+
 mise exec -- gh extension install github/gh-stack --force
 
 for agent in universal claude-code; do
