@@ -27,7 +27,7 @@ JS
 }
 
 isolated() {
-	env -u MISE_CONFIG_FILE -u MISE_GLOBAL_CONFIG_FILE MISE_ASDF_COMPAT=0 MISE_CONFIG_DIR="${fixture}/config" MISE_SYSTEM_CONFIG_DIR="${fixture}/system" \
+	env -u MISE_CONFIG_FILE -u MISE_GLOBAL_CONFIG_FILE MISE_ASDF_COMPAT=0 MISE_USE_TOML=1 MISE_CONFIG_DIR="${fixture}/config" MISE_SYSTEM_CONFIG_DIR="${fixture}/system" \
 		MISE_DATA_DIR="${fixture}/data" MISE_STATE_DIR="${fixture}/state" \
 		MISE_CACHE_DIR="${fixture}/cache" MISE_CEILING_PATHS="${fixture}" \
 		MISE_TRUSTED_CONFIG_PATHS="${fixture}" MISE_OFFLINE=true CI=true \
