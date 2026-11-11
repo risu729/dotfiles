@@ -142,7 +142,11 @@ glab auth login --hostname gitlab.cse.unsw.edu.au --git-protocol https
 
 ## Contributing
 
-See [AGENTS.md](AGENTS.md) for development and maintenance notes.
+Start with the [repository map](docs/repository-layout.md) to find the right
+configuration. See [development and validation](docs/development.md) for setup,
+checks, and test commands, and [Worker deployment](docs/worker-deployment.md)
+for the installer service. Repository instructions live in
+[AGENTS.md](AGENTS.md).
 
 ## License
 
