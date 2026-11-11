@@ -3,6 +3,7 @@
 # Hooks are Tera templates, so Linux-only steps are skipped on other platforms
 # and my own infrastructure is only set up with the personal profile.
 [bootstrap.hooks.pre-packages]
+description = "Prepare Linux package repositories and macOS Ruby"
 run = '''
 {% if os() == "linux" %}
 # Persist passwordless sudo and replace the legacy repository symlink if present.
@@ -58,6 +59,7 @@ mise bootstrap packages apply brew:ruby --yes
 '''
 
 [bootstrap.hooks.post-packages]
+description = "Configure Linux Docker access and personal SSH services"
 run = '''
 {% if os() == "linux" %}
 username=$(whoami)
@@ -92,6 +94,7 @@ fi
 '''
 
 [bootstrap.hooks.post-dotfiles]
+description = "Refresh Linux desktop entries and migrate Codex configuration"
 run = '''
 {% if os() == "linux" %}
 sudo update-desktop-database
@@ -100,6 +103,7 @@ bash "{{ config_root }}/unix/codex/migrate-system-config.sh"
 '''
 
 [bootstrap.hooks.post-defaults]
+description = "Configure macOS brightness and keyboard remapping"
 run = '''
 {% if os() == "macos" %}
 /bin/sh "{{ config_root }}/macos/disable-auto-brightness.sh"
@@ -109,6 +113,7 @@ run = '''
 '''
 
 [bootstrap.hooks.post-tools]
+description = "Install GitHub extension, agent skills, and integrations"
 run = '''
 mise exec -- gh extension install github/gh-stack --force
 
@@ -136,6 +141,7 @@ done
 '''
 
 [bootstrap.hooks.final]
+description = "Configure Git interactively when a terminal is available"
 run = '''
 if [ -t 0 ] && [ -t 1 ]; then
   dotfiles_root=$(git rev-parse --show-toplevel)
