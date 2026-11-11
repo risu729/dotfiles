@@ -138,25 +138,22 @@ function Invoke-ElevatedScript {
 
 <#
 	.SYNOPSIS
-	Runs an external command using Invoke-Expression and throws an exception on failure.
+	Runs an executable with an argument array and throws on a nonzero exit code.
 #>
 function Invoke-ExternalCommand {
 	[CmdletBinding()]
-	[Diagnostics.CodeAnalysis.SuppressMessageAttribute(
-		'PSAvoidUsingInvokeExpression',
-		'',
-		Justification = 'Required for command execution'
-	)]
 	param (
 		[Parameter(Mandatory = $true)]
-		# The command string to execute.
-		[string]$Command
+		[string]$FilePath,
+
+		[Parameter(Mandatory = $false)]
+		[string[]]$ArgumentList = @()
 	)
 
-	Invoke-Expression $Command
+	& $FilePath @ArgumentList
 	$exitCode = $LASTEXITCODE
 	if ($exitCode -ne 0) {
-		throw "Command failed with exit code ${exitCode}: $Command"
+		throw "Command failed with exit code ${exitCode}: $FilePath"
 	}
 }
 
@@ -191,13 +188,7 @@ function Invoke-WSLExecutable {
 	$wslArgs += $FilePath
 	$wslArgs += $ArgumentList
 
-	& wsl $wslArgs
-
-	$exitCode = $LASTEXITCODE
-	if ($exitCode -ne 0) {
-		$displayCommand = (@($FilePath) + $ArgumentList) -join ' '
-		throw "WSL executable failed with exit code ${exitCode}: $displayCommand"
-	}
+	Invoke-ExternalCommand -FilePath 'wsl' -ArgumentList $wslArgs
 }
 
 <#
@@ -259,7 +250,7 @@ function Test-WslDistributionInstalled {
 	)
 
 	try {
-		$wslOutputLines = Invoke-ExternalCommand 'wsl --list --verbose'
+		$wslOutputLines = Invoke-ExternalCommand -FilePath 'wsl' -ArgumentList @('--list', '--verbose')
 	}
  catch {
 		return $false
@@ -338,9 +329,9 @@ function Install-Wsl {
 	[CmdletBinding()]
 	param()
 
-	Invoke-ExternalCommand 'wsl --install --no-distribution'
-	Invoke-ExternalCommand 'wsl --set-default-version 2'
-	Invoke-ExternalCommand 'wsl --update --pre-release'
+	Invoke-ExternalCommand -FilePath 'wsl' -ArgumentList @('--install', '--no-distribution')
+	Invoke-ExternalCommand -FilePath 'wsl' -ArgumentList @('--set-default-version', '2')
+	Invoke-ExternalCommand -FilePath 'wsl' -ArgumentList @('--update', '--pre-release')
 }
 
 <#
@@ -366,17 +357,17 @@ function Install-WslDistribution {
 	}
  else {
 		# Use no-launch not to require Ctrl+D afterwards
-		Invoke-ExternalCommand "wsl --install --distribution `"$Distribution`" --no-launch"
+		Invoke-ExternalCommand -FilePath 'wsl' -ArgumentList @('--install', '--distribution', $Distribution, '--no-launch')
 	}
 
-	Invoke-ExternalCommand "wsl --set-default `"$Distribution`""
+	Invoke-ExternalCommand -FilePath 'wsl' -ArgumentList @('--set-default', $Distribution)
 
 	if (-not $isDistributionInstalled) {
 		# no-launch skips user creation, so we need to create it manually
 		# ref: https://github.com/microsoft/WSL/issues/10386
 		New-WslUser -Distribution $Distribution -Username $Username
 		# Set the default user to the created user
-		Invoke-ExternalCommand "wsl --manage `"$Distribution`" --set-default-user `"$Username`""
+		Invoke-ExternalCommand -FilePath 'wsl' -ArgumentList @('--manage', $Distribution, '--set-default-user', $Username)
 	}
 }
 
@@ -425,9 +416,9 @@ function Import-WingetPackagesFile {
 	)
 
 	$wingetConfigFile = "$DotfilesPath\win\winget.json"
-	Invoke-ExternalCommand (
-		"winget import --import-file `"$wingetConfigFile`" " +
-		'--disable-interactivity --accept-package-agreements --no-upgrade'
+	Invoke-ExternalCommand -FilePath 'winget' -ArgumentList @(
+		'import', '--import-file', $wingetConfigFile,
+		'--disable-interactivity', '--accept-package-agreements', '--no-upgrade'
 	)
 	Write-Information 'winget packages imported successfully.'
 
