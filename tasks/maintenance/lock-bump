@@ -39,7 +39,7 @@ if [[ ${write} == 0 ]]; then
 	args+=(--dry-run)
 fi
 # A single-file override skips sibling profile configs; discover the source directory.
-env -u MISE_GLOBAL_CONFIG_FILE \
+env -u MISE_GLOBAL_CONFIG_FILE -u MISE_CONFIG_FILE \
 	MISE_CONFIG_DIR="${repo}/unix/home/.config/mise" \
 	MISE_CEILING_PATHS="${repo}" \
 	MISE_SYSTEM_CONFIG_DIR="${system_config}" \

@@ -11,7 +11,7 @@ setup() {
 	mkdir -p "${BATS_TEST_TMPDIR}/bin"
 	cat >"${BATS_TEST_TMPDIR}/bin/mise" <<'MOCK'
 #!/usr/bin/env bash
-[[ -z ${MISE_GLOBAL_CONFIG_FILE+x} ]] || exit 4
+[[ -z ${MISE_GLOBAL_CONFIG_FILE+x} && -z ${MISE_CONFIG_FILE+x} ]] || exit 4
 [[ "$1" == --cd ]] || exit 4
 [[ "$2" == "$MISE_CEILING_PATHS" ]] || exit 4
 shift 2
@@ -86,6 +86,7 @@ native_bump() {
 	env -u MISE_ENABLE_TOOLS -u MISE_DISABLE_TOOLS \
 		PATH="${native_root}/bin:${PATH}" CI=true MISE_OFFLINE=true \
 		MISE_CONFIG_DIR="${native_root}/host" MISE_GLOBAL_CONFIG_FILE="${native_root}/host/config.toml" \
+		MISE_CONFIG_FILE="${native_root}/host/config.toml" \
 		MISE_SYSTEM_CONFIG_DIR="${native_root}/system" MISE_SYSTEM_CONFIG_FILE="${native_root}/system/config.toml" \
 		MISE_DATA_DIR="${native_root}/data" MISE_STATE_DIR="${native_root}/state" MISE_CACHE_DIR="${native_root}/cache" \
 		MISE_TRUSTED_CONFIG_PATHS="${native_root}" \
