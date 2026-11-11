@@ -253,6 +253,15 @@ jobs:
           __CI: true
           GIT_COMMIT_SHA: ${{ case(github.event_name == 'pull_request', github.event.pull_request.head.sha, github.sha) }}
           MISE_LOG_LEVEL: ${{ case(runner.debug == '1', 'debug', 'info') }}
+      - name: Check Bash and Zsh navigation
+        if: ${{ matrix.profile == 'bare' }}
+        env:
+          MISE_ENABLE_TOOLS: bats
+        run: |
+          command -v zsh >/dev/null
+          # Bootstrap already installed the root's pinned Bats in this trusted checkout.
+          cd "${HOME}/.ghr/github.com/risu729/dotfiles"
+          "${HOME}/.local/bin/mise" exec --no-deps -- bats tests/ghr-shell.bats
   test-worker:
     needs: changes
     name: Worker (Vitest)
