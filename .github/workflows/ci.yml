@@ -67,17 +67,8 @@ jobs:
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
-      - name: Cache verified mise downloads
-        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
-        with:
-          path: ~/.cache/mise/downloads-cas
-          key: mise-downloads-${{ runner.os }}-${{ runner.arch }}-${{ github.job }}-${{ hashFiles('mise.lock') }}
-          restore-keys: mise-downloads-${{ runner.os }}-${{ runner.arch }}-${{ github.job }}-
-      - name: Install mise
-        uses: jdx/mise-action@b44d12e7d0d8ee7461bb893e1b1993500433185b # v5.2.7
-        with:
-          version: 2026.11.5
-          cache: false
+      - name: Prepare repository tools
+        uses: $/.github/actions/setup-mise
       - name: Run check
         if: ${{ !inputs.health }}
         run: mise run check --lint
@@ -127,17 +118,8 @@ jobs:
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
-      - name: Cache verified mise downloads
-        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
-        with:
-          path: ~/.cache/mise/downloads-cas
-          key: mise-downloads-${{ runner.os }}-${{ runner.arch }}-${{ github.job }}-${{ hashFiles('mise.lock') }}
-          restore-keys: mise-downloads-${{ runner.os }}-${{ runner.arch }}-${{ github.job }}-
-      - name: Install mise
-        uses: jdx/mise-action@b44d12e7d0d8ee7461bb893e1b1993500433185b # v5.2.7
-        with:
-          version: 2026.11.5
-          cache: false
+      - name: Prepare repository tools
+        uses: $/.github/actions/setup-mise
       - name: Run Bats tests
         run: mise run test:bats
   test-linux:
@@ -273,17 +255,8 @@ jobs:
             tasks/
             worker/
           persist-credentials: false
-      - name: Cache verified mise downloads
-        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
-        with:
-          path: ~/.cache/mise/downloads-cas
-          key: mise-downloads-${{ runner.os }}-${{ runner.arch }}-${{ github.job }}-${{ hashFiles('mise.lock') }}
-          restore-keys: mise-downloads-${{ runner.os }}-${{ runner.arch }}-${{ github.job }}-
-      - name: Install mise
-        uses: jdx/mise-action@b44d12e7d0d8ee7461bb893e1b1993500433185b # v5.2.7
-        with:
-          version: 2026.11.5
-          cache: false
+      - name: Prepare repository tools
+        uses: $/.github/actions/setup-mise
       - name: Run tests
         run: mise run worker:test
         env:
@@ -333,17 +306,8 @@ jobs:
             tasks/
             worker/
           persist-credentials: false
-      - name: Cache verified mise downloads
-        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
-        with:
-          path: ~/.cache/mise/downloads-cas
-          key: mise-downloads-${{ runner.os }}-${{ runner.arch }}-${{ github.job }}-${{ hashFiles('mise.lock') }}
-          restore-keys: mise-downloads-${{ runner.os }}-${{ runner.arch }}-${{ github.job }}-
-      - name: Install mise
-        uses: jdx/mise-action@b44d12e7d0d8ee7461bb893e1b1993500433185b # v5.2.7
-        with:
-          version: 2026.11.5
-          cache: false
+      - name: Prepare repository tools
+        uses: $/.github/actions/setup-mise
       - name: Install deployment CLI from the lockfile
         run: mise deps aube-worker
       - name: Download validated Worker
@@ -389,17 +353,8 @@ jobs:
             tasks/
             worker/
           persist-credentials: false
-      - name: Cache verified mise downloads
-        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
-        with:
-          path: ~/.cache/mise/downloads-cas
-          key: mise-downloads-${{ runner.os }}-${{ runner.arch }}-${{ github.job }}-${{ hashFiles('mise.lock') }}
-          restore-keys: mise-downloads-${{ runner.os }}-${{ runner.arch }}-${{ github.job }}-
-      - name: Install mise
-        uses: jdx/mise-action@b44d12e7d0d8ee7461bb893e1b1993500433185b # v5.2.7
-        with:
-          version: 2026.11.5
-          cache: false
+      - name: Prepare repository tools
+        uses: $/.github/actions/setup-mise
       - name: Check current PR state and credentials
         id: current
         env:
@@ -476,12 +431,11 @@ jobs:
             tasks/
             worker/
           persist-credentials: false
-      - name: Install mise
-        uses: jdx/mise-action@b44d12e7d0d8ee7461bb893e1b1993500433185b # v5.2.7
+      - name: Prepare repository tools
+        uses: $/.github/actions/setup-mise
         with:
-          version: 2026.11.5
-          # Production uses verified downloads, never a restored tool cache.
-          cache: false
+          # Production does not restore even the verified download cache.
+          cache-downloads: 'false'
       - name: Install deployment CLI from the lockfile
         run: mise deps aube-worker
       - name: Download validated Worker
