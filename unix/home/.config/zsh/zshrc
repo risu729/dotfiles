@@ -78,70 +78,10 @@ if command -v ghr >/dev/null 2>&1; then
 	eval "$(ghr shell bash --completion)"
 fi
 
-# `ghr shell` has no zsh variant, so this ports the wrapper from .bashrc: `ghr cd`
-# picks a repository with fzf when no argument is given, and `--cd` after
-# `clone` or `init` enters the new repository. `command ghr` skips the wrapper.
+# Shared repository navigation; completion remains shell-specific.
 if command -v ghr >/dev/null 2>&1; then
-	__ghr_cd() {
-		local repo_path selected
-
-		if (($# > 0)); then
-			repo_path=$(command ghr path "$@") || return
-			cd "${repo_path}" || return
-			return
-		fi
-
-		if ! command -v fzf >/dev/null 2>&1; then
-			print -u2 'error: fzf is required for interactive ghr cd'
-			return 1
-		fi
-
-		selected=$(
-			paste <(command ghr list) <(command ghr list --path) |
-				fzf --prompt='ghr cd> ' --height=80% --reverse --with-nth=1
-		) || return
-		[[ -n ${selected} ]] || return 1
-		repo_path=${selected#*$'\t'}
-		[[ -n ${repo_path} ]] || return 1
-		cd "${repo_path}" || return
-	}
-	ghr() {
-		local arg has_cd=false
-		local -a cd_args
-
-		for arg in "$@"; do
-			if [[ ${arg} == "-h" || ${arg} == "--help" ]]; then
-				command ghr "$@"
-				return
-			fi
-		done
-
-		if (($# > 0)); then
-			case "$1" in
-			cd)
-				shift
-				__ghr_cd "$@"
-				return
-				;;
-			clone | init)
-				for arg in "${@:2}"; do
-					if [[ ${arg} == "--cd" ]]; then
-						has_cd=true
-					else
-						cd_args+=("${arg}")
-					fi
-				done
-				if [[ ${has_cd} == true ]]; then
-					command ghr "$@" || return
-					__ghr_cd "${cd_args[@]}"
-					return
-				fi
-				;;
-			esac
-		fi
-
-		command ghr "$@"
-	}
+	# shellcheck source=unix/home/.config/shell/ghr.sh
+	source "${HOME}/.config/shell/ghr.sh"
 fi
 
 # Activate zoxide

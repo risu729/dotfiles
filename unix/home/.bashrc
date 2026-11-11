@@ -133,82 +133,11 @@ if command -v gh &>/dev/null; then
 	eval "${gh_completion}"
 fi
 
-# Install ghr shell extension and enable completion
-if command -v ghr &>/dev/null; then
-	# The generated shell wrapper requires an argument after `ghr cd`.
-	__GHR=$(type -P ghr) || :
-	__ghr_cd() {
-		local ghr_bin="${__GHR:-}" path selected
-
-		if [[ -z ${ghr_bin} ]]; then
-			ghr_bin=$(type -P ghr) || return
-		fi
-
-		if (($# > 0)); then
-			path=$("${ghr_bin}" path "$@") || return
-			cd "${path}" || return
-			return
-		fi
-
-		if ! command -v fzf &>/dev/null; then
-			printf 'error: fzf is required for interactive ghr cd\n' >&2
-			return 1
-		fi
-
-		# shellcheck disable=SC2312 # repo list selection is best-effort interactive input
-		selected=$(
-			paste <("${ghr_bin}" list) <("${ghr_bin}" list --path) |
-				fzf --prompt='ghr cd> ' --height=80% --reverse --with-nth=1
-		) || return
-		[[ -n ${selected} ]] || return 1
-		path=${selected#*$'\t'}
-		[[ -n ${path} ]] || return 1
-		cd "${path}" || return
-	}
-	ghr() {
-		local arg ghr_bin="${__GHR:-}" has_cd=false
-		local -a cd_args
-
-		if [[ -z ${ghr_bin} ]]; then
-			ghr_bin=$(type -P ghr) || return
-		fi
-
-		for arg in "$@"; do
-			if [[ ${arg} == "-h" || ${arg} == "--help" ]]; then
-				"${ghr_bin}" "$@"
-				return
-			fi
-		done
-
-		if (($# > 0)); then
-			case "$1" in
-			cd)
-				shift
-				__ghr_cd "$@"
-				return
-				;;
-			clone | init)
-				cd_args=()
-				for arg in "${@:2}"; do
-					if [[ ${arg} == "--cd" ]]; then
-						has_cd=true
-					else
-						cd_args+=("${arg}")
-					fi
-				done
-				if [[ ${has_cd} == true ]]; then
-					"${ghr_bin}" "$@" || return
-					__ghr_cd "${cd_args[@]}"
-					return
-				fi
-				;;
-			*) ;;
-			esac
-		fi
-
-		"${ghr_bin}" "$@"
-	}
-	ghr_completion="$("${__GHR}" shell bash --completion)"
+# Shared repository navigation; completion remains shell-specific.
+if command -v ghr >/dev/null 2>&1; then
+	# shellcheck source=unix/home/.config/shell/ghr.sh
+	source "${HOME}/.config/shell/ghr.sh"
+	ghr_completion="$(command ghr shell bash --completion)"
 	eval "${ghr_completion}"
 fi
 
