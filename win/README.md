@@ -88,7 +88,6 @@ controlled updaters are conservatively excluded too.
   [manifest][s3]
   also denies WinGet upgrades.
 
-
 - **Bitwarden.Bitwarden** (Excluded):
   [Installed desktop distributions auto-update][s5];
   portable is different.
