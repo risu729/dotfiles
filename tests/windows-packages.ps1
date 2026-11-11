@@ -14,7 +14,12 @@ function Assert-True([bool]$Condition, [string]$Message) {
 }
 
 try {
-	Add-Type -Path "$PSScriptRoot/fixtures/winget.cs" -OutputAssembly "$fixture/winget.exe" -OutputType ConsoleApplication
+	# PowerShell 7 cannot emit a native .NET Framework executable with Add-Type.
+	& "$env:SystemRoot/System32/WindowsPowerShell/v1.0/powershell.exe" -NoProfile -Command {
+		param($Source, $Output)
+		Add-Type -Path $Source -OutputAssembly $Output -OutputType ConsoleApplication
+	} -Args "$PSScriptRoot/fixtures/winget.cs", "$fixture/winget.exe"
+	if ($LASTEXITCODE -ne 0) { throw 'Cannot compile the native WinGet fixture.' }
 	$env:PATH = "$fixture;$env:PATH"
 	$env:WINGET_TEST_LOG = "$fixture/calls.log"
 	$env:MISE_ENV = 'apps,personal'

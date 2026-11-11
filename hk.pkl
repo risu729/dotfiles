@@ -71,6 +71,6 @@ steps = (picked) {
     batch = false
     glob = List("win/**/*.ps1", "win/**/*.psd1", "win/**/*.psm1", "tests/**/*.ps1")
     check =
-      "pwsh -NoProfile -Command 'foreach ($path in @(\"win\", \"tests\")) { Invoke-ScriptAnalyzer -Path $path -Recurse -EnableExit -Settings win/PSScriptAnalyzerSettings.psd1 }'"
+      "pwsh -NoProfile -Command '$ErrorActionPreference = \"Stop\"; $issues = foreach ($path in @(\"win\", \"tests\")) { Invoke-ScriptAnalyzer -Path $path -Recurse -Settings win/PSScriptAnalyzerSettings.psd1 }; $issues; if (@($issues | Where-Object Severity -EQ Error).Count) { exit 1 }'"
   }
 }

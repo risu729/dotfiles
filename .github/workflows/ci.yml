@@ -155,7 +155,7 @@ jobs:
         with:
           persist-credentials: false
       - name: Install native mise without Unix repository tools
-        uses: jdx/mise-action@08ae2a091c038e1e05ec6f5115dc5c69d5a2a6b8 # v5.1.2
+        uses: jdx/mise-action@f5be966e4a917d54244728e6a5fdcd1d93a35e6c # v5.2.6
         with:
           # Omit version to test the latest stable mise release only.
           install: false
@@ -165,6 +165,9 @@ jobs:
         env:
           MISE_NO_CONFIG: 1
       - name: Test policy with native mise and fixture WinGet
+        run: ./tests/windows-packages.ps1
+      - name: Test fixture policy in PowerShell 7
+        shell: pwsh
         run: ./tests/windows-packages.ps1
       - name: Prepare real WinGet on disposable runner
         run: |

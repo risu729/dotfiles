@@ -88,8 +88,6 @@ controlled updaters are conservatively excluded too.
   [manifest][s3]
   also denies WinGet upgrades.
 
-- **Notion.Notion** (Excluded):
-  [Automatic desktop updates][s4].
 
 - **Bitwarden.Bitwarden** (Excluded):
   [Installed desktop distributions auto-update][s5];
@@ -147,7 +145,7 @@ controlled updaters are conservatively excluded too.
 
 - **Cloudflare.Warp** (Excluded conservatively): Consumer/Zero Trust settings
   differ.
-  [Cloudflare-managed client updates][s17]
+  [Cloudflare-managed client updates][s18]
   are available for recent Windows clients. Verify assigned version/updater;
   otherwise update manually.
 
@@ -165,7 +163,7 @@ controlled updaters are conservatively excluded too.
   restart may be needed.
 
 - **Logitech.OptionsPlus** (Excluded):
-  [Automatic update setting][s21];
+  [Automatic update setting][s22];
   verify enabled.
 
 - **jdx.mise** (Explicit separate update only): Bootstrap prerequisite, outside
@@ -177,7 +175,7 @@ verifying that managed upgrades are appropriate.
 
 ## WinGet Source Selection and Troubleshooting
 
-Unlike the old JSON import, mise 2026.9.14 does **not** pass `--source winget`.
+Unlike the old JSON import, mise 2026.11.5 does **not** pass `--source winget`.
 It searches configured sources with `--id --exact`, accepts source agreements
 before mutations, and may refresh all sources on Upgrade. These declarations are
 catalog IDs for Microsoft's community `winget` source, not Store product IDs.
@@ -230,7 +228,6 @@ logs outside the checkout and delete them when no longer needed.
 [s1]: https://support.google.com/chrome/answer/95414
 [s2]: https://support.discord.com/hc/en-us/articles/115001670071-How-do-I-fix-a-failed-update-loop
 [s3]: https://github.com/microsoft/winget-pkgs/tree/master/manifests/d/Discord/Discord/PTB
-[s4]: https://www.notion.com/help/notion-for-desktop
 [s5]: https://bitwarden.com/help/desktop-app-feature-support/
 [s6]: https://support.zoom.com/hc/en/article?id=zm_kb&sysparm_article=KB0063814
 [s7]: https://support.zoom.com/hc/en/article?id=zm_kb&sysparm_article=KB0058493
@@ -244,8 +241,8 @@ logs outside the checkout and delete them when no longer needed.
 [s15]: https://wiki.documentfoundation.org/ReleaseNotes/24.8#Automatic_updates
 [s16]: https://www.gimp.org/downloads/devel/
 [s17]: https://inkscape.org/release/
-[s17]: https://developers.cloudflare.com/cloudflare-one/team-and-resources/devices/cloudflare-one-client/download/update/
+[s18]: https://developers.cloudflare.com/cloudflare-one/team-and-resources/devices/cloudflare-one-client/download/update/
 [s19]: https://tailscale.com/docs/features/client/update
 [s20]: https://crystalmark.info/en/software/crystaldiskinfo/crystaldiskinfo-install/
 [s21]: https://steamcommunity.com/app/593110/eventcomments/603020746117092092?l=english
-[s21]: https://support.logi.com/hc/en-us/articles/26554436904727-How-do-I-update-Logi-Options
+[s22]: https://support.logi.com/hc/en-us/articles/26554436904727-How-do-I-update-Logi-Options
