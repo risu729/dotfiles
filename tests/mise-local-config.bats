@@ -71,7 +71,13 @@ printf '#!/bin/sh\necho fixture\n' >"$ASDF_INSTALL_PATH/bin/routing-fixture"
 chmod +x "$ASDF_INSTALL_PATH/bin/routing-fixture"
 SH
 	chmod +x "${fixture}/data/plugins/asdf-routing-fixture/bin/install"
-	MISE_ENV='' isolated use --global asdf:routing-fixture@1.0.0
+	# Neither modern nor legacy caller overrides may escape the fixture.
+	printf '# host sentinel\n' >"${fixture}/host.toml"
+	cp "${fixture}/host.toml" "${fixture}/host-global.toml"
+	MISE_CONFIG_FILE="${fixture}/host.toml" MISE_GLOBAL_CONFIG_FILE="${fixture}/host-global.toml" \
+		MISE_ENV='' isolated use --global asdf:routing-fixture@1.0.0
+	grep -Fx '# host sentinel' "${fixture}/host.toml"
+	cmp "${fixture}/host.toml" "${fixture}/host-global.toml"
 	grep -F '1.0.0' "${fixture}/config/conf.d/90-tools.local.toml"
 	cmp "${fixture}/before.toml" "${fixture}/config/config.toml"
 
