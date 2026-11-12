@@ -14,41 +14,11 @@ printf '%s\n' 'ALL ALL=(ALL:ALL) NOPASSWD: ALL' |
 sudo chmod 0440 "${sudoers_temporary_path}"
 sudo mv --force "${sudoers_temporary_path}" "${sudoers_path}"
 
-sudo install --directory --mode=0755 /etc/apt/keyrings
-
-arch=$(dpkg --print-architecture)
-# shellcheck source=/dev/null
-codename=$(. /etc/os-release && echo "${UBUNTU_CODENAME:-${VERSION_CODENAME}}")
-
-# ref: https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository
-curl --fail-with-body --silent --show-error --location https://download.docker.com/linux/ubuntu/gpg |
-  sudo tee /etc/apt/keyrings/docker.asc >/dev/null
-echo "deb [arch=${arch} signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu ${codename} stable" |
-  sudo tee /etc/apt/sources.list.d/docker.list >/dev/null
+{% if mise_env is defined and "personal" in mise_env %}
+bash "{{ config_root }}/unix/apt/prepare-vendor-sources.sh" personal
+{% else %}
+bash "{{ config_root }}/unix/apt/prepare-vendor-sources.sh" bare
 {% endif %}
-{% if os() == "linux" and mise_env is defined and "personal" in mise_env %}
-# ref: https://pkg.cloudflare.com/
-curl --fail-with-body --silent --show-error --location https://pkg.cloudflare.com/cloudflare-main.gpg |
-  sudo tee /etc/apt/keyrings/cloudflare-main.gpg >/dev/null
-echo "deb [signed-by=/etc/apt/keyrings/cloudflare-main.gpg] https://pkg.cloudflare.com/cloudflared any main" |
-  sudo tee /etc/apt/sources.list.d/cloudflared.list >/dev/null
-# ref: https://www.google.com/linuxrepositories/
-# The package's postinst writes this same file for the same source, so nothing
-# conflicts once it is installed. The key is inlined because the postinst
-# installs its own keyring and gpg may be missing before bootstrap.
-{
-  cat <<'SOURCES'
-X-Repolib-Name: Google Chrome
-Types: deb
-URIs: https://dl.google.com/linux/chrome-stable/deb/
-Suites: stable
-Components: main
-Architectures: amd64
-Signed-By:
-SOURCES
-  curl --fail-with-body --silent --show-error --location https://dl.google.com/linux/linux_signing_key.pub |
-    sed -e 's/^$/./' -e 's/^/ /'
-} | sudo tee /etc/apt/sources.list.d/google-chrome.sources >/dev/null
 {% endif %}
 {% if os() == "macos" %}
 # The package plan evaluates every cask, and a cask from a third-party tap
