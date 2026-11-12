@@ -5,15 +5,6 @@
 [bootstrap.hooks.pre-packages]
 run = '''
 {% if os() == "linux" %}
-# Persist passwordless sudo and replace the legacy repository symlink if present.
-sudo mkdir --parents /etc/sudoers.d
-sudoers_path=/etc/sudoers.d/01-users-nopasswd
-sudoers_temporary_path=/etc/sudoers.d/.01-users-nopasswd.tmp
-printf '%s\n' 'ALL ALL=(ALL:ALL) NOPASSWD: ALL' |
-  sudo tee "${sudoers_temporary_path}" >/dev/null
-sudo chmod 0440 "${sudoers_temporary_path}"
-sudo mv --force "${sudoers_temporary_path}" "${sudoers_path}"
-
 {% if mise_env is defined and "personal" in mise_env %}
 bash "{{ config_root }}/unix/apt/prepare-vendor-sources.sh" personal
 {% else %}
@@ -38,18 +29,6 @@ fi
 {% endif %}
 {% if os() == "linux" and mise_env is defined and "personal" in mise_env %}
 username=$(whoami)
-dotfiles_root=$(git rev-parse --show-toplevel)
-sudo install --mode=0644 \
-  "${dotfiles_root}/unix/systemd/wsl-cloudflare-ip.service" \
-  /etc/systemd/system/wsl-cloudflare-ip.service
-sudo install --directory --mode=0755 /etc/ssh/sshd_config.d
-sudo install --mode=0644 \
-  "${dotfiles_root}/unix/ssh/ca.pub" \
-  /etc/ssh/ca.pub
-sudo install --mode=0644 \
-  "${dotfiles_root}/unix/ssh/10-cloudflare-access.conf" \
-  /etc/ssh/sshd_config.d/10-cloudflare-access.conf
-
 if [ -d /run/systemd/system ]; then
   sudo loginctl enable-linger "${username}"
   sudo systemctl daemon-reload
