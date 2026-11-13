@@ -76,7 +76,7 @@ jobs:
       - name: Install mise
         uses: jdx/mise-action@b44d12e7d0d8ee7461bb893e1b1993500433185b # v5.2.7
         with:
-          version: 2026.11.5
+          version: 2026.11.7
           cache: false
       - name: Run check
         if: ${{ !inputs.health }}
@@ -136,7 +136,7 @@ jobs:
       - name: Install mise
         uses: jdx/mise-action@b44d12e7d0d8ee7461bb893e1b1993500433185b # v5.2.7
         with:
-          version: 2026.11.5
+          version: 2026.11.7
           cache: false
       - name: Run Bats tests
         run: mise run test:bats
@@ -282,7 +282,7 @@ jobs:
       - name: Install mise
         uses: jdx/mise-action@b44d12e7d0d8ee7461bb893e1b1993500433185b # v5.2.7
         with:
-          version: 2026.11.5
+          version: 2026.11.7
           cache: false
       - name: Run tests
         run: mise run worker:test
@@ -342,7 +342,7 @@ jobs:
       - name: Install mise
         uses: jdx/mise-action@b44d12e7d0d8ee7461bb893e1b1993500433185b # v5.2.7
         with:
-          version: 2026.11.5
+          version: 2026.11.7
           cache: false
       - name: Install deployment CLI from the lockfile
         run: mise deps aube-worker
@@ -398,7 +398,7 @@ jobs:
       - name: Install mise
         uses: jdx/mise-action@b44d12e7d0d8ee7461bb893e1b1993500433185b # v5.2.7
         with:
-          version: 2026.11.5
+          version: 2026.11.7
           cache: false
       - name: Check current PR state and credentials
         id: current
@@ -479,7 +479,7 @@ jobs:
       - name: Install mise
         uses: jdx/mise-action@b44d12e7d0d8ee7461bb893e1b1993500433185b # v5.2.7
         with:
-          version: 2026.11.5
+          version: 2026.11.7
           # Production uses verified downloads, never a restored tool cache.
           cache: false
       - name: Install deployment CLI from the lockfile
