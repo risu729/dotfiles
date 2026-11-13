@@ -128,6 +128,13 @@ removal or modifying an existing attachment requires separately reviewed
 maintenance. Production concurrency remains the single-writer boundary;
 changeset checks are not atomic.
 
+The Worker container copies mise from `jdxcode/mise` on Docker Hub, the same
+image mise publishes to `ghcr.io/jdx/mise`. Renovate's Docker datasource only
+reads release timestamps from Docker Hub, so GHCR tags skipped the one-day
+release cooldown and moved ahead of the other mise pins, which failed the
+Dockerfile's `MISE_VERSION` check until the pins caught up. The owner chose
+Docker Hub on 2026-11-13 to keep the digest pin and the cooldown.
+
 ## Language
 
 Use English for everything published to GitHub: repository files, code comments,

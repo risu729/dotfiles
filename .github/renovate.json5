@@ -5,7 +5,7 @@
 	packageRules: [
 		// Keep the installer, min_version, CI, schemas, and container tag/digest together.
 		{
-			matchPackageNames: ["jdx/mise", "ghcr.io/jdx/mise"],
+			matchPackageNames: ["jdx/mise", "jdxcode/mise"],
 			groupName: "mise",
 			groupSingleUpdates: true,
 		},
