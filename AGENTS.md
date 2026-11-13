@@ -133,7 +133,9 @@ image mise publishes to `ghcr.io/jdx/mise`. Renovate's Docker datasource only
 reads release timestamps from Docker Hub, so GHCR tags skipped the one-day
 release cooldown and moved ahead of the other mise pins, which failed the
 Dockerfile's `MISE_VERSION` check until the pins caught up. The owner chose
-Docker Hub on 2026-11-13 to keep the digest pin and the cooldown.
+Docker Hub on 2026-11-13 to keep the digest pin and the cooldown. mise pushes
+the Docker Hub tag shortly after publishing the GitHub release, so the image can
+still trail the pins for up to about an hour; the next Renovate run aligns them.
 
 ## Language
 
