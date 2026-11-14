@@ -6,7 +6,7 @@
 		"hono": "4.13.18"
 	},
 	"devDependencies": {
-		"@cloudflare/vite-plugin": "2.0.0-beta.v.15",
+		"@cloudflare/vite-plugin": "2.0.0-beta.v.16",
 		"@cloudflare/vitest-plugin": "1.6.1",
 		"@risu729/tsconfigs": "3.0.1",
 		"@types/bun": "1.4.4",
