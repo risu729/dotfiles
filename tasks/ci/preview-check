@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+#MISE description="Check Preview credentials and confirm that the tested PR head is current."
+set -euo pipefail
+
+# Dependabot can read the account variable but receives no Actions secrets.
+if [[ -z ${API_TOKEN:-} && (${CI_DEPENDABOT:-false} == true || -z ${ACCOUNT_ID:-}) ]]; then
+	echo 'No Preview credentials; skipped the Preview deployment.' >>"${GITHUB_STEP_SUMMARY:?}"
+	exit 0
+fi
+[[ -n ${ACCOUNT_ID:-} && -n ${API_TOKEN:-} ]] || exit 1
+
+# Re-running superseded or closed-PR runs must not replace the current Preview.
+pr=$(gh pr view "${PR_NUMBER:?}" --json state,headRefOid)
+current=$(jq --arg head "${EXPECTED_HEAD:?}" '.state == "OPEN" and .headRefOid == $head' <<<"${pr}")
+if [[ ${current} != true ]]; then
+	echo 'The PR is closed or has a newer head; skipped the Preview deployment.' >>"${GITHUB_STEP_SUMMARY:?}"
+	exit 0
+fi
+echo 'run=true' >>"${GITHUB_OUTPUT:?}"

@@ -407,22 +407,10 @@ jobs:
           GH_REPO: ${{ github.repository }}
           PR_NUMBER: ${{ github.event.pull_request.number }}
           EXPECTED_HEAD: ${{ github.event.pull_request.head.sha }}
+          CI_DEPENDABOT: ${{ github.actor == 'dependabot[bot]' }}
           ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
           API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-        run: |
-          # Dependabot runs receive no Actions secrets.
-          if [[ -z "${ACCOUNT_ID}" && -z "${API_TOKEN}" ]]; then
-            echo 'No Preview credentials; skipped the Preview deployment.' >> "${GITHUB_STEP_SUMMARY}"
-            exit 0
-          fi
-          [[ -n "${ACCOUNT_ID}" && -n "${API_TOKEN}" ]] || exit 1
-          # Re-run superseded or closed-PR runs must not replace the current Preview.
-          pr="$(gh pr view "${PR_NUMBER}" --json state,headRefOid)"
-          if ! jq -e --arg head "${EXPECTED_HEAD}" '.state == "OPEN" and .headRefOid == $head' <<< "${pr}" > /dev/null; then
-            echo 'The PR is closed or has a newer head; skipped the Preview deployment.' >> "${GITHUB_STEP_SUMMARY}"
-            exit 0
-          fi
-          echo 'run=true' >> "${GITHUB_OUTPUT}"
+        run: bash tasks/ci/preview-check
       - name: Install deployment CLI from the lockfile
         if: ${{ steps.current.outputs.run == 'true' }}
         run: mise deps aube-worker
