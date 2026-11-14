@@ -1,39 +1,19 @@
-# honojs/starter templates/cloudflare-workers/.gitignore
+# Shared build output, dependencies, editors, and OS files inherit ../.gitignore.
 
-# honojs/starter templates/cloudflare-workers/.gitignore
-
-# prod
-dist/
-
-# dev
-.yarn/
-!.yarn/releases
-.vscode/
-.idea/workspace.xml
-.idea/usage.statistics.xml
-.idea/shelf
-
-# deps
-node_modules/
+# Cloudflare local state, generated types, and build output
+.cloudflare/
 .wrangler
-
-# env
-.env
-.env.production
 .dev.vars
 
-# logs
-logs/
+# Worker environment
+.env.production
+
+# Package manager state and logs
+.yarn/
+!.yarn/releases
 *.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
-
-# misc
-.DS_Store
-
-
-# Generated Cloudflare configuration, types and build output
-.cloudflare/
