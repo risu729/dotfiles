@@ -73,4 +73,9 @@ steps = (picked) {
     check =
       "pwsh -NoProfile -Command 'Invoke-ScriptAnalyzer -Path win -Recurse -EnableExit -Settings win/PSScriptAnalyzerSettings.psd1'"
   }
+  ["windows-command-tests"] = new Step {
+    batch = false
+    glob = List("win/install.ps1", "tests/windows-commands.ps1")
+    check = "pwsh -NoProfile -File tests/windows-commands.ps1"
+  }
 }
