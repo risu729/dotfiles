@@ -184,7 +184,7 @@ pnpm format. Do not run `aube import`, which would create a higher-precedence
 - Branches of merged PRs are deleted automatically. Delete branches of closed or
   abandoned PRs and other stale branches you created; leave `renovate/*`
   branches to Renovate.
-- Do not merge a PR in a repository outside the five listed in
+- Do not merge a PR in a repository outside the six listed in
   [Related Repositories](#related-repositories) unless the owner says to.
 - Merging to `main` deploys the Worker to production once CI passes (see [Worker
   Maintenance](#worker-maintenance)). This repository has no releases.
@@ -256,18 +256,25 @@ Renovate updates the pin.
 - [tsconfigs](https://github.com/risu729/tsconfigs) provides the npm package
   `@risu729/tsconfigs`. Consumers pin it in `package.json`, for example
   `"@risu729/tsconfigs": "3.0.1"`, and extend it from `tsconfig.json`.
+- [wrangler-deploy-action](https://github.com/risu729/wrangler-deploy-action)
+  provides a GitHub Action that deploys prebuilt Cloudflare Workers with `cf`.
+  Like the shared configurations, it releases independently. Callers pin the
+  full commit SHA of a release with the tag as a comment, for example
+  `wrangler-deploy-action@a371aa836e01c95d3928ba1a62b052229c7184c2 # v3.0.3`.
 
 [dotfiles](https://github.com/risu729/dotfiles) and
-[github-notification-cleanup][gnc] consume all three. The shared repositories
-also consume each other: renovate-config uses hk-config and tsconfigs, tsconfigs
-uses renovate-config and hk-config, and hk-config uses renovate-config.
+[github-notification-cleanup][gnc] consume all three, and both call
+wrangler-deploy-action. wrangler-deploy-action uses renovate-config and
+hk-config. The shared repositories also consume each other: renovate-config uses
+hk-config and tsconfigs, tsconfigs uses renovate-config and hk-config, and
+hk-config uses renovate-config.
 
-The shared configuration repositories also have consumers outside these five.
-Before changing one, follow its AGENTS.md.
+The shared configuration repositories and wrangler-deploy-action also have
+consumers outside these six. Before changing one, follow its AGENTS.md.
 
 ## Renovate Pull Requests
 
-Check open Renovate PRs in all five repositories listed above every day.
+Check open Renovate PRs in all six repositories listed above every day.
 
 Merge a Renovate PR by hand only when it is a major update, or a grouped PR
 containing one, that meets all of these conditions:
