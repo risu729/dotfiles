@@ -207,6 +207,9 @@ in a comment what it overrides.
 The default must be the same in every tool version the repository allows, such
 as each mise version from `min_version`. When an older allowed version has a
 different default, raise the minimum in the same change or keep the value.
+The configuration files this repository installs, such as the global mise
+config, have no `min_version` of their own. Treat them as requiring the mise
+version in the root `mise.toml` and `unix/install.sh`.
 
 ## Design Decisions
 
