@@ -10,4 +10,5 @@ agent_panel_sort = "priority"
 
 [theme]
 name = "catppuccin-latte"
+# false is the default, but the theme picker writes it back with `name`.
 auto_switch = false

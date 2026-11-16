@@ -204,6 +204,10 @@ from an extended preset or an earlier rule, for example a Renovate
 preset](https://github.com/risu729/renovate-config). Keep such a value and say
 in a comment what it overrides.
 
+The default must be the same in every tool version the repository allows, such
+as each mise version from `min_version`. When an older allowed version has a
+different default, raise the minimum in the same change or keep the value.
+
 ## Design Decisions
 
 Record every design decision in this repository. Nothing should live only in a
