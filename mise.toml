@@ -1,6 +1,6 @@
 # ref: https://mise.jdx.dev/configuration.html
 
-min_version = "2026.11.7"
+min_version = "2026.11.8"
 
 [vars]
 PS_SCRIPT_ANALYZER_VERSION = "1.25.0"
@@ -224,7 +224,7 @@ fi
 
 # macOS preferences. They are inert on Linux and can be applied alone with
 # `mise bootstrap macos defaults apply`.
-[bootstrap.macos.defaults.NSGlobalDomain]
+[bootstrap.settings.macos.defaults.NSGlobalDomain]
 # Disable natural scrolling.
 "com.apple.swipescrolldirection" = false
 # Mouse tracking speed.
@@ -247,32 +247,32 @@ TISRomanSwitchState = 0
 NSNavPanelExpandedStateForSaveMode = true
 NSNavPanelExpandedStateForSaveMode2 = true
 
-[bootstrap.macos.defaults."com.apple.WindowManager"]
+[bootstrap.settings.macos.defaults."com.apple.WindowManager"]
 # Tile windows without margins.
 EnableTiledWindowMargins = false
 
-[bootstrap.macos.defaults."com.apple.desktopservices"]
+[bootstrap.settings.macos.defaults."com.apple.desktopservices"]
 # Do not write .DS_Store files to network volumes.
 DSDontWriteNetworkStores = true
 
-[bootstrap.macos.defaults."com.apple.finder"]
+[bootstrap.settings.macos.defaults."com.apple.finder"]
 # Search the current folder instead of the whole Mac.
 FXDefaultSearchScope = "SCcf"
 # Show the full POSIX path in the window title.
 _FXShowPosixPathInTitle = true
 
-[bootstrap.macos.defaults."com.apple.screencapture"]
+[bootstrap.settings.macos.defaults."com.apple.screencapture"]
 # macOS falls back to the Desktop when the directory is missing.
 location = "~/Pictures/Screenshots"
 # Capture windows without the drop shadow.
 disable-shadow = true
 
-[bootstrap.macos.dock]
+[bootstrap.settings.macos.dock]
 show_recents = false
 # Do not rearrange Spaces based on most recent use.
 mru_spaces = false
 
-[bootstrap.macos.finder]
+[bootstrap.settings.macos.finder]
 show_all_files = true
 show_pathbar = true
 show_status_bar = true
@@ -280,7 +280,7 @@ preferred_view_style = "list"
 show_extensions_warning = false
 save_new_documents_to_cloud = false
 
-[bootstrap.macos.keyboard]
+[bootstrap.settings.macos.keyboard]
 # Use F1, F2, etc. as standard function keys.
 fn_state = true
 # Fastest repeat rate and shortest delay offered by System Settings.
