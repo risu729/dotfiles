@@ -233,37 +233,37 @@ url_api = "https://api.github.com/repos/hadolint/hadolint/releases/assets/496546
 provenance = "github-attestations"
 
 [[tools.hk]]
-version = "2.11.1"
+version = "2.12.0"
 backend = "packslip:github.com/jdx/hk"
-specifiers = ["2.11.1"]
+specifiers = ["2.12.0"]
 
 [tools.hk."platforms.linux-x64"]
-checksum = "sha256:b9330bd4b9326c3e1aefd757ff923fdf6d1b060074bcb4e54e16ec0a81fde7ec"
-url = "https://github.com/jdx/hk/releases/download/v2.11.1/hk-x86_64-unknown-linux-gnu.tar.gz"
+checksum = "sha256:db98f893b882f064c1f7abcc96f4ccc31e8154fd1ba0f7f94823d371c2c4fdad"
+url = "https://github.com/jdx/hk/releases/download/v2.12.0/hk-x86_64-unknown-linux-gnu.tar.gz"
 signer = "sigstore-oidc:https://github.com/jdx/hk/.github/workflows/release.yml"
 repository_ids = { repository = "922514152" }
 
 [tools.hk."platforms.linux-x64-baseline"]
-checksum = "sha256:b9330bd4b9326c3e1aefd757ff923fdf6d1b060074bcb4e54e16ec0a81fde7ec"
-url = "https://github.com/jdx/hk/releases/download/v2.11.1/hk-x86_64-unknown-linux-gnu.tar.gz"
+checksum = "sha256:db98f893b882f064c1f7abcc96f4ccc31e8154fd1ba0f7f94823d371c2c4fdad"
+url = "https://github.com/jdx/hk/releases/download/v2.12.0/hk-x86_64-unknown-linux-gnu.tar.gz"
 signer = "sigstore-oidc:https://github.com/jdx/hk/.github/workflows/release.yml"
 repository_ids = { repository = "922514152" }
 
 [tools.hk."platforms.linux-x64-musl"]
-checksum = "sha256:2067ccb4eeb4cb17623a7f840ee24a64edcfa242431b090358a854e619b3d345"
-url = "https://github.com/jdx/hk/releases/download/v2.11.1/hk-x86_64-unknown-linux-musl.tar.gz"
+checksum = "sha256:cab1ba30c605444112b4499790a97bd28dda83ffc352baa4aa87d5abfb12c668"
+url = "https://github.com/jdx/hk/releases/download/v2.12.0/hk-x86_64-unknown-linux-musl.tar.gz"
 signer = "sigstore-oidc:https://github.com/jdx/hk/.github/workflows/release.yml"
 repository_ids = { repository = "922514152" }
 
 [tools.hk."platforms.linux-x64-musl-baseline"]
-checksum = "sha256:2067ccb4eeb4cb17623a7f840ee24a64edcfa242431b090358a854e619b3d345"
-url = "https://github.com/jdx/hk/releases/download/v2.11.1/hk-x86_64-unknown-linux-musl.tar.gz"
+checksum = "sha256:cab1ba30c605444112b4499790a97bd28dda83ffc352baa4aa87d5abfb12c668"
+url = "https://github.com/jdx/hk/releases/download/v2.12.0/hk-x86_64-unknown-linux-musl.tar.gz"
 signer = "sigstore-oidc:https://github.com/jdx/hk/.github/workflows/release.yml"
 repository_ids = { repository = "922514152" }
 
 [tools.hk."platforms.macos-arm64"]
-checksum = "sha256:95f89e6eef60e0c690b0d439b30e3b8558f47235a1a45cbff7b5351d294e4322"
-url = "https://github.com/jdx/hk/releases/download/v2.11.1/hk-aarch64-apple-darwin.tar.gz"
+checksum = "sha256:269c17d47e884c19adb77144d5957e854fc5fc6a1a6f9c1a0a5b19431e2fabb8"
+url = "https://github.com/jdx/hk/releases/download/v2.12.0/hk-aarch64-apple-darwin.tar.gz"
 signer = "sigstore-oidc:https://github.com/jdx/hk/.github/workflows/release.yml"
 repository_ids = { repository = "922514152" }
 
