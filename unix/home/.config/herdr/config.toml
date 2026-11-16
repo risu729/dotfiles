@@ -10,4 +10,3 @@ agent_panel_sort = "priority"
 
 [theme]
 name = "catppuccin-latte"
-auto_switch = false

@@ -36,11 +36,9 @@ bats = "1.14.0"
 [settings]
 experimental = true
 lockfile = true
-lockfile_mode = "generate"
 # Git hooks use `mise exec`; installing missing global tools must not block commits.
 # Install required development tools explicitly with `mise install`.
 exec_auto_install = false
-dotfiles.default_mode = "symlink"
 # Group roots resolve from the source tree in this repository.
 dotfiles.root = "unix/home"
 
