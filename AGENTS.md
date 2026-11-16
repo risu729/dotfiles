@@ -189,6 +189,21 @@ pnpm format. Do not run `aube import`, which would create a higher-precedence
 - Merging to `main` deploys the Worker to production once CI passes (see [Worker
   Maintenance](#worker-maintenance)). This repository has no releases.
 
+## Configuration Defaults
+
+Do not set a configuration option to the value its tool already uses. Leave it
+unset unless the repository needs a different value. This applies to every tool
+configuration here, including `.github/renovate.json5`, the `mise*.toml` files,
+`hk.pkl`, `tsconfig.json` and the configuration files this repository installs.
+Check the default in the tool's source at the version in use (see [External
+Tools](#external-tools)), not in its documentation.
+
+A value equal to the default is still needed when it overrides a different value
+from an extended preset or an earlier rule, for example a Renovate
+`packageRules` entry that restores a default changed by [the shared
+preset](https://github.com/risu729/renovate-config). Keep such a value and say
+in a comment what it overrides.
+
 ## Design Decisions
 
 Record every design decision in this repository. Nothing should live only in a
