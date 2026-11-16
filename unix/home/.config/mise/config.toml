@@ -150,8 +150,6 @@ mr-boxington = "latest"
 [settings]
 experimental = true
 lockfile = true
-# The default only from mise 2026.10.19, and this config has no min_version.
-lockfile_mode = "generate"
 minimum_release_age = "3h"
 cargo.binstall_native = true
 # Prebuilt binaries from cargo-quickinstall instead of compiling, which also
