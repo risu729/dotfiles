@@ -1,5 +1,8 @@
 # The current version of the config schema
 version: 1
+# https is the default, but `gh repo fork` in a clone copies the parent remote's
+# scheme unless the protocol is set here.
+git_protocol: https
 # Aliases allow you to create nicknames for gh commands
 aliases:
   dev: issue develop --checkout
