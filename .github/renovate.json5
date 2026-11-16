@@ -3,12 +3,6 @@
 	$schema: "https://docs.renovatebot.com/renovate-schema.json",
 	extends: ["github>risu729/renovate-config#3.23.3"],
 	packageRules: [
-		// Keep the installer, min_version, CI, schemas, and container tag/digest together.
-		{
-			matchPackageNames: ["jdx/mise", "jdxcode/mise"],
-			groupName: "mise",
-			groupSingleUpdates: true,
-		},
 		// set semantic commit types
 		{
 			// override the default semanticCommitType, fix for dependencies, to chore
