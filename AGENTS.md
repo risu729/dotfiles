@@ -260,14 +260,15 @@ Renovate updates the pin.
   provides a GitHub Action that deploys prebuilt Cloudflare Workers with `cf`.
   Like the shared configurations, it releases independently. Callers pin the
   full commit SHA of a release with the tag as a comment, for example
-  `wrangler-deploy-action@a371aa836e01c95d3928ba1a62b052229c7184c2 # v3.0.3`.
+  `uses: risu729/wrangler-deploy-action@<release commit SHA> # v3.0.3`, and
+  Renovate updates the pin.
 
 [dotfiles](https://github.com/risu729/dotfiles) and
-[github-notification-cleanup][gnc] consume all three, and both call
-wrangler-deploy-action. wrangler-deploy-action uses renovate-config and
-hk-config. The shared repositories also consume each other: renovate-config uses
-hk-config and tsconfigs, tsconfigs uses renovate-config and hk-config, and
-hk-config uses renovate-config.
+[github-notification-cleanup][gnc] consume all three shared configurations, and
+both call wrangler-deploy-action. wrangler-deploy-action uses renovate-config
+and hk-config. The shared configuration repositories also consume each other:
+renovate-config uses hk-config and tsconfigs, tsconfigs uses renovate-config and
+hk-config, and hk-config uses renovate-config.
 
 The shared configuration repositories and wrangler-deploy-action also have
 consumers outside these six. Before changing one, follow its AGENTS.md.
