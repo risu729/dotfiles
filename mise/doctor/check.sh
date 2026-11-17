@@ -71,7 +71,6 @@ macos)
 	assert_absent "${HOME}/.config/mimeapps.list"
 	assert_absent "${HOME}/.config/pitchfork"
 	assert_absent "${HOME}/.local/bin/wsl-open"
-	test -d /Applications/Orca.app
 	test -d /Applications/Ghostty.app
 	;;
 *)
