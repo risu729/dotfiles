@@ -50,11 +50,7 @@ package_manager = "aube"
 auto = true
 sources = ["package.json", "pnpm-lock.yaml", ".npmrc"]
 outputs = ["node_modules"]
-run = """
-if [ "${DOTFILES_SKIP_ROOT_AUBE_INSTALL:-}" != "1" ]; then
-  aube install --frozen-lockfile
-fi
-"""
+run = "aube install --frozen-lockfile"
 
 [deps.aube-worker]
 auto = true

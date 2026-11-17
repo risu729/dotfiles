@@ -38,7 +38,8 @@ echo "==> Checked out FETCH_HEAD (commit ${GIT_COMMIT_SHA})."
 
 echo "==> Successfully sparse-cloned and checked out commit ${GIT_COMMIT_SHA}."
 
-# Worker preview should only install Worker dependencies with Aube.
-export DOTFILES_SKIP_ROOT_AUBE_INSTALL=1
+# The sparse checkout has no root package.json, so install only the Worker
+# dependencies and keep `mise run` from running the root deps provider.
+mise deps aube-worker
 # --host required to be accessible from other containers
-exec mise run worker:preview --host
+exec mise run --no-deps worker:preview --host
