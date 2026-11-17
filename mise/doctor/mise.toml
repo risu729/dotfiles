@@ -42,7 +42,7 @@ run = "bash check.sh macos"
 shell = "bash -c"
 os = "macos"
 timeout = "30s"
-hint = "Run bash -x mise/doctor/check.sh macos to locate preference drift, a missing path or missing Orca/Ghostty app."
+hint = "Run bash -x mise/doctor/check.sh macos to locate preference drift, a missing path or missing Ghostty app."
 
 [doctor.checks.macos-shell]
 description = "A fresh interactive Zsh can run eza and btop and load gh, mise and ghr completions"

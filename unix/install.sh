@@ -43,9 +43,6 @@ prepare_macos_tools() {
 		done
 		log_info "Xcode Command Line Tools installed."
 	fi
-
-	# mise needs Ruby from the Homebrew prefix to evaluate third-party casks.
-	export PATH="/opt/homebrew/bin:${PATH}"
 }
 
 install_mise_binary() {
