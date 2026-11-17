@@ -86,7 +86,7 @@ sources (`package.json`, `pnpm-lock.yaml`, `.npmrc`) are unchanged and
   `mise deps <provider>` explicitly only when no earlier `mise run` or
   `mise exec` in the same job has installed the dependencies: before a step
   that needs `node_modules` without going through mise, or before a step that
-  runs with `--no-deps`. The Worker artifact verification, Preview and
+  runs with `--no-deps`. The Worker test, artifact verification, Preview and
   production deploy jobs and the Worker container
   ([`worker/docker/entrypoint.sh`](worker/docker/entrypoint.sh)) do that with
   `mise deps aube-worker`, since they need only the Worker dependencies.
