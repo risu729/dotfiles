@@ -296,7 +296,7 @@ jobs:
         run: mise run --no-deps worker:build
       - name: Validate production build
         if: ${{ needs.changes.outputs.worker == 'true' }}
-        uses: risu729/wrangler-deploy-action@d98a9dba70ee4b42d88f8d37952fdd57207d30c5 # v3.1.0
+        uses: risu729/wrangler-deploy-action@34db835bd1adce655ab75e7b9ce9b2a73b19bfc9 # v3.2.0
         with:
           mode: dry-run
           working-directory: worker
@@ -360,7 +360,7 @@ jobs:
         env:
           EXPECTED_REVISION: ${{ github.sha }}
       - name: Validate Worker version
-        uses: risu729/wrangler-deploy-action@d98a9dba70ee4b42d88f8d37952fdd57207d30c5 # v3.1.0
+        uses: risu729/wrangler-deploy-action@34db835bd1adce655ab75e7b9ce9b2a73b19bfc9 # v3.2.0
         with:
           mode: dry-run
           working-directory: worker
@@ -433,7 +433,7 @@ jobs:
         id: preview
         if: ${{ steps.current.outputs.run == 'true' }}
         # cf previews deploy builds with Preview context, which drops production domains.
-        uses: risu729/wrangler-deploy-action@d98a9dba70ee4b42d88f8d37952fdd57207d30c5 # v3.1.0
+        uses: risu729/wrangler-deploy-action@34db835bd1adce655ab75e7b9ce9b2a73b19bfc9 # v3.2.0
         with:
           mode: worker-preview
           working-directory: worker
@@ -498,7 +498,7 @@ jobs:
         env:
           EXPECTED_REVISION: ${{ github.sha }}
       - name: Deploy Worker version
-        uses: risu729/wrangler-deploy-action@d98a9dba70ee4b42d88f8d37952fdd57207d30c5 # v3.1.0
+        uses: risu729/wrangler-deploy-action@34db835bd1adce655ab75e7b9ce9b2a73b19bfc9 # v3.2.0
         with:
           mode: production
           working-directory: worker
