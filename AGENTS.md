@@ -68,8 +68,8 @@ detail is needed. `bash -x` shows the failing assertion and expanded paths.
 
 ### Dependencies
 
-Only the mise deps providers in [`mise.toml`](mise.toml) install the npm
-dependencies: `[deps.aube-root]` for the repository root and
+Only the mise deps providers in [`mise.toml`](mise.toml) install the
+`package.json` dependencies: `[deps.aube-root]` for the repository root and
 `[deps.aube-worker]` for `worker/`. With `auto = true`, `mise run` and
 `mise exec` run `aube install --frozen-lockfile` first and skip it while the
 sources (`package.json`, `pnpm-lock.yaml`, `.npmrc`) are unchanged and
@@ -77,13 +77,17 @@ sources (`package.json`, `pnpm-lock.yaml`, `.npmrc`) are unchanged and
 `hk install --mise` runs through `mise x`.
 
 - Prefer a built-in provider and set only what differs from its defaults. These
-  two are custom providers because the built-in `aube` provider requires
-  `aube-lock.yaml`, and a custom provider has no default sources or outputs.
+  two are custom providers, so they must set `sources` and `outputs`: the
+  built-in `aube` provider requires `aube-lock.yaml`, and the built-in `pnpm`
+  provider has one id for both directories and would still need `run` and
+  `sources` (for `.npmrc`) overridden.
 - Do not add an install task, an install command inside a task, or a CI step
   such as `mise deps` or `aube install` before `mise run`. Run
-  `mise deps <provider>` explicitly only before a step that needs
-  `node_modules` without going through mise, or before a step that runs with
-  `--no-deps`. The Worker deploy jobs and the Worker container
+  `mise deps <provider>` explicitly only when no earlier `mise run` or
+  `mise exec` in the same job has installed the dependencies: before a step
+  that needs `node_modules` without going through mise, or before a step that
+  runs with `--no-deps`. The Worker artifact verification, Preview and
+  production deploy jobs and the Worker container
   ([`worker/docker/entrypoint.sh`](worker/docker/entrypoint.sh)) do that with
   `mise deps aube-worker`, since they need only the Worker dependencies.
 - `[deps]` is experimental in mise, so `experimental = true` stays in
@@ -178,8 +182,9 @@ and run package binaries with Aube; the lockfile format does not select the
 local package manager.
 
 Use `aube install --lockfile-only` in the affected package after changing its
-manifest, then verify `aube install --frozen-lockfile` and commit the manifest
-and lockfile together. The package-local `.npmrc` files keep new lockfiles in
+manifest, then run any `mise run` task, which reinstalls through the deps
+provider (`aube install --frozen-lockfile`), and commit the manifest and
+lockfile together. The package-local `.npmrc` files keep new lockfiles in
 pnpm format. Do not run `aube import`, which would create a higher-precedence
 `aube-lock.yaml`.
 
