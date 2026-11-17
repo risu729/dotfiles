@@ -178,13 +178,6 @@ run = '''
 run = '''
 mise exec -- gh extension install github/gh-stack --force
 
-for agent in universal claude-code; do
-  mise exec -- gh skill install mattpocock/skills skills/productivity/grilling \
-    --agent "${agent}" --scope user --pin main --force
-  mise exec -- gh skill install github/gh-stack gh-stack \
-    --agent "${agent}" --scope user --force
-done
-
 for integration in claude codex; do
   mise exec -- herdr integration install "${integration}"
 done
