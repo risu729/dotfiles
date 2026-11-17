@@ -296,7 +296,8 @@ tag when it differs from `main`) waits one day after a timestamped release
 (`minimumReleaseAge`), except for `risu729/**` and `@risu729/**` packages. It
 automerges minor, patch, pin, digest and lock file maintenance updates, and
 every update of mise itself, including majors, since mise uses CalVer. Renovate
-merges them itself after checks pass (`platformAutomerge: false`). A Renovate PR
+enables GitHub auto-merge on them, so GitHub merges each one once the required
+checks pass (Renovate's default `platformAutomerge: true`). A Renovate PR
 that stays open usually has a failing check or is a major update.
 
 When a Renovate PR fails, find the root cause instead of retrying. The same
