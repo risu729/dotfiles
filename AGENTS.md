@@ -240,6 +240,18 @@ guessing or relying on documentation alone. Cite the file and line you relied
 on, as a permalink at the tag or commit of that version (or the npm package
 version when there is no tag), in the PR or document that depends on it.
 
+Every mise configuration here that installs a tool with the npm backend, as
+`npm:<package>` or through a registry shorthand that `mise.lock` resolves to
+`backend = "npm:..."` (such as `oxfmt`), also configures `node`. mise can
+install these packages without node (with its embedded aube by default) and
+uses node only when the configuration already has it
+([`get_dependencies`][mise-npm-deps]). The installed command still runs the
+package's script with the first `node` on PATH: the embedded aube writes a shim
+that runs `exec node <script>` ([`generate_posix_shim`][aube-posix-shim]), and
+bun links the script with its `#!/usr/bin/env node` shebang. Without node in
+the configuration the tool runs on whatever node the runner or machine has,
+which can be older than the package's `engines.node`.
+
 ## Related Repositories
 
 These repositories are maintained together. The shared configuration
@@ -310,3 +322,5 @@ receive it through the Renovate update of their pin.
 
 [preset]: https://github.com/risu729/renovate-config/blob/main/src/default.json5
 [gnc]: https://github.com/risu729/github-notification-cleanup
+[mise-npm-deps]: https://github.com/jdx/mise/blob/v2026.11.8/src/backend/npm.rs#L1039-L1046
+[aube-posix-shim]: https://github.com/aubepkg/aube/blob/v2.10.0/crates/aube-linker/src/sys.rs#L1093-L1124
