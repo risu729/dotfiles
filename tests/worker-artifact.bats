@@ -10,18 +10,18 @@ setup() {
 	# shellcheck source=tasks/ci/worker-artifact
 	source "${root}/tasks/ci/worker-artifact"
 	cd "${BATS_TEST_TMPDIR}" || exit
-	mkdir -p worker/.cloudflare/output/v0/workers/default/bundle/.vite
-	printf '{"buildContext":{"mode":"production","isPreview":false}}\n' >worker/.cloudflare/output/v0/config.json
-	printf '{"name":"dotfiles-worker","manifest":{"mainModule":"index.js"}}\n' >worker/.cloudflare/output/v0/workers/default/worker.config.json
-	printf 'export default {};\n' >worker/.cloudflare/output/v0/workers/default/bundle/index.js
-	printf 'hidden metadata\n' >worker/.cloudflare/output/v0/workers/default/bundle/.vite/manifest.json
+	mkdir -p worker/.cloudflare/output/v1/workers/default/bundle/.vite
+	printf '{"buildContext":{"mode":"production","isPreview":false}}\n' >worker/.cloudflare/output/v1/config.json
+	printf '{"name":"dotfiles-worker","manifest":{"mainModule":"index.js"}}\n' >worker/.cloudflare/output/v1/workers/default/worker.config.json
+	printf 'export default {};\n' >worker/.cloudflare/output/v1/workers/default/bundle/index.js
+	printf 'hidden metadata\n' >worker/.cloudflare/output/v1/workers/default/bundle/.vite/manifest.json
 	pack_worker test-revision
 }
 
 @test "Worker artifact round trip preserves the bundle and hidden files" {
-	mv worker/.cloudflare/output/v0 original
+	mv worker/.cloudflare/output/v1 original
 	run -0 restore_worker test-revision
-	diff -r original worker/.cloudflare/output/v0
+	diff -r original worker/.cloudflare/output/v1
 }
 
 @test "Worker artifact rejects a mismatched source revision" {
@@ -36,21 +36,21 @@ setup() {
 }
 
 @test "Worker artifact rejects a non-production build" {
-	printf '{"buildContext":{"mode":"development","isPreview":false}}\n' >worker/.cloudflare/output/v0/config.json
+	printf '{"buildContext":{"mode":"development","isPreview":false}}\n' >worker/.cloudflare/output/v1/config.json
 	pack_worker test-revision
 	run ! restore_worker test-revision
 	[[ ${output} == *'must be built for production'* ]]
 }
 
 @test "Worker artifact rejects a different Worker" {
-	printf '{"name":"other-worker","manifest":{"mainModule":"index.js"}}\n' >worker/.cloudflare/output/v0/workers/default/worker.config.json
+	printf '{"name":"other-worker","manifest":{"mainModule":"index.js"}}\n' >worker/.cloudflare/output/v1/workers/default/worker.config.json
 	pack_worker test-revision
 	run ! restore_worker test-revision
 	[[ ${output} == *'unexpected Worker or entrypoint'* ]]
 }
 
 @test "Worker artifact rejects a missing bundle" {
-	rm worker/.cloudflare/output/v0/workers/default/bundle/index.js
+	rm worker/.cloudflare/output/v1/workers/default/bundle/index.js
 	pack_worker test-revision
 	run ! restore_worker test-revision
 }
