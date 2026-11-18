@@ -7,7 +7,7 @@ pack_worker() {
 	local revision="$1"
 	mkdir -p out/worker-artifact
 	# Archive hidden files and permissions along with the generated configuration.
-	tar -czf out/worker-artifact/worker.tar.gz -C worker .cloudflare/output/v0
+	tar -czf out/worker-artifact/worker.tar.gz -C worker .cloudflare/output/v1
 	printf '%s\n' "${revision}" >out/worker-artifact/revision
 	(cd out/worker-artifact && shasum --algorithm 256 worker.tar.gz >SHA256SUMS)
 }
@@ -21,11 +21,11 @@ restore_worker() {
 	fi
 	(cd out/worker-artifact && shasum --algorithm 256 --check SHA256SUMS) || return
 	tar -xzf out/worker-artifact/worker.tar.gz -C worker || return
-	test -f worker/.cloudflare/output/v0/workers/default/bundle/index.js || return
+	test -f worker/.cloudflare/output/v1/workers/default/bundle/index.js || return
 	# cf --prebuilt consumes this output directly and refuses a different mode.
 	bun -e '
-		const root = await Bun.file("worker/.cloudflare/output/v0/config.json").json();
-		const worker = await Bun.file("worker/.cloudflare/output/v0/workers/default/worker.config.json").json();
+		const root = await Bun.file("worker/.cloudflare/output/v1/config.json").json();
+		const worker = await Bun.file("worker/.cloudflare/output/v1/workers/default/worker.config.json").json();
 		if (root.buildContext?.mode !== "production" || root.buildContext?.isPreview !== false) {
 			throw new Error("Worker artifact must be built for production");
 		}
