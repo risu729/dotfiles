@@ -120,9 +120,9 @@ that exact version with `cf workers deployments create` to 100% of traffic. It
 then reconciles the declared Custom Domain, workers.dev and Preview URL
 settings.
 
-The pinned `cf` release candidate reads `worker/cloudflare.config.ts` and builds with Vite.
-CI archives `.cloudflare/output/v1` and always uses `--prebuilt` when uploading.
-PRs use named Workers Previews. CI lets `wrangler-deploy-action` run
+The pinned `cf` release candidate reads `worker/cloudflare.config.ts` and builds
+with Vite. CI archives `.cloudflare/output/v1` and always uses `--prebuilt` when
+uploading. PRs use named Workers Previews. CI lets `wrangler-deploy-action` run
 `cf previews deploy` without `--prebuilt`, Cloudflare's documented flow, so cf
 builds with Preview context and drops production domains. The deploy runs in a
 job required by `CI Check`, so a broken Preview build or deployment blocks
