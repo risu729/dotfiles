@@ -74,7 +74,7 @@ jobs:
           key: mise-downloads-${{ runner.os }}-${{ runner.arch }}-${{ github.job }}-${{ hashFiles('mise.lock') }}
           restore-keys: mise-downloads-${{ runner.os }}-${{ runner.arch }}-${{ github.job }}-
       - name: Install mise
-        uses: jdx/mise-action@236a21c3b91f5db6d4e174b348674a0f0caac06d # v5.2.9
+        uses: jdx/mise-action@90f833d396d0cc3674b631d2d225e306476c303a # v5.2.10
         with:
           version: 2026.11.9
           cache: false
@@ -104,7 +104,7 @@ jobs:
         with:
           persist-credentials: false
       - name: Install latest mise registry
-        uses: jdx/mise-action@236a21c3b91f5db6d4e174b348674a0f0caac06d # v5.2.9
+        uses: jdx/mise-action@90f833d396d0cc3674b631d2d225e306476c303a # v5.2.10
         with:
           # Discover registry migrations even before the pinned mise is upgraded.
           minimum_release_age: 0s
@@ -134,7 +134,7 @@ jobs:
           key: mise-downloads-${{ runner.os }}-${{ runner.arch }}-${{ github.job }}-${{ hashFiles('mise.lock') }}
           restore-keys: mise-downloads-${{ runner.os }}-${{ runner.arch }}-${{ github.job }}-
       - name: Install mise
-        uses: jdx/mise-action@236a21c3b91f5db6d4e174b348674a0f0caac06d # v5.2.9
+        uses: jdx/mise-action@90f833d396d0cc3674b631d2d225e306476c303a # v5.2.10
         with:
           version: 2026.11.9
           cache: false
@@ -280,7 +280,7 @@ jobs:
           key: mise-downloads-${{ runner.os }}-${{ runner.arch }}-${{ github.job }}-${{ hashFiles('mise.lock') }}
           restore-keys: mise-downloads-${{ runner.os }}-${{ runner.arch }}-${{ github.job }}-
       - name: Install mise
-        uses: jdx/mise-action@236a21c3b91f5db6d4e174b348674a0f0caac06d # v5.2.9
+        uses: jdx/mise-action@90f833d396d0cc3674b631d2d225e306476c303a # v5.2.10
         with:
           version: 2026.11.9
           cache: false
@@ -343,7 +343,7 @@ jobs:
           key: mise-downloads-${{ runner.os }}-${{ runner.arch }}-${{ github.job }}-${{ hashFiles('mise.lock') }}
           restore-keys: mise-downloads-${{ runner.os }}-${{ runner.arch }}-${{ github.job }}-
       - name: Install mise
-        uses: jdx/mise-action@236a21c3b91f5db6d4e174b348674a0f0caac06d # v5.2.9
+        uses: jdx/mise-action@90f833d396d0cc3674b631d2d225e306476c303a # v5.2.10
         with:
           version: 2026.11.9
           cache: false
@@ -399,7 +399,7 @@ jobs:
           key: mise-downloads-${{ runner.os }}-${{ runner.arch }}-${{ github.job }}-${{ hashFiles('mise.lock') }}
           restore-keys: mise-downloads-${{ runner.os }}-${{ runner.arch }}-${{ github.job }}-
       - name: Install mise
-        uses: jdx/mise-action@236a21c3b91f5db6d4e174b348674a0f0caac06d # v5.2.9
+        uses: jdx/mise-action@90f833d396d0cc3674b631d2d225e306476c303a # v5.2.10
         with:
           version: 2026.11.9
           cache: false
@@ -480,7 +480,7 @@ jobs:
             worker/
           persist-credentials: false
       - name: Install mise
-        uses: jdx/mise-action@236a21c3b91f5db6d4e174b348674a0f0caac06d # v5.2.9
+        uses: jdx/mise-action@90f833d396d0cc3674b631d2d225e306476c303a # v5.2.10
         with:
           version: 2026.11.9
           # Production uses verified downloads, never a restored tool cache.
