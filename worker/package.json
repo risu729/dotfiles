@@ -9,7 +9,7 @@
 		"@cloudflare/vite-plugin": "2.0.0-rc.2",
 		"@cloudflare/vitest-plugin": "1.8.5",
 		"@risu729/tsconfigs": "3.0.1",
-		"@types/bun": "1.4.4",
+		"@types/bun": "1.4.5",
 		"@vitest/ui": "5.1.1",
 		"cf": "1.0.0-rc.2",
 		"diff": "9.0.0",
