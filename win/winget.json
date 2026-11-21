@@ -12,7 +12,10 @@
 					"PackageIdentifier": "Discord.Discord.Canary"
 				},
 				{
-					"PackageIdentifier": "Discord.Discord.PTB"
+					"PackageIdentifier": "Anthropic.Claude"
+				},
+				{
+					"PackageIdentifier": "OpenAI.ChatGPT"
 				},
 				{
 					"PackageIdentifier": "Bitwarden.Bitwarden"
@@ -30,28 +33,10 @@
 					"PackageIdentifier": "Termius.Termius"
 				},
 				{
-					"PackageIdentifier": "Microsoft.Edit"
-				},
-				{
 					"PackageIdentifier": "Microsoft.VisualStudioCode.Insiders"
 				},
 				{
-					"PackageIdentifier": "JetBrains.Toolbox"
-				},
-				{
-					"PackageIdentifier": "Figma.Figma"
-				},
-				{
 					"PackageIdentifier": "Google.GoogleDrive"
-				},
-				{
-					"PackageIdentifier": "TheDocumentFoundation.LibreOffice"
-				},
-				{
-					"PackageIdentifier": "GIMP.GIMP.Nightly"
-				},
-				{
-					"PackageIdentifier": "Inkscape.Inkscape"
 				},
 				{
 					"PackageIdentifier": "Cloudflare.Warp"
@@ -61,9 +46,6 @@
 				},
 				{
 					"PackageIdentifier": "CrystalDewWorld.CrystalDiskInfo.AoiEdition"
-				},
-				{
-					"PackageIdentifier": "Valve.Steam"
 				},
 				{
 					"PackageIdentifier": "Logitech.OptionsPlus"
