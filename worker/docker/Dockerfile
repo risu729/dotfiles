@@ -1,6 +1,6 @@
 # Docker Hub, not ghcr.io/jdx/mise: Renovate only reads release timestamps from
 # Docker Hub, so this tag waits out the release cooldown like the other mise pins.
-FROM jdxcode/mise:2026.11.10@sha256:80aa2afb17ba760cabe74ac90771ca2d1470773d514cc2bb79c69c8d3f92f150 AS mise
+FROM jdxcode/mise:2026.11.11@sha256:14a30b9945ea5c2fbae70d8b6be8f2c8b2456698f2a258f3f6315f7784c84676 AS mise
 
 FROM ubuntu:26.04@sha256:d66b366dac61b575bee2aef07e9c26e8070096fbe84a3d4d3eb0da069b5d76db
 
