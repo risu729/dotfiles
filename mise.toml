@@ -279,6 +279,9 @@ automatic_spelling_correction = false
 "apt:ffmpeg" = "latest"
 "apt:gdb" = "latest"
 "apt:graphviz" = "latest"
+# PowerShell (.NET) aborts without ICU, which the Ubuntu 26.04 WSL image lacks.
+# The -dev package pulls in whichever libicuNN the release ships.
+"apt:libicu-dev" = "latest"
 "apt:libssl-dev" = "latest"
 "apt:llvm" = "latest"
 "apt:openssh-server" = "latest"
