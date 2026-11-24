@@ -54,6 +54,7 @@ jobs:
         env:
           # Validate the complete main tree, including commits coalesced by concurrency.
           CI_FULL: ${{ inputs.full || inputs.health || github.event_name == 'push' || inputs.deploy }}
+          CI_PULL_REQUEST: ${{ github.event_name == 'pull_request' }}
           BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before || format('{0}^', github.sha) }}
           HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
   lint:

@@ -5,6 +5,7 @@
 
 setup() {
 	bats_require_minimum_version 1.7.0
+	export CI_PULL_REQUEST=false
 	root=$(cd "${BATS_TEST_DIRNAME}/.." && pwd)
 	cd "${root}" || exit
 	# shellcheck source=tasks/ci/select
@@ -113,4 +114,59 @@ setup_changed_repository() {
 	git commit --quiet -m delete
 	run -0 env BASE_SHA=HEAD^ HEAD_SHA=HEAD CI_FULL=false bash "${root}/tasks/ci/select"
 	[[ ${output} == $'installers=true\nworker=false' ]]
+}
+
+setup_diverged_repository() {
+	setup_changed_repository
+	git checkout --quiet -b proposal
+	printf 'documentation\n' >README.md
+	git add README.md
+	git commit --quiet -m docs
+	git checkout --quiet main
+	mkdir -p worker/src
+	printf 'base-only change\n' >worker/src/index.ts
+	git add worker/src/index.ts
+	git commit --quiet -m 'advance target'
+}
+
+@test "PR selection ignores changes made only on an advancing target branch" {
+	setup_diverged_repository
+	run -0 env BASE_SHA=main HEAD_SHA=proposal CI_PULL_REQUEST=true bash "${root}/tasks/ci/select"
+	[[ ${output} == $'installers=false\nworker=false' ]]
+}
+
+@test "direct revision comparisons still include differences on both sides" {
+	setup_diverged_repository
+	run -0 env BASE_SHA=main HEAD_SHA=proposal bash "${root}/tasks/ci/select"
+	[[ ${output} == $'installers=true\nworker=true' ]]
+}
+
+@test "stacked PR selection excludes inherited parent changes" {
+	setup_changed_repository
+	printf 'parent change\n' >>unix/home/.bashrc
+	git commit --quiet --all -m parent
+	git branch parent
+	printf 'child documentation\n' >README.md
+	git add README.md
+	git commit --quiet -m child
+	run -0 env BASE_SHA=parent HEAD_SHA=HEAD CI_PULL_REQUEST=true bash "${root}/tasks/ci/select"
+	[[ ${output} == $'installers=false\nworker=false' ]]
+}
+
+@test "PR selection preserves changed and deleted installer inputs" {
+	setup_diverged_repository
+	git checkout --quiet proposal
+	git rm unix/home/.bashrc
+	git commit --quiet -m 'remove managed shell'
+	run -0 env BASE_SHA=main HEAD_SHA=HEAD CI_PULL_REQUEST=true bash "${root}/tasks/ci/select"
+	[[ ${output} == $'installers=true\nworker=false' ]]
+}
+
+@test "PR selection falls back to the full suite without a common ancestor" {
+	setup_changed_repository
+	git checkout --quiet --orphan unrelated
+	git commit --quiet -m unrelated
+	run -0 --separate-stderr env BASE_SHA=main HEAD_SHA=HEAD CI_PULL_REQUEST=true bash "${root}/tasks/ci/select"
+	[[ ${output} == $'installers=true\nworker=true' ]]
+	[[ ${stderr} == *'Cannot find PR merge base'* ]]
 }
