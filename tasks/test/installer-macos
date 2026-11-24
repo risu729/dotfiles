@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+#MISE lock="dotfiles-installer-macos-host"
 #MISE description="Install twice and verify on a disposable Mac (TEST_PROFILE=bare|personal)."
 set -euo pipefail
 
