@@ -6,12 +6,12 @@
 		"hono": "4.13.21"
 	},
 	"devDependencies": {
-		"@cloudflare/vite-plugin": "2.0.0-rc.4",
-		"@cloudflare/vitest-plugin": "1.9.1",
+		"@cloudflare/vite-plugin": "2.0.0-rc.5",
+		"@cloudflare/vitest-plugin": "1.9.2",
 		"@risu729/tsconfigs": "3.0.1",
 		"@types/bun": "1.4.5",
 		"@vitest/ui": "5.1.1",
-		"cf": "1.0.0-rc.4",
+		"cf": "1.0.0-rc.5",
 		"diff": "9.0.0",
 		"vite": "8.3.8",
 		"vitest": "5.1.1"
