@@ -3,37 +3,37 @@
 lockfile_version = 3
 
 [[tools.aube]]
-version = "2.10.1"
+version = "2.11.0"
 backend = "packslip:github.com/aubepkg/aube"
-specifiers = ["v2.10.1"]
+specifiers = ["v2.11.0"]
 
 [tools.aube."platforms.linux-x64"]
-checksum = "sha256:2e7206a50cf3dc97b8381ce168a2639f2cf80e17b681a5c47a68ab763fac0b68"
-url = "https://github.com/aubepkg/aube/releases/download/v2.10.1/aube-v2.10.1-x86_64-unknown-linux-gnu.tar.gz"
+checksum = "sha256:c13c0038283e3cf1ea080b520dcd35498cc5b493fae63b2d3b4e3b28da0e5a9e"
+url = "https://github.com/aubepkg/aube/releases/download/v2.11.0/aube-v2.11.0-x86_64-unknown-linux-gnu.tar.gz"
 signer = "sigstore-oidc:https://github.com/aubepkg/aube/.github/workflows/release.yml"
 repository_ids = { repository = "1214542327" }
 
 [tools.aube."platforms.linux-x64-baseline"]
-checksum = "sha256:2e7206a50cf3dc97b8381ce168a2639f2cf80e17b681a5c47a68ab763fac0b68"
-url = "https://github.com/aubepkg/aube/releases/download/v2.10.1/aube-v2.10.1-x86_64-unknown-linux-gnu.tar.gz"
+checksum = "sha256:c13c0038283e3cf1ea080b520dcd35498cc5b493fae63b2d3b4e3b28da0e5a9e"
+url = "https://github.com/aubepkg/aube/releases/download/v2.11.0/aube-v2.11.0-x86_64-unknown-linux-gnu.tar.gz"
 signer = "sigstore-oidc:https://github.com/aubepkg/aube/.github/workflows/release.yml"
 repository_ids = { repository = "1214542327" }
 
 [tools.aube."platforms.linux-x64-musl"]
-checksum = "sha256:00a0bc98003aa1d3b091f08036bb218e26149aed8d02064cf41984f53a4187db"
-url = "https://github.com/aubepkg/aube/releases/download/v2.10.1/aube-v2.10.1-x86_64-unknown-linux-musl.tar.gz"
+checksum = "sha256:d6f5174431ace30275ec76887fe28dbf7c4b295e7b621d9706015ed47636c442"
+url = "https://github.com/aubepkg/aube/releases/download/v2.11.0/aube-v2.11.0-x86_64-unknown-linux-musl.tar.gz"
 signer = "sigstore-oidc:https://github.com/aubepkg/aube/.github/workflows/release.yml"
 repository_ids = { repository = "1214542327" }
 
 [tools.aube."platforms.linux-x64-musl-baseline"]
-checksum = "sha256:00a0bc98003aa1d3b091f08036bb218e26149aed8d02064cf41984f53a4187db"
-url = "https://github.com/aubepkg/aube/releases/download/v2.10.1/aube-v2.10.1-x86_64-unknown-linux-musl.tar.gz"
+checksum = "sha256:d6f5174431ace30275ec76887fe28dbf7c4b295e7b621d9706015ed47636c442"
+url = "https://github.com/aubepkg/aube/releases/download/v2.11.0/aube-v2.11.0-x86_64-unknown-linux-musl.tar.gz"
 signer = "sigstore-oidc:https://github.com/aubepkg/aube/.github/workflows/release.yml"
 repository_ids = { repository = "1214542327" }
 
 [tools.aube."platforms.macos-arm64"]
-checksum = "sha256:28019c741c28bd90314aa679312d4dc887c2e5a6cb59d018e7624ed9f457f5c8"
-url = "https://github.com/aubepkg/aube/releases/download/v2.10.1/aube-v2.10.1-aarch64-apple-darwin.tar.gz"
+checksum = "sha256:30924b4afa4e47e308af74277fa6c318214b12e78583a93b49011118ac8e5ca7"
+url = "https://github.com/aubepkg/aube/releases/download/v2.11.0/aube-v2.11.0-aarch64-apple-darwin.tar.gz"
 signer = "sigstore-oidc:https://github.com/aubepkg/aube/.github/workflows/release.yml"
 repository_ids = { repository = "1214542327" }
 
